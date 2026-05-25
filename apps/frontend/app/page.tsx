@@ -32,7 +32,6 @@ async function fetchProductsFromAPI() {
     });
 
     if (!response.ok) {
-      console.error('Failed to fetch products from API:', response.status);
       return [];
     }
 
@@ -41,7 +40,6 @@ async function fetchProductsFromAPI() {
 
     return products;
   } catch (error) {
-    console.error('Error fetching products:', error);
     return [];
   }
 }
