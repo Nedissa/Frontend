@@ -73,6 +73,7 @@ export async function GET() {
       if (collectionTitle === 'Populära produkter') sectionCategory = 'populär';
       else if (collectionTitle === 'Rekommenderade produkter') sectionCategory = 'rekommenderad';
       else if (collectionTitle === 'Nya produkter') sectionCategory = 'ny';
+      else if (collectionTitle === 'Du kanske också gillar') sectionCategory = 'also-like';
       else if (collectionTitle === 'Relaterade produkter') sectionCategory = 'relaterad';
 
       // Calculate discount percentage if we have both prices
