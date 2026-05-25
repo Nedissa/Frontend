@@ -67,13 +67,13 @@ export async function GET() {
         }
       }
 
-      // Get sectionCategory from product.collection.title
+      // Hämta sectionCategory från product.collection.title
       let sectionCategory = '';
       const collectionTitle = product.collection?.title || '';
-      if (collectionTitle === 'Populära produkter') sectionCategory = 'popular';
-      else if (collectionTitle === 'Rekommenderade produkter') sectionCategory = 'recommended';
-      else if (collectionTitle === 'Nya produkter') sectionCategory = 'new';
-      else if (collectionTitle === 'Relaterade produkter') sectionCategory = 'also-like';
+      if (collectionTitle === 'Populära produkter') sectionCategory = 'populär';
+      else if (collectionTitle === 'Rekommenderade produkter') sectionCategory = 'rekommenderad';
+      else if (collectionTitle === 'Nya produkter') sectionCategory = 'ny';
+      else if (collectionTitle === 'Relaterade produkter') sectionCategory = 'relaterad';
 
       // Calculate discount percentage if we have both prices
       let discountPercent = undefined;

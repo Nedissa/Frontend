@@ -80,13 +80,13 @@ function CallToAction() {
 export default async function Home() {
   const products = await fetchProductsFromAPI();
 
-  const getProductsBySection = (section: 'popular' | 'recommended' | 'new', allProducts: any[]) => {
+  const getProductsBySection = (section: 'populär' | 'rekommenderad' | 'ny', allProducts: any[]) => {
     return allProducts.filter((p: any) => p.sectionCategory === section);
   };
 
-  const popularProducts = getProductsBySection('popular', products);
-  const recommendedProducts = getProductsBySection('recommended', products);
-  const newProducts = getProductsBySection('new', products);
+  const popularProducts = getProductsBySection('populär', products);
+  const recommendedProducts = getProductsBySection('rekommenderad', products);
+  const newProducts = getProductsBySection('ny', products);
 
   return (
     <div className="relative">
