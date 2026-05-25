@@ -572,7 +572,7 @@ export default function AccountPage() {
 
             <button
               onClick={handleSaveChanges}
-              disabled={!isFormComplete || !hasChanges || isSaved}
+              disabled={Boolean(!isFormComplete || !hasChanges || isSaved)}
               className="mt-6 px-8 py-2 bg-black text-white hover:bg-gray-800 font-semibold whitespace-nowrap disabled:cursor-not-allowed"
               style={{ minWidth: '180px', textAlign: 'center' }}
             >
