@@ -39,7 +39,7 @@ export async function POST(request: Request) {
       const errorData = await tokenResponse.json();
       console.error('Token error:', errorData);
       return Response.json(
-        { error: 'Failed to get registration token' },
+        { error: 'E-postadressen är redan registrerad. Försök logga in istället.' },
         { status: 400 }
       );
     }
