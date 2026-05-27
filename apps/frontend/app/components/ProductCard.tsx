@@ -150,7 +150,7 @@ export function ProductCard({
               alt={product.title}
               className={`w-full h-full object-contain p-8 ${imageIndex > 0 ? 'fade-in' : ''}`}
               onError={(e) => {
-                e.currentTarget.src = '/assets/placeholder.webp';
+                e.currentTarget.style.display = 'none';
               }}
             />
           ) : (
