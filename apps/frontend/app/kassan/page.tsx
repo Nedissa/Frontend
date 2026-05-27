@@ -75,24 +75,24 @@ function CheckoutContent() {
   // This runs EVERY time the component mounts, ensuring we always try to restore
   useLayoutEffect(() => {
     try {
-      const checkoutData = localStorage.getItem('checkoutData') || sessionStorage.getItem('checkoutData');
-      if (checkoutData) {
-        const data = JSON.parse(checkoutData);
-
-        if (data.cartItems?.length > 0) {
-          setCartItems(data.cartItems);
-          const total = data.cartItems.reduce((sum: number, item: CartItem) => sum + (item.price * item.quantity), 0);
+      // Always load cart from cartItems (source of truth)
+      const savedCartItems = localStorage.getItem('cartItems');
+      if (savedCartItems) {
+        const items = JSON.parse(savedCartItems);
+        if (items.length > 0) {
+          setCartItems(items);
+          const total = items.reduce((sum: number, item: CartItem) => sum + (item.price * item.quantity), 0);
           setCartTotal(total);
           hasRestoredCheckoutDataRef.current = true;
         }
+      }
 
-        if (data.formData) {
-          setFormData(data.formData);
-        }
-
-        if (data.shippingMethod) {
-          setShippingMethod(data.shippingMethod);
-        }
+      // Restore form data and shipping from checkoutData if available
+      const checkoutData = localStorage.getItem('checkoutData') || sessionStorage.getItem('checkoutData');
+      if (checkoutData) {
+        const data = JSON.parse(checkoutData);
+        if (data.formData) setFormData(data.formData);
+        if (data.shippingMethod) setShippingMethod(data.shippingMethod);
       }
     } catch (e) {
       console.error('[KASSAN-RESTORE] Error restoring checkout data:', e);
