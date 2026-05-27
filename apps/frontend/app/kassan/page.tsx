@@ -471,7 +471,7 @@ function CheckoutContent() {
           <h2 className="text-xl font-bold mb-4">Orderöversikt</h2>
           <div className="space-y-3">
             {cartItems.map(item => (
-              <div key={item.id} className="flex gap-3 items-center p-3">
+              <div key={item.id} className="flex gap-3 items-center p-3 border-b border-gray-200 last:border-b-0">
                 <div className="flex-shrink-0">
                   {item.image ? (
                     <img
