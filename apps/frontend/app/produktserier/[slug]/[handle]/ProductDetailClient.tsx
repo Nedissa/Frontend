@@ -47,7 +47,7 @@ export default function ProductDetailClient({
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedColor, setSelectedColor] = useState('Svart');
   const [activeTab, setActiveTab] = useState('description');
-  const [showAccessories, setShowAccessories] = useState(true);
+  const [showAccessories, setShowAccessories] = useState(false);
   const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
   const [isAdded, setIsAdded] = useState(false);
   const [showZoom, setShowZoom] = useState(false);
