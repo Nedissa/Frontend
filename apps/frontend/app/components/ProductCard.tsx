@@ -78,9 +78,7 @@ export function ProductCard({
 
   const productLink = `/produkter/${product.handle}`;
 
-  const getProxiedImageUrl = (url: string) => {
-    return `/api/image?url=${encodeURIComponent(url)}`;
-  };
+  const getProxiedImageUrl = (url: string) => url;
 
   return (
     <div
