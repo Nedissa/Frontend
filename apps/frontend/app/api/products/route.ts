@@ -20,7 +20,7 @@ export async function GET() {
           'Content-Type': 'application/json',
           'x-publishable-api-key': publishableKey,
         },
-        next: { revalidate: 3600 }
+        next: { revalidate: 0 }
       }
     );
 
