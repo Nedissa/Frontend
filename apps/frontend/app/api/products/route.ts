@@ -35,9 +35,9 @@ export async function GET() {
     const products = data.products || [];
 
     const transformedProducts = products.map((product: any) => {
-      // Fix image URLs - force https
+      // Fix image URLs - force https for non-localhost URLs
       let imageUrl = product.images?.[0]?.url || product.thumbnail || '';
-      if (imageUrl) {
+      if (imageUrl && !imageUrl.includes('localhost')) {
         imageUrl = imageUrl.replace(/^http:\/\//, 'https://');
       }
       const image = imageUrl;
@@ -89,7 +89,7 @@ export async function GET() {
         image: image,
         images: (product.images?.map((img: any) => {
           let url = img.url || '';
-          if (url) url = url.replace(/^http:\/\//, 'https://');
+          if (url && !url.includes('localhost')) url = url.replace(/^http:\/\//, 'https://');
           return url;
         }) || []).slice(0, 3),
         category: collectionTitle,
