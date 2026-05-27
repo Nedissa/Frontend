@@ -187,19 +187,8 @@ export default function ProductDetailClient({
     : [{ label: product.title }];
 
   return (
-    <div className="relative">
+    <div>
       <Breadcrumb items={breadcrumbItems} />
-
-      {/* Favorite button - top left */}
-      <button
-        onClick={handleFavoriteToggle}
-        className={`absolute top-2 left-8 z-20 ${isFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
-        title={isFavorite ? 'Ta bort från favoriter' : 'Lägg till i favoriter'}
-      >
-        <svg className="w-6 h-6" fill={isFavorite ? 'currentColor' : 'none'} stroke={isFavorite ? 'none' : 'currentColor'} strokeWidth={isFavorite ? 0 : 2} viewBox="0 0 24 24">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-        </svg>
-      </button>
 
       <div className="px-6">
       {/* Main Product Grid */}
@@ -408,6 +397,17 @@ export default function ProductDetailClient({
               -{discountPercent}%
             </div>
           )}
+
+          {/* Favorite button */}
+          <button
+            onClick={handleFavoriteToggle}
+            className={`mb-2 ${isFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
+            title={isFavorite ? 'Ta bort från favoriter' : 'Lägg till i favoriter'}
+          >
+            <svg className="w-6 h-6" fill={isFavorite ? 'currentColor' : 'none'} stroke={isFavorite ? 'none' : 'currentColor'} strokeWidth={isFavorite ? 0 : 2} viewBox="0 0 24 24">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
+          </button>
 
           {/* SKU + Title */}
           <div className="flex flex-col mb-4">
