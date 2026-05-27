@@ -15,6 +15,11 @@ const nextConfig = {
         port: '9000',
         pathname: '/static/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'api.techpilots.se',
+        pathname: '/static/**',
+      },
     ],
   },
 };

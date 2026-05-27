@@ -35,12 +35,10 @@ export async function GET() {
     const products = data.products || [];
 
     const transformedProducts = products.map((product: any) => {
-      const backendHost = new URL(medusaUrl).host;
-
-      // Fix image URLs - replace localhost with configured backend
+      // Fix image URLs - force https
       let imageUrl = product.images?.[0]?.url || product.thumbnail || '';
-      if (imageUrl && imageUrl.includes('localhost:9000')) {
-        imageUrl = imageUrl.replace('localhost:9000', backendHost);
+      if (imageUrl) {
+        imageUrl = imageUrl.replace(/^http:\/\//, 'https://');
       }
       const image = imageUrl;
 
@@ -90,10 +88,8 @@ export async function GET() {
         originalPrice: originalPrice,
         image: image,
         images: (product.images?.map((img: any) => {
-          let url = img.url;
-          if (url && url.includes('localhost:9000')) {
-            url = url.replace('localhost:9000', backendHost);
-          }
+          let url = img.url || '';
+          if (url) url = url.replace(/^http:\/\//, 'https://');
           return url;
         }) || []).slice(0, 3),
         category: collectionTitle,
