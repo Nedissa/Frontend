@@ -618,7 +618,7 @@ export default function ProductDetailClient({
               <div className="flex justify-center mb-3">
                 <button
                   onClick={handleFavoriteToggle}
-                  className={`transition-colors ${isFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
+                  className={isFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}
                   title={isFavorite ? 'Ta bort från favoriter' : 'Lägg till i favoriter'}
                 >
                   <svg
