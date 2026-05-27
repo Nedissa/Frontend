@@ -229,30 +229,28 @@ export default function ProductDetailClient({
             {/* Image Gallery */}
             <div className="flex-1">
               {/* Main Image */}
-              <div className="flex items-center justify-center gap-6 mb-4">
+              <div className="relative flex items-center justify-center mb-4">
                 <button
                   onClick={() => setSelectedImage((prev) => (prev - 1 + productDetails.images.length) % productDetails.images.length)}
-                  className="text-black hover:text-gray-600 text-5xl font-bold transition-colors flex-shrink-0"
+                  className="absolute left-0 z-10 text-black hover:text-gray-600 text-5xl font-bold flex-shrink-0"
                 >
                   ‹
                 </button>
 
-                <div className="relative">
-                  <button
-                    onClick={() => setShowZoom(true)}
-                    className="relative bg-white flex items-center justify-center h-96 w-full overflow-hidden p-8 cursor-zoom-in"
-                  >
-                    <img
-                      src={mainImage.url}
-                      alt={mainImage.altText}
-                      className="max-w-full max-h-full object-contain"
-                    />
-                  </button>
-                </div>
+                <button
+                  onClick={() => setShowZoom(true)}
+                  className="relative bg-white flex items-center justify-center h-96 w-full overflow-hidden p-8 cursor-zoom-in"
+                >
+                  <img
+                    src={mainImage.url}
+                    alt={mainImage.altText}
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </button>
 
                 <button
                   onClick={() => setSelectedImage((prev) => (prev + 1) % productDetails.images.length)}
-                  className="text-black hover:text-gray-600 text-5xl font-bold transition-colors flex-shrink-0"
+                  className="absolute right-0 z-10 text-black hover:text-gray-600 text-5xl font-bold flex-shrink-0"
                 >
                   ›
                 </button>
