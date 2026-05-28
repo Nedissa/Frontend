@@ -141,15 +141,15 @@ export default function LoginPage() {
     <MainLayout bordered={false}>
       <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center px-6">
         <div className="max-w-md w-full flex flex-col items-center">
-          <div className="flex items-center gap-1 mb-8">
-            <Logo />
-            <span className="text-3xl font-bold">Techpilots</span>
-          </div>
           <div className="w-full">
             <div className="space-y-6">
               {/* Login Form */}
               {showLogin && (
                 <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+                  <div className="flex items-center justify-center gap-1 mb-6">
+                    <Logo />
+                    <span className="text-2xl font-bold">Techpilots</span>
+                  </div>
                   <h2 className="text-2xl font-bold mb-6 text-center">Logga in</h2>
                   <form onSubmit={handleLogin} className="space-y-4">
                     <div>
@@ -195,6 +195,10 @@ export default function LoginPage() {
               {/* Registration Form */}
               {!showLogin && (
                 <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+                  <div className="flex items-center justify-center gap-1 mb-6">
+                    <Logo />
+                    <span className="text-2xl font-bold">Techpilots</span>
+                  </div>
                   <h2 className="text-2xl font-bold mb-6">Skapa konto</h2>
                   <form onSubmit={handleRegister} className="space-y-4">
                     <div>
