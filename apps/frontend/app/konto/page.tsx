@@ -929,7 +929,7 @@ export default function AccountPage() {
                   ].map((tier) => {
                     const isCurrent = loyalty.current_tier === tier.name;
                     return (
-                      <div key={tier.name} className={`border-2 ${tier.borderColor} p-4 ${isCurrent ? 'ring-2 ring-black' : ''}`}>
+                      <div key={tier.name} className={`p-4 ${isCurrent ? 'ring-2 ring-black' : ''}`} style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
                         <div className="flex items-center justify-between mb-1">
                           <span className={`font-bold text-sm ${tier.headerColor}`}>{tier.name}</span>
                           {isCurrent && <span className="text-xs bg-black text-white px-1.5 py-0.5">Din nivå</span>}
