@@ -816,9 +816,10 @@ export default function AccountPage() {
                 <p className="text-sm text-gray-500 mb-6">Dina poäng: {loyalty.total_points}</p>
                 {(() => {
                   const tiers = [
-                    { name: 'Silver', min: 0, max: 500, color: 'bg-gray-400', badge: 'bg-gray-200 text-gray-700' },
-                    { name: 'Guld', min: 500, max: 2000, color: 'bg-yellow-400', badge: 'bg-yellow-100 text-yellow-700' },
-                    { name: 'Platinum', min: 2000, max: 2000, color: 'bg-blue-400', badge: 'bg-blue-100 text-blue-700' },
+                    { name: 'Brons', threshold: 0 },
+                    { name: 'Silver', threshold: 200 },
+                    { name: 'Guld', threshold: 500 },
+                    { name: 'Platinum', threshold: 2000 },
                   ];
                   const points = loyalty.total_points;
                   const totalMax = 2000;
@@ -830,24 +831,23 @@ export default function AccountPage() {
                         <div className="h-2 bg-black rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
                       </div>
                       {/* Step markers */}
-                      <div className="relative flex justify-between" style={{ marginTop: '-22px' }}>
+                      <div className="relative" style={{ marginTop: '-22px', height: '52px' }}>
                         {tiers.map((tier, i) => {
-                          const position = i === 0 ? 0 : i === 1 ? 500 : 2000;
-                          const reached = points >= position;
+                          const reached = points >= tier.threshold;
                           const isCurrent = loyalty.current_tier === tier.name;
-                          const left = i === 0 ? '0%' : i === 1 ? `${(500/2000)*100}%` : '100%';
+                          const leftPct = (tier.threshold / totalMax) * 100;
+                          const transform = i === 0 ? 'translateX(0)' : i === tiers.length - 1 ? 'translateX(-100%)' : 'translateX(-50%)';
                           return (
-                            <div key={tier.name} className="flex flex-col items-center" style={{ position: 'absolute', left, transform: i === 0 ? 'translateX(0)' : i === 2 ? 'translateX(-100%)' : 'translateX(-50%)' }}>
+                            <div key={tier.name} className="flex flex-col items-center" style={{ position: 'absolute', left: `${leftPct}%`, transform }}>
                               <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${reached ? 'bg-black border-black' : 'bg-white border-gray-300'}`}>
                                 {reached && <span className="w-2 h-2 bg-white rounded-full block" />}
                               </div>
                               <span className={`text-xs font-semibold mt-2 ${isCurrent ? 'text-black' : 'text-gray-400'}`}>{tier.name}</span>
-                              <span className="text-xs text-gray-400">{i === 0 ? '0' : i === 1 ? '500' : '2 000'} p</span>
+                              <span className="text-xs text-gray-400">{tier.threshold === 0 ? '0' : tier.threshold.toLocaleString('sv-SE')} p</span>
                             </div>
                           );
                         })}
                       </div>
-                      <div style={{ height: '52px' }} />
                     </div>
                   );
                 })()}
