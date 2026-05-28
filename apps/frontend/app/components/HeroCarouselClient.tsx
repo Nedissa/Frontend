@@ -1,7 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface Collection {
   title: string;
@@ -11,6 +10,7 @@ interface Collection {
 export function HeroCarouselClient({ collections }: { collections: Collection[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     if (!isPlaying) return;
@@ -19,6 +19,9 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
     }, 5000);
     return () => clearInterval(slideTimer);
   }, [isPlaying, collections.length]);
+
+  const next = () => setCurrentIndex((prev) => (prev + 1) % collections.length);
+  const prev = () => setCurrentIndex((prev) => (prev - 1 + collections.length) % collections.length);
 
   const currentCollection = collections[currentIndex];
 
@@ -30,19 +33,28 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
 
   return (
     <div className="relative z-0 flex justify-center">
-      <div className="relative max-w-[1280px] w-full h-[484px] overflow-hidden flex items-center justify-center">
+      <div
+        className="relative max-w-[1280px] w-full h-[484px] overflow-hidden flex items-center justify-center cursor-pointer"
+        onClick={next}
+        onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+        onTouchEnd={(e) => {
+          if (touchStartX.current === null) return;
+          const diff = touchStartX.current - e.changedTouches[0].clientX;
+          if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
+          touchStartX.current = null;
+        }}
+      >
         <img
           src={heroImages[currentIndex]}
           alt={currentCollection.title}
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/30"></div>
-        <Link href={`/kategorier/${currentCollection.handle}`} className="block relative z-10 w-full h-full" />
 
-        <div className="absolute bottom-6 right-6 flex items-center gap-4">
+        <div className="absolute bottom-6 right-6 flex items-center gap-4" onClick={(e) => e.stopPropagation()}>
           <div className="bg-white rounded-full px-4 py-2 flex items-center gap-3">
             <button
-              onClick={() => setCurrentIndex((prev) => (prev - 1 + collections.length) % collections.length)}
+              onClick={prev}
               className="text-gray-600 hover:text-black transition-colors"
               aria-label="Föregående"
             >
@@ -54,7 +66,7 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
               {currentIndex + 1}/{collections.length}
             </span>
             <button
-              onClick={() => setCurrentIndex((prev) => (prev + 1) % collections.length)}
+              onClick={next}
               className="text-gray-600 hover:text-black transition-colors"
               aria-label="Nästa"
             >

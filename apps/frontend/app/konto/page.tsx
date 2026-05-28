@@ -827,7 +827,7 @@ export default function AccountPage() {
                   return (
                     <div className="relative">
                       {/* Track */}
-                      <div className="w-full bg-gray-200 h-2 rounded-full mb-2">
+                      <div className="w-full bg-gray-300 h-2 rounded-full mb-2">
                         <div className="h-2 bg-black rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
                       </div>
                       {/* Step markers */}
