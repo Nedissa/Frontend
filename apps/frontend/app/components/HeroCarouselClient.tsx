@@ -20,8 +20,8 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
     return () => clearInterval(slideTimer);
   }, [isPlaying, collections.length]);
 
-  const next = () => setCurrentIndex((prev) => (prev + 1) % collections.length);
-  const prev = () => setCurrentIndex((prev) => (prev - 1 + collections.length) % collections.length);
+  const next = () => { setCurrentIndex((prev) => (prev + 1) % collections.length); setIsPlaying(false); };
+  const prev = () => { setCurrentIndex((prev) => (prev - 1 + collections.length) % collections.length); setIsPlaying(false); };
 
   const currentCollection = collections[currentIndex];
 
