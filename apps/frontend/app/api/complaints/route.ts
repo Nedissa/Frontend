@@ -1,5 +1,48 @@
 import { cookies } from "next/headers"
 
+export async function GET() {
+  try {
+    const cookieStore = await cookies()
+    const authToken = cookieStore.get("medusa_token")?.value
+
+    if (!authToken) {
+      return Response.json({ complaints: [] })
+    }
+
+    const backendUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
+    const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
+
+    const customerRes = await fetch(`${backendUrl}/store/customers/me`, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+        "x-publishable-api-key": publishableKey!,
+      },
+    })
+
+    if (!customerRes.ok) return Response.json({ complaints: [] })
+
+    const customerData = await customerRes.json()
+    const customerId = customerData.customer?.id || customerData.id
+
+    const complaintsRes = await fetch(
+      `${backendUrl}/store/complaints?customer_id=${customerId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          "x-publishable-api-key": publishableKey!,
+        },
+      }
+    )
+
+    if (!complaintsRes.ok) return Response.json({ complaints: [] })
+
+    const data = await complaintsRes.json()
+    return Response.json({ complaints: data.complaints || [] })
+  } catch (error) {
+    return Response.json({ complaints: [] })
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const { order_id, description } = await req.json()
