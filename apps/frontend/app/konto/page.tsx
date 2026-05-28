@@ -890,7 +890,6 @@ export default function AccountPage() {
                         '30 dagars öppet köp',
                         'Exklusiva erbjudanden',
                         '10% rabatt på fyndvaror',
-                        'Fri hemleverans',
                       ],
                     },
                     {
@@ -904,7 +903,6 @@ export default function AccountPage() {
                         'Exklusiva erbjudanden',
                         '15% rabatt på fyndvaror',
                         'Fri hemleverans',
-                        'Exklusiva livestreams',
                         'Prioriterad kundservice',
                       ],
                     },
