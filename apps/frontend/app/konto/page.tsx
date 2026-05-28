@@ -916,13 +916,10 @@ export default function AccountPage() {
                           <span className={`font-bold text-sm ${tier.headerColor}`}>{tier.name}</span>
                           {isCurrent && <span className="text-xs bg-black text-white px-1.5 py-0.5">Din nivå</span>}
                         </div>
-                        <p className="text-xs text-gray-400 mb-3">{tier.threshold}</p>
                         <ul className="space-y-1.5">
                           {tier.benefits.map((b, i) => (
                             <li key={i} className="flex items-start gap-1.5 text-xs text-gray-700">
-                              <svg className="w-3.5 h-3.5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                              </svg>
+                              <span className="w-1.5 h-1.5 bg-black rounded-full flex-shrink-0 mt-1" />
                               {b}
                             </li>
                           ))}
