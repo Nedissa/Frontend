@@ -861,7 +861,7 @@ export default function AccountPage() {
                     {
                       name: 'Brons',
                       threshold: '0 p',
-                      headerColor: 'text-amber-700',
+                      headerColor: 'text-black',
                       borderColor: 'border-amber-300',
                       benefits: [
                         'Fri frakt på alla orders',
@@ -872,7 +872,7 @@ export default function AccountPage() {
                     {
                       name: 'Silver',
                       threshold: '500 p',
-                      headerColor: 'text-gray-500',
+                      headerColor: 'text-black',
                       borderColor: 'border-gray-300',
                       benefits: [
                         'Fri frakt på alla orders',
@@ -884,7 +884,7 @@ export default function AccountPage() {
                     {
                       name: 'Guld',
                       threshold: '1 500 p',
-                      headerColor: 'text-yellow-600',
+                      headerColor: 'text-black',
                       borderColor: 'border-yellow-400',
                       benefits: [
                         'Fri frakt på alla orders',
@@ -896,7 +896,7 @@ export default function AccountPage() {
                     {
                       name: 'Platinum',
                       threshold: '3 000 p',
-                      headerColor: 'text-blue-600',
+                      headerColor: 'text-black',
                       borderColor: 'border-blue-400',
                       benefits: [
                         'Fri frakt på alla orders',
