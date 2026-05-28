@@ -810,23 +810,47 @@ export default function AccountPage() {
           )}
           {loyalty && Object.keys(loyalty).length > 0 && loyalty.total_points !== undefined ? (
             <div className="space-y-6">
+              {/* Tier progress stepper */}
               <div>
-                <div className="flex justify-between items-center mb-3">
-                  <div>
-                    <p className="font-semibold text-lg">{loyalty.current_tier}-medlem</p>
-                    <p className="text-sm text-gray-600">Dina poäng: {loyalty.total_points}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm text-gray-600">Nästa nivå</p>
-                    <p className="font-semibold">{loyalty.points_to_next_tier} poäng</p>
-                  </div>
-                </div>
-                <div className="w-full bg-gray-200 h-3">
-                  <div
-                    className="bg-black h-3"
-                    style={{ width: `${Math.min(100, (loyalty.total_points / (loyalty.total_points + loyalty.points_to_next_tier)) * 100)}%` }}
-                  ></div>
-                </div>
+                <p className="font-semibold text-lg mb-1">{loyalty.current_tier}-medlem</p>
+                <p className="text-sm text-gray-500 mb-6">Dina poäng: {loyalty.total_points}</p>
+                {(() => {
+                  const tiers = [
+                    { name: 'Silver', min: 0, max: 500, color: 'bg-gray-400', badge: 'bg-gray-200 text-gray-700' },
+                    { name: 'Guld', min: 500, max: 2000, color: 'bg-yellow-400', badge: 'bg-yellow-100 text-yellow-700' },
+                    { name: 'Platinum', min: 2000, max: 2000, color: 'bg-blue-400', badge: 'bg-blue-100 text-blue-700' },
+                  ];
+                  const points = loyalty.total_points;
+                  const totalMax = 2000;
+                  const progress = Math.min(100, (points / totalMax) * 100);
+                  return (
+                    <div className="relative">
+                      {/* Track */}
+                      <div className="w-full bg-gray-200 h-2 rounded-full mb-2">
+                        <div className="h-2 bg-black rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
+                      </div>
+                      {/* Step markers */}
+                      <div className="relative flex justify-between" style={{ marginTop: '-22px' }}>
+                        {tiers.map((tier, i) => {
+                          const position = i === 0 ? 0 : i === 1 ? 500 : 2000;
+                          const reached = points >= position;
+                          const isCurrent = loyalty.current_tier === tier.name;
+                          const left = i === 0 ? '0%' : i === 1 ? `${(500/2000)*100}%` : '100%';
+                          return (
+                            <div key={tier.name} className="flex flex-col items-center" style={{ position: 'absolute', left, transform: i === 0 ? 'translateX(0)' : i === 2 ? 'translateX(-100%)' : 'translateX(-50%)' }}>
+                              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${reached ? 'bg-black border-black' : 'bg-white border-gray-300'}`}>
+                                {reached && <span className="w-2 h-2 bg-white rounded-full block" />}
+                              </div>
+                              <span className={`text-xs font-semibold mt-2 ${isCurrent ? 'text-black' : 'text-gray-400'}`}>{tier.name}</span>
+                              <span className="text-xs text-gray-400">{i === 0 ? '0' : i === 1 ? '500' : '2 000'} p</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <div style={{ height: '52px' }} />
+                    </div>
+                  );
+                })()}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
