@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { MainLayout } from '../components/MainLayout';
 import { Logo } from '../components/Logo';
@@ -9,6 +9,17 @@ import { InputWithCheck } from '../components/InputWithCheck';
 
 export default function LoginPage() {
   const router = useRouter();
+  const returnPath = useRef<string | null>(null);
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem('preLoginPath');
+    if (stored) {
+      returnPath.current = stored;
+    } else if (document.referrer && !document.referrer.includes('/inlogg')) {
+      const ref = new URL(document.referrer);
+      returnPath.current = ref.pathname + ref.search + ref.hash;
+    }
+  }, []);
   const [showLogin, setShowLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -59,7 +70,9 @@ export default function LoginPage() {
       }
 
       window.dispatchEvent(new Event('userLogin'));
-      router.push('/konto');
+      const dest = returnPath.current || '/konto';
+      sessionStorage.removeItem('preLoginPath');
+      router.push(dest);
     } catch (error) {
       console.error('Login error:', error);
       setLoginError('Ett fel uppstod. Försök igen senare.');
@@ -113,7 +126,9 @@ export default function LoginPage() {
       localStorage.setItem('favoritesList', JSON.stringify([]));
 
       window.dispatchEvent(new Event('userLogin'));
-      router.push('/konto');
+      const dest = returnPath.current || '/konto';
+      sessionStorage.removeItem('preLoginPath');
+      router.push(dest);
     } catch (error) {
       console.error('Registration error:', error);
       setLoginError('Ett fel uppstod. Försök igen senare.');

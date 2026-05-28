@@ -685,7 +685,7 @@ export function HeaderWrapper() {
               <LanguageSwitcher />
             </div>
             <div className="hidden md:block w-px h-6 bg-gray-300"></div>
-            <Link href="/konto" className="hidden md:flex items-center gap-2 text-black hover:text-gray-600">
+            <Link href="/konto" className="hidden md:flex items-center gap-2 text-black hover:text-gray-600" onClick={() => { sessionStorage.setItem('preLoginPath', window.location.pathname + window.location.search); sessionStorage.setItem('preLoginScrollY', String(window.scrollY)); }}>
               <span className="text-xs font-semibold">{isHydrated && (isLoggedIn ? 'Mina sidor' : 'Logga in')}</span>
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
