@@ -25,13 +25,10 @@ export function Aside({
   useEffect(() => {
     if (expanded) {
       setIsVisible(true);
-      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-      document.documentElement.style.overflow = 'hidden';
-      document.documentElement.style.paddingRight = `${scrollbarWidth}px`;
+      document.documentElement.style.overflowY = 'hidden';
     } else {
       setIsVisible(false);
-      document.documentElement.style.overflow = '';
-      document.documentElement.style.paddingRight = '';
+      document.documentElement.style.overflowY = 'scroll';
     }
   }, [expanded]);
 
