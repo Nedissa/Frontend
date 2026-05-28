@@ -694,7 +694,7 @@ export function HeaderWrapper() {
             <div className="hidden md:block w-px h-6 bg-gray-300"></div>
             <button
               onClick={() => open('cart')}
-              className="flex items-center gap-4 text-black"
+              className="flex items-center gap-6 text-black"
             >
               <div className={`relative flex items-center ${isVibrating ? 'vibrating' : ''}`}>
                 <svg className="w-5 h-5 fill-black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
