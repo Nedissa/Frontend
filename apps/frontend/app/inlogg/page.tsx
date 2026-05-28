@@ -150,7 +150,7 @@ export default function LoginPage() {
                     <Logo />
                     <span className="text-2xl font-bold">Techpilots</span>
                   </div>
-                  <h2 className="text-2xl font-bold mb-6 text-center">Logga in</h2>
+                  <h2 className="text-2xl font-bold mb-6 text-center">Inloggning</h2>
                   <form onSubmit={handleLogin} className="space-y-4">
                     <div>
                       <label className="block text-sm font-semibold mb-2">E-postadress</label>
