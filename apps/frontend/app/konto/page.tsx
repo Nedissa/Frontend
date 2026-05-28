@@ -874,7 +874,7 @@ export default function AccountPage() {
                       headerColor: 'text-amber-700',
                       borderColor: 'border-amber-300',
                       benefits: [
-                        'Fri frakt över 500 kr',
+                        'Fri frakt på alla orders',
                         '30 dagars öppet köp',
                         'Födelsedagspresent',
                         'Exklusiva erbjudanden',
