@@ -255,41 +255,35 @@ export function ProductCard({
         </div>
 
         {/* Button Container */}
-        <div className={`mt-auto border-t border-gray-200 ${isHovered ? 'hidden' : ''}`}></div>
-        <style>{`
-          @keyframes slideUpFill {
-            from {
-              clip-path: inset(100% 0 0 0);
-            }
-            to {
-              clip-path: inset(0 0 0 0);
-            }
-          }
-          .button-fill {
-            animation: slideUpFill 0.3s ease-out forwards;
-          }
-        `}</style>
-        <div className={`transition-opacity duration-200 ${isHovered ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <div className="mt-auto border-t border-gray-200"></div>
+        <div className="relative overflow-hidden">
           <button
             onClick={handleClick}
             disabled={added}
-            className={`w-full py-2.5 font-semibold text-sm flex items-center justify-center gap-2 bg-black text-white hover:bg-gray-800 ${isHovered ? 'button-fill' : ''}`}
+            className="w-full py-2.5 font-semibold text-sm flex items-center justify-center gap-2 relative z-10 text-white"
+            style={{ background: 'transparent' }}
           >
-            {added ? (
-              <>
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                </svg>
-                Tillagd
-              </>
-            ) : (
-              <>
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
-                </svg>
-                Lägg i varukorg
-              </>
-            )}
+            <span
+              className="absolute inset-0 bg-black origin-bottom transition-transform duration-300 ease-out"
+              style={{ transform: isHovered ? 'scaleY(1)' : 'scaleY(0)' }}
+            />
+            <span className="relative z-10 flex items-center gap-2">
+              {added ? (
+                <>
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                  </svg>
+                  Tillagd
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
+                  </svg>
+                  Lägg i varukorg
+                </>
+              )}
+            </span>
           </button>
         </div>
       </div>
