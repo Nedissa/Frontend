@@ -880,57 +880,7 @@ export default function AccountPage() {
                 Medlem sedan: {new Date(loyalty.member_since).toLocaleDateString('sv-SE')}
               </p>
 
-              {/* Tier overview */}
-              <div>
-                <h4 className="font-semibold mb-4">Alla nivåer</h4>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {[
-                    {
-                      name: 'Silver',
-                      points: '0–499',
-                      color: 'border-gray-300',
-                      badge: 'bg-gray-200 text-gray-700',
-                      benefits: ['Fri frakt över 500 kr', 'Medlemsexklusiv rabatt'],
-                    },
-                    {
-                      name: 'Guld',
-                      points: '500–1 999',
-                      color: 'border-yellow-400',
-                      badge: 'bg-yellow-100 text-yellow-700',
-                      benefits: ['Fri frakt på alla orders', '5% rabatt på allt', 'Tidig tillgång till reor'],
-                    },
-                    {
-                      name: 'Platinum',
-                      points: '2 000+',
-                      color: 'border-blue-400',
-                      badge: 'bg-blue-50 text-blue-700',
-                      benefits: ['Fri frakt på alla orders', '10% rabatt på allt', 'Prioriterad kundservice', 'Exklusiva erbjudanden'],
-                    },
-                  ].map((tier) => {
-                    const isCurrent = loyalty.current_tier === tier.name;
-                    return (
-                      <div
-                        key={tier.name}
-                        className={`p-4 border-2 ${tier.color} ${isCurrent ? 'ring-2 ring-black' : 'opacity-75'}`}
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <span className={`text-xs font-bold px-2 py-0.5 rounded ${tier.badge}`}>{tier.name}</span>
-                          {isCurrent && <span className="text-xs font-semibold text-black">Din nivå</span>}
-                        </div>
-                        <p className="text-xs text-gray-500 mb-3">{tier.points} poäng</p>
-                        <ul className="space-y-1">
-                          {tier.benefits.map((b, i) => (
-                            <li key={i} className="flex items-start gap-2 text-xs text-gray-700">
-                              <span className="mt-1 w-1.5 h-1.5 bg-black rounded-full flex-shrink-0"></span>
-                              {b}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
+
             </div>
           ) : (
             <div className="space-y-3 text-gray-700">
