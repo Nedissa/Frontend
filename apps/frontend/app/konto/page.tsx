@@ -865,15 +865,90 @@ export default function AccountPage() {
               </div>
 
               <div>
-                <h4 className="font-semibold mb-3">Dina benefits</h4>
-                <ul className="space-y-2">
-                  {loyalty.benefits.map((benefit: string, idx: number) => (
-                    <li key={idx} className="flex items-center gap-2 text-gray-700">
-                      <span className="w-2 h-2 bg-black rounded-full"></span>
-                      {benefit}
-                    </li>
-                  ))}
-                </ul>
+                <h4 className="font-semibold mb-4">Medlemsnivåer och förmåner</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                  {[
+                    {
+                      name: 'Brons',
+                      threshold: '0 p',
+                      headerColor: 'text-amber-700',
+                      borderColor: 'border-amber-300',
+                      benefits: [
+                        'Fri frakt över 500 kr',
+                        '30 dagars öppet köp',
+                        'Födelsedagspresent',
+                        'Exklusiva erbjudanden',
+                      ],
+                    },
+                    {
+                      name: 'Silver',
+                      threshold: '500 p',
+                      headerColor: 'text-gray-500',
+                      borderColor: 'border-gray-300',
+                      benefits: [
+                        'Fri frakt på alla orders',
+                        '30 dagars öppet köp',
+                        'Födelsedagspresent',
+                        'Exklusiva erbjudanden',
+                        '5% rabatt på fyndvaror',
+                        'Uppgraderingspresent 250 kr',
+                      ],
+                    },
+                    {
+                      name: 'Guld',
+                      threshold: '1 500 p',
+                      headerColor: 'text-yellow-600',
+                      borderColor: 'border-yellow-400',
+                      benefits: [
+                        'Fri frakt på alla orders',
+                        '30 dagars öppet köp',
+                        'Födelsedagspresent',
+                        'Exklusiva erbjudanden',
+                        '10% rabatt på fyndvaror',
+                        'Uppgraderingspresent 500 kr',
+                        'Fri hemleverans',
+                      ],
+                    },
+                    {
+                      name: 'Platinum',
+                      threshold: '3 000 p',
+                      headerColor: 'text-blue-600',
+                      borderColor: 'border-blue-400',
+                      benefits: [
+                        'Fri frakt på alla orders',
+                        '30 dagars öppet köp',
+                        'Födelsedagspresent',
+                        'Exklusiva erbjudanden',
+                        '15% rabatt på fyndvaror',
+                        'Uppgraderingspresent 1 000 kr',
+                        'Fri hemleverans',
+                        'Exklusiva livestreams',
+                        'Prioriterad kundservice',
+                      ],
+                    },
+                  ].map((tier) => {
+                    const isCurrent = loyalty.current_tier === tier.name;
+                    return (
+                      <div key={tier.name} className={`border-2 ${tier.borderColor} p-4 ${isCurrent ? 'ring-2 ring-black' : ''}`}>
+                        <div className="flex items-center justify-between mb-1">
+                          <span className={`font-bold text-sm ${tier.headerColor}`}>{tier.name}</span>
+                          {isCurrent && <span className="text-xs bg-black text-white px-1.5 py-0.5">Din nivå</span>}
+                        </div>
+                        <p className="text-xs text-gray-400 mb-3">{tier.threshold}</p>
+                        <ul className="space-y-1.5">
+                          {tier.benefits.map((b, i) => (
+                            <li key={i} className="flex items-start gap-1.5 text-xs text-gray-700">
+                              <svg className="w-3.5 h-3.5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                              </svg>
+                              {b}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
 
               <p className="text-sm text-gray-600">
