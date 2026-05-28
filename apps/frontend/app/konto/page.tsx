@@ -876,7 +876,6 @@ export default function AccountPage() {
                       benefits: [
                         'Fri frakt på alla orders',
                         '30 dagars öppet köp',
-                        'Födelsedagspresent',
                         'Exklusiva erbjudanden',
                       ],
                     },
@@ -888,10 +887,8 @@ export default function AccountPage() {
                       benefits: [
                         'Fri frakt på alla orders',
                         '30 dagars öppet köp',
-                        'Födelsedagspresent',
                         'Exklusiva erbjudanden',
                         '5% rabatt på fyndvaror',
-                        'Uppgraderingspresent 250 kr',
                       ],
                     },
                     {
@@ -902,10 +899,8 @@ export default function AccountPage() {
                       benefits: [
                         'Fri frakt på alla orders',
                         '30 dagars öppet köp',
-                        'Födelsedagspresent',
                         'Exklusiva erbjudanden',
                         '10% rabatt på fyndvaror',
-                        'Uppgraderingspresent 500 kr',
                         'Fri hemleverans',
                       ],
                     },
@@ -917,10 +912,8 @@ export default function AccountPage() {
                       benefits: [
                         'Fri frakt på alla orders',
                         '30 dagars öppet köp',
-                        'Födelsedagspresent',
                         'Exklusiva erbjudanden',
                         '15% rabatt på fyndvaror',
-                        'Uppgraderingspresent 1 000 kr',
                         'Fri hemleverans',
                         'Exklusiva livestreams',
                         'Prioriterad kundservice',
