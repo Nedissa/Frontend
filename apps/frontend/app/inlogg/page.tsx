@@ -146,7 +146,7 @@ export default function LoginPage() {
               {/* Login Form */}
               {showLogin && (
                 <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-                  <div className="flex items-center justify-center gap-1 mb-6">
+                  <div className="flex items-center justify-center gap-1 mb-10">
                     <Logo />
                     <span className="text-2xl font-bold">Techpilots</span>
                   </div>
