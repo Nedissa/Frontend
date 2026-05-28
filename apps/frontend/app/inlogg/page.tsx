@@ -74,8 +74,9 @@ export default function LoginPage() {
       }
 
       window.dispatchEvent(new Event('userLogin'));
-      const dest = returnPath.current || '/konto';
+      const dest = sessionStorage.getItem('preLoginPath') || '/konto';
       sessionStorage.removeItem('preLoginPath');
+      sessionStorage.removeItem('preLoginScrollY');
       router.push(dest);
     } catch (error) {
       console.error('Login error:', error);
@@ -130,8 +131,9 @@ export default function LoginPage() {
       localStorage.setItem('favoritesList', JSON.stringify([]));
 
       window.dispatchEvent(new Event('userLogin'));
-      const dest = returnPath.current || '/konto';
+      const dest = sessionStorage.getItem('preLoginPath') || '/konto';
       sessionStorage.removeItem('preLoginPath');
+      sessionStorage.removeItem('preLoginScrollY');
       router.push(dest);
     } catch (error) {
       console.error('Registration error:', error);
