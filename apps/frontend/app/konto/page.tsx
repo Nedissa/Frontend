@@ -853,14 +853,17 @@ export default function AccountPage() {
                 })()}
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="p-4 border border-gray-200">
-                  <p className="text-sm text-gray-600">Totala köp</p>
-                  <p className="font-semibold text-lg">{loyalty.lifetime_orders} beställningar</p>
-                </div>
-                <div className="p-4 border border-gray-200">
-                  <p className="text-sm text-gray-600">Totalt värde</p>
-                  <p className="font-semibold text-lg">{(loyalty.lifetime_spend / 100).toLocaleString('sv-SE')} SEK</p>
+              <div style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }} className="p-5">
+                <h4 className="font-semibold mb-4">Din aktivitet</h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">Totala köp</p>
+                    <p className="font-semibold text-lg">{loyalty.lifetime_orders} beställningar</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Totalt värde</p>
+                    <p className="font-semibold text-lg">{(loyalty.lifetime_spend / 100).toLocaleString('sv-SE')} SEK</p>
+                  </div>
                 </div>
               </div>
 
