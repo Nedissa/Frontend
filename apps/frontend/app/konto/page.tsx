@@ -853,20 +853,6 @@ export default function AccountPage() {
                 })()}
               </div>
 
-              <div style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }} className="p-5">
-                <h4 className="font-semibold mb-4">Din aktivitet</h4>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm text-gray-500">Totala köp</p>
-                    <p className="font-semibold text-lg">{loyalty.lifetime_orders} beställningar</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Totalt värde</p>
-                    <p className="font-semibold text-lg">{(loyalty.lifetime_spend / 100).toLocaleString('sv-SE')} SEK</p>
-                  </div>
-                </div>
-              </div>
-
               <div>
                 <h4 className="font-semibold mb-4">Medlemsnivåer och förmåner</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -944,6 +930,20 @@ export default function AccountPage() {
                       </div>
                     );
                   })}
+                </div>
+              </div>
+
+              <div style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }} className="p-5">
+                <h4 className="font-semibold mb-4">Din aktivitet</h4>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500">Totala köp</p>
+                    <p className="font-semibold text-lg">{loyalty.lifetime_orders} beställningar</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500">Totalt värde</p>
+                    <p className="font-semibold text-lg">{(loyalty.lifetime_spend / 100).toLocaleString('sv-SE')} SEK</p>
+                  </div>
                 </div>
               </div>
 
