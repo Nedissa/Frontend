@@ -63,6 +63,7 @@ export default function AccountPage() {
   useEffect(() => {
     const savedData = localStorage.getItem('userData');
     if (!savedData) {
+      sessionStorage.setItem('preLoginPath', '/konto');
       router.push('/inlogg');
       return;
     }
