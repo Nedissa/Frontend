@@ -817,12 +817,12 @@ export default function AccountPage() {
                 {(() => {
                   const tiers = [
                     { name: 'Brons', threshold: 0 },
-                    { name: 'Silver', threshold: 200 },
-                    { name: 'Guld', threshold: 500 },
-                    { name: 'Platinum', threshold: 2000 },
+                    { name: 'Silver', threshold: 500 },
+                    { name: 'Guld', threshold: 1500 },
+                    { name: 'Platinum', threshold: 3000 },
                   ];
                   const points = loyalty.total_points;
-                  const totalMax = 2000;
+                  const totalMax = 3000;
                   const progress = Math.min(100, (points / totalMax) * 100);
                   return (
                     <div className="relative">
