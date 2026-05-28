@@ -812,7 +812,7 @@ export default function AccountPage() {
             <div className="space-y-6">
               {/* Tier progress stepper */}
               <div>
-                <p className="font-semibold text-lg mb-1">{loyalty.current_tier}-medlem</p>
+                <p className="font-semibold text-lg mb-1">{loyalty.current_tier || 'Brons'}-medlem</p>
                 <p className="text-sm text-gray-500 mb-6">Dina poäng: {loyalty.total_points}</p>
                 {(() => {
                   const tiers = [
@@ -834,7 +834,7 @@ export default function AccountPage() {
                       <div className="relative" style={{ marginTop: '-22px', height: '52px' }}>
                         {tiers.map((tier, i) => {
                           const reached = points >= tier.threshold;
-                          const isCurrent = loyalty.current_tier === tier.name;
+                          const isCurrent = (loyalty.current_tier || 'Brons') === tier.name;
                           const leftPct = (tier.threshold / totalMax) * 100;
                           const transform = i === 0 ? 'translateX(0)' : i === tiers.length - 1 ? 'translateX(-100%)' : 'translateX(-50%)';
                           return (
@@ -907,7 +907,7 @@ export default function AccountPage() {
                       ],
                     },
                   ].map((tier) => {
-                    const isCurrent = loyalty.current_tier === tier.name;
+                    const isCurrent = (loyalty.current_tier || 'Brons') === tier.name;
                     return (
                       <div key={tier.name} className={`p-4 ${isCurrent ? 'ring-2 ring-black' : ''}`} style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
                         <div className="flex items-center justify-between mb-1">
