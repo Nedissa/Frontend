@@ -64,7 +64,7 @@ export default function AccountPage() {
     const savedData = localStorage.getItem('userData');
     if (!savedData) {
       sessionStorage.setItem('preLoginPath', '/konto');
-      router.push('/inlogg');
+      router.replace('/inlogg');
       return;
     }
 
@@ -82,7 +82,7 @@ export default function AccountPage() {
       try {
         const meResponse = await fetch('/api/auth/me');
         if (!meResponse.ok) {
-          router.push('/inlogg');
+          router.replace('/inlogg');
           return;
         }
         const meData = await meResponse.json();
