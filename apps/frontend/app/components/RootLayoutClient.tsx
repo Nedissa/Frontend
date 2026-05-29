@@ -9,7 +9,7 @@ import { usePathname } from 'next/navigation';
 
 export function RootLayoutClient({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const hideHeader = pathname === '/inlogg';
+  const hideHeader = pathname === '/inlogg' || pathname === '/aterstall-losenord';
 
   return (
     <Aside.Provider>
