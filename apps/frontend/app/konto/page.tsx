@@ -781,7 +781,7 @@ export default function AccountPage() {
                       onClick={handleAddComplaint}
                       className="px-6 py-2 bg-black text-white hover:bg-gray-800 font-semibold"
                     >
-                      Spara felanmälan
+                      Skicka felanmälan
                     </button>
                     <button
                       onClick={() => {
