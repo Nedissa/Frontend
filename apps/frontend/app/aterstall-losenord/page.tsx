@@ -45,7 +45,7 @@ function ResetPasswordForm() {
       }
 
       setSuccess(true);
-      setTimeout(() => router.push('/inlogg'), 3000);
+      setTimeout(() => router.replace('/inlogg'), 3000);
     } catch {
       setError('Ett fel uppstod. Försök igen.');
     } finally {
