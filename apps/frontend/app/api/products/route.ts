@@ -35,11 +35,9 @@ export async function GET() {
     const products = data.products || [];
 
     const transformedProducts = products.map((product: any) => {
-      // Fix image URLs - force https for non-localhost URLs
+      // Fix image URLs - replace localhost with api.techpilots.se
       let imageUrl = product.images?.[0]?.url || product.thumbnail || '';
-      if (imageUrl && !imageUrl.includes('localhost')) {
-        imageUrl = imageUrl.replace(/^http:\/\//, 'https://');
-      }
+      imageUrl = imageUrl.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se').replace(/^http:\/\//, 'https://');
       const image = imageUrl;
 
       // Get price from variant prices array
@@ -89,7 +87,7 @@ export async function GET() {
         image: image,
         images: (product.images?.map((img: any) => {
           let url = img.url || '';
-          if (url && !url.includes('localhost')) url = url.replace(/^http:\/\//, 'https://');
+          url = url.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se').replace(/^http:\/\//, 'https://');
           return url;
         }) || []).slice(0, 3),
         category: collectionTitle,
