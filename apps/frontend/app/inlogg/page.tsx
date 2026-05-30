@@ -288,8 +288,8 @@ export default function LoginPage() {
 
       {/* Återställ lösenord modal */}
       {showResetModal && (
-        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4" onClick={() => setShowResetModal(false)}>
-          <div className="bg-white p-8 max-w-sm w-full shadow-lg" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4">
+          <div className="bg-white p-8 max-w-sm w-full shadow-lg">
             {resetSent ? (
               <>
                 <h3 className="text-lg font-bold mb-3">E-post skickad</h3>
