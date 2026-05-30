@@ -33,6 +33,7 @@ export default function AccountPage() {
   const [editingAddressId, setEditingAddressId] = useState<string | null>(null);
   const [favoriteProducts, setFavoriteProducts] = useState<ProductData[]>([]);
   const [complaints, setComplaints] = useState<any[]>([]);
+  const [loadingComplaints, setLoadingComplaints] = useState(true);
   const [loyalty, setLoyalty] = useState<any>(null);
   const [orders, setOrders] = useState<any[]>([]);
   const [loadingComplaintsError, setLoadingComplaintsError] = useState('');
@@ -123,6 +124,8 @@ export default function AccountPage() {
         }
       } catch (error) {
         console.error('Failed to load complaints:', error);
+      } finally {
+        setLoadingComplaints(false);
       }
 
       // Load loyalty from Medusa
@@ -730,7 +733,9 @@ export default function AccountPage() {
               {loadingComplaintsError}
             </div>
           )}
-          {complaints.length > 0 ? (
+          {loadingComplaints ? (
+            <p className="text-gray-500">Laddar...</p>
+          ) : complaints.length > 0 ? (
             <div className="space-y-4">
               <p className="text-gray-700">Du har {complaints.length} felanmälningar</p>
               {complaints.map((complaint) => (
