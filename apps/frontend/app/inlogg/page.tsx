@@ -214,7 +214,7 @@ export default function LoginPage() {
                     </button>
                   </form>
                   <div className="space-y-3 mt-6">
-                    <button type="button" onClick={() => { setShowResetModal(true); setResetSent(false); setResetEmail(''); router.push('/inlogg?reset=true'); }} className="w-full text-xs text-gray-500 hover:text-black py-2">
+                    <button type="button" onClick={() => { setShowResetModal(true); setResetSent(false); setResetEmail(''); window.history.pushState({}, '', '/inlogg?reset=true'); }} className="w-full text-xs text-gray-500 hover:text-black py-2">
                       Glömt lösenord?
                     </button>
                     <div className="border-t pt-4 text-center">
@@ -331,7 +331,7 @@ export default function LoginPage() {
                         </button>
                       </form>
                       <div className="text-center mt-4">
-                        <button type="button" onClick={() => { setShowResetModal(false); router.push('/inlogg'); }} className="text-xs text-gray-500 hover:text-black">Avbryt</button>
+                        <button type="button" onClick={() => { setShowResetModal(false); window.history.pushState({}, '', '/inlogg'); }} className="text-xs text-gray-500 hover:text-black">Avbryt</button>
                       </div>
                     </>
                   )}
