@@ -772,7 +772,7 @@ export default function AccountPage() {
                     const currentTier = loyalty.total_points >= 3000 ? 'Platinum' : loyalty.total_points >= 1500 ? 'Guld' : loyalty.total_points >= 500 ? 'Silver' : 'Brons';
                     const isCurrent = currentTier === tier.name;
                     return (
-                      <div key={tier.name} className={`p-4 ${isCurrent ? 'ring-2 ring-black' : ''}`} style={{ border: '1px solid #e5e7eb' }}>
+                      <div key={tier.name} className="p-4" style={{ border: '1px solid #e5e7eb' }}>
                         <div className="flex items-center justify-between mb-4">
                           <span className={`font-bold text-sm ${tier.headerColor}`}>{tier.name}</span>
                           {isCurrent && <span className="text-xs bg-black text-white px-1.5 py-0.5">Din nivå</span>}
