@@ -85,7 +85,7 @@ export function NewsletterPopup() {
 
             {/* Description */}
             <p className="text-sm text-gray-600 mb-6">
-              Bli medlem
+              Bli medlem och få tillgång till exklusiva erbjudanden, nyheter och medlemsförmåner direkt i din inkorg.
             </p>
 
             {/* Social Links - Footer style */}
