@@ -205,10 +205,20 @@ export default function LoginPage() {
                       {isLoading ? 'Loggar in...' : 'Logga in'}
                     </button>
                   </form>
-                  <div className="text-center mt-4">
-                    <button onClick={() => { setShowResetModal(true); setResetSent(false); setResetEmail(''); }} className="text-xs text-gray-500 hover:text-black">
-                      Glömt lösenord? Återställ här
+                  <div className="space-y-3 mt-6">
+                    <button type="button" onClick={() => { setShowResetModal(true); setResetSent(false); setResetEmail(''); }} className="w-full text-xs text-gray-500 hover:text-black py-2">
+                      Glömt lösenord?
                     </button>
+                    <div className="border-t pt-4 text-center">
+                      <p className="text-xs text-gray-600 mb-2">Har du inget konto?</p>
+                      <button
+                        type="button"
+                        onClick={() => setShowLogin(false)}
+                        className="text-sm font-semibold text-black hover:text-gray-700"
+                      >
+                        Skapa ett här
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
@@ -266,6 +276,16 @@ export default function LoginPage() {
                       {isLoading ? 'Skapar konto...' : 'Skapa konto'}
                     </button>
                   </form>
+                  <div className="border-t pt-4 mt-6 text-center">
+                    <p className="text-xs text-gray-600 mb-2">Redan medlem?</p>
+                    <button
+                      type="button"
+                      onClick={() => setShowLogin(true)}
+                      className="text-sm font-semibold text-black hover:text-gray-700"
+                    >
+                      Logga in här
+                    </button>
+                  </div>
                 </div>
               )}
 
@@ -310,20 +330,6 @@ export default function LoginPage() {
                 </div>
               )}
 
-              {/* Toggle */}
-              {!showResetModal && (
-                <div className="text-center">
-                  <p className="text-gray-600 mb-4">
-                    {showLogin ? 'Har du inget konto?' : 'Redan medlem?'}
-                  </p>
-                  <button
-                    onClick={() => setShowLogin(!showLogin)}
-                    className="text-black font-semibold"
-                  >
-                    {showLogin ? 'Skapa ett här' : 'Logga in här'}
-                  </button>
-                </div>
-              )}
             </div>
           </div>
         </div>
