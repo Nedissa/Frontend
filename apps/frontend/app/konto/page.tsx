@@ -239,7 +239,7 @@ export default function AccountPage() {
     <MainLayout bordered={false}>
       <div className="w-full max-w-4xl mx-auto px-6 py-16">
         {/* Welcome Section */}
-        <div className="bg-gray-50 p-8  mb-8 shadow-sm flex justify-between items-center" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+        <div className="bg-gray-50 p-8  mb-8 shadow-sm flex justify-between items-center" style={{ border: '1px solid #e5e7eb' }}>
           <div>
             <h2 className="text-2xl font-bold mb-2 select-none">Välkommen, {firstName && lastName ? firstName : firstName || registerEmail?.split('@')[0] || 'Johan'}!</h2>
             <p className="text-gray-600">Hantera ditt konto och se dina beställningar</p>
@@ -323,7 +323,7 @@ export default function AccountPage() {
 
         {/* Tab Content */}
         {activeTab === 'profil' && (
-        <div className="p-6  shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+        <div className="p-6  shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
           <h3 className="text-xl font-bold mb-6">Mina uppgifter</h3>
           {saveError && (
             <div className="mb-4 p-4 bg-red-50 text-red-700 rounded">
@@ -451,7 +451,7 @@ export default function AccountPage() {
         )}
 
         {activeTab === 'orderhistorik' && (
-        <div className="p-6  shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+        <div className="p-6  shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
           <h3 className="text-xl font-bold mb-6">Orderhistorik</h3>
           {loadingOrdersError && (
             <div className="mb-4 p-4 bg-red-50 text-red-700 rounded">
@@ -486,7 +486,7 @@ export default function AccountPage() {
         )}
 
         {activeTab === 'favoriter' && (
-        <div className="p-6  shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+        <div className="p-6  shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
           <h3 className="text-xl font-bold mb-6">Favoriter</h3>
           {favoriteProducts.length > 0 ? (
             <div className="space-y-4">
@@ -584,7 +584,7 @@ export default function AccountPage() {
         )}
 
         {activeTab === 'felanmalan' && (
-        <div className="p-6  shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+        <div className="p-6  shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
           <h3 className="text-xl font-bold mb-6">Felanmälan</h3>
           {loadingComplaintsError && (
             <div className="mb-4 p-4 bg-red-50 text-red-700 rounded">
@@ -665,7 +665,7 @@ export default function AccountPage() {
         )}
 
         {activeTab === 'kundklubb' && (
-        <div className="p-6  shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+        <div className="p-6  shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
           <h3 className="text-xl font-bold mb-2">Kundklubb</h3>
           <p className="text-gray-600 mb-6">Som medlem i Techpilots kundklubb får du tillgång till exklusiva priser, erbjudanden från våra partners och förmåner anpassade efter din medlemsnivå. Ju mer du handlar, desto mer får du tillbaka.</p>
           {loadingLoyaltyError && (
@@ -772,7 +772,7 @@ export default function AccountPage() {
                     const currentTier = loyalty.total_points >= 3000 ? 'Platinum' : loyalty.total_points >= 1500 ? 'Guld' : loyalty.total_points >= 500 ? 'Silver' : 'Brons';
                     const isCurrent = currentTier === tier.name;
                     return (
-                      <div key={tier.name} className={`p-4 ${isCurrent ? 'ring-2 ring-black' : ''}`} style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+                      <div key={tier.name} className={`p-4 ${isCurrent ? 'ring-2 ring-black' : ''}`} style={{ border: '1px solid #e5e7eb' }}>
                         <div className="flex items-center justify-between mb-4">
                           <span className={`font-bold text-sm ${tier.headerColor}`}>{tier.name}</span>
                           {isCurrent && <span className="text-xs bg-black text-white px-1.5 py-0.5">Din nivå</span>}
