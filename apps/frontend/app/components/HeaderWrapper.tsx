@@ -381,9 +381,14 @@ export function HeaderWrapper() {
     }
 
     // Check if user is logged in
-    const checkLoginStatus = () => {
-      const userData = localStorage.getItem('userData');
-      setIsLoggedIn(!!userData);
+    const checkLoginStatus = async () => {
+      try {
+        const res = await fetch('/api/auth/check');
+        const data = await res.json();
+        setIsLoggedIn(data.isLoggedIn);
+      } catch {
+        setIsLoggedIn(false);
+      }
     };
 
     checkLoginStatus();

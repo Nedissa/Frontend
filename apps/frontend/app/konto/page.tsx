@@ -5,43 +5,42 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { MainLayout } from '../components/MainLayout';
 import { ProductCard, type ProductData } from '@/app/components/ProductCard';
+import { useKontoData } from './konto-context';
 
 export default function AccountPage() {
   const router = useRouter();
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [registerEmail, setRegisterEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  const [address, setAddress] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [city, setCity] = useState('');
-  const [addressPhone, setAddressPhone] = useState('');
+  const kontoData = useKontoData();
+
+  const firstAddress = kontoData?.addresses?.[0];
+
+  const [firstName, setFirstName] = useState(kontoData?.profile?.firstName || '');
+  const [lastName, setLastName] = useState(kontoData?.profile?.lastName || '');
+  const [registerEmail, setRegisterEmail] = useState(kontoData?.profile?.email || '');
+  const [phone, setPhone] = useState(kontoData?.profile?.phone || '');
+  const [address, setAddress] = useState(firstAddress?.address_1 || '');
+  const [postalCode, setPostalCode] = useState(firstAddress?.postal_code || '');
+  const [city, setCity] = useState(firstAddress?.city || '');
+  const [addressPhone, setAddressPhone] = useState(firstAddress?.phone || '');
   const [activeTab, setActiveTab] = useState('profil');
-  const [isHydrated, setIsHydrated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [editFirstName, setEditFirstName] = useState('');
-  const [editLastName, setEditLastName] = useState('');
-  const [editEmail, setEditEmail] = useState('');
-  const [editPhone, setEditPhone] = useState('');
-  const [editAddress, setEditAddress] = useState('');
-  const [editPostalCode, setEditPostalCode] = useState('');
-  const [editCity, setEditCity] = useState('');
-  const [editAddressPhone, setEditAddressPhone] = useState('');
-  const [currentAddressId, setCurrentAddressId] = useState<string | null>(null);
-  const [addresses, setAddresses] = useState<any[]>([]);
+  const [isHydrated, setIsHydrated] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [editFirstName, setEditFirstName] = useState(kontoData?.profile?.firstName || '');
+  const [editLastName, setEditLastName] = useState(kontoData?.profile?.lastName || '');
+  const [editEmail, setEditEmail] = useState(kontoData?.profile?.email || '');
+  const [editPhone, setEditPhone] = useState(kontoData?.profile?.phone || '');
+  const [editAddress, setEditAddress] = useState(firstAddress?.address_1 || '');
+  const [editPostalCode, setEditPostalCode] = useState(firstAddress?.postal_code || '');
+  const [editCity, setEditCity] = useState(firstAddress?.city || '');
+  const [editAddressPhone, setEditAddressPhone] = useState(firstAddress?.phone || '');
+  const [currentAddressId, setCurrentAddressId] = useState<string | null>(firstAddress?.id || null);
+  const [addresses, setAddresses] = useState<any[]>(kontoData?.addresses || []);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [editingAddressId, setEditingAddressId] = useState<string | null>(null);
-  const [favoriteProducts, setFavoriteProducts] = useState<ProductData[]>([]);
-  const [complaints, setComplaints] = useState<any[]>(() => {
-    if (typeof window !== 'undefined') {
-      const cached = localStorage.getItem('complaints');
-      return cached ? JSON.parse(cached) : [];
-    }
-    return [];
-  });
+  const [favoriteProducts, setFavoriteProducts] = useState<ProductData[]>(kontoData?.favoriteProducts || []);
+  const [complaints, setComplaints] = useState<any[]>(kontoData?.complaints || []);
   const [loadingComplaints, setLoadingComplaints] = useState(false);
-  const [loyalty, setLoyalty] = useState<any>(null);
-  const [orders, setOrders] = useState<any[]>([]);
+  const [loyalty, setLoyalty] = useState<any>(kontoData?.loyalty || null);
+  const [orders, setOrders] = useState<any[]>(kontoData?.orders || []);
   const [loadingComplaintsError, setLoadingComplaintsError] = useState('');
   const [loadingLoyaltyError, setLoadingLoyaltyError] = useState('');
   const [loadingOrdersError, setLoadingOrdersError] = useState('');
@@ -66,131 +65,9 @@ export default function AccountPage() {
     editCity !== city ||
     editAddressPhone !== addressPhone;
 
-  // Ladda sparad userData när sidan öppnas
   useEffect(() => {
-    const savedData = localStorage.getItem('userData');
-    if (!savedData) {
-      sessionStorage.setItem('preLoginPath', '/konto');
-      router.replace('/inlogg');
-      return;
-    }
-
-    // Ladda sparad tab
     const savedTab = localStorage.getItem('accountTab');
-    if (savedTab) {
-      setActiveTab(savedTab);
-    }
-
-    const loadData = async () => {
-      let customerId = '';
-      try {
-
-      // Load profile from Medusa
-      try {
-        const meResponse = await fetch('/api/auth/me');
-        if (!meResponse.ok) {
-          router.replace('/inlogg');
-          return;
-        }
-        const meData = await meResponse.json();
-        const customer = meData.customer;
-        customerId = customer.id;
-
-        // Populate form fields with Medusa data
-        setFirstName(customer.first_name || '');
-        setLastName(customer.last_name || '');
-        setRegisterEmail(customer.email || '');
-        setPhone(customer.phone || '');
-        setEditFirstName(customer.first_name || '');
-        setEditLastName(customer.last_name || '');
-        setEditEmail(customer.email || '');
-        setEditPhone(customer.phone || '');
-      } catch (error) {
-        console.error('Session verification failed:', error);
-      }
-
-      // Load orders, complaints and loyalty in parallel
-      const [ordersRes, complaintsRes, loyaltyRes] = await Promise.allSettled([
-        fetch('/api/orders'),
-        fetch('/api/complaints'),
-        fetch('/api/loyalty'),
-      ]);
-
-      if (ordersRes.status === 'fulfilled' && ordersRes.value.ok) {
-        const data = await ordersRes.value.json();
-        setOrders(data.orders || []);
-      }
-
-      if (complaintsRes.status === 'fulfilled' && complaintsRes.value.ok) {
-        const data = await complaintsRes.value.json();
-        const complaintsData = data.complaints || [];
-        setComplaints(complaintsData);
-        localStorage.setItem('complaints', JSON.stringify(complaintsData));
-      }
-
-      if (loyaltyRes.status === 'fulfilled') {
-        if (loyaltyRes.value.ok) {
-          const data = await loyaltyRes.value.json();
-          setLoyalty(data.loyalty || {});
-        } else {
-          setLoyalty({});
-        }
-      }
-
-      // Load addresses
-      try {
-        const addressResponse = await fetch('/api/auth/addresses');
-        if (addressResponse.ok) {
-          const addressData = await addressResponse.json();
-          const loadedAddresses = addressData.addresses || [];
-          setAddresses(loadedAddresses);
-
-          // Populate form fields with first address if available
-          if (loadedAddresses.length > 0) {
-            const firstAddress = loadedAddresses[0];
-            setCurrentAddressId(firstAddress.id);
-            // Store original address data
-            setAddress(firstAddress.address_1 || '');
-            setPostalCode(firstAddress.postal_code || '');
-            setCity(firstAddress.city || '');
-            setAddressPhone(firstAddress.phone || '');
-            // Store edit values
-            setEditAddress(firstAddress.address_1 || '');
-            setEditPostalCode(firstAddress.postal_code || '');
-            setEditCity(firstAddress.city || '');
-            setEditAddressPhone(firstAddress.phone || '');
-          } else {
-            setCurrentAddressId(null);
-            setAddress('');
-            setPostalCode('');
-            setCity('');
-            setAddressPhone('');
-          }
-        }
-      } catch (error) {
-        console.error('Failed to load addresses:', error);
-      }
-
-      // Load favorites from Medusa
-      try {
-        const favResponse = await fetch('/api/favorites');
-        if (favResponse.ok) {
-          const favData = await favResponse.json();
-          const favorites = favData.favorites || [];
-          setFavoriteProducts(favorites);
-        }
-      } catch (error) {
-        console.error('Failed to load favorites:', error);
-      }
-      } catch (error) {
-        console.error('Error in loadData:', error);
-      }
-    };
-
-    loadData();
-
-    setIsLoading(false);
-    setIsHydrated(true);
+    if (savedTab) setActiveTab(savedTab);
   }, []);
 
   const handleLogout = async () => {
@@ -199,7 +76,6 @@ export default function AccountPage() {
     } catch (error) {
       console.error('Logout error:', error);
     }
-    localStorage.removeItem('userData');
     window.dispatchEvent(new Event('userLogout'));
     router.push('/inlogg');
   };
@@ -357,15 +233,6 @@ export default function AccountPage() {
 
 
 
-  if (isLoading) {
-    return (
-      <MainLayout bordered={false}>
-        <div className="min-h-screen flex items-center justify-center">
-          <p>Laddar...</p>
-        </div>
-      </MainLayout>
-    );
-  }
 
   return (
     <MainLayout bordered={false}>
@@ -684,21 +551,16 @@ export default function AccountPage() {
                     </button>
                     <button
                       onClick={async () => {
-                        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-                        const customerId = userData.id;
-
-                        if (customerId) {
-                          try {
-                            const updated = favoriteProducts.filter(p => p.id !== product.id);
-                            await fetch('/api/favorites', {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json' },
-                              body: JSON.stringify({ wishlist: updated }),
-                            });
-                            setFavoriteProducts(updated);
-                          } catch (error) {
-                            console.error('Failed to remove favorite:', error);
-                          }
+                        try {
+                          const updated = favoriteProducts.filter(p => p.id !== product.id);
+                          await fetch('/api/favorites', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ wishlist: updated }),
+                          });
+                          setFavoriteProducts(updated);
+                        } catch (error) {
+                          console.error('Failed to remove favorite:', error);
                         }
                       }}
                       className="text-gray-500 hover:text-red-500 transition-colors flex items-center justify-center"
