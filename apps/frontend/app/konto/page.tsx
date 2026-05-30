@@ -340,7 +340,7 @@ export default function AccountPage() {
                     value={editFirstName}
                     onChange={(e) => setEditFirstName(e.target.value)}
                     className="w-full px-4 py-2 pr-10 focus:outline-none border-2 border-transparent focus:border-black"
-                    style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}
+                    style={{ border: '1px solid #e5e7eb' }}
                   />
                   {editFirstName && <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
                 </div>
@@ -353,7 +353,7 @@ export default function AccountPage() {
                     value={editLastName}
                     onChange={(e) => setEditLastName(e.target.value)}
                     className="w-full px-4 py-2 pr-10 focus:outline-none border-2 border-transparent focus:border-black"
-                    style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}
+                    style={{ border: '1px solid #e5e7eb' }}
                   />
                   {editLastName && <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
                 </div>
@@ -369,7 +369,7 @@ export default function AccountPage() {
                     value={editPhone}
                     onChange={(e) => setEditPhone(e.target.value)}
                     className="w-full px-4 py-2 pr-10 focus:outline-none border-2 border-transparent focus:border-black"
-                    style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}
+                    style={{ border: '1px solid #e5e7eb' }}
                   />
                   {editPhone && <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
                 </div>
@@ -382,7 +382,7 @@ export default function AccountPage() {
                     value={editEmail}
                     onChange={(e) => setEditEmail(e.target.value)}
                     className="w-full px-4 py-2 pr-10 focus:outline-none border-2 border-transparent focus:border-black"
-                    style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}
+                    style={{ border: '1px solid #e5e7eb' }}
                   />
                   {editEmail && <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
                 </div>
@@ -399,7 +399,7 @@ export default function AccountPage() {
                     value={editAddress}
                     onChange={(e) => setEditAddress(e.target.value)}
                     className="w-full px-4 py-2 pr-10 focus:outline-none border-2 border-transparent focus:border-black"
-                    style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}
+                    style={{ border: '1px solid #e5e7eb' }}
                     placeholder="Gata och husnummer"
                   />
                   {editAddress && <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
@@ -414,7 +414,7 @@ export default function AccountPage() {
                       value={editPostalCode}
                       onChange={(e) => setEditPostalCode(e.target.value)}
                       className="w-full px-4 py-2 pr-10 focus:outline-none border-2 border-transparent focus:border-black"
-                      style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}
+                      style={{ border: '1px solid #e5e7eb' }}
                       placeholder="00000"
                     />
                     {editPostalCode && <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
@@ -428,7 +428,7 @@ export default function AccountPage() {
                       value={editCity}
                       onChange={(e) => setEditCity(e.target.value)}
                       className="w-full px-4 py-2 pr-10 focus:outline-none border-2 border-transparent focus:border-black"
-                      style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}
+                      style={{ border: '1px solid #e5e7eb' }}
                       placeholder="Stad"
                     />
                     {editCity && <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
@@ -616,7 +616,7 @@ export default function AccountPage() {
                   Anmäl ett fel
                 </button>
               ) : (
-                <div className="p-4 space-y-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+                <div className="p-4 space-y-4" style={{ border: '1px solid #e5e7eb' }}>
                   <div>
                     <label className="block text-sm font-semibold mb-2">Ditt ordernummer</label>
                     <input
@@ -625,7 +625,7 @@ export default function AccountPage() {
                       onChange={(e) => setComplaintOrderId(e.target.value)}
                       placeholder="Ditt ordernummer"
                       className="w-full px-4 py-2 focus:outline-none"
-                      style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}
+                      style={{ border: '1px solid #e5e7eb' }}
                     />
                   </div>
                   <div>
@@ -636,7 +636,7 @@ export default function AccountPage() {
                       placeholder="Beskriv ditt ärende..."
                       rows={4}
                       className="w-full px-4 py-2 focus:outline-none"
-                      style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}
+                      style={{ border: '1px solid #e5e7eb' }}
                     />
                   </div>
                   <div className="flex gap-2">
