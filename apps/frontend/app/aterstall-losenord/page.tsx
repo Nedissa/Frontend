@@ -15,7 +15,7 @@ function ResetPasswordForm() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  // Fix: ensure page builds correctly on Vercel
+  // Force rebuild: 2026-05-30
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
