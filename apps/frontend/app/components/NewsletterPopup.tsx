@@ -53,8 +53,8 @@ export function NewsletterPopup() {
             {/* Text Content */}
             <div className="mb-6">
               <p className="text-xs text-gray-500 font-semibold tracking-wide mb-3">FÖRSTA GÅNGEN?</p>
-              <h2 className="text-3xl font-bold text-black mb-4">
-                Registrera dig och få 20% rabatt
+              <h2 className="text-2xl font-bold text-black mb-4 whitespace-nowrap">
+                Registrera dig och få 5% rabatt
               </h2>
             </div>
 
