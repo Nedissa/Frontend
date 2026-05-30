@@ -665,7 +665,8 @@ export default function AccountPage() {
 
         {activeTab === 'kundklubb' && (
         <div className="p-6  shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-          <h3 className="text-xl font-bold mb-6">Kundklubb</h3>
+          <h3 className="text-xl font-bold mb-2">Kundklubb</h3>
+          <p className="text-gray-600 mb-6">Som medlem i Techpilots kundklubb får du tillgång till exklusiva priser, erbjudanden från våra partners och förmåner anpassade efter din medlemsnivå. Ju mer du handlar, desto mer får du tillbaka.</p>
           {loadingLoyaltyError && (
             <div className="mb-4 p-4 bg-red-50 text-red-700 rounded">
               {loadingLoyaltyError}
