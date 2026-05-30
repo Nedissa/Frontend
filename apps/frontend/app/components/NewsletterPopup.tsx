@@ -85,7 +85,7 @@ export function NewsletterPopup() {
 
             {/* Description */}
             <p className="text-sm text-gray-600 mb-6">
-              Prenumerera på vårt nyhetsbrev och bli först att höra om nya varor, specialerbjudanden och exklusiva erbjudanden online.
+              Bli medlem
             </p>
 
             {/* Social Links - Footer style */}
