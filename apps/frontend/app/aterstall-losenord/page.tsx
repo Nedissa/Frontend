@@ -15,12 +15,7 @@ function ResetPasswordForm() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-
-  // Push /inlogg to history so back button goes there
-  React.useEffect(() => {
-    window.history.pushState(null, '', '/inlogg');
-    window.history.pushState(null, '', window.location.href);
-  }, []);
+  // Force rebuild: 2026-05-30
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -106,16 +101,9 @@ function ResetPasswordForm() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:opacity-50 rounded-lg"
+                className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:opacity-50"
               >
                 {isLoading ? 'Sparar...' : 'Spara nytt lösenord'}
-              </button>
-              <button
-                type="button"
-                onClick={() => router.push('/inlogg')}
-                className="w-full text-sm text-gray-500 hover:text-black py-2 mt-2"
-              >
-                Tillbaka till inloggning
               </button>
             </form>
           </>
