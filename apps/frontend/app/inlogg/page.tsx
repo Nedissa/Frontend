@@ -165,8 +165,13 @@ export default function LoginPage() {
         <div className="max-w-md w-full flex flex-col items-center">
           <div className="w-full">
             <div className="space-y-6">
+              {/* Reset Password Modal - Overlay */}
+              {showResetModal && (
+                <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4" />
+              )}
+
               {/* Login Form */}
-              {showLogin && (
+              {showLogin && !showResetModal && (
                 <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
                   <div className="flex items-center justify-center gap-1 mb-10">
                     <Logo />
@@ -214,7 +219,7 @@ export default function LoginPage() {
               )}
 
               {/* Registration Form */}
-              {!showLogin && (
+              {!showLogin && !showResetModal && (
                 <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
                   <div className="flex items-center justify-center gap-1 mb-6">
                     <Logo />
@@ -286,39 +291,46 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Återställ lösenord modal */}
-      {showResetModal && (
-        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4">
-          <div className="bg-white p-8 max-w-sm w-full shadow-lg">
-            {resetSent ? (
-              <>
-                <h3 className="text-lg font-bold mb-3">E-post skickad</h3>
-                <p className="text-sm text-gray-600 mb-6">Om e-postadressen finns i vårt system skickar vi instruktioner för att återställa lösenordet.</p>
-                <button onClick={() => setShowResetModal(false)} className="w-full bg-black text-white py-3 text-sm font-semibold hover:bg-gray-800">Stäng</button>
-              </>
-            ) : (
-              <>
-                <h3 className="text-lg font-bold mb-3">Återställ lösenord</h3>
-                <p className="text-sm text-gray-600 mb-6">Ange din e-postadress så skickar vi en återställningslänk.</p>
-                <form onSubmit={handleResetPassword} className="space-y-4">
-                  <input
-                    type="email"
-                    value={resetEmail}
-                    onChange={(e) => setResetEmail(e.target.value)}
-                    placeholder="din@epost.se"
-                    required
-                    className="w-full px-4 py-3 bg-gray-100 text-sm outline-none"
-                  />
-                  <button type="submit" disabled={resetLoading} className="w-full bg-black text-white py-3 text-sm font-semibold hover:bg-gray-800 disabled:opacity-50">
-                    {resetLoading ? 'Skickar...' : 'Skicka återställningslänk'}
-                  </button>
-                  <button type="button" onClick={() => setShowResetModal(false)} className="w-full text-sm text-gray-500 hover:text-black">Avbryt</button>
-                </form>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+              {/* Reset Password Form */}
+              {showResetModal && (
+                <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+                  <div className="flex items-center justify-center gap-1 mb-10">
+                    <Logo />
+                    <span className="text-2xl font-bold">Techpilots</span>
+                  </div>
+                  {resetSent ? (
+                    <>
+                      <h3 className="text-lg font-bold mb-3">E-post skickad</h3>
+                      <p className="text-sm text-gray-600 mb-6">Om e-postadressen finns i vårt system skickar vi instruktioner för att återställa lösenordet.</p>
+                      <button onClick={() => setShowResetModal(false)} className="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800">Stäng</button>
+                    </>
+                  ) : (
+                    <>
+                      <h3 className="text-lg font-bold mb-6">Återställ lösenord</h3>
+                      <p className="text-sm text-gray-600 mb-6">Ange din e-postadress så skickar vi en återställningslänk.</p>
+                      <form onSubmit={handleResetPassword} className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-semibold mb-2">E-postadress</label>
+                          <input
+                            type="email"
+                            value={resetEmail}
+                            onChange={(e) => setResetEmail(e.target.value)}
+                            placeholder="din@epost.se"
+                            required
+                            className="w-full px-4 py-3 bg-gray-100 text-sm outline-none rounded-lg"
+                          />
+                        </div>
+                        <button type="submit" disabled={resetLoading} className="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800 mt-6 disabled:opacity-50 disabled:cursor-not-allowed">
+                          {resetLoading ? 'Skickar...' : 'Skicka återställningslänk'}
+                        </button>
+                      </form>
+                      <div className="text-center mt-4">
+                        <button type="button" onClick={() => setShowResetModal(false)} className="text-xs text-gray-500 hover:text-black">Avbryt</button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
       </div>
     </MainLayout>
   );
