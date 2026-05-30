@@ -95,40 +95,39 @@ export default async function Home() {
           </div>
           {products.length > 0 && (
             <>
-              {popularProducts.length > 0 && (
-                <div className="px-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Populära produkter</h2>
-                  <div className="grid grid-cols-4 gap-6 py-6">
-                    {popularProducts.map((product) => (
-                      <ProductCard key={product.id} product={product} variant="popular" />
-                    ))}
-                  </div>
+              <div className="px-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Populära produkter</h2>
+                <div className="grid grid-cols-4 gap-6 py-6">
+                  {(popularProducts.length > 0 ? popularProducts : products.slice(0, 4)).map((product) => (
+                    <ProductCard key={product.id} product={product} variant="popular" />
+                  ))}
                 </div>
-              )}
+              </div>
               <div className="px-6">
                 <ProductBanner />
               </div>
-              {recommendedProducts.length > 0 && (
-                <div className="px-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Rekommenderade produkter</h2>
-                  <div className="grid grid-cols-4 gap-6 py-6">
-                    {recommendedProducts.map((product) => (
-                      <ProductCard key={product.id} product={product} variant="recommended" />
-                    ))}
-                  </div>
+              <div className="px-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Rekommenderade produkter</h2>
+                <div className="grid grid-cols-4 gap-6 py-6">
+                  {(recommendedProducts.length > 0 ? recommendedProducts : products.slice(4, 8)).map((product) => (
+                    <ProductCard key={product.id} product={product} variant="recommended" />
+                  ))}
                 </div>
-              )}
-              {newProducts.length > 0 && (
-                <div className="px-6">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">Nya produkter</h2>
-                  <div className="grid grid-cols-4 gap-6 py-6">
-                    {newProducts.map((product) => (
-                      <ProductCard key={product.id} product={product} variant="new" />
-                    ))}
-                  </div>
+              </div>
+              <div className="px-6">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Nya produkter</h2>
+                <div className="grid grid-cols-4 gap-6 py-6">
+                  {(newProducts.length > 0 ? newProducts : products.slice(8, 12)).map((product) => (
+                    <ProductCard key={product.id} product={product} variant="new" />
+                  ))}
                 </div>
-              )}
+              </div>
             </>
+          )}
+          {products.length === 0 && (
+            <div className="px-6 text-center py-12">
+              <p className="text-gray-600">Inga produkter tillgängliga just nu.</p>
+            </div>
           )}
           <div className="-mx-6">
             <CallToAction />
