@@ -13,7 +13,7 @@ async function fetchKontoData(token: string): Promise<KontoData | null> {
 
   // Fetch customer + orders in parallel
   const [meRes, ordersRes] = await Promise.allSettled([
-    fetch(`${MEDUSA_URL}/store/customers/me`, { headers: storeHeaders }),
+    fetch(`${MEDUSA_URL}/store/customers/me?fields=*metadata`, { headers: storeHeaders }),
     fetch(`${MEDUSA_URL}/store/orders?limit=5`, { headers: storeHeaders }),
   ]);
 
@@ -40,7 +40,14 @@ async function fetchKontoData(token: string): Promise<KontoData | null> {
     },
     orders: [],
     complaints: [],
-    loyalty: metadata.loyalty || null,
+    loyalty: metadata.loyalty || {
+      current_tier: 'Brons',
+      total_points: 0,
+      points_to_next_tier: 500,
+      lifetime_orders: 0,
+      lifetime_spend: 0,
+      member_since: new Date().toISOString(),
+    },
     addresses: customer.addresses || [],
     favoriteProducts: metadata.wishlist || [],
   };
