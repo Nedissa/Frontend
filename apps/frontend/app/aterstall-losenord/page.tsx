@@ -45,7 +45,6 @@ function ResetPasswordForm() {
       }
 
       setSuccess(true);
-      setTimeout(() => router.replace('/inlogg'), 3000);
     } catch {
       setError('Ett fel uppstod. Försök igen.');
     } finally {
@@ -63,8 +62,14 @@ function ResetPasswordForm() {
 
         {success ? (
           <div className="text-center">
-            <p className="font-semibold text-lg mb-2">Lösenord uppdaterat!</p>
-            <p className="text-sm text-gray-500">Du skickas vidare till inloggningssidan...</p>
+            <p className="font-semibold text-lg mb-4">Lösenord uppdaterat!</p>
+            <p className="text-sm text-gray-600 mb-6">Ditt lösenord har uppdaterats. Gå till inloggningssidan för att logga in med ditt nya lösenord.</p>
+            <button
+              onClick={() => router.push('/inlogg')}
+              className="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800"
+            >
+              Gå till inloggning
+            </button>
           </div>
         ) : (
           <>
