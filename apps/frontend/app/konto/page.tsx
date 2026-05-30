@@ -33,7 +33,7 @@ export default function AccountPage() {
   const [editingAddressId, setEditingAddressId] = useState<string | null>(null);
   const [favoriteProducts, setFavoriteProducts] = useState<ProductData[]>([]);
   const [complaints, setComplaints] = useState<any[]>([]);
-  const [loadingComplaints, setLoadingComplaints] = useState(true);
+  const [loadingComplaints, setLoadingComplaints] = useState(false);
   const [loyalty, setLoyalty] = useState<any>(null);
   const [orders, setOrders] = useState<any[]>([]);
   const [loadingComplaintsError, setLoadingComplaintsError] = useState('');
@@ -103,43 +103,30 @@ export default function AccountPage() {
         console.error('Session verification failed:', error);
       }
 
-      // Load orders from Medusa
-      try {
-        const response = await fetch('/api/orders');
-        if (response.ok) {
-          const data = await response.json();
-          setOrders(data.orders || []);
-        }
-      } catch (error) {
-        console.error('Failed to load orders:', error);
-        setLoadingOrdersError('Kunde inte ladda orderhistorik');
+      // Load orders, complaints and loyalty in parallel
+      const [ordersRes, complaintsRes, loyaltyRes] = await Promise.allSettled([
+        fetch('/api/orders'),
+        fetch('/api/complaints'),
+        fetch('/api/loyalty'),
+      ]);
+
+      if (ordersRes.status === 'fulfilled' && ordersRes.value.ok) {
+        const data = await ordersRes.value.json();
+        setOrders(data.orders || []);
       }
 
-      // Load complaints from Medusa
-      try {
-        const response = await fetch('/api/complaints');
-        if (response.ok) {
-          const data = await response.json();
-          setComplaints(data.complaints || []);
-        }
-      } catch (error) {
-        console.error('Failed to load complaints:', error);
-      } finally {
-        setLoadingComplaints(false);
+      if (complaintsRes.status === 'fulfilled' && complaintsRes.value.ok) {
+        const data = await complaintsRes.value.json();
+        setComplaints(data.complaints || []);
       }
 
-      // Load loyalty from Medusa
-      try {
-        const response = await fetch('/api/loyalty');
-        if (response.ok) {
-          const data = await response.json();
+      if (loyaltyRes.status === 'fulfilled') {
+        if (loyaltyRes.value.ok) {
+          const data = await loyaltyRes.value.json();
           setLoyalty(data.loyalty || {});
         } else {
           setLoyalty({});
         }
-      } catch (error) {
-        console.error('Failed to load loyalty data:', error);
-        setLoyalty({});
       }
 
       // Load addresses
