@@ -56,23 +56,6 @@ export default function LoginPage() {
       const data = await response.json();
       const customer = data.customer;
 
-      localStorage.setItem('userData', JSON.stringify({
-        id: customer.id,
-        firstName: customer.first_name,
-        lastName: customer.last_name,
-        email: customer.email,
-      }));
-
-      try {
-        const favoritesResponse = await fetch(`/api/favorites?customer_id=${customer.id}`);
-        if (favoritesResponse.ok) {
-          const favoritesData = await favoritesResponse.json();
-          localStorage.setItem('favoritesList', JSON.stringify(favoritesData.wishlist || []));
-        }
-      } catch (error) {
-        console.error('Failed to load favorites:', error);
-      }
-
       window.dispatchEvent(new Event('userLogin'));
       const dest = sessionStorage.getItem('preLoginPath') || '/konto';
       sessionStorage.removeItem('preLoginPath');
@@ -119,16 +102,6 @@ export default function LoginPage() {
       }
 
       const data = await loginResponse.json();
-      const customer = data.customer;
-
-      localStorage.setItem('userData', JSON.stringify({
-        id: customer.id,
-        firstName: customer.first_name,
-        lastName: customer.last_name,
-        email: customer.email,
-      }));
-
-      localStorage.setItem('favoritesList', JSON.stringify([]));
 
       window.dispatchEvent(new Event('userLogin'));
       const dest = sessionStorage.getItem('preLoginPath') || '/konto';
