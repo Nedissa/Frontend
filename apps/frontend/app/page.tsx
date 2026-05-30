@@ -24,19 +24,61 @@ function CampaignBannersSection() {
 
 async function fetchProductsFromAPI() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/products?limit=100`, {
-      next: { revalidate: 60 },
-    });
+    const medusaUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
+    const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '';
+    const regionId = process.env.NEXT_PUBLIC_MEDUSA_REGION_ID || '';
 
-    if (!response.ok) {
-      return [];
-    }
+    const response = await fetch(
+      `${medusaUrl}/store/products?limit=100&region_id=${regionId}&fields=*variants.prices,*collection`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'x-publishable-api-key': publishableKey,
+        },
+        next: { revalidate: 60 },
+      }
+    );
+
+    if (!response.ok) return [];
 
     const data = await response.json();
     const products = data.products || [];
 
-    return products;
+    return products.map((product: any) => {
+      let imageUrl = product.images?.[0]?.url || product.thumbnail || '';
+      imageUrl = imageUrl.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se');
+
+      let price = 0;
+      if (product.variants?.[0]?.calculated_price?.calculated_amount !== undefined) {
+        price = product.variants[0].calculated_price.calculated_amount;
+      } else if (product.variants?.[0]?.prices?.[0]?.amount) {
+        price = product.variants[0].prices[0].amount;
+      }
+
+      const collectionHandle = product.collection?.handle || '';
+      const collectionTitle = product.collection?.title || '';
+      let sectionCategory = '';
+      if (collectionTitle === 'Populära produkter' || collectionHandle === 'populara-produkter') sectionCategory = 'populär';
+      else if (collectionTitle === 'Rekommenderade produkter' || collectionHandle === 'rekommenderade-produkter') sectionCategory = 'rekommenderad';
+      else if (collectionTitle === 'Nya produkter' || collectionHandle === 'nya-produkter') sectionCategory = 'ny';
+      else if (collectionTitle === 'Du kanske också gillar' || collectionHandle === 'du-kanske-ocksa-gillar') sectionCategory = 'också-gillar';
+
+      return {
+        id: product.id,
+        title: product.title,
+        handle: product.handle,
+        price,
+        image: imageUrl,
+        images: (product.images?.map((img: any) => img.url?.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se') || '') || []).slice(0, 3),
+        brand: product.brand || '',
+        stock: product.stock || 'I lager',
+        rating: product.rating || 0,
+        reviews: product.reviews || 0,
+        features: product.features || [],
+        isNew: product.isNew || false,
+        sectionCategory,
+      };
+    });
   } catch (error) {
     return [];
   }
