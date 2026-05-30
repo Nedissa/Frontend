@@ -165,11 +165,6 @@ export default function LoginPage() {
         <div className="max-w-md w-full flex flex-col items-center">
           <div className="w-full">
             <div className="space-y-6">
-              {/* Reset Password Modal - Overlay */}
-              {showResetModal && (
-                <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4" />
-              )}
-
               {/* Login Form */}
               {showLogin && !showResetModal && (
                 <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
@@ -291,9 +286,11 @@ export default function LoginPage() {
         </div>
       </div>
 
-              {/* Reset Password Form */}
+              {/* Reset Password Form - only shown if modal is open */}
               {showResetModal && (
-                <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+                <>
+                  <div className="fixed inset-0 bg-black/40 z-40" />
+                  <div className="relative z-50 p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
                   <div className="flex items-center justify-center gap-1 mb-10">
                     <Logo />
                     <span className="text-2xl font-bold">Techpilots</span>
@@ -329,7 +326,8 @@ export default function LoginPage() {
                       </div>
                     </>
                   )}
-                </div>
+                  </div>
+                </>
               )}
       </div>
     </MainLayout>
