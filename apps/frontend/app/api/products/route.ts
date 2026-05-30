@@ -13,7 +13,7 @@ export async function GET() {
 
     // Fetch products with publishable API key
     const response = await fetch(
-      `${medusaUrl}/store/products?limit=100&region_id=${regionId}&fields=*variants.prices`,
+      `${medusaUrl}/store/products?limit=100&region_id=${regionId}&fields=*variants.prices,*collection`,
       {
         method: 'GET',
         headers: {
@@ -66,11 +66,12 @@ export async function GET() {
       // Hämta sectionCategory från product.collection.title
       let sectionCategory = '';
       const collectionTitle = product.collection?.title || '';
-      if (collectionTitle === 'Populära produkter') sectionCategory = 'populär';
-      else if (collectionTitle === 'Rekommenderade produkter') sectionCategory = 'rekommenderad';
-      else if (collectionTitle === 'Nya produkter') sectionCategory = 'ny';
-      else if (collectionTitle === 'Du kanske också gillar') sectionCategory = 'också-gillar';
-      else if (collectionTitle === 'Relaterade produkter') sectionCategory = 'relaterad';
+      const collectionHandle = product.collection?.handle || '';
+      if (collectionTitle === 'Populära produkter' || collectionHandle === 'populara-produkter') sectionCategory = 'populär';
+      else if (collectionTitle === 'Rekommenderade produkter' || collectionHandle === 'rekommenderade-produkter') sectionCategory = 'rekommenderad';
+      else if (collectionTitle === 'Nya produkter' || collectionHandle === 'nya-produkter') sectionCategory = 'ny';
+      else if (collectionTitle === 'Du kanske också gillar' || collectionHandle === 'du-kanske-ocksa-gillar') sectionCategory = 'också-gillar';
+      else if (collectionTitle === 'Relaterade produkter' || collectionHandle === 'relaterade-produkter') sectionCategory = 'relaterad';
 
       // Calculate discount percentage if we have both prices
       let discountPercent = undefined;
