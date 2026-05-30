@@ -678,7 +678,6 @@ export default function AccountPage() {
               {/* Tier progress stepper */}
               <div>
                 <p className="font-semibold text-lg mb-1">{loyalty.total_points >= 3000 ? 'Platinum' : loyalty.total_points >= 1500 ? 'Guld' : loyalty.total_points >= 500 ? 'Silver' : 'Brons'}-medlem</p>
-                <p className="text-sm text-gray-500 mb-6">Dina poäng: {loyalty.total_points}</p>
                 {(() => {
                   const tiers = [
                     { name: 'Brons', threshold: 0 },
@@ -690,12 +689,10 @@ export default function AccountPage() {
                   const totalMax = 3000;
                   const progress = Math.min(100, (points / totalMax) * 100);
                   return (
-                    <div className="relative">
-                      {/* Track */}
+                    <div className="relative mb-6">
                       <div className="w-full bg-gray-300 h-2 rounded-full mb-2">
                         <div className="h-2 bg-black rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
                       </div>
-                      {/* Step markers */}
                       <div className="relative" style={{ marginTop: '-22px', height: '52px' }}>
                         {tiers.map((tier, i) => {
                           const reached = points >= tier.threshold;
@@ -709,7 +706,6 @@ export default function AccountPage() {
                                 {reached && <span className="w-2 h-2 bg-white rounded-full block" />}
                               </div>
                               <span className={`text-xs font-semibold mt-2 ${isCurrent ? 'text-black' : 'text-gray-400'}`}>{tier.name}</span>
-                              <span className="text-xs text-gray-400">{tier.threshold === 0 ? '0' : tier.threshold.toLocaleString('sv-SE')} p</span>
                             </div>
                           );
                         })}
@@ -792,20 +788,6 @@ export default function AccountPage() {
                       </div>
                     );
                   })}
-                </div>
-              </div>
-
-              <div style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }} className="p-5">
-                <h4 className="font-semibold mb-4">Din aktivitet</h4>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-sm text-gray-500">Totala köp</p>
-                    <p className="font-semibold text-lg">{loyalty.lifetime_orders} beställningar</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-500">Totalt värde</p>
-                    <p className="font-semibold text-lg">{(loyalty.lifetime_spend / 100).toLocaleString('sv-SE')} SEK</p>
-                  </div>
                 </div>
               </div>
 
