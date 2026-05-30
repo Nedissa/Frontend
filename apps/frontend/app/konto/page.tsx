@@ -738,7 +738,7 @@ export default function AccountPage() {
                   <p className="font-semibold">Beställning #{complaint.order_id}</p>
                   <p className="text-sm text-gray-600 mt-1">{complaint.description}</p>
                   <p className="text-sm font-semibold mt-2">
-                    Status: <span className="text-blue-600">{complaint.status}</span>
+                    Status: <span className="text-blue-600">{complaint.status === 'open' ? 'Öppen' : complaint.status === 'closed' ? 'Stängd' : complaint.status}</span>
                   </p>
                 </div>
               ))}
