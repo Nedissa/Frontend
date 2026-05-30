@@ -269,28 +269,9 @@ export default function LoginPage() {
                 </div>
               )}
 
-              {/* Toggle */}
-              <div className="text-center">
-                <p className="text-gray-600 mb-4">
-                  {showLogin ? 'Har du inget konto?' : 'Redan medlem?'}
-                </p>
-                <button
-                  onClick={() => setShowLogin(!showLogin)}
-                  className="text-black font-semibold"
-                >
-                  {showLogin ? 'Skapa ett här' : 'Logga in här'}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-              {/* Reset Password Form - only shown if modal is open */}
+              {/* Reset Password Form */}
               {showResetModal && (
-                <>
-                  <div className="fixed inset-0 bg-black/40 z-40" />
-                  <div className="relative z-50 p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+                <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
                   <div className="flex items-center justify-center gap-1 mb-10">
                     <Logo />
                     <span className="text-2xl font-bold">Techpilots</span>
@@ -326,9 +307,27 @@ export default function LoginPage() {
                       </div>
                     </>
                   )}
-                  </div>
-                </>
+                </div>
               )}
+
+              {/* Toggle */}
+              {!showResetModal && (
+                <div className="text-center">
+                  <p className="text-gray-600 mb-4">
+                    {showLogin ? 'Har du inget konto?' : 'Redan medlem?'}
+                  </p>
+                  <button
+                    onClick={() => setShowLogin(!showLogin)}
+                    className="text-black font-semibold"
+                  >
+                    {showLogin ? 'Skapa ett här' : 'Logga in här'}
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
       </div>
     </MainLayout>
   );
