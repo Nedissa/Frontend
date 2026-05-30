@@ -24,8 +24,7 @@ function CampaignBannersSection() {
 
 async function fetchProductsFromAPI() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-    const response = await fetch(`${baseUrl}/api/products?limit=100`, {
+    const response = await fetch(`/api/products?limit=100`, {
       next: { revalidate: 60 },
     });
 
