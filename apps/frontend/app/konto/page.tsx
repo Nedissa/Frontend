@@ -41,7 +41,7 @@ export default function AccountPage() {
   const [saveMessage, setSaveMessage] = useState('');
   const [saveError, setSaveError] = useState('');
   const [isSaved, setIsSaved] = useState(false);
-  const [showComplaintForm, setShowComplaintForm] = useState(false);
+  const [showComplaintForm, setShowComplaintForm] = useState(true);
   const [complaintOrderId, setComplaintOrderId] = useState('');
   const [complaintDescription, setComplaintDescription] = useState('');
   const addressInputRef = useRef<HTMLInputElement>(null);
