@@ -1,42 +1,38 @@
 import { cookies } from "next/headers"
 
+const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
+const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '';
+
 export async function GET() {
   try {
     const cookieStore = await cookies()
-    const authToken = cookieStore.get("medusa_token")?.value
+    const token = cookieStore.get("medusa_token")?.value
 
-    if (!authToken) {
-      return Response.json({ complaints: [] })
-    }
+    if (!token) return Response.json({ complaints: [] })
 
-    const backendUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
-    const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
-
-    const customerRes = await fetch(`${backendUrl}/store/customers/me`, {
+    // Get customer id
+    const meRes = await fetch(`${MEDUSA_URL}/store/customers/me`, {
       headers: {
-        Authorization: `Bearer ${authToken}`,
-        "x-publishable-api-key": publishableKey!,
+        'Authorization': `Bearer ${token}`,
+        'x-publishable-api-key': PUBLISHABLE_KEY,
       },
     })
 
-    if (!customerRes.ok) return Response.json({ complaints: [] })
+    if (!meRes.ok) return Response.json({ complaints: [] })
 
-    const customerData = await customerRes.json()
-    const customerId = customerData.customer?.id || customerData.id
+    const meData = await meRes.json()
+    const customerId = meData.customer?.id || meData.id
 
-    const complaintsRes = await fetch(
-      `${backendUrl}/store/complaints?customer_id=${customerId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          "x-publishable-api-key": publishableKey!,
-        },
-      }
-    )
+    const res = await fetch(`${MEDUSA_URL}/store/complaints?customer_id=${customerId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'x-publishable-api-key': PUBLISHABLE_KEY,
+      },
+    })
 
-    if (!complaintsRes.ok) return Response.json({ complaints: [] })
+    if (!res.ok) return Response.json({ complaints: [] })
 
-    const data = await complaintsRes.json()
+    const data = await res.json()
     return Response.json({ complaints: data.complaints || [] })
   } catch (error) {
     return Response.json({ complaints: [] })
@@ -48,85 +44,42 @@ export async function POST(req: Request) {
     const { order_id, description } = await req.json()
 
     if (!order_id || !description) {
-      return Response.json(
-        { error: "Order ID and description are required" },
-        { status: 400 }
-      )
+      return Response.json({ error: "Order ID and description are required" }, { status: 400 })
     }
 
     const cookieStore = await cookies()
-    const authToken = cookieStore.get("medusa_token")?.value
+    const token = cookieStore.get("medusa_token")?.value
 
-    if (!authToken) {
-      return Response.json(
-        { error: "Not authenticated" },
-        { status: 401 }
-      )
-    }
+    if (!token) return Response.json({ error: "Not authenticated" }, { status: 401 })
 
-    const backendUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL
-    const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY
+    // Get customer id
+    const meRes = await fetch(`${MEDUSA_URL}/store/customers/me`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'x-publishable-api-key': PUBLISHABLE_KEY,
+      },
+    })
 
-    if (!backendUrl || !publishableKey) {
-      return Response.json(
-        { error: "Backend configuration missing" },
-        { status: 500 }
-      )
-    }
+    if (!meRes.ok) return Response.json({ error: "Failed to authenticate" }, { status: 401 })
 
-    // Get customer info
-    const getResponse = await fetch(
-      `${backendUrl}/store/customers/me`,
-      {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          "x-publishable-api-key": publishableKey,
-        },
-      }
-    )
+    const meData = await meRes.json()
+    const customerId = meData.customer?.id || meData.id
 
-    if (!getResponse.ok) {
-      return Response.json(
-        { error: "Failed to authenticate" },
-        { status: 401 }
-      )
-    }
+    const res = await fetch(`${MEDUSA_URL}/store/complaints`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'x-publishable-api-key': PUBLISHABLE_KEY,
+      },
+      body: JSON.stringify({ customer_id: customerId, order_id, description }),
+    })
 
-    const customerData = await getResponse.json()
-    const customerId = customerData.customer?.id || customerData.id
+    if (!res.ok) return Response.json({ error: "Failed to save complaint" }, { status: res.status })
 
-    // Save complaint via Store API
-    const complaintResponse = await fetch(
-      `${backendUrl}/store/complaints`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-          "x-publishable-api-key": publishableKey,
-        },
-        body: JSON.stringify({
-          customer_id: customerId,
-          order_id,
-          description,
-        }),
-      }
-    )
-
-    if (!complaintResponse.ok) {
-      return Response.json(
-        { error: "Failed to save complaint" },
-        { status: complaintResponse.status }
-      )
-    }
-
-    const complaintData = await complaintResponse.json()
-    return Response.json({ complaint: complaintData.complaint }, { status: 201 })
+    const data = await res.json()
+    return Response.json({ complaint: data.complaint }, { status: 201 })
   } catch (error) {
-    console.error("Complaint API error:", error)
-    return Response.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    )
+    return Response.json({ error: "Internal server error" }, { status: 500 })
   }
 }
