@@ -32,7 +32,13 @@ export default function AccountPage() {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [editingAddressId, setEditingAddressId] = useState<string | null>(null);
   const [favoriteProducts, setFavoriteProducts] = useState<ProductData[]>([]);
-  const [complaints, setComplaints] = useState<any[]>([]);
+  const [complaints, setComplaints] = useState<any[]>(() => {
+    if (typeof window !== 'undefined') {
+      const cached = localStorage.getItem('complaints');
+      return cached ? JSON.parse(cached) : [];
+    }
+    return [];
+  });
   const [loadingComplaints, setLoadingComplaints] = useState(false);
   const [loyalty, setLoyalty] = useState<any>(null);
   const [orders, setOrders] = useState<any[]>([]);
@@ -117,7 +123,9 @@ export default function AccountPage() {
 
       if (complaintsRes.status === 'fulfilled' && complaintsRes.value.ok) {
         const data = await complaintsRes.value.json();
-        setComplaints(data.complaints || []);
+        const complaintsData = data.complaints || [];
+        setComplaints(complaintsData);
+        localStorage.setItem('complaints', JSON.stringify(complaintsData));
       }
 
       if (loyaltyRes.status === 'fulfilled') {
