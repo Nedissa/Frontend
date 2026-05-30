@@ -19,14 +19,6 @@ export default function LoginPage() {
       const ref = new URL(document.referrer);
       returnPath.current = ref.pathname + ref.search + ref.hash;
     }
-
-    // Check if reset modal should be open from URL
-    const searchParams = new URLSearchParams(window.location.search);
-    if (searchParams.get('reset') === 'true') {
-      setShowResetModal(true);
-      setResetSent(false);
-      setResetEmail('');
-    }
   }, []);
   const [showLogin, setShowLogin] = useState(true);
   const [email, setEmail] = useState('');
