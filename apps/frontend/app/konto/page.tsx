@@ -21,7 +21,12 @@ export default function AccountPage() {
   const [postalCode, setPostalCode] = useState(firstAddress?.postal_code || '');
   const [city, setCity] = useState(firstAddress?.city || '');
   const [addressPhone, setAddressPhone] = useState(firstAddress?.phone || '');
-  const [activeTab, setActiveTab] = useState('profil');
+  const [activeTab, setActiveTab] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('accountTab') || 'profil';
+    }
+    return 'profil';
+  });
   const [isHydrated, setIsHydrated] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [editFirstName, setEditFirstName] = useState(kontoData?.profile?.firstName || '');
@@ -65,10 +70,6 @@ export default function AccountPage() {
     editCity !== city ||
     editAddressPhone !== addressPhone;
 
-  useEffect(() => {
-    const savedTab = localStorage.getItem('accountTab');
-    if (savedTab) setActiveTab(savedTab);
-  }, []);
 
   const handleLogout = async () => {
     try {
