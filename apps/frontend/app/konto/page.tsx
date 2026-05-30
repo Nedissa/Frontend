@@ -755,22 +755,22 @@ export default function AccountPage() {
               ) : (
                 <div className="p-4 space-y-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                   <div>
-                    <label className="block text-sm font-semibold mb-2">Ordernummer</label>
+                    <label className="block text-sm font-semibold mb-2">Ditt ordernummer</label>
                     <input
                       type="text"
                       value={complaintOrderId}
                       onChange={(e) => setComplaintOrderId(e.target.value)}
-                      placeholder="t.ex. #12345"
+                      placeholder="Ditt ordernummer"
                       className="w-full px-4 py-2 focus:outline-none"
                       style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold mb-2">Beskrivning av problemet</label>
+                    <label className="block text-sm font-semibold mb-2">Meddelande</label>
                     <textarea
                       value={complaintDescription}
                       onChange={(e) => setComplaintDescription(e.target.value)}
-                      placeholder="Beskriv vad som gick fel..."
+                      placeholder="Beskriv ditt ärende..."
                       rows={4}
                       className="w-full px-4 py-2 focus:outline-none"
                       style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}
