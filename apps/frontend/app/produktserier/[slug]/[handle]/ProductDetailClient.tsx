@@ -192,7 +192,7 @@ export default function ProductDetailClient({
               <h3 className="text-sm font-semibold text-gray-900 mb-4">Snabbfakta</h3>
               <div className="border-b border-gray-200 pb-4 mb-4">
                 <div className="grid grid-cols-2 gap-8">
-                  {productDetails.highlights.map((item: { value: string; label: string }, idx) => (
+                  {productDetails.highlights.map((item: { value: string; label: string }, idx: number) => (
                     <div key={idx} className="flex items-start gap-3">
                       <div
                         className="flex-shrink-0 text-black text-xl flex items-center justify-center"
