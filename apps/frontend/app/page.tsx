@@ -5,6 +5,8 @@ import { MainLayout } from './components/MainLayout';
 import { NewsletterPopup } from './components/NewsletterPopup';
 import { HeroCarouselClient } from './components/HeroCarouselClient';
 
+export const revalidate = 60;
+
 const FEATURED_COLLECTIONS = [
   { title: 'Gaming Laptops', handle: 'gaming-laptops' },
   { title: 'Datorkomponenter', handle: 'datorkomponenter' },

@@ -1,6 +1,12 @@
 import { MainLayout } from '@/app/components/MainLayout';
 import { ProductSeriesContent } from './ProductSeriesContent';
-import { getCategoryTitle, getBreadcrumbTrail } from '@/app/lib/products';
+import { getCategoryTitle, getBreadcrumbTrail, MAIN_CATEGORIES } from '@/app/lib/products';
+
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  return Object.keys(MAIN_CATEGORIES).map(slug => ({ slug }));
+}
 
 interface PageProps {
   params: Promise<{

@@ -2,6 +2,12 @@ import { MainLayout } from '@/app/components/MainLayout';
 import { Breadcrumb } from '@/app/components/Breadcrumb';
 import { MAIN_CATEGORIES } from '@/app/lib/products';
 
+export const revalidate = false;
+
+export async function generateStaticParams() {
+  return Object.keys(MAIN_CATEGORIES).map(slug => ({ slug }));
+}
+
 interface PageProps {
   params: Promise<{
     slug: string;
