@@ -21,13 +21,8 @@ export default function AccountPage() {
   const [postalCode, setPostalCode] = useState(firstAddress?.postal_code || '');
   const [city, setCity] = useState(firstAddress?.city || '');
   const [addressPhone, setAddressPhone] = useState(firstAddress?.phone || '');
-  const [activeTab, setActiveTab] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('accountTab') || 'profil';
-    }
-    return 'profil';
-  });
-  const [isHydrated, setIsHydrated] = useState(true);
+  const [activeTab, setActiveTab] = useState('profil');
+  const [isHydrated, setIsHydrated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [editFirstName, setEditFirstName] = useState(kontoData?.profile?.firstName || '');
   const [editLastName, setEditLastName] = useState(kontoData?.profile?.lastName || '');
@@ -70,6 +65,12 @@ export default function AccountPage() {
     editCity !== city ||
     editAddressPhone !== addressPhone;
 
+
+  useEffect(() => {
+    const saved = localStorage.getItem('accountTab') || 'profil';
+    setActiveTab(saved);
+    setIsHydrated(true);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -235,6 +236,8 @@ export default function AccountPage() {
 
 
 
+
+  if (!isHydrated) return <MainLayout bordered={false}><div className="w-full max-w-4xl mx-auto px-6 py-16" /></MainLayout>;
 
   return (
     <MainLayout bordered={false}>
