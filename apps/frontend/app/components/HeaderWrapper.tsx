@@ -589,7 +589,7 @@ export function HeaderWrapper() {
   const getActiveCategory = () => MENU_DATA.find(cat => cat.id === activeMegaMenu);
 
   return (
-    <header className={`sticky top-0 left-0 right-0 w-full bg-white z-40 transition-transform ${
+    <header suppressHydrationWarning className={`sticky top-0 left-0 right-0 w-full bg-white z-40 transition-transform ${
       isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
     }`}>
       {/* Search bar section */}
