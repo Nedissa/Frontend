@@ -216,7 +216,7 @@ const MENU_DATA: MenuCategory[] = [
       },
       {
         id: 'mobil-tillbehor',
-        title: 'Mobil Tillbehör',
+        title: 'Mobiltillbehör',
         url: '/produkter',
         icon: <MobilTillbehorIcon />,
         items: [
