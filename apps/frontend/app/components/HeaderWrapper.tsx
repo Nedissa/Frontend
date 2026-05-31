@@ -396,15 +396,10 @@ export function HeaderWrapper() {
       }
     }
 
-    // Check if user is logged in
-    const checkLoginStatus = async () => {
-      try {
-        const res = await fetch('/api/auth/check');
-        const data = await res.json();
-        setIsLoggedIn(data.isLoggedIn);
-      } catch {
-        setIsLoggedIn(false);
-      }
+    // Check if user is logged in via cookie (instant, no API call)
+    const checkLoginStatus = () => {
+      const isLoggedIn = document.cookie.includes('is_logged_in=1');
+      setIsLoggedIn(isLoggedIn);
     };
 
     checkLoginStatus();
