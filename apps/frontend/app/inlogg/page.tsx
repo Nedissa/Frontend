@@ -61,6 +61,7 @@ export default function LoginPage() {
       sessionStorage.removeItem('preLoginPath');
       sessionStorage.removeItem('preLoginScrollY');
       router.push(dest);
+      router.refresh();
     } catch (error) {
       console.error('Login error:', error);
       setLoginError('Ett fel uppstod. Försök igen senare.');
@@ -108,6 +109,7 @@ export default function LoginPage() {
       sessionStorage.removeItem('preLoginPath');
       sessionStorage.removeItem('preLoginScrollY');
       router.push(dest);
+      router.refresh();
     } catch (error) {
       console.error('Registration error:', error);
       setLoginError('Ett fel uppstod. Försök igen senare.');

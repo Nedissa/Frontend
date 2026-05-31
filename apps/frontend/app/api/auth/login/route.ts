@@ -82,12 +82,12 @@ export async function POST(request: Request) {
     // Set httpOnly cookie with token
     response.headers.append(
       'Set-Cookie',
-      `medusa_token=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=604800`
+      `medusa_token=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800`
     );
     // Set non-httpOnly cookie for client-side login state detection
     response.headers.append(
       'Set-Cookie',
-      `is_logged_in=1; Path=/; SameSite=Strict; Max-Age=604800`
+      `is_logged_in=1; Path=/; SameSite=Lax; Max-Age=604800`
     );
 
     return response;
