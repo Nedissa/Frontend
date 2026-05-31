@@ -44,14 +44,18 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
           touchStartX.current = null;
         }}
       >
-        <img
-          src={heroImages[currentIndex]}
-          alt={currentCollection.title}
-          className="absolute inset-0 w-full h-full object-cover"
-          width={1280}
-          height={484}
-          fetchPriority="high"
-        />
+        {heroImages.map((src, i) => (
+          <img
+            key={src}
+            src={src}
+            alt={collections[i]?.title || ''}
+            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+            style={{ opacity: i === currentIndex ? 1 : 0 }}
+            width={1280}
+            height={484}
+            fetchPriority={i === 0 ? 'high' : 'low'}
+          />
+        ))}
         <div className="absolute inset-0 bg-black/30"></div>
 
         <div className="absolute bottom-6 right-6 flex items-center gap-4" onClick={(e) => e.stopPropagation()}>
