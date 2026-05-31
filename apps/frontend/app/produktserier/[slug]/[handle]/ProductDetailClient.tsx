@@ -142,14 +142,6 @@ export default function ProductDetailClient({
     }
   };
 
-  const defaultHighlights = [
-    { value: 'Högkvalitativ produkt', label: 'Kvalitet' },
-    { value: 'Snabb leverans', label: 'Leverans' },
-    { value: 'Säker betalning', label: 'Betalning' },
-    { value: '2 års garanti', label: 'Garanti' },
-    { value: 'Fri frakt över 500 kr', label: 'Frakt' },
-    { value: '30 dagars returrätt', label: 'Retur' },
-  ];
 
   const productDetails = {
     sku: product.id.slice(-8).toUpperCase(),
@@ -163,12 +155,7 @@ export default function ProductDetailClient({
     images: (product.images && product.images.length > 0)
       ? product.images.map((url, idx) => ({ id: String(idx + 1), url, altText: `${product.title} ${idx + 1}` }))
       : [{ id: '1', url: product.image, altText: product.title }],
-    highlights: (product.features && product.features.length > 0)
-      ? product.features.slice(0, 6).map((feature, idx) => ({
-          value: feature,
-          label: `Specifikation ${idx + 1}`
-        }))
-      : defaultHighlights,
+    highlights: (product as any).metadata?.highlights || [],
   };
 
   const discountPercent = product.originalPrice
