@@ -21,6 +21,7 @@ import { GamingMusmattorIcon } from './Icons/GamingMusmattorIcon';
 import { MobiltelephoneIcon } from './Icons/MobiltelephoneIcon';
 import { MobilTillbehorIcon } from './Icons/MobilTillbehorIcon';
 import { SmartWatchIcon } from './Icons/SmartWatchIcon';
+import { GamingComputerIcon } from './Icons/GamingComputerIcon';
 import { TvIcon } from './Icons/TvIcon';
 import { SpeakerIcon } from './Icons/SpeakerIcon';
 import { TvTillbehorIcon } from './Icons/TvTillbehorIcon';
@@ -179,7 +180,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'gaming-pc',
         title: 'Gaming PC',
         url: '/produkter',
-        icon: <DesktopIcon />,
+        icon: <GamingComputerIcon />,
         items: [
           { id: 'budget', title: 'Budget', url: '/produkter' },
           { id: 'pro', title: 'Pro', url: '/produkter' },
@@ -187,7 +188,7 @@ const MENU_DATA: MenuCategory[] = [
       },
       {
         id: 'gaming-peripherals',
-        title: 'Gaming Tillbehör',
+        title: 'Gamingtillbehör',
         url: '/produkter',
         icon: <GamepadIcon />,
         items: [
