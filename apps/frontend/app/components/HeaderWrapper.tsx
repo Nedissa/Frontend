@@ -110,7 +110,7 @@ const MENU_DATA: MenuCategory[] = [
       },
       {
         id: 'moderkort',
-        title: 'Dator moderkort',
+        title: 'Moderkort',
         url: '/produkter',
         icon: <ModerkortIcon />,
         items: [
