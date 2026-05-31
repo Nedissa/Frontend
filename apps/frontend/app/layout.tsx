@@ -20,7 +20,7 @@ export default async function RootLayout({
   return (
     <html lang="sv" style={{ scrollbarGutter: 'stable' }}>
       <head>
-        <link rel="preload" as="image" href="/assets/Hero bilder/1.jpg.jpg" />
+        <link rel="preload" as="image" href="/assets/hero-1.jpg" fetchPriority="high" />
       </head>
       <body className="bg-white flex flex-col min-h-screen">
         <RootLayoutClient initialIsLoggedIn={isLoggedIn}>

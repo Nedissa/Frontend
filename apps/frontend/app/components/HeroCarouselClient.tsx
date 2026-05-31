@@ -26,15 +26,15 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
   const currentCollection = collections[currentIndex];
 
   const heroImages = [
-    '/assets/Hero bilder/1.jpg.jpg',
-    '/assets/Hero bilder/2.jpg.jpg',
-    '/assets/Hero bilder/3.jpg.jpg',
+    '/assets/hero-1.jpg',
+    '/assets/hero-2.jpg',
+    '/assets/hero-3.jpg',
   ];
 
   return (
     <div className="relative z-0 flex justify-center w-full">
       <div
-        className="relative max-w-[1280px] w-full aspect-[1280/484] overflow-hidden flex items-center justify-center cursor-pointer"
+        className="relative max-w-[1280px] w-full aspect-[1280/484] overflow-hidden flex items-center justify-center cursor-pointer bg-gray-200"
         onClick={next}
         onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
         onTouchEnd={(e) => {
@@ -54,6 +54,8 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
             width={1280}
             height={484}
             fetchPriority={i === 0 ? 'high' : 'low'}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            decoding={i === 0 ? 'sync' : 'async'}
           />
         ))}
         <div className="absolute inset-0 bg-black/30"></div>
