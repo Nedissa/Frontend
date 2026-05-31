@@ -399,9 +399,10 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
     }
 
     const checkLoginStatus = () => {
-      const isLoggedIn = document.cookie.includes('is_logged_in=1');
-      setIsLoggedIn(isLoggedIn);
+      setIsLoggedIn(document.cookie.includes('is_logged_in=1'));
     };
+    const handleLogin = () => setIsLoggedIn(true);
+    const handleLogout = () => setIsLoggedIn(false);
 
     setIsHydrated(true);
 
@@ -466,14 +467,14 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
     fetchProducts();
 
     // Listen for login event
-    window.addEventListener('userLogin', checkLoginStatus);
-    window.addEventListener('userLogout', checkLoginStatus);
+    window.addEventListener('userLogin', handleLogin);
+    window.addEventListener('userLogout', handleLogout);
     return () => {
       window.removeEventListener('cartUpdated', handleCartUpdated);
       window.removeEventListener('cartCleared', handleCartUpdated);
       window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('userLogin', checkLoginStatus);
-      window.removeEventListener('userLogout', checkLoginStatus);
+      window.removeEventListener('userLogin', handleLogin);
+      window.removeEventListener('userLogout', handleLogout);
     };
   }, []);
 
