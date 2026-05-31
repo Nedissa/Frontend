@@ -142,8 +142,8 @@ export default async function Home() {
               <div className="px-6">
                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Populära produkter</h2>
                 <div className="grid grid-cols-4 gap-6 py-6">
-                  {(popularProducts.length > 0 ? popularProducts : products.slice(0, 4)).map((product: any) => (
-                    <ProductCard key={product.id} product={product} variant="popular" />
+                  {(popularProducts.length > 0 ? popularProducts : products.slice(0, 4)).map((product: any, idx: number) => (
+                    <ProductCard key={product.id} product={product} variant="popular" priority={idx < 4} />
                   ))}
                 </div>
               </div>

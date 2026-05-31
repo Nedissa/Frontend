@@ -32,6 +32,7 @@ interface ProductCardProps {
   categorySlug?: string;
   onAddToCart?: (product: ProductData) => void;
   isAdded?: boolean;
+  priority?: boolean;
 }
 
 const VARIANT_CONFIG: Record<ProductCardVariant, { showFeatures: boolean; imageHeight: string }> = {
@@ -48,6 +49,7 @@ export function ProductCard({
   categorySlug,
   onAddToCart,
   isAdded = false,
+  priority = false,
 }: ProductCardProps) {
   const [imageIndex, setImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -149,7 +151,7 @@ export function ProductCard({
               fill
               className={`object-contain p-4 ${imageIndex > 0 ? 'fade-in' : ''}`}
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              priority={imageIndex === 0}
+              priority={priority && imageIndex === 0}
             />
           ) : (
             <div className="w-full h-full bg-gray-200 flex items-center justify-center">
