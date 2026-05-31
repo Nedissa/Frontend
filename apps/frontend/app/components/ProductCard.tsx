@@ -90,7 +90,7 @@ export function ProductCard({
     >
       {/* Image Container with Badges */}
       <div
-        className={`relative bg-gray-100 overflow-hidden mb-4 ${config.imageHeight} flex items-center justify-center w-full`}
+        className={`relative bg-gray-100 overflow-hidden mb-4 ${config.imageHeight} w-full`}
         style={{ position: 'relative' }}
         onMouseMove={(e) => {
           if (!product.images || product.images.length === 0) return;
