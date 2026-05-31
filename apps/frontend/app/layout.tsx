@@ -21,8 +21,9 @@ export default async function RootLayout({
     <html lang="sv" style={{ scrollbarGutter: 'stable' }}>
       <head>
         <link rel="preload" as="image" href="/assets/hero-1.jpg" fetchPriority="high" />
+        <style>{`.ml-container{max-width:1280px;width:100%}`}</style>
       </head>
-      <body className="bg-white flex flex-col min-h-screen">
+      <body className="bg-white flex flex-col min-h-screen overflow-x-hidden">
         <RootLayoutClient initialIsLoggedIn={isLoggedIn}>
           {children}
         </RootLayoutClient>
