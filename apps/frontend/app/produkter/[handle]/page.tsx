@@ -4,6 +4,7 @@ import { getProductByHandle, getBreadcrumbTrail } from '@/app/lib/products';
 import ProductDetailClient from '@/app/produktserier/[slug]/[handle]/ProductDetailClient';
 
 export const revalidate = 60;
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   try {
