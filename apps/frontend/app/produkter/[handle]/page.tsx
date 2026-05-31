@@ -28,11 +28,15 @@ interface PageProps {
 
 export default async function ProductPage({ params }: PageProps) {
   const { handle } = await params;
-  const product = await getProductByHandle(handle);
 
-  if (!product) {
+  let product;
+  try {
+    product = await getProductByHandle(handle);
+  } catch {
     notFound();
   }
+
+  if (!product) notFound();
 
   const categorySlug = product.category || 'laptops';
   const breadcrumbTrail = getBreadcrumbTrail(categorySlug);

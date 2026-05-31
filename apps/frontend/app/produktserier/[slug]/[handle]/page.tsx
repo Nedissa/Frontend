@@ -31,7 +31,13 @@ interface PageProps {
 
 export default async function ProductPage({ params }: PageProps) {
   const { slug, handle } = await params;
-  const product = await getProductByHandle(handle);
+
+  let product;
+  try {
+    product = await getProductByHandle(handle);
+  } catch {
+    return <div>Produkten hittades inte</div>;
+  }
 
   if (!product) {
     return <div>Produkten hittades inte</div>;
