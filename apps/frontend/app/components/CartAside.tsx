@@ -235,7 +235,7 @@ export function CartAside() {
                       </div>
 
                       {/* Quantity controls */}
-                      <div className="flex items-center gap-2 flex-shrink-0">
+                      <div className="flex items-center gap-2 flex-1 justify-center">
                         <button
                           onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                           disabled={item.quantity <= 1}
