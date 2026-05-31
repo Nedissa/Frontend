@@ -3,22 +3,7 @@ import { MainLayout } from '@/app/components/MainLayout';
 import { getProductByHandle, getBreadcrumbTrail } from '@/app/lib/products';
 import ProductDetailClient from '@/app/produktserier/[slug]/[handle]/ProductDetailClient';
 
-export const revalidate = 60;
-export const dynamicParams = true;
-
-export async function generateStaticParams() {
-  try {
-    const baseUrl = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-    const res = await fetch(`${baseUrl}/api/products`);
-    if (!res.ok) return [];
-    const data = await res.json();
-    return (data.products || []).map((p: any) => ({ handle: p.handle }));
-  } catch {
-    return [];
-  }
-}
+export const dynamic = 'force-dynamic';
 
 interface PageProps {
   params: Promise<{
