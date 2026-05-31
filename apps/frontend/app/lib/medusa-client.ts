@@ -22,7 +22,12 @@ export interface Product {
   sectionCategory?: string;
 }
 
+let productsCache: { data: Product[]; ts: number } | null = null;
+
 export async function fetchProductsFromMedusa(): Promise<Product[]> {
+  if (productsCache && Date.now() - productsCache.ts < 60_000) {
+    return productsCache.data;
+  }
   try {
     const baseUrl = typeof window !== 'undefined'
       ? ''
@@ -44,7 +49,7 @@ export async function fetchProductsFromMedusa(): Promise<Product[]> {
       console.error('Invalid response format from API:', data);
       return [];
     }
-    return data.products.map((product: any) => ({
+    const result = data.products.map((product: any) => ({
       id: product.id,
       title: product.title,
       handle: product.handle || product.title.toLowerCase().replace(/\s+/g, '-'),
@@ -57,6 +62,8 @@ export async function fetchProductsFromMedusa(): Promise<Product[]> {
       category: 'General',
       brand: 'Brand',
     }));
+    productsCache = { data: result, ts: Date.now() };
+    return result;
   } catch (error) {
     console.error('Error fetching products:', error);
     return [];

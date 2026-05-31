@@ -2,7 +2,7 @@ import { MainLayout } from '@/app/components/MainLayout';
 import { getProductByHandle, getCategoryTitle, getBreadcrumbTrail } from '@/app/lib/products';
 import ProductDetailClient from './ProductDetailClient';
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 interface PageProps {
   params: Promise<{
