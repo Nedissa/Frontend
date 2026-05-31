@@ -208,7 +208,7 @@ export function CartAside() {
               <ul className="space-y-0 py-4 flex-1">
                 {cartItems.map(item => (
                   <li key={item.id} className="border-b border-gray-200 last:border-b-0">
-                    <div className="flex items-center gap-2 py-4">
+                    <div className="flex items-center gap-3 py-4">
                       {/* Product image */}
                       <div className="flex-shrink-0 w-16 h-16 rounded">
                         <img
@@ -222,12 +222,12 @@ export function CartAside() {
                       <div className="min-w-0 flex-1">
                         <Link
                           href={`/produkter/${item.id}`}
-                          className="text-gray-900 font-semibold text-sm hover:text-gray-700 whitespace-nowrap block"
+                          className="text-gray-900 font-semibold text-sm hover:text-gray-700 block truncate"
                         >
                           {item.title}
                         </Link>
                         <div className="flex items-center gap-1 mt-0.5">
-                          <svg className="w-2 h-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                          <svg className="w-2 h-2 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                             <circle cx="10" cy="10" r="10" />
                           </svg>
                           <span className="text-xs text-gray-600">I lager</span>
@@ -239,23 +239,23 @@ export function CartAside() {
                         <button
                           onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                           disabled={item.quantity <= 1}
-                          className="text-gray-700 disabled:text-gray-300 hover:text-gray-900 flex items-center justify-center text-base font-bold"
+                          className="text-gray-700 disabled:text-gray-300 hover:text-gray-900 flex items-center justify-center text-base font-bold w-5 h-5"
                         >
                           −
                         </button>
-                        <span className="text-gray-900 text-sm font-medium w-6 text-center tabular-nums" style={{ minWidth: '1.5rem' }}>
+                        <span className="text-gray-900 text-sm font-medium text-center tabular-nums w-5">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
-                          className="text-gray-700 hover:text-gray-900 flex items-center justify-center text-sm font-medium"
+                          className="text-gray-700 hover:text-gray-900 flex items-center justify-center text-sm font-medium w-5 h-5"
                         >
                           +
                         </button>
                       </div>
 
                       {/* Price and remove */}
-                      <div className="flex-shrink-0 flex items-center gap-4">
+                      <div className="flex-shrink-0 flex items-center gap-3">
                         <p className="text-sm font-semibold text-gray-900 whitespace-nowrap">
                           {(item.price * item.quantity).toLocaleString('sv-SE')} kr
                         </p>
