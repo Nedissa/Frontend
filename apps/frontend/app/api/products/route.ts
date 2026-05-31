@@ -92,6 +92,7 @@ export async function GET() {
           return url;
         }) || []).slice(0, 3),
         category: collectionTitle,
+        description: product.description || '',
         brand: product.brand || '',
         colors: product.colors || [],
         stock: product.stock || 'I lager',

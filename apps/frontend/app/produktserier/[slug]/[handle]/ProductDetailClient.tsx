@@ -155,7 +155,7 @@ export default function ProductDetailClient({
     sku: product.id.slice(-8).toUpperCase(),
     quantityAvailable: 12,
     compareAtPrice: product.originalPrice,
-    description: product.features?.join('\n') || `${product.title}\n\nEn premium-produkt med utmärkt kvalitet och pris. Perfekt för dina behov.`,
+    description: (product as any).description || product.features?.join('\n') || '',
     featuredImage: {
       url: product.image,
       altText: product.title,

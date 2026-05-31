@@ -111,6 +111,7 @@ async function fetchProductsFromMedusa(): Promise<Product[]> {
         price,
         image: imageUrl,
         images: (product.images?.map((img: any) => img.url?.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se') || '') || []).slice(0, 3),
+        description: product.description || '',
         brand: product.brand || '',
         stock: product.stock || 'I lager',
         rating: product.rating || 0,
