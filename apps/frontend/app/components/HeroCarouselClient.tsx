@@ -32,9 +32,9 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
   ];
 
   return (
-    <div className="relative z-0 flex justify-center">
+    <div className="relative z-0 flex justify-center w-full">
       <div
-        className="relative max-w-[1280px] w-full h-[484px] overflow-hidden flex items-center justify-center cursor-pointer"
+        className="relative max-w-[1280px] w-full aspect-[1280/484] overflow-hidden flex items-center justify-center cursor-pointer"
         onClick={next}
         onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
         onTouchEnd={(e) => {
@@ -49,7 +49,7 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
             key={src}
             src={src}
             alt={collections[i]?.title || ''}
-            className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+            className={`absolute inset-0 w-full h-full object-cover ${i === 0 ? '' : 'transition-opacity duration-500'}`}
             style={{ opacity: i === currentIndex ? 1 : 0 }}
             width={1280}
             height={484}
