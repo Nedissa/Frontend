@@ -244,7 +244,7 @@ export function CartAside() {
                         >
                           −
                         </button>
-                        <span className="text-gray-900 text-sm font-medium text-center tabular-nums w-5">
+                        <span className="text-gray-900 text-sm font-medium text-center tabular-nums" style={{ minWidth: '1.5rem', display: 'inline-block' }}>
                           {item.quantity}
                         </span>
                         <button
