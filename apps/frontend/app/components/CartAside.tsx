@@ -215,11 +215,12 @@ export function CartAside() {
                           src={item.image}
                           alt={item.title}
                           className="w-full h-full object-contain"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                         />
                       </div>
 
                       {/* Product title and availability */}
-                      <div className="min-w-0 flex-1">
+                      <div className="min-w-0 flex-1 overflow-hidden">
                         <Link
                           href={`/produkter/${item.id}`}
                           className="text-gray-900 font-semibold text-sm hover:text-gray-700 block truncate"
