@@ -329,9 +329,11 @@ interface SearchProduct {
   reviews?: number;
 }
 
-export function HeaderWrapper() {
+export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn?: boolean }) {
   const { open } = useAside();
   const pathname = usePathname();
+
+  if (pathname === '/inlogg' || pathname === '/aterstall-losenord') return null;
   const [showMegaMenu, setShowMegaMenu] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -340,7 +342,7 @@ export function HeaderWrapper() {
   const [cartTotal, setCartTotal] = useState(0);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [isVibrating, setIsVibrating] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(initialIsLoggedIn);
   const [isHydrated, setIsHydrated] = useState(false);
   const [searchProducts, setSearchProducts] = useState<SearchProduct[]>([]);
   const lastScrollY = useRef(0);
@@ -396,13 +398,11 @@ export function HeaderWrapper() {
       }
     }
 
-    // Check if user is logged in via cookie (instant, no API call)
     const checkLoginStatus = () => {
       const isLoggedIn = document.cookie.includes('is_logged_in=1');
       setIsLoggedIn(isLoggedIn);
     };
 
-    checkLoginStatus();
     setIsHydrated(true);
 
     // Listen for cart updates - read from localStorage
