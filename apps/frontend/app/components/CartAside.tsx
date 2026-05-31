@@ -219,7 +219,7 @@ export function CartAside() {
                       </div>
 
                       {/* Product title and availability */}
-                      <div className="min-w-0">
+                      <div className="min-w-0 flex-1">
                         <Link
                           href={`/produkter/${item.id}`}
                           className="text-gray-900 font-semibold text-sm hover:text-gray-700 whitespace-nowrap block"
@@ -235,7 +235,7 @@ export function CartAside() {
                       </div>
 
                       {/* Quantity controls */}
-                      <div className="flex items-center gap-2 flex-shrink-0 mx-auto">
+                      <div className="flex items-center gap-2 flex-shrink-0">
                         <button
                           onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                           disabled={item.quantity <= 1}
