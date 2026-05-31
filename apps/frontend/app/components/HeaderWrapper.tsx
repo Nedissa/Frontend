@@ -585,8 +585,8 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   const getActiveCategory = () => MENU_DATA.find(cat => cat.id === activeMegaMenu);
 
   return (
-    <header suppressHydrationWarning className={`sticky top-0 left-0 right-0 w-full bg-white z-40 transition-transform ${
-      isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
+    <header suppressHydrationWarning className={`sticky top-0 left-0 right-0 w-full bg-white z-40 ${
+      isHeaderVisible ? 'translate-y-0' : '-translate-y-full transition-transform'
     }`}>
       {/* Search bar section */}
       <div className="px-6 py-4">
