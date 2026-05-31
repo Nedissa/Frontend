@@ -121,3 +121,69 @@ All API routes now use these env vars instead of hardcoded values.
 - Widget registration happens at compile time - changes require rebuild
 
 **Result:** Admins can now view all customer complaints in the Medusa admin panel on the customer details page. Widget displays in the correct zone with proper styling matching the admin UI.
+
+---
+
+## Konto-sidan Tab Flash vid Refresh
+
+**Problem:** När användaren refreshar konto-sidan på en undersida (t.ex. Favoriter) flashar "Profil"-sektionen kort innan rätt tab visas.
+
+**Orsak:** `activeTab` initierades med `localStorage.getItem()` direkt i `useState()`. SSR vet inte om `localStorage` och renderar alltid `'profil'` som default — vid hydration byter React till rätt tab vilket orsakar ett synligt flash.
+
+**Lösning:**
+1. `activeTab` initieras alltid till `'profil'` i `useState`
+2. `isHydrated` sätts till `false` initialt
+3. En `useEffect` läser `localStorage` och sätter rätt tab + `isHydrated = true`
+4. Sidan renderar ingenting (`return null`) tills `isHydrated` är `true`
+
+**Varför SSR inte behövs här:** Konto-sidan kräver inloggning och läser användarspecifik data från `localStorage` — SSR ger inga SEO-fördelar och orsakar hydration-mismatches. `'use client'` + defer till hydration är rätt approach för autentiserade sidor.
+
+**Result:** Ingen flash — sidan renderas direkt med rätt tab utan att visa fel sektion.
+
+---
+
+## Hero-bilder Glitch vid Sidladdning
+
+**Problem:** Hero-bilderna i karusellen glitchade/resizades vid sidrefresh på Vercel.
+
+**Orsaker (flera):**
+1. Bildfilerna låg bara lokalt — inte i git-repot
+2. Filnamn med mellanslag (`Hero bilder/1.jpg.jpg`) orsakade URL-encoding-problem med preload
+3. `MainLayout` container gick från 1409px → 1280px efter hydration (FOUC — Tailwind CSS laddas efter HTML)
+4. Header hade `transition-transform` även vid initial render vilket animerade in headern och knuffade hero
+
+**Lösningar:**
+1. Bilderna kopierades till `public/assets/hero-1.jpg` etc. och committades till git
+2. Filnamn byttes till URL-säkra namn utan mellanslag
+3. `maxWidth: '1280px'` lades till som inline style på `MainLayout` — gäller direkt, oberoende av Tailwind
+4. `transition-transform` appliceras bara när headern gömmer sig (scroll ned), inte vid initial render
+
+**Result:** Hero-bilderna laddas direkt utan flash, resize eller layout shift.
+
+---
+
+## Backend Alltid Uppe (VPS + PM2)
+
+**Problem:** Medusa-backend körde lokalt — gick ned varje gång datorn stängdes av.
+
+**Lösning:**
+1. Backend deployades till VPS på `/opt/medusa-backend/apps/backend`
+2. PM2 används för processhantering: `pm2 start ecosystem.config.js`
+3. Auto-start konfigurerades: `pm2 startup && pm2 save`
+4. Redis konfigurerades korrekt i `medusa-config.ts` via `redisUrl: process.env.REDIS_URL`
+
+**Key:** `ecosystem.config.js` med `dotenv` säkerställer att alla `.env`-variabler laddas korrekt av PM2.
+
+**Result:** Medusa startar automatiskt vid serveromstart och håller sig uppe konstant.
+
+---
+
+## Produktsidor 500-fel på Vercel
+
+**Problem:** `/produkter/[handle]` returnerade 500 på Vercel.
+
+**Orsak:** `fetchProductsFromMedusa()` i `products.ts` anropade Medusa direkt via `NEXT_PUBLIC_MEDUSA_BACKEND_URL` — en variabel som bara är tillgänglig i webbläsaren, inte server-side på Vercel.
+
+**Lösning:** `fetchProductsFromMedusa()` i `products.ts` byttes ut till att anropa `/api/products` (Next.js API-route) som redan hanterar Medusa-anropet korrekt med rätt URL och headers.
+
+**Result:** Produktsidor fungerar korrekt på Vercel.
