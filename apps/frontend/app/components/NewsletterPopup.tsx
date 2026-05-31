@@ -5,10 +5,13 @@ import { InputWithCheck } from './InputWithCheck';
 
 export function NewsletterPopup() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
   const [email, setEmail] = useState('');
 
   useEffect(() => {
-    setIsOpen(true);
+    setIsHydrated(true);
+    const closed = localStorage.getItem('newsletterPopupClosed');
+    if (!closed) setIsOpen(true);
   }, []);
 
   const handleClose = () => {
@@ -22,7 +25,7 @@ export function NewsletterPopup() {
     handleClose();
   };
 
-  if (!isOpen) return null;
+  if (!isHydrated || !isOpen) return null;
 
   return (
     <div className="w-full max-w-3xl">

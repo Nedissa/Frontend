@@ -48,6 +48,9 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
           src={heroImages[currentIndex]}
           alt={currentCollection.title}
           className="absolute inset-0 w-full h-full object-cover"
+          width={1280}
+          height={484}
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-black/30"></div>
 
