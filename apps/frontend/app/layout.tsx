@@ -19,6 +19,9 @@ export default async function RootLayout({
 
   return (
     <html lang="sv" style={{ scrollbarGutter: 'stable' }}>
+      <head>
+        <link rel="preload" as="image" href="/assets/Hero bilder/1.jpg.jpg" />
+      </head>
       <body className="bg-white flex flex-col min-h-screen">
         <RootLayoutClient initialIsLoggedIn={isLoggedIn}>
           {children}
