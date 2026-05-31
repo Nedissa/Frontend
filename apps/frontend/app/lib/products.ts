@@ -63,68 +63,18 @@ async function fetchProductsFromMedusa(): Promise<Product[]> {
   if (cachedProducts) return cachedProducts;
 
   try {
-    const medusaUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
-    const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '';
-    const regionId = process.env.NEXT_PUBLIC_MEDUSA_REGION_ID || '';
-
-    const response = await fetch(
-      `${medusaUrl}/store/products?limit=100&region_id=${regionId}&fields=*variants.prices,*collection`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'x-publishable-api-key': publishableKey,
-        },
-        cache: 'no-store',
-      }
-    );
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://techpilots.vercel.app';
+    const response = await fetch(`${baseUrl}/api/products`, {
+      next: { revalidate: 60 },
+    });
 
     if (!response.ok) {
-      console.error('Failed to fetch products from Medusa:', response.status);
+      console.error('Failed to fetch products:', response.status);
       return [];
     }
 
     const data = await response.json();
-    const products = data.products || [];
-
-    cachedProducts = products.map((product: any) => {
-      let imageUrl = product.images?.[0]?.url || product.thumbnail || '';
-      imageUrl = imageUrl.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se');
-
-      let price = 0;
-      if (product.variants?.[0]?.calculated_price?.calculated_amount !== undefined) {
-        price = product.variants[0].calculated_price.calculated_amount;
-      } else if (product.variants?.[0]?.prices?.[0]?.amount) {
-        price = product.variants[0].prices[0].amount;
-      }
-
-      const collectionHandle = product.collection?.handle || '';
-      const collectionTitle = product.collection?.title || '';
-      let sectionCategory = '';
-      if (collectionTitle === 'Populära produkter' || collectionHandle === 'populara-produkter') sectionCategory = 'populär';
-      else if (collectionTitle === 'Rekommenderade produkter' || collectionHandle === 'rekommenderade-produkter') sectionCategory = 'rekommenderad';
-      else if (collectionTitle === 'Nya produkter' || collectionHandle === 'nya-produkter') sectionCategory = 'ny';
-      else if (collectionTitle === 'Du kanske också gillar' || collectionHandle === 'du-kanske-ocksa-gillar') sectionCategory = 'också-gillar';
-
-      return {
-        id: product.id,
-        title: product.title,
-        handle: product.handle,
-        price,
-        image: imageUrl,
-        images: (product.images?.map((img: any) => img.url?.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se') || '') || []).slice(0, 3),
-        description: product.description || '',
-        metadata: product.metadata || null,
-        brand: product.brand || '',
-        stock: product.stock || 'I lager',
-        rating: product.rating || 0,
-        reviews: product.reviews || 0,
-        features: product.features || [],
-        isNew: product.isNew || false,
-        sectionCategory,
-        category: collectionTitle,
-      };
-    });
-
+    cachedProducts = data.products || [];
     return cachedProducts as Product[];
   } catch (error) {
     console.error('Error fetching products:', error);
