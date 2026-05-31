@@ -90,7 +90,7 @@ export function ProductCard({
     >
       {/* Image Container with Badges */}
       <div
-        className={`relative bg-gray-100 overflow-hidden mb-4 ${config.imageHeight} w-full`}
+        className={`relative bg-gray-100 overflow-hidden mb-4 ${config.imageHeight} flex items-center justify-center w-full`}
         style={{ position: 'relative' }}
         onMouseMove={(e) => {
           if (!product.images || product.images.length === 0) return;
@@ -144,14 +144,14 @@ export function ProductCard({
             }
           `}</style>
           {(product.images?.[imageIndex] || product.image) ? (
-            <Image
+            <img
               key={imageIndex}
               src={getProxiedImageUrl(product.images?.[imageIndex] || product.image)}
               alt={product.title}
-              fill
-              className={`object-contain p-4 ${imageIndex > 0 ? 'fade-in' : ''}`}
-              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-              priority={priority && imageIndex === 0}
+              className={`w-full h-full object-contain p-4 ${imageIndex > 0 ? 'fade-in' : ''}`}
+              style={{ imageOrientation: 'from-image' }}
+              loading={priority && imageIndex === 0 ? 'eager' : 'lazy'}
+              onError={(e) => { e.currentTarget.style.display = 'none'; }}
             />
           ) : (
             <div className="w-full h-full bg-gray-200 flex items-center justify-center">
