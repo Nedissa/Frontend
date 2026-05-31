@@ -1,7 +1,10 @@
 export function WifiIcon() {
   return (
-    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M1 9l2 2c5.07-5.07 13.21-5.42 18.7-.96l1.95-1.95C16.79 1.56 5.53 2.2 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.77-2.77 7.26-2.77 10.03 0l2-2C15.14 9.14 8.87 9.14 5 13z"/>
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+      <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+      <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+      <circle cx="12" cy="20" r="1" fill="currentColor"/>
     </svg>
   );
 }

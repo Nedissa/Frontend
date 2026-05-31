@@ -1,7 +1,13 @@
 export function RouterIcon() {
   return (
-    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20 11H4c-1.1 0-2 .9-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c0-1.1-.9-2-2-2zm-7 5.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm5 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM8 7.5L6.5 6C8.18 4.33 10.48 3.5 12 3.5s3.82.83 5.5 2.5L16 7.5C14.74 6.19 13.42 5.5 12 5.5S9.26 6.19 8 7.5zM5 4.5L3.5 3C5.57 1.11 8.65 0 12 0s6.43 1.11 8.5 3L19 4.5C17.32 2.86 14.77 2 12 2S6.68 2.86 5 4.5z"/>
+    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <rect x="2" y="13" width="20" height="6" rx="2"/>
+      <circle cx="7" cy="16" r="1" fill="currentColor" stroke="none"/>
+      <circle cx="11" cy="16" r="1" fill="currentColor" stroke="none"/>
+      <path d="M7 13V9"/>
+      <path d="M12 13V9"/>
+      <path d="M17 13V9"/>
+      <path d="M5 9h14"/>
     </svg>
   );
 }
