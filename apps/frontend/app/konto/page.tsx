@@ -78,7 +78,8 @@ export default function AccountPage() {
       console.error('Logout error:', error);
     }
     window.dispatchEvent(new Event('userLogout'));
-    router.push('/inlogg');
+    router.push('/');
+    router.refresh();
   };
 
   const handleAddComplaint = async () => {
