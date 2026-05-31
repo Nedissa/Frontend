@@ -22,6 +22,7 @@ import { MobiltelephoneIcon } from './Icons/MobiltelephoneIcon';
 import { MobilTillbehorIcon } from './Icons/MobilTillbehorIcon';
 import { SmartWatchIcon } from './Icons/SmartWatchIcon';
 import { GamingComputerIcon } from './Icons/GamingComputerIcon';
+import { StorageIcon } from './Icons/StorageIcon';
 import { TvIcon } from './Icons/TvIcon';
 import { SpeakerIcon } from './Icons/SpeakerIcon';
 import { TvTillbehorIcon } from './Icons/TvTillbehorIcon';
@@ -143,7 +144,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'lagringsenhet',
         title: 'Lagring',
         url: '/produkter',
-        icon: <AccessoriesIcon />,
+        icon: <StorageIcon />,
         items: [
           { id: 'ssd', title: 'SSD NVMe', url: '/produkter' },
           { id: 'hdd', title: 'HDD', url: '/produkter' },
