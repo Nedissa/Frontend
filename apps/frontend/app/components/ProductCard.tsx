@@ -146,7 +146,7 @@ export function ProductCard({
               key={imageIndex}
               src={getProxiedImageUrl(product.images?.[imageIndex] || product.image)}
               alt={product.title}
-              className={`w-full h-full object-contain p-8 ${imageIndex > 0 ? 'fade-in' : ''}`}
+              className={`w-full h-full object-contain p-4 ${imageIndex > 0 ? 'fade-in' : ''}`}
               style={{ imageOrientation: 'from-image' }}
               onError={(e) => {
                 e.currentTarget.style.display = 'none';
