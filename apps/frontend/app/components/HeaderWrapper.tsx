@@ -24,6 +24,9 @@ import { SmartWatchIcon } from './Icons/SmartWatchIcon';
 import { TvIcon } from './Icons/TvIcon';
 import { SpeakerIcon } from './Icons/SpeakerIcon';
 import { TvTillbehorIcon } from './Icons/TvTillbehorIcon';
+import { RouterIcon } from './Icons/RouterIcon';
+import { WifiIcon } from './Icons/WifiIcon';
+import { MeshNetworkIcon } from './Icons/MeshNetworkIcon';
 
 interface MenuItem {
   id: string;
@@ -233,7 +236,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'accesspunkter',
         title: 'Accesspunkter',
         url: '/produkter',
-        icon: <AccessoriesIcon />,
+        icon: <WifiIcon />,
         items: [
           { id: 'wifi6', title: 'WiFi 6', url: '/produkter' },
           { id: 'wifi7', title: 'WiFi 7', url: '/produkter' },
@@ -243,7 +246,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'natsverksforlangarе',
         title: 'Nätverksförlängare',
         url: '/produkter',
-        icon: <AccessoriesIcon />,
+        icon: <WifiIcon />,
         items: [
           { id: 'wifi-forlangarе', title: 'WiFi-förlängare', url: '/produkter' },
           { id: 'mesh-forlangarе', title: 'Mesh-förlängare', url: '/produkter' },
@@ -253,7 +256,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'routrar',
         title: 'Routrar',
         url: '/produkter',
-        icon: <AccessoriesIcon />,
+        icon: <RouterIcon />,
         items: [
           { id: 'wifi6-routrar', title: 'WiFi 6 Routrar', url: '/produkter' },
           { id: 'wifi7-routrar', title: 'WiFi 7 Routrar', url: '/produkter' },
@@ -264,7 +267,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'mesh',
         title: 'Mesh Nätverk',
         url: '/produkter',
-        icon: <AccessoriesIcon />,
+        icon: <MeshNetworkIcon />,
         items: [
           { id: 'mesh-wifi6', title: 'Mesh WiFi 6', url: '/produkter' },
           { id: 'mesh-wifi7', title: 'Mesh WiFi 7', url: '/produkter' },
