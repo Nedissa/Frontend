@@ -4,6 +4,7 @@ export interface Product {
   handle: string;
   price: number;
   originalPrice?: number;
+  description?: string;
   brand?: string;
   discount?: string;
   discountPercent?: number;
