@@ -81,7 +81,7 @@ const MENU_DATA: MenuCategory[] = [
       },
       {
         id: 'datortillbehor',
-        title: 'Dator tillbehör',
+        title: 'Datortillbehör',
         url: '/produkter',
         icon: <AccessoriesIcon />,
         items: [
