@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 
 interface Product {
@@ -84,7 +85,7 @@ export function ProductItem({
         >
           <div className="w-full h-full flex items-center justify-center hover:scale-105 transition-transform duration-300 bg-gray-200 overflow-hidden">
             {product.image ? (
-              <img src={product.image} alt={product.title} className="w-full h-full object-cover" />
+              <Image src={product.image} alt={product.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 300px" />
             ) : (
               <span className="text-gray-400">Bild</span>
             )}

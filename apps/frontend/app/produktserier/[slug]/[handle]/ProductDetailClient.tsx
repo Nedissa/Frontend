@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Product } from '@/app/lib/products';
@@ -506,7 +507,7 @@ export default function ProductDetailClient({
                       }}
                       className={`w-full flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors hover:bg-gray-50`}
                     >
-                      <img src={accessory.image} alt={accessory.name} className="w-8 h-8 object-contain flex-shrink-0 bg-gray-100" />
+                      <Image src={accessory.image} alt={accessory.name} width={32} height={32} className="object-contain flex-shrink-0 bg-gray-100" />
                       <div className="flex-1 min-w-0 text-left">
                         <p className="text-sm font-medium text-gray-900">{accessory.name}</p>
                       </div>
