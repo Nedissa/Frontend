@@ -1,3 +1,10 @@
+function parseMeta(val: any): any[] {
+  if (!val) return [];
+  if (Array.isArray(val)) return val;
+  if (typeof val === 'string') { try { const p = JSON.parse(val); return Array.isArray(p) ? p : []; } catch { return []; } }
+  return [];
+}
+
 export async function GET() {
   try {
     const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY;
@@ -93,13 +100,17 @@ export async function GET() {
         }) || []).slice(0, 3),
         category: collectionTitle,
         description: product.description || '',
-        metadata: product.metadata || null,
+        metadata: {
+          highlights: parseMeta(product.metadata?.highlights),
+          specifications: parseMeta(product.metadata?.specifications),
+          contents: parseMeta(product.metadata?.contents),
+        },
         brand: product.brand || '',
-        colors: product.options?.find((o: any) => o.title?.toLowerCase() === 'color' || o.title?.toLowerCase() === 'färg')?.values?.map((v: any) => v.value) || product.metadata?.colors || [],
+        colors: product.options?.find((o: any) => o.title?.toLowerCase() === 'color' || o.title?.toLowerCase() === 'färg')?.values?.map((v: any) => v.value) || parseMeta(product.metadata?.colors),
         stock: product.stock || 'I lager',
         rating: product.rating || 0,
         reviews: product.reviews || 0,
-        features: product.metadata?.features || [],
+        features: parseMeta(product.metadata?.features),
         isNew: product.isNew || false,
         discountPercent: discountPercent,
         sectionCategory: sectionCategory,
