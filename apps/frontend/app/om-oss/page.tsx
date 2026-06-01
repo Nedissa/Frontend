@@ -13,7 +13,7 @@ export default function AboutPage() {
       <div className="max-w-[1280px] mx-auto px-6 py-16">
         <h1 className="text-5xl font-bold mb-4">Om Techpilots</h1>
         <p className="text-xl text-gray-600 max-w-3xl">
-          Techpilots är en svensk e-handelsaktör inom konsumentelektronik. Sedan starten 2024 erbjuder vi ett noggrant utvalt sortiment av datorer, komponenter och tillbehör med fokus på produktkvalitet, transparenta priser och pålitlig leverans till kunder i hela Sverige.
+          Techpilots är en svensk e-handelsaktör inom konsumentelektronik. Sedan starten 2024 erbjuder vi ett noggrant utvalt sortiment av hemelektronik och datortillbehör med fokus på produktkvalitet, transparenta priser och pålitlig leverans till kunder i hela Sverige.
         </p>
       </div>
 
