@@ -27,7 +27,7 @@ export default function AboutPage() {
               Vi startade Techpilots för att näthandel med elektronik ska vara enkel, pålitlig och prisvärd. Allt vi säljer är noggrant utvalt. Vi prioriterar kvalitet framför kvantitet och ser till att varje produkt i sortimentet håller måttet.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              Oavsett om du bygger din första gamingdator, uppgraderar din arbetsstation eller letar efter rätt tillbehör finns vi här för att hjälpa dig hitta rätt.
+              Oavsett om du byter ut en gammal dator, köper din första laptop eller bara behöver ett nytt tangentbord finns vi här för att hjälpa dig hitta rätt produkt.
             </p>
           </section>
 
