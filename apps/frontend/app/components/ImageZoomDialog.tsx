@@ -79,7 +79,7 @@ export function ImageZoomDialog({
         </button>
 
         {/* Image Container with Navigation */}
-        <div className="flex-1 flex items-center justify-center p-4 overflow-hidden relative">
+        <div className="flex-1 flex items-center justify-center p-6 overflow-hidden relative">
           {/* Left Arrow */}
           <button
             onClick={() =>
@@ -95,8 +95,7 @@ export function ImageZoomDialog({
           <img
             src={currentImage.url}
             alt={currentImage.altText}
-            className="object-contain"
-            style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: '85%' }}
+            className="max-w-full max-h-full object-contain"
           />
 
           {/* Right Arrow */}
