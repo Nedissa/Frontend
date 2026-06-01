@@ -400,15 +400,15 @@ export default function ProductDetailClient({
             </svg>
           </button>
 
-          {/* SKU + Title */}
-          <div className="flex flex-col mb-4">
-            <p className="text-sm text-black leading-tight">Varukod: {productDetails.sku}</p>
+          {/* Title */}
+          <div className="flex flex-col mb-2">
             <h1 className="text-2xl font-bold text-black line-clamp-2 leading-tight">{product.title}</h1>
+            <p className="text-xs text-gray-400 mt-1">Varukod: {productDetails.sku}</p>
           </div>
 
           {/* Price Section */}
           <div className="mb-4">
-            <div className="flex flex-col gap-1 mb-3">
+            <div className="flex items-baseline gap-2">
               <span className="text-3xl font-bold text-red-600">
                 {product.price.toLocaleString('sv-SE')} kr
               </span>
@@ -417,13 +417,6 @@ export default function ProductDetailClient({
                   {product.originalPrice.toLocaleString('sv-SE')} kr
                 </span>
               )}
-            </div>
-
-            {/* Stock */}
-            <div className="flex items-center gap-2 text-sm">
-              <span className="text-black font-medium">Webblager</span>
-              <span className="w-2 h-2 bg-green-600 rounded-full"></span>
-              <span className="text-black">{productDetails.quantityAvailable} st</span>
             </div>
           </div>
 
@@ -476,6 +469,13 @@ export default function ProductDetailClient({
                 +
               </button>
             </div>
+          </div>
+
+          {/* Stock */}
+          <div className="flex items-center gap-2 text-sm mb-4">
+            <span className="text-black font-medium">Webblager</span>
+            <span className="w-2 h-2 bg-green-600 rounded-full"></span>
+            <span className="text-black">{productDetails.quantityAvailable} st</span>
           </div>
 
           {/* Recommended Accessories Dropdown */}
@@ -598,8 +598,8 @@ export default function ProductDetailClient({
             Handla nu
           </button>
 
-          {/* Key Features Footer */}
-          <div className="space-y-3 text-sm pt-4">
+          {/* Fri frakt + Klarna */}
+          <div className="border-t border-gray-200 pt-4 space-y-3">
             <div className="flex items-center justify-center gap-6">
               <div className="flex items-center gap-2">
                 <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
@@ -614,11 +614,9 @@ export default function ProductDetailClient({
                 <span className="text-black text-xs">Fria returer</span>
               </div>
             </div>
-            <div className="pt-4 border-t border-gray-200">
-              <div className="flex justify-center">
-                <div className="inline-block bg-pink-300 text-pink-900 px-3 py-1 text-xs font-bold rounded">
-                  Klarna
-                </div>
+            <div className="flex justify-center">
+              <div className="inline-block bg-pink-300 text-pink-900 px-3 py-1 text-xs font-bold rounded">
+                Klarna
               </div>
             </div>
           </div>
