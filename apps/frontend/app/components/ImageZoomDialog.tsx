@@ -79,7 +79,7 @@ export function ImageZoomDialog({
         </button>
 
         {/* Image Container with Navigation */}
-        <div className="flex-1 flex items-center justify-center p-6 overflow-hidden relative">
+        <div className="flex-1 flex items-center justify-center p-6 overflow-hidden relative" style={{ minHeight: 0 }}>
           {/* Left Arrow */}
           <button
             onClick={() =>
@@ -92,11 +92,13 @@ export function ImageZoomDialog({
             </svg>
           </button>
 
-          <img
-            src={currentImage.url}
-            alt={currentImage.altText}
-            className="max-w-full max-h-full object-contain"
-          />
+          <div className="w-full h-full flex items-center justify-center">
+            <img
+              src={currentImage.url}
+              alt={currentImage.altText}
+              className="w-full h-full object-contain"
+            />
+          </div>
 
           {/* Right Arrow */}
           <button
