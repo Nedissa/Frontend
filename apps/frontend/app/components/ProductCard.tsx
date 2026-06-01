@@ -53,6 +53,7 @@ export function ProductCard({
 }: ProductCardProps) {
   const [imageIndex, setImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [selectedColor, setSelectedColor] = useState(0);
   const config = VARIANT_CONFIG[variant];
 
   const handleAddToCart = useCallback(() => {
@@ -242,31 +243,29 @@ export function ProductCard({
         </p>
 
         {/* Color Selector */}
-        <div className="flex gap-2 mb-3">
-          {product.colors && product.colors.length > 0 ? (
-            product.colors.map((color, idx) => {
-              const colorMap: Record<string, string> = {
-                'svart': '#000000', 'black': '#000000',
-                'vit': '#FFFFFF', 'white': '#FFFFFF',
-                'silver': '#C0C0C0', 'grå': '#808080', 'gray': '#808080', 'grey': '#808080',
-                'röd': '#EF4444', 'red': '#EF4444',
-                'blå': '#3B82F6', 'blue': '#3B82F6',
-                'grön': '#22C55E', 'green': '#22C55E',
-                'gul': '#EAB308', 'yellow': '#EAB308',
-              };
-              const bgColor = colorMap[color.toLowerCase()] || color;
-              return (
-                <button
-                  key={idx}
-                  className="w-5 h-5 rounded-full border-2 border-gray-300 hover:border-gray-900 transition-colors"
-                  style={{ backgroundColor: bgColor }}
-                  title={color}
-                />
-              );
-            })
-          ) : (
-            <span className="text-xs text-gray-400">Inga färger tillagda</span>
-          )}
+        <div className="flex gap-2 mb-3 min-h-[28px]">
+          {product.colors && product.colors.length > 0 && product.colors.map((color, idx) => {
+            const colorMap: Record<string, string> = {
+              'svart': '#000000', 'black': '#000000',
+              'vit': '#FFFFFF', 'white': '#FFFFFF',
+              'silver': '#C0C0C0', 'grå': '#808080', 'gray': '#808080', 'grey': '#808080',
+              'röd': '#EF4444', 'red': '#EF4444',
+              'blå': '#3B82F6', 'blue': '#3B82F6',
+              'grön': '#22C55E', 'green': '#22C55E',
+              'gul': '#EAB308', 'yellow': '#EAB308',
+            };
+            const bgColor = colorMap[color.toLowerCase()] || color;
+            const isSelected = selectedColor === idx;
+            return (
+              <button
+                key={idx}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedColor(idx); }}
+                className={`w-5 h-5 rounded-full border-2 transition-colors ${isSelected ? 'border-gray-900 scale-110' : 'border-gray-300 hover:border-gray-600'}`}
+                style={{ backgroundColor: bgColor }}
+                title={color}
+              />
+            );
+          })}
         </div>
 
         {/* Button Container */}
