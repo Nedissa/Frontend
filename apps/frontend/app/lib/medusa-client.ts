@@ -57,10 +57,14 @@ export async function fetchProductsFromMedusa(): Promise<Product[]> {
       originalPrice: product.originalPrice,
       image: product.image || product.images?.[0] || '/assets/placeholder.webp',
       images: (Array.isArray(product.images) && product.images.length > 0) ? product.images : [],
-      rating: 4.5,
-      reviews: 0,
-      category: 'General',
-      brand: 'Brand',
+      colors: product.colors || [],
+      sectionCategory: product.sectionCategory || '',
+      description: product.description || '',
+      stock: product.stock || 'I lager',
+      rating: product.rating || 0,
+      reviews: product.reviews || 0,
+      category: product.category || '',
+      brand: product.brand || '',
     }));
     productsCache = { data: result, ts: Date.now() };
     return result;
