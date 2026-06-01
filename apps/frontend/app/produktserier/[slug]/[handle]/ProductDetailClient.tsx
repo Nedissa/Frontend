@@ -491,7 +491,7 @@ export default function ProductDetailClient({
               setIsAdded(true);
               setTimeout(() => setIsAdded(false), 100);
             }}
-            className="w-full bg-black text-white text-sm font-semibold py-3 px-4 mb-2 flex items-center justify-center gap-2 hover:bg-gray-800"
+            className="w-full bg-black text-white text-sm font-semibold py-2 px-4 mb-2 flex items-center justify-center gap-2 hover:bg-gray-800"
           >
             {isAdded ? (
               <span className="transition-none">
@@ -523,7 +523,7 @@ export default function ProductDetailClient({
               localStorage.setItem('quickCheckout', JSON.stringify(quickCheckoutItem));
               router.push('/kassan');
             }}
-            className="w-full bg-green-600 text-white text-sm font-semibold py-3 px-4 mb-4 hover:bg-green-700 transition-colors"
+            className="w-full bg-green-600 text-white text-sm font-semibold py-2 px-4 mb-4 hover:bg-green-700 transition-colors"
           >
             Handla nu
           </button>
