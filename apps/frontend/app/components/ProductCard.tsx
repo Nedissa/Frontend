@@ -187,6 +187,18 @@ export function ProductCard({
         {/* Brand */}
         {product.brand && <p className="text-xs text-gray-400 mb-2 uppercase">{product.brand}</p>}
 
+        {/* Features */}
+        {config.showFeatures && product.features && product.features.length > 0 && (
+          <ul className="text-xs text-gray-600 mb-2 space-y-1">
+            {product.features.slice(0, 3).map((feature: string, idx: number) => (
+              <li key={idx} className="flex items-start gap-2">
+                <span className="text-gray-400">•</span>
+                <span>{feature}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+
         {/* Rating */}
         <Link href={`${productLink}#reviews`} className="flex items-center gap-1 mb-2 hover:opacity-70 transition-opacity">
           <div className="flex gap-0.5">

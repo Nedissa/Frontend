@@ -99,7 +99,7 @@ export async function GET() {
         stock: product.stock || 'I lager',
         rating: product.rating || 0,
         reviews: product.reviews || 0,
-        features: product.features || [],
+        features: product.metadata?.features || [],
         isNew: product.isNew || false,
         discountPercent: discountPercent,
         sectionCategory: sectionCategory,
