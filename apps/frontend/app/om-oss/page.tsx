@@ -21,31 +21,14 @@ export default function AboutPage() {
         <div className="p-12 space-y-16" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
 
           {/* Vad vi gör */}
-          <section>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-3xl font-bold mb-6">Teknik för alla</h2>
-                <p className="text-gray-700 mb-4 leading-relaxed">
-                  Oavsett om du bygger din första gamingdator, uppgraderar din arbetsstation eller letar efter rätt tillbehör — vi hjälper dig att hitta produkter som passar dina behov och din budget.
-                </p>
-                <p className="text-gray-700 leading-relaxed">
-                  Vi erbjuder ett noggrant utvalt sortiment med tydlig information, rättvisa priser och en smidig köpupplevelse från beställning till leverans.
-                </p>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { number: '1–2', label: 'dagars leverans' },
-                  { number: '30', label: 'dagars returrätt' },
-                  { number: '100%', label: 'originalprodukter' },
-                  { number: '5★', label: 'kundbetyg' },
-                ].map((stat) => (
-                  <div key={stat.label} className="bg-gray-50 p-6 rounded-lg text-center">
-                    <div className="text-3xl font-bold mb-1">{stat.number}</div>
-                    <div className="text-sm text-gray-600">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <section className="text-center max-w-2xl mx-auto">
+            <h2 className="text-3xl font-bold mb-6">Teknik för alla</h2>
+            <p className="text-gray-700 mb-4 leading-relaxed">
+              Oavsett om du bygger din första gamingdator, uppgraderar din arbetsstation eller letar efter rätt tillbehör — vi hjälper dig att hitta produkter som passar dina behov och din budget.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              Vi erbjuder ett noggrant utvalt sortiment med tydlig information, rättvisa priser och en smidig köpupplevelse från beställning till leverans.
+            </p>
           </section>
 
           {/* Våra värden */}
