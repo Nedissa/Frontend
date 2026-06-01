@@ -113,7 +113,7 @@ export function ImageZoomDialog({
         </div>
 
         {/* Thumbnails */}
-        <div className="px-6 py-2 flex gap-8 justify-center overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+        <div className="px-6 py-2 flex gap-8 justify-center overflow-x-auto items-center" style={{ scrollbarWidth: 'none', height: '160px', flexShrink: 0 }}>
           {images.map((img, idx) => (
             <div
               key={idx}
@@ -122,7 +122,7 @@ export function ImageZoomDialog({
               <button
                 onClick={() => setCurrentIndex(idx)}
                 className={`aspect-square transition-all duration-200 flex items-center justify-center ${
-                  currentIndex === idx ? 'w-36 -translate-y-1' : 'w-20'
+                  currentIndex === idx ? 'w-36' : 'w-20'
                 }`}
               >
                 <img src={img.url} alt="" className="w-full h-full object-contain" />
