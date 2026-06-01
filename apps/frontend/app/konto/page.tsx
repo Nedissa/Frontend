@@ -555,7 +555,7 @@ export default function AccountPage() {
                         });
                         window.dispatchEvent(event);
                       }}
-                      className="text-gray-500 hover:text-black transition-colors flex items-center justify-center"
+                      className="text-black hover:text-gray-600 transition-colors flex items-center justify-center"
                       title="Lägg till i kundvagn"
                     >
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -576,7 +576,7 @@ export default function AccountPage() {
                           console.error('Failed to remove favorite:', error);
                         }
                       }}
-                      className="text-gray-500 hover:text-red-500 transition-colors flex items-center justify-center"
+                      className="text-black hover:text-red-500 transition-colors flex items-center justify-center"
                       title="Ta bort från favoriter"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
