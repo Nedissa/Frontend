@@ -13,7 +13,7 @@ export async function GET() {
 
     // Fetch products with publishable API key
     const response = await fetch(
-      `${medusaUrl}/store/products?limit=100&region_id=${regionId}&fields=*variants.prices,*collection,+metadata`,
+      `${medusaUrl}/store/products?limit=100&region_id=${regionId}&fields=*variants.prices,*collection,+metadata,*options,*options.values`,
       {
         method: 'GET',
         headers: {
@@ -95,7 +95,7 @@ export async function GET() {
         description: product.description || '',
         metadata: product.metadata || null,
         brand: product.brand || '',
-        colors: product.metadata?.colors || [],
+        colors: product.options?.find((o: any) => o.title?.toLowerCase() === 'color' || o.title?.toLowerCase() === 'färg')?.values?.map((v: any) => v.value) || product.metadata?.colors || [],
         stock: product.stock || 'I lager',
         rating: product.rating || 0,
         reviews: product.reviews || 0,
