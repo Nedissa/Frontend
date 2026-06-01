@@ -224,21 +224,18 @@ export default function ProductDetailClient({
               {/* Thumbnails */}
               {productDetails.images.length > 1 && (
                 <div
-                  className="flex gap-12 overflow-visible px-8 py-4 bg-white justify-center"
-                  style={{
-                    scrollbarWidth: 'none',
-                    msOverflowStyle: 'none',
-                  }}
+                  className="flex gap-3 overflow-x-auto px-4 py-3 bg-white"
+                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
                   {productDetails.images.map((img, idx) => (
                     <button
                       key={idx}
                       onClick={() => setSelectedImage(idx)}
-                      className={`flex-shrink-0 aspect-square w-20 overflow-hidden transition-all duration-150 flex items-center justify-center ${
-                        selectedImage === idx ? 'scale-150' : ''
+                      className={`flex-shrink-0 aspect-square w-16 transition-all duration-150 flex items-center justify-center bg-gray-50 ${
+                        selectedImage === idx ? 'ring-2 ring-black' : 'ring-1 ring-gray-200'
                       }`}
                     >
-                      <img src={img.url} alt="" className="w-full h-full object-contain" />
+                      <img src={img.url} alt="" className="w-full h-full object-contain p-1" />
                     </button>
                   ))}
                 </div>
