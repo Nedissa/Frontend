@@ -114,7 +114,7 @@ export function ImageZoomDialog({
         </div>
 
         {/* Thumbnails */}
-        <div className="px-6 py-2 flex gap-4 justify-center overflow-x-auto h-28" style={{ scrollbarWidth: 'none' }}>
+        <div className="px-6 py-2 flex gap-4 justify-center overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
           {images.map((img, idx) => (
             <div
               key={idx}
