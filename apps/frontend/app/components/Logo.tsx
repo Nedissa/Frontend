@@ -5,9 +5,9 @@ export function Logo() {
     <Image
       src="/logo.png"
       alt="Techpilots"
-      width={36}
-      height={36}
-      className="flex-shrink-0"
+      width={32}
+      height={32}
+      className="flex-shrink-0 w-full h-full object-contain"
       priority
     />
   );

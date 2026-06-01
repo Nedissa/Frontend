@@ -592,11 +592,11 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       {/* Search bar section */}
       <div className="px-6 py-4">
         <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
-          <Link href="/" className="flex-shrink-0 flex items-center gap-2 h-9">
-            <div style={{ width: '36px', height: '36px' }}>
+          <Link href="/" className="flex-shrink-0 flex items-center gap-3">
+            <div style={{ width: '32px', height: '32px' }}>
               <Logo />
             </div>
-            <span className="font-bold text-black hidden sm:inline" style={{ fontSize: '20px', lineHeight: '1.2' }}>Techpilots</span>
+            <span className="font-bold text-black hidden sm:inline" style={{ fontSize: '22px', lineHeight: '32px', letterSpacing: '-0.3px' }}>Techpilots</span>
           </Link>
 
           {/* Search Input */}
