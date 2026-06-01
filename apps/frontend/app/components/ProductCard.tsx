@@ -130,7 +130,7 @@ export function ProductCard({
           ) : null}
         </div>
 
-        <Link href={productLink} scroll={false} className="w-full flex-1 flex items-center justify-center relative">
+        <Link href={productLink} scroll={false} className="absolute inset-0 flex items-center justify-center">
           <style>{`
             @keyframes fadeIn {
               from {
