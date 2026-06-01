@@ -351,7 +351,7 @@ export default function ProductDetailClient({
         </div>
 
         {/* Right Column - Product Info + Accessories */}
-        <div className="w-96 flex flex-col gap-2">
+        <div className="w-72 flex flex-col gap-2">
         <div
           className="flex flex-col p-6 bg-white"
           style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', height: 'fit-content' }}
