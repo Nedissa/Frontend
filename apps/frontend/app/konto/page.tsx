@@ -70,6 +70,14 @@ export default function AccountPage() {
     const saved = localStorage.getItem('accountTab') || 'profil';
     setActiveTab(saved);
     setIsHydrated(true);
+
+    // Load favorites from localStorage if not already loaded from server
+    if (favoriteProducts.length === 0) {
+      const localFavorites = JSON.parse(localStorage.getItem('favoritesList') || '[]');
+      if (localFavorites.length > 0) {
+        setFavoriteProducts(localFavorites);
+      }
+    }
   }, []);
 
   const handleLogout = async () => {
