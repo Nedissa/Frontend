@@ -95,7 +95,8 @@ export function ImageZoomDialog({
           <img
             src={currentImage.url}
             alt={currentImage.altText}
-            className="max-w-full max-h-full object-contain"
+            className="object-contain"
+            style={{ maxWidth: '70%', maxHeight: '70%' }}
           />
 
           {/* Right Arrow */}
@@ -112,7 +113,7 @@ export function ImageZoomDialog({
         </div>
 
         {/* Thumbnails */}
-        <div className="px-6 py-2 flex gap-4 justify-center overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+        <div className="px-6 py-2 flex gap-8 justify-center overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
           {images.map((img, idx) => (
             <div
               key={idx}
