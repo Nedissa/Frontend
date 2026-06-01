@@ -366,7 +366,7 @@ export default function ProductDetailClient({
           {/* Favorite button */}
           <button
             onClick={handleFavoriteToggle}
-            className={`mb-2 ${isFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
+            className={`mb-3 ${isFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
             title={isFavorite ? 'Ta bort från favoriter' : 'Lägg till i favoriter'}
           >
             <svg className="w-6 h-6" fill={isFavorite ? 'currentColor' : 'none'} stroke={isFavorite ? 'none' : 'currentColor'} strokeWidth={isFavorite ? 0 : 2} viewBox="0 0 24 24">
@@ -375,13 +375,13 @@ export default function ProductDetailClient({
           </button>
 
           {/* Title */}
-          <div className="flex flex-col mb-2">
+          <div className="flex flex-col mb-4">
             <h1 className="text-2xl font-bold text-black line-clamp-2 leading-tight">{product.title}</h1>
             <p className="text-xs text-gray-400 mt-1">Varukod: {productDetails.sku}</p>
           </div>
 
           {/* Price Section */}
-          <div className="mb-4">
+          <div className="mb-6">
             <div className="flex items-baseline gap-2">
               <span className="text-3xl font-bold text-red-600">
                 {product.price.toLocaleString('sv-SE')} kr
@@ -395,7 +395,7 @@ export default function ProductDetailClient({
           </div>
 
           {/* Color Selector */}
-          <div className="mb-4">
+          <div className="mb-6">
             <label className="block text-sm font-semibold text-gray-900 mb-2">
               Välj färg{selectedColor && <span className="text-gray-600 font-normal"> - {selectedColor}</span>}
             </label>
@@ -416,7 +416,7 @@ export default function ProductDetailClient({
           </div>
 
           {/* Quantity Stepper */}
-          <div className="mb-4">
+          <div className="mb-6">
             <label className="block text-sm font-semibold text-gray-900 mb-2">Antal</label>
             <div className="flex items-center bg-gray-100 w-fit h-9 px-3 gap-3">
               <button
@@ -453,7 +453,7 @@ export default function ProductDetailClient({
             const managesInventory = (product as any).variants?.some((v: any) => v.manage_inventory);
             const isOutOfStock = managesInventory && qty !== null && qty <= 0;
             return (
-              <div className="flex items-center gap-2 text-sm mb-4">
+              <div className="flex items-center gap-2 text-sm mb-6">
                 <span className={`w-2 h-2 rounded-full ${isOutOfStock ? 'bg-red-500' : 'bg-green-600'}`}></span>
                 <span className={`font-medium ${isOutOfStock ? 'text-red-500' : 'text-black'}`}>
                   {isOutOfStock ? 'Slut i lager' : 'I lager'}
@@ -502,7 +502,7 @@ export default function ProductDetailClient({
               setIsAdded(true);
               setTimeout(() => setIsAdded(false), 100);
             }}
-            className="w-full bg-black text-white text-sm font-semibold py-2 px-4 mb-2 flex items-center justify-center gap-2 hover:bg-gray-800"
+            className="w-full bg-black text-white text-sm font-semibold py-3 px-4 mb-3 flex items-center justify-center gap-2 hover:bg-gray-800"
           >
             {isAdded ? (
               <span className="transition-none">
@@ -534,7 +534,7 @@ export default function ProductDetailClient({
               localStorage.setItem('quickCheckout', JSON.stringify(quickCheckoutItem));
               router.push('/kassan');
             }}
-            className="w-full bg-green-600 text-white text-sm font-semibold py-2 px-4 mb-4 hover:bg-green-700 transition-colors"
+            className="w-full bg-green-600 text-white text-sm font-semibold py-3 px-4 mb-6 hover:bg-green-700 transition-colors"
           >
             Handla nu
           </button>
