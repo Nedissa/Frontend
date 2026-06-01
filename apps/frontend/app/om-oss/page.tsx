@@ -13,7 +13,7 @@ export default function AboutPage() {
       <div className="max-w-[1280px] mx-auto px-6 py-16">
         <h1 className="text-5xl font-bold mb-4">Om Techpilots</h1>
         <p className="text-xl text-gray-600 max-w-3xl">
-          Hos Techpilots hittar du datorer, datorkomponenter och tillbehör från välkända varumärken – till konkurrenskraftiga priser och med snabb leverans inom hela Sverige.
+          Techpilots är en svensk nätbutik för elektronik, datorer och tillbehör. Vi grundades 2024 med målet att göra det enkelt att hitta rätt produkt — till ett rättvist pris och med snabb leverans direkt hem till dörren.
         </p>
       </div>
 
@@ -22,12 +22,12 @@ export default function AboutPage() {
 
           {/* Vad vi gör */}
           <section className="text-center max-w-2xl mx-auto">
-            <h2 className="text-3xl font-bold mb-6">Teknik för alla</h2>
+            <h2 className="text-3xl font-bold mb-6">Elektronik utan krångel</h2>
             <p className="text-gray-700 mb-4 leading-relaxed">
-              Oavsett om du bygger din första gamingdator, uppgraderar din arbetsstation eller letar efter rätt tillbehör — vi hjälper dig att hitta produkter som passar dina behov och din budget.
+              Vi startade Techpilots för att näthandel med elektronik ska vara enkel, pålitlig och prisvärd. Allt vi säljer är noggrant utvalt — vi prioriterar kvalitet framför kvantitet och ser till att varje produkt i vårt sortiment håller måttet.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              Vi erbjuder ett noggrant utvalt sortiment med tydlig information, rättvisa priser och en smidig köpupplevelse från beställning till leverans.
+              Oavsett om du bygger din första gamingdator, uppgraderar din arbetsstation eller bara letar efter rätt tillbehör finns vi här för att hjälpa dig hitta rätt — utan onödigt krångel.
             </p>
           </section>
 
@@ -42,7 +42,7 @@ export default function AboutPage() {
                   </svg>
                 </div>
                 <h3 className="text-xl font-bold mb-3">Kvalitet</h3>
-                <p className="text-gray-600 leading-relaxed">Endast autentiska produkter från auktoriserade leverantörer med fullständig tillverkares garanti.</p>
+                <p className="text-gray-600 leading-relaxed">Vi säljer bara produkter vi själva skulle köpa. Noggrant utvalt sortiment från etablerade varumärken med fullständig garanti.</p>
               </div>
               <div className="border border-gray-100 p-8 rounded-lg">
                 <div className="mb-5">
@@ -50,8 +50,8 @@ export default function AboutPage() {
                     <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold mb-3">Snabbhet</h3>
-                <p className="text-gray-600 leading-relaxed">Lagerförda produkter levereras inom 1–2 arbetsdagar direkt till din dörr. Vi respekterar din tid.</p>
+                <h3 className="text-xl font-bold mb-3">Snabb leverans</h3>
+                <p className="text-gray-600 leading-relaxed">Lagerförda produkter skickas direkt och levereras inom 1–3 arbetsdagar till din dörr, var du än bor i Sverige.</p>
               </div>
               <div className="border border-gray-100 p-8 rounded-lg">
                 <div className="mb-5">
@@ -59,8 +59,8 @@ export default function AboutPage() {
                     <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12h-8v2h8v-2zm0-3h-8v2h8V11zm0-3H4V6h14v2z"/>
                   </svg>
                 </div>
-                <h3 className="text-xl font-bold mb-3">Support</h3>
-                <p className="text-gray-600 leading-relaxed">Personlig kundservice via e-post och telefon under affärstid. Vi finns här före och efter ditt köp.</p>
+                <h3 className="text-xl font-bold mb-3">Kundservice</h3>
+                <p className="text-gray-600 leading-relaxed">Vi är ett litet team som bryr oss om varje kund. Hör av dig via e-post eller telefon — vi svarar snabbt och löser ditt ärende.</p>
               </div>
             </div>
           </section>
@@ -70,12 +70,12 @@ export default function AboutPage() {
             <h2 className="text-3xl font-bold mb-8">Varför handla hos oss?</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { title: 'Originalprodukter med garanti', desc: 'Alla produkter kommer från auktoriserade leverantörer och omfattas av tillverkarens garanti.' },
-                { title: 'Snabb leverans 1–2 dagar', desc: 'Produkter som finns i lager skickas direkt och levereras normalt inom 1–2 arbetsdagar.' },
-                { title: '30 dagars returrätt', desc: 'Ångrar du ditt köp kan du returnera produkten inom 30 dagar enligt våra returvillkor.' },
-                { title: 'Säker betalning', desc: 'SSL-krypterad anslutning och PCI DSS-certifierad betalning skyddar dina uppgifter.' },
-                { title: 'Personlig kundservice', desc: 'Vi svarar på e-post och telefon under öppettider och löser ditt ärende snabbt.' },
-                { title: 'Konkurrenskraftiga priser', desc: 'Noggrant utvalt sortiment med rättvisa priser och regelbundna erbjudanden på elektronik.' },
+                { title: 'Originalprodukter med garanti', desc: 'Allt vi säljer kommer från auktoriserade leverantörer och omfattas av tillverkarens garanti.' },
+                { title: 'Leverans inom 1–3 arbetsdagar', desc: 'Lagerförda produkter skickas direkt och når dig normalt inom 1–3 arbetsdagar, oavsett var i Sverige du bor.' },
+                { title: '30 dagars returrätt', desc: 'Ångrar du ditt köp returnerar du enkelt inom 30 dagar. Ingen krånglig process.' },
+                { title: 'Säker betalning', desc: 'SSL-krypterad anslutning och säkra betalningslösningar skyddar dina uppgifter vid varje köp.' },
+                { title: 'Personlig kundservice', desc: 'Vi är ett litet dedikerat team. Hör av dig via e-post eller telefon — vi svarar snabbt.' },
+                { title: 'Rättvisa priser', desc: 'Noggrant utvalt sortiment med konkurrenskraftiga priser och regelbundna erbjudanden.' },
               ].map((item) => (
                 <div key={item.title} className="flex gap-4 bg-white p-5 rounded-lg">
                   <svg className="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 24 24">
@@ -94,10 +94,10 @@ export default function AboutPage() {
           <section className="text-center max-w-2xl mx-auto">
             <h2 className="text-3xl font-bold mb-6">Vår ambition</h2>
             <p className="text-gray-700 leading-relaxed mb-4">
-              Vi vill göra det enkelt att köpa teknik online. Därför fokuserar vi på ett noggrant utvalt sortiment, tydlig produktinformation och en smidig köpupplevelse från beställning till leverans.
+              Vi vill att det ska vara lika enkelt att köpa elektronik online som att gå in i en butik och prata med någon som kan sitt jobb. Tydlig information, ärliga priser och snabb hjälp när något krånglar.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              När du handlar hos Techpilots ska du känna dig trygg med att du får rätt produkt, till rätt pris och med support när du behöver den.
+              Techpilots är fortfarande ett ungt företag, men vi bygger något vi är stolta över. Varje kund som väljer oss betyder något — och vi tänker fortsätta förtjäna det förtroendet.
             </p>
           </section>
 
