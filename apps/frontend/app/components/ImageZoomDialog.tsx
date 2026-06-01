@@ -92,12 +92,13 @@ export function ImageZoomDialog({
             </svg>
           </button>
 
-          <img
-            src={currentImage.url}
-            alt={currentImage.altText}
-            className="object-contain"
-            style={{ maxWidth: '90%', maxHeight: '90%' }}
-          />
+          <div style={{ width: '70%', height: '70%' }}>
+            <img
+              src={currentImage.url}
+              alt={currentImage.altText}
+              className="w-full h-full object-contain"
+            />
+          </div>
 
           {/* Right Arrow */}
           <button
