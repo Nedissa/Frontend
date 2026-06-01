@@ -231,11 +231,11 @@ export default function ProductDetailClient({
                     <button
                       key={idx}
                       onClick={() => setSelectedImage(idx)}
-                      className={`flex-shrink-0 aspect-square w-16 transition-all duration-150 flex items-center justify-center bg-gray-50 ${
-                        selectedImage === idx ? 'ring-2 ring-black' : 'ring-1 ring-gray-200'
+                      className={`flex-shrink-0 aspect-square w-20 transition-all duration-150 flex items-center justify-center ${
+                        selectedImage === idx ? 'scale-150' : ''
                       }`}
                     >
-                      <img src={img.url} alt="" className="w-full h-full object-contain p-1" />
+                      <img src={img.url} alt="" className="w-full h-full object-contain" />
                     </button>
                   ))}
                 </div>
