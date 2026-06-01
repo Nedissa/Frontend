@@ -144,11 +144,13 @@ export default function ProductDetailClient({
   };
 
 
+  const metadata = (product as any).metadata || {};
+
   const productDetails = {
     sku: product.id.slice(-8).toUpperCase(),
     quantityAvailable: 12,
     compareAtPrice: product.originalPrice,
-    description: (product as any).description || product.features?.join('\n') || '',
+    description: (product as any).description || '',
     featuredImage: {
       url: product.image,
       altText: product.title,
@@ -156,7 +158,9 @@ export default function ProductDetailClient({
     images: (product.images && product.images.length > 0)
       ? product.images.map((url, idx) => ({ id: String(idx + 1), url, altText: `${product.title} ${idx + 1}` }))
       : [{ id: '1', url: product.image, altText: product.title }],
-    highlights: (product as any).metadata?.highlights || [],
+    highlights: Array.isArray(metadata.highlights) ? metadata.highlights : [],
+    specifications: Array.isArray(metadata.specifications) ? metadata.specifications : [],
+    contents: Array.isArray(metadata.contents) ? metadata.contents : [],
   };
 
   const discountPercent = product.originalPrice
@@ -330,34 +334,33 @@ export default function ProductDetailClient({
 
               {activeTab === 'specifications' && (
                 <div className="space-y-3 pb-8">
-                  {[
-                    { label: 'Processor', value: 'Intel Core i9-13900H' },
-                    { label: 'Minne', value: '32GB DDR5' },
-                    { label: 'Lagring', value: '1TB NVMe SSD' },
-                    { label: 'Skärm', value: '16" 3.2K 165Hz' },
-                    { label: 'Grafikkort', value: 'NVIDIA GeForce RTX 4080' },
-                  ].map((spec, idx) => (
-                    <div key={idx} className="border-b border-gray-200 pb-3">
-                      <p className="text-sm font-semibold text-gray-900">{spec.label}</p>
-                      <p className="text-sm text-gray-700">{spec.value}</p>
-                    </div>
-                  ))}
+                  {productDetails.specifications.length > 0 ? (
+                    productDetails.specifications.map((spec: { label: string; value: string }, idx: number) => (
+                      <div key={idx} className="border-b border-gray-200 pb-3">
+                        <p className="text-sm font-semibold text-gray-900">{spec.label}</p>
+                        <p className="text-sm text-gray-700">{spec.value}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-sm text-gray-500">Inga specifikationer tillagda</p>
+                  )}
                 </div>
               )}
 
               {activeTab === 'contents' && (
                 <div className="space-y-3 pb-8">
-                  <div className="border-b border-gray-200 pb-3">
-                    <p className="text-sm text-gray-700">
-                      Följande tillbehör ingår i paketet:
-                    </p>
-                    <ul className="text-sm text-gray-700 mt-2 space-y-1 list-disc list-inside">
-                      <li>1 x Gaming Laptop</li>
-                      <li>Laddare (USB-C)</li>
-                      <li>Användarhandbok</li>
-                      <li>Drivrutiner (på USB-enhet)</li>
-                    </ul>
-                  </div>
+                  {productDetails.contents.length > 0 ? (
+                    <div className="border-b border-gray-200 pb-3">
+                      <p className="text-sm text-gray-700">Följande tillbehör ingår i paketet:</p>
+                      <ul className="text-sm text-gray-700 mt-2 space-y-1 list-disc list-inside">
+                        {productDetails.contents.map((item: string, idx: number) => (
+                          <li key={idx}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-500">Inget produktinnehåll tillagt</p>
+                  )}
                 </div>
               )}
 

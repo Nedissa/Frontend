@@ -18,6 +18,7 @@ export interface Product {
   isNew?: boolean;
   category?: string;
   sectionCategory?: string;
+  metadata?: Record<string, any> | null;
 }
 
 export const MAIN_CATEGORIES: Record<string, string> = {
