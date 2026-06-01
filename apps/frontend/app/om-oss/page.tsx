@@ -73,12 +73,12 @@ export default function AboutPage() {
                 { title: 'Originalprodukter med garanti', desc: 'Allt vi säljer kommer från auktoriserade leverantörer och omfattas av tillverkarens garanti.' },
                 { title: 'Leverans inom 1 till 3 arbetsdagar', desc: 'Lagerförda produkter skickas direkt och når dig normalt inom 1 till 3 arbetsdagar, oavsett var i Sverige du bor.' },
                 { title: '30 dagars returrätt', desc: 'Ångrar du ditt köp returnerar du enkelt inom 30 dagar utan krånglig process.' },
-                { title: 'Säker betalning', desc: 'SSL-krypterad anslutning och säkra betalningslösningar skyddar dina uppgifter vid varje köp.' },
+                { title: 'Säker betalning med Klarna', desc: 'Vi använder Klarna för säkra betalningar. Betala nu, senare eller dela upp på månader.' },
                 { title: 'Personlig kundservice', desc: 'Hör av dig via e-post eller telefon under öppettider så svarar vi så snabbt vi kan.' },
                 { title: 'Rättvisa priser', desc: 'Noggrant utvalt sortiment med konkurrenskraftiga priser och regelbundna erbjudanden på elektronik.' },
               ].map((item) => (
                 <div key={item.title} className="flex gap-4 bg-white p-5 rounded-lg">
-                  <svg className="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 flex-shrink-0 mt-0.5 text-black" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                   </svg>
                   <div>
