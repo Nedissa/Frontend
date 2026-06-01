@@ -27,7 +27,7 @@ export async function GET() {
           'Content-Type': 'application/json',
           'x-publishable-api-key': publishableKey,
         },
-        next: { revalidate: 0 }
+        cache: 'no-store'
       }
     );
 
