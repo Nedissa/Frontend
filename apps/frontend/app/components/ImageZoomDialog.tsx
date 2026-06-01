@@ -92,13 +92,11 @@ export function ImageZoomDialog({
             </svg>
           </button>
 
-          <div className="w-full h-full flex items-center justify-center">
-            <img
-              src={currentImage.url}
-              alt={currentImage.altText}
-              className="w-full h-full object-contain"
-            />
-          </div>
+          <img
+            src={currentImage.url}
+            alt={currentImage.altText}
+            className="max-w-full max-h-full object-contain"
+          />
 
           {/* Right Arrow */}
           <button
