@@ -533,6 +533,7 @@ export default function ProductDetailClient({
           {/* Fri frakt + Klarna */}
           <div className="border-t border-gray-200 pt-4 space-y-3">
             <div className="flex items-center justify-center gap-6">
+
               <div className="flex items-center gap-2">
                 <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
@@ -546,6 +547,7 @@ export default function ProductDetailClient({
                 <span className="text-black text-xs">Fria returer</span>
               </div>
             </div>
+            <div className="border-t border-gray-100"></div>
             <div className="flex justify-center">
               <div className="inline-block bg-pink-300 text-pink-900 px-3 py-1 text-xs font-bold rounded">
                 Klarna
