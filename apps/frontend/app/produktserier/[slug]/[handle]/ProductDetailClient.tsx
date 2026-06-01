@@ -224,7 +224,7 @@ export default function ProductDetailClient({
               {/* Thumbnails */}
               {productDetails.images.length > 1 && (
                 <div
-                  className="flex gap-4 overflow-x-auto px-8 py-6 bg-white justify-center"
+                  className="flex gap-12 overflow-x-auto px-8 py-4 bg-white justify-center"
                   style={{
                     scrollbarWidth: 'none',
                     msOverflowStyle: 'none',
@@ -234,8 +234,8 @@ export default function ProductDetailClient({
                     <button
                       key={idx}
                       onClick={() => setSelectedImage(idx)}
-                      className={`flex-shrink-0 aspect-square flex items-center justify-center transition-all duration-150 ${
-                        selectedImage === idx ? 'w-24' : 'w-16'
+                      className={`flex-shrink-0 aspect-square w-20 transition-all duration-150 flex items-center justify-center ${
+                        selectedImage === idx ? 'scale-150' : ''
                       }`}
                     >
                       <img src={img.url} alt="" className="w-full h-full object-contain" />
