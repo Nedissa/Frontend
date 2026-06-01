@@ -13,7 +13,7 @@ export default function AboutPage() {
       <div className="max-w-[1280px] mx-auto px-6 py-16">
         <h1 className="text-5xl font-bold mb-4">Om Techpilots</h1>
         <p className="text-xl text-gray-600 max-w-3xl">
-          Techpilots är en svensk nätbutik för elektronik, datorer och tillbehör. Vi grundades 2024 med målet att göra det enkelt att hitta rätt produkt — till ett rättvist pris och med snabb leverans direkt hem till dörren.
+          Techpilots är en svensk nätbutik för elektronik, datorer och tillbehör. Vi grundades 2024 med målet att göra det enkelt att hitta rätt produkt, till ett rättvist pris och med snabb leverans direkt hem.
         </p>
       </div>
 
@@ -24,10 +24,10 @@ export default function AboutPage() {
           <section className="text-center max-w-2xl mx-auto">
             <h2 className="text-3xl font-bold mb-6">Elektronik utan krångel</h2>
             <p className="text-gray-700 mb-4 leading-relaxed">
-              Vi startade Techpilots för att näthandel med elektronik ska vara enkel, pålitlig och prisvärd. Allt vi säljer är noggrant utvalt — vi prioriterar kvalitet framför kvantitet och ser till att varje produkt i vårt sortiment håller måttet.
+              Vi startade Techpilots för att näthandel med elektronik ska vara enkel, pålitlig och prisvärd. Allt vi säljer är noggrant utvalt. Vi prioriterar kvalitet framför kvantitet och ser till att varje produkt i sortimentet håller måttet.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              Oavsett om du bygger din första gamingdator, uppgraderar din arbetsstation eller bara letar efter rätt tillbehör finns vi här för att hjälpa dig hitta rätt — utan onödigt krångel.
+              Oavsett om du bygger din första gamingdator, uppgraderar din arbetsstation eller letar efter rätt tillbehör finns vi här för att hjälpa dig hitta rätt.
             </p>
           </section>
 
@@ -51,7 +51,7 @@ export default function AboutPage() {
                   </svg>
                 </div>
                 <h3 className="text-xl font-bold mb-3">Snabb leverans</h3>
-                <p className="text-gray-600 leading-relaxed">Lagerförda produkter skickas direkt och levereras inom 1–3 arbetsdagar till din dörr, var du än bor i Sverige.</p>
+                <p className="text-gray-600 leading-relaxed">Lagerförda produkter skickas direkt och levereras inom 1 till 3 arbetsdagar, var du än bor i Sverige.</p>
               </div>
               <div className="border border-gray-100 p-8 rounded-lg">
                 <div className="mb-5">
@@ -60,7 +60,7 @@ export default function AboutPage() {
                   </svg>
                 </div>
                 <h3 className="text-xl font-bold mb-3">Kundservice</h3>
-                <p className="text-gray-600 leading-relaxed">Vi är ett litet team som bryr oss om varje kund. Hör av dig via e-post eller telefon — vi svarar snabbt och löser ditt ärende.</p>
+                <p className="text-gray-600 leading-relaxed">Vi är ett litet team som bryr oss om varje kund. Hör av dig via e-post eller telefon så löser vi ditt ärende snabbt.</p>
               </div>
             </div>
           </section>
@@ -71,11 +71,11 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 { title: 'Originalprodukter med garanti', desc: 'Allt vi säljer kommer från auktoriserade leverantörer och omfattas av tillverkarens garanti.' },
-                { title: 'Leverans inom 1–3 arbetsdagar', desc: 'Lagerförda produkter skickas direkt och når dig normalt inom 1–3 arbetsdagar, oavsett var i Sverige du bor.' },
-                { title: '30 dagars returrätt', desc: 'Ångrar du ditt köp returnerar du enkelt inom 30 dagar. Ingen krånglig process.' },
+                { title: 'Leverans inom 1 till 3 arbetsdagar', desc: 'Lagerförda produkter skickas direkt och når dig normalt inom 1 till 3 arbetsdagar, oavsett var i Sverige du bor.' },
+                { title: '30 dagars returrätt', desc: 'Ångrar du ditt köp returnerar du enkelt inom 30 dagar utan krånglig process.' },
                 { title: 'Säker betalning', desc: 'SSL-krypterad anslutning och säkra betalningslösningar skyddar dina uppgifter vid varje köp.' },
-                { title: 'Personlig kundservice', desc: 'Vi är ett litet dedikerat team. Hör av dig via e-post eller telefon — vi svarar snabbt.' },
-                { title: 'Rättvisa priser', desc: 'Noggrant utvalt sortiment med konkurrenskraftiga priser och regelbundna erbjudanden.' },
+                { title: 'Personlig kundservice', desc: 'Hör av dig via e-post eller telefon under öppettider så svarar vi så snabbt vi kan.' },
+                { title: 'Rättvisa priser', desc: 'Noggrant utvalt sortiment med konkurrenskraftiga priser och regelbundna erbjudanden på elektronik.' },
               ].map((item) => (
                 <div key={item.title} className="flex gap-4 bg-white p-5 rounded-lg">
                   <svg className="w-5 h-5 flex-shrink-0 mt-0.5 text-green-600" fill="currentColor" viewBox="0 0 24 24">
@@ -97,7 +97,7 @@ export default function AboutPage() {
               Vi vill att det ska vara lika enkelt att köpa elektronik online som att gå in i en butik och prata med någon som kan sitt jobb. Tydlig information, ärliga priser och snabb hjälp när något krånglar.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              Techpilots är fortfarande ett ungt företag, men vi bygger något vi är stolta över. Varje kund som väljer oss betyder något — och vi tänker fortsätta förtjäna det förtroendet.
+              Techpilots är ett ungt företag men vi bygger något vi är stolta över. Varje kund som väljer oss betyder något och vi tänker fortsätta förtjäna det förtroendet.
             </p>
           </section>
 
@@ -107,10 +107,10 @@ export default function AboutPage() {
       {/* CTA */}
       <div className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-16">
         <div className="max-w-[1280px] mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold mb-4">Redo att börja?</h2>
+          <h2 className="text-3xl font-bold mb-4">Redo att handla?</h2>
           <p className="text-lg text-gray-300 mb-8">Utforska vårt sortiment av datorer, komponenter och tillbehör</p>
           <Link href="/produkter" className="inline-block bg-white text-gray-900 px-8 py-3 rounded font-bold hover:bg-gray-100 transition-colors">
-            Utforska sortimentet →
+            Utforska sortimentet
           </Link>
         </div>
       </div>
