@@ -79,7 +79,7 @@ export function ImageZoomDialog({
         </button>
 
         {/* Image Container with Navigation */}
-        <div className="flex-1 flex items-center justify-center p-6 overflow-hidden relative" style={{ minHeight: 0 }}>
+        <div className="flex-1 flex items-center justify-center p-8 overflow-hidden relative" style={{ minHeight: 0 }}>
           {/* Left Arrow */}
           <button
             onClick={() =>
@@ -92,13 +92,11 @@ export function ImageZoomDialog({
             </svg>
           </button>
 
-          <div style={{ width: '70%', height: '70%' }}>
-            <img
-              src={currentImage.url}
-              alt={currentImage.altText}
-              className="w-full h-full object-contain"
-            />
-          </div>
+          <img
+            src={currentImage.url}
+            alt={currentImage.altText}
+            className="max-w-full max-h-full object-contain"
+          />
 
           {/* Right Arrow */}
           <button
@@ -114,7 +112,7 @@ export function ImageZoomDialog({
         </div>
 
         {/* Thumbnails */}
-        <div className="px-6 pt-2 pb-0 flex gap-8 justify-center overflow-x-auto items-center" style={{ scrollbarWidth: 'none', height: '120px', flexShrink: 0 }}>
+        <div className="px-6 py-4 flex gap-6 justify-center overflow-x-auto h-40" style={{ scrollbarWidth: 'none' }}>
           {images.map((img, idx) => (
             <div
               key={idx}
@@ -122,7 +120,9 @@ export function ImageZoomDialog({
             >
               <button
                 onClick={() => setCurrentIndex(idx)}
-                className="aspect-square w-20 flex items-center justify-center"
+                className={`aspect-square overflow-hidden transition-all duration-200 flex items-center justify-center ${
+                  currentIndex === idx ? 'w-36 -translate-y-1' : 'w-20'
+                }`}
               >
                 <img src={img.url} alt="" className="w-full h-full object-contain" />
               </button>
@@ -131,7 +131,7 @@ export function ImageZoomDialog({
         </div>
 
         {/* Counter and Dots */}
-        <div className="flex flex-col items-center justify-center px-6 pt-1 pb-4 gap-2">
+        <div className="flex flex-col items-center justify-center px-6 py-4 gap-3">
           <span className="text-xs text-gray-400 tracking-wider">
             {String(currentIndex + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
           </span>
