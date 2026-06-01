@@ -121,7 +121,7 @@ export default function ProductDetailClient({
 
   const productDetails = {
     sku: product.id.slice(-8).toUpperCase(),
-    quantityAvailable: 12,
+    quantityAvailable: (product as any).inventoryQuantity ?? null,
     compareAtPrice: product.originalPrice,
     description: (product as any).description || '',
     featuredImage: {
@@ -447,9 +447,11 @@ export default function ProductDetailClient({
 
           {/* Stock */}
           <div className="flex items-center gap-2 text-sm mb-4">
-            <span className="text-black font-medium">Webblager</span>
             <span className="w-2 h-2 bg-green-600 rounded-full"></span>
-            <span className="text-black">{productDetails.quantityAvailable} st</span>
+            <span className="text-black font-medium">I lager</span>
+            {productDetails.quantityAvailable !== null && (
+              <span className="text-gray-500">({productDetails.quantityAvailable} st)</span>
+            )}
           </div>
 
           {/* Add to Cart Button */}
