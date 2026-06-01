@@ -179,48 +179,27 @@ export function ProductCard({
 
       {/* Product Info */}
       <div className="flex-1 flex flex-col">
-        {/* Brand */}
-        <p className="text-xs text-gray-500 font-medium mb-2 uppercase">{product.brand || '—'}</p>
-
         {/* Title */}
-        <h3 className="text-sm font-semibold text-gray-900 mb-3 leading-snug">
+        <h3 className="text-sm font-semibold text-gray-900 mb-1 leading-snug">
           {product.title}
         </h3>
 
-        {/* Features */}
-        {config.showFeatures && (
-          <ul className="text-xs text-gray-600 mb-3 space-y-1">
-            {product.features && product.features.length > 0 ? (
-              product.features.map((feature, idx) => (
-                <li key={idx} className="flex items-start gap-2">
-                  <span className="text-gray-400">•</span>
-                  <span>{feature}</span>
-                </li>
-              ))
-            ) : (
-              <li className="flex items-start gap-2 text-gray-400">
-                <span>•</span>
-                <span>Ingen beskrivning tillagd</span>
-              </li>
-            )}
-          </ul>
-        )}
+        {/* Brand */}
+        {product.brand && <p className="text-xs text-gray-400 mb-2 uppercase">{product.brand}</p>}
 
         {/* Rating */}
-        <Link href={`${productLink}#reviews`} className="flex items-center gap-1 mb-3 hover:opacity-70 transition-opacity">
+        <Link href={`${productLink}#reviews`} className="flex items-center gap-1 mb-2 hover:opacity-70 transition-opacity">
           <div className="flex gap-0.5">
             {[...Array(5)].map((_, i) => (
-              <span key={i} className={i < Math.floor(product.rating || 0) ? 'text-black' : 'text-gray-300'}>
-                ★
-              </span>
+              <span key={i} className={i < Math.floor(product.rating || 0) ? 'text-black' : 'text-gray-300'}>★</span>
             ))}
           </div>
           <span className="text-xs text-gray-600">({product.reviews || 0})</span>
         </Link>
 
         {/* Price */}
-        <div className="mb-3">
-          <div className="flex flex-col">
+        <div className="mb-2">
+          <div className="flex items-baseline gap-2">
             {product.price !== undefined && (
               <span className="text-lg font-bold text-gray-900">
                 {product.price.toLocaleString('sv-SE')} kr
@@ -233,12 +212,6 @@ export function ProductCard({
             )}
           </div>
         </div>
-
-        {/* Stock Status */}
-        <p className={`text-xs font-semibold mb-3 flex items-center gap-2 ${product.stock ? 'text-green-600' : 'text-gray-400'}`}>
-          <span className={`w-2 h-2 rounded-full ${product.stock ? 'bg-green-600' : 'bg-gray-300'}`}></span>
-          {product.stock || 'Lagerstatusmissing'}
-        </p>
 
         {/* Color Selector */}
         <div className="flex gap-2 mb-3 min-h-[28px]">
@@ -265,6 +238,12 @@ export function ProductCard({
             );
           })}
         </div>
+
+        {/* Stock Status */}
+        <p className={`text-xs font-semibold mb-3 flex items-center gap-2 ${product.stock ? 'text-green-600' : 'text-gray-400'}`}>
+          <span className={`w-2 h-2 rounded-full ${product.stock ? 'bg-green-600' : 'bg-gray-300'}`}></span>
+          {product.stock || 'I lager'}
+        </p>
 
         {/* Button Container */}
         <div className="mt-auto border-t border-gray-200"></div>
