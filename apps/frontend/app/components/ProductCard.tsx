@@ -40,7 +40,7 @@ const VARIANT_CONFIG: Record<ProductCardVariant, { showFeatures: boolean; imageH
   recommended: { showFeatures: true, imageHeight: 'aspect-square' },
   new: { showFeatures: false, imageHeight: 'aspect-square' },
   related: { showFeatures: false, imageHeight: 'aspect-square' },
-  'also-like': { showFeatures: false, imageHeight: 'h-48' },
+  'also-like': { showFeatures: false, imageHeight: 'aspect-square' },
 };
 
 export function ProductCard({
