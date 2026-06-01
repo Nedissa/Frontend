@@ -430,10 +430,12 @@ export default function ProductDetailClient({
                 min="1"
                 value={quantity}
                 onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                className="w-8 text-center bg-transparent focus:outline-none text-sm font-semibold border-none"
+                className="text-center bg-transparent focus:outline-none text-sm font-semibold border-none tabular-nums"
                 style={{
                   WebkitAppearance: 'none',
                   MozAppearance: 'textfield',
+                  minWidth: '2rem',
+                  width: '2rem',
                 }}
               />
               <button
