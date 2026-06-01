@@ -284,7 +284,7 @@ export default function ProductDetailClient({
                 {[
                 { key: 'description', label: 'Beskrivning' },
                 { key: 'specifications', label: 'Specifikationer' },
-                { key: 'contents', label: 'Produktinnehål' },
+                { key: 'contents', label: 'Produktinnehåll' },
                 { key: 'reviews', label: 'Recensioner' },
               ].map(({ key, label }) => (
                   <button
