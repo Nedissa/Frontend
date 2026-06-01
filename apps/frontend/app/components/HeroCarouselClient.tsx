@@ -11,6 +11,8 @@ const SLIDE_DURATION = 5000;
 
 export function HeroCarouselClient({ collections }: { collections: Collection[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState<number | null>(null);
+  const [sliding, setSliding] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
   const touchStartX = useRef<number | null>(null);
@@ -18,10 +20,14 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
   const rafRef = useRef<number | null>(null);
 
   const goTo = (index: number, pause = false) => {
+    if (index === currentIndex) return;
+    setPrevIndex(currentIndex);
     setCurrentIndex(index);
+    setSliding(true);
     setProgress(0);
     startTimeRef.current = Date.now();
     if (pause) setIsPlaying(false);
+    setTimeout(() => { setPrevIndex(null); setSliding(false); }, 600);
   };
 
   const next = (pause = false) => goTo((currentIndex + 1) % collections.length, pause);
@@ -41,7 +47,14 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
       setProgress(p);
 
       if (p >= 1) {
-        setCurrentIndex((prev) => (prev + 1) % collections.length);
+        setPrevIndex((cur) => cur);
+        setCurrentIndex((cur) => {
+          const next = (cur + 1) % collections.length;
+          setPrevIndex(cur);
+          setSliding(true);
+          setTimeout(() => { setPrevIndex(null); setSliding(false); }, 600);
+          return next;
+        });
         setProgress(0);
         startTimeRef.current = Date.now();
       }
@@ -52,12 +65,6 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
     rafRef.current = requestAnimationFrame(tick);
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
   }, [isPlaying, collections.length]);
-
-  // Reset progress when slide changes externally
-  useEffect(() => {
-    setProgress(0);
-    startTimeRef.current = Date.now();
-  }, [currentIndex]);
 
   const heroImages = [
     '/assets/hero-1.jpg',
@@ -78,32 +85,46 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
           touchStartX.current = null;
         }}
       >
-        {heroImages.map((src, i) => (
-          <img
-            key={src}
-            src={src}
-            alt={collections[i]?.title || ''}
-            className={`absolute inset-0 w-full h-full object-cover ${i === 0 ? '' : 'transition-opacity duration-500'}`}
-            style={{ opacity: i === currentIndex ? 1 : 0 }}
-            width={1280}
-            height={484}
-            fetchPriority={i === 0 ? 'high' : 'low'}
-            loading={i === 0 ? 'eager' : 'lazy'}
-            decoding={i === 0 ? 'sync' : 'async'}
-          />
-        ))}
-        <div className="absolute inset-0 bg-black/30"></div>
+        {heroImages.map((src, i) => {
+          const isCurrent = i === currentIndex;
+          const isPrev = i === prevIndex;
+
+          let transform = 'translateX(100%)';
+          if (isCurrent) transform = sliding ? 'translateX(0%)' : 'translateX(0%)';
+          if (isPrev) transform = 'translateX(-100%)';
+          if (!isCurrent && !isPrev) transform = 'translateX(100%)';
+
+          return (
+            <img
+              key={src}
+              src={src}
+              alt={collections[i]?.title || ''}
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{
+                transform,
+                transition: (isCurrent || isPrev) && sliding ? 'transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none',
+                zIndex: isCurrent ? 2 : isPrev ? 1 : 0,
+              }}
+              width={1280}
+              height={484}
+              fetchPriority={i === 0 ? 'high' : 'low'}
+              loading={i === 0 ? 'eager' : 'lazy'}
+              decoding={i === 0 ? 'sync' : 'async'}
+            />
+          );
+        })}
+        <div className="absolute inset-0 bg-black/30 z-10"></div>
 
         {/* Progress bars */}
         <div
-          className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 px-4"
+          className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 px-4 z-20"
           style={{ width: 'min(400px, 80%)' }}
           onClick={(e) => e.stopPropagation()}
         >
           {heroImages.map((_, i) => (
             <button
               key={i}
-              onClick={() => goTo(i, true)}
+              onClick={() => goTo(i, false)}
               className="relative flex-1 h-[3px] bg-white/40 rounded-full overflow-hidden"
               aria-label={`Gå till bild ${i + 1}`}
             >
