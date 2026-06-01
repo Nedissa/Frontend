@@ -107,8 +107,13 @@ export async function GET() {
         },
         brand: product.brand || '',
         colors: product.options?.find((o: any) => o.title?.toLowerCase() === 'color' || o.title?.toLowerCase() === 'färg')?.values?.map((v: any) => v.value) || parseMeta(product.metadata?.colors),
-        stock: 'I lager',
         inventoryQuantity: product.variants?.reduce((sum: number, v: any) => sum + (v.inventory_quantity || 0), 0) ?? null,
+        stock: (() => {
+          const managesInventory = product.variants?.some((v: any) => v.manage_inventory);
+          if (!managesInventory) return 'I lager';
+          const qty = product.variants?.reduce((sum: number, v: any) => sum + (v.inventory_quantity || 0), 0) || 0;
+          return qty > 0 ? 'I lager' : 'Slut i lager';
+        })(),
         rating: product.rating || 0,
         reviews: product.reviews || 0,
         features: parseMeta(product.metadata?.features),

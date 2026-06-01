@@ -252,8 +252,8 @@ export function ProductCard({
         </div>
 
         {/* Stock Status */}
-        <p className={`text-xs font-semibold mb-3 flex items-center gap-2 ${product.stock ? 'text-green-600' : 'text-gray-400'}`}>
-          <span className={`w-2 h-2 rounded-full ${product.stock ? 'bg-green-600' : 'bg-gray-300'}`}></span>
+        <p className={`text-xs font-semibold mb-3 flex items-center gap-2 ${product.stock === 'Slut i lager' ? 'text-red-500' : 'text-green-600'}`}>
+          <span className={`w-2 h-2 rounded-full ${product.stock === 'Slut i lager' ? 'bg-red-500' : 'bg-green-600'}`}></span>
           {product.stock || 'I lager'}
         </p>
 
