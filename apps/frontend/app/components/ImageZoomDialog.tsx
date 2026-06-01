@@ -113,7 +113,7 @@ export function ImageZoomDialog({
         </div>
 
         {/* Thumbnails */}
-        <div className="px-6 py-2 flex gap-8 justify-center overflow-x-auto items-center" style={{ scrollbarWidth: 'none', height: '160px', flexShrink: 0 }}>
+        <div className="px-6 pt-2 pb-0 flex gap-8 justify-center overflow-x-auto items-center" style={{ scrollbarWidth: 'none', height: '120px', flexShrink: 0 }}>
           {images.map((img, idx) => (
             <div
               key={idx}
@@ -130,7 +130,7 @@ export function ImageZoomDialog({
         </div>
 
         {/* Counter and Dots */}
-        <div className="flex flex-col items-center justify-center px-6 py-2 gap-2">
+        <div className="flex flex-col items-center justify-center px-6 pt-1 pb-4 gap-2">
           <span className="text-xs text-gray-400 tracking-wider">
             {String(currentIndex + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
           </span>
