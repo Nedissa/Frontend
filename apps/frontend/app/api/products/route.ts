@@ -95,7 +95,7 @@ export async function GET() {
         description: product.description || '',
         metadata: product.metadata || null,
         brand: product.brand || '',
-        colors: product.colors || [],
+        colors: product.metadata?.colors || [],
         stock: product.stock || 'I lager',
         rating: product.rating || 0,
         reviews: product.reviews || 0,
