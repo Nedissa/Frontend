@@ -448,13 +448,22 @@ export default function ProductDetailClient({
           </div>
 
           {/* Stock */}
-          <div className="flex items-center gap-2 text-sm mb-4">
-            <span className="w-2 h-2 bg-green-600 rounded-full"></span>
-            <span className="text-black font-medium">I lager</span>
-            {productDetails.quantityAvailable !== null && (
-              <span className="text-gray-500">({productDetails.quantityAvailable} st)</span>
-            )}
-          </div>
+          {(() => {
+            const qty = productDetails.quantityAvailable;
+            const managesInventory = (product as any).variants?.some((v: any) => v.manage_inventory);
+            const isOutOfStock = managesInventory && qty !== null && qty <= 0;
+            return (
+              <div className="flex items-center gap-2 text-sm mb-4">
+                <span className={`w-2 h-2 rounded-full ${isOutOfStock ? 'bg-red-500' : 'bg-green-600'}`}></span>
+                <span className={`font-medium ${isOutOfStock ? 'text-red-500' : 'text-black'}`}>
+                  {isOutOfStock ? 'Slut i lager' : 'I lager'}
+                </span>
+                {!isOutOfStock && qty !== null && (
+                  <span className="text-gray-500">({qty} st)</span>
+                )}
+              </div>
+            );
+          })()}
 
           {/* Add to Cart Button */}
           <button

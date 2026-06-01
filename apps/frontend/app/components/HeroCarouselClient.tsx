@@ -7,23 +7,57 @@ interface Collection {
   handle: string;
 }
 
+const SLIDE_DURATION = 5000;
+
 export function HeroCarouselClient({ collections }: { collections: Collection[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [progress, setProgress] = useState(0);
   const touchStartX = useRef<number | null>(null);
+  const startTimeRef = useRef<number>(Date.now());
+  const rafRef = useRef<number | null>(null);
+
+  const goTo = (index: number, pause = false) => {
+    setCurrentIndex(index);
+    setProgress(0);
+    startTimeRef.current = Date.now();
+    if (pause) setIsPlaying(false);
+  };
+
+  const next = (pause = false) => goTo((currentIndex + 1) % collections.length, pause);
+  const prev = (pause = false) => goTo((currentIndex - 1 + collections.length) % collections.length, pause);
 
   useEffect(() => {
-    if (!isPlaying) return;
-    const slideTimer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % collections.length);
-    }, 5000);
-    return () => clearInterval(slideTimer);
+    if (!isPlaying) {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      return;
+    }
+
+    startTimeRef.current = Date.now();
+
+    const tick = () => {
+      const elapsed = Date.now() - startTimeRef.current;
+      const p = Math.min(elapsed / SLIDE_DURATION, 1);
+      setProgress(p);
+
+      if (p >= 1) {
+        setCurrentIndex((prev) => (prev + 1) % collections.length);
+        setProgress(0);
+        startTimeRef.current = Date.now();
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
   }, [isPlaying, collections.length]);
 
-  const next = () => { setCurrentIndex((prev) => (prev + 1) % collections.length); setIsPlaying(false); };
-  const prev = () => { setCurrentIndex((prev) => (prev - 1 + collections.length) % collections.length); setIsPlaying(false); };
-
-  const currentCollection = collections[currentIndex];
+  // Reset progress when slide changes externally
+  useEffect(() => {
+    setProgress(0);
+    startTimeRef.current = Date.now();
+  }, [currentIndex]);
 
   const heroImages = [
     '/assets/hero-1.jpg',
@@ -35,12 +69,12 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
     <div className="relative z-0 flex justify-center w-full">
       <div
         className="relative max-w-[1280px] w-full aspect-[1280/484] overflow-hidden flex items-center justify-center cursor-pointer bg-gray-200"
-        onClick={next}
+        onClick={() => next(true)}
         onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
         onTouchEnd={(e) => {
           if (touchStartX.current === null) return;
           const diff = touchStartX.current - e.changedTouches[0].clientX;
-          if (Math.abs(diff) > 50) diff > 0 ? next() : prev();
+          if (Math.abs(diff) > 50) diff > 0 ? next(true) : prev(true);
           touchStartX.current = null;
         }}
       >
@@ -60,46 +94,32 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
         ))}
         <div className="absolute inset-0 bg-black/30"></div>
 
-        <div className="absolute bottom-6 right-6 flex items-center gap-4" onClick={(e) => e.stopPropagation()}>
-          <div className="bg-white rounded-full px-4 py-2 flex items-center gap-3">
+        {/* Progress bars */}
+        <div
+          className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 px-4"
+          style={{ width: 'min(400px, 80%)' }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {heroImages.map((_, i) => (
             <button
-              onClick={prev}
-              className="text-gray-600 hover:text-black transition-colors"
-              aria-label="Föregående"
+              key={i}
+              onClick={() => goTo(i, true)}
+              className="relative flex-1 h-[3px] bg-white/40 rounded-full overflow-hidden"
+              aria-label={`Gå till bild ${i + 1}`}
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
+              <div
+                className="absolute inset-y-0 left-0 bg-white rounded-full"
+                style={{
+                  width: i < currentIndex
+                    ? '100%'
+                    : i === currentIndex
+                    ? `${progress * 100}%`
+                    : '0%',
+                  transition: i === currentIndex ? 'none' : undefined,
+                }}
+              />
             </button>
-            <span className="text-sm font-semibold text-gray-900 min-w-[3rem] text-center">
-              {currentIndex + 1}/{collections.length}
-            </span>
-            <button
-              onClick={next}
-              className="text-gray-600 hover:text-black transition-colors"
-              aria-label="Nästa"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
-
-          <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="bg-white rounded-full w-10 h-10 flex items-center justify-center hover:bg-gray-100 transition-colors"
-            aria-label={isPlaying ? "Pausa" : "Spela"}
-          >
-            {isPlaying ? (
-              <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
-              </svg>
-            ) : (
-              <svg className="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M6 4v16l14-8z" />
-              </svg>
-            )}
-          </button>
+          ))}
         </div>
       </div>
     </div>
