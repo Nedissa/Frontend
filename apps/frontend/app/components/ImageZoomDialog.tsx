@@ -96,7 +96,7 @@ export function ImageZoomDialog({
             src={currentImage.url}
             alt={currentImage.altText}
             className="object-contain"
-            style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: '100%' }}
+            style={{ maxWidth: '100%', maxHeight: '100%', width: 'auto', height: '85%' }}
           />
 
           {/* Right Arrow */}
