@@ -35,12 +35,12 @@ interface ProductCardProps {
   priority?: boolean;
 }
 
-const VARIANT_CONFIG: Record<ProductCardVariant, { showFeatures: boolean; imageHeight: string }> = {
-  popular: { showFeatures: true, imageHeight: 'aspect-square' },
-  recommended: { showFeatures: true, imageHeight: 'aspect-square' },
-  new: { showFeatures: false, imageHeight: 'aspect-square' },
-  related: { showFeatures: false, imageHeight: 'aspect-square' },
-  'also-like': { showFeatures: false, imageHeight: 'aspect-square' },
+const VARIANT_CONFIG: Record<ProductCardVariant, { showFeatures: boolean }> = {
+  popular: { showFeatures: true },
+  recommended: { showFeatures: true },
+  new: { showFeatures: false },
+  related: { showFeatures: false },
+  'also-like': { showFeatures: false },
 };
 
 export function ProductCard({
@@ -91,7 +91,7 @@ export function ProductCard({
     >
       {/* Image Container with Badges */}
       <div
-        className={`relative bg-gray-100 overflow-hidden mb-4 ${config.imageHeight} flex items-center justify-center w-full`}
+        className="relative bg-gray-100 overflow-hidden mb-4 aspect-square flex items-center justify-center w-full"
         style={{ position: 'relative' }}
         onMouseMove={(e) => {
           if (!product.images || product.images.length === 0) return;
