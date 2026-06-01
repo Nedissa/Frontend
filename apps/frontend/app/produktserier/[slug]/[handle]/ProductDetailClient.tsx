@@ -579,9 +579,10 @@ export default function ProductDetailClient({
       </div>
 
       {/* Rekommenderade tillbehör - under höger kolumn */}
+      <div className="px-6 mt-2">
       <div className="flex gap-2">
         <div className="flex-1"></div>
-        <div className="w-96 mt-2 bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+        <div className="w-96 bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
           <button
             onClick={() => setShowAccessories(!showAccessories)}
             className="w-full flex items-center justify-between text-sm font-semibold text-gray-900 py-4 px-6 hover:bg-gray-50"
@@ -624,6 +625,7 @@ export default function ProductDetailClient({
             </div>
           )}
         </div>
+      </div>
       </div>
 
       </div>
