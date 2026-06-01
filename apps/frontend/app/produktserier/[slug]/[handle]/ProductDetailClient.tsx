@@ -224,7 +224,7 @@ export default function ProductDetailClient({
               {/* Thumbnails */}
               {productDetails.images.length > 1 && (
                 <div
-                  className="flex gap-3 overflow-x-auto px-4 py-3 bg-white"
+                  className="flex gap-3 overflow-x-auto px-4 py-3"
                   style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
                   {productDetails.images.map((img, idx) => (
