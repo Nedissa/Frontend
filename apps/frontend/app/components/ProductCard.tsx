@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useCallback } from 'react';
+import { ImageZoomDialog } from './ImageZoomDialog';
 
 export interface ProductData {
   id: string;
@@ -53,6 +54,7 @@ export function ProductCard({
 }: ProductCardProps) {
   const [imageIndex, setImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [showZoom, setShowZoom] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
   const config = VARIANT_CONFIG[variant];
   const cardImages = product.images?.slice(0, 3);
@@ -85,6 +87,7 @@ export function ProductCard({
   const getProxiedImageUrl = (url: string) => url;
 
   return (
+    <>
     <div
       className="flex flex-col bg-white h-full p-3 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.14)] hover:-translate-y-1"
       onMouseEnter={() => setIsHovered(true)}
@@ -130,6 +133,17 @@ export function ProductCard({
             </div>
           ) : null}
         </div>
+
+        {isHovered && (
+          <button
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowZoom(true); }}
+            className="absolute top-3 right-3 z-20 w-7 h-7 bg-white rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
+          >
+            <svg className="w-4 h-4 text-gray-800" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+            </svg>
+          </button>
+        )}
 
         <Link href={productLink} scroll={false} className="absolute inset-0 flex items-center justify-center">
           <style>{`
@@ -292,5 +306,12 @@ export function ProductCard({
         </div>
       </div>
     </div>
+    <ImageZoomDialog
+      images={(cardImages && cardImages.length > 0 ? cardImages : [product.image]).map((url, idx) => ({ id: String(idx), url: getProxiedImageUrl(url), altText: product.title }))}
+      initialIndex={imageIndex}
+      isOpen={showZoom}
+      onClose={() => setShowZoom(false)}
+    />
+    </>
   );
 }

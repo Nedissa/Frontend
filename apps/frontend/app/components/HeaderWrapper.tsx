@@ -64,7 +64,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'barbara',
         title: 'Bärbara datorer',
         url: '/produkter',
-        icon: <LaptopIcon />,
+        icon: <img src="/icons/barbara-datorer.png" alt="Bärbara datorer" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'ultrabooks', title: 'Ultrabooks', url: '/produkter' },
           { id: 'gaming-barbara', title: 'Gaming bärbara', url: '/produkter' },
@@ -75,7 +75,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'stationara',
         title: 'Stationära datorer',
         url: '/produkter',
-        icon: <DesktopIcon />,
+        icon: <img src="/icons/stationara-datorer.png" alt="Stationära datorer" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'mini-pc', title: 'Mini-PC', url: '/produkter' },
           { id: 'allt-i-ett', title: 'Allt-i-ett', url: '/produkter' },
@@ -86,7 +86,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'datortillbehor',
         title: 'Datortillbehör',
         url: '/produkter',
-        icon: <AccessoriesIcon />,
+        icon: <img src="/icons/datortillbehor.png" alt="Datortillbehör" style={{ width: '38px', height: '38px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'bildskarm', title: 'Bildskärmar', url: '/produkter' },
           { id: 'tangentbord', title: 'Tangentbord', url: '/produkter' },
@@ -105,7 +105,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'processorer',
         title: 'CPU processorer',
         url: '/produkter',
-        icon: <ProcessorIcon />,
+        icon: <img src="/icons/cpu.png" alt="CPU" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'intel', title: 'Intel', url: '/produkter' },
           { id: 'amd', title: 'AMD', url: '/produkter' },
@@ -115,7 +115,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'moderkort',
         title: 'Moderkort',
         url: '/produkter',
-        icon: <ModerkortIcon />,
+        icon: <img src="/icons/moderkort.png" alt="Moderkort" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'intel-socket', title: 'Intel Socket', url: '/produkter' },
           { id: 'amd-socket', title: 'AMD Socket', url: '/produkter' },
@@ -125,7 +125,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'grafikkort',
         title: 'GPU grafikkort',
         url: '/produkter',
-        icon: <GrafikkortIcon />,
+        icon: <img src="/icons/gpu.png" alt="GPU" style={{ width: '38px', height: '38px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'nvidia', title: 'NVIDIA', url: '/produkter' },
           { id: 'amd-gpu', title: 'AMD', url: '/produkter' },
@@ -135,7 +135,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'ram',
         title: 'RAM-minne',
         url: '/produkter',
-        icon: <RamMinnenIcon />,
+        icon: <img src="/icons/ram.png" alt="RAM" style={{ width: '38px', height: '38px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'ddr5', title: 'DDR5', url: '/produkter' },
           { id: 'ddr4', title: 'DDR4', url: '/produkter' },
@@ -145,7 +145,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'lagringsenhet',
         title: 'Lagring',
         url: '/produkter',
-        icon: <StorageIcon />,
+        icon: <img src="/icons/lagring.png" alt="Lagring" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'ssd', title: 'SSD NVMe', url: '/produkter' },
           { id: 'hdd', title: 'HDD', url: '/produkter' },
@@ -155,7 +155,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'natlagring',
         title: 'Nätaggregat',
         url: '/produkter',
-        icon: <NataggregatIcon />,
+        icon: <img src="/icons/nataggregat.png" alt="Nätaggregat" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'modular', title: 'Modulär', url: '/produkter' },
           { id: 'semi-modular', title: 'Semi-modulär', url: '/produkter' },
@@ -172,7 +172,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'gaming-laptops',
         title: 'Gaming Bärbara',
         url: '/produkter',
-        icon: <LaptopIcon />,
+        icon: <img src="/icons/gaming-laptop.png" alt="Gaming Bärbara" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'high-end', title: 'High-End', url: '/produkter' },
           { id: 'mid-range', title: 'Mid-Range', url: '/produkter' },
@@ -182,7 +182,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'gaming-pc',
         title: 'Gaming PC',
         url: '/produkter',
-        icon: <GamingComputerIcon />,
+        icon: <img src="/icons/gaming-pc.png" alt="Gaming PC" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'budget', title: 'Budget', url: '/produkter' },
           { id: 'pro', title: 'Pro', url: '/produkter' },
@@ -192,7 +192,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'gaming-peripherals',
         title: 'Gamingtillbehör',
         url: '/produkter',
-        icon: <GamepadIcon />,
+        icon: <img src="/icons/gaming-tillbehor.png" alt="Gamingtillbehör" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'gaming-mus', title: 'Gaming Möss', url: '/produkter' },
           { id: 'gaming-tangentbord', title: 'Gaming Tangentbord', url: '/produkter' },
@@ -210,7 +210,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'smartphones',
         title: 'Smartphones',
         url: '/produkter',
-        icon: <MobiltelephoneIcon />,
+        icon: <img src="/icons/smartphones.png" alt="Smartphones" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'flagship', title: 'Flaggskepp', url: '/produkter' },
           { id: 'mid-range-phone', title: 'Mid-Range', url: '/produkter' },
@@ -221,7 +221,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'mobil-tillbehor',
         title: 'Mobiltillbehör',
         url: '/produkter',
-        icon: <MobilTillbehorIcon />,
+        icon: <img src="/icons/mobiltillbehor.png" alt="Mobiltillbehör" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'skal', title: 'Skal & Skydd', url: '/produkter' },
           { id: 'laddare', title: 'Laddare', url: '/produkter' },
@@ -239,7 +239,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'accesspunkter',
         title: 'Accesspunkter',
         url: '/produkter',
-        icon: <WifiIcon />,
+        icon: <img src="/icons/accesspunkter.png" alt="Accesspunkter" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'wifi6', title: 'WiFi 6', url: '/produkter' },
           { id: 'wifi7', title: 'WiFi 7', url: '/produkter' },
@@ -249,7 +249,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'natsverksforlangarе',
         title: 'Nätverksförlängare',
         url: '/produkter',
-        icon: <WifiIcon />,
+        icon: <img src="/icons/natverksforlangare.png" alt="Nätverksförlängare" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'wifi-forlangarе', title: 'WiFi-förlängare', url: '/produkter' },
           { id: 'mesh-forlangarе', title: 'Mesh-förlängare', url: '/produkter' },
@@ -259,7 +259,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'routrar',
         title: 'Routrar',
         url: '/produkter',
-        icon: <RouterIcon />,
+        icon: <img src="/icons/routrar.png" alt="Routrar" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'wifi6-routrar', title: 'WiFi 6 Routrar', url: '/produkter' },
           { id: 'wifi7-routrar', title: 'WiFi 7 Routrar', url: '/produkter' },
@@ -270,7 +270,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'mesh',
         title: 'Mesh Nätverk',
         url: '/produkter',
-        icon: <MeshNetworkIcon />,
+        icon: <img src="/icons/mesh.png" alt="Mesh Nätverk" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'mesh-wifi6', title: 'Mesh WiFi 6', url: '/produkter' },
           { id: 'mesh-wifi7', title: 'Mesh WiFi 7', url: '/produkter' },
@@ -287,7 +287,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'tv',
         title: 'TV',
         url: '/produkter',
-        icon: <TvIcon />,
+        icon: <img src="/icons/tv.png" alt="TV" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: '4k-tv', title: '4K TV', url: '/produkter' },
           { id: 'oled-tv', title: 'OLED TV', url: '/produkter' },
@@ -298,7 +298,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'ljud',
         title: 'Ljud & HiFi',
         url: '/produkter',
-        icon: <SpeakerIcon />,
+        icon: <img src="/icons/ljud-hifi.png" alt="Ljud & HiFi" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'hogtalare', title: 'Högtalare', url: '/produkter' },
           { id: 'horlur', title: 'Hörlurar', url: '/produkter' },
@@ -309,7 +309,7 @@ const MENU_DATA: MenuCategory[] = [
         id: 'tillbehor-tv',
         title: 'TV Tillbehör',
         url: '/produkter',
-        icon: <TvTillbehorIcon />,
+        icon: <img src="/icons/tv-tillbehor.png" alt="TV Tillbehör" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'montering', title: 'TV Montering', url: '/produkter' },
           { id: 'soundbar', title: 'Soundbar', url: '/produkter' },
@@ -771,7 +771,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   {getActiveCategory()?.items?.map((section) => (
                     <div key={section.id}>
                       <div className="mb-4 pb-4 border-b border-gray-200">
-                        <div className="text-black flex-shrink-0 mb-2 w-6 h-6 flex items-center justify-center">
+                        <div className="text-white flex-shrink-0 mb-2 w-10 h-10 flex items-center justify-center rounded-full bg-black p-2">
                           {section.icon}
                         </div>
                         <Link href={section.url}>
