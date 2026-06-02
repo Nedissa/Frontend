@@ -46,17 +46,9 @@ export default function ProductDetailClient({
 }: ProductDetailClientProps) {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [prevImage, setPrevImage] = useState<number | null>(null);
-  const [sliding, setSliding] = useState(false);
-  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
 
   const goToImage = (idx: number) => {
-    if (idx === selectedImage) return;
-    setSlideDirection(idx > selectedImage ? 'right' : 'left');
-    setPrevImage(selectedImage);
     setSelectedImage(idx);
-    setSliding(true);
-    setTimeout(() => { setPrevImage(null); setSliding(false); }, 500);
   };
   const [selectedColor, setSelectedColor] = useState('Svart');
   const [activeTab, setActiveTab] = useState('description');
@@ -214,32 +206,16 @@ export default function ProductDetailClient({
                   ‹
                 </button>
 
-                {/* Sliding images */}
-                {productDetails.images.map((img, idx) => {
-                  const isCurrent = idx === selectedImage;
-                  const isPrev = idx === prevImage;
-                  if (!isCurrent && !isPrev) return null;
-                  const incomingTransform = slideDirection === 'right' ? 'translateX(100%)' : 'translateX(-100%)';
-                  const outgoingTransform = slideDirection === 'right' ? 'translateX(-100%)' : 'translateX(100%)';
-                  return (
-                    <button
-                      key={idx}
-                      onClick={() => setShowZoom(true)}
-                      className="absolute inset-0 flex items-center justify-center p-8 cursor-zoom-in"
-                      style={{
-                        transform: isCurrent ? 'translateX(0%)' : outgoingTransform,
-                        transition: sliding ? 'transform 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none',
-                        zIndex: isCurrent ? 2 : 1,
-                      }}
-                    >
-                      <img
-                        src={img.url}
-                        alt={img.altText}
-                        className="max-w-full max-h-full object-contain"
-                      />
-                    </button>
-                  );
-                })}
+                <button
+                  onClick={() => setShowZoom(true)}
+                  className="absolute inset-0 flex items-center justify-center p-8 cursor-zoom-in"
+                >
+                  <img
+                    src={mainImage.url}
+                    alt={mainImage.altText}
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </button>
 
                 <button
                   onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
