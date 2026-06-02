@@ -185,7 +185,7 @@ export default function ProductDetailClient({
                     key={idx}
                     onClick={() => goToImage(idx)}
                     className="flex-shrink-0 bg-gray-100 flex items-center justify-center"
-                    style={{ width: '80px', height: '80px', outline: selectedImage === idx ? '2px solid #000' : 'none', outlineOffset: '-2px' }}
+                    style={{ width: '80px', height: '80px', boxShadow: selectedImage === idx ? 'inset 0 0 0 2px #000' : 'none' }}
                   >
                     <img src={img.url} alt="" className="w-full h-full object-contain p-2" />
                   </button>
