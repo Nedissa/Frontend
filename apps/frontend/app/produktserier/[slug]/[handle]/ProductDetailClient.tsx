@@ -206,7 +206,7 @@ export default function ProductDetailClient({
             <div className="flex-1 flex flex-col min-w-0">
               <div
                 className="relative flex-1 flex items-center justify-center"
-                style={{ backgroundColor: '#f8f9fa', height: '476px', overflow: 'hidden' }}
+                style={{ backgroundColor: '#f8f9fa', height: '420px', overflow: 'hidden' }}
               >
                 <button
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
@@ -241,33 +241,28 @@ export default function ProductDetailClient({
                   })}
                 </div>
 
-                {/* Pill controller inside image */}
-                {productDetails.images.length > 1 && (
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.12)' }} onClick={e => e.stopPropagation()}>
+                <button
+                  onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
+                  className="absolute right-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
+                >›</button>
+              </div>
+
+              {/* Pill controller - outside image */}
+              {productDetails.images.length > 1 && (
+                <div className="flex justify-center py-3">
+                  <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.12)' }}>
                     <span className="text-xs text-gray-400 tabular-nums flex-shrink-0">{selectedImage + 1} / {productDetails.images.length}</span>
                     {productDetails.images.map((_, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => goToImage(idx)}
-                        className="relative h-1.5 rounded-full overflow-hidden bg-gray-300 flex-shrink-0"
-                        style={{ width: '20px' }}
-                      >
-                        <div
-                          className="absolute inset-0 rounded-full bg-gray-800 transition-transform duration-300 origin-left"
-                          style={{ transform: idx <= selectedImage ? 'scaleX(1)' : 'scaleX(0.3)', opacity: idx <= selectedImage ? 1 : 0 }}
-                        />
+                      <button key={idx} onClick={() => goToImage(idx)} className="relative h-1.5 rounded-full overflow-hidden bg-gray-300 flex-shrink-0" style={{ width: '20px' }}>
+                        <div className="absolute inset-0 rounded-full bg-gray-800 transition-transform duration-300 origin-left" style={{ transform: idx <= selectedImage ? 'scaleX(1)' : 'scaleX(0.3)', opacity: idx <= selectedImage ? 1 : 0 }} />
                       </button>
                     ))}
                     <button onClick={() => setShowZoom(true)} className="text-gray-500 hover:text-black transition-colors">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
                     </button>
                   </div>
-                )}
-                <button
-                  onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
-                  className="absolute right-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
-                >›</button>
-              </div>
+                </div>
+              )}
             </div>
           </div>
 
