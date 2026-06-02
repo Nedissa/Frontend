@@ -212,7 +212,7 @@ export default function ProductDetailClient({
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
                   className="absolute left-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
                 >‹</button>
-                <div className="relative w-full overflow-hidden" style={{ height: '500px' }} onClick={() => setShowZoom(true)}>
+                <div className="relative w-full overflow-hidden" style={{ height: '100%' }} onClick={() => setShowZoom(true)}>
                   {[prevImage, selectedImage].map((imgIdx, i) => {
                     if (imgIdx === null) return null;
                     const isCurrent = imgIdx === selectedImage;
@@ -273,7 +273,7 @@ export default function ProductDetailClient({
 
           {/* Product Tabs */}
           <div
-            className="p-8 pb-0 flex-1 bg-white"
+            className="p-8 pb-0 bg-white"
             style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
           >
             <div className="pt-0 w-full pb-8">
