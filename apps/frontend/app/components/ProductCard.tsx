@@ -185,6 +185,22 @@ export function ProductCard({
           {product.title}
         </h3>
 
+        {/* Price */}
+        <div className="mb-2">
+          <div className="flex items-baseline gap-2">
+            {product.price !== undefined && (
+              <span className="text-lg font-bold text-gray-900">
+                {product.price.toLocaleString('sv-SE')} kr
+              </span>
+            )}
+            {product.originalPrice && (
+              <span className="text-sm text-gray-400 line-through">
+                {product.originalPrice.toLocaleString('sv-SE')} kr
+              </span>
+            )}
+          </div>
+        </div>
+
         {/* Brand */}
         {product.brand && <p className="text-xs text-gray-400 mb-2 uppercase">{product.brand}</p>}
 
@@ -209,22 +225,6 @@ export function ProductCard({
           </div>
           <span className="text-xs text-gray-600">({product.reviews || 0})</span>
         </Link>
-
-        {/* Price */}
-        <div className="mb-2">
-          <div className="flex items-baseline gap-2">
-            {product.price !== undefined && (
-              <span className="text-lg font-bold text-gray-900">
-                {product.price.toLocaleString('sv-SE')} kr
-              </span>
-            )}
-            {product.originalPrice && (
-              <span className="text-sm text-gray-400 line-through">
-                {product.originalPrice.toLocaleString('sv-SE')} kr
-              </span>
-            )}
-          </div>
-        </div>
 
         {/* Color Selector */}
         <div className="flex gap-2 mb-3 min-h-[28px]">
