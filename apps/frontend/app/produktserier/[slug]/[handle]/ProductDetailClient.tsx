@@ -163,16 +163,12 @@ export default function ProductDetailClient({
     <div>
       <Breadcrumb items={breadcrumbItems} />
 
-      <div className="px-6 max-w-[1280px] mx-auto" style={{ position: 'relative' }}>
+      <div className="px-6 max-w-[1280px] mx-auto" style={{ display: 'grid', gridTemplateColumns: '1fr 288px', gridTemplateRows: 'auto auto', gap: '16px' }}>
 
-        {/* Left column: gallery + tabs, with right margin to avoid overlap with product info */}
-        <div className="flex flex-col gap-4" style={{ marginRight: '296px' }}>
-
-        {/* Gallery */}
+        {/* Gallery — row 1, col 1 */}
         <div
-          ref={galleryRef}
           className="flex gap-3 bg-white"
-          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: `${galleryHeight}px` }}
+          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', gridColumn: '1', gridRow: '1' }}
         >
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
@@ -251,8 +247,8 @@ export default function ProductDetailClient({
             </div>
           </div>
 
-          {/* Product Info — absolutely positioned */}
-          <div style={{ position: 'absolute', top: 0, right: 0, width: '288px', zIndex: 1 }}>
+          {/* Product Info — row 1, col 2, expands independently */}
+          <div style={{ gridColumn: '2', gridRow: '1', alignSelf: 'start' }}>
             <div ref={productInfoRef} className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
 
               <div className="flex items-start justify-between p-6 pb-4">
@@ -423,10 +419,10 @@ export default function ProductDetailClient({
               </div>
         </div>
 
-        {/* Tabs */}
+        {/* Tabs — row 2, col 1 */}
         <div
           className="p-8 pb-0 bg-white"
-          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
+          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', gridColumn: '1', gridRow: '2' }}
         >
             <div className="pt-0 w-full pb-8">
               <div className="flex gap-8 mb-8 border-b border-gray-200 w-full">
@@ -501,9 +497,7 @@ export default function ProductDetailClient({
             </div>
         </div>{/* end tabs */}
 
-        </div>{/* end left flex-col */}
-
-      </div>{/* end px-6 wrapper */}
+      </div>{/* end grid wrapper */}
 
       <ImageZoomDialog
         images={productDetails.images}
