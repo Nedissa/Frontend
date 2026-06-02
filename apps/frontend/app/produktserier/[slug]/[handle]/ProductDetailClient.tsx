@@ -192,9 +192,9 @@ export default function ProductDetailClient({
             </div>
 
             {/* Image Gallery */}
-            <div className="flex-1">
-              {/* Main Image */}
-              <div className="relative flex items-center justify-center mb-4">
+            <div className="flex-1 flex flex-col min-w-0">
+              {/* Main Image + Chevrons */}
+              <div className="relative flex items-center justify-center h-96 mb-4">
                 <button
                   onClick={() => setSelectedImage((prev) => (prev - 1 + productDetails.images.length) % productDetails.images.length)}
                   className="absolute left-0 z-10 text-black hover:text-gray-600 text-5xl font-bold flex-shrink-0"
@@ -204,7 +204,7 @@ export default function ProductDetailClient({
 
                 <button
                   onClick={() => setShowZoom(true)}
-                  className="relative bg-white flex items-center justify-center h-96 w-full overflow-hidden p-8 cursor-zoom-in"
+                  className="h-full w-full flex items-center justify-center overflow-hidden p-8 cursor-zoom-in"
                 >
                   <img
                     src={mainImage.url}
@@ -224,11 +224,8 @@ export default function ProductDetailClient({
               {/* Thumbnails */}
               {productDetails.images.length > 1 && (
                 <div
-                  className="flex gap-12 overflow-visible px-8 py-4 bg-white justify-center"
-                  style={{
-                    scrollbarWidth: 'none',
-                    msOverflowStyle: 'none',
-                  }}
+                  className="flex gap-12 overflow-visible px-8 py-4 justify-center"
+                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
                   {productDetails.images.map((img, idx) => (
                     <button
