@@ -187,7 +187,8 @@ export default function ProductDetailClient({
                     key={idx}
                     ref={el => { thumbnailRefs.current[idx] = el; }}
                     onClick={() => goToImage(idx)}
-                    className="relative flex-shrink-0 bg-gray-100 flex items-center justify-center overflow-hidden"
+                    className="relative flex-shrink-0 flex items-center justify-center overflow-hidden"
+                    style={{ width: '80px', height: '80px', backgroundColor: '#f8f9fa' }}
                     style={{ width: '80px', height: '80px' }}
                   >
                     <img
@@ -205,7 +206,7 @@ export default function ProductDetailClient({
             {/* Main Image + Controller */}
             <div className="flex-1 flex flex-col min-w-0">
               <div
-                className="relative flex-1 bg-gray-100 flex items-center justify-center"
+                className="relative flex-1 flex items-center justify-center" style={{ backgroundColor: '#f8f9fa' }}
                 style={{ minHeight: '500px' }}
               >
                 <button
