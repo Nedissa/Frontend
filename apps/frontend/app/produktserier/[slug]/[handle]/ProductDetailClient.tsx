@@ -211,12 +211,14 @@ export default function ProductDetailClient({
                       <button
                         key={idx}
                         onClick={() => goToImage(idx)}
-                        className="h-1.5 rounded-full transition-all duration-300"
-                        style={{
-                          width: idx <= selectedImage ? '20px' : '6px',
-                          backgroundColor: idx <= selectedImage ? '#1f2937' : '#d1d5db',
-                        }}
-                      />
+                        className="relative h-1.5 rounded-full overflow-hidden bg-gray-300 flex-shrink-0"
+                        style={{ width: '20px' }}
+                      >
+                        <div
+                          className="absolute inset-0 rounded-full bg-gray-800 transition-transform duration-300 origin-left"
+                          style={{ transform: idx <= selectedImage ? 'scaleX(1)' : 'scaleX(0.3)', opacity: idx <= selectedImage ? 1 : 0 }}
+                        />
+                      </button>
                     ))}
                     <button onClick={() => setShowZoom(true)} className="text-gray-500 hover:text-black transition-colors">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
