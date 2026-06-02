@@ -189,7 +189,6 @@ export default function ProductDetailClient({
                     onClick={() => goToImage(idx)}
                     className="relative flex-shrink-0 flex items-center justify-center overflow-hidden"
                     style={{ width: '80px', height: '80px', backgroundColor: '#f8f9fa' }}
-                    style={{ width: '80px', height: '80px' }}
                   >
                     <img
                       src={img.url} alt=""
