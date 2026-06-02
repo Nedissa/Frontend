@@ -353,7 +353,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   const isPathActive = (url: string) => {
     if (!pathname) return false;
     if (url === '/') return pathname === '/';
-    return pathname.startsWith(url);
+    return pathname === url;
   };
 
   const getCartCount = () => {
