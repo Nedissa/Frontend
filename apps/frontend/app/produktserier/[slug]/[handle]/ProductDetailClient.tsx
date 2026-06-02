@@ -161,7 +161,7 @@ export default function ProductDetailClient({
 
           {/* Gallery — stretches to match right column height */}
           <div
-            className="flex-1 flex gap-3 bg-white min-w-0"
+            className="flex-1 flex gap-3 bg-white min-w-0 self-stretch"
             style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px' }}
           >
             {/* Vertical Thumbnails */}
@@ -186,8 +186,8 @@ export default function ProductDetailClient({
             )}
 
             {/* Main image */}
-            <div className="flex-1 flex flex-col min-w-0">
-              <div className="relative flex flex-col flex-1" style={{ backgroundColor: '#f8f9fa' }}>
+            <div className="flex-1 flex flex-col min-w-0 h-full">
+              <div className="relative flex flex-col flex-1 h-full" style={{ backgroundColor: '#f8f9fa' }}>
                 <button
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
                   className="absolute left-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
