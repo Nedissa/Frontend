@@ -157,7 +157,7 @@ export default function ProductDetailClient({
       <div className="px-6 max-w-[1280px] mx-auto">
 
         {/* Top row: gallery (left) + product info (right), same height via items-stretch */}
-        <div className="flex gap-2 items-stretch">
+        <div className="flex gap-0 items-stretch">
 
           {/* Gallery — stretches to match right column height */}
           <div
@@ -416,7 +416,7 @@ export default function ProductDetailClient({
         </div>{/* end top row */}
 
         {/* Tabs — independent, full width of left column only */}
-        <div className="flex gap-2">
+        <div className="flex gap-0">
           <div
             className="flex-1 p-8 pb-0 bg-white"
             style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
