@@ -181,18 +181,18 @@ export default function ProductDetailClient({
           >
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
-              <div className="flex flex-col gap-2 flex-shrink-0" style={{ width: '80px', height: '500px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '400px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {productDetails.images.map((img, idx) => (
                   <button
                     key={idx}
                     ref={el => { thumbnailRefs.current[idx] = el; }}
                     onClick={() => goToImage(idx)}
                     className="relative flex-shrink-0 flex items-center justify-center overflow-hidden"
-                    style={{ width: '80px', height: '80px', backgroundColor: '#f8f9fa' }}
+                    style={{ width: '110px', height: '110px', backgroundColor: '#f8f9fa' }}
                   >
                     <img
                       src={img.url} alt=""
-                      className="w-full h-full object-contain p-2 transition-all duration-300"
+                      className="w-full h-full object-contain p-3 transition-all duration-300"
                       style={{
                         filter: selectedImage === idx ? 'brightness(1.05) contrast(1.05)' : 'brightness(0.9)',
                       }}
@@ -206,7 +206,7 @@ export default function ProductDetailClient({
             <div className="flex-1 flex flex-col min-w-0">
               <div
                 className="relative flex-1 flex items-center justify-center"
-                style={{ backgroundColor: '#f8f9fa', minHeight: '500px' }}
+                style={{ backgroundColor: '#f8f9fa', minHeight: '400px' }}
               >
                 <button
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
