@@ -441,10 +441,10 @@ export default function ProductDetailClient({
           <div className="px-6 pt-4 pb-6 border-t border-gray-100 flex flex-col gap-3">
             <div className="flex items-center gap-3">
               {/* Quantity */}
-              <div className="flex items-center bg-gray-100 rounded-full px-4 h-11 gap-4">
-                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="text-gray-500 hover:text-black text-lg font-light">−</button>
+              <div className="flex items-center bg-gray-100 h-11 px-4 gap-4">
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="text-gray-500 hover:text-black text-sm font-semibold">−</button>
                 <span className="text-sm font-semibold w-4 text-center tabular-nums">{quantity}</span>
-                <button onClick={() => setQuantity(quantity + 1)} className="text-gray-500 hover:text-black text-lg font-light">+</button>
+                <button onClick={() => setQuantity(quantity + 1)} className="text-gray-500 hover:text-black text-sm font-semibold">+</button>
               </div>
 
               {/* Add to cart */}
@@ -462,15 +462,9 @@ export default function ProductDetailClient({
                   setIsAdded(true);
                   setTimeout(() => setIsAdded(false), 100);
                 }}
-                className="flex-1 bg-black text-white text-sm font-semibold h-11 flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors"
+                className="flex-1 bg-black text-white text-sm font-semibold h-11 flex items-center justify-center hover:bg-gray-800 transition-colors"
               >
-                {isAdded ? (
-                  <>
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
-                    Tillagd
-                  </>
-                ) : 'Lägg i varukorg'
-                }
+                {isAdded ? 'Tillagd' : 'Lägg i varukorg'}
               </button>
             </div>
 
@@ -480,7 +474,7 @@ export default function ProductDetailClient({
                 localStorage.setItem('quickCheckout', JSON.stringify({ id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity }));
                 router.push('/kassan');
               }}
-              className="w-full bg-green-600 text-white text-sm font-bold py-3 tracking-widest uppercase hover:bg-green-700 transition-colors"
+              className="w-full bg-green-600 text-white text-sm font-semibold h-11 tracking-widest uppercase hover:bg-green-700 transition-colors"
             >
               Handla nu
             </button>
