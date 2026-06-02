@@ -169,12 +169,16 @@ export default function ProductDetailClient({
     <div>
       <Breadcrumb items={breadcrumbItems} />
 
-      {/* Main Product Grid: 3 independent columns side by side */}
+      <div className="px-6 max-w-[1280px] mx-auto">
+      {/* Left + Right layout: left = gallery stacked above tabs, right = product info */}
       <div className="flex gap-2 items-start">
+
+        {/* Left group: gallery on top, tabs below — structurally independent divs in a flex-col */}
+        <div className="flex-1 flex flex-col gap-2 min-w-0">
 
         {/* Column 1: Image Gallery */}
         <div
-          className="flex-1 flex gap-3 bg-white min-w-0"
+          className="flex gap-3 bg-white"
           style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px' }}
         >
           {/* Vertical Thumbnails */}
@@ -256,7 +260,7 @@ export default function ProductDetailClient({
 
         {/* Column 2: Product Tabs */}
         <div
-          className="flex-1 p-8 pb-0 bg-white min-w-0"
+          className="p-8 pb-0 bg-white"
           style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
         >
           <div className="pt-0 w-full pb-8">
@@ -339,6 +343,8 @@ export default function ProductDetailClient({
             )}
           </div>
         </div>
+
+        </div>{/* end left group */}
 
         {/* Column 3: Product Info + Accessories */}
         <div className="w-72 flex-shrink-0">
@@ -530,6 +536,7 @@ export default function ProductDetailClient({
         </div>
 
       </div>
+      </div>{/* end px-6 max-w wrapper */}
 
       {/* Image Zoom Dialog */}
       <ImageZoomDialog
