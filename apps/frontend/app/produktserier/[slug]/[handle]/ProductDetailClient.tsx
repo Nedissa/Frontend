@@ -154,7 +154,7 @@ export default function ProductDetailClient({
     <div>
       <Breadcrumb items={breadcrumbItems} />
 
-      <div className="px-6 max-w-[1280px] mx-auto">
+      <div className="px-6 max-w-[1280px] mx-auto flex flex-col gap-2">
 
         {/* Top row: gallery (left) + product info (right), same height via items-stretch */}
         <div className="flex gap-2 items-start">
@@ -162,7 +162,7 @@ export default function ProductDetailClient({
           {/* Gallery */}
           <div
             className="flex-1 flex gap-3 bg-white min-w-0"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: '508px' }}
+            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: '430px' }}
           >
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
