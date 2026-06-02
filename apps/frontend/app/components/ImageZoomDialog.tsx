@@ -120,9 +120,8 @@ export function ImageZoomDialog({
             >
               <button
                 onClick={() => setCurrentIndex(idx)}
-                className={`aspect-square overflow-hidden transition-all duration-200 flex items-center justify-center ${
-                  currentIndex === idx ? 'w-36 -translate-y-1' : 'w-20'
-                }`}
+                className="aspect-square w-20 flex items-center justify-center"
+                style={{ opacity: currentIndex === idx ? 1 : 0.4 }}
               >
                 <img src={img.url} alt="" className="w-full h-full object-contain" />
               </button>
