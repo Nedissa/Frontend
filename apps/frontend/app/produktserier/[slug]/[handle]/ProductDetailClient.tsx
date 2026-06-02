@@ -171,19 +171,19 @@ export default function ProductDetailClient({
 
       <div className="px-6 max-w-[1280px] mx-auto">
       {/* Left + Right layout: left = gallery stacked above tabs, right = product info */}
-      <div className="flex gap-2 items-stretch">
+      <div className="flex gap-2 items-start">
 
         {/* Left group: gallery on top, tabs below — structurally independent divs in a flex-col */}
-        <div className="flex-1 flex flex-col gap-2 min-w-0 justify-between">
+        <div className="flex-1 flex flex-col gap-2 min-w-0">
 
-        {/* Column 1: Image Gallery */}
+        {/* Column 1: Image Gallery — fixed height matching default product info height */}
         <div
-          className="flex gap-3 bg-white flex-1"
-          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px' }}
+          className="flex gap-3 bg-white"
+          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: '560px' }}
         >
           {/* Vertical Thumbnails */}
           {productDetails.images.length > 1 && (
-            <div className="flex flex-col gap-3 flex-shrink-0 self-stretch" style={{ width: '110px', minHeight: '476px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '100%', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
               {productDetails.images.map((img, idx) => (
                 <button
                   key={idx}
@@ -203,8 +203,8 @@ export default function ProductDetailClient({
           )}
 
           {/* Main Image + Controller */}
-          <div className="flex-1 flex flex-col min-w-0">
-            <div className="relative flex flex-col flex-1" style={{ backgroundColor: '#f8f9fa', minHeight: '476px' }}>
+          <div className="flex-1 flex flex-col min-w-0 h-full">
+            <div className="relative flex flex-col flex-1 h-full" style={{ backgroundColor: '#f8f9fa' }}>
               <button
                 onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
                 className="absolute left-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
