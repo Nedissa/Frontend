@@ -249,21 +249,39 @@ export default function ProductDetailClient({
                 </button>
               </div>
 
-              {/* Dots */}
+              {/* Dots + counter + zoom */}
               {productDetails.images.length > 1 && (
-                <div className="flex gap-3 justify-center pt-4">
-                  {productDetails.images.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => goToImage(idx)}
-                      className="relative w-3 h-3 rounded-full bg-gray-200 overflow-hidden"
-                    >
-                      <div
-                        className="absolute inset-0 rounded-full bg-black transition-all duration-400"
-                        style={{ transform: idx <= selectedImage ? 'scale(1)' : 'scale(0)' }}
-                      />
-                    </button>
-                  ))}
+                <div className="flex items-center justify-center gap-4 pt-4">
+                  {/* Counter */}
+                  <span className="text-xs text-gray-400 tabular-nums w-10 text-right">
+                    {selectedImage + 1} / {productDetails.images.length}
+                  </span>
+
+                  {/* Dots */}
+                  <div className="flex gap-3">
+                    {productDetails.images.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => goToImage(idx)}
+                        className="relative w-3 h-3 rounded-full bg-gray-200 overflow-hidden"
+                      >
+                        <div
+                          className="absolute inset-0 rounded-full bg-black transition-all duration-400"
+                          style={{ transform: idx <= selectedImage ? 'scale(1)' : 'scale(0)' }}
+                        />
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Zoom */}
+                  <button
+                    onClick={() => setShowZoom(true)}
+                    className="w-10 flex justify-start text-gray-400 hover:text-black transition-colors"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                    </svg>
+                  </button>
                 </div>
               )}
             </div>
