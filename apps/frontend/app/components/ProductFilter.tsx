@@ -288,7 +288,7 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
                   }`}
                 >
                   <div
-                    className="w-3 h-3"
+                    className="w-3 h-3 rounded-full flex-shrink-0"
                     style={{
                       backgroundColor: color,
                       border: color === '#FFFFFF' ? '1px solid #ccc' : 'none',
