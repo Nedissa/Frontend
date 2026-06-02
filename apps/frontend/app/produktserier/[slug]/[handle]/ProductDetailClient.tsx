@@ -163,7 +163,7 @@ export default function ProductDetailClient({
     <div>
       <Breadcrumb items={breadcrumbItems} />
 
-      <div className="px-6 max-w-[1280px] mx-auto" style={{ display: 'grid', gridTemplateColumns: '1fr 288px', gridTemplateRows: 'auto auto', gap: '16px' }}>
+      <div className="px-6 max-w-[1280px] mx-auto" style={{ display: 'grid', gridTemplateColumns: '1fr 288px', gridTemplateRows: 'auto auto', gap: '5px' }}>
 
         {/* Gallery — row 1, col 1 */}
         <div
