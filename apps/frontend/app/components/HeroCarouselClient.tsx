@@ -115,32 +115,45 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
         })}
         <div className="absolute inset-0 bg-black/30 z-10"></div>
 
-        {/* Progress bars */}
+        {/* Pill controller */}
         <div
-          className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 px-4 z-20"
-          style={{ width: 'min(400px, 80%)' }}
+          className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20"
           onClick={(e) => e.stopPropagation()}
         >
-          {heroImages.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => goTo(i, false)}
-              className="relative flex-1 h-[3px] bg-white/40 rounded-full overflow-hidden"
-              aria-label={`Gå till bild ${i + 1}`}
-            >
-              <div
-                className="absolute inset-y-0 left-0 bg-white rounded-full"
-                style={{
-                  width: i < currentIndex
-                    ? '100%'
-                    : i === currentIndex
-                    ? `${progress * 100}%`
-                    : '0%',
-                  transition: i === currentIndex ? 'none' : undefined,
-                }}
-              />
+          <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.15)' }}>
+            {/* Prev */}
+            <button onClick={() => prev(true)} className="text-gray-500 hover:text-black transition-colors">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
             </button>
-          ))}
+
+            {/* Dots */}
+            {heroImages.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i, false)}
+                className="relative w-2.5 h-2.5 rounded-full bg-gray-200 overflow-hidden"
+              >
+                <div
+                  className="absolute inset-0 rounded-full bg-gray-800 transition-transform duration-300"
+                  style={{ transform: i <= currentIndex ? 'scale(1)' : 'scale(0)' }}
+                />
+              </button>
+            ))}
+
+            {/* Next */}
+            <button onClick={() => next(true)} className="text-gray-500 hover:text-black transition-colors">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+            </button>
+
+            {/* Play/Pause */}
+            <button onClick={() => setIsPlaying(!isPlaying)} className="text-gray-500 hover:text-black transition-colors">
+              {isPlaying ? (
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" /></svg>
+              ) : (
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4v16l14-8z" /></svg>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>
