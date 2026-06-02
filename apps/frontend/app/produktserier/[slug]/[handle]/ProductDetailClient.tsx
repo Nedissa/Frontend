@@ -50,6 +50,9 @@ export default function ProductDetailClient({
   const [slideDir, setSlideDir] = useState<'left' | 'right'>('right');
   const [isSliding, setIsSliding] = useState(false);
   const thumbnailRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const productInfoRef = useRef<HTMLDivElement>(null);
+  const galleryRef = useRef<HTMLDivElement>(null);
+  const [galleryHeight, setGalleryHeight] = useState<number | undefined>(undefined);
 
   const goToImage = (idx: number) => {
     if (idx === selectedImage) return;
@@ -69,6 +72,18 @@ export default function ProductDetailClient({
   const [alsoLikeProducts, setAlsoLikeProducts] = useState<ProductData[]>([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const router = useRouter();
+
+  useEffect(() => {
+    const syncHeight = () => {
+      if (productInfoRef.current) {
+        setGalleryHeight(productInfoRef.current.offsetHeight);
+      }
+    };
+    syncHeight();
+    const observer = new ResizeObserver(syncHeight);
+    if (productInfoRef.current) observer.observe(productInfoRef.current);
+    return () => observer.disconnect();
+  }, [showAccessories]);
 
   useEffect(() => {
     const loadAlsoLikeProducts = async () => {
@@ -157,12 +172,13 @@ export default function ProductDetailClient({
       <div className="px-6 max-w-[1280px] mx-auto flex flex-col gap-4">
 
         {/* Top row: gallery (left) + product info (right), same height via items-stretch */}
-        <div className="flex gap-2 items-stretch">
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
 
           {/* Gallery */}
           <div
-            className="flex-1 flex gap-3 bg-white min-w-0 overflow-hidden"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: '100%', boxSizing: 'border-box' }}
+            ref={galleryRef}
+            className="flex-1 flex gap-3 bg-white min-w-0"
+            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: galleryHeight ? `${galleryHeight}px` : undefined }}
           >
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
@@ -242,7 +258,7 @@ export default function ProductDetailClient({
           </div>
 
           {/* Product Info — defines the row height, expands independently */}
-          <div className="w-72 flex-shrink-0">
+          <div ref={productInfoRef} className="w-72 flex-shrink-0">
             <div className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
 
               <div className="flex items-start justify-between p-6 pb-4">
