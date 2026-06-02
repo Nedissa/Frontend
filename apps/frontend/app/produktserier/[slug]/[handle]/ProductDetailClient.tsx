@@ -204,7 +204,7 @@ export default function ProductDetailClient({
 
                 <button
                   onClick={() => setShowZoom(true)}
-                  className="relative bg-white flex items-center justify-center h-96 w-full overflow-hidden p-8 cursor-zoom-in"
+                  className="relative bg-white flex items-center justify-center h-96 overflow-hidden p-8 cursor-zoom-in"
                 >
                   <img
                     src={mainImage.url}
