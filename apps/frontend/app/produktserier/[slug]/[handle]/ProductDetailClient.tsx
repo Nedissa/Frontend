@@ -166,7 +166,7 @@ export default function ProductDetailClient({
       <div className="px-6 max-w-[1280px] mx-auto flex flex-col gap-4">
 
         {/* Top row: gallery (left) + product info (right), same height via items-stretch */}
-        <div style={{ display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
+        <div style={{ position: 'relative', display: 'flex', gap: '8px', alignItems: 'flex-start' }}>
 
           {/* Gallery */}
           <div
@@ -251,8 +251,8 @@ export default function ProductDetailClient({
             </div>
           </div>
 
-          {/* Product Info — defines the row height, expands independently */}
-          <div ref={productInfoRef} className="w-72 flex-shrink-0">
+          {/* Product Info — absolutely positioned so it never affects gallery or tabs */}
+          <div ref={productInfoRef} style={{ position: 'absolute', top: 0, right: 0, width: '288px' }}>
             <div className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
 
               <div className="flex items-start justify-between p-6 pb-4">
