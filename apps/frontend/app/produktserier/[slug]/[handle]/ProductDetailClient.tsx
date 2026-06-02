@@ -243,6 +243,7 @@ export default function ProductDetailClient({
                 {/* Pill controller inside image */}
                 {productDetails.images.length > 1 && (
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.12)' }} onClick={e => e.stopPropagation()}>
+                    <span className="text-xs text-gray-400 tabular-nums flex-shrink-0">{selectedImage + 1} / {productDetails.images.length}</span>
                     {productDetails.images.map((_, idx) => (
                       <button
                         key={idx}
