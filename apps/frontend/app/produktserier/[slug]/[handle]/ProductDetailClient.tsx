@@ -197,67 +197,50 @@ export default function ProductDetailClient({
 
             {/* Image Gallery */}
             <div className="flex-1 flex flex-col min-w-0">
-              {/* Main Image + Chevrons */}
+              {/* Main Image */}
               <div className="relative flex items-center justify-center h-96 overflow-hidden">
-                <button
-                  onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
-                  className="absolute left-0 z-10 text-black hover:text-gray-600 text-5xl font-bold flex-shrink-0"
-                >
-                  ‹
-                </button>
-
-                <button
-                  onClick={() => setShowZoom(true)}
-                  className="absolute inset-0 flex items-center justify-center p-8 cursor-zoom-in"
-                >
+                <div className="absolute inset-0 flex items-center justify-center p-8">
                   <img
                     src={mainImage.url}
                     alt={mainImage.altText}
                     className="max-w-full max-h-full object-contain"
                   />
-                </button>
-
-                <button
-                  onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
-                  className="absolute right-0 z-10 text-black hover:text-gray-600 text-5xl font-bold flex-shrink-0"
-                >
-                  ›
-                </button>
+                </div>
               </div>
 
-              {/* Dots + counter + zoom */}
+              {/* Pill controller */}
               {productDetails.images.length > 1 && (
-                <div className="flex items-center justify-center gap-4 pt-4">
-                  {/* Counter */}
-                  <span className="text-xs text-gray-400 tabular-nums w-10 text-right">
-                    {selectedImage + 1} / {productDetails.images.length}
-                  </span>
+                <div className="flex justify-center pt-4">
+                  <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.12)' }}>
+                    {/* Prev */}
+                    <button onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)} className="text-gray-500 hover:text-black transition-colors">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                    </button>
 
-                  {/* Dots */}
-                  <div className="flex gap-3">
+                    {/* Dots */}
                     {productDetails.images.map((_, idx) => (
                       <button
                         key={idx}
                         onClick={() => goToImage(idx)}
-                        className="relative w-3 h-3 rounded-full bg-gray-200 overflow-hidden"
+                        className="relative w-2.5 h-2.5 rounded-full bg-gray-200 overflow-hidden"
                       >
                         <div
-                          className="absolute inset-0 rounded-full bg-black transition-all duration-400"
+                          className="absolute inset-0 rounded-full bg-gray-800 transition-transform duration-300"
                           style={{ transform: idx <= selectedImage ? 'scale(1)' : 'scale(0)' }}
                         />
                       </button>
                     ))}
-                  </div>
 
-                  {/* Zoom */}
-                  <button
-                    onClick={() => setShowZoom(true)}
-                    className="w-10 flex justify-start text-gray-400 hover:text-black transition-colors"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                    </svg>
-                  </button>
+                    {/* Next */}
+                    <button onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)} className="text-gray-500 hover:text-black transition-colors">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                    </button>
+
+                    {/* Zoom */}
+                    <button onClick={() => setShowZoom(true)} className="text-gray-500 hover:text-black transition-colors ml-1">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
