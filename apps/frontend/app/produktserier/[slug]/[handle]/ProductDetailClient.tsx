@@ -245,9 +245,9 @@ export default function ProductDetailClient({
                 )}
               </div>
             </div>
-          </div>
+        </div>
 
-          {/* Product Info — col 2, spans both rows, expands independently */}
+        {/* Product Info — col 2, spans both rows, expands independently */}
           <div style={{ gridColumn: '2', gridRow: '1 / 3', alignSelf: 'start' }}>
             <div ref={productInfoRef} className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
 
