@@ -244,7 +244,7 @@ export function ProductCard({
               <button
                 key={idx}
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedColor(idx); }}
-                className={`w-5 h-5 rounded-full border-2 transition-colors ${isSelected ? 'border-gray-900 scale-110' : 'border-gray-300 hover:border-gray-600'}`}
+                className={`w-4 h-4 rounded-full border-2 flex-shrink-0 transition-all ${isSelected ? 'border-black ring-2 ring-offset-2 ring-black' : 'border-gray-300 hover:border-gray-400'}`}
                 style={{ backgroundColor: bgColor }}
                 title={color}
               />
