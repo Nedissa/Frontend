@@ -502,15 +502,12 @@ export default function ProductDetailClient({
               {/* Add to cart */}
               <button
                 onClick={() => {
-                  if (selectedAccessories.length === 0) {
-                    window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity, image: product.image } }));
-                  } else {
-                    selectedAccessories.forEach((accessoryId) => {
-                      const accessory = RECOMMENDED_ACCESSORIES.find(a => a.id === accessoryId);
-                      if (accessory) window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: accessory.id, title: accessory.name, price: Number(accessory.price), quantity: 1, image: accessory.image } }));
-                    });
-                    setSelectedAccessories([]);
-                  }
+                  window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity, image: product.image } }));
+                  selectedAccessories.forEach((accessoryId) => {
+                    const accessory = RECOMMENDED_ACCESSORIES.find(a => a.id === accessoryId);
+                    if (accessory) window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: accessory.id, title: accessory.name, price: Number(accessory.price), quantity: 1, image: accessory.image } }));
+                  });
+                  setSelectedAccessories([]);
                   setIsAdded(true);
                   setTimeout(() => setIsAdded(false), 100);
                 }}
