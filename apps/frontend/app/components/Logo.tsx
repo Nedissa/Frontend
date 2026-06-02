@@ -7,7 +7,7 @@ export function Logo() {
       alt="Techpilots"
       width={32}
       height={32}
-      className="flex-shrink-0 w-full h-full object-contain"
+      className="flex-shrink-0"
       priority
     />
   );

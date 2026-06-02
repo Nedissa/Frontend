@@ -163,15 +163,15 @@ export default function ProductDetailClient({
     <div>
       <Breadcrumb items={breadcrumbItems} />
 
-      <div className="px-6 max-w-[1280px] mx-auto flex flex-col gap-4">
+      <div className="px-6 max-w-[1280px] mx-auto" style={{ position: 'relative' }}>
 
-        {/* Top row: gallery + product info */}
-        <div className="flex gap-2 items-start">
+        {/* Left column: gallery + tabs, with right margin to avoid overlap with product info */}
+        <div className="flex flex-col gap-4" style={{ marginRight: '296px' }}>
 
         {/* Gallery */}
         <div
           ref={galleryRef}
-          className="flex-1 flex gap-3 bg-white min-w-0"
+          className="flex gap-3 bg-white"
           style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: `${galleryHeight}px` }}
         >
             {/* Vertical Thumbnails */}
@@ -251,8 +251,8 @@ export default function ProductDetailClient({
             </div>
           </div>
 
-          {/* Product Info */}
-          <div className="w-72 flex-shrink-0">
+          {/* Product Info — absolutely positioned */}
+          <div style={{ position: 'absolute', top: 0, right: 0, width: '288px', zIndex: 1 }}>
             <div ref={productInfoRef} className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
 
               <div className="flex items-start justify-between p-6 pb-4">
@@ -423,14 +423,11 @@ export default function ProductDetailClient({
               </div>
         </div>
 
-        </div>{/* end top row */}
-
         {/* Tabs */}
-        <div className="flex gap-2 items-start">
-          <div
-            className="flex-1 p-8 pb-0 bg-white"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
-          >
+        <div
+          className="p-8 pb-0 bg-white"
+          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
+        >
             <div className="pt-0 w-full pb-8">
               <div className="flex gap-8 mb-8 border-b border-gray-200 w-full">
                 {[
@@ -502,9 +499,9 @@ export default function ProductDetailClient({
                 </div>
               )}
             </div>
-          </div>
-          <div className="w-72 flex-shrink-0" />
-        </div>{/* end tabs row */}
+        </div>{/* end tabs */}
+
+        </div>{/* end left flex-col */}
 
       </div>{/* end px-6 wrapper */}
 
