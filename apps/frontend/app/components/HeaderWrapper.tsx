@@ -592,7 +592,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       {/* Search bar section */}
       <div className="px-6 py-2">
         <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
-          <Link href="/" className="flex-shrink-0 flex items-center gap-1.5">
+          <Link href="/" className="flex-shrink-0 flex items-center gap-1.5" style={{ minWidth: '160px' }}>
             <div style={{ width: '32px', height: '32px' }}>
               <Logo />
             </div>
@@ -689,7 +689,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
           </div>
 
           {/* Right side icons */}
-          <div className="flex items-center gap-4 flex-shrink-0">
+          <div className="flex items-center gap-4 flex-shrink-0" style={{ minWidth: '280px', justifyContent: 'flex-end' }}>
             <style>{`
               @keyframes vibrate {
                 0%, 100% { transform: translateX(0); }
@@ -722,7 +722,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                 </svg>
                 <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-lg" style={{ display: cartCount > 0 ? 'flex' : 'none' }} suppressHydrationWarning>{cartCount}</span>
               </div>
-              <div className="flex flex-col items-start gap-0.5 hidden md:flex">
+              <div className="flex flex-col items-start gap-0.5 hidden md:flex" style={{ minWidth: '72px' }}>
                 <span className="text-sm font-bold text-black" suppressHydrationWarning>{cartTotal.toLocaleString('sv-SE')} kr</span>
                 <span className="text-xs font-semibold text-black">Varukorg</span>
               </div>

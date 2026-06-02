@@ -11,7 +11,7 @@ interface MainLayoutProps {
 
 export function MainLayout({ children, title, bordered = false, noPadding = false }: MainLayoutProps) {
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center pt-[20px]">
       <div className={`ml-container flex flex-col ${bordered ? 'border border-gray-200' : ''}`} style={{ maxWidth: '1280px', width: '100%', ...( bordered ? { boxShadow: '0 2px 8px rgba(0,0,0,0.15)' } : {}), overflow: 'visible' }}>
         {/* Title if provided */}
         {title && (

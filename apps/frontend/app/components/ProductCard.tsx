@@ -86,7 +86,7 @@ export function ProductCard({
 
   return (
     <div
-      className="flex flex-col bg-white h-full"
+      className="flex flex-col bg-white h-full p-3 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.14)] hover:-translate-y-1"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -244,7 +244,7 @@ export function ProductCard({
               <button
                 key={idx}
                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedColor(idx); }}
-                className={`w-4 h-4 rounded-full border-2 flex-shrink-0 transition-all ${isSelected ? 'border-black ring-2 ring-offset-2 ring-black' : 'border-gray-300 hover:border-gray-400'}`}
+                className={`w-4 h-4 rounded-full flex-shrink-0 transition-all ${isSelected ? 'ring-1 ring-offset-1 ring-black' : 'ring-1 ring-gray-300 hover:ring-gray-400'}`}
                 style={{ backgroundColor: bgColor }}
                 title={color}
               />

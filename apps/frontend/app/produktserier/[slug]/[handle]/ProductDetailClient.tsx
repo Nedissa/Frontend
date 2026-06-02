@@ -160,10 +160,10 @@ export default function ProductDetailClient({
     : [{ label: product.title }];
 
   return (
-    <div>
+    <div className="pt-[20px]">
       <Breadcrumb items={breadcrumbItems} />
 
-      <div className="max-w-[1280px] mx-auto px-6 flex gap-[5px] items-start">
+      <div className="w-[1280px] mx-auto flex gap-[5px] items-start">
 
         {/* Left column — gallery + tabs */}
         <div className="flex flex-col flex-1 min-w-0" style={{ gap: '5px' }}>
@@ -171,11 +171,11 @@ export default function ProductDetailClient({
           {/* Gallery */}
           <div
             className="flex gap-3 bg-white"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: '540px', overflow: 'hidden' }}
+            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: '508px', overflow: 'hidden' }}
           >
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
-              <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', overflowY: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '476px', overflowY: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {productDetails.images.map((img, idx) => (
                   <button
                     key={idx}
@@ -358,7 +358,7 @@ export default function ProductDetailClient({
                 <button
                   key={name}
                   onClick={() => setSelectedColor(name)}
-                  className={`w-4 h-4 rounded-full border-2 flex-shrink-0 transition-all ${selectedColor === name ? 'border-black ring-2 ring-offset-2 ring-black' : 'border-gray-300 hover:border-gray-400'}`}
+                  className={`w-4 h-4 rounded-full flex-shrink-0 transition-all ${selectedColor === name ? 'ring-1 ring-offset-1 ring-black' : 'ring-1 ring-gray-300 hover:ring-gray-400'}`}
                   style={{ backgroundColor: hex }}
                   title={name}
                   aria-label={`Välj färg ${name}`}
@@ -510,7 +510,7 @@ export default function ProductDetailClient({
       />
 
       {alsoLikeProducts.length > 0 && (
-        <div className="px-6 mt-12">
+        <div className="w-[1280px] mx-auto mt-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Du kanske också gillar</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {alsoLikeProducts.map((product) => (
