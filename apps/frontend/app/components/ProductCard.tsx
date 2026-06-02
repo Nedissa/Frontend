@@ -268,7 +268,7 @@ export function ProductCard({
           >
             <span
               className="absolute inset-0 bg-black origin-bottom transition-transform duration-300 ease-out"
-              style={{ transform: isHovered ? 'scaleY(1)' : 'scaleY(0)' }}
+              style={{ transform: (isHovered || added) ? 'scaleY(1)' : 'scaleY(0)' }}
             />
             <span className="relative z-10 flex items-center gap-2">
               {added ? (
