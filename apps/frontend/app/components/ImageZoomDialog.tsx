@@ -121,8 +121,12 @@ export function ImageZoomDialog({
             >
               <button
                 onClick={() => goTo(idx)}
-                className="aspect-square w-20 flex items-center justify-center"
-                style={{ opacity: currentIndex === idx ? 1 : 0.4 }}
+                className="aspect-square flex items-center justify-center transition-all duration-200"
+                style={{
+                  opacity: currentIndex === idx ? 1 : 0.4,
+                  width: currentIndex === idx ? '88px' : '72px',
+                  transform: currentIndex === idx ? 'translateY(-4px)' : 'translateY(0)',
+                }}
               >
                 <img src={img.url} alt="" className="w-full h-full object-contain" />
               </button>
