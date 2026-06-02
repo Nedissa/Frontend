@@ -171,12 +171,14 @@ export default function ProductDetailClient({
 
       <div className="px-6">
       {/* Main Product Grid */}
-      <div className="flex gap-2 items-stretch">
-        {/* Left Column - Image & Tabs */}
-        <div className="flex-1 flex flex-col gap-2 min-w-0">
+      <div className="flex flex-col gap-2">
+
+        {/* Top row: Image Gallery + Right Column side by side */}
+        <div className="flex gap-2 items-stretch">
+
           {/* Image Gallery */}
           <div
-            className="flex gap-3 bg-white"
+            className="flex-1 flex gap-3 bg-white min-w-0"
             style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px' }}
           >
             {/* Vertical Thumbnails */}
@@ -266,114 +268,12 @@ export default function ProductDetailClient({
             </div>
           </div>
 
-          {/* Product Tabs */}
+          {/* Right Column - Product Info + Accessories */}
+          <div className="w-72 flex-shrink-0">
           <div
-            className="p-8 pb-0 bg-white"
+            className="flex flex-col bg-white h-full"
             style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
           >
-            <div className="pt-0 w-full pb-8">
-              {/* Tab Bar */}
-              <div className="flex gap-8 mb-8 border-b border-gray-200 w-full">
-                {[
-                { key: 'description', label: 'Beskrivning' },
-                { key: 'specifications', label: 'Specifikationer' },
-                { key: 'contents', label: 'Produktinnehåll' },
-                { key: 'reviews', label: 'Recensioner' },
-              ].map(({ key, label }) => (
-                  <button
-                    key={key}
-                    onClick={() => setActiveTab(key)}
-                    className={`pb-4 font-medium text-sm transition-colors whitespace-nowrap flex items-center gap-2 border-b-2 ${
-                      activeTab === key
-                        ? 'text-black border-black'
-                        : 'text-gray-500 hover:text-gray-700 border-transparent'
-                    }`}
-                  >
-                    {key === 'description' && (
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M3 3h18v2H3V3zm0 4h18v2H3V7zm0 4h18v2H3v-2zm0 4h18v2H3v-2z" />
-                      </svg>
-                    )}
-                    {key === 'specifications' && (
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-2.12-2.59-1.84 2.25h9.5L13.96 9.29z" />
-                      </svg>
-                    )}
-                    {key === 'contents' && (
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-                        <line x1="12" y1="22.08" x2="12" y2="12"></line>
-                      </svg>
-                    )}
-                    {key === 'reviews' && (
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                      </svg>
-                    )}
-                    {label}
-                  </button>
-                ))}
-              </div>
-
-              {/* Tab Content */}
-              {activeTab === 'description' && (
-                <div className="space-y-3 pb-8">
-                  <div className="border-b border-gray-200 pb-3">
-                    <p className="text-sm text-gray-700 whitespace-pre-wrap">{productDetails.description}</p>
-                  </div>
-                </div>
-              )}
-
-              {activeTab === 'specifications' && (
-                <div className="space-y-3 pb-8">
-                  {productDetails.specifications.length > 0 ? (
-                    productDetails.specifications.map((spec: { label: string; value: string }, idx: number) => (
-                      <div key={idx} className="border-b border-gray-200 pb-3">
-                        <p className="text-sm font-semibold text-gray-900">{spec.label}</p>
-                        <p className="text-sm text-gray-700">{spec.value}</p>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-sm text-gray-500">Inga specifikationer tillagda</p>
-                  )}
-                </div>
-              )}
-
-              {activeTab === 'contents' && (
-                <div className="space-y-3 pb-8">
-                  {productDetails.contents.length > 0 ? (
-                    <div className="border-b border-gray-200 pb-3">
-                      <p className="text-sm text-gray-700">Följande tillbehör ingår i paketet:</p>
-                      <ul className="text-sm text-gray-700 mt-2 space-y-1 list-disc list-inside">
-                        {productDetails.contents.map((item: string, idx: number) => (
-                          <li key={idx}>{item}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  ) : (
-                    <p className="text-sm text-gray-500">Inget produktinnehåll tillagt</p>
-                  )}
-                </div>
-              )}
-
-              {activeTab === 'reviews' && (
-                <div className="space-y-3 pb-8">
-                  <p className="text-sm text-gray-600">Denna produkt har inga recensioner än</p>
-                  <p className="text-xs text-gray-500">Var den första att recensera denna produkt</p>
-                </div>
-              )}
-
-            </div>
-          </div>
-        </div>
-
-        {/* Right Column - Product Info + Accessories */}
-        <div className="w-72 flex flex-col gap-2">
-        <div
-          className="flex flex-col bg-white flex-1"
-          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
-        >
           {/* Header - Title + Favorite */}
           <div className="flex items-start justify-between p-6 pb-4">
             <div className="flex-1 min-w-0">
@@ -565,9 +465,111 @@ export default function ProductDetailClient({
 
         </div>
 
+          </div>
         </div>
-      </div>
 
+        {/* Product Tabs - full width below gallery row */}
+        <div
+          className="p-8 pb-0 bg-white"
+          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
+        >
+          <div className="pt-0 w-full pb-8">
+            {/* Tab Bar */}
+            <div className="flex gap-8 mb-8 border-b border-gray-200 w-full">
+              {[
+              { key: 'description', label: 'Beskrivning' },
+              { key: 'specifications', label: 'Specifikationer' },
+              { key: 'contents', label: 'Produktinnehåll' },
+              { key: 'reviews', label: 'Recensioner' },
+            ].map(({ key, label }) => (
+                <button
+                  key={key}
+                  onClick={() => setActiveTab(key)}
+                  className={`pb-4 font-medium text-sm transition-colors whitespace-nowrap flex items-center gap-2 border-b-2 ${
+                    activeTab === key
+                      ? 'text-black border-black'
+                      : 'text-gray-500 hover:text-gray-700 border-transparent'
+                  }`}
+                >
+                  {key === 'description' && (
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M3 3h18v2H3V3zm0 4h18v2H3V7zm0 4h18v2H3v-2zm0 4h18v2H3v-2z" />
+                    </svg>
+                  )}
+                  {key === 'specifications' && (
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-2.12-2.59-1.84 2.25h9.5L13.96 9.29z" />
+                    </svg>
+                  )}
+                  {key === 'contents' && (
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                      <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                      <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                    </svg>
+                  )}
+                  {key === 'reviews' && (
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                    </svg>
+                  )}
+                  {label}
+                </button>
+              ))}
+            </div>
+
+            {/* Tab Content */}
+            {activeTab === 'description' && (
+              <div className="space-y-3 pb-8">
+                <div className="border-b border-gray-200 pb-3">
+                  <p className="text-sm text-gray-700 whitespace-pre-wrap">{productDetails.description}</p>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'specifications' && (
+              <div className="space-y-3 pb-8">
+                {productDetails.specifications.length > 0 ? (
+                  productDetails.specifications.map((spec: { label: string; value: string }, idx: number) => (
+                    <div key={idx} className="border-b border-gray-200 pb-3">
+                      <p className="text-sm font-semibold text-gray-900">{spec.label}</p>
+                      <p className="text-sm text-gray-700">{spec.value}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-sm text-gray-500">Inga specifikationer tillagda</p>
+                )}
+              </div>
+            )}
+
+            {activeTab === 'contents' && (
+              <div className="space-y-3 pb-8">
+                {productDetails.contents.length > 0 ? (
+                  <div className="border-b border-gray-200 pb-3">
+                    <p className="text-sm text-gray-700">Följande tillbehör ingår i paketet:</p>
+                    <ul className="text-sm text-gray-700 mt-2 space-y-1 list-disc list-inside">
+                      {productDetails.contents.map((item: string, idx: number) => (
+                        <li key={idx}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-500">Inget produktinnehåll tillagt</p>
+                )}
+              </div>
+            )}
+
+            {activeTab === 'reviews' && (
+              <div className="space-y-3 pb-8">
+                <p className="text-sm text-gray-600">Denna produkt har inga recensioner än</p>
+                <p className="text-xs text-gray-500">Var den första att recensera denna produkt</p>
+              </div>
+            )}
+
+          </div>
+        </div>
+
+      </div>
       </div>
 
       {/* Image Zoom Dialog */}
