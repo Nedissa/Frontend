@@ -52,7 +52,7 @@ export default function ProductDetailClient({
   const thumbnailRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const productInfoRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
-  const [galleryHeight, setGalleryHeight] = useState<number | undefined>(undefined);
+  const [galleryHeight, setGalleryHeight] = useState<number>(476);
 
   const goToImage = (idx: number) => {
     if (idx === selectedImage) return;
@@ -172,7 +172,7 @@ export default function ProductDetailClient({
           <div
             ref={galleryRef}
             className="flex-1 flex gap-3 bg-white min-w-0"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: galleryHeight ? `${galleryHeight}px` : undefined }}
+            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: `${galleryHeight}px` }}
           >
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
