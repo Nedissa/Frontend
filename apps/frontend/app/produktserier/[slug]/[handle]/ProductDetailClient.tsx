@@ -469,7 +469,13 @@ export default function ProductDetailClient({
                         <p className="text-sm font-medium text-gray-900">{accessory.name}</p>
                         <p className="text-xs text-gray-500">{Number(accessory.price).toLocaleString('sv-SE')} kr</p>
                       </div>
-                      <div className={`w-4 h-4 flex-shrink-0 border-2 transition-colors ${isSelected ? 'bg-black border-black' : 'border-gray-300'}`} />
+                      <div className={`w-3.5 h-3.5 flex-shrink-0 border transition-colors flex items-center justify-center ${isSelected ? 'bg-black border-black' : 'border-gray-300'}`}>
+                        {isSelected && (
+                          <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                        )}
+                      </div>
                     </button>
                   );
                 })}
