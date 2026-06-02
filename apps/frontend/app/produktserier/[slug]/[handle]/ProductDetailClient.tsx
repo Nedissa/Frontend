@@ -203,18 +203,16 @@ export default function ProductDetailClient({
                 {/* Pill controller inside image */}
                 {productDetails.images.length > 1 && (
                   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.12)' }} onClick={e => e.stopPropagation()}>
-                    <span className="text-xs text-gray-400 tabular-nums">{selectedImage + 1} / {productDetails.images.length}</span>
                     {productDetails.images.map((_, idx) => (
                       <button
                         key={idx}
                         onClick={() => goToImage(idx)}
-                        className="relative w-2.5 h-2.5 rounded-full bg-gray-200 overflow-hidden"
-                      >
-                        <div
-                          className="absolute inset-0 rounded-full bg-gray-800 transition-transform duration-300"
-                          style={{ transform: idx <= selectedImage ? 'scale(1)' : 'scale(0)' }}
-                        />
-                      </button>
+                        className="h-1.5 rounded-full transition-all duration-300"
+                        style={{
+                          width: idx <= selectedImage ? '20px' : '6px',
+                          backgroundColor: idx <= selectedImage ? '#1f2937' : '#d1d5db',
+                        }}
+                      />
                     ))}
                     <button onClick={() => setShowZoom(true)} className="text-gray-500 hover:text-black transition-colors">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
