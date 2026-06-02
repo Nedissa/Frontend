@@ -397,7 +397,8 @@ export default function ProductDetailClient({
           </div>
 
           {/* Price */}
-          <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+          <div className="mx-6 h-px bg-gray-100" />
+          <div className="px-6 py-4 flex items-center justify-between">
             <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Pris</span>
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-bold text-red-600">{product.price.toLocaleString('sv-SE')} kr</span>
@@ -408,7 +409,8 @@ export default function ProductDetailClient({
           </div>
 
           {/* Color */}
-          <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+          <div className="mx-6 h-px bg-gray-100" />
+          <div className="px-6 py-4 flex items-center justify-between">
             <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Färg</span>
             <div className="flex gap-3">
               {Object.entries(COLORS).map(([name, hex]) => (
@@ -432,20 +434,24 @@ export default function ProductDetailClient({
             const managesInventory = (product as any).variants?.some((v: any) => v.manage_inventory);
             const isOutOfStock = managesInventory && qty !== null && qty <= 0;
             return (
-              <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
-                <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Lager</span>
-                <div className="flex items-center gap-2">
-                  <span className={`w-2 h-2 rounded-full ${isOutOfStock ? 'bg-red-500' : 'bg-green-500'}`}></span>
-                  <span className={`text-sm font-medium ${isOutOfStock ? 'text-red-500' : 'text-black'}`}>
-                    {isOutOfStock ? 'Slut i lager' : qty !== null ? `${qty} st` : 'I lager'}
-                  </span>
+              <>
+                <div className="mx-6 h-px bg-gray-100" />
+                <div className="px-6 py-4 flex items-center justify-between">
+                  <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Lager</span>
+                  <div className="flex items-center gap-2">
+                    <span className={`w-2 h-2 rounded-full ${isOutOfStock ? 'bg-red-500' : 'bg-green-500'}`}></span>
+                    <span className={`text-sm font-medium ${isOutOfStock ? 'text-red-500' : 'text-black'}`}>
+                      {isOutOfStock ? 'Slut i lager' : qty !== null ? `${qty} st` : 'I lager'}
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </>
             );
           })()}
 
           {/* Rekommenderade tillbehör */}
-          <div className="border-t border-gray-100">
+          <div className="mx-6 h-px bg-gray-100" />
+          <div>
             <button
               type="button"
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowAccessories(!showAccessories); }}
