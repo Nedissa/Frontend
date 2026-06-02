@@ -184,10 +184,16 @@ export default function ProductDetailClient({
                   <button
                     key={idx}
                     onClick={() => goToImage(idx)}
-                    className="relative flex-shrink-0 flex items-center justify-center overflow-hidden transition-colors duration-200"
-                    style={{ width: '80px', height: '80px', backgroundColor: selectedImage === idx ? '#e5e7eb' : 'transparent' }}
+                    className="relative flex-shrink-0 bg-gray-100 flex items-center justify-center overflow-hidden"
+                    style={{ width: '80px', height: '80px' }}
                   >
-                    <img src={img.url} alt="" className="w-full h-full object-contain p-2" />
+                    <img
+                      src={img.url} alt=""
+                      className="w-full h-full object-contain p-2 transition-all duration-300"
+                      style={{
+                        filter: selectedImage === idx ? 'brightness(1.05) contrast(1.05)' : 'brightness(0.9)',
+                      }}
+                    />
                   </button>
                 ))}
               </div>
@@ -201,7 +207,7 @@ export default function ProductDetailClient({
               >
                 <button
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
-                  className="absolute left-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center focus:outline-none"
+                  className="absolute left-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
                 >‹</button>
                 <div className="relative w-full overflow-hidden" style={{ height: '500px' }} onClick={() => setShowZoom(true)}>
                   {[prevImage, selectedImage].map((imgIdx, i) => {
@@ -254,7 +260,7 @@ export default function ProductDetailClient({
                 )}
                 <button
                   onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
-                  className="absolute right-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center focus:outline-none"
+                  className="absolute right-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
                 >›</button>
               </div>
             </div>
