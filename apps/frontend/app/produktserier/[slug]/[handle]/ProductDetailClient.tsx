@@ -193,7 +193,7 @@ export default function ProductDetailClient({
               >
                 <button
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
-                  className="absolute left-3 z-10 text-gray-600 hover:text-black text-4xl font-light"
+                  className="absolute left-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
                 >‹</button>
                 <div className="absolute inset-0 cursor-zoom-in" onClick={() => setShowZoom(true)} />
                 <img
@@ -227,7 +227,7 @@ export default function ProductDetailClient({
                 )}
                 <button
                   onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
-                  className="absolute right-3 z-10 text-gray-600 hover:text-black text-4xl font-light"
+                  className="absolute right-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
                 >›</button>
               </div>
             </div>
