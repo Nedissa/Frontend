@@ -451,7 +451,7 @@ export default function ProductDetailClient({
           {/* Rekommenderade tillbehör */}
           <div className="border-t border-gray-100">
             <button
-              onClick={() => setShowAccessories(!showAccessories)}
+              onClick={(e) => { e.stopPropagation(); setShowAccessories(!showAccessories); }}
               className="w-full flex items-center justify-between text-xs uppercase tracking-widest text-gray-400 font-medium px-6 py-4 hover:bg-gray-50"
             >
               <span>Tillbehör</span>
