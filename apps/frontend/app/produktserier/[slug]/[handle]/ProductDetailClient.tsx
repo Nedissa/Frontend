@@ -161,8 +161,8 @@ export default function ProductDetailClient({
 
           {/* Gallery — stretches to match right column height */}
           <div
-            className="flex-1 flex gap-3 bg-white min-w-0 self-stretch"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px' }}
+            className="flex-1 flex gap-3 bg-white min-w-0"
+            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', alignSelf: 'stretch' }}
           >
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
