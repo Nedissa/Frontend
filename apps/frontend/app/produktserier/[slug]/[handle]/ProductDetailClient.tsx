@@ -192,19 +192,19 @@ export default function ProductDetailClient({
             </div>
 
             {/* Image Gallery */}
-            <div className="flex-1 flex flex-col">
+            <div className="flex-1">
               {/* Main Image */}
-              <div className="relative flex items-center justify-center h-64 mx-16">
+              <div className="relative flex items-center justify-center mb-4">
                 <button
                   onClick={() => setSelectedImage((prev) => (prev - 1 + productDetails.images.length) % productDetails.images.length)}
-                  className="absolute -left-12 z-10 text-black hover:text-gray-600 text-5xl font-bold flex-shrink-0"
+                  className="absolute left-0 z-10 text-black hover:text-gray-600 text-5xl font-bold flex-shrink-0"
                 >
                   ‹
                 </button>
 
                 <button
                   onClick={() => setShowZoom(true)}
-                  className="relative bg-white flex items-center justify-center h-64 w-full overflow-hidden p-4 cursor-zoom-in"
+                  className="relative bg-white flex items-center justify-center h-96 w-full overflow-hidden p-8 cursor-zoom-in"
                 >
                   <img
                     src={mainImage.url}
@@ -215,7 +215,7 @@ export default function ProductDetailClient({
 
                 <button
                   onClick={() => setSelectedImage((prev) => (prev + 1) % productDetails.images.length)}
-                  className="absolute -right-12 z-10 text-black hover:text-gray-600 text-5xl font-bold flex-shrink-0"
+                  className="absolute right-0 z-10 text-black hover:text-gray-600 text-5xl font-bold flex-shrink-0"
                 >
                   ›
                 </button>
@@ -223,23 +223,24 @@ export default function ProductDetailClient({
 
               {/* Thumbnails */}
               {productDetails.images.length > 1 && (
-                <div style={{ height: '120px', flexShrink: 0, overflow: 'hidden' }}>
-                  <div
-                    className="flex gap-12 px-8 justify-center items-center h-full"
-                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', overflowX: 'auto' }}
-                  >
-                    {productDetails.images.map((img, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setSelectedImage(idx)}
-                        className={`flex-shrink-0 aspect-square w-16 transition-all duration-150 flex items-center justify-center ${
-                          selectedImage === idx ? 'scale-125' : ''
-                        }`}
-                      >
-                        <img src={img.url} alt="" className="w-full h-full object-contain" />
-                      </button>
-                    ))}
-                  </div>
+                <div
+                  className="flex gap-12 overflow-x-auto px-8 py-4 bg-white justify-center"
+                  style={{
+                    scrollbarWidth: 'none',
+                    msOverflowStyle: 'none',
+                  }}
+                >
+                  {productDetails.images.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSelectedImage(idx)}
+                      className={`flex-shrink-0 aspect-square w-20 overflow-hidden transition-all duration-150 flex items-center justify-center ${
+                        selectedImage === idx ? 'scale-150' : ''
+                      }`}
+                    >
+                      <img src={img.url} alt="" className="w-full h-full object-contain" />
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
