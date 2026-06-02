@@ -101,8 +101,7 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
               alt={collections[i]?.title || ''}
               className="absolute inset-0 w-full h-full object-cover"
               style={{
-                transform,
-                transition: (isCurrent || isPrev) && sliding ? 'transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none',
+                opacity: isCurrent ? 1 : 0,
                 zIndex: isCurrent ? 2 : isPrev ? 1 : 0,
               }}
               width={1280}
