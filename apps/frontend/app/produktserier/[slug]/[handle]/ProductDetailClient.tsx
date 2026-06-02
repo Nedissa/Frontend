@@ -181,23 +181,18 @@ export default function ProductDetailClient({
             {productDetails.images.length > 1 && (
               <div className="flex flex-col gap-2 overflow-y-auto flex-shrink-0" style={{ width: '80px', maxHeight: '500px', scrollbarWidth: 'none' }}>
                 {productDetails.images.map((img, idx) => (
-                  <div key={idx} className="flex flex-col items-center gap-1">
-                    <button
-                      onClick={() => goToImage(idx)}
-                      className="flex-shrink-0 bg-gray-100 flex items-center justify-center"
-                      style={{ width: '80px', height: '80px' }}
-                    >
-                      <img src={img.url} alt="" className="w-full h-full object-contain p-2" />
-                    </button>
+                  <button
+                    key={idx}
+                    onClick={() => goToImage(idx)}
+                    className="relative flex-shrink-0 bg-gray-100 flex items-center justify-center overflow-hidden"
+                    style={{ width: '80px', height: '80px' }}
+                  >
+                    <img src={img.url} alt="" className="w-full h-full object-contain p-2" />
                     <div
-                      className="rounded-full bg-gray-800 transition-all duration-300"
-                      style={{
-                        height: '2px',
-                        width: selectedImage === idx ? '24px' : '0px',
-                        opacity: selectedImage === idx ? 1 : 0,
-                      }}
+                      className="absolute inset-0 transition-opacity duration-300"
+                      style={{ backgroundColor: 'rgba(255,255,255,0.55)', opacity: selectedImage === idx ? 0 : 1 }}
                     />
-                  </div>
+                  </button>
                 ))}
               </div>
             )}
