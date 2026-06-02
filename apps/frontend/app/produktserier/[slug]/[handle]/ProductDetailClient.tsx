@@ -283,10 +283,10 @@ export default function ProductDetailClient({
                   <button
                     key={key}
                     onClick={() => setActiveTab(key)}
-                    className={`pb-4 font-medium text-sm transition-colors whitespace-nowrap flex items-center gap-2 ${
+                    className={`pb-4 font-medium text-sm transition-colors whitespace-nowrap flex items-center gap-2 border-b-2 ${
                       activeTab === key
-                        ? 'text-black border-b-2 border-black'
-                        : 'text-gray-500 hover:text-gray-700'
+                        ? 'text-black border-black'
+                        : 'text-gray-500 hover:text-gray-700 border-transparent'
                     }`}
                   >
                     {key === 'description' && (
