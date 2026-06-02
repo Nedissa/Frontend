@@ -52,11 +52,17 @@ export default function ProductDetailClient({
 
   const goToImage = (idx: number) => {
     if (idx === selectedImage) return;
-    setSlideDirection(idx > selectedImage ? 'right' : 'left');
+    const dir = idx > selectedImage ? 'right' : 'left';
+    setSlideDirection(dir);
     setPrevImage(selectedImage);
+    setSliding(false);
     setSelectedImage(idx);
-    setSliding(true);
-    setTimeout(() => { setPrevImage(null); setSliding(false); }, 500);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setSliding(true);
+        setTimeout(() => { setPrevImage(null); setSliding(false); }, 500);
+      });
+    });
   };
   const [selectedColor, setSelectedColor] = useState('Svart');
   const [activeTab, setActiveTab] = useState('description');
@@ -218,19 +224,18 @@ export default function ProductDetailClient({
                 {productDetails.images.map((img, idx) => {
                   const isCurrent = idx === selectedImage;
                   const isPrev = idx === prevImage;
-                  let transform = slideDirection === 'right' ? 'translateX(100%)' : 'translateX(-100%)';
-                  if (isCurrent) transform = 'translateX(0%)';
-                  if (isPrev) transform = slideDirection === 'right' ? 'translateX(-100%)' : 'translateX(100%)';
-                  if (!isCurrent && !isPrev) transform = slideDirection === 'right' ? 'translateX(100%)' : 'translateX(-100%)';
+                  if (!isCurrent && !isPrev) return null;
+                  const incomingTransform = slideDirection === 'right' ? 'translateX(100%)' : 'translateX(-100%)';
+                  const outgoingTransform = slideDirection === 'right' ? 'translateX(-100%)' : 'translateX(100%)';
                   return (
                     <button
                       key={idx}
                       onClick={() => setShowZoom(true)}
                       className="absolute inset-0 flex items-center justify-center p-8 cursor-zoom-in"
                       style={{
-                        transform,
-                        transition: (isCurrent || isPrev) && sliding ? 'transform 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none',
-                        zIndex: isCurrent ? 2 : isPrev ? 1 : 0,
+                        transform: isCurrent ? (sliding ? 'translateX(0%)' : incomingTransform) : outgoingTransform,
+                        transition: sliding ? 'transform 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none',
+                        zIndex: isCurrent ? 2 : 1,
                       }}
                     >
                       <img
