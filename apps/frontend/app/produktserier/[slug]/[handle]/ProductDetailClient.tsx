@@ -163,7 +163,7 @@ export default function ProductDetailClient({
     <div>
       <Breadcrumb items={breadcrumbItems} />
 
-      <div className="px-6 max-w-[1280px] mx-auto" style={{ display: 'grid', gridTemplateColumns: '1fr 288px', gridTemplateRows: 'auto auto', gap: '5px' }}>
+      <div className="px-6 max-w-[1280px] mx-auto" style={{ display: 'grid', gridTemplateColumns: '1fr 288px', gridTemplateRows: 'auto auto', gap: '5px', alignItems: 'start' }}>
 
         {/* Gallery — row 1, col 1 */}
         <div
@@ -247,8 +247,8 @@ export default function ProductDetailClient({
             </div>
           </div>
 
-          {/* Product Info — row 1, col 2, expands independently */}
-          <div style={{ gridColumn: '2', gridRow: '1', alignSelf: 'start' }}>
+          {/* Product Info — col 2, spans both rows, expands independently */}
+          <div style={{ gridColumn: '2', gridRow: '1 / 3', alignSelf: 'start' }}>
             <div ref={productInfoRef} className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
 
               <div className="flex items-start justify-between p-6 pb-4">
@@ -422,7 +422,7 @@ export default function ProductDetailClient({
         {/* Tabs — row 2, col 1 */}
         <div
           className="p-8 pb-0 bg-white"
-          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', gridColumn: '1', gridRow: '2' }}
+          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', gridColumn: '1', gridRow: '2', alignSelf: 'start' }}
         >
             <div className="pt-0 w-full pb-8">
               <div className="flex gap-8 mb-8 border-b border-gray-200 w-full">
