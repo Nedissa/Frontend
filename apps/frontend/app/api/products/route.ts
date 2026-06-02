@@ -97,7 +97,7 @@ export async function GET() {
           let url = img.url || '';
           url = url.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se').replace(/^http:\/\//, 'https://');
           return url;
-        }) || []),
+        }) || []).slice(0, 3),
         category: collectionTitle,
         description: product.description || '',
         metadata: {
