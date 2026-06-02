@@ -171,7 +171,7 @@ export default function ProductDetailClient({
 
       <div className="px-6">
       {/* Main Product Grid */}
-      <div className="flex gap-2">
+      <div className="flex gap-2 items-start">
         {/* Left Column - Image & Tabs */}
         <div className="flex-1 flex flex-col gap-2 min-w-0">
           {/* Image Gallery */}
