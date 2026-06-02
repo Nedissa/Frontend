@@ -16,9 +16,21 @@ export function ImageZoomDialog({
   onClose,
 }: ImageZoomDialogProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [prevIndex, setPrevIndex] = useState<number | null>(null);
+  const [slideDir, setSlideDir] = useState<'left' | 'right'>('right');
+  const [isSliding, setIsSliding] = useState(false);
+
+  const goTo = (idx: number) => {
+    if (idx === currentIndex) return;
+    setSlideDir(idx > currentIndex ? 'right' : 'left');
+    setPrevIndex(currentIndex);
+    setCurrentIndex(idx);
+    setIsSliding(true);
+    setTimeout(() => { setPrevIndex(null); setIsSliding(false); }, 400);
+  };
 
   useEffect(() => {
-    setCurrentIndex(initialIndex);
+    goTo(initialIndex);
   }, [initialIndex]);
 
   useEffect(() => {
@@ -28,9 +40,9 @@ export function ImageZoomDialog({
       if (e.key === 'Escape') {
         onClose();
       } else if (e.key === 'ArrowLeft') {
-        setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+        goTo((currentIndex - 1 + images.length) % images.length);
       } else if (e.key === 'ArrowRight') {
-        setCurrentIndex((prev) => (prev + 1) % images.length);
+        goTo((currentIndex + 1) % images.length);
       }
     };
 
@@ -82,9 +94,7 @@ export function ImageZoomDialog({
         <div className="flex-1 flex items-center justify-center p-8 overflow-hidden relative" style={{ minHeight: 0 }}>
           {/* Left Arrow */}
           <button
-            onClick={() =>
-              setCurrentIndex((prev) => (prev - 1 + images.length) % images.length)
-            }
+            onClick={() => goTo((currentIndex - 1 + images.length) % images.length)}
             className="absolute left-4 p-2 hover:bg-gray-100 rounded transition-colors flex items-center justify-center z-10"
           >
             <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,17 +102,29 @@ export function ImageZoomDialog({
             </svg>
           </button>
 
-          <img
-            src={currentImage.url}
-            alt={currentImage.altText}
-            className="max-w-full max-h-full object-contain"
-          />
+          {images.map((img, idx) => {
+            const isCurrent = idx === currentIndex;
+            const isPrev = idx === prevIndex;
+            if (!isCurrent && !isPrev) return null;
+            const outgoing = slideDir === 'right' ? 'translateX(-100%)' : 'translateX(100%)';
+            return (
+              <img
+                key={idx}
+                src={img.url}
+                alt={img.altText}
+                className="max-w-full max-h-full object-contain absolute"
+                style={{
+                  transform: isCurrent ? 'translateX(0)' : outgoing,
+                  transition: isSliding ? 'transform 400ms cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
+                  zIndex: isCurrent ? 2 : 1,
+                }}
+              />
+            );
+          })}
 
           {/* Right Arrow */}
           <button
-            onClick={() =>
-              setCurrentIndex((prev) => (prev + 1) % images.length)
-            }
+            onClick={() => goTo((currentIndex + 1) % images.length)}
             className="absolute right-4 p-2 hover:bg-gray-100 rounded transition-colors flex items-center justify-center z-10"
           >
             <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -119,7 +141,7 @@ export function ImageZoomDialog({
               className="flex-shrink-0 flex items-center justify-center"
             >
               <button
-                onClick={() => setCurrentIndex(idx)}
+                onClick={() => goTo(idx)}
                 className="aspect-square w-20 flex items-center justify-center"
                 style={{ opacity: currentIndex === idx ? 1 : 0.4 }}
               >
@@ -138,7 +160,7 @@ export function ImageZoomDialog({
             {images.map((_, idx) => (
               <button
                 key={idx}
-                onClick={() => setCurrentIndex(idx)}
+                onClick={() => goTo(idx)}
                 className={`w-2 h-2 rounded-full transition-colors cursor-pointer ${
                   currentIndex === idx ? 'bg-black' : 'bg-gray-300'
                 }`}
