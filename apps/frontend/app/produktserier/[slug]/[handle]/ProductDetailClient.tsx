@@ -188,10 +188,14 @@ export default function ProductDetailClient({
             {/* Main Image + Controller */}
             <div className="flex-1 flex flex-col min-w-0">
               <div
-                className="relative flex-1 bg-gray-100 cursor-zoom-in flex items-center justify-center"
+                className="relative flex-1 bg-gray-100 flex items-center justify-center"
                 style={{ minHeight: '500px' }}
-                onClick={() => setShowZoom(true)}
               >
+                <button
+                  onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
+                  className="absolute left-3 z-10 text-gray-600 hover:text-black text-4xl font-light"
+                >‹</button>
+                <div className="absolute inset-0 cursor-zoom-in" onClick={() => setShowZoom(true)} />
                 <img
                   key={selectedImage}
                   src={productDetails.images[selectedImage]?.url}
@@ -219,6 +223,10 @@ export default function ProductDetailClient({
                     </button>
                   </div>
                 )}
+                <button
+                  onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
+                  className="absolute right-3 z-10 text-gray-600 hover:text-black text-4xl font-light"
+                >›</button>
               </div>
             </div>
           </div>
