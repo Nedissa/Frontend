@@ -205,14 +205,14 @@ export default function ProductDetailClient({
             {/* Main Image + Controller */}
             <div className="flex-1 flex flex-col min-w-0">
               <div
-                className="relative flex-1 flex items-center justify-center"
-                style={{ backgroundColor: '#f8f9fa', height: '420px', overflow: 'hidden' }}
+                className="relative flex flex-col"
+                style={{ backgroundColor: '#f8f9fa', height: '476px' }}
               >
                 <button
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
                   className="absolute left-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
                 >‹</button>
-                <div className="relative w-full overflow-hidden" style={{ height: '100%' }} onClick={() => setShowZoom(true)}>
+                <div className="relative flex-1 overflow-hidden" onClick={() => setShowZoom(true)}>
                   {[prevImage, selectedImage].map((imgIdx, i) => {
                     if (imgIdx === null) return null;
                     const isCurrent = imgIdx === selectedImage;
@@ -247,9 +247,9 @@ export default function ProductDetailClient({
                 >›</button>
               </div>
 
-              {/* Pill controller - outside image */}
+              {/* Pill controller - inside bg div, below image */}
               {productDetails.images.length > 1 && (
-                <div className="flex justify-center py-3">
+                <div className="flex justify-center py-3 flex-shrink-0">
                   <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.12)' }}>
                     <span className="text-xs text-gray-400 tabular-nums flex-shrink-0">{selectedImage + 1} / {productDetails.images.length}</span>
                     {productDetails.images.map((_, idx) => (
