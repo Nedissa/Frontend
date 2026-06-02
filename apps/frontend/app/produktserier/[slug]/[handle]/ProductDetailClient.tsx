@@ -187,7 +187,7 @@ export default function ProductDetailClient({
                     key={idx}
                     ref={el => { thumbnailRefs.current[idx] = el; }}
                     onClick={() => goToImage(idx)}
-                    className="relative flex-shrink-0 flex items-center justify-center overflow-hidden"
+                    className="relative flex-shrink-0 flex items-center justify-center overflow-hidden focus:outline-none"
                     style={{ width: '110px', height: '110px', backgroundColor: '#f8f9fa' }}
                   >
                     <img
