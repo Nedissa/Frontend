@@ -430,11 +430,8 @@ export default function ProductDetailClient({
                 <div className="flex items-center gap-2">
                   <span className={`w-2 h-2 rounded-full ${isOutOfStock ? 'bg-red-500' : 'bg-green-500'}`}></span>
                   <span className={`text-sm font-medium ${isOutOfStock ? 'text-red-500' : 'text-black'}`}>
-                    {isOutOfStock ? 'Slut i lager' : 'I lager'}
+                    {isOutOfStock ? 'Slut i lager' : qty !== null ? `${qty} st` : 'I lager'}
                   </span>
-                  {!isOutOfStock && qty !== null && (
-                    <span className="text-xs text-gray-400">({qty} st)</span>
-                  )}
                 </div>
               </div>
             );
