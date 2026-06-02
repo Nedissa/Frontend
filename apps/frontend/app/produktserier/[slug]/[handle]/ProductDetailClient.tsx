@@ -194,7 +194,7 @@ export default function ProductDetailClient({
             {/* Image Gallery */}
             <div className="flex-1 flex flex-col">
               {/* Main Image */}
-              <div className="relative flex items-center justify-center flex-1">
+              <div className="relative flex items-center justify-center h-96">
                 <button
                   onClick={() => setSelectedImage((prev) => (prev - 1 + productDetails.images.length) % productDetails.images.length)}
                   className="absolute left-0 z-10 text-black hover:text-gray-600 text-5xl font-bold flex-shrink-0"
