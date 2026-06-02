@@ -194,7 +194,7 @@ export default function ProductDetailClient({
             {/* Image Gallery */}
             <div className="flex-1 flex flex-col min-w-0">
               {/* Main Image + Chevrons */}
-              <div className="relative flex items-center justify-center h-96 mb-4">
+              <div className="relative flex items-center justify-center h-96">
                 <button
                   onClick={() => setSelectedImage((prev) => (prev - 1 + productDetails.images.length) % productDetails.images.length)}
                   className="absolute left-0 z-10 text-black hover:text-gray-600 text-5xl font-bold flex-shrink-0"
@@ -221,21 +221,19 @@ export default function ProductDetailClient({
                 </button>
               </div>
 
-              {/* Thumbnails */}
+              {/* Progress bars */}
               {productDetails.images.length > 1 && (
-                <div
-                  className="flex gap-12 overflow-visible px-8 py-4 justify-center"
-                  style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-                >
-                  {productDetails.images.map((img, idx) => (
+                <div className="flex gap-2 px-8 pt-4">
+                  {productDetails.images.map((_, idx) => (
                     <button
                       key={idx}
                       onClick={() => setSelectedImage(idx)}
-                      className={`flex-shrink-0 aspect-square w-20 overflow-hidden transition-all duration-150 flex items-center justify-center ${
-                        selectedImage === idx ? 'scale-150' : ''
-                      }`}
+                      className="relative flex-1 h-[3px] bg-gray-200 rounded-full overflow-hidden"
                     >
-                      <img src={img.url} alt="" className="w-full h-full object-contain" />
+                      <div
+                        className="absolute inset-y-0 left-0 bg-black rounded-full transition-all duration-300"
+                        style={{ width: idx < selectedImage ? '100%' : idx === selectedImage ? '100%' : '0%' }}
+                      />
                     </button>
                   ))}
                 </div>
