@@ -163,13 +163,16 @@ export default function ProductDetailClient({
     <div>
       <Breadcrumb items={breadcrumbItems} />
 
-      <div className="px-6 max-w-[1280px] mx-auto" style={{ display: 'grid', gridTemplateColumns: '1fr 288px', gridTemplateRows: 'auto auto', gap: '5px', alignItems: 'start' }}>
+      <div className="max-w-[1280px] mx-auto px-6 flex gap-[5px] items-start">
 
-        {/* Gallery — row 1, col 1 */}
-        <div
-          className="flex gap-3 bg-white"
-          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', gridColumn: '1', gridRow: '1' }}
-        >
+        {/* Left column — gallery + tabs */}
+        <div className="flex flex-col flex-1 min-w-0" style={{ gap: '5px' }}>
+
+          {/* Gallery */}
+          <div
+            className="flex gap-3 bg-white"
+            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: '540px', overflow: 'hidden' }}
+          >
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
               <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', overflowY: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
@@ -245,185 +248,13 @@ export default function ProductDetailClient({
                 )}
               </div>
             </div>
-        </div>
+          </div>
 
-        {/* Product Info — col 2, spans both rows, expands independently */}
-          <div style={{ gridColumn: '2', gridRow: '1 / 3', alignSelf: 'start' }}>
-            <div ref={productInfoRef} className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-
-              <div className="flex items-start justify-between p-6 pb-4">
-                <div className="flex-1 min-w-0">
-                  {discountPercent > 0 && (
-                    <div className="inline-block bg-red-600 text-white px-2 py-0.5 text-xs font-bold mb-2 rounded w-fit">-{discountPercent}%</div>
-                  )}
-                  <h1 className="text-xl font-bold text-black leading-tight">{product.title}</h1>
-                  <p className="text-xs text-gray-400 mt-1">Varukod: {productDetails.sku}</p>
-                </div>
-                <button
-                  onClick={handleFavoriteToggle}
-                  className={`ml-3 flex-shrink-0 ${isFavorite ? 'text-red-500' : 'text-gray-300 hover:text-red-500'} transition-colors`}
-                >
-                  <svg className="w-5 h-5" fill={isFavorite ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-                  </svg>
-                </button>
-              </div>
-
-              <div className="mx-6 h-px bg-gray-100" />
-              <div className="px-6 py-4 flex items-center justify-between">
-                <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Pris</span>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-2xl font-bold text-red-600">{product.price.toLocaleString('sv-SE')} kr</span>
-                  {product.originalPrice && <span className="text-sm text-gray-400 line-through">{product.originalPrice.toLocaleString('sv-SE')} kr</span>}
-                </div>
-              </div>
-
-              <div className="mx-6 h-px bg-gray-100" />
-              <div className="px-6 py-4 flex items-center justify-between">
-                <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Färg</span>
-                <div className="flex gap-3">
-                  {Object.entries(COLORS).map(([name, hex]) => (
-                    <button
-                      key={name}
-                      onClick={() => setSelectedColor(name)}
-                      className={`w-4 h-4 rounded-full border-2 flex-shrink-0 transition-all ${selectedColor === name ? 'border-black ring-2 ring-offset-2 ring-black' : 'border-gray-300 hover:border-gray-400'}`}
-                      style={{ backgroundColor: hex }}
-                      title={name}
-                      aria-label={`Välj färg ${name}`}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {(() => {
-                const qty = productDetails.quantityAvailable;
-                const managesInventory = (product as any).variants?.some((v: any) => v.manage_inventory);
-                const isOutOfStock = managesInventory && qty !== null && qty <= 0;
-                return (
-                  <>
-                    <div className="mx-6 h-px bg-gray-100" />
-                    <div className="px-6 py-4 flex items-center justify-between">
-                      <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Lager</span>
-                      <div className="flex items-center gap-2">
-                        <span className={`w-2 h-2 rounded-full ${isOutOfStock ? 'bg-red-500' : 'bg-green-500'}`}></span>
-                        <span className={`text-sm font-medium ${isOutOfStock ? 'text-red-500' : 'text-black'}`}>
-                          {isOutOfStock ? 'Slut i lager' : qty !== null ? `${qty} st` : 'I lager'}
-                        </span>
-                      </div>
-                    </div>
-                  </>
-                );
-              })()}
-
-              <div className="mx-6 h-px bg-gray-100" />
-              <div>
-                <button
-                  type="button"
-                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowAccessories(!showAccessories); }}
-                  className="w-full flex items-center justify-between text-xs uppercase tracking-widest text-gray-400 font-medium px-6 py-4 hover:bg-gray-50"
-                >
-                  <span>Tillbehör</span>
-                  <svg className={`w-4 h-4 transition-transform ${showAccessories ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-                {showAccessories && (
-                  <div className="divide-y divide-gray-100">
-                    {RECOMMENDED_ACCESSORIES.map((accessory) => {
-                      const isSelected = selectedAccessories.includes(accessory.id);
-                      return (
-                        <div key={accessory.id} className={`w-full flex items-center gap-3 px-6 py-3 transition-colors ${isSelected ? 'bg-gray-50' : ''}`}>
-                          <Link href={`/produkter/${accessory.id}`} className="flex items-center gap-3 flex-1 min-w-0 hover:bg-gray-50">
-                            <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center">
-                              <img src={accessory.image} alt={accessory.name} className="w-full h-full object-contain" />
-                            </div>
-                            <div className="flex-1 min-w-0 text-left">
-                              <p className="text-sm font-medium text-gray-900">{accessory.name}</p>
-                              <p className="text-xs text-gray-500">{Number(accessory.price).toLocaleString('sv-SE')} kr</p>
-                            </div>
-                          </Link>
-                          <button
-                            onClick={() => {
-                              if (isSelected) {
-                                setSelectedAccessories(selectedAccessories.filter(id => id !== accessory.id));
-                              } else {
-                                setSelectedAccessories([...selectedAccessories, accessory.id]);
-                              }
-                            }}
-                            className={`w-3.5 h-3.5 flex-shrink-0 border transition-colors flex items-center justify-center ${isSelected ? 'bg-black border-black' : 'border-gray-300'}`}
-                          >
-                            {isSelected && (
-                              <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                              </svg>
-                            )}
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-
-              <div className="px-6 pt-4 pb-6 border-t border-gray-100 flex flex-col gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center bg-gray-100 h-11 px-4 gap-4">
-                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="text-gray-500 hover:text-black text-sm font-semibold">−</button>
-                    <span className="text-sm font-semibold w-4 text-center tabular-nums">{quantity}</span>
-                    <button onClick={() => setQuantity(quantity + 1)} className="text-gray-500 hover:text-black text-sm font-semibold">+</button>
-                  </div>
-                  <button
-                    onClick={() => {
-                      window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity, image: product.image } }));
-                      selectedAccessories.forEach((accessoryId) => {
-                        const accessory = RECOMMENDED_ACCESSORIES.find(a => a.id === accessoryId);
-                        if (accessory) window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: accessory.id, title: accessory.name, price: Number(accessory.price), quantity: 1, image: accessory.image } }));
-                      });
-                      setSelectedAccessories([]);
-                      setIsAdded(true);
-                      setTimeout(() => setIsAdded(false), 100);
-                    }}
-                    className="flex-1 bg-black text-white text-sm font-semibold h-11 flex items-center justify-center hover:bg-gray-800 transition-colors"
-                  >
-                    {isAdded ? 'Tillagd' : 'Lägg i varukorg'}
-                  </button>
-                </div>
-                <button
-                  onClick={() => {
-                    localStorage.setItem('quickCheckout', JSON.stringify({ id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity }));
-                    router.push('/kassan');
-                  }}
-                  className="w-full bg-green-600 text-white text-sm font-semibold h-11 flex items-center justify-center hover:bg-green-700 transition-colors"
-                >
-                  Handla nu
-                </button>
-              </div>
-
-              <div className="border-t border-gray-100 px-6 py-4 space-y-3">
-                <div className="flex items-center justify-center gap-6">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
-                    <span className="text-black text-xs">Fri frakt</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
-                    <span className="text-black text-xs">Fria returer</span>
-                  </div>
-                </div>
-                <div className="border-t border-gray-100"></div>
-                <div className="flex justify-center">
-                  <div className="inline-block bg-pink-300 text-pink-900 px-3 py-1 text-xs font-bold rounded">Klarna</div>
-                </div>
-              </div>
-
-              </div>
-        </div>
-
-        {/* Tabs — row 2, col 1 */}
-        <div
-          className="p-8 pb-0 bg-white"
-          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', gridColumn: '1', gridRow: '2', alignSelf: 'start' }}
-        >
+          {/* Tabs */}
+          <div
+            className="p-8 pb-0 bg-white"
+            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
+          >
             <div className="pt-0 w-full pb-8">
               <div className="flex gap-8 mb-8 border-b border-gray-200 w-full">
                 {[
@@ -495,9 +326,181 @@ export default function ProductDetailClient({
                 </div>
               )}
             </div>
-        </div>{/* end tabs */}
+          </div>
 
-      </div>{/* end grid wrapper */}
+        </div>{/* end left column */}
+
+        {/* Right column — absolutely positioned */}
+        <div ref={productInfoRef} className="flex flex-col bg-white flex-shrink-0" style={{ width: '288px', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+
+          <div className="p-6 pb-4">
+            {discountPercent > 0 && (
+              <div className="inline-block bg-red-600 text-white px-2 py-0.5 text-xs font-bold mb-2 rounded w-fit">-{discountPercent}%</div>
+            )}
+            <h1 className="text-xl font-bold text-black leading-tight">{product.title}</h1>
+            <p className="text-xs text-gray-400 mt-1">Varukod: {productDetails.sku}</p>
+          </div>
+
+          <div className="mx-6 h-px bg-gray-100" />
+          <div className="px-6 py-4 flex items-center justify-between">
+            <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Pris</span>
+            <div className="flex items-baseline gap-2">
+              <span className="text-2xl font-bold text-red-600">{product.price.toLocaleString('sv-SE')} kr</span>
+              {product.originalPrice && <span className="text-sm text-gray-400 line-through">{product.originalPrice.toLocaleString('sv-SE')} kr</span>}
+            </div>
+          </div>
+
+          <div className="mx-6 h-px bg-gray-100" />
+          <div className="px-6 py-4 flex items-center justify-between">
+            <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Färg</span>
+            <div className="flex gap-3">
+              {Object.entries(COLORS).map(([name, hex]) => (
+                <button
+                  key={name}
+                  onClick={() => setSelectedColor(name)}
+                  className={`w-4 h-4 rounded-full border-2 flex-shrink-0 transition-all ${selectedColor === name ? 'border-black ring-2 ring-offset-2 ring-black' : 'border-gray-300 hover:border-gray-400'}`}
+                  style={{ backgroundColor: hex }}
+                  title={name}
+                  aria-label={`Välj färg ${name}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {(() => {
+            const qty = productDetails.quantityAvailable;
+            const managesInventory = (product as any).variants?.some((v: any) => v.manage_inventory);
+            const isOutOfStock = managesInventory && qty !== null && qty <= 0;
+            return (
+              <>
+                <div className="mx-6 h-px bg-gray-100" />
+                <div className="px-6 py-4 flex items-center justify-between">
+                  <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Lager</span>
+                  <div className="flex items-center gap-2">
+                    <span className={`w-2 h-2 rounded-full ${isOutOfStock ? 'bg-red-500' : 'bg-green-500'}`}></span>
+                    <span className={`text-sm font-medium ${isOutOfStock ? 'text-red-500' : 'text-black'}`}>
+                      {isOutOfStock ? 'Slut i lager' : qty !== null ? `${qty} st` : 'I lager'}
+                    </span>
+                  </div>
+                </div>
+              </>
+            );
+          })()}
+
+          <div className="mx-6 h-px bg-gray-100" />
+          <div>
+            <button
+              type="button"
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowAccessories(!showAccessories); }}
+              className="w-full flex items-center justify-between text-xs uppercase tracking-widest text-gray-400 font-medium px-6 py-4 hover:bg-gray-50"
+            >
+              <span>Tillbehör</span>
+              <svg className={`w-4 h-4 transition-transform ${showAccessories ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {showAccessories && (
+              <div className="divide-y divide-gray-100">
+                {RECOMMENDED_ACCESSORIES.map((accessory) => {
+                  const isSelected = selectedAccessories.includes(accessory.id);
+                  return (
+                    <div key={accessory.id} className={`w-full flex items-center gap-3 px-6 py-3 transition-colors ${isSelected ? 'bg-gray-50' : ''}`}>
+                      <Link href={`/produkter/${accessory.id}`} className="flex items-center gap-3 flex-1 min-w-0 hover:bg-gray-50">
+                        <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center">
+                          <img src={accessory.image} alt={accessory.name} className="w-full h-full object-contain" />
+                        </div>
+                        <div className="flex-1 min-w-0 text-left">
+                          <p className="text-sm font-medium text-gray-900">{accessory.name}</p>
+                          <p className="text-xs text-gray-500">{Number(accessory.price).toLocaleString('sv-SE')} kr</p>
+                        </div>
+                      </Link>
+                      <button
+                        onClick={() => {
+                          if (isSelected) {
+                            setSelectedAccessories(selectedAccessories.filter(id => id !== accessory.id));
+                          } else {
+                            setSelectedAccessories([...selectedAccessories, accessory.id]);
+                          }
+                        }}
+                        className={`w-3.5 h-3.5 flex-shrink-0 border transition-colors flex items-center justify-center ${isSelected ? 'bg-black border-black' : 'border-gray-300'}`}
+                      >
+                        {isSelected && (
+                          <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                          </svg>
+                        )}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          <div className="px-6 pt-4 pb-6 border-t border-gray-100 flex flex-col gap-3">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center bg-gray-100 h-11 px-4 gap-4">
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="text-gray-500 hover:text-black text-sm font-semibold">−</button>
+                <span className="text-sm font-semibold w-4 text-center tabular-nums">{quantity}</span>
+                <button onClick={() => setQuantity(quantity + 1)} className="text-gray-500 hover:text-black text-sm font-semibold">+</button>
+              </div>
+              <button
+                onClick={() => {
+                  window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity, image: product.image } }));
+                  selectedAccessories.forEach((accessoryId) => {
+                    const accessory = RECOMMENDED_ACCESSORIES.find(a => a.id === accessoryId);
+                    if (accessory) window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: accessory.id, title: accessory.name, price: Number(accessory.price), quantity: 1, image: accessory.image } }));
+                  });
+                  setSelectedAccessories([]);
+                  setIsAdded(true);
+                  setTimeout(() => setIsAdded(false), 100);
+                }}
+                className="flex-1 bg-black text-white text-sm font-semibold h-11 flex items-center justify-center hover:bg-gray-800 transition-colors"
+              >
+                {isAdded ? 'Tillagd' : 'Lägg i varukorg'}
+              </button>
+            </div>
+            <button
+              onClick={() => {
+                localStorage.setItem('quickCheckout', JSON.stringify({ id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity }));
+                router.push('/kassan');
+              }}
+              className="w-full bg-green-600 text-white text-sm font-semibold h-11 flex items-center justify-center hover:bg-green-700 transition-colors"
+            >
+              Handla nu
+            </button>
+          </div>
+          <div className="mx-6 h-px bg-gray-100" />
+          <button
+            onClick={handleFavoriteToggle}
+            className="w-full flex items-center justify-between px-6 py-4 transition-colors hover:bg-gray-50 text-black"
+          >
+            <span className="text-xs">Spara i favoriter</span>
+            <svg className={`w-5 h-5 flex-shrink-0 ${isFavorite ? 'text-red-500' : ''}`} fill={isFavorite ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
+          </button>
+
+          <div className="border-t border-gray-100 px-6 py-4 space-y-3">
+            <div className="flex items-center justify-center gap-6">
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
+                <span className="text-black text-xs">Fri frakt</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
+                <span className="text-black text-xs">Fria returer</span>
+              </div>
+            </div>
+            <div className="border-t border-gray-100"></div>
+            <div className="flex justify-center">
+              <div className="inline-block bg-pink-300 text-pink-900 px-3 py-1 text-xs font-bold rounded">Klarna</div>
+            </div>
+          </div>
+
+        </div>{/* end right column */}
+
+      </div>{/* end relative container */}
 
       <ImageZoomDialog
         images={productDetails.images}

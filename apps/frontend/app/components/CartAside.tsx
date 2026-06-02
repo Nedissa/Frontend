@@ -208,9 +208,9 @@ export function CartAside() {
               <ul className="space-y-0 py-4 flex-1">
                 {cartItems.map(item => (
                   <li key={item.id} className="border-b border-gray-200 last:border-b-0">
-                    <div className="flex items-center gap-3 py-4">
+                    <div className="flex items-center py-4">
                       {/* Product image */}
-                      <div className="flex-shrink-0 w-16 h-16 rounded">
+                      <div className="flex-shrink-0 w-16 h-16 rounded" style={{ marginRight: '12px' }}>
                         <img
                           src={item.image}
                           alt={item.title}
@@ -220,7 +220,7 @@ export function CartAside() {
                       </div>
 
                       {/* Product title and availability */}
-                      <div className="min-w-0 flex-1 overflow-hidden">
+                      <div className="overflow-hidden" style={{ width: '120px', flexShrink: 0, marginRight: '12px' }}>
                         <Link
                           href={`/produkter/${item.id}`}
                           className="text-gray-900 font-semibold text-sm hover:text-gray-700 block truncate"
@@ -236,20 +236,22 @@ export function CartAside() {
                       </div>
 
                       {/* Quantity controls */}
-                      <div className="flex items-center gap-2 flex-1 justify-center">
+                      <div className="flex items-center justify-center" style={{ width: '80px', flexShrink: 0, marginRight: '12px' }}>
                         <button
                           onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
                           disabled={item.quantity <= 1}
-                          className="text-gray-700 disabled:text-gray-300 hover:text-gray-900 flex items-center justify-center text-base font-bold w-5 h-5"
+                          className="text-gray-700 disabled:text-gray-300 hover:text-gray-900 flex items-center justify-center text-base font-bold"
+                          style={{ width: '20px', flexShrink: 0 }}
                         >
                           −
                         </button>
-                        <span className="text-gray-900 text-sm font-medium text-center tabular-nums" style={{ minWidth: '1.5rem', display: 'inline-block' }}>
+                        <span className="text-gray-900 text-sm font-medium text-center tabular-nums" style={{ width: '32px', display: 'inline-block', flexShrink: 0 }}>
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
-                          className="text-gray-700 hover:text-gray-900 flex items-center justify-center text-sm font-medium w-5 h-5"
+                          className="text-gray-700 hover:text-gray-900 flex items-center justify-center text-sm font-medium"
+                          style={{ width: '20px', flexShrink: 0 }}
                         >
                           +
                         </button>
@@ -257,7 +259,7 @@ export function CartAside() {
 
                       {/* Price and remove */}
                       <div className="flex-shrink-0 flex items-center gap-3">
-                        <p className="text-sm font-semibold text-gray-900 whitespace-nowrap">
+                        <p className="text-sm font-semibold text-gray-900 tabular-nums text-right" style={{ width: '60px' }}>
                           {(item.price * item.quantity).toLocaleString('sv-SE')} kr
                         </p>
                         <button
