@@ -169,87 +169,73 @@ export default function ProductDetailClient({
     <div>
       <Breadcrumb items={breadcrumbItems} />
 
-      <div className="px-6">
-      {/* Main Product Grid */}
-      <div className="flex flex-col gap-2">
+      {/* Main Product Grid: 3 independent columns side by side */}
+      <div className="flex gap-2 items-start">
 
-        {/* Top row: Image Gallery + Right Column side by side */}
-        <div className="flex gap-2 items-stretch">
+        {/* Column 1: Image Gallery */}
+        <div
+          className="flex-1 flex gap-3 bg-white min-w-0"
+          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px' }}
+        >
+          {/* Vertical Thumbnails */}
+          {productDetails.images.length > 1 && (
+            <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '476px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              {productDetails.images.map((img, idx) => (
+                <button
+                  key={idx}
+                  ref={el => { thumbnailRefs.current[idx] = el; }}
+                  onClick={() => goToImage(idx)}
+                  className="relative flex-shrink-0 flex items-center justify-center overflow-hidden focus:outline-none"
+                  style={{ width: '110px', height: '110px', backgroundColor: '#f8f9fa' }}
+                >
+                  <img
+                    src={img.url} alt=""
+                    className="w-full h-full object-contain p-3 transition-all duration-300"
+                    style={{ filter: selectedImage === idx ? 'brightness(1.05) contrast(1.05)' : 'brightness(0.9)' }}
+                  />
+                </button>
+              ))}
+            </div>
+          )}
 
-          {/* Image Gallery */}
-          <div
-            className="flex-1 flex gap-3 bg-white min-w-0"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px' }}
-          >
-            {/* Vertical Thumbnails */}
-            {productDetails.images.length > 1 && (
-              <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '476px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                {productDetails.images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    ref={el => { thumbnailRefs.current[idx] = el; }}
-                    onClick={() => goToImage(idx)}
-                    className="relative flex-shrink-0 flex items-center justify-center overflow-hidden focus:outline-none"
-                    style={{ width: '110px', height: '110px', backgroundColor: '#f8f9fa' }}
-                  >
-                    <img
-                      src={img.url} alt=""
-                      className="w-full h-full object-contain p-3 transition-all duration-300"
+          {/* Main Image + Controller */}
+          <div className="flex-1 flex flex-col min-w-0">
+            <div className="relative flex flex-col" style={{ backgroundColor: '#f8f9fa', height: '476px' }}>
+              <button
+                onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
+                className="absolute left-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
+              >‹</button>
+              <div className="relative flex-1 overflow-hidden" onClick={() => setShowZoom(true)}>
+                {[prevImage, selectedImage].map((imgIdx, i) => {
+                  if (imgIdx === null) return null;
+                  const isCurrent = imgIdx === selectedImage;
+                  const enterFrom = slideDir === 'right' ? '100%' : '-100%';
+                  const exitTo = slideDir === 'right' ? '-100%' : '100%';
+                  return (
+                    <div
+                      key={imgIdx}
+                      className="absolute inset-0 flex items-center justify-center group cursor-zoom-in"
                       style={{
-                        filter: selectedImage === idx ? 'brightness(1.05) contrast(1.05)' : 'brightness(0.9)',
+                        transform: isCurrent ? (isSliding ? `translateX(${enterFrom})` : 'translateX(0)') : `translateX(${exitTo})`,
+                        transition: 'transform 350ms cubic-bezier(0.4, 0, 0.2, 1)',
+                        zIndex: isCurrent ? 2 : 1,
                       }}
-                    />
-                  </button>
-                ))}
+                    >
+                      <img
+                        src={productDetails.images[imgIdx]?.url}
+                        alt={productDetails.images[imgIdx]?.altText}
+                        className="object-contain p-8"
+                        style={{ width: '100%', height: '100%' }}
+                      />
+                    </div>
+                  );
+                })}
               </div>
-            )}
-
-            {/* Main Image + Controller */}
-            <div className="flex-1 flex flex-col min-w-0">
-              <div
-                className="relative flex flex-col"
-                style={{ backgroundColor: '#f8f9fa', height: '476px' }}
-              >
-                <button
-                  onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
-                  className="absolute left-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
-                >‹</button>
-                <div className="relative flex-1 overflow-hidden" onClick={() => setShowZoom(true)}>
-                  {[prevImage, selectedImage].map((imgIdx, i) => {
-                    if (imgIdx === null) return null;
-                    const isCurrent = imgIdx === selectedImage;
-                    const enterFrom = slideDir === 'right' ? '100%' : '-100%';
-                    const exitTo = slideDir === 'right' ? '-100%' : '100%';
-                    return (
-                      <div
-                        key={imgIdx}
-                        className="absolute inset-0 flex items-center justify-center group cursor-zoom-in"
-                        style={{
-                          transform: isCurrent
-                            ? (isSliding ? `translateX(${enterFrom})` : 'translateX(0)')
-                            : `translateX(${exitTo})`,
-                          transition: 'transform 350ms cubic-bezier(0.4, 0, 0.2, 1)',
-                          zIndex: isCurrent ? 2 : 1,
-                        }}
-                      >
-                        <img
-                          src={productDetails.images[imgIdx]?.url}
-                          alt={productDetails.images[imgIdx]?.altText}
-                          className="object-contain p-8"
-                          style={{ width: '100%', height: '100%' }}
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <button
-                  onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
-                  className="absolute right-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
-                >›</button>
-
-                {/* Pill controller - inside gray bg div */}
-                {productDetails.images.length > 1 && (
+              <button
+                onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
+                className="absolute right-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
+              >›</button>
+              {productDetails.images.length > 1 && (
                 <div className="flex justify-center py-3 flex-shrink-0 relative z-10">
                   <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.12)' }}>
                     <span className="text-xs text-gray-400 tabular-nums flex-shrink-0">{selectedImage + 1} / {productDetails.images.length}</span>
@@ -263,243 +249,36 @@ export default function ProductDetailClient({
                     </button>
                   </div>
                 </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column - Product Info + Accessories */}
-          <div className="w-72 flex-shrink-0">
-          <div
-            className="flex flex-col bg-white h-full"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
-          >
-          {/* Header - Title + Favorite */}
-          <div className="flex items-start justify-between p-6 pb-4">
-            <div className="flex-1 min-w-0">
-              {discountPercent > 0 && (
-                <div className="inline-block bg-red-600 text-white px-2 py-0.5 text-xs font-bold mb-2 rounded w-fit">
-                  -{discountPercent}%
-                </div>
-              )}
-              <h1 className="text-xl font-bold text-black leading-tight">{product.title}</h1>
-              <p className="text-xs text-gray-400 mt-1">Varukod: {productDetails.sku}</p>
-            </div>
-            <button
-              onClick={handleFavoriteToggle}
-              className={`ml-3 flex-shrink-0 ${isFavorite ? 'text-red-500' : 'text-gray-300 hover:text-red-500'} transition-colors`}
-              title={isFavorite ? 'Ta bort från favoriter' : 'Lägg till i favoriter'}
-            >
-              <svg className="w-5 h-5" fill={isFavorite ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Price */}
-          <div className="mx-6 h-px bg-gray-100" />
-          <div className="px-6 py-4 flex items-center justify-between">
-            <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Pris</span>
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-red-600">{product.price.toLocaleString('sv-SE')} kr</span>
-              {product.originalPrice && (
-                <span className="text-sm text-gray-400 line-through">{product.originalPrice.toLocaleString('sv-SE')} kr</span>
               )}
             </div>
           </div>
-
-          {/* Color */}
-          <div className="mx-6 h-px bg-gray-100" />
-          <div className="px-6 py-4 flex items-center justify-between">
-            <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Färg</span>
-            <div className="flex gap-3">
-              {Object.entries(COLORS).map(([name, hex]) => (
-                <button
-                  key={name}
-                  onClick={() => setSelectedColor(name)}
-                  className={`w-4 h-4 rounded-full border-2 flex-shrink-0 transition-all ${
-                    selectedColor === name ? 'border-black ring-2 ring-offset-2 ring-black' : 'border-gray-300 hover:border-gray-400'
-                  }`}
-                  style={{ backgroundColor: hex }}
-                  title={name}
-                  aria-label={`Välj färg ${name}`}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Stock */}
-          {(() => {
-            const qty = productDetails.quantityAvailable;
-            const managesInventory = (product as any).variants?.some((v: any) => v.manage_inventory);
-            const isOutOfStock = managesInventory && qty !== null && qty <= 0;
-            return (
-              <>
-                <div className="mx-6 h-px bg-gray-100" />
-                <div className="px-6 py-4 flex items-center justify-between">
-                  <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Lager</span>
-                  <div className="flex items-center gap-2">
-                    <span className={`w-2 h-2 rounded-full ${isOutOfStock ? 'bg-red-500' : 'bg-green-500'}`}></span>
-                    <span className={`text-sm font-medium ${isOutOfStock ? 'text-red-500' : 'text-black'}`}>
-                      {isOutOfStock ? 'Slut i lager' : qty !== null ? `${qty} st` : 'I lager'}
-                    </span>
-                  </div>
-                </div>
-              </>
-            );
-          })()}
-
-          {/* Rekommenderade tillbehör */}
-          <div className="mx-6 h-px bg-gray-100" />
-          <div>
-            <button
-              type="button"
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowAccessories(!showAccessories); }}
-              className="w-full flex items-center justify-between text-xs uppercase tracking-widest text-gray-400 font-medium px-6 py-4 hover:bg-gray-50"
-            >
-              <span>Tillbehör</span>
-              <svg className={`w-4 h-4 transition-transform ${showAccessories ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            {showAccessories && (
-              <div className="divide-y divide-gray-100">
-                {RECOMMENDED_ACCESSORIES.map((accessory) => {
-                  const isSelected = selectedAccessories.includes(accessory.id);
-                  return (
-                    <div
-                      key={accessory.id}
-                      className={`w-full flex items-center gap-3 px-6 py-3 transition-colors ${isSelected ? 'bg-gray-50' : ''}`}
-                    >
-                      <Link href={`/produkter/${accessory.id}`} className="flex items-center gap-3 flex-1 min-w-0 hover:bg-gray-50">
-                        <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center">
-                          <img src={accessory.image} alt={accessory.name} className="w-full h-full object-contain" />
-                        </div>
-                        <div className="flex-1 min-w-0 text-left">
-                          <p className="text-sm font-medium text-gray-900">{accessory.name}</p>
-                          <p className="text-xs text-gray-500">{Number(accessory.price).toLocaleString('sv-SE')} kr</p>
-                        </div>
-                      </Link>
-                      <button
-                        onClick={() => {
-                          if (isSelected) {
-                            setSelectedAccessories(selectedAccessories.filter(id => id !== accessory.id));
-                          } else {
-                            setSelectedAccessories([...selectedAccessories, accessory.id]);
-                          }
-                        }}
-                        className={`w-3.5 h-3.5 flex-shrink-0 border transition-colors flex items-center justify-center ${isSelected ? 'bg-black border-black' : 'border-gray-300'}`}
-                      >
-                        {isSelected && (
-                          <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                          </svg>
-                        )}
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-
-          {/* Quantity + Buttons */}
-          <div className="px-6 pt-4 pb-6 border-t border-gray-100 flex flex-col gap-3">
-            <div className="flex items-center gap-3">
-              {/* Quantity */}
-              <div className="flex items-center bg-gray-100 h-11 px-4 gap-4">
-                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="text-gray-500 hover:text-black text-sm font-semibold">−</button>
-                <span className="text-sm font-semibold w-4 text-center tabular-nums">{quantity}</span>
-                <button onClick={() => setQuantity(quantity + 1)} className="text-gray-500 hover:text-black text-sm font-semibold">+</button>
-              </div>
-
-              {/* Add to cart */}
-              <button
-                onClick={() => {
-                  window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity, image: product.image } }));
-                  selectedAccessories.forEach((accessoryId) => {
-                    const accessory = RECOMMENDED_ACCESSORIES.find(a => a.id === accessoryId);
-                    if (accessory) window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: accessory.id, title: accessory.name, price: Number(accessory.price), quantity: 1, image: accessory.image } }));
-                  });
-                  setSelectedAccessories([]);
-                  setIsAdded(true);
-                  setTimeout(() => setIsAdded(false), 100);
-                }}
-                className="flex-1 bg-black text-white text-sm font-semibold h-11 flex items-center justify-center hover:bg-gray-800 transition-colors"
-              >
-                {isAdded ? 'Tillagd' : 'Lägg i varukorg'}
-              </button>
-            </div>
-
-            {/* Buy now */}
-            <button
-              onClick={() => {
-                localStorage.setItem('quickCheckout', JSON.stringify({ id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity }));
-                router.push('/kassan');
-              }}
-              className="w-full bg-green-600 text-white text-sm font-semibold h-11 flex items-center justify-center hover:bg-green-700 transition-colors"
-            >
-              Handla nu
-            </button>
-          </div>
-
-          {/* Fri frakt + Klarna */}
-          <div className="border-t border-gray-100 px-6 py-4 space-y-3">
-            <div className="flex items-center justify-center gap-6">
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
-                <span className="text-black text-xs">Fri frakt</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
-                <span className="text-black text-xs">Fria returer</span>
-              </div>
-            </div>
-            <div className="border-t border-gray-100"></div>
-            <div className="flex justify-center">
-              <div className="inline-block bg-pink-300 text-pink-900 px-3 py-1 text-xs font-bold rounded">
-                Klarna
-              </div>
-            </div>
-          </div>
-
         </div>
 
-          </div>
-        </div>
-
-        {/* Product Tabs - full width below gallery row */}
+        {/* Column 2: Product Tabs */}
         <div
-          className="p-8 pb-0 bg-white"
+          className="flex-1 p-8 pb-0 bg-white min-w-0"
           style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
         >
           <div className="pt-0 w-full pb-8">
-            {/* Tab Bar */}
             <div className="flex gap-8 mb-8 border-b border-gray-200 w-full">
               {[
-              { key: 'description', label: 'Beskrivning' },
-              { key: 'specifications', label: 'Specifikationer' },
-              { key: 'contents', label: 'Produktinnehåll' },
-              { key: 'reviews', label: 'Recensioner' },
-            ].map(({ key, label }) => (
+                { key: 'description', label: 'Beskrivning' },
+                { key: 'specifications', label: 'Specifikationer' },
+                { key: 'contents', label: 'Produktinnehåll' },
+                { key: 'reviews', label: 'Recensioner' },
+              ].map(({ key, label }) => (
                 <button
                   key={key}
                   onClick={() => setActiveTab(key)}
                   className={`pb-4 font-medium text-sm transition-colors whitespace-nowrap flex items-center gap-2 border-b-2 ${
-                    activeTab === key
-                      ? 'text-black border-black'
-                      : 'text-gray-500 hover:text-gray-700 border-transparent'
+                    activeTab === key ? 'text-black border-black' : 'text-gray-500 hover:text-gray-700 border-transparent'
                   }`}
                 >
                   {key === 'description' && (
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M3 3h18v2H3V3zm0 4h18v2H3V7zm0 4h18v2H3v-2zm0 4h18v2H3v-2z" />
-                    </svg>
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M3 3h18v2H3V3zm0 4h18v2H3V7zm0 4h18v2H3v-2zm0 4h18v2H3v-2z" /></svg>
                   )}
                   {key === 'specifications' && (
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-2.12-2.59-1.84 2.25h9.5L13.96 9.29z" />
-                    </svg>
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-2.12-2.59-1.84 2.25h9.5L13.96 9.29z" /></svg>
                   )}
                   {key === 'contents' && (
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round">
@@ -509,16 +288,12 @@ export default function ProductDetailClient({
                     </svg>
                   )}
                   {key === 'reviews' && (
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                    </svg>
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" /></svg>
                   )}
                   {label}
                 </button>
               ))}
             </div>
-
-            {/* Tab Content */}
             {activeTab === 'description' && (
               <div className="space-y-3 pb-8">
                 <div className="border-b border-gray-200 pb-3">
@@ -526,7 +301,6 @@ export default function ProductDetailClient({
                 </div>
               </div>
             )}
-
             {activeTab === 'specifications' && (
               <div className="space-y-3 pb-8">
                 {productDetails.specifications.length > 0 ? (
@@ -541,7 +315,6 @@ export default function ProductDetailClient({
                 )}
               </div>
             )}
-
             {activeTab === 'contents' && (
               <div className="space-y-3 pb-8">
                 {productDetails.contents.length > 0 ? (
@@ -558,18 +331,204 @@ export default function ProductDetailClient({
                 )}
               </div>
             )}
-
             {activeTab === 'reviews' && (
               <div className="space-y-3 pb-8">
                 <p className="text-sm text-gray-600">Denna produkt har inga recensioner än</p>
                 <p className="text-xs text-gray-500">Var den första att recensera denna produkt</p>
               </div>
             )}
-
           </div>
         </div>
 
-      </div>
+        {/* Column 3: Product Info + Accessories */}
+        <div className="w-72 flex-shrink-0">
+          <div className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+            {/* Header - Title + Favorite */}
+            <div className="flex items-start justify-between p-6 pb-4">
+              <div className="flex-1 min-w-0">
+                {discountPercent > 0 && (
+                  <div className="inline-block bg-red-600 text-white px-2 py-0.5 text-xs font-bold mb-2 rounded w-fit">
+                    -{discountPercent}%
+                  </div>
+                )}
+                <h1 className="text-xl font-bold text-black leading-tight">{product.title}</h1>
+                <p className="text-xs text-gray-400 mt-1">Varukod: {productDetails.sku}</p>
+              </div>
+              <button
+                onClick={handleFavoriteToggle}
+                className={`ml-3 flex-shrink-0 ${isFavorite ? 'text-red-500' : 'text-gray-300 hover:text-red-500'} transition-colors`}
+                title={isFavorite ? 'Ta bort från favoriter' : 'Lägg till i favoriter'}
+              >
+                <svg className="w-5 h-5" fill={isFavorite ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Price */}
+            <div className="mx-6 h-px bg-gray-100" />
+            <div className="px-6 py-4 flex items-center justify-between">
+              <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Pris</span>
+              <div className="flex items-baseline gap-2">
+                <span className="text-2xl font-bold text-red-600">{product.price.toLocaleString('sv-SE')} kr</span>
+                {product.originalPrice && (
+                  <span className="text-sm text-gray-400 line-through">{product.originalPrice.toLocaleString('sv-SE')} kr</span>
+                )}
+              </div>
+            </div>
+
+            {/* Color */}
+            <div className="mx-6 h-px bg-gray-100" />
+            <div className="px-6 py-4 flex items-center justify-between">
+              <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Färg</span>
+              <div className="flex gap-3">
+                {Object.entries(COLORS).map(([name, hex]) => (
+                  <button
+                    key={name}
+                    onClick={() => setSelectedColor(name)}
+                    className={`w-4 h-4 rounded-full border-2 flex-shrink-0 transition-all ${
+                      selectedColor === name ? 'border-black ring-2 ring-offset-2 ring-black' : 'border-gray-300 hover:border-gray-400'
+                    }`}
+                    style={{ backgroundColor: hex }}
+                    title={name}
+                    aria-label={`Välj färg ${name}`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Stock */}
+            {(() => {
+              const qty = productDetails.quantityAvailable;
+              const managesInventory = (product as any).variants?.some((v: any) => v.manage_inventory);
+              const isOutOfStock = managesInventory && qty !== null && qty <= 0;
+              return (
+                <>
+                  <div className="mx-6 h-px bg-gray-100" />
+                  <div className="px-6 py-4 flex items-center justify-between">
+                    <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Lager</span>
+                    <div className="flex items-center gap-2">
+                      <span className={`w-2 h-2 rounded-full ${isOutOfStock ? 'bg-red-500' : 'bg-green-500'}`}></span>
+                      <span className={`text-sm font-medium ${isOutOfStock ? 'text-red-500' : 'text-black'}`}>
+                        {isOutOfStock ? 'Slut i lager' : qty !== null ? `${qty} st` : 'I lager'}
+                      </span>
+                    </div>
+                  </div>
+                </>
+              );
+            })()}
+
+            {/* Tillbehör */}
+            <div className="mx-6 h-px bg-gray-100" />
+            <div>
+              <button
+                type="button"
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowAccessories(!showAccessories); }}
+                className="w-full flex items-center justify-between text-xs uppercase tracking-widest text-gray-400 font-medium px-6 py-4 hover:bg-gray-50"
+              >
+                <span>Tillbehör</span>
+                <svg className={`w-4 h-4 transition-transform ${showAccessories ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              {showAccessories && (
+                <div className="divide-y divide-gray-100">
+                  {RECOMMENDED_ACCESSORIES.map((accessory) => {
+                    const isSelected = selectedAccessories.includes(accessory.id);
+                    return (
+                      <div
+                        key={accessory.id}
+                        className={`w-full flex items-center gap-3 px-6 py-3 transition-colors ${isSelected ? 'bg-gray-50' : ''}`}
+                      >
+                        <Link href={`/produkter/${accessory.id}`} className="flex items-center gap-3 flex-1 min-w-0 hover:bg-gray-50">
+                          <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center">
+                            <img src={accessory.image} alt={accessory.name} className="w-full h-full object-contain" />
+                          </div>
+                          <div className="flex-1 min-w-0 text-left">
+                            <p className="text-sm font-medium text-gray-900">{accessory.name}</p>
+                            <p className="text-xs text-gray-500">{Number(accessory.price).toLocaleString('sv-SE')} kr</p>
+                          </div>
+                        </Link>
+                        <button
+                          onClick={() => {
+                            if (isSelected) {
+                              setSelectedAccessories(selectedAccessories.filter(id => id !== accessory.id));
+                            } else {
+                              setSelectedAccessories([...selectedAccessories, accessory.id]);
+                            }
+                          }}
+                          className={`w-3.5 h-3.5 flex-shrink-0 border transition-colors flex items-center justify-center ${isSelected ? 'bg-black border-black' : 'border-gray-300'}`}
+                        >
+                          {isSelected && (
+                            <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                            </svg>
+                          )}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+
+            {/* Quantity + Buttons */}
+            <div className="px-6 pt-4 pb-6 border-t border-gray-100 flex flex-col gap-3">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center bg-gray-100 h-11 px-4 gap-4">
+                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="text-gray-500 hover:text-black text-sm font-semibold">−</button>
+                  <span className="text-sm font-semibold w-4 text-center tabular-nums">{quantity}</span>
+                  <button onClick={() => setQuantity(quantity + 1)} className="text-gray-500 hover:text-black text-sm font-semibold">+</button>
+                </div>
+                <button
+                  onClick={() => {
+                    window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity, image: product.image } }));
+                    selectedAccessories.forEach((accessoryId) => {
+                      const accessory = RECOMMENDED_ACCESSORIES.find(a => a.id === accessoryId);
+                      if (accessory) window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: accessory.id, title: accessory.name, price: Number(accessory.price), quantity: 1, image: accessory.image } }));
+                    });
+                    setSelectedAccessories([]);
+                    setIsAdded(true);
+                    setTimeout(() => setIsAdded(false), 100);
+                  }}
+                  className="flex-1 bg-black text-white text-sm font-semibold h-11 flex items-center justify-center hover:bg-gray-800 transition-colors"
+                >
+                  {isAdded ? 'Tillagd' : 'Lägg i varukorg'}
+                </button>
+              </div>
+              <button
+                onClick={() => {
+                  localStorage.setItem('quickCheckout', JSON.stringify({ id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity }));
+                  router.push('/kassan');
+                }}
+                className="w-full bg-green-600 text-white text-sm font-semibold h-11 flex items-center justify-center hover:bg-green-700 transition-colors"
+              >
+                Handla nu
+              </button>
+            </div>
+
+            {/* Fri frakt + Klarna */}
+            <div className="border-t border-gray-100 px-6 py-4 space-y-3">
+              <div className="flex items-center justify-center gap-6">
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
+                  <span className="text-black text-xs">Fri frakt</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
+                  <span className="text-black text-xs">Fria returer</span>
+                </div>
+              </div>
+              <div className="border-t border-gray-100"></div>
+              <div className="flex justify-center">
+                <div className="inline-block bg-pink-300 text-pink-900 px-3 py-1 text-xs font-bold rounded">
+                  Klarna
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       {/* Image Zoom Dialog */}
