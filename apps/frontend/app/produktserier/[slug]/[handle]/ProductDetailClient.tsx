@@ -187,10 +187,12 @@ export default function ProductDetailClient({
                     className="relative flex-shrink-0 bg-gray-100 flex items-center justify-center overflow-hidden"
                     style={{ width: '80px', height: '80px' }}
                   >
-                    <img src={img.url} alt="" className="w-full h-full object-contain p-2" />
-                    <div
-                      className="absolute inset-0 transition-opacity duration-300"
-                      style={{ backgroundColor: 'rgba(255,255,255,0.55)', opacity: selectedImage === idx ? 0 : 1 }}
+                    <img
+                      src={img.url} alt=""
+                      className="w-full h-full object-contain p-2 transition-all duration-300"
+                      style={{
+                        filter: selectedImage === idx ? 'brightness(1.05) contrast(1.05)' : 'grayscale(0.4) brightness(0.85)',
+                      }}
                     />
                   </button>
                 ))}
