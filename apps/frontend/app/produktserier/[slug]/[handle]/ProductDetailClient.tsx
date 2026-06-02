@@ -179,7 +179,7 @@ export default function ProductDetailClient({
           >
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
-              <div className="flex flex-col gap-2 overflow-y-auto flex-shrink-0" style={{ width: '80px', maxHeight: '500px', scrollbarWidth: 'none' }}>
+              <div className="flex flex-col gap-2 flex-shrink-0" style={{ width: '80px', height: '500px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {productDetails.images.map((img, idx) => (
                   <button
                     key={idx}
