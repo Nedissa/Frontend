@@ -206,7 +206,7 @@ export default function ProductDetailClient({
             <div className="flex-1 flex flex-col min-w-0">
               <div
                 className="relative flex-1 flex items-center justify-center"
-                style={{ backgroundColor: '#f8f9fa', height: '476px' }}
+                style={{ backgroundColor: '#f8f9fa', height: '476px', overflow: 'hidden' }}
               >
                 <button
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
@@ -233,7 +233,8 @@ export default function ProductDetailClient({
                         <img
                           src={productDetails.images[imgIdx]?.url}
                           alt={productDetails.images[imgIdx]?.altText}
-                          className="object-contain p-8 max-w-full max-h-full"
+                          className="object-contain p-8"
+                          style={{ width: '100%', height: '100%' }}
                         />
                       </div>
                     );
