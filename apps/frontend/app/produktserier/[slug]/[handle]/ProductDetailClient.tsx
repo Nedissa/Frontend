@@ -215,14 +215,6 @@ export default function ProductDetailClient({
                     alt={mainImage.altText}
                     className="max-w-full max-h-full object-contain"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <div className="bg-white/80 rounded-full p-3">
-                      <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm0 0" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 8v6M8 11h6" />
-                      </svg>
-                    </div>
-                  </div>
                 </div>
 
                 <button
