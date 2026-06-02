@@ -46,6 +46,18 @@ export default function ProductDetailClient({
 }: ProductDetailClientProps) {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [prevImage, setPrevImage] = useState<number | null>(null);
+  const [sliding, setSliding] = useState(false);
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('right');
+
+  const goToImage = (idx: number) => {
+    if (idx === selectedImage) return;
+    setSlideDirection(idx > selectedImage ? 'right' : 'left');
+    setPrevImage(selectedImage);
+    setSelectedImage(idx);
+    setSliding(true);
+    setTimeout(() => { setPrevImage(null); setSliding(false); }, 500);
+  };
   const [selectedColor, setSelectedColor] = useState('Svart');
   const [activeTab, setActiveTab] = useState('description');
   const [showAccessories, setShowAccessories] = useState(false);
@@ -194,27 +206,44 @@ export default function ProductDetailClient({
             {/* Image Gallery */}
             <div className="flex-1 flex flex-col min-w-0">
               {/* Main Image + Chevrons */}
-              <div className="relative flex items-center justify-center h-96">
+              <div className="relative flex items-center justify-center h-96 overflow-hidden">
                 <button
-                  onClick={() => setSelectedImage((prev) => (prev - 1 + productDetails.images.length) % productDetails.images.length)}
+                  onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
                   className="absolute left-0 z-10 text-black hover:text-gray-600 text-5xl font-bold flex-shrink-0"
                 >
                   ‹
                 </button>
 
-                <button
-                  onClick={() => setShowZoom(true)}
-                  className="h-full w-full flex items-center justify-center overflow-hidden p-8 cursor-zoom-in"
-                >
-                  <img
-                    src={mainImage.url}
-                    alt={mainImage.altText}
-                    className="max-w-full max-h-full object-contain"
-                  />
-                </button>
+                {/* Sliding images */}
+                {productDetails.images.map((img, idx) => {
+                  const isCurrent = idx === selectedImage;
+                  const isPrev = idx === prevImage;
+                  let transform = slideDirection === 'right' ? 'translateX(100%)' : 'translateX(-100%)';
+                  if (isCurrent) transform = 'translateX(0%)';
+                  if (isPrev) transform = slideDirection === 'right' ? 'translateX(-100%)' : 'translateX(100%)';
+                  if (!isCurrent && !isPrev) transform = slideDirection === 'right' ? 'translateX(100%)' : 'translateX(-100%)';
+                  return (
+                    <button
+                      key={idx}
+                      onClick={() => setShowZoom(true)}
+                      className="absolute inset-0 flex items-center justify-center p-8 cursor-zoom-in"
+                      style={{
+                        transform,
+                        transition: (isCurrent || isPrev) && sliding ? 'transform 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none',
+                        zIndex: isCurrent ? 2 : isPrev ? 1 : 0,
+                      }}
+                    >
+                      <img
+                        src={img.url}
+                        alt={img.altText}
+                        className="max-w-full max-h-full object-contain"
+                      />
+                    </button>
+                  );
+                })}
 
                 <button
-                  onClick={() => setSelectedImage((prev) => (prev + 1) % productDetails.images.length)}
+                  onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
                   className="absolute right-0 z-10 text-black hover:text-gray-600 text-5xl font-bold flex-shrink-0"
                 >
                   ›
@@ -227,12 +256,12 @@ export default function ProductDetailClient({
                   {productDetails.images.map((_, idx) => (
                     <button
                       key={idx}
-                      onClick={() => setSelectedImage(idx)}
+                      onClick={() => goToImage(idx)}
                       className="relative flex-1 h-[3px] bg-gray-200 rounded-full overflow-hidden"
                     >
                       <div
                         className="absolute inset-y-0 left-0 bg-black rounded-full transition-all duration-300"
-                        style={{ width: idx < selectedImage ? '100%' : idx === selectedImage ? '100%' : '0%' }}
+                        style={{ width: idx <= selectedImage ? '100%' : '0%' }}
                       />
                     </button>
                   ))}
