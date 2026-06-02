@@ -195,14 +195,26 @@ export default function ProductDetailClient({
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
                   className="absolute left-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
                 >‹</button>
-                <div className="absolute inset-0 cursor-zoom-in" onClick={() => setShowZoom(true)} />
-                <img
-                  key={selectedImage}
-                  src={productDetails.images[selectedImage]?.url}
-                  alt={productDetails.images[selectedImage]?.altText}
-                  className="object-contain p-8"
-                  style={{ maxHeight: '500px', maxWidth: '100%' }}
-                />
+                <div
+                  className="relative group cursor-zoom-in"
+                  onClick={() => setShowZoom(true)}
+                >
+                  <img
+                    key={selectedImage}
+                    src={productDetails.images[selectedImage]?.url}
+                    alt={productDetails.images[selectedImage]?.altText}
+                    className="object-contain p-8"
+                    style={{ maxHeight: '500px', maxWidth: '100%' }}
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                    <div className="bg-white/80 rounded-full p-3">
+                      <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm0 0" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 8v6M8 11h6" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
 
                 {/* Pill controller inside image */}
                 {productDetails.images.length > 1 && (
