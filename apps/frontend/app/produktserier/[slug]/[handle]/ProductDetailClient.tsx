@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Product } from '@/app/lib/products';
 import { Breadcrumb } from '@/app/components/Breadcrumb';
 import { ImageZoomDialog } from '@/app/components/ImageZoomDialog';
@@ -49,6 +49,7 @@ export default function ProductDetailClient({
   const [prevImage, setPrevImage] = useState<number | null>(null);
   const [slideDir, setSlideDir] = useState<'left' | 'right'>('right');
   const [isSliding, setIsSliding] = useState(false);
+  const thumbnailRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const goToImage = (idx: number) => {
     if (idx === selectedImage) return;
@@ -57,6 +58,7 @@ export default function ProductDetailClient({
     setSelectedImage(idx);
     setIsSliding(true);
     setTimeout(() => { setPrevImage(null); setIsSliding(false); }, 350);
+    thumbnailRefs.current[idx]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   };
   const [selectedColor, setSelectedColor] = useState('Svart');
   const [activeTab, setActiveTab] = useState('description');
@@ -183,6 +185,7 @@ export default function ProductDetailClient({
                 {productDetails.images.map((img, idx) => (
                   <button
                     key={idx}
+                    ref={el => { thumbnailRefs.current[idx] = el; }}
                     onClick={() => goToImage(idx)}
                     className="relative flex-shrink-0 bg-gray-100 flex items-center justify-center overflow-hidden"
                     style={{ width: '80px', height: '80px' }}
