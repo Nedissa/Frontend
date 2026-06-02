@@ -196,64 +196,32 @@ export default function ProductDetailClient({
             </div>
 
             {/* Image Gallery */}
-            <div className="flex-1 flex flex-col min-w-0">
-              {/* Main Image */}
-              <div className="relative flex items-center justify-center h-96 overflow-hidden">
-                <button
-                  onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
-                  className="absolute left-2 z-10 text-black hover:text-gray-500 text-4xl font-light flex-shrink-0"
-                >
-                  ‹
-                </button>
-
-                <div
-                  className="absolute inset-0 flex items-center justify-center p-8 cursor-zoom-in"
-                  onClick={() => setShowZoom(true)}
-                >
-                  <img
-                    key={selectedImage}
-                    src={productDetails.images[selectedImage]?.url}
-                    alt={productDetails.images[selectedImage]?.altText}
-                    className="max-w-full max-h-full object-contain"
-                  />
-                </div>
-
-                <button
-                  onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
-                  className="absolute right-2 z-10 text-black hover:text-gray-500 text-4xl font-light flex-shrink-0"
-                >
-                  ›
-                </button>
-              </div>
-
-              {/* Pill controller */}
+            <div className="flex-1 flex gap-3 min-w-0">
+              {/* Vertical Thumbnails */}
               {productDetails.images.length > 1 && (
-                <div className="flex justify-center pt-4">
-                  <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.12)' }}>
-                    {/* Counter */}
-                    <span className="text-xs text-gray-400 tabular-nums">{selectedImage + 1} / {productDetails.images.length}</span>
-
-                    {/* Dots */}
-                    {productDetails.images.map((_, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => goToImage(idx)}
-                        className="relative w-2.5 h-2.5 rounded-full bg-gray-200 overflow-hidden"
-                      >
-                        <div
-                          className="absolute inset-0 rounded-full bg-gray-800 transition-transform duration-300"
-                          style={{ transform: idx <= selectedImage ? 'scale(1)' : 'scale(0)' }}
-                        />
-                      </button>
-                    ))}
-
-                    {/* Zoom */}
-                    <button onClick={() => setShowZoom(true)} className="text-gray-500 hover:text-black transition-colors">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
+                <div className="flex flex-col gap-2 overflow-y-auto" style={{ maxHeight: '384px', scrollbarWidth: 'none' }}>
+                  {productDetails.images.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => goToImage(idx)}
+                      className="flex-shrink-0 w-16 h-16 flex items-center justify-center transition-opacity duration-150"
+                      style={{ opacity: selectedImage === idx ? 1 : 0.4 }}
+                    >
+                      <img src={img.url} alt="" className="w-full h-full object-contain" />
                     </button>
-                  </div>
+                  ))}
                 </div>
               )}
+
+              {/* Main Image */}
+              <div className="relative flex-1 flex items-center justify-center h-96 overflow-hidden cursor-zoom-in" onClick={() => setShowZoom(true)}>
+                <img
+                  key={selectedImage}
+                  src={productDetails.images[selectedImage]?.url}
+                  alt={productDetails.images[selectedImage]?.altText}
+                  className="max-w-full max-h-full object-contain"
+                />
+              </div>
             </div>
           </div>
 
