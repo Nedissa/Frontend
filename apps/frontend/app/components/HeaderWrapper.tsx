@@ -586,7 +586,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   const getActiveCategory = () => MENU_DATA.find(cat => cat.id === activeMegaMenu);
 
   return (
-    <header suppressHydrationWarning className={`sticky top-0 left-0 right-0 w-full bg-white z-40 transition-transform duration-300 ${
+    <header suppressHydrationWarning className={`fixed top-0 left-0 right-0 w-full bg-white z-40 transition-transform duration-300 ease-in-out ${
       isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
     }`}>
       {/* Search bar section */}
