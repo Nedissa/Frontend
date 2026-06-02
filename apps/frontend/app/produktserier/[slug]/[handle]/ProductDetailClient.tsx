@@ -249,18 +249,18 @@ export default function ProductDetailClient({
                 </button>
               </div>
 
-              {/* Progress bars */}
+              {/* Dots */}
               {productDetails.images.length > 1 && (
-                <div className="flex gap-2 px-8 pt-4">
+                <div className="flex gap-3 justify-center pt-4">
                   {productDetails.images.map((_, idx) => (
                     <button
                       key={idx}
                       onClick={() => goToImage(idx)}
-                      className="relative flex-1 h-[3px] bg-gray-200 rounded-full overflow-hidden"
+                      className="relative w-3 h-3 rounded-full bg-gray-200 overflow-hidden"
                     >
                       <div
-                        className="absolute inset-y-0 left-0 bg-black rounded-full transition-all duration-300"
-                        style={{ width: idx <= selectedImage ? '100%' : '0%' }}
+                        className="absolute inset-0 rounded-full bg-black transition-all duration-400"
+                        style={{ transform: idx <= selectedImage ? 'scale(1)' : 'scale(0)' }}
                       />
                     </button>
                   ))}
