@@ -157,12 +157,12 @@ export default function ProductDetailClient({
       <div className="px-6 max-w-[1280px] mx-auto">
 
         {/* Top row: gallery (left) + product info (right), same height via items-stretch */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 288px' }}>
+        <div className="flex gap-0 items-stretch">
 
-          {/* Gallery */}
+          {/* Gallery — stretches to match right column height */}
           <div
-            className="flex gap-3 bg-white min-w-0"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px' }}
+            className="flex-1 flex gap-3 bg-white min-w-0"
+            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', alignSelf: 'stretch' }}
           >
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
@@ -241,8 +241,8 @@ export default function ProductDetailClient({
             </div>
           </div>
 
-          {/* Product Info */}
-          <div>
+          {/* Product Info — defines the row height, expands independently */}
+          <div className="w-72 flex-shrink-0">
             <div className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
 
               <div className="flex items-start justify-between p-6 pb-4">
@@ -416,7 +416,7 @@ export default function ProductDetailClient({
         </div>{/* end top row */}
 
         {/* Tabs — independent, full width of left column only */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 288px' }}>
+        <div className="flex gap-0">
           <div
             className="flex-1 p-8 pb-0 bg-white"
             style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
