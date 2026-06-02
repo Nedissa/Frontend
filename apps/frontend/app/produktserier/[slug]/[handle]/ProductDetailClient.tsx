@@ -74,16 +74,10 @@ export default function ProductDetailClient({
   const router = useRouter();
 
   useEffect(() => {
-    const syncHeight = () => {
-      if (productInfoRef.current) {
-        setGalleryHeight(productInfoRef.current.offsetHeight);
-      }
-    };
-    syncHeight();
-    const observer = new ResizeObserver(syncHeight);
-    if (productInfoRef.current) observer.observe(productInfoRef.current);
-    return () => observer.disconnect();
-  }, [showAccessories]);
+    if (productInfoRef.current) {
+      setGalleryHeight(productInfoRef.current.offsetHeight);
+    }
+  }, []);
 
   useEffect(() => {
     const loadAlsoLikeProducts = async () => {
