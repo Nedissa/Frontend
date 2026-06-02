@@ -162,7 +162,7 @@ export default function ProductDetailClient({
           {/* Gallery */}
           <div
             className="flex-1 flex gap-3 bg-white min-w-0 overflow-hidden"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px' }}
+            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: '100%', boxSizing: 'border-box' }}
           >
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
