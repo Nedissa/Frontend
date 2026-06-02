@@ -46,17 +46,9 @@ export default function ProductDetailClient({
 }: ProductDetailClientProps) {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [prevImage, setPrevImage] = useState<number | null>(null);
-  const [slideDir, setSlideDir] = useState<'left' | 'right'>('right');
-  const [isSliding, setIsSliding] = useState(false);
 
   const goToImage = (idx: number) => {
-    if (idx === selectedImage) return;
-    setSlideDir(idx > selectedImage ? 'right' : 'left');
-    setPrevImage(selectedImage);
     setSelectedImage(idx);
-    setIsSliding(true);
-    setTimeout(() => { setPrevImage(null); setIsSliding(false); }, 400);
   };
   const [selectedColor, setSelectedColor] = useState('Svart');
   const [activeTab, setActiveTab] = useState('description');
@@ -214,31 +206,17 @@ export default function ProductDetailClient({
                   ‹
                 </button>
 
-                {productDetails.images.map((img, idx) => {
-                  const isCurrent = idx === selectedImage;
-                  const isPrev = idx === prevImage;
-                  if (!isCurrent && !isPrev) return null;
-                  const outgoing = slideDir === 'right' ? 'translateX(-100%)' : 'translateX(100%)';
-                  const incoming = slideDir === 'right' ? 'translateX(100%)' : 'translateX(-100%)';
-                  return (
-                    <div
-                      key={idx}
-                      className="absolute inset-0 flex items-center justify-center p-8 cursor-zoom-in"
-                      onClick={() => setShowZoom(true)}
-                      style={{
-                        transform: isCurrent ? 'translateX(0)' : outgoing,
-                        transition: isSliding ? 'transform 400ms cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
-                        zIndex: isCurrent ? 2 : 1,
-                      }}
-                    >
-                      <img
-                        src={img.url}
-                        alt={img.altText}
-                        className="max-w-full max-h-full object-contain"
-                      />
-                    </div>
-                  );
-                })}
+                <div
+                  className="absolute inset-0 flex items-center justify-center p-8 cursor-zoom-in"
+                  onClick={() => setShowZoom(true)}
+                >
+                  <img
+                    key={selectedImage}
+                    src={productDetails.images[selectedImage]?.url}
+                    alt={productDetails.images[selectedImage]?.altText}
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </div>
 
                 <button
                   onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}

@@ -16,21 +16,13 @@ export function ImageZoomDialog({
   onClose,
 }: ImageZoomDialogProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
-  const [prevIndex, setPrevIndex] = useState<number | null>(null);
-  const [slideDir, setSlideDir] = useState<'left' | 'right'>('right');
-  const [isSliding, setIsSliding] = useState(false);
 
   const goTo = (idx: number) => {
-    if (idx === currentIndex) return;
-    setSlideDir(idx > currentIndex ? 'right' : 'left');
-    setPrevIndex(currentIndex);
     setCurrentIndex(idx);
-    setIsSliding(true);
-    setTimeout(() => { setPrevIndex(null); setIsSliding(false); }, 400);
   };
 
   useEffect(() => {
-    goTo(initialIndex);
+    setCurrentIndex(initialIndex);
   }, [initialIndex]);
 
   useEffect(() => {
@@ -102,25 +94,12 @@ export function ImageZoomDialog({
             </svg>
           </button>
 
-          {images.map((img, idx) => {
-            const isCurrent = idx === currentIndex;
-            const isPrev = idx === prevIndex;
-            if (!isCurrent && !isPrev) return null;
-            const outgoing = slideDir === 'right' ? 'translateX(-100%)' : 'translateX(100%)';
-            return (
-              <img
-                key={idx}
-                src={img.url}
-                alt={img.altText}
-                className="max-w-full max-h-full object-contain absolute"
-                style={{
-                  transform: isCurrent ? 'translateX(0)' : outgoing,
-                  transition: isSliding ? 'transform 400ms cubic-bezier(0.4, 0, 0.2, 1)' : 'none',
-                  zIndex: isCurrent ? 2 : 1,
-                }}
-              />
-            );
-          })}
+          <img
+            key={currentIndex}
+            src={images[currentIndex]?.url}
+            alt={images[currentIndex]?.altText}
+            className="max-w-full max-h-full object-contain"
+          />
 
           {/* Right Arrow */}
           <button
