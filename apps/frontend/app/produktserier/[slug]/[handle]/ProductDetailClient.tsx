@@ -171,13 +171,13 @@ export default function ProductDetailClient({
           >
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
-              <div className="flex flex-col gap-2 overflow-y-auto flex-shrink-0" style={{ width: '80px', maxHeight: '480px', scrollbarWidth: 'none' }}>
+              <div className="flex flex-col gap-2 overflow-y-auto flex-shrink-0" style={{ width: '80px', maxHeight: '500px', scrollbarWidth: 'none' }}>
                 {productDetails.images.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => goToImage(idx)}
-                    className="flex-shrink-0 flex items-center justify-center bg-gray-100 transition-opacity duration-150"
-                    style={{ width: '80px', height: '80px', opacity: selectedImage === idx ? 1 : 0.45 }}
+                    className="flex-shrink-0 bg-gray-100 flex items-center justify-center"
+                    style={{ width: '80px', height: '80px', outline: selectedImage === idx ? '2px solid #000' : 'none', outlineOffset: '-2px' }}
                   >
                     <img src={img.url} alt="" className="w-full h-full object-contain p-2" />
                   </button>
@@ -188,23 +188,21 @@ export default function ProductDetailClient({
             {/* Main Image + Controller */}
             <div className="flex-1 flex flex-col min-w-0">
               <div
-                className="flex-1 flex items-center justify-center bg-gray-100 cursor-zoom-in"
-                style={{ minHeight: '420px' }}
+                className="relative flex-1 bg-gray-100 cursor-zoom-in flex items-center justify-center"
+                style={{ minHeight: '500px' }}
                 onClick={() => setShowZoom(true)}
               >
                 <img
                   key={selectedImage}
                   src={productDetails.images[selectedImage]?.url}
                   alt={productDetails.images[selectedImage]?.altText}
-                  className="max-w-full max-h-full object-contain p-8"
-                  style={{ maxHeight: '420px' }}
+                  className="object-contain p-8"
+                  style={{ maxHeight: '500px', maxWidth: '100%' }}
                 />
-              </div>
 
-              {/* Pill controller */}
-              {productDetails.images.length > 1 && (
-                <div className="flex justify-center pt-3">
-                  <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.12)' }}>
+                {/* Pill controller inside image */}
+                {productDetails.images.length > 1 && (
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.12)' }} onClick={e => e.stopPropagation()}>
                     <span className="text-xs text-gray-400 tabular-nums">{selectedImage + 1} / {productDetails.images.length}</span>
                     {productDetails.images.map((_, idx) => (
                       <button
@@ -222,8 +220,8 @@ export default function ProductDetailClient({
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
                     </button>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
 
