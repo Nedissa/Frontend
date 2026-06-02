@@ -785,11 +785,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                       <ul className="space-y-2">
                         {section.items && section.items.map((item) => (
                           <li key={item.id}>
-                            <Link href={item.url} className={`text-sm transition-colors ${
-                              isPathActive(item.url)
-                                ? 'font-bold text-black'
-                                : 'text-gray-700 hover:text-black'
-                            }`}>
+                            <Link href={item.url} className="text-sm text-gray-700 hover:text-black transition-colors">
                               {item.title}
                             </Link>
                           </li>
