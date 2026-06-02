@@ -52,17 +52,11 @@ export default function ProductDetailClient({
 
   const goToImage = (idx: number) => {
     if (idx === selectedImage) return;
-    const dir = idx > selectedImage ? 'right' : 'left';
-    setSlideDirection(dir);
+    setSlideDirection(idx > selectedImage ? 'right' : 'left');
     setPrevImage(selectedImage);
-    setSliding(false);
     setSelectedImage(idx);
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setSliding(true);
-        setTimeout(() => { setPrevImage(null); setSliding(false); }, 500);
-      });
-    });
+    setSliding(true);
+    setTimeout(() => { setPrevImage(null); setSliding(false); }, 500);
   };
   const [selectedColor, setSelectedColor] = useState('Svart');
   const [activeTab, setActiveTab] = useState('description');
@@ -233,7 +227,7 @@ export default function ProductDetailClient({
                       onClick={() => setShowZoom(true)}
                       className="absolute inset-0 flex items-center justify-center p-8 cursor-zoom-in"
                       style={{
-                        transform: isCurrent ? (sliding ? 'translateX(0%)' : incomingTransform) : outgoingTransform,
+                        transform: isCurrent ? 'translateX(0%)' : outgoingTransform,
                         transition: sliding ? 'transform 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none',
                         zIndex: isCurrent ? 2 : 1,
                       }}
