@@ -364,52 +364,45 @@ export default function ProductDetailClient({
         {/* Right Column - Product Info + Accessories */}
         <div className="w-72 flex flex-col gap-2">
         <div
-          className="flex flex-col p-6 bg-white"
+          className="flex flex-col bg-white"
           style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', height: 'fit-content' }}
         >
-          {/* Sale Badge */}
-          {discountPercent > 0 && (
-            <div className="inline-block bg-red-600 text-white px-3 py-1 text-xs font-bold mb-4 rounded w-fit">
-              -{discountPercent}%
+          {/* Header - Title + Favorite */}
+          <div className="flex items-start justify-between p-6 pb-4">
+            <div className="flex-1 min-w-0">
+              {discountPercent > 0 && (
+                <div className="inline-block bg-red-600 text-white px-2 py-0.5 text-xs font-bold mb-2 rounded w-fit">
+                  -{discountPercent}%
+                </div>
+              )}
+              <h1 className="text-xl font-bold text-black leading-tight">{product.title}</h1>
+              <p className="text-xs text-gray-400 mt-1">Varukod: {productDetails.sku}</p>
             </div>
-          )}
-
-          {/* Favorite button */}
-          <button
-            onClick={handleFavoriteToggle}
-            className={`mb-3 ${isFavorite ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
-            title={isFavorite ? 'Ta bort från favoriter' : 'Lägg till i favoriter'}
-          >
-            <svg className="w-6 h-6" fill={isFavorite ? 'currentColor' : 'none'} stroke={isFavorite ? 'none' : 'currentColor'} strokeWidth={isFavorite ? 0 : 2} viewBox="0 0 24 24">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-            </svg>
-          </button>
-
-          {/* Title */}
-          <div className="flex flex-col mb-4">
-            <h1 className="text-2xl font-bold text-black line-clamp-2 leading-tight">{product.title}</h1>
-            <p className="text-xs text-gray-400 mt-1">Varukod: {productDetails.sku}</p>
+            <button
+              onClick={handleFavoriteToggle}
+              className={`ml-3 flex-shrink-0 ${isFavorite ? 'text-red-500' : 'text-gray-300 hover:text-red-500'} transition-colors`}
+              title={isFavorite ? 'Ta bort från favoriter' : 'Lägg till i favoriter'}
+            >
+              <svg className="w-5 h-5" fill={isFavorite ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+              </svg>
+            </button>
           </div>
 
-          {/* Price Section */}
-          <div className="mb-6">
+          {/* Price */}
+          <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+            <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Pris</span>
             <div className="flex items-baseline gap-2">
-              <span className="text-3xl font-bold text-red-600">
-                {product.price.toLocaleString('sv-SE')} kr
-              </span>
+              <span className="text-2xl font-bold text-red-600">{product.price.toLocaleString('sv-SE')} kr</span>
               {product.originalPrice && (
-                <span className="text-lg text-gray-400 line-through">
-                  {product.originalPrice.toLocaleString('sv-SE')} kr
-                </span>
+                <span className="text-sm text-gray-400 line-through">{product.originalPrice.toLocaleString('sv-SE')} kr</span>
               )}
             </div>
           </div>
 
-          {/* Color Selector */}
-          <div className="mb-6">
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
-              Välj färg{selectedColor && <span className="text-gray-600 font-normal"> - {selectedColor}</span>}
-            </label>
+          {/* Color */}
+          <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+            <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Färg</span>
             <div className="flex gap-3">
               {Object.entries(COLORS).map(([name, hex]) => (
                 <button
@@ -426,144 +419,94 @@ export default function ProductDetailClient({
             </div>
           </div>
 
-          {/* Quantity Stepper */}
-          <div className="mb-6">
-            <label className="block text-sm font-semibold text-gray-900 mb-2">Antal</label>
-            <div className="flex items-center bg-gray-100 w-fit h-9 px-3 gap-3">
-              <button
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="text-gray-700 hover:text-black font-bold"
-              >
-                −
-              </button>
-              <input
-                type="number"
-                min="1"
-                value={quantity}
-                onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                className="text-center bg-transparent focus:outline-none text-sm font-semibold border-none tabular-nums"
-                style={{
-                  WebkitAppearance: 'none',
-                  MozAppearance: 'textfield',
-                  minWidth: '2rem',
-                  width: '2rem',
-                }}
-              />
-              <button
-                onClick={() => setQuantity(quantity + 1)}
-                className="text-gray-700 hover:text-black font-bold"
-              >
-                +
-              </button>
-            </div>
-          </div>
-
           {/* Stock */}
           {(() => {
             const qty = productDetails.quantityAvailable;
             const managesInventory = (product as any).variants?.some((v: any) => v.manage_inventory);
             const isOutOfStock = managesInventory && qty !== null && qty <= 0;
             return (
-              <div className="flex items-center gap-2 text-sm mb-6">
-                <span className={`w-2 h-2 rounded-full ${isOutOfStock ? 'bg-red-500' : 'bg-green-600'}`}></span>
-                <span className={`font-medium ${isOutOfStock ? 'text-red-500' : 'text-black'}`}>
-                  {isOutOfStock ? 'Slut i lager' : 'I lager'}
-                </span>
-                {!isOutOfStock && qty !== null && (
-                  <span className="text-gray-500">({qty} st)</span>
-                )}
+              <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+                <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Lager</span>
+                <div className="flex items-center gap-2">
+                  <span className={`w-2 h-2 rounded-full ${isOutOfStock ? 'bg-red-500' : 'bg-green-500'}`}></span>
+                  <span className={`text-sm font-medium ${isOutOfStock ? 'text-red-500' : 'text-black'}`}>
+                    {isOutOfStock ? 'Slut i lager' : 'I lager'}
+                  </span>
+                  {!isOutOfStock && qty !== null && (
+                    <span className="text-xs text-gray-400">({qty} st)</span>
+                  )}
+                </div>
               </div>
             );
           })()}
 
-          {/* Add to Cart Button */}
-          <button
-            onClick={() => {
-              if (selectedAccessories.length === 0) {
-                const event = new CustomEvent('addToCart', {
-                  detail: {
-                    id: product.id,
-                    title: product.title,
-                    price: product.price,
-                    originalPrice: product.originalPrice,
-                    quantity: quantity,
-                    image: product.image,
-                  },
-                });
-                window.dispatchEvent(event);
-              } else {
-                selectedAccessories.forEach((accessoryId) => {
-                  const accessory = RECOMMENDED_ACCESSORIES.find(a => a.id === accessoryId);
-                  if (accessory) {
-                    const accessoryEvent = new CustomEvent('addToCart', {
-                      detail: {
-                        id: accessory.id,
-                        title: accessory.name,
-                        price: Number(accessory.price),
-                        quantity: 1,
-                        image: accessory.image,
-                      },
+          {/* Quantity + Buttons */}
+          <div className="px-6 pt-4 pb-6 border-t border-gray-100 flex flex-col gap-3">
+            <div className="flex items-center gap-3">
+              {/* Quantity */}
+              <div className="flex items-center border border-gray-200 rounded-full overflow-hidden">
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-9 h-9 flex items-center justify-center text-gray-600 hover:text-black text-lg">−</button>
+                <input
+                  type="number" min="1" value={quantity}
+                  onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                  className="w-8 text-center bg-transparent focus:outline-none text-sm font-semibold border-none tabular-nums"
+                  style={{ WebkitAppearance: 'none', MozAppearance: 'textfield' }}
+                />
+                <button onClick={() => setQuantity(quantity + 1)} className="w-9 h-9 flex items-center justify-center text-gray-600 hover:text-black text-lg">+</button>
+              </div>
+
+              {/* Add to cart */}
+              <button
+                onClick={() => {
+                  if (selectedAccessories.length === 0) {
+                    window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity, image: product.image } }));
+                  } else {
+                    selectedAccessories.forEach((accessoryId) => {
+                      const accessory = RECOMMENDED_ACCESSORIES.find(a => a.id === accessoryId);
+                      if (accessory) window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: accessory.id, title: accessory.name, price: Number(accessory.price), quantity: 1, image: accessory.image } }));
                     });
-                    window.dispatchEvent(accessoryEvent);
+                    setSelectedAccessories([]);
                   }
-                });
-                setSelectedAccessories([]);
-              }
+                  setIsAdded(true);
+                  setTimeout(() => setIsAdded(false), 100);
+                }}
+                className="flex-1 bg-black text-white text-sm font-semibold py-2.5 rounded-full flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors"
+              >
+                {isAdded ? (
+                  <>
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
+                    Tillagd
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4 fill-none stroke-current" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"><path d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z"/></svg>
+                    Lägg i varukorg
+                  </>
+                )}
+              </button>
+            </div>
 
-              setIsAdded(true);
-              setTimeout(() => setIsAdded(false), 100);
-            }}
-            className="w-full bg-black text-white text-sm font-semibold py-3 px-4 mb-3 flex items-center justify-center gap-2 hover:bg-gray-800"
-          >
-            {isAdded ? (
-              <span className="transition-none">
-                <svg className="w-4 h-4 fill-currentColor inline" viewBox="0 0 24 24">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                </svg>
-                <span className="ml-2 inline">Tillagd</span>
-              </span>
-            ) : (
-              <span className="transition-none">
-                <svg className="w-5 h-5 fill-none stroke-currentColor inline" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2">
-                  <path d="M6.29977 5H21L19 12H7.37671M20 16H8L6 3H3M9 20C9 20.5523 8.55228 21 8 21C7.44772 21 7 20.5523 7 20C7 19.4477 7.44772 19 8 19C8.55228 19 9 19.4477 9 20ZM20 20C20 20.5523 19.5523 21 19 21C18.4477 21 18 20.5523 18 20C18 19.4477 18.4477 19 19 19C19.5523 19 20 19.4477 20 20Z"/>
-                </svg>
-                <span className="ml-2 inline">Lägg i varukorg</span>
-              </span>
-            )}
-          </button>
-
-          {/* Buy Now Button */}
-          <button
-            onClick={() => {
-              const quickCheckoutItem = {
-                id: product.id,
-                title: product.title,
-                price: product.price,
-                originalPrice: product.originalPrice,
-                quantity: quantity,
-              };
-              localStorage.setItem('quickCheckout', JSON.stringify(quickCheckoutItem));
-              router.push('/kassan');
-            }}
-            className="w-full bg-green-600 text-white text-sm font-semibold py-3 px-4 mb-6 hover:bg-green-700 transition-colors"
-          >
-            Handla nu
-          </button>
+            {/* Buy now */}
+            <button
+              onClick={() => {
+                localStorage.setItem('quickCheckout', JSON.stringify({ id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity }));
+                router.push('/kassan');
+              }}
+              className="w-full bg-green-600 text-white text-sm font-semibold py-2.5 rounded-full hover:bg-green-700 transition-colors"
+            >
+              Handla nu
+            </button>
+          </div>
 
           {/* Fri frakt + Klarna */}
-          <div className="border-t border-gray-200 pt-4 space-y-3">
+          <div className="border-t border-gray-100 px-6 py-4 space-y-3">
             <div className="flex items-center justify-center gap-6">
-
               <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                </svg>
+                <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
                 <span className="text-black text-xs">Fri frakt</span>
               </div>
               <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                </svg>
+                <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" /></svg>
                 <span className="text-black text-xs">Fria returer</span>
               </div>
             </div>
