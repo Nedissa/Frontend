@@ -173,15 +173,15 @@ export default function ProductDetailClient({
       {/* Main Product Grid */}
       <div className="flex gap-2">
         {/* Left Column - Image & Tabs */}
-        <div className="flex-1 flex flex-col gap-2 min-w-0">
+        <div className="flex-1 flex flex-col gap-2 min-w-0 self-stretch">
           {/* Image Gallery */}
           <div
-            className="flex gap-3 bg-white"
+            className="flex gap-3 bg-white flex-1"
             style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px' }}
           >
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
-              <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '476px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', minHeight: '476px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {productDetails.images.map((img, idx) => (
                   <button
                     key={idx}
@@ -205,8 +205,8 @@ export default function ProductDetailClient({
             {/* Main Image + Controller */}
             <div className="flex-1 flex flex-col min-w-0">
               <div
-                className="relative flex flex-col"
-                style={{ backgroundColor: '#f8f9fa', height: '476px' }}
+                className="relative flex flex-col flex-1"
+                style={{ backgroundColor: '#f8f9fa', minHeight: '476px' }}
               >
                 <button
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
@@ -369,7 +369,7 @@ export default function ProductDetailClient({
         </div>
 
         {/* Right Column - Product Info + Accessories */}
-        <div className="w-72 flex flex-col gap-2">
+        <div className="w-72 flex flex-col gap-2 self-stretch">
         <div
           className="flex flex-col bg-white"
           style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', height: 'fit-content' }}
