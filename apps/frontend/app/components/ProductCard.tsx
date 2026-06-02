@@ -55,6 +55,7 @@ export function ProductCard({
   const [isHovered, setIsHovered] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
   const config = VARIANT_CONFIG[variant];
+  const cardImages = product.images?.slice(0, 3);
 
   const handleAddToCart = useCallback(() => {
     const cartEvent = new CustomEvent('addToCart', {
@@ -94,7 +95,7 @@ export function ProductCard({
         className="relative bg-gray-100 overflow-hidden mb-4 aspect-square flex items-center justify-center w-full"
         style={{ position: 'relative' }}
         onMouseMove={(e) => {
-          if (!product.images || product.images.length === 0) return;
+          if (!cardImages || cardImages.length === 0) return;
           const rect = e.currentTarget.getBoundingClientRect();
           const x = e.clientX - rect.left;
           const thirdWidth = rect.width / 3;
@@ -144,10 +145,10 @@ export function ProductCard({
               animation: fadeIn 0.3s ease-out forwards;
             }
           `}</style>
-          {(product.images?.[imageIndex] || product.image) ? (
+          {(cardImages?.[imageIndex] || product.image) ? (
             <img
               key={imageIndex}
-              src={getProxiedImageUrl(product.images?.[imageIndex] || product.image)}
+              src={getProxiedImageUrl(cardImages?.[imageIndex] || product.image)}
               alt={product.title}
               className={`w-full h-full object-contain p-4 ${imageIndex > 0 ? 'fade-in' : ''}`}
               loading={priority && imageIndex === 0 ? 'eager' : 'lazy'}
@@ -162,9 +163,9 @@ export function ProductCard({
       </div>
 
       {/* Image Carousel Dots */}
-      {product.images && product.images.length > 0 && (
+      {cardImages && cardImages.length > 0 && (
         <div className="flex gap-2 justify-center mb-4">
-          {product.images.map((_, idx) => (
+          {cardImages.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setImageIndex(idx)}
