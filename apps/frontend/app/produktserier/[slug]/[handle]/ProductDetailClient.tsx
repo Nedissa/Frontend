@@ -474,7 +474,7 @@ export default function ProductDetailClient({
                 localStorage.setItem('quickCheckout', JSON.stringify({ id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity }));
                 router.push('/kassan');
               }}
-              className="w-full bg-green-600 text-white text-sm font-semibold h-11 tracking-widest uppercase hover:bg-green-700 transition-colors"
+              className="w-full bg-green-600 text-white text-sm font-semibold h-11 flex items-center justify-center hover:bg-green-700 transition-colors"
             >
               Handla nu
             </button>
