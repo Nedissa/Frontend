@@ -224,7 +224,7 @@ export default function ProductDetailClient({
               {/* Thumbnails */}
               {productDetails.images.length > 1 && (
                 <div
-                  className="flex gap-12 overflow-x-auto px-8 py-4 bg-white justify-center"
+                  className="flex gap-12 overflow-visible px-8 py-4 bg-white justify-center"
                   style={{
                     scrollbarWidth: 'none',
                     msOverflowStyle: 'none',
