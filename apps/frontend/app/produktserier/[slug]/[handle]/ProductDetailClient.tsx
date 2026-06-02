@@ -199,6 +199,13 @@ export default function ProductDetailClient({
             <div className="flex-1 flex flex-col min-w-0">
               {/* Main Image */}
               <div className="relative flex items-center justify-center h-96 overflow-hidden">
+                <button
+                  onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
+                  className="absolute left-2 z-10 text-black hover:text-gray-500 text-4xl font-light flex-shrink-0"
+                >
+                  ‹
+                </button>
+
                 <div className="absolute inset-0 flex items-center justify-center p-8">
                   <img
                     src={mainImage.url}
@@ -206,16 +213,21 @@ export default function ProductDetailClient({
                     className="max-w-full max-h-full object-contain"
                   />
                 </div>
+
+                <button
+                  onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
+                  className="absolute right-2 z-10 text-black hover:text-gray-500 text-4xl font-light flex-shrink-0"
+                >
+                  ›
+                </button>
               </div>
 
               {/* Pill controller */}
               {productDetails.images.length > 1 && (
                 <div className="flex justify-center pt-4">
                   <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.12)' }}>
-                    {/* Prev */}
-                    <button onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)} className="text-gray-500 hover:text-black transition-colors">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-                    </button>
+                    {/* Counter */}
+                    <span className="text-xs text-gray-400 tabular-nums">{selectedImage + 1} / {productDetails.images.length}</span>
 
                     {/* Dots */}
                     {productDetails.images.map((_, idx) => (
@@ -231,13 +243,8 @@ export default function ProductDetailClient({
                       </button>
                     ))}
 
-                    {/* Next */}
-                    <button onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)} className="text-gray-500 hover:text-black transition-colors">
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                    </button>
-
                     {/* Zoom */}
-                    <button onClick={() => setShowZoom(true)} className="text-gray-500 hover:text-black transition-colors ml-1">
+                    <button onClick={() => setShowZoom(true)} className="text-gray-500 hover:text-black transition-colors">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-5h-4m4 0v4m0-4l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
                     </button>
                   </div>
