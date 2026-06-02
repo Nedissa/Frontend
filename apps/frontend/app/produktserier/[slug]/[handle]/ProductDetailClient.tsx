@@ -181,7 +181,7 @@ export default function ProductDetailClient({
           >
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
-              <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '400px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '476px', overflowY: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {productDetails.images.map((img, idx) => (
                   <button
                     key={idx}
@@ -206,7 +206,7 @@ export default function ProductDetailClient({
             <div className="flex-1 flex flex-col min-w-0">
               <div
                 className="relative flex-1 flex items-center justify-center"
-                style={{ backgroundColor: '#f8f9fa', minHeight: '400px' }}
+                style={{ backgroundColor: '#f8f9fa', minHeight: '476px' }}
               >
                 <button
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
