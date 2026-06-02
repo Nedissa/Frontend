@@ -225,7 +225,7 @@ export default function ProductDetailClient({
                         className="relative w-2.5 h-2.5 rounded-full bg-gray-200 overflow-hidden"
                       >
                         <div
-                          className="absolute inset-0 rounded-full bg-gray-800"
+                          className="absolute inset-0 rounded-full bg-gray-800 transition-transform duration-300"
                           style={{ transform: idx <= selectedImage ? 'scale(1)' : 'scale(0)' }}
                         />
                       </button>
