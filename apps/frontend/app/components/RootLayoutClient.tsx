@@ -14,7 +14,7 @@ export function RootLayoutClient({ children, initialIsLoggedIn = false }: { chil
   return (
     <Aside.Provider>
       {!hideHeader && <HeaderWrapper initialIsLoggedIn={initialIsLoggedIn} />}
-      <main className="pt-[120px] pb-24 flex justify-center flex-1 min-h-screen">
+      <main className="pt-[90px] pb-24 flex justify-center flex-1 min-h-screen">
         <div className="w-full max-w-[1280px]">
           {children}
         </div>

@@ -590,7 +590,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
     }`}>
       {/* Search bar section */}
-      <div className="px-6 py-4">
+      <div className="px-6 py-2">
         <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
           <Link href="/" className="flex-shrink-0 flex items-center gap-1.5">
             <div style={{ width: '32px', height: '32px' }}>
@@ -747,7 +747,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                         setActiveMegaMenu(category.id);
                       }
                     }}
-                    className="px-6 py-4 text-sm font-semibold text-black whitespace-nowrap relative group inline-flex"
+                    className="px-6 py-2 text-sm font-semibold text-black whitespace-nowrap relative group inline-flex"
                   >
                     {category.title}
                     <span className={`absolute bottom-0 left-6 right-6 h-0.5 transition-all ${
