@@ -145,12 +145,21 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </button>
 
-            {/* Play/Pause */}
-            <button onClick={() => setIsPlaying(!isPlaying)} className="text-gray-500 hover:text-black transition-colors">
+            {/* Play/Pause with progress ring */}
+            <button onClick={() => setIsPlaying(!isPlaying)} className="relative w-7 h-7 flex items-center justify-center text-gray-500 hover:text-black transition-colors">
+              <svg className="absolute inset-0 w-7 h-7 -rotate-90" viewBox="0 0 28 28">
+                <circle cx="14" cy="14" r="12" fill="none" stroke="#e5e7eb" strokeWidth="2" />
+                <circle
+                  cx="14" cy="14" r="12" fill="none" stroke="#1f2937" strokeWidth="2"
+                  strokeDasharray={`${2 * Math.PI * 12}`}
+                  strokeDashoffset={`${2 * Math.PI * 12 * (1 - (isPlaying ? progress : 0))}`}
+                  strokeLinecap="round"
+                />
+              </svg>
               {isPlaying ? (
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" /></svg>
+                <svg className="w-3 h-3 relative z-10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" /></svg>
               ) : (
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4v16l14-8z" /></svg>
+                <svg className="w-3 h-3 relative z-10" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4v16l14-8z" /></svg>
               )}
             </button>
           </div>
