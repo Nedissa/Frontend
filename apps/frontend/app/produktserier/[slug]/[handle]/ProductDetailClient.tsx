@@ -191,7 +191,7 @@ export default function ProductDetailClient({
                       src={img.url} alt=""
                       className="w-full h-full object-contain p-2 transition-all duration-300"
                       style={{
-                        filter: selectedImage === idx ? 'brightness(1.05) contrast(1.05)' : 'grayscale(0.4) brightness(0.85)',
+                        filter: selectedImage === idx ? 'brightness(1.05) contrast(1.05)' : 'brightness(0.9)',
                       }}
                     />
                   </button>
