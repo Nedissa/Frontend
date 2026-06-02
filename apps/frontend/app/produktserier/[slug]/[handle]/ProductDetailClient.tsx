@@ -444,15 +444,14 @@ export default function ProductDetailClient({
           <div className="px-6 pt-4 pb-6 border-t border-gray-100 flex flex-col gap-3">
             <div className="flex items-center gap-3">
               {/* Quantity */}
-              <div className="flex items-center border border-gray-200 rounded-full overflow-hidden">
-                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="w-9 h-9 flex items-center justify-center text-gray-600 hover:text-black text-lg">−</button>
-                <input
-                  type="number" min="1" value={quantity}
-                  onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                  className="w-8 text-center bg-transparent focus:outline-none text-sm font-semibold border-none tabular-nums"
-                  style={{ WebkitAppearance: 'none', MozAppearance: 'textfield' }}
-                />
-                <button onClick={() => setQuantity(quantity + 1)} className="w-9 h-9 flex items-center justify-center text-gray-600 hover:text-black text-lg">+</button>
+              <div className="flex flex-col items-center justify-center border border-gray-300 w-14 h-11">
+                <button onClick={() => setQuantity(quantity + 1)} className="flex-1 flex items-center justify-center text-gray-400 hover:text-black w-full">
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" /></svg>
+                </button>
+                <span className="text-sm font-semibold leading-none">{quantity}</span>
+                <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="flex-1 flex items-center justify-center text-gray-400 hover:text-black w-full">
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                </button>
               </div>
 
               {/* Add to cart */}
@@ -470,7 +469,7 @@ export default function ProductDetailClient({
                   setIsAdded(true);
                   setTimeout(() => setIsAdded(false), 100);
                 }}
-                className="flex-1 bg-black text-white text-sm font-semibold py-2.5 rounded-full flex items-center justify-center gap-2 hover:bg-gray-800 transition-colors"
+                className="flex-1 border border-gray-300 text-black text-sm font-semibold h-11 flex items-center justify-center gap-2 hover:bg-gray-50 transition-colors"
               >
                 {isAdded ? (
                   <>
@@ -492,7 +491,7 @@ export default function ProductDetailClient({
                 localStorage.setItem('quickCheckout', JSON.stringify({ id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity }));
                 router.push('/kassan');
               }}
-              className="w-full bg-green-600 text-white text-sm font-semibold py-2.5 rounded-full hover:bg-green-700 transition-colors"
+              className="w-full bg-green-600 text-white text-sm font-bold py-3 tracking-widest uppercase hover:bg-green-700 transition-colors"
             >
               Handla nu
             </button>
