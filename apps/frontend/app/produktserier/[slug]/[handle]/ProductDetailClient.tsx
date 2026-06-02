@@ -165,15 +165,15 @@ export default function ProductDetailClient({
 
       <div className="px-6 max-w-[1280px] mx-auto flex flex-col gap-4">
 
-        {/* Top row: gallery (left) + product info (right) */}
-        <div className="flex gap-2 items-start" style={{ position: 'relative' }}>
+        {/* Top row: gallery + product info */}
+        <div className="flex gap-2 items-start">
 
-          {/* Gallery */}
-          <div
-            ref={galleryRef}
-            className="flex-1 flex gap-3 bg-white min-w-0"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: `${galleryHeight}px` }}
-          >
+        {/* Gallery */}
+        <div
+          ref={galleryRef}
+          className="flex-1 flex gap-3 bg-white min-w-0"
+          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: `${galleryHeight}px` }}
+        >
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
               <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', overflowY: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
@@ -251,9 +251,9 @@ export default function ProductDetailClient({
             </div>
           </div>
 
-          {/* Product Info — wrapper holds space in flow, inner div expands freely */}
-          <div className="w-72 flex-shrink-0" style={{ position: 'relative' }}>
-            <div ref={productInfoRef} className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', position: 'absolute', top: 0, left: 0, width: '100%' }}>
+          {/* Product Info */}
+          <div className="w-72 flex-shrink-0">
+            <div ref={productInfoRef} className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
 
               <div className="flex items-start justify-between p-6 pb-4">
                 <div className="flex-1 min-w-0">
@@ -420,8 +420,8 @@ export default function ProductDetailClient({
                 </div>
               </div>
 
-            </div>
-          </div>
+              </div>
+        </div>
 
         </div>{/* end top row */}
 
