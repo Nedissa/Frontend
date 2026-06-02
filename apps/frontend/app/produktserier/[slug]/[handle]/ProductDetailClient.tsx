@@ -437,6 +437,46 @@ export default function ProductDetailClient({
             );
           })()}
 
+          {/* Rekommenderade tillbehör */}
+          <div className="border-t border-gray-100">
+            <button
+              onClick={() => setShowAccessories(!showAccessories)}
+              className="w-full flex items-center justify-between text-xs uppercase tracking-widest text-gray-400 font-medium px-6 py-4 hover:bg-gray-50"
+            >
+              <span>Tillbehör</span>
+              <svg className={`w-4 h-4 transition-transform ${showAccessories ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {showAccessories && (
+              <div className="divide-y divide-gray-100">
+                {RECOMMENDED_ACCESSORIES.map((accessory) => {
+                  const isSelected = selectedAccessories.includes(accessory.id);
+                  return (
+                    <button
+                      key={accessory.id}
+                      onClick={() => {
+                        if (isSelected) {
+                          setSelectedAccessories(selectedAccessories.filter(id => id !== accessory.id));
+                        } else {
+                          setSelectedAccessories([...selectedAccessories, accessory.id]);
+                        }
+                      }}
+                      className={`w-full flex items-center gap-3 px-6 py-3 hover:bg-gray-50 transition-colors ${isSelected ? 'bg-gray-50' : ''}`}
+                    >
+                      <img src={accessory.image} alt={accessory.name} className="w-8 h-8 object-contain flex-shrink-0" />
+                      <div className="flex-1 min-w-0 text-left">
+                        <p className="text-sm font-medium text-gray-900">{accessory.name}</p>
+                        <p className="text-xs text-gray-500">{Number(accessory.price).toLocaleString('sv-SE')} kr</p>
+                      </div>
+                      <div className={`w-4 h-4 flex-shrink-0 border-2 transition-colors ${isSelected ? 'bg-black border-black' : 'border-gray-300'}`} />
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
           {/* Quantity + Buttons */}
           <div className="px-6 pt-4 pb-6 border-t border-gray-100 flex flex-col gap-3">
             <div className="flex items-center gap-3">
@@ -502,50 +542,6 @@ export default function ProductDetailClient({
 
         </div>
 
-          {/* Rekommenderade tillbehör */}
-          <div className="bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-            <button
-              onClick={() => setShowAccessories(!showAccessories)}
-              className="w-full flex items-center justify-between text-sm font-semibold text-gray-900 py-4 px-6 hover:bg-gray-50"
-            >
-              <div className="flex items-center gap-2">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path d="M20 7l-2-4H6L4 7m16 0l-1.286 10.715A2 2 0 0116.734 20H7.266a2 2 0 01-1.98-2.285L4 7m16 0H4m6-4v4m4-4v4m-5 10h6" />
-                </svg>
-                Rekommenderade tillbehör
-              </div>
-              <svg className={`w-5 h-5 transition-transform ${showAccessories ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            {showAccessories && (
-              <div className="border-t border-gray-200 divide-y divide-gray-100">
-                {RECOMMENDED_ACCESSORIES.map((accessory) => {
-                  const isSelected = selectedAccessories.includes(accessory.id);
-                  return (
-                    <button
-                      key={accessory.id}
-                      onClick={() => {
-                        if (isSelected) {
-                          setSelectedAccessories(selectedAccessories.filter(id => id !== accessory.id));
-                        } else {
-                          setSelectedAccessories([...selectedAccessories, accessory.id]);
-                        }
-                      }}
-                      className={`w-full flex items-center gap-4 px-6 py-4 hover:bg-gray-50 transition-colors ${isSelected ? 'bg-gray-50' : ''}`}
-                    >
-                      <img src={accessory.image} alt={accessory.name} className="w-10 h-10 object-contain flex-shrink-0 bg-gray-100" />
-                      <div className="flex-1 min-w-0 text-left">
-                        <p className="text-sm font-medium text-gray-900">{accessory.name}</p>
-                        <p className="text-sm text-gray-500">{Number(accessory.price).toLocaleString('sv-SE')} kr</p>
-                      </div>
-                      <div className={`w-4 h-4 flex-shrink-0 border-2 rounded-sm transition-colors ${isSelected ? 'bg-black border-black' : 'border-gray-300'}`} />
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
         </div>
       </div>
 
