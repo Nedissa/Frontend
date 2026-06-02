@@ -359,10 +359,8 @@ export default function ProductDetailClient({
 
               {activeTab === 'reviews' && (
                 <div className="space-y-3 pb-8">
-                  <div className="py-8">
-                    <p className="text-sm text-gray-600">Denna produkt har inga recensioner än</p>
-                    <p className="text-xs text-gray-500 mt-2">Var den första att recensera denna produkt</p>
-                  </div>
+                  <p className="text-sm text-gray-600">Denna produkt har inga recensioner än</p>
+                  <p className="text-xs text-gray-500">Var den första att recensera denna produkt</p>
                 </div>
               )}
 
