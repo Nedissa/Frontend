@@ -425,11 +425,11 @@ export default function ProductDetailClient({
 
         </div>{/* end top row */}
 
-        {/* Tabs — independent, full width of left column only */}
-        <div className="flex gap-2">
+        {/* Tabs — independent, same width as gallery only */}
+        <div>
           <div
-            className="flex-1 p-8 pb-0 bg-white"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
+            className="p-8 pb-0 bg-white"
+            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', marginRight: '296px' }}
           >
             <div className="pt-0 w-full pb-8">
               <div className="flex gap-8 mb-8 border-b border-gray-200 w-full">
@@ -503,8 +503,6 @@ export default function ProductDetailClient({
               )}
             </div>
           </div>
-          {/* Spacer to align tabs width with gallery only */}
-          <div className="w-72 flex-shrink-0" />
         </div>{/* end tabs row */}
 
       </div>{/* end px-6 wrapper */}
