@@ -171,7 +171,7 @@ export default function ProductDetailClient({
 
       <div className="px-6">
       {/* Main Product Grid */}
-      <div className="flex gap-2 items-start">
+      <div className="flex gap-2 items-stretch">
         {/* Left Column - Image & Tabs */}
         <div className="flex-1 flex flex-col gap-2 min-w-0">
           {/* Image Gallery */}
@@ -371,8 +371,8 @@ export default function ProductDetailClient({
         {/* Right Column - Product Info + Accessories */}
         <div className="w-72 flex flex-col gap-2">
         <div
-          className="flex flex-col bg-white"
-          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', height: 'fit-content' }}
+          className="flex flex-col bg-white flex-1"
+          style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
         >
           {/* Header - Title + Favorite */}
           <div className="flex items-start justify-between p-6 pb-4">
