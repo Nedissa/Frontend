@@ -103,7 +103,7 @@ const MENU_DATA: MenuCategory[] = [
     items: [
       {
         id: 'processorer',
-        title: 'CPU processorer',
+        title: 'Processorer',
         url: '/produkter',
         icon: <img src="/icons/cpu.png" alt="CPU" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
@@ -123,7 +123,7 @@ const MENU_DATA: MenuCategory[] = [
       },
       {
         id: 'grafikkort',
-        title: 'GPU grafikkort',
+        title: 'Grafikkort',
         url: '/produkter',
         icon: <img src="/icons/gpu.png" alt="GPU" style={{ width: '38px', height: '38px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
@@ -148,7 +148,7 @@ const MENU_DATA: MenuCategory[] = [
         icon: <img src="/icons/lagring.png" alt="Lagring" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'ssd', title: 'SSD NVMe', url: '/produkter' },
-          { id: 'hdd', title: 'HDD', url: '/produkter' },
+          { id: 'hdd', title: 'Hårddiskar', url: '/produkter' },
         ],
       },
       {
@@ -170,7 +170,7 @@ const MENU_DATA: MenuCategory[] = [
     items: [
       {
         id: 'gaming-laptops',
-        title: 'Gaming Bärbara',
+        title: 'Bärbara',
         url: '/produkter',
         icon: <img src="/icons/gaming-laptop.png" alt="Gaming Bärbara" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
@@ -180,7 +180,7 @@ const MENU_DATA: MenuCategory[] = [
       },
       {
         id: 'gaming-pc',
-        title: 'Gaming PC',
+        title: 'Datorer',
         url: '/produkter',
         icon: <img src="/icons/gaming-pc.png" alt="Gaming PC" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
@@ -190,7 +190,7 @@ const MENU_DATA: MenuCategory[] = [
       },
       {
         id: 'gaming-peripherals',
-        title: 'Gamingtillbehör',
+        title: 'Tillbehör',
         url: '/produkter',
         icon: <img src="/icons/gaming-tillbehor.png" alt="Gamingtillbehör" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
@@ -219,7 +219,7 @@ const MENU_DATA: MenuCategory[] = [
       },
       {
         id: 'mobil-tillbehor',
-        title: 'Mobiltillbehör',
+        title: 'Mobil tillbehör',
         url: '/produkter',
         icon: <img src="/icons/mobiltillbehor.png" alt="Mobiltillbehör" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
