@@ -62,7 +62,7 @@ const MENU_DATA: MenuCategory[] = [
     items: [
       {
         id: 'barbara',
-        title: 'Bärbara datorer',
+        title: 'Bärbara',
         url: '/produkter',
         icon: <img src="/icons/barbara-datorer.png" alt="Bärbara datorer" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
@@ -73,25 +73,24 @@ const MENU_DATA: MenuCategory[] = [
       },
       {
         id: 'stationara',
-        title: 'Stationära datorer',
+        title: 'Stationära',
         url: '/produkter',
         icon: <img src="/icons/stationara-datorer.png" alt="Stationära datorer" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'mini-pc', title: 'Mini-PC', url: '/produkter' },
-          { id: 'allt-i-ett', title: 'Allt-i-ett', url: '/produkter' },
+          { id: 'allt-i-ett', title: 'Allt-i-ett-datorer', url: '/produkter' },
           { id: 'arbetsdatorer', title: 'Arbetsdatorer', url: '/produkter' },
         ],
       },
       {
         id: 'datortillbehor',
-        title: 'Datortillbehör',
+        title: 'Tillbehör',
         url: '/produkter',
         icon: <img src="/icons/datortillbehor.png" alt="Datortillbehör" style={{ width: '38px', height: '38px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
           { id: 'bildskarm', title: 'Bildskärmar', url: '/produkter' },
           { id: 'tangentbord', title: 'Tangentbord', url: '/produkter' },
           { id: 'moss', title: 'Möss', url: '/produkter' },
-          { id: 'lagring', title: 'Lagring', url: '/produkter' },
         ],
       },
     ],
@@ -117,8 +116,8 @@ const MENU_DATA: MenuCategory[] = [
         url: '/produkter',
         icon: <img src="/icons/moderkort.png" alt="Moderkort" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'intel-socket', title: 'Intel Socket', url: '/produkter' },
-          { id: 'amd-socket', title: 'AMD Socket', url: '/produkter' },
+          { id: 'intel-socket', title: 'Intel', url: '/produkter' },
+          { id: 'amd-socket', title: 'AMD', url: '/produkter' },
         ],
       },
       {
@@ -147,7 +146,8 @@ const MENU_DATA: MenuCategory[] = [
         url: '/produkter',
         icon: <img src="/icons/lagring.png" alt="Lagring" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'ssd', title: 'SSD NVMe', url: '/produkter' },
+          { id: 'ssd-nvme', title: 'SSD NVMe', url: '/produkter' },
+          { id: 'ssd-sata', title: 'SSD SATA', url: '/produkter' },
           { id: 'hdd', title: 'Hårddiskar', url: '/produkter' },
         ],
       },
@@ -157,8 +157,8 @@ const MENU_DATA: MenuCategory[] = [
         url: '/produkter',
         icon: <img src="/icons/nataggregat.png" alt="Nätaggregat" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'modular', title: 'Modulär', url: '/produkter' },
-          { id: 'semi-modular', title: 'Semi-modulär', url: '/produkter' },
+          { id: 'modular', title: 'Modulärt', url: '/produkter' },
+          { id: 'semi-modular', title: 'Semi-modulärt', url: '/produkter' },
         ],
       },
     ],
@@ -251,8 +251,8 @@ const MENU_DATA: MenuCategory[] = [
         url: '/produkter',
         icon: <img src="/icons/natverksforlangare.png" alt="Nätverksförlängare" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'wifi-forlangarе', title: 'WiFi-förlängare', url: '/produkter' },
-          { id: 'mesh-forlangarе', title: 'Mesh-förlängare', url: '/produkter' },
+          { id: 'wifi-forlangarе', title: 'WiFi', url: '/produkter' },
+          { id: 'mesh-forlangarе', title: 'Mesh', url: '/produkter' },
         ],
       },
       {
@@ -261,9 +261,9 @@ const MENU_DATA: MenuCategory[] = [
         url: '/produkter',
         icon: <img src="/icons/routrar.png" alt="Routrar" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'wifi6-routrar', title: 'WiFi 6 Routrar', url: '/produkter' },
-          { id: 'wifi7-routrar', title: 'WiFi 7 Routrar', url: '/produkter' },
-          { id: 'gaming-routrar', title: 'Gaming Routrar', url: '/produkter' },
+          { id: 'wifi6-routrar', title: 'WiFi 6', url: '/produkter' },
+          { id: 'wifi7-routrar', title: 'WiFi 7', url: '/produkter' },
+          { id: 'gaming-routrar', title: 'Gaming', url: '/produkter' },
         ],
       },
       {
@@ -272,8 +272,8 @@ const MENU_DATA: MenuCategory[] = [
         url: '/produkter',
         icon: <img src="/icons/mesh.png" alt="Mesh Nätverk" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'mesh-wifi6', title: 'Mesh WiFi 6', url: '/produkter' },
-          { id: 'mesh-wifi7', title: 'Mesh WiFi 7', url: '/produkter' },
+          { id: 'mesh-wifi6', title: 'WiFi 6', url: '/produkter' },
+          { id: 'mesh-wifi7', title: 'WiFi 7', url: '/produkter' },
         ],
       },
     ],
@@ -302,7 +302,7 @@ const MENU_DATA: MenuCategory[] = [
         items: [
           { id: 'hogtalare', title: 'Högtalare', url: '/produkter' },
           { id: 'horlur', title: 'Hörlurar', url: '/produkter' },
-          { id: 'surround', title: 'Surround System', url: '/produkter' },
+          { id: 'surround', title: 'Surroundljud', url: '/produkter' },
         ],
       },
       {
@@ -311,7 +311,7 @@ const MENU_DATA: MenuCategory[] = [
         url: '/produkter',
         icon: <img src="/icons/tv-tillbehor.png" alt="TV Tillbehör" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'montering', title: 'TV Montering', url: '/produkter' },
+          { id: 'montering', title: 'Montering', url: '/produkter' },
           { id: 'soundbar', title: 'Soundbar', url: '/produkter' },
         ],
       },

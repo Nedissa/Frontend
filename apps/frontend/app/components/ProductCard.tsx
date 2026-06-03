@@ -88,8 +88,10 @@ export function ProductCard({
 
   return (
     <>
+    <div className="h-full" style={{ isolation: 'isolate' }}>
     <div
-      className="flex flex-col bg-white h-full p-3 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.14)] hover:-translate-y-1"
+      className="flex flex-col bg-white h-full p-3 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.14)]"
+      style={{ transform: isHovered ? 'translateY(-4px)' : 'translateY(0)', transition: 'transform 300ms ease, box-shadow 300ms ease' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -134,6 +136,13 @@ export function ProductCard({
           ) : null}
         </div>
 
+        {product.price !== undefined && (() => {
+          const p = product.price;
+          if (p < 2000) return <span className={`absolute bottom-3 left-3 z-20 bg-white text-black px-2 py-0.5 text-xs font-bold shadow-[0_0_0_1px_rgba(0,0,0,0.15),0_2px_6px_rgba(0,0,0,0.12)] transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>Insteg</span>;
+          if (p < 8000) return <span className={`absolute bottom-3 left-3 z-20 bg-white text-black px-2 py-0.5 text-xs font-bold shadow-[0_0_0_1px_rgba(0,0,0,0.15),0_2px_6px_rgba(0,0,0,0.12)] transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>Mid-range</span>;
+          return <span className={`absolute bottom-3 left-3 z-20 bg-white text-black px-2 py-0.5 text-xs font-bold shadow-[0_0_0_1px_rgba(0,0,0,0.15),0_2px_6px_rgba(0,0,0,0.12)] transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>High-end</span>;
+        })()}
+
         {isHovered && (
           <button
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowZoom(true); }}
@@ -164,7 +173,7 @@ export function ProductCard({
               key={imageIndex}
               src={getProxiedImageUrl(cardImages?.[imageIndex] || product.image)}
               alt={product.title}
-              className={`w-full h-full object-contain p-4 ${imageIndex > 0 ? 'fade-in' : ''}`}
+              className="w-full h-full object-contain p-4"
               loading={priority && imageIndex === 0 ? 'eager' : 'lazy'}
               onError={(e) => { e.currentTarget.style.display = 'none'; }}
             />
@@ -194,83 +203,83 @@ export function ProductCard({
 
       {/* Product Info */}
       <div className="flex-1 flex flex-col">
-        {/* Title */}
-        <h3 className="text-sm font-semibold text-gray-900 mb-1 leading-snug">
-          {product.title}
-        </h3>
 
-        {/* Price */}
-        <div className="mb-2">
-          <div className="flex items-baseline gap-2">
-            {product.price !== undefined && (
-              <span className="text-lg font-bold text-gray-900">
-                {product.price.toLocaleString('sv-SE')} kr
-              </span>
-            )}
-            {product.originalPrice && (
-              <span className="text-sm text-gray-400 line-through">
-                {product.originalPrice.toLocaleString('sv-SE')} kr
-              </span>
-            )}
-          </div>
+        {/* Title */}
+        <div className="py-2 border-b border-gray-100">
+          <h3 className="text-sm font-semibold text-gray-900 leading-snug">{product.title}</h3>
+          {product.brand && <p className="text-xs text-gray-400 mt-0.5 uppercase">{product.brand}</p>}
         </div>
 
-        {/* Brand */}
-        {product.brand && <p className="text-xs text-gray-400 mb-2 uppercase">{product.brand}</p>}
+        {/* Price + Stock */}
+        <div className="py-2 border-b border-gray-100 flex items-center justify-between">
+          <div className="flex items-baseline gap-2">
+            {product.price !== undefined && (
+              <span className="text-lg font-bold text-gray-900">{product.price.toLocaleString('sv-SE')} kr</span>
+            )}
+            {product.originalPrice && (
+              <span className="text-sm text-gray-400 line-through">{product.originalPrice.toLocaleString('sv-SE')} kr</span>
+            )}
+          </div>
+          <p className={`text-xs font-semibold flex items-center gap-1 ${product.stock === 'Slut i lager' ? 'text-red-500' : 'text-green-600'}`}>
+            <span className={`w-2 h-2 rounded-full ${product.stock === 'Slut i lager' ? 'bg-red-500' : 'bg-green-600'}`}></span>
+            {product.stock || 'I lager'}
+          </p>
+        </div>
 
         {/* Features */}
         {config.showFeatures && product.features && product.features.length > 0 && (
-          <ul className="text-xs text-gray-600 mb-2 space-y-1">
-            {product.features.slice(0, 3).map((feature: string, idx: number) => (
-              <li key={idx} className="flex items-start gap-2">
-                <span className="text-gray-400">•</span>
-                <span>{feature}</span>
-              </li>
-            ))}
-          </ul>
+          <div className="py-2 border-b border-gray-100">
+            <ul className="text-xs text-gray-600 space-y-1">
+              {product.features.slice(0, 3).map((feature: string, idx: number) => (
+                <li key={idx} className="flex items-start gap-2">
+                  <span className="text-gray-400">•</span>
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
 
         {/* Rating */}
-        <Link href={`${productLink}#reviews`} className="flex items-center gap-1 mb-2 hover:opacity-70 transition-opacity">
-          <div className="flex gap-0.5">
-            {[...Array(5)].map((_, i) => (
-              <span key={i} className={i < Math.floor(product.rating || 0) ? 'text-black' : 'text-gray-300'}>★</span>
-            ))}
-          </div>
-          <span className="text-xs text-gray-600">({product.reviews || 0})</span>
-        </Link>
-
-        {/* Color Selector */}
-        <div className="flex gap-2 mb-3 min-h-[28px]">
-          {product.colors && product.colors.length > 0 && product.colors.map((color, idx) => {
-            const colorMap: Record<string, string> = {
-              'svart': '#000000', 'black': '#000000',
-              'vit': '#FFFFFF', 'white': '#FFFFFF',
-              'silver': '#C0C0C0', 'grå': '#808080', 'gray': '#808080', 'grey': '#808080',
-              'röd': '#EF4444', 'red': '#EF4444',
-              'blå': '#3B82F6', 'blue': '#3B82F6',
-              'grön': '#22C55E', 'green': '#22C55E',
-              'gul': '#EAB308', 'yellow': '#EAB308',
-            };
-            const bgColor = colorMap[color.toLowerCase()] || color;
-            const isSelected = selectedColor === idx;
-            return (
-              <button
-                key={idx}
-                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedColor(idx); }}
-                className={`w-4 h-4 rounded-full flex-shrink-0 transition-all ${isSelected ? 'ring-1 ring-offset-1 ring-black' : 'ring-1 ring-gray-300 hover:ring-gray-400'}`}
-                style={{ backgroundColor: bgColor }}
-                title={color}
-              />
-            );
-          })}
+        <div className="py-2 border-b border-gray-100">
+          <Link href={`${productLink}#reviews`} className="flex items-center gap-1 hover:opacity-70 transition-opacity">
+            <div className="flex gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <span key={i} className={i < Math.floor(product.rating || 0) ? 'text-black' : 'text-gray-300'}>★</span>
+              ))}
+            </div>
+            <span className="text-xs text-gray-600">({product.reviews || 0})</span>
+          </Link>
         </div>
 
-        {/* Stock Status */}
-        <p className={`text-xs font-semibold mb-3 flex items-center gap-2 ${product.stock === 'Slut i lager' ? 'text-red-500' : 'text-green-600'}`}>
-          <span className={`w-2 h-2 rounded-full ${product.stock === 'Slut i lager' ? 'bg-red-500' : 'bg-green-600'}`}></span>
-          {product.stock || 'I lager'}
-        </p>
+        {/* Colors */}
+        <div className="py-2 border-b border-gray-100">
+          <div className="flex gap-2 min-h-[20px]">
+            {product.colors && product.colors.length > 0 && product.colors.map((color, idx) => {
+              const colorMap: Record<string, string> = {
+                'svart': '#000000', 'black': '#000000',
+                'vit': '#FFFFFF', 'white': '#FFFFFF',
+                'silver': '#C0C0C0', 'grå': '#808080', 'gray': '#808080', 'grey': '#808080',
+                'röd': '#EF4444', 'red': '#EF4444',
+                'blå': '#3B82F6', 'blue': '#3B82F6',
+                'grön': '#22C55E', 'green': '#22C55E',
+                'gul': '#EAB308', 'yellow': '#EAB308',
+              };
+              const bgColor = colorMap[color.toLowerCase()] || color;
+              const isSelected = selectedColor === idx;
+              return (
+                <button
+                  key={idx}
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedColor(idx); }}
+                  className={`w-4 h-4 rounded-full flex-shrink-0 transition-all ${isSelected ? 'ring-1 ring-offset-1 ring-black' : 'ring-1 ring-gray-300 hover:ring-gray-400'}`}
+                  style={{ backgroundColor: bgColor }}
+                  title={color}
+                />
+              );
+            })}
+          </div>
+        </div>
+
 
         {/* Button Container */}
         <div className="mt-auto border-t border-gray-200"></div>
@@ -278,13 +287,10 @@ export function ProductCard({
           <button
             onClick={handleClick}
             disabled={added}
-            className="w-full py-2.5 font-semibold text-sm flex items-center justify-center gap-2 relative z-10 text-white"
-            style={{ background: 'transparent' }}
+            className="w-full py-2.5 font-semibold text-sm flex items-center justify-center gap-2 relative z-10 text-white transition-all duration-300"
+            style={{ background: 'black', opacity: (isHovered || added) ? 1 : 0, transform: (isHovered || added) ? 'translateY(0)' : 'translateY(100%)' }}
           >
-            <span
-              className="absolute inset-0 bg-black origin-bottom transition-transform duration-300 ease-out"
-              style={{ transform: (isHovered || added) ? 'scaleY(1)' : 'scaleY(0)' }}
-            />
+            <span className="absolute inset-0 bg-black" />
             <span className="relative z-10 flex items-center gap-2">
               {added ? (
                 <>
@@ -305,6 +311,7 @@ export function ProductCard({
           </button>
         </div>
       </div>
+    </div>
     </div>
     <ImageZoomDialog
       images={(cardImages && cardImages.length > 0 ? cardImages : [product.image]).map((url, idx) => ({ id: String(idx), url: getProxiedImageUrl(url), altText: product.title }))}
