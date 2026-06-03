@@ -210,17 +210,19 @@ export function ProductCard({
           {product.brand && <p className="text-xs text-gray-400 mt-0.5 uppercase">{product.brand}</p>}
         </div>
 
-        {/* Price + Stock */}
-        <div className="py-2 border-b border-gray-100 flex items-center justify-between">
-          <div className="flex items-baseline gap-2">
-            {product.price !== undefined && (
-              <span className="text-lg font-bold text-gray-900">{product.price.toLocaleString('sv-SE')} kr</span>
-            )}
-            {product.originalPrice && (
-              <span className="text-sm text-gray-400 line-through">{product.originalPrice.toLocaleString('sv-SE')} kr</span>
-            )}
-          </div>
-          <p className={`text-xs font-semibold flex items-center gap-1 ${product.stock === 'Slut i lager' ? 'text-red-500' : 'text-green-600'}`}>
+        {/* Price */}
+        <div className="py-2 border-b border-gray-100 flex items-baseline gap-2">
+          {product.price !== undefined && (
+            <span className="text-lg font-bold text-gray-900">{product.price.toLocaleString('sv-SE')} kr</span>
+          )}
+          {product.originalPrice && (
+            <span className="text-sm text-gray-400 line-through">{product.originalPrice.toLocaleString('sv-SE')} kr</span>
+          )}
+        </div>
+
+        {/* Stock */}
+        <div className="py-2 border-b border-gray-100">
+          <p className={`text-xs font-semibold flex items-center gap-2 ${product.stock === 'Slut i lager' ? 'text-red-500' : 'text-green-600'}`}>
             <span className={`w-2 h-2 rounded-full ${product.stock === 'Slut i lager' ? 'bg-red-500' : 'bg-green-600'}`}></span>
             {product.stock || 'I lager'}
           </p>
