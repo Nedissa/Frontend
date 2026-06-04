@@ -320,9 +320,10 @@ const MENU_DATA: MenuCategory[] = [
 ];
 
 const ERBJUDANDEN_CAMPAIGNS = [
-  { id: 'veckans-deals', title: 'Veckans deals', bg: 'bg-gray-900', url: '/produkter' },
-  { id: 'rea', title: 'Rea — upp till 50%', bg: 'bg-red-700', url: '/produkter' },
-  { id: 'lagertomning', title: 'Lagertömning', bg: 'bg-blue-900', url: '/produkter' },
+  { id: 'veckans-deals', title: 'Veckans deals', bg: 'bg-gray-900', url: '/erbjudanden/veckans-deals', image: '/assets/kampanj-1.webp' },
+  { id: 'rea', title: 'Rea — upp till 50%', bg: 'bg-red-700', url: '/erbjudanden/rea', image: '/assets/kampanj-2.webp' },
+  { id: 'paketpris', title: 'Paketpris', bg: 'bg-blue-900', url: '/erbjudanden/paketpris', image: '/assets/kampanj-3.webp' },
+  { id: 'lagertomning', title: 'Lagertömning', bg: 'bg-gray-800', url: '/erbjudanden/lagertomning', image: '/assets/kampanj-4.webp' },
 ];
 
 const ERBJUDANDEN_DATA: MenuCategory = {
@@ -368,6 +369,11 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
     if (url === '/') return pathname === '/';
     return pathname === url;
   };
+
+  useEffect(() => {
+    setShowMegaMenu(false);
+    setActiveMegaMenu(null);
+  }, [pathname]);
 
   const getCartCount = () => {
     if (typeof window === 'undefined') return cartCount;
@@ -766,7 +772,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   >
                     {category.title}
                     <span className={`absolute bottom-0 left-6 h-0.5 bg-black transition-all duration-300 ease-out ${
-                      isActive || activeMegaMenu === category.id ? 'w-[calc(100%-48px)]' : 'w-0 group-hover:w-[calc(100%-48px)]'
+                      isActive ? 'w-[calc(100%-48px)]' : 'w-0 group-hover:w-[calc(100%-48px)]'
                     }`}></span>
                   </Link>
                 );
@@ -796,10 +802,10 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                         <p className="text-xs text-gray-400 uppercase tracking-widest mb-4 invisible">placeholder</p>
                         <ul className="space-y-3">
                           {[
-                            { label: 'Veckans deals', url: '/produkter' },
-                            { label: 'Rea', url: '/produkter' },
-                            { label: 'Paketpris', url: '/produkter' },
-                            { label: 'Lagertömning', url: '/produkter' },
+                            { label: 'Veckans deals', url: '/erbjudanden/veckans-deals' },
+                            { label: 'Rea', url: '/erbjudanden/rea' },
+                            { label: 'Paketpris', url: '/erbjudanden/paketpris' },
+                            { label: 'Lagertömning', url: '/erbjudanden/lagertomning' },
                           ].map((item) => (
                             <li key={item.label}>
                               <Link href={item.url} className="text-sm font-medium text-gray-700 hover:text-black transition-colors relative group inline-flex">
@@ -821,16 +827,10 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                     <div className="flex-1">
                       <p className="text-xs text-gray-400 uppercase tracking-widest mb-4">Erbjudanden</p>
                       <div className="flex gap-3">
-                        {[
-                          { title: 'Veckans deals', sub: 'Upp till 40% rabatt', bg: '#111827' },
-                          { title: 'Rea', sub: 'Begränsad tid', bg: '#b91c1c' },
-                          { title: 'Paketpris', sub: 'Spara mer tillsammans', bg: '#1e3a8a' },
-                          { title: 'Lagertömning', sub: 'Sista exemplaren', bg: '#374151' },
-                        ].map((b) => (
-                          <Link key={b.title} href="/produkter" className="group relative overflow-hidden rounded flex-1 flex items-end p-3 hover:opacity-90 transition-opacity" style={{ aspectRatio: '1/1', background: b.bg }}>
+                        {ERBJUDANDEN_CAMPAIGNS.map((b) => (
+                          <Link key={b.id} href={b.url} className={`group relative overflow-hidden rounded flex-1 flex items-end p-3 hover:opacity-90 transition-opacity ${b.bg}`} style={{ aspectRatio: '1/1' }}>
                             <div>
                               <p className="text-white font-bold text-sm">{b.title}</p>
-                              <p className="text-white/70 text-xs">{b.sub}</p>
                             </div>
                           </Link>
                         ))}

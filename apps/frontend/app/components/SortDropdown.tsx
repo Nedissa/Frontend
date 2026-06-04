@@ -15,7 +15,9 @@ interface SortDropdownProps {
 
 export function SortDropdown({ value, onChange, options }: SortDropdownProps) {
   const [open, setOpen] = useState(false);
+  const [width, setWidth] = useState<number | undefined>(undefined);
   const ref = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const selected = options.find(o => o.value === value);
 
@@ -27,33 +29,39 @@ export function SortDropdown({ value, onChange, options }: SortDropdownProps) {
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
+  useEffect(() => {
+    if (buttonRef.current) setWidth(buttonRef.current.offsetWidth);
+  }, [selected]);
+
   return (
     <div ref={ref} className="relative">
       <button
+        ref={buttonRef}
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-4 p-1 border border-gray-300 bg-white text-gray-700 font-semibold text-sm whitespace-nowrap"
+        className="flex items-center justify-between gap-4 px-3 py-1.5 border border-gray-200 bg-white text-gray-800 text-sm whitespace-nowrap w-full"
       >
         <span>{selected?.label}</span>
-        <svg className="w-3 h-3 text-gray-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <svg className={`w-3 h-3 text-gray-500 flex-shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </button>
-      {open && (
-        <div className="absolute right-0 top-full mt-1 bg-white border border-gray-300 z-50 min-w-full">
-          {options.map(option => (
-            <button
-              key={option.value}
-              onClick={() => { onChange(option.value); setOpen(false); }}
-              className="w-full text-left px-3 py-2 text-sm transition-colors whitespace-nowrap"
-              style={value === option.value ? { backgroundColor: '#000000', color: '#ffffff', fontWeight: '600' } : { color: '#374151' }}
-              onMouseEnter={e => { if (value !== option.value) { (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#000000'; (e.currentTarget as HTMLButtonElement).style.color = '#ffffff'; } }}
-              onMouseLeave={e => { if (value !== option.value) { (e.currentTarget as HTMLButtonElement).style.backgroundColor = ''; (e.currentTarget as HTMLButtonElement).style.color = '#374151'; } }}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
-      )}
+      <div
+        className="absolute right-0 top-full mt-1 bg-white border border-gray-200 z-50 shadow-sm overflow-hidden transition-all duration-200 ease-out"
+        style={{ width: width ? `${width}px` : '100%', maxHeight: open ? '300px' : '0px', opacity: open ? 1 : 0, borderWidth: open ? '1px' : '0px' }}
+      >
+        {options.map(option => (
+          <button
+            key={option.value}
+            onClick={() => { onChange(option.value); setOpen(false); }}
+            className="w-full text-left px-3 py-1 text-sm transition-colors whitespace-nowrap"
+            style={value === option.value ? { backgroundColor: '#000000', color: '#ffffff', fontWeight: '600' } : { color: '#374151' }}
+            onMouseEnter={e => { if (value !== option.value) { (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#000000'; (e.currentTarget as HTMLButtonElement).style.color = '#ffffff'; } }}
+            onMouseLeave={e => { if (value !== option.value) { (e.currentTarget as HTMLButtonElement).style.backgroundColor = ''; (e.currentTarget as HTMLButtonElement).style.color = '#374151'; } }}
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
