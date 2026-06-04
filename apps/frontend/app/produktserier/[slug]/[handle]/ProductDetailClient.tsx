@@ -171,10 +171,10 @@ export default function ProductDetailClient({
       <Breadcrumb items={breadcrumbItems} />
 
       {/* Main layout: left (gallery+tabs) + right (productinfo+handla tryggt) */}
-      <div className="w-[1280px] mx-auto flex gap-[5px] items-stretch">
+      <div className="w-[1280px] mx-auto flex gap-[8px] items-stretch">
 
         {/* Left column — gallery + tabs */}
-        <div className="flex flex-col flex-1 min-w-0" style={{ gap: '5px' }}>
+        <div className="flex flex-col flex-1 min-w-0" style={{ gap: '8px' }}>
 
           {/* Gallery */}
           <div
@@ -288,7 +288,7 @@ export default function ProductDetailClient({
         </div>{/* end left column */}
 
         {/* Right column — productinfo + handla tryggt */}
-        <div className="flex flex-col flex-shrink-0" style={{ width: '288px', gap: '5px' }}>
+        <div className="flex flex-col flex-shrink-0" style={{ width: '288px', gap: '8px' }}>
         <div ref={productInfoRef} className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', minHeight: '540px' }}>
 
           <div className="p-6 pb-4">
@@ -358,17 +358,17 @@ export default function ProductDetailClient({
               </svg>
             </button>
             {showAccessories && (
-              <div className="divide-y divide-gray-100 px-4 pb-2">
+              <div className="px-4 pb-3 flex flex-col gap-2">
                 {RECOMMENDED_ACCESSORIES.map((accessory) => {
                   const isSelected = selectedAccessories.includes(accessory.id);
                   return (
-                    <div key={accessory.id} className="flex items-center gap-3 py-3">
-                      <div className="w-14 h-14 flex-shrink-0 bg-gray-50 flex items-center justify-center rounded">
+                    <div key={accessory.id} className={`flex items-center gap-3 p-2 rounded-lg transition-colors ${isSelected ? 'bg-gray-100' : 'bg-gray-50 hover:bg-gray-100'}`}>
+                      <div className="w-12 h-12 flex-shrink-0 bg-white flex items-center justify-center rounded-md shadow-sm">
                         <img src={accessory.image} alt={accessory.name} className="w-full h-full object-contain p-1" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-gray-900 truncate">{accessory.name}</p>
-                        <p className="text-sm text-gray-500">{Number(accessory.price).toLocaleString('sv-SE')} kr</p>
+                        <p className="text-xs font-bold text-gray-900 truncate">{accessory.name}</p>
+                        <p className="text-xs font-semibold text-black">{Number(accessory.price).toLocaleString('sv-SE')} kr</p>
                       </div>
                       <button
                         onClick={() => {
