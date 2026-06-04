@@ -274,7 +274,7 @@ export function ProductCard({
                   <button
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedColor(idx); }}
                     className="w-6 h-2.5 rounded-[1px] flex-shrink-0"
-                    style={{ backgroundColor: bgColor, boxShadow: bgColor === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
+                    style={{ backgroundColor: bgColor, outline: isSelected ? '1px solid #999999' : 'none', outlineOffset: '2px', boxShadow: bgColor === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
                   />
                   <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-0 px-2 py-0.5 bg-black text-white text-[10px] font-medium whitespace-nowrap opacity-0 group-hover/swatch:opacity-100 transition-opacity pointer-events-none z-50">
                     {color}

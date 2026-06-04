@@ -137,7 +137,7 @@ export default function ProductDetailClient({
   const [prevImage, setPrevImage] = useState<number | null>(null);
   const [slideDir, setSlideDir] = useState<'left' | 'right'>('right');
   const [isSliding, setIsSliding] = useState(false);
-  const thumbnailRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const thumbnailRefs = useRef<(HTMLDivElement | null)[]>([]);
   const productInfoRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
   const [galleryHeight, setGalleryHeight] = useState<number>(476);
@@ -280,21 +280,32 @@ export default function ProductDetailClient({
             </div>
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
-              <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '508px', overflowY: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '508px', overflowY: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none', scrollBehavior: 'smooth' }}>
                 {productDetails.images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    ref={el => { thumbnailRefs.current[idx] = el; }}
-                    onClick={() => goToImage(idx)}
-                    className="relative flex-shrink-0 flex items-center justify-center overflow-hidden focus:outline-none"
-                    style={{ width: '110px', height: '110px', backgroundColor: '#f8f9fa' }}
-                  >
-                    <img
-                      src={img.url} alt=""
-                      className="w-full h-full object-contain p-3 transition-all duration-300"
-                      style={{}}
-                    />
-                  </button>
+                  <div key={idx} ref={el => { thumbnailRefs.current[idx] = el; }} className="flex flex-col flex-shrink-0" style={{ width: '110px' }}>
+                    <button
+                      onClick={() => goToImage(idx)}
+                      className="relative flex items-center justify-center focus:outline-none"
+                      style={{ width: '110px', height: '110px', backgroundColor: '#f8f9fa' }}
+                    >
+                      <img
+                        src={img.url} alt=""
+                        className="w-full h-full object-contain p-3 transition-all duration-300"
+                      />
+                    </button>
+                    <div className="flex items-center justify-center pb-2" style={{ height: '20px', backgroundColor: '#f8f9fa' }}>
+                      <div
+                        className="rounded-full bg-black"
+                        style={{
+                          width: '10px',
+                          height: '10px',
+                          opacity: idx === selectedImage ? 1 : 0,
+                          transform: idx === selectedImage ? 'scale(1)' : 'scale(0)',
+                          transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                        }}
+                      />
+                    </div>
+                  </div>
                 ))}
               </div>
             )}
@@ -446,14 +457,18 @@ export default function ProductDetailClient({
             <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Färg</span>
             <div className="flex gap-3">
               {Object.entries(COLORS).map(([name, hex]) => (
-                <button
-                  key={name}
-                  onClick={() => setSelectedColor(name)}
-                  className={`w-4 h-4 rounded-full flex-shrink-0 transition-all ${selectedColor === name ? 'ring-1 ring-offset-1 ring-black' : 'ring-1 ring-gray-300 hover:ring-gray-400'}`}
-                  style={{ backgroundColor: hex }}
-                  title={name}
-                  aria-label={`Välj färg ${name}`}
-                />
+                <div key={name} className="relative group/swatch">
+                  <button
+                    onClick={() => setSelectedColor(name)}
+                    className="w-6 h-2.5 rounded-[1px] flex-shrink-0"
+                    style={{ backgroundColor: hex, outline: selectedColor === name ? '1px solid #999999' : 'none', outlineOffset: '2px', boxShadow: hex === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
+                    aria-label={`Välj färg ${name}`}
+                  />
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-0 px-2 py-0.5 bg-black text-white text-[10px] font-medium whitespace-nowrap opacity-0 group-hover/swatch:opacity-100 transition-opacity pointer-events-none z-50">
+                    {name}
+                    <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-black" />
+                  </div>
+                </div>
               ))}
             </div>
           </div>
@@ -496,7 +511,14 @@ export default function ProductDetailClient({
                 {RECOMMENDED_ACCESSORIES.map((accessory) => {
                   const isSelected = selectedAccessories.includes(accessory.id);
                   return (
-                    <div key={accessory.id} className={`flex items-center gap-3 p-2 rounded-lg transition-colors ${isSelected ? 'bg-gray-100' : 'bg-gray-50 hover:bg-gray-100'}`}>
+                    <div key={accessory.id} className="flex items-center gap-3 p-2 rounded-lg" style={{ backgroundColor: '#f5f5f5' }}>
+                      <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-md">
+                        <img src={accessory.image} alt={accessory.name} className="w-full h-full object-contain" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-bold text-gray-900 truncate">{accessory.name}</p>
+                        <p className="text-xs text-gray-500">{Number(accessory.price).toLocaleString('sv-SE')} kr</p>
+                      </div>
                       <button
                         onClick={() => {
                           if (isSelected) {
@@ -505,23 +527,16 @@ export default function ProductDetailClient({
                             setSelectedAccessories([...selectedAccessories, accessory.id]);
                           }
                         }}
-                        className={`w-4 h-4 flex-shrink-0 flex items-center justify-center transition-colors ${isSelected ? 'bg-black' : 'bg-black hover:bg-gray-800'}`}
+                        className="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full bg-white shadow-sm"
                       >
-                        {isSelected ? (
-                          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        ) : (
-                          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                          </svg>
-                        )}
+                        <svg
+                          className="w-4 h-4 text-black"
+                          fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"
+                          style={{ transform: isSelected ? 'rotate(45deg)' : 'rotate(0deg)', transition: 'transform 200ms ease' }}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+                        </svg>
                       </button>
-                      <div className="w-12 h-12 flex-shrink-0 bg-white flex items-center justify-center rounded-md shadow-sm">
-                        <img src={accessory.image} alt={accessory.name} className="w-full h-full object-contain p-1" />
-                      </div>
-                      <p className="flex-1 text-xs font-bold text-gray-900 truncate">{accessory.name}</p>
-                      <p className="text-xs font-semibold text-black flex-shrink-0">{Number(accessory.price).toLocaleString('sv-SE')} kr</p>
                     </div>
                   );
                 })}
