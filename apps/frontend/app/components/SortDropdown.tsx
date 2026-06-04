@@ -44,7 +44,10 @@ export function SortDropdown({ value, onChange, options }: SortDropdownProps) {
             <button
               key={option.value}
               onClick={() => { onChange(option.value); setOpen(false); }}
-              className={`w-full text-left px-3 py-2 text-sm hover:bg-black hover:text-white transition-colors ${value === option.value ? 'bg-black text-white font-semibold' : 'text-gray-700'}`}
+              className="w-full text-left px-3 py-2 text-sm transition-colors"
+              style={value === option.value ? { backgroundColor: '#000000', color: '#ffffff', fontWeight: '600' } : { color: '#374151' }}
+              onMouseEnter={e => { if (value !== option.value) { (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#000000'; (e.currentTarget as HTMLButtonElement).style.color = '#ffffff'; } }}
+              onMouseLeave={e => { if (value !== option.value) { (e.currentTarget as HTMLButtonElement).style.backgroundColor = ''; (e.currentTarget as HTMLButtonElement).style.color = '#374151'; } }}
             >
               {option.label}
             </button>
