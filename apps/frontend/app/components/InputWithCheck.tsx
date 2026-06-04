@@ -31,7 +31,7 @@ export function InputWithCheck({
         placeholder={placeholder}
         required={required}
         className={`w-full px-4 py-2 focus:outline-none border border-gray-200 focus:border-black ${className}`}
-        style={style}
+        style={{ backgroundColor: '#f5f5f5', WebkitBoxShadow: '0 0 0 1000px #f5f5f5 inset', ...style }}
         {...props}
       />
     </div>

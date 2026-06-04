@@ -120,7 +120,7 @@ export default function AddressesPage() {
         </div>
         {/* Add/Edit Form */}
         {showAddForm && (
-          <div className="bg-gray-50 p-8 rounded-lg border border-gray-200 mb-12">
+          <div className="p-8 rounded-lg border border-gray-200 mb-12" style={{ backgroundColor: '#f5f5f5' }}>
             <h2 className="text-2xl font-bold mb-6">
               {editingId ? 'Redigera adress' : 'Lägg till ny adress'}
             </h2>
@@ -193,6 +193,7 @@ export default function AddressesPage() {
                       value={formData.country}
                       onChange={handleInputChange}
                       className="w-full px-4 py-2 pr-10 focus:outline-none border-2 border-transparent focus:border-black"
+                    style={{ backgroundColor: '#f5f5f5' }}
                     >
                       <option>Sverige</option>
                       <option>Norge</option>
@@ -210,7 +211,8 @@ export default function AddressesPage() {
                     name="type"
                     value={formData.type}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 pr-10 focus:outline-none border-2 border-transparent focus:border-black bg-gray-50"
+                    className="w-full px-4 py-2 pr-10 focus:outline-none border-2 border-transparent focus:border-black"
+                    style={{ backgroundColor: '#f5f5f5' }}
                   >
                     <option value="shipping">Leveransadress</option>
                     <option value="billing">Fakturaadress</option>

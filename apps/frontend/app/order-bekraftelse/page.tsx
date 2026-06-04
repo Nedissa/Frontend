@@ -24,7 +24,7 @@ export default function OrderConfirmation() {
           </p>
         </div>
 
-        <div className="bg-gray-50 p-8 mb-8 border border-gray-200">
+        <div className="p-8 mb-8 border border-gray-200">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Vad händer nu?</h2>
           <div className="space-y-6 text-left max-w-lg mx-auto">
             <div className="flex gap-4">

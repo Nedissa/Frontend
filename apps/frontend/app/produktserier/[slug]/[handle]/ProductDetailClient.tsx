@@ -10,38 +10,41 @@ import { ImageZoomDialog } from '@/app/components/ImageZoomDialog';
 import { ProductCard, type ProductData } from '@/app/components/ProductCard';
 import { fetchProductsFromMedusa } from '@/app/lib/medusa-client';
 
-function SaleCountdown({ endsAt }: { endsAt: string }) {
-  const [timeLeft, setTimeLeft] = useState<{ hours: number; minutes: number; seconds: number } | null>(null);
-  const startRef = useRef<number>(Date.now());
+const COUNTDOWN_DURATION = 60000;
+const saleEndTime = Date.now() + COUNTDOWN_DURATION;
+
+function SaleCountdown() {
+  const endTimeRef = useRef<number>(saleEndTime);
+  const [timeLeft, setTimeLeft] = useState<{ hours: number; minutes: number; seconds: number }>({ hours: 0, minutes: 1, seconds: 0 });
 
   useEffect(() => {
-    startRef.current = Date.now();
     const calc = () => {
-      const diff = new Date(endsAt).getTime() - Date.now();
-      if (diff <= 0) { setTimeLeft(null); return; }
-      const hours = Math.floor(diff / 3600000);
-      const minutes = Math.floor((diff % 3600000) / 60000);
-      const seconds = Math.floor((diff % 60000) / 1000);
+      const diff = endTimeRef.current - Date.now();
+      if (diff <= 0) {
+        endTimeRef.current = Date.now() + COUNTDOWN_DURATION;
+      }
+      const d = Math.max(0, endTimeRef.current - Date.now());
+      const hours = Math.floor(d / 3600000);
+      const minutes = Math.floor((d % 3600000) / 60000);
+      const seconds = Math.floor((d % 60000) / 1000);
       setTimeLeft({ hours, minutes, seconds });
     };
     calc();
     const id = setInterval(calc, 1000);
     return () => clearInterval(id);
-  }, [endsAt]);
+  }, []);
 
-  if (!timeLeft) return null;
-
-  const totalSeconds = (new Date(endsAt).getTime() - startRef.current) / 1000;
   const remainingSeconds = timeLeft.hours * 3600 + timeLeft.minutes * 60 + timeLeft.seconds;
-  const progress = Math.min(100, (remainingSeconds / Math.max(totalSeconds, 1)) * 100);
+  const totalSeconds = COUNTDOWN_DURATION / 1000;
+  const progress = Math.min(100, (remainingSeconds / totalSeconds) * 100);
   const time = `${String(timeLeft.hours).padStart(2, '0')}:${String(timeLeft.minutes).padStart(2, '0')}:${String(timeLeft.seconds).padStart(2, '0')}`;
 
   return (
     <div className="flex flex-col items-start gap-0.5">
       <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>Kampanj</span>
       <span className="text-xs font-bold text-black tabular-nums" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>{time}</span>
-      <div className="h-0.5 bg-white/30 rounded-full overflow-hidden" style={{ width: '60px' }}>
-        <div className="h-full bg-red-500 rounded-full transition-all duration-1000" style={{ width: `${progress}%` }} />
+      <div className="h-1 rounded-full overflow-hidden" style={{ width: '60px', backgroundColor: '#000000' }}>
+        <div className="h-full bg-red-500" style={{ width: `${progress}%`, transition: 'width 1s linear' }} />
       </div>
     </div>
   );
@@ -273,7 +276,7 @@ export default function ProductDetailClient({
           >
             {/* Countdown badge on image */}
             <div className="absolute z-20 flex items-center" style={{ bottom: '28px', right: '36px' }}>
-              <SaleCountdown endsAt={new Date(Date.now() + 120000).toISOString()} />
+              <SaleCountdown />
             </div>
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
@@ -632,7 +635,7 @@ export default function ProductDetailClient({
       {alsoLikeProducts.length > 0 && (
         <div className="w-[1280px] mx-auto mt-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Du kanske också gillar</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-4 -my-4 px-4 -mx-4">
             {alsoLikeProducts.map((product) => (
               <ProductCard key={product.id} product={product} variant="also-like" />
             ))}

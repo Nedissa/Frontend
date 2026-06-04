@@ -70,7 +70,7 @@ export function ProductItem({
       className="overflow-hidden flex flex-col w-72 transition-shadow duration-300"
       style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
     >
-      <div className="relative bg-gray-100">
+      <div className="relative">
         {discountPercent > 0 && (
           <div className="absolute top-4 left-4 bg-red-600 text-white px-3 py-1.5 text-sm font-bold shadow-lg z-10">
             -{discountPercent}%

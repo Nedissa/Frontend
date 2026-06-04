@@ -147,17 +147,6 @@ export default async function Home() {
               </div>
               <ProductCarousel title="Rekommenderade produkter" products={products} variant="recommended" />
               <ProductCarousel title="Nya produkter" products={products} variant="new" />
-              <div className="px-6 pt-8">
-                <FeaturedProductSection
-                  subtitle="Techpilots"
-                  title="Välj ditt nästa setup"
-                  heroImage="/assets/hero-3.jpg"
-                  products={[
-                    { title: 'Gaming Laptop Pro', brand: 'Techpilots', price: '12 990 kr', image: '/assets/Produkt bilder/LAPTOP/1978563_1.webp', rating: 5.0 },
-                    { title: 'Stationär Powerhouse', brand: 'Techpilots', price: '8 490 kr', image: '/assets/Produkt bilder/STATIONÄR/1.webp', rating: 4.5 },
-                  ]}
-                />
-              </div>
             </>
           )}
           {products.length === 0 && (

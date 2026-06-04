@@ -81,7 +81,8 @@ function ResetPasswordForm() {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-100 border-0 outline-none text-sm"
+                  className="w-full px-4 py-3 border border-gray-200 outline-none text-sm"
+                  style={{ backgroundColor: '#f5f5f5', WebkitBoxShadow: '0 0 0 1000px #f5f5f5 inset' }}
                   placeholder="Minst 8 tecken"
                   required
                 />
@@ -92,7 +93,8 @@ function ResetPasswordForm() {
                   type="password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-100 border-0 outline-none text-sm"
+                  className="w-full px-4 py-3 border border-gray-200 outline-none text-sm"
+                  style={{ backgroundColor: '#f5f5f5', WebkitBoxShadow: '0 0 0 1000px #f5f5f5 inset' }}
                   placeholder="Upprepa lösenordet"
                   required
                 />

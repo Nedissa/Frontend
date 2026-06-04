@@ -251,7 +251,7 @@ export default function AccountPage() {
     <MainLayout bordered={false}>
       <div className="w-full max-w-4xl mx-auto px-6 py-16">
         {/* Welcome Section */}
-        <div className="bg-gray-50 p-8  mb-8 shadow-sm flex justify-between items-center" style={{ border: '1px solid #e5e7eb' }}>
+        <div className="p-8 mb-8 shadow-sm flex justify-between items-center" style={{ border: '1px solid #e5e7eb' }}>
           <div>
             <h2 className="text-2xl font-bold mb-2 select-none">Välkommen, {firstName && lastName ? firstName : firstName || registerEmail?.split('@')[0] || 'Johan'}!</h2>
             <p className="text-gray-600">Hantera ditt konto och se dina beställningar</p>

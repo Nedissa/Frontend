@@ -160,7 +160,7 @@ export default function CartPage() {
 
             {/* Order Summary */}
             <div className="lg:col-span-1">
-              <div className="bg-gray-50 p-6 border border-gray-200 sticky top-20">
+              <div className="p-6 border border-gray-200 sticky top-20">
                 <h2 className="text-xl font-bold mb-6">Orderöversikt</h2>
 
                 {/* Summary Lines */}

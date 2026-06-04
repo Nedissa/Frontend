@@ -290,7 +290,8 @@ export default function LoginPage() {
                             onChange={(e) => setResetEmail(e.target.value)}
                             placeholder="din@epost.se"
                             required
-                            className="w-full px-4 py-3 bg-gray-100 text-sm outline-none rounded-lg"
+                            className="w-full px-4 py-3 text-sm outline-none rounded-lg border border-gray-200"
+                            style={{ backgroundColor: '#f5f5f5', WebkitBoxShadow: '0 0 0 1000px #f5f5f5 inset' }}
                           />
                         </div>
                         <button type="submit" disabled={resetLoading} className="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800 mt-6 disabled:opacity-50 disabled:cursor-not-allowed">

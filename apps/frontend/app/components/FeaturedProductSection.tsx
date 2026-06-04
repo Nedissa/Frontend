@@ -44,7 +44,7 @@ export function FeaturedProductSection({
 
         {/* Höger — produktkort */}
         <div className="flex flex-col bg-white overflow-hidden flex-shrink-0" style={{ width: '300px', boxShadow: '0 2px 12px rgba(0,0,0,0.10)' }}>
-          <div className="relative flex-1 bg-gray-50 flex items-center justify-center p-4">
+          <div className="relative flex-1 flex items-center justify-center p-4" style={{ backgroundColor: '#f5f5f5' }}>
             <span className="absolute top-3 right-3 flex items-center gap-0.5 bg-white px-2 py-0.5 text-xs font-semibold shadow-sm rounded">
               <span className="text-yellow-400">★</span> {product.rating.toFixed(1)}
             </span>

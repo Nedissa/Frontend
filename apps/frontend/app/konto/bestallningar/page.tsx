@@ -105,7 +105,7 @@ export default function OrdersPage() {
 
                   {/* Order Details */}
                   {isExpanded && (
-                    <div className="px-6 py-6 bg-gray-50 border-t border-gray-200">
+                    <div className="px-6 py-6 border-t border-gray-200">
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                         <div>
                           <p className="text-sm text-gray-600 mb-1">Ordernummer</p>

@@ -68,7 +68,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
       </div>
       <div
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto"
+        className="flex gap-6 overflow-x-auto py-4 -my-4 px-4 -mx-4"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {products.map((product, idx) => (

@@ -5,6 +5,7 @@ import { MainLayout } from '@/app/components/MainLayout';
 import { ProductCard } from '@/app/components/ProductCard';
 import { ProductFilter } from '@/app/components/ProductFilter';
 import { fetchProductsFromMedusa, type Product } from '@/app/lib/medusa-client';
+import { SortDropdown } from '@/app/components/SortDropdown';
 
 interface FilterOptions {
   priceRange: [number, number];
@@ -91,19 +92,19 @@ export default function ProductsPage() {
         {/* Products Area */}
         <div className="flex-1 min-w-0 px-8">
           {/* Sort Options */}
-          <div className="mb-8 flex justify-between items-center">
+          <div className="mb-4 flex justify-between items-center">
             <p className="text-gray-600">Visar {paginatedProducts.length} av {sorted.length} produkter</p>
-            <select
+            <SortDropdown
               value={sortBy}
-              onChange={(e) => { setSortBy(e.target.value); setCurrentPage(1); }}
-              className="px-4 py-2 border border-gray-300 rounded bg-white text-gray-700 font-semibold"
-            >
-              <option value="relevant">Mest relevant</option>
-              <option value="price-low">Pris: Lågt till högt</option>
-              <option value="price-high">Pris: Högt till lågt</option>
-              <option value="rating">Högsta betyg</option>
-              <option value="newest">Nyaste</option>
-            </select>
+              onChange={(v) => { setSortBy(v); setCurrentPage(1); }}
+              options={[
+                { value: 'relevant', label: 'Mest relevant' },
+                { value: 'price-low', label: 'Pris: Lågt till högt' },
+                { value: 'price-high', label: 'Pris: Högt till lågt' },
+                { value: 'rating', label: 'Högsta betyg' },
+                { value: 'newest', label: 'Nyaste' },
+              ]}
+            />
           </div>
 
           {/* Products Grid */}

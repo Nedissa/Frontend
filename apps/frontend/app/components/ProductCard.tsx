@@ -97,7 +97,7 @@ export function ProductCard({
     >
       {/* Image Container with Badges */}
       <div
-        className="relative bg-gray-100 overflow-hidden aspect-square flex items-center justify-center w-full"
+        className="relative bg-[#f5f5f5] overflow-hidden aspect-square flex items-center justify-center w-full"
         onMouseMove={(e) => {
           if (!cardImages || cardImages.length === 0) return;
           const rect = e.currentTarget.getBoundingClientRect();
@@ -175,7 +175,7 @@ export function ProductCard({
 
       {/* Quick facts — below image */}
       {config.showFeatures && product.features && product.features.length > 0 && (
-        <div className="relative flex items-stretch bg-gray-100 border-b border-gray-200 mb-4">
+        <div className="relative flex items-stretch bg-[#f5f5f5] border-b border-gray-200 mb-4">
           {product.price !== undefined && (() => {
             const p = product.price;
             const tier = p < 2000 ? 'Standard' : p < 8000 ? 'Avancerad' : 'Premium';
@@ -217,10 +217,10 @@ export function ProductCard({
       {/* Product Info */}
       <div className="flex-1 flex flex-col">
 
-        {/* Title */}
+        {/* Brand + Title */}
         <div className="py-2 border-b border-gray-100">
+          <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">{product.brand || 'Varumärke'}</p>
           <h3 className="text-sm font-semibold text-gray-900 leading-snug">{product.title}</h3>
-          {product.brand && <p className="text-xs text-gray-400 mt-0.5 uppercase">{product.brand}</p>}
         </div>
 
         {/* Price */}

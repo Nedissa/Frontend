@@ -620,7 +620,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
 
           {/* Search Input */}
           <div className="flex-1 max-w-2xl relative" ref={searchContainerRef}>
-            <div className="relative flex items-center bg-gray-100 px-3 py-1.5 rounded">
+            <div className="relative flex items-center px-3 py-1.5 rounded" style={{ backgroundColor: '#f5f5f5' }}>
               <svg className="w-5 h-5 text-gray-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
                 <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/>
               </svg>
@@ -654,7 +654,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                       {results.map((product) => (
                         <div key={product.id} className="px-4 py-3 hover:bg-gray-50 flex items-center gap-4 group">
                           <Link href={`/produkter/${product.handle || product.id}`} className="flex-1 flex items-center gap-4 cursor-pointer min-w-0">
-                            <div className="flex-shrink-0 w-12 h-12 bg-gray-100">
+                            <div className="flex-shrink-0 w-12 h-12">
                               <Image src={product.image} alt={product.title} width={48} height={48} className="w-full h-full object-contain" />
                             </div>
                             <div className="flex-1 min-w-0">

@@ -48,7 +48,7 @@ function PaymentFormContent({ clientSecret, total }: StripePaymentFormProps) {
 
   return (
     <form onSubmit={handlePayment} className="space-y-6">
-      <div className="bg-gray-50 p-6 rounded border border-gray-200 space-y-4">
+      <div className="p-6 rounded border border-gray-200 space-y-4">
         <h3 className="text-lg font-semibold text-gray-900">Betalningsuppgifter</h3>
         <PaymentElement
           options={{
