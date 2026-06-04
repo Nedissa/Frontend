@@ -25,9 +25,7 @@ export interface Product {
 let productsCache: { data: Product[]; ts: number } | null = null;
 
 export async function fetchProductsFromMedusa(): Promise<Product[]> {
-  if (productsCache && Date.now() - productsCache.ts < 60_000) {
-    return productsCache.data;
-  }
+  productsCache = null;
   try {
     const baseUrl = typeof window !== 'undefined'
       ? ''
@@ -65,6 +63,7 @@ export async function fetchProductsFromMedusa(): Promise<Product[]> {
       reviews: product.reviews || 0,
       category: product.category || '',
       brand: product.brand || '',
+      features: product.features || [],
     }));
     productsCache = { data: result, ts: Date.now() };
     return result;

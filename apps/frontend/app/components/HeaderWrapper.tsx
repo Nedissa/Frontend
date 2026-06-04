@@ -772,14 +772,13 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                 );
               })}
               <div className="flex-1" />
-              <Link
-                href="/erbjudanden"
+              <button
                 onMouseEnter={() => { setShowMegaMenu(true); setActiveMegaMenu('erbjudanden'); }}
                 className="px-6 py-2 text-sm font-semibold text-black whitespace-nowrap relative group inline-flex items-center"
               >
                 Erbjudanden
-                <span className={`absolute bottom-0 left-6 h-0.5 bg-black transition-all duration-300 ${activeMegaMenu === 'erbjudanden' || isPathActive('/erbjudanden') ? 'w-[calc(100%-48px)]' : 'w-0 group-hover:w-[calc(100%-48px)]'}`} />
-              </Link>
+                <span className={`absolute bottom-0 left-6 h-0.5 bg-black transition-all duration-300 ${activeMegaMenu === 'erbjudanden' ? 'w-[calc(100%-48px)]' : 'w-0 group-hover:w-[calc(100%-48px)]'}`} />
+              </button>
             </div>
           </div>
         </nav>
@@ -803,8 +802,9 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                             { label: 'Lagertömning', url: '/produkter' },
                           ].map((item) => (
                             <li key={item.label}>
-                              <Link href={item.url} className="text-sm font-medium text-gray-700 hover:text-black transition-colors">
+                              <Link href={item.url} className="text-sm font-medium text-gray-700 hover:text-black transition-colors relative group inline-flex">
                                 {item.label}
+                                <span className={`absolute bottom-0 left-0 h-0.5 bg-black transition-all duration-300 ease-out ${isPathActive(item.url) ? 'w-full' : 'w-0 group-hover:w-full'}`} />
                               </Link>
                             </li>
                           ))}

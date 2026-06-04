@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { ProductCarousel } from './components/ProductCarousel';
 import { ProductBanner } from './components/ProductBanner';
+import { FeaturedProductSection } from './components/FeaturedProductSection';
 import { MainLayout } from './components/MainLayout';
 import { NewsletterPopup } from './components/NewsletterPopup';
 import { HeroCarouselClient } from './components/HeroCarouselClient';
@@ -26,11 +27,62 @@ function CampaignBannersSection() {
 
 async function fetchProductsFromAPI() {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://techpilots.vercel.app';
-    const response = await fetch(`${baseUrl}/api/products`, { next: { revalidate: 60 } });
+    const medusaUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
+    const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '';
+    const regionId = process.env.NEXT_PUBLIC_MEDUSA_REGION_ID || '';
+    const response = await fetch(
+      `${medusaUrl}/store/products?limit=100&region_id=${regionId}&fields=*variants.prices,*variants.inventory_quantity,*collection,+metadata,*options,*options.values`,
+      {
+        headers: { 'Content-Type': 'application/json', 'x-publishable-api-key': publishableKey },
+        cache: 'no-store',
+      }
+    );
     if (!response.ok) return [];
     const data = await response.json();
-    return data.products || [];
+    const products = data.products || [];
+
+    function parseMeta(val: any): any[] {
+      if (!val) return [];
+      if (Array.isArray(val)) return val;
+      if (typeof val === 'string') { try { const p = JSON.parse(val); return Array.isArray(p) ? p : []; } catch { return []; } }
+      return [];
+    }
+
+    return products.map((product: any) => {
+      let imageUrl = product.images?.[0]?.url || product.thumbnail || '';
+      imageUrl = imageUrl.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se').replace(/^http:\/\//, 'https://');
+      let price = 0;
+      if (product.variants?.[0]?.calculated_price?.calculated_amount !== undefined) {
+        price = product.variants[0].calculated_price.calculated_amount;
+      } else if (product.variants?.[0]?.prices?.[0]?.amount) {
+        price = product.variants[0].prices[0].amount;
+      }
+      const collectionTitle = product.collection?.title || '';
+      const collectionHandle = product.collection?.handle || '';
+      let sectionCategory = '';
+      if (collectionTitle === 'Populära produkter' || collectionHandle === 'populara-produkter') sectionCategory = 'populär';
+      else if (collectionTitle === 'Rekommenderade produkter' || collectionHandle === 'rekommenderade-produkter') sectionCategory = 'rekommenderad';
+      else if (collectionTitle === 'Nya produkter' || collectionHandle === 'nya-produkter') sectionCategory = 'ny';
+      else if (collectionTitle === 'Du kanske också gillar' || collectionHandle === 'du-kanske-ocksa-gillar') sectionCategory = 'också-gillar';
+      return {
+        id: product.id,
+        title: product.title,
+        handle: product.handle,
+        price,
+        image: imageUrl,
+        images: product.images?.map((img: any) => img.url.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se').replace(/^http:\/\//, 'https://')) || [],
+        colors: product.options?.find((o: any) => o.title?.toLowerCase() === 'color' || o.title?.toLowerCase() === 'färg')?.values?.map((v: any) => v.value) || parseMeta(product.metadata?.colors),
+        stock: (() => { const manages = product.variants?.some((v: any) => v.manage_inventory); if (!manages) return 'I lager'; const qty = product.variants?.reduce((s: number, v: any) => s + (v.inventory_quantity || 0), 0) || 0; return qty > 0 ? 'I lager' : 'Slut i lager'; })(),
+        rating: product.rating || 0,
+        reviews: product.reviews || 0,
+        features: parseMeta(product.metadata?.features),
+        brand: product.brand || '',
+        isNew: product.isNew || false,
+        sectionCategory,
+        category: collectionTitle,
+        description: product.description || '',
+      };
+    });
   } catch (error) {
     return [];
   }
@@ -95,6 +147,17 @@ export default async function Home() {
               </div>
               <ProductCarousel title="Rekommenderade produkter" products={products} variant="recommended" />
               <ProductCarousel title="Nya produkter" products={products} variant="new" />
+              <div className="px-6 pt-8">
+                <FeaturedProductSection
+                  subtitle="Techpilots"
+                  title="Välj ditt nästa setup"
+                  heroImage="/assets/hero-3.jpg"
+                  products={[
+                    { title: 'Gaming Laptop Pro', brand: 'Techpilots', price: '12 990 kr', image: '/assets/Produkt bilder/LAPTOP/1978563_1.webp', rating: 5.0 },
+                    { title: 'Stationär Powerhouse', brand: 'Techpilots', price: '8 490 kr', image: '/assets/Produkt bilder/STATIONÄR/1.webp', rating: 4.5 },
+                  ]}
+                />
+              </div>
             </>
           )}
           {products.length === 0 && (

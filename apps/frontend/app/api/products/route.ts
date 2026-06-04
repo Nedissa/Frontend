@@ -125,7 +125,7 @@ export async function GET() {
 
     return Response.json({ products: transformedProducts }, {
       headers: {
-        'Cache-Control': 'public, max-age=3600, s-maxage=3600',
+        'Cache-Control': 'no-store',
       },
     });
   } catch (error) {

@@ -39,9 +39,9 @@ interface ProductCardProps {
 const VARIANT_CONFIG: Record<ProductCardVariant, { showFeatures: boolean }> = {
   popular: { showFeatures: true },
   recommended: { showFeatures: true },
-  new: { showFeatures: false },
-  related: { showFeatures: false },
-  'also-like': { showFeatures: false },
+  new: { showFeatures: true },
+  related: { showFeatures: true },
+  'also-like': { showFeatures: true },
 };
 
 export function ProductCard({
@@ -97,7 +97,7 @@ export function ProductCard({
     >
       {/* Image Container with Badges */}
       <div
-        className="relative bg-gray-100 overflow-hidden mb-4 aspect-square flex items-center justify-center w-full"
+        className="relative bg-gray-100 overflow-hidden aspect-square flex items-center justify-center w-full"
         onMouseMove={(e) => {
           if (!cardImages || cardImages.length === 0) return;
           const rect = e.currentTarget.getBoundingClientRect();
@@ -136,17 +136,6 @@ export function ProductCard({
         </div>
 
 
-        {product.price !== undefined && (() => {
-          const p = product.price;
-          const tier = p < 2000 ? { label: 'Standard' } : p < 8000 ? { label: 'Avancerad' } : { label: 'Premium' };
-          return (
-            <div className={`absolute bottom-0 left-0 w-16 h-16 overflow-hidden transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`} style={{ zIndex: 20 }}>
-              <div className="absolute bottom-3 left-[-18px] w-20 text-center text-white text-[8px] font-bold py-0.5 rotate-45 origin-center bg-black tracking-wide">
-                {tier.label}
-              </div>
-            </div>
-          );
-        })()}
 
         {isHovered && (
           <button
@@ -184,9 +173,34 @@ export function ProductCard({
         </Link>
       </div>
 
+      {/* Quick facts — below image */}
+      {config.showFeatures && product.features && product.features.length > 0 && (
+        <div className="relative flex items-stretch bg-gray-100 border-b border-gray-200 mb-4">
+          {product.price !== undefined && (() => {
+            const p = product.price;
+            const tier = p < 2000 ? 'Standard' : p < 8000 ? 'Avancerad' : 'Premium';
+            return (
+              <div className={`absolute bottom-0 left-0 ${isHovered ? 'opacity-100' : 'opacity-0'}`} style={{ zIndex: 20 }}>
+                <span className="bg-black text-white text-[10px] font-bold px-3 py-1">{tier}</span>
+              </div>
+            );
+          })()}
+          {product.features.slice(0, 3).map((feature: string, idx: number) => {
+            const [value, ...labelParts] = feature.split(' ');
+            const label = labelParts.join(' ');
+            return (
+              <div key={idx} className={`flex-1 flex flex-col items-center justify-center py-1.5 px-1 text-center ${idx < 2 && !isHovered ? 'border-r border-gray-300' : ''}`}>
+                <span className={`text-[11px] font-bold text-gray-800 ${isHovered ? 'opacity-0' : 'opacity-100'}`}>{value}</span>
+                <span className={`text-[9px] text-gray-400 leading-tight ${isHovered ? 'opacity-0' : 'opacity-100'}`}>{label}</span>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
       {/* Image Carousel Dots */}
       {cardImages && cardImages.length > 0 && (
-        <div className="flex gap-2 justify-center mb-4">
+        <div className="flex gap-2 justify-center mt-3 mb-4">
           {cardImages.map((_, idx) => (
             <button
               key={idx}
@@ -227,19 +241,6 @@ export function ProductCard({
           </p>
         </div>
 
-        {/* Features */}
-        {config.showFeatures && product.features && product.features.length > 0 && (
-          <div className="py-2 border-b border-gray-100">
-            <ul className="text-xs text-gray-600 space-y-1">
-              {product.features.slice(0, 3).map((feature: string, idx: number) => (
-                <li key={idx} className="flex items-start gap-2">
-                  <span className="text-gray-400">•</span>
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
 
         {/* Rating */}
         <div className="py-2 border-b border-gray-100">
