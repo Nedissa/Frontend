@@ -143,10 +143,10 @@ export default function LoginPage() {
               {/* Login Form */}
               {showLogin && !showResetModal && (
                 <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-                  <div className="flex items-center justify-center gap-1 mb-10">
+                  <Link href="/" className="flex items-center justify-center gap-1 mb-10 hover:opacity-80 transition-opacity">
                     <Logo />
                     <span className="text-2xl font-bold">Techpilots</span>
-                  </div>
+                  </Link>
                   <form onSubmit={handleLogin} className="space-y-4">
                     <div>
                       <label className="block text-sm font-semibold mb-2">E-postadress</label>
@@ -267,10 +267,10 @@ export default function LoginPage() {
               {/* Reset Password Form */}
               {showResetModal && (
                 <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-                  <div className="flex items-center justify-center gap-1 mb-10">
+                  <Link href="/" className="flex items-center justify-center gap-1 mb-10 hover:opacity-80 transition-opacity">
                     <Logo />
                     <span className="text-2xl font-bold">Techpilots</span>
-                  </div>
+                  </Link>
                   {resetSent ? (
                     <>
                       <h3 className="text-lg font-bold mb-3">E-post skickad</h3>

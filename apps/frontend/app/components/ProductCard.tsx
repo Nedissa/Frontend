@@ -97,7 +97,7 @@ export function ProductCard({
     >
       {/* Image Container with Badges */}
       <div
-        className="relative bg-[#f5f5f5] overflow-hidden aspect-square flex items-center justify-center w-full"
+        className="relative bg-[#fafaf8] overflow-hidden aspect-square flex items-center justify-center w-full"
         onMouseMove={(e) => {
           if (!cardImages || cardImages.length === 0) return;
           const rect = e.currentTarget.getBoundingClientRect();
@@ -175,7 +175,7 @@ export function ProductCard({
 
       {/* Quick facts — below image */}
       {config.showFeatures && product.features && product.features.length > 0 && (
-        <div className="relative flex items-stretch bg-[#f5f5f5] border-b border-gray-200 mb-4">
+        <div className="relative flex items-stretch bg-[#fafaf8] border-b border-gray-200 mb-4">
           {product.price !== undefined && (() => {
             const p = product.price;
             const tier = p < 2000 ? 'Standard' : p < 8000 ? 'Avancerad' : 'Premium';
@@ -270,13 +270,17 @@ export function ProductCard({
               const bgColor = colorMap[color.toLowerCase()] || color;
               const isSelected = selectedColor === idx;
               return (
-                <button
-                  key={idx}
-                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedColor(idx); }}
-                  className={`w-4 h-4 rounded-full flex-shrink-0 transition-all ${isSelected ? 'ring-1 ring-offset-1 ring-black' : 'ring-1 ring-gray-300 hover:ring-gray-400'}`}
-                  style={{ backgroundColor: bgColor }}
-                  title={color}
-                />
+                <div key={idx} className="relative group/swatch">
+                  <button
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedColor(idx); }}
+                    className="w-6 h-2.5 rounded-[1px] flex-shrink-0"
+                    style={{ backgroundColor: bgColor, boxShadow: bgColor === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
+                  />
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-0 px-2 py-0.5 bg-black text-white text-[10px] font-medium whitespace-nowrap opacity-0 group-hover/swatch:opacity-100 transition-opacity pointer-events-none z-50">
+                    {color}
+                    <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-black" />
+                  </div>
+                </div>
               );
             })}
           </div>
