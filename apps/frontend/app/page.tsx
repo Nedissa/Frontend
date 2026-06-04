@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ProductCard } from './components/ProductCard';
+import { ProductCarousel } from './components/ProductCarousel';
 import { ProductBanner } from './components/ProductBanner';
 import { MainLayout } from './components/MainLayout';
 import { NewsletterPopup } from './components/NewsletterPopup';
@@ -89,33 +89,12 @@ export default async function Home() {
           </div>
           {products.length > 0 && (
             <>
-              <div className="px-6 pt-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Populära produkter</h2>
-                <div className="grid grid-cols-4 gap-6">
-                  {products.slice(0, 4).map((product: any, idx: number) => (
-                    <ProductCard key={product.id} product={product} variant="popular" priority={idx < 4} />
-                  ))}
-                </div>
-              </div>
+              <ProductCarousel title="Populära produkter" products={products} variant="popular" />
               <div className="px-6">
                 <ProductBanner />
               </div>
-              <div className="px-6 pt-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Rekommenderade produkter</h2>
-                <div className="grid grid-cols-4 gap-6">
-                  {products.slice(0, 4).map((product: any) => (
-                    <ProductCard key={product.id} product={product} variant="recommended" />
-                  ))}
-                </div>
-              </div>
-              <div className="px-6 pt-8">
-                <h2 className="text-2xl font-bold text-gray-900 mb-4">Nya produkter</h2>
-                <div className="grid grid-cols-4 gap-6">
-                  {products.slice(0, 4).map((product: any) => (
-                    <ProductCard key={product.id} product={product} variant="new" />
-                  ))}
-                </div>
-              </div>
+              <ProductCarousel title="Rekommenderade produkter" products={products} variant="recommended" />
+              <ProductCarousel title="Nya produkter" products={products} variant="new" />
             </>
           )}
           {products.length === 0 && (

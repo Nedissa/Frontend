@@ -21,6 +21,27 @@ export default async function RootLayout({
     <html lang="sv" style={{ scrollbarGutter: 'stable' }}>
       <head>
         <link rel="preload" as="image" href="/assets/hero-1.jpg" fetchPriority="high" />
+        <link rel="preload" as="image" href="/icons/barbara-datorer.png" />
+        <link rel="preload" as="image" href="/icons/stationara-datorer.png" />
+        <link rel="preload" as="image" href="/icons/datortillbehor.png" />
+        <link rel="preload" as="image" href="/icons/cpu.png" />
+        <link rel="preload" as="image" href="/icons/moderkort.png" />
+        <link rel="preload" as="image" href="/icons/gpu.png" />
+        <link rel="preload" as="image" href="/icons/ram.png" />
+        <link rel="preload" as="image" href="/icons/lagring.png" />
+        <link rel="preload" as="image" href="/icons/nataggregat.png" />
+        <link rel="preload" as="image" href="/icons/gaming-laptop.png" />
+        <link rel="preload" as="image" href="/icons/gaming-pc.png" />
+        <link rel="preload" as="image" href="/icons/gaming-tillbehor.png" />
+        <link rel="preload" as="image" href="/icons/smartphones.png" />
+        <link rel="preload" as="image" href="/icons/mobiltillbehor.png" />
+        <link rel="preload" as="image" href="/icons/accesspunkter.png" />
+        <link rel="preload" as="image" href="/icons/natverksforlangare.png" />
+        <link rel="preload" as="image" href="/icons/routrar.png" />
+        <link rel="preload" as="image" href="/icons/mesh.png" />
+        <link rel="preload" as="image" href="/icons/tv.png" />
+        <link rel="preload" as="image" href="/icons/ljud-hifi.png" />
+        <link rel="preload" as="image" href="/icons/tv-tillbehor.png" />
         <style>{`.ml-container{max-width:1280px;width:100%}`}</style>
       </head>
       <body className="bg-white flex flex-col min-h-screen overflow-x-hidden">

@@ -125,6 +125,7 @@ export function CartAside() {
     }
   };
 
+
   const handleClearCart = () => {
     localStorage.removeItem('cartItems');
     sessionStorage.removeItem('cartItems');
@@ -300,17 +301,19 @@ export function CartAside() {
                 </div>
               </div>
 
-              <Link href="/kassan" className="block" onClick={close}>
-                <button className="w-full bg-green-600 text-white py-3 text-sm font-semibold hover:bg-green-700">
-                  Till kassan
+              <div className="flex gap-2">
+                <button
+                  onClick={close}
+                  className="flex-1 bg-black text-white py-3 text-sm font-semibold hover:bg-gray-800 flex items-center justify-center gap-2"
+                >
+                  Fortsätt handla
                 </button>
-              </Link>
-              <button
-                onClick={close}
-                className="w-full bg-black text-white py-3 text-sm font-semibold hover:bg-gray-800"
-              >
-                Fortsätt handla
-              </button>
+                <Link href="/kassan" className="flex-1" onClick={close}>
+                  <button className="w-full bg-green-600 text-white py-3 text-sm font-semibold hover:bg-green-700 flex items-center justify-center gap-2">
+                    Till kassan
+                  </button>
+                </Link>
+              </div>
 
               {/* Action buttons - Share, Print, Clear */}
               <div className="flex justify-around items-start pt-4 border-t border-gray-200">

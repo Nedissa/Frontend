@@ -98,7 +98,6 @@ export function ProductCard({
       {/* Image Container with Badges */}
       <div
         className="relative bg-gray-100 overflow-hidden mb-4 aspect-square flex items-center justify-center w-full"
-        style={{ position: 'relative' }}
         onMouseMove={(e) => {
           if (!cardImages || cardImages.length === 0) return;
           const rect = e.currentTarget.getBoundingClientRect();
@@ -136,11 +135,17 @@ export function ProductCard({
           ) : null}
         </div>
 
+
         {product.price !== undefined && (() => {
           const p = product.price;
-          if (p < 2000) return <span className={`absolute bottom-3 left-3 z-20 bg-white text-black px-2 py-0.5 text-xs font-bold shadow-[0_0_0_1px_rgba(0,0,0,0.15),0_2px_6px_rgba(0,0,0,0.12)] transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>Insteg</span>;
-          if (p < 8000) return <span className={`absolute bottom-3 left-3 z-20 bg-white text-black px-2 py-0.5 text-xs font-bold shadow-[0_0_0_1px_rgba(0,0,0,0.15),0_2px_6px_rgba(0,0,0,0.12)] transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>Mid-range</span>;
-          return <span className={`absolute bottom-3 left-3 z-20 bg-white text-black px-2 py-0.5 text-xs font-bold shadow-[0_0_0_1px_rgba(0,0,0,0.15),0_2px_6px_rgba(0,0,0,0.12)] transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>High-end</span>;
+          const tier = p < 2000 ? { label: 'Standard' } : p < 8000 ? { label: 'Avancerad' } : { label: 'Premium' };
+          return (
+            <div className={`absolute bottom-0 left-0 w-16 h-16 overflow-hidden transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`} style={{ zIndex: 20 }}>
+              <div className="absolute bottom-3 left-[-18px] w-20 text-center text-white text-[8px] font-bold py-0.5 rotate-45 origin-center bg-black tracking-wide">
+                {tier.label}
+              </div>
+            </div>
+          );
         })()}
 
         {isHovered && (
@@ -157,16 +162,10 @@ export function ProductCard({
         <Link href={productLink} scroll={false} className="absolute inset-0 flex items-center justify-center">
           <style>{`
             @keyframes fadeIn {
-              from {
-                opacity: 0;
-              }
-              to {
-                opacity: 1;
-              }
+              from { opacity: 0; }
+              to { opacity: 1; }
             }
-            .fade-in {
-              animation: fadeIn 0.3s ease-out forwards;
-            }
+            .fade-in { animation: fadeIn 0.3s ease-out forwards; }
           `}</style>
           {(cardImages?.[imageIndex] || product.image) ? (
             <img

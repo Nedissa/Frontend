@@ -27,8 +27,9 @@ export function Aside({
       setIsVisible(true);
       document.documentElement.style.overflowY = 'hidden';
     } else {
-      setIsVisible(false);
       document.documentElement.style.overflowY = 'scroll';
+      const timer = setTimeout(() => setIsVisible(false), 300);
+      return () => clearTimeout(timer);
     }
   }, [expanded]);
 

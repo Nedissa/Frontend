@@ -319,6 +319,19 @@ const MENU_DATA: MenuCategory[] = [
   },
 ];
 
+const ERBJUDANDEN_CAMPAIGNS = [
+  { id: 'veckans-deals', title: 'Veckans deals', bg: 'bg-gray-900', url: '/produkter' },
+  { id: 'rea', title: 'Rea — upp till 50%', bg: 'bg-red-700', url: '/produkter' },
+  { id: 'lagertomning', title: 'Lagertömning', bg: 'bg-blue-900', url: '/produkter' },
+];
+
+const ERBJUDANDEN_DATA: MenuCategory = {
+  id: 'erbjudanden',
+  title: 'Erbjudanden',
+  url: '/erbjudanden',
+  items: [],
+};
+
 interface SearchProduct {
   id: string;
   title: string;
@@ -583,16 +596,16 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const getActiveCategory = () => MENU_DATA.find(cat => cat.id === activeMegaMenu);
+  const getActiveCategory = () => activeMegaMenu === 'erbjudanden' ? ERBJUDANDEN_DATA : MENU_DATA.find(cat => cat.id === activeMegaMenu);
 
   return (
     <header suppressHydrationWarning className={`fixed top-0 left-0 right-0 w-full bg-white z-40 transition-transform duration-300 ease-in-out ${
       isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
     }`}>
       {/* Search bar section */}
-      <div className="px-6 py-2">
+      <div className="py-2 pt-4 px-6">
         <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
-          <Link href="/" className="flex-shrink-0 flex items-center gap-1.5" style={{ minWidth: '160px' }}>
+          <Link href="/" className="flex-shrink-0 flex items-center gap-1.5 pl-6">
             <div style={{ width: '32px', height: '32px' }}>
               <Logo />
             </div>
@@ -752,50 +765,109 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                     className="px-6 py-2 text-sm font-semibold text-black whitespace-nowrap relative group inline-flex"
                   >
                     {category.title}
-                    <span className={`absolute bottom-0 left-6 right-6 h-0.5 transition-all ${
-                      isActive ? 'bg-black' : 'bg-transparent group-hover:bg-black'
+                    <span className={`absolute bottom-0 left-6 h-0.5 bg-black transition-all duration-300 ease-out ${
+                      isActive || activeMegaMenu === category.id ? 'w-[calc(100%-48px)]' : 'w-0 group-hover:w-[calc(100%-48px)]'
                     }`}></span>
                   </Link>
                 );
               })}
+              <div className="flex-1" />
+              <Link
+                href="/erbjudanden"
+                onMouseEnter={() => { setShowMegaMenu(true); setActiveMegaMenu('erbjudanden'); }}
+                className="px-6 py-2 text-sm font-semibold text-black whitespace-nowrap relative group inline-flex items-center"
+              >
+                Erbjudanden
+                <span className={`absolute bottom-0 left-6 h-0.5 bg-black transition-all duration-300 ${activeMegaMenu === 'erbjudanden' || isPathActive('/erbjudanden') ? 'w-[calc(100%-48px)]' : 'w-0 group-hover:w-[calc(100%-48px)]'}`} />
+              </Link>
             </div>
           </div>
         </nav>
 
         {/* Mega Menu */}
-        {showMegaMenu && activeMegaMenu && getActiveCategory()?.items && (
+        {showMegaMenu && activeMegaMenu && (
           <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white z-40 flex justify-center border-b border-l border-r border-gray-200">
             <div className="w-[1280px] px-6">
               <div className="py-8">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                  {getActiveCategory()?.items?.map((section) => (
-                    <div key={section.id}>
-                      <div className="mb-4 pb-4 border-b border-gray-200">
-                        <div className="text-white flex-shrink-0 mb-2 w-10 h-10 flex items-center justify-center rounded-full bg-black p-2">
-                          {section.icon}
-                        </div>
-                        <Link href={section.url}>
-                          <h3 className={`font-bold text-sm uppercase tracking-wide transition-colors cursor-pointer ${
-                            isPathActive(section.url)
-                              ? 'text-black'
-                              : 'text-black hover:text-gray-600'
-                          }`}>
-                            {section.title}
-                          </h3>
+                {activeMegaMenu === 'erbjudanden' ? (
+                  <div className="flex gap-8">
+                    {/* Vänster — kategorilista */}
+                    <div className="flex flex-col justify-between" style={{ minWidth: '180px' }}>
+                      <div>
+                        <p className="text-xs text-gray-400 uppercase tracking-widest mb-4 invisible">placeholder</p>
+                        <ul className="space-y-3">
+                          {[
+                            { label: 'Veckans deals', url: '/produkter' },
+                            { label: 'Rea', url: '/produkter' },
+                            { label: 'Paketpris', url: '/produkter' },
+                            { label: 'Lagertömning', url: '/produkter' },
+                          ].map((item) => (
+                            <li key={item.label}>
+                              <Link href={item.url} className="text-sm font-medium text-gray-700 hover:text-black transition-colors">
+                                {item.label}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="border-t border-gray-200 pt-4 mt-6">
+                        <Link href="/erbjudanden" className="text-sm font-bold text-black flex items-center gap-1 hover:gap-2 transition-all">
+                          Se alla erbjudanden <span>→</span>
                         </Link>
                       </div>
-                      <ul className="space-y-2">
-                        {section.items && section.items.map((item) => (
-                          <li key={item.id}>
-                            <Link href={item.url} className="text-sm text-gray-700 hover:text-black transition-colors">
-                              {item.title}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
                     </div>
-                  ))}
-                </div>
+
+                    {/* Mitten — banners */}
+                    <div className="flex-1">
+                      <p className="text-xs text-gray-400 uppercase tracking-widest mb-4">Erbjudanden</p>
+                      <div className="flex gap-3">
+                        {[
+                          { title: 'Veckans deals', sub: 'Upp till 40% rabatt', bg: '#111827' },
+                          { title: 'Rea', sub: 'Begränsad tid', bg: '#b91c1c' },
+                          { title: 'Paketpris', sub: 'Spara mer tillsammans', bg: '#1e3a8a' },
+                          { title: 'Lagertömning', sub: 'Sista exemplaren', bg: '#374151' },
+                        ].map((b) => (
+                          <Link key={b.title} href="/produkter" className="group relative overflow-hidden rounded flex-1 flex items-end p-3 hover:opacity-90 transition-opacity" style={{ aspectRatio: '1/1', background: b.bg }}>
+                            <div>
+                              <p className="text-white font-bold text-sm">{b.title}</p>
+                              <p className="text-white/70 text-xs">{b.sub}</p>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    {getActiveCategory()?.items?.map((section) => (
+                      <div key={section.id}>
+                        <div className="mb-4 pb-4 border-b border-gray-200">
+                          <div className="text-white flex-shrink-0 mb-2 w-10 h-10 flex items-center justify-center rounded-full bg-black p-2">
+                            {section.icon}
+                          </div>
+                          <Link href={section.url}>
+                            <h3 className={`font-bold text-sm uppercase tracking-wide transition-colors cursor-pointer ${
+                              isPathActive(section.url) ? 'text-black' : 'text-black hover:text-gray-600'
+                            }`}>
+                              {section.title}
+                            </h3>
+                          </Link>
+                        </div>
+                        <ul className="space-y-2">
+                          {section.items && section.items.map((item) => (
+                            <li key={item.id}>
+                              <Link href={item.url} className="text-sm text-gray-700 hover:text-black transition-colors relative group inline-flex">
+                                {item.title}
+                                <span className={`absolute bottom-0 left-0 h-0.5 bg-black transition-all duration-300 ease-out ${isPathActive(item.url) ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>

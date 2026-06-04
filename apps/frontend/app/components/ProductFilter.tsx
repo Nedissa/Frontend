@@ -145,7 +145,8 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
             <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
           </svg>
         </button>
-        {expandedSections.price && (
+        <div style={{ display: 'grid', gridTemplateRows: expandedSections.price ? '1fr' : '0fr', transition: 'grid-template-rows 0.25s ease' }}>
+        <div style={{ overflow: 'hidden' }}>
         <div className="px-6 py-4 space-y-4 w-full overflow-hidden">
           <div className="price-slider-container w-full">
             <div className="price-slider-track bg-gray-300 rounded pointer-events-none">
@@ -220,7 +221,8 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
             </div>
           </div>
         </div>
-        )}
+        </div>
+        </div>
       </div>
 
       {/* Brands */}
@@ -234,7 +236,8 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
             <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
           </svg>
         </button>
-        {expandedSections.brands && (
+        <div style={{ display: 'grid', gridTemplateRows: expandedSections.brands ? '1fr' : '0fr', transition: 'grid-template-rows 0.25s ease' }}>
+        <div style={{ overflow: 'hidden' }}>
         <div className="px-6 py-4 space-y-2">
           {uniqueBrands.length > 0 ? (
             uniqueBrands.map((brand, idx) => {
@@ -257,7 +260,8 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
             <p className="text-xs text-gray-500">Inga märken tillgängliga</p>
           )}
         </div>
-        )}
+        </div>
+        </div>
       </div>
 
       {/* Colors */}
@@ -271,7 +275,8 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
             <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
           </svg>
         </button>
-        {expandedSections.colors && (
+        <div style={{ display: 'grid', gridTemplateRows: expandedSections.colors ? '1fr' : '0fr', transition: 'grid-template-rows 0.25s ease' }}>
+        <div style={{ overflow: 'hidden' }}>
         <div className="px-6 py-4 space-y-2">
           {uniqueColors.length > 0 ? (
             uniqueColors.map((color, idx) => {
@@ -295,7 +300,8 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
             <p className="text-xs text-gray-500">Inga färger tillgängliga</p>
           )}
         </div>
-        )}
+        </div>
+        </div>
       </div>
 
       {/* Rating */}
@@ -309,7 +315,8 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
             <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
           </svg>
         </button>
-        {expandedSections.rating && (
+        <div style={{ display: 'grid', gridTemplateRows: expandedSections.rating ? '1fr' : '0fr', transition: 'grid-template-rows 0.25s ease' }}>
+        <div style={{ overflow: 'hidden' }}>
         <div className="px-6 py-4 space-y-2">
           {[5, 4, 3, 2, 1].map((rating, idx) => {
             const blackShades = ['bg-slate-400', 'bg-slate-500', 'bg-slate-600', 'bg-slate-700', 'bg-slate-800'];
@@ -335,7 +342,8 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
             );
           })}
         </div>
-        )}
+        </div>
+        </div>
       </div>
 
       {/* Stock Status */}
@@ -349,7 +357,8 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
             <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
           </svg>
         </button>
-        {expandedSections.stock && (
+        <div style={{ display: 'grid', gridTemplateRows: expandedSections.stock ? '1fr' : '0fr', transition: 'grid-template-rows 0.25s ease' }}>
+        <div style={{ overflow: 'hidden' }}>
         <div className="px-6 py-4">
           <button
             onClick={handleStockChange}
@@ -362,7 +371,8 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
             Endast i lager
           </button>
         </div>
-        )}
+        </div>
+        </div>
       </div>
 
       {/* Reset Filters Button */}

@@ -10,6 +10,91 @@ import { ImageZoomDialog } from '@/app/components/ImageZoomDialog';
 import { ProductCard, type ProductData } from '@/app/components/ProductCard';
 import { fetchProductsFromMedusa } from '@/app/lib/medusa-client';
 
+function SaleCountdown({ endsAt }: { endsAt: string }) {
+  const [timeLeft, setTimeLeft] = useState<{ hours: number; minutes: number; seconds: number } | null>(null);
+  const startRef = useRef<number>(Date.now());
+
+  useEffect(() => {
+    startRef.current = Date.now();
+    const calc = () => {
+      const diff = new Date(endsAt).getTime() - Date.now();
+      if (diff <= 0) { setTimeLeft(null); return; }
+      const hours = Math.floor(diff / 3600000);
+      const minutes = Math.floor((diff % 3600000) / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
+      setTimeLeft({ hours, minutes, seconds });
+    };
+    calc();
+    const id = setInterval(calc, 1000);
+    return () => clearInterval(id);
+  }, [endsAt]);
+
+  if (!timeLeft) return null;
+
+  const totalSeconds = (new Date(endsAt).getTime() - startRef.current) / 1000;
+  const remainingSeconds = timeLeft.hours * 3600 + timeLeft.minutes * 60 + timeLeft.seconds;
+  const progress = Math.min(100, (remainingSeconds / Math.max(totalSeconds, 1)) * 100);
+  const time = `${String(timeLeft.hours).padStart(2, '0')}:${String(timeLeft.minutes).padStart(2, '0')}:${String(timeLeft.seconds).padStart(2, '0')}`;
+
+  return (
+    <div className="flex flex-col items-start gap-0.5">
+      <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>Kampanj</span>
+      <span className="text-xs font-bold text-black tabular-nums" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>{time}</span>
+      <div className="h-0.5 bg-white/30 rounded-full overflow-hidden" style={{ width: '60px' }}>
+        <div className="h-full bg-red-500 rounded-full transition-all duration-1000" style={{ width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+
+function ExtraInfoColumn({ product }: { product: any }) {
+  const [openSection, setOpenSection] = useState<string | null>(null);
+  const toggle = (key: string) => setOpenSection(openSection === key ? null : key);
+  const pageUrl = typeof window !== 'undefined' ? window.location.href : '';
+
+  const sections = [
+    {
+      key: 'oppet-kop',
+      title: 'ÖPPET KÖP',
+      content: '30 dagars öppet köp. Ångerrätt gäller enligt distansavtalslagen.',
+    },
+    {
+      key: 'frakt',
+      title: 'FRAKT',
+      content: 'Gratis frakt på alla beställningar. Leverans inom 2–5 arbetsdagar.',
+    },
+    {
+      key: 'retur',
+      title: 'RETUR',
+      content: 'Enkel retur inom 30 dagar. Produkten ska vara i originalskick och oöppnad förpackning.',
+    },
+  ];
+
+  return (
+    <div className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', flex: 1 }}>
+      {sections.map((s, i) => (
+        <div key={s.key} className={i > 0 ? 'border-t border-gray-200' : ''}>
+          <button
+            onClick={() => toggle(s.key)}
+            className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50"
+          >
+            <span className="text-xs font-bold tracking-widest text-gray-800">{s.title}</span>
+            <svg className={`w-4 h-4 text-gray-400 transition-transform ${openSection === s.key ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div style={{ display: 'grid', gridTemplateRows: openSection === s.key ? '1fr' : '0fr', transition: 'grid-template-rows 0.25s ease' }}>
+            <div style={{ overflow: 'hidden' }}>
+              <p className="px-5 pb-4 text-xs text-gray-600 leading-relaxed">{s.content}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+
+    </div>
+  );
+}
+
 const COLORS = {
   'Svart': '#000000',
   'Vit': '#FFFFFF',
@@ -69,6 +154,7 @@ export default function ProductDetailClient({
   const [showAccessories, setShowAccessories] = useState(false);
   const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
   const [isAdded, setIsAdded] = useState(false);
+  const [pageUrl, setPageUrl] = useState('');
   const [showZoom, setShowZoom] = useState(false);
   const [alsoLikeProducts, setAlsoLikeProducts] = useState<ProductData[]>([]);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -84,6 +170,10 @@ export default function ProductDetailClient({
     const observer = new ResizeObserver(updateHeight);
     if (productInfoRef.current) observer.observe(productInfoRef.current);
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    setPageUrl(window.location.href);
   }, []);
 
   useEffect(() => {
@@ -171,19 +261,23 @@ export default function ProductDetailClient({
       <Breadcrumb items={breadcrumbItems} />
 
       {/* Main layout: left (gallery+tabs) + right (productinfo+handla tryggt) */}
-      <div className="w-[1280px] mx-auto flex gap-[8px] items-stretch">
+      <div className="w-[1280px] mx-auto flex gap-[8px]" style={{ alignItems: 'stretch' }}>
 
         {/* Left column — gallery + tabs */}
         <div className="flex flex-col flex-1 min-w-0" style={{ gap: '8px' }}>
 
           {/* Gallery */}
           <div
-            className="flex gap-3 bg-white"
+            className="relative flex gap-3 bg-white"
             style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: '540px', overflow: 'hidden' }}
           >
+            {/* Countdown badge on image */}
+            <div className="absolute z-20 flex items-center" style={{ bottom: '28px', right: '36px' }}>
+              <SaleCountdown endsAt={new Date(Date.now() + 120000).toISOString()} />
+            </div>
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
-              <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '476px', overflowY: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+              <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '508px', overflowY: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                 {productDetails.images.map((img, idx) => (
                   <button
                     key={idx}
@@ -204,7 +298,7 @@ export default function ProductDetailClient({
 
             {/* Main image */}
             <div className="flex-1 flex flex-col min-w-0">
-              <div className="relative flex flex-col" style={{ backgroundColor: '#f8f9fa', height: '476px' }}>
+              <div className="relative flex flex-col" style={{ backgroundColor: '#f8f9fa', height: '508px' }}>
                 <button
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
                   className="absolute left-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
@@ -228,7 +322,7 @@ export default function ProductDetailClient({
                         <img
                           src={productDetails.images[imgIdx]?.url}
                           alt={productDetails.images[imgIdx]?.altText}
-                          className="object-contain p-8"
+                          className="object-contain p-4"
                           style={{ width: '100%', height: '100%' }}
                         />
                       </div>
@@ -288,15 +382,52 @@ export default function ProductDetailClient({
         </div>{/* end left column */}
 
         {/* Right column — productinfo + handla tryggt */}
-        <div className="flex flex-col flex-shrink-0" style={{ width: '288px', gap: '8px' }}>
+        <div className="flex flex-col flex-shrink-0" style={{ width: '288px', gap: '8px', alignSelf: 'stretch' }}>
         <div ref={productInfoRef} className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', minHeight: '540px' }}>
 
           <div className="p-6 pb-4">
-            {discountPercent > 0 && (
-              <div className="inline-block bg-red-600 text-white px-2 py-0.5 text-xs font-bold mb-2 rounded w-fit">-{discountPercent}%</div>
-            )}
+            <div className="flex items-center gap-2 mb-2">
+              {discountPercent > 0 && (
+                <div className="inline-block bg-red-600 text-white px-2 py-0.5 text-xs font-bold rounded">-{discountPercent}%</div>
+              )}
+              {metadata.tier && (() => {
+                const tierConfig: Record<string, { label: string; color: string }> = {
+                  essential: { label: 'Standard', color: '#6b7280' },
+                  standard: { label: 'Standard', color: '#6b7280' },
+                  advanced: { label: 'Avancerad', color: '#2563eb' },
+                  premium: { label: 'Premium', color: '#b45309' },
+                };
+                const t = tierConfig[metadata.tier.toLowerCase()];
+                return t ? (
+                  <div className="inline-block px-2 py-0.5 text-xs font-bold rounded" style={{ backgroundColor: t.color, color: 'white' }}>{t.label}</div>
+                ) : null;
+              })()}
+            </div>
+            {(() => {
+              const brand = (product as any).brand || 'Brand';
+              return <p className="text-xs text-gray-500 mb-1">Av <span className="font-bold text-gray-700">{brand}</span></p>;
+            })()}
             <h1 className="text-xl font-bold text-black leading-tight">{product.title}</h1>
             <p className="text-xs text-gray-400 mt-1">Varukod: {productDetails.sku}</p>
+            {(() => {
+              const rating = (product as any).rating || 4.2;
+              const reviews = (product as any).reviews || 12;
+              if (!rating && !reviews) return null;
+              return (
+                <div className="flex items-center gap-2 mt-2">
+                  <div className="flex gap-0.5">
+                    {[1,2,3,4,5].map(i => (
+                      <svg key={i} className={`w-3.5 h-3.5 ${i <= Math.round(rating) ? 'text-yellow-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                      </svg>
+                    ))}
+                  </div>
+                  <span className="text-xs text-gray-500">{rating.toFixed(1)}/5</span>
+                  <span className="text-xs text-gray-300">|</span>
+                  <span className="text-xs text-gray-500">{reviews} {reviews === 1 ? 'recension' : 'recensioner'}</span>
+                </div>
+              );
+            })()}
           </div>
 
           <div className="mx-6 h-px bg-gray-100" />
@@ -307,7 +438,6 @@ export default function ProductDetailClient({
               {product.originalPrice && <span className="text-sm text-gray-400 line-through">{product.originalPrice.toLocaleString('sv-SE')} kr</span>}
             </div>
           </div>
-
           <div className="mx-6 h-px bg-gray-100" />
           <div className="px-6 py-4 flex items-center justify-between">
             <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Färg</span>
@@ -357,30 +487,22 @@ export default function ProductDetailClient({
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            {showAccessories && (
+            <div style={{ display: 'grid', gridTemplateRows: showAccessories ? '1fr' : '0fr', transition: 'grid-template-rows 0.25s ease' }}>
+              <div style={{ overflow: 'hidden' }}>
               <div className="px-4 pb-3 flex flex-col gap-2">
                 {RECOMMENDED_ACCESSORIES.map((accessory) => {
                   const isSelected = selectedAccessories.includes(accessory.id);
                   return (
                     <div key={accessory.id} className={`flex items-center gap-3 p-2 rounded-lg transition-colors ${isSelected ? 'bg-gray-100' : 'bg-gray-50 hover:bg-gray-100'}`}>
-                      <div className="w-12 h-12 flex-shrink-0 bg-white flex items-center justify-center rounded-md shadow-sm">
-                        <img src={accessory.image} alt={accessory.name} className="w-full h-full object-contain p-1" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-bold text-gray-900 truncate">{accessory.name}</p>
-                        <p className="text-xs font-semibold text-black">{Number(accessory.price).toLocaleString('sv-SE')} kr</p>
-                      </div>
                       <button
                         onClick={() => {
                           if (isSelected) {
                             setSelectedAccessories(selectedAccessories.filter(id => id !== accessory.id));
-                            window.dispatchEvent(new CustomEvent('removeFromCart', { detail: { id: accessory.id } }));
                           } else {
                             setSelectedAccessories([...selectedAccessories, accessory.id]);
-                            window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: accessory.id, title: accessory.name, price: Number(accessory.price), quantity: 1, image: accessory.image } }));
                           }
                         }}
-                        className={`w-4 h-4 flex-shrink-0 flex items-center justify-center rounded transition-colors ${isSelected ? 'bg-black' : 'bg-black hover:bg-gray-800'}`}
+                        className={`w-4 h-4 flex-shrink-0 flex items-center justify-center transition-colors ${isSelected ? 'bg-black' : 'bg-black hover:bg-gray-800'}`}
                       >
                         {isSelected ? (
                           <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -392,11 +514,17 @@ export default function ProductDetailClient({
                           </svg>
                         )}
                       </button>
+                      <div className="w-12 h-12 flex-shrink-0 bg-white flex items-center justify-center rounded-md shadow-sm">
+                        <img src={accessory.image} alt={accessory.name} className="w-full h-full object-contain p-1" />
+                      </div>
+                      <p className="flex-1 text-xs font-bold text-gray-900 truncate">{accessory.name}</p>
+                      <p className="text-xs font-semibold text-black flex-shrink-0">{Number(accessory.price).toLocaleString('sv-SE')} kr</p>
                     </div>
                   );
                 })}
               </div>
-            )}
+              </div>
+            </div>
           </div>
 
           <div className="px-6 pt-4 pb-6 border-t border-gray-100 flex flex-col gap-3">
@@ -435,15 +563,33 @@ export default function ProductDetailClient({
           <div className="mx-6 h-px bg-gray-100" />
           <button
             onClick={handleFavoriteToggle}
-            className="w-full flex items-center justify-between px-6 py-4 transition-colors hover:bg-gray-50 text-black"
+            className="w-full flex items-center justify-center gap-2 px-6 py-4 transition-colors hover:bg-gray-50 text-black"
           >
-            <span className="text-xs">Spara i favoriter</span>
+            <span className="text-xs">Spara favorit</span>
             <svg className={`w-5 h-5 flex-shrink-0 ${isFavorite ? 'text-red-500' : ''}`} fill={isFavorite ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
           </button>
+          <div className="mx-6 h-px bg-gray-100" />
+          <div className="px-6 py-4 flex items-center gap-4 flex-wrap">
+            <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs text-gray-700 hover:text-black">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              Facebook
+            </a>
+            <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs text-gray-700 hover:text-black">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              Instagram
+            </a>
+            <a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs text-gray-700 hover:text-black">
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.75a4.85 4.85 0 01-1.01-.06z"/></svg>
+              TikTok
+            </a>
+          </div>
 
         </div>{/* end productinfo */}
+
+        {/* Frakt, Retur, Öppet köp + Dela */}
+        <ExtraInfoColumn product={product} />
 
         {/* Handla tryggt */}
         <div className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', flex: 1 }}>
