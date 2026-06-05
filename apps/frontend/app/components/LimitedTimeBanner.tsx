@@ -29,7 +29,7 @@ export function LimitedTimeBanner() {
       <div className="max-w-[1280px] w-full px-6">
       <div className="flex gap-4" style={{ height: '560px' }}>
         {/* Left — dark */}
-        <div className="flex flex-col items-center justify-center gap-6 px-10 py-10" style={{ backgroundColor: '#000000', width: '45%' }}>
+        <div className="flex flex-col items-center justify-center gap-6 px-10 py-10" style={{ background: 'radial-gradient(ellipse at center, #1a2d42 0%, #0d1b2a 70%)', width: '45%' }}>
           {/* Countdown */}
           <div className="flex gap-3">
             {[
@@ -38,7 +38,7 @@ export function LimitedTimeBanner() {
               { value: timeLeft.minutes, label: 'Minuter' },
               { value: timeLeft.seconds, label: 'Sekunder' },
             ].map((unit) => (
-              <div key={unit.label} className="flex flex-col items-center gap-1 rounded-lg px-4 py-3" style={{ backgroundColor: '#111111', minWidth: '70px' }}>
+              <div key={unit.label} className="flex flex-col items-center gap-1 rounded-lg px-4 py-3" style={{ backgroundColor: '#1a2d42', minWidth: '70px' }}>
                 <span className="text-2xl font-bold text-white tabular-nums">{String(unit.value).padStart(2, '0')}</span>
                 <span className="text-[11px] text-gray-400">{unit.label}</span>
               </div>

@@ -6,6 +6,7 @@ import { MainLayout } from './components/MainLayout';
 import { NewsletterPopup } from './components/NewsletterPopup';
 import { HeroCarouselClient } from './components/HeroCarouselClient';
 import { LimitedTimeBanner } from './components/LimitedTimeBanner';
+import { PerksBanner } from './components/PerksBanner';
 
 export const revalidate = 60;
 
@@ -81,21 +82,6 @@ async function fetchProductsFromAPI() {
 
 
 
-function CallToAction() {
-  return (
-    <div className="flex justify-center">
-      <div className="max-w-[1280px] w-full bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-16 px-6">
-        <h2 className="text-4xl font-bold mb-4">Är du redo att uppgradera?</h2>
-        <p className="text-xl mb-8 max-w-2xl">
-          Hitta de bästa datorerna, komponenterna och tillbehöret. Snabb leverans och utmärkt kundsupport.
-        </p>
-        <Link href="/produkter" className="inline-block bg-white text-gray-900 px-8 py-3 rounded font-bold hover:bg-gray-100">
-          Börja shoppa nu →
-        </Link>
-      </div>
-    </div>
-  );
-}
 
 export default async function Home() {
   const products = await fetchProductsFromAPI();
@@ -131,9 +117,7 @@ export default async function Home() {
               <p className="text-gray-600">Inga produkter tillgängliga just nu.</p>
             </div>
           )}
-          <div className="-mx-6">
-            <CallToAction />
-          </div>
+          <PerksBanner />
         </div>
       </MainLayout>
       <div className="fixed bottom-4 right-4 z-50">
