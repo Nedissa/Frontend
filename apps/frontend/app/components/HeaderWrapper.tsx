@@ -909,11 +909,11 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                     {getActiveCategory()?.items?.map((section) => (
                       <div key={section.id}>
                         <div className="mb-4 pb-4 border-b border-gray-200">
-                          <div className="mb-2 flex-shrink-0 flex items-center justify-center" style={{ width: '96px', height: '96px', backgroundColor: '#111111', borderRadius: '8px' }}>
+                          <div className="mb-2 flex-shrink-0" style={{ width: '96px', height: '96px' }}>
                             <img
                               src={SECTION_IMAGES[section.id] || '/assets/cat-electronics.png'}
                               alt={section.title}
-                              style={{ width: '80px', height: '80px', objectFit: 'contain', transform: section.id === 'tv' ? 'rotate(-90deg)' : 'none' }}
+                              style={{ width: '96px', height: '96px', objectFit: 'contain', transform: section.id === 'tv' ? 'rotate(-90deg)' : 'none' }}
                             />
                           </div>
                           <Link href={section.url}>
