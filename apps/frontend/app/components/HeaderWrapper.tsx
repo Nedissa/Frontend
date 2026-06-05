@@ -906,11 +906,11 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                     {category.items?.map((section) => (
                       <div key={section.id}>
                         <div className="mb-4 pb-4 border-b border-gray-200">
-                          <div className="mb-2 flex-shrink-0" style={{ width: '96px', height: '96px' }}>
+                          <div className="mb-2 flex-shrink-0" style={{ width: '120px', height: '80px' }}>
                             <img
                               src={SECTION_IMAGES[section.id] || '/assets/cat-electronics.png'}
                               alt={section.title}
-                              style={{ width: '96px', height: '96px', objectFit: 'contain', transform: section.id === 'tv' ? 'rotate(-90deg)' : 'none' }}
+                              style={{ width: '120px', height: '80px', objectFit: 'contain', objectPosition: 'left center', transform: section.id === 'tv' ? 'rotate(-90deg)' : 'none' }}
                             />
                           </div>
                           <Link href={section.url}>
