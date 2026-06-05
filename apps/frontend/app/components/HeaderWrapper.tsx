@@ -353,6 +353,9 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<{ title: string; url: string } | null>(null);
+  const categoryDropdownRef = useRef<HTMLDivElement>(null);
   const [cartCount, setCartCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
@@ -575,13 +578,13 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
         setShowSearchResults(false);
       }
+      if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(event.target as Node)) {
+        setShowCategoryDropdown(false);
+      }
     };
-
-    if (showSearchResults) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }
-  }, [showSearchResults]);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -620,23 +623,62 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
 
           {/* Search Input */}
           <div className="flex-1 max-w-2xl relative" ref={searchContainerRef}>
-            <div className="relative flex items-center px-3 py-1.5 rounded" style={{ backgroundColor: '#f5f5f5' }}>
-              <svg className="w-5 h-5 text-gray-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/>
-              </svg>
-              <input
-                type="text"
-                placeholder="Sök efter produkt, kategori eller artikel"
-                className="flex-1 bg-transparent text-sm placeholder-gray-400 focus:outline-none py-1"
-                value={searchTerm}
-                onChange={(e) => {
-                  setSearchTerm(e.target.value);
-                  if (e.target.value.length > 0) {
-                    setShowSearchResults(true);
-                  }
-                }}
-                onFocus={() => searchTerm.length > 0 && setShowSearchResults(true)}
-              />
+            <div className="relative flex items-center rounded overflow-visible" style={{ backgroundColor: '#f5f5f5' }}>
+              {/* Category dropdown */}
+              <div className="relative flex-shrink-0" ref={categoryDropdownRef}>
+                <button
+                  onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
+                  className="flex items-center gap-2 px-3 py-2.5 text-sm font-semibold text-black whitespace-nowrap border-r border-gray-300"
+                  style={{ backgroundColor: 'transparent' }}
+                >
+                  <span>{selectedCategory ? selectedCategory.title : 'Alla kategorier'}</span>
+                  <svg className={`w-3.5 h-3.5 text-gray-500 transition-transform duration-200 ${showCategoryDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                    <path d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {showCategoryDropdown && (
+                  <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 shadow-lg z-[9999] min-w-[200px]">
+                    <button
+                      onClick={() => { setSelectedCategory(null); setShowCategoryDropdown(false); }}
+                      className="w-full text-left px-4 py-2.5 text-sm font-semibold text-black relative group"
+                    >
+                      <span className="relative inline-flex">
+                        Alla kategorier
+                        <span className="absolute bottom-0 left-0 h-0.5 bg-black w-0 group-hover:w-full transition-all duration-300 ease-out" />
+                      </span>
+                    </button>
+                    {MENU_DATA.map((cat) => (
+                      <button
+                        key={cat.id}
+                        onClick={() => { setSelectedCategory({ title: cat.title, url: cat.url }); setShowCategoryDropdown(false); }}
+                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:text-black relative group"
+                      >
+                        <span className="relative inline-flex">
+                          {cat.title}
+                          <span className="absolute bottom-0 left-0 h-0.5 bg-black w-0 group-hover:w-full transition-all duration-300 ease-out" />
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+              {/* Search field */}
+              <div className="flex items-center flex-1 px-3">
+                <input
+                  type="text"
+                  placeholder="Sök efter produkt, kategori eller artikel"
+                  className="flex-1 bg-transparent text-sm placeholder-gray-400 focus:outline-none py-1.5"
+                  value={searchTerm}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value);
+                    if (e.target.value.length > 0) setShowSearchResults(true);
+                  }}
+                  onFocus={() => searchTerm.length > 0 && setShowSearchResults(true)}
+                />
+                <svg className="w-4 h-4 text-gray-400 ml-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/>
+                </svg>
+              </div>
             </div>
             {searchTerm.length > 0 && showSearchResults && (
               <div
