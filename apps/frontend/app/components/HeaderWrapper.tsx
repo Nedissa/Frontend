@@ -938,9 +938,9 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
               </div>
             </div>
           </div>
-        </div>
       </div>
       <div className="w-full h-px bg-gray-200 relative z-50"></div>
     </header>
+
   );
 }
