@@ -111,8 +111,8 @@ export default async function Home() {
   return (
     <div className="relative">
       <MainLayout bordered={true} noPadding={true}>
-        <div className="flex flex-col gap-4">
-          <div className="-mx-6">
+        <div className="flex flex-col gap-4 pt-0">
+          <div className="-mx-6 -mb-4">
             <HeroCarouselClient collections={FEATURED_COLLECTIONS} />
           </div>
           {products.length > 0 && (

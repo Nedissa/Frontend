@@ -63,34 +63,34 @@ const MENU_DATA: MenuCategory[] = [
       {
         id: 'barbara',
         title: 'Bärbara',
-        url: '/produkter',
+        url: '/kategori/barbara',
         icon: <img src="/icons/barbara-datorer.png" alt="Bärbara datorer" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'ultrabooks', title: 'Ultrabooks', url: '/produkter' },
-          { id: 'gaming-barbara', title: 'Gaming bärbara', url: '/produkter' },
-          { id: 'kontor-barbara', title: 'Kontor', url: '/produkter' },
+          { id: 'ultrabooks', title: 'Ultrabooks', url: '/kategori/barbara' },
+          { id: 'gaming-barbara', title: 'Gaming bärbara', url: '/kategori/barbara' },
+          { id: 'kontor-barbara', title: 'Kontor', url: '/kategori/barbara' },
         ],
       },
       {
         id: 'stationara',
         title: 'Stationära',
-        url: '/produkter',
+        url: '/kategori/stationara',
         icon: <img src="/icons/stationara-datorer.png" alt="Stationära datorer" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'mini-pc', title: 'Mini-PC', url: '/produkter' },
-          { id: 'allt-i-ett', title: 'Allt-i-ett-datorer', url: '/produkter' },
-          { id: 'arbetsdatorer', title: 'Arbetsdatorer', url: '/produkter' },
+          { id: 'mini-pc', title: 'Mini-PC', url: '/kategori/stationara' },
+          { id: 'allt-i-ett', title: 'Allt-i-ett-datorer', url: '/kategori/stationara' },
+          { id: 'arbetsdatorer', title: 'Arbetsdatorer', url: '/kategori/stationara' },
         ],
       },
       {
         id: 'datortillbehor',
         title: 'Tillbehör',
-        url: '/produkter',
+        url: '/kategori/datortillbehor',
         icon: <img src="/icons/datortillbehor.png" alt="Datortillbehör" style={{ width: '38px', height: '38px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'bildskarm', title: 'Bildskärmar', url: '/produkter' },
-          { id: 'tangentbord', title: 'Tangentbord', url: '/produkter' },
-          { id: 'moss', title: 'Möss', url: '/produkter' },
+          { id: 'bildskarm', title: 'Bildskärmar', url: '/kategori/datortillbehor' },
+          { id: 'tangentbord', title: 'Tangentbord', url: '/kategori/datortillbehor' },
+          { id: 'moss', title: 'Möss', url: '/kategori/datortillbehor' },
         ],
       },
     ],
@@ -103,62 +103,62 @@ const MENU_DATA: MenuCategory[] = [
       {
         id: 'processorer',
         title: 'Processorer',
-        url: '/produkter',
+        url: '/kategori/processorer',
         icon: <img src="/icons/cpu.png" alt="CPU" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'intel', title: 'Intel', url: '/produkter' },
-          { id: 'amd', title: 'AMD', url: '/produkter' },
+          { id: 'intel', title: 'Intel', url: '/kategori/processorer' },
+          { id: 'amd', title: 'AMD', url: '/kategori/processorer' },
         ],
       },
       {
         id: 'moderkort',
         title: 'Moderkort',
-        url: '/produkter',
+        url: '/kategori/moderkort',
         icon: <img src="/icons/moderkort.png" alt="Moderkort" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'intel-socket', title: 'Intel', url: '/produkter' },
-          { id: 'amd-socket', title: 'AMD', url: '/produkter' },
+          { id: 'intel-socket', title: 'Intel', url: '/kategori/moderkort' },
+          { id: 'amd-socket', title: 'AMD', url: '/kategori/moderkort' },
         ],
       },
       {
         id: 'grafikkort',
         title: 'Grafikkort',
-        url: '/produkter',
+        url: '/kategori/grafikkort',
         icon: <img src="/icons/gpu.png" alt="GPU" style={{ width: '38px', height: '38px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'nvidia', title: 'NVIDIA', url: '/produkter' },
-          { id: 'amd-gpu', title: 'AMD', url: '/produkter' },
+          { id: 'nvidia', title: 'NVIDIA', url: '/kategori/grafikkort' },
+          { id: 'amd-gpu', title: 'AMD', url: '/kategori/grafikkort' },
         ],
       },
       {
         id: 'ram',
         title: 'RAM-minne',
-        url: '/produkter',
+        url: '/kategori/ram',
         icon: <img src="/icons/ram.png" alt="RAM" style={{ width: '38px', height: '38px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'ddr5', title: 'DDR5', url: '/produkter' },
-          { id: 'ddr4', title: 'DDR4', url: '/produkter' },
+          { id: 'ddr5', title: 'DDR5', url: '/kategori/ram' },
+          { id: 'ddr4', title: 'DDR4', url: '/kategori/ram' },
         ],
       },
       {
         id: 'lagringsenhet',
         title: 'Lagring',
-        url: '/produkter',
+        url: '/kategori/lagring',
         icon: <img src="/icons/lagring.png" alt="Lagring" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'ssd-nvme', title: 'SSD NVMe', url: '/produkter' },
-          { id: 'ssd-sata', title: 'SSD SATA', url: '/produkter' },
-          { id: 'hdd', title: 'Hårddiskar', url: '/produkter' },
+          { id: 'ssd-nvme', title: 'SSD NVMe', url: '/kategori/lagring' },
+          { id: 'ssd-sata', title: 'SSD SATA', url: '/kategori/lagring' },
+          { id: 'hdd', title: 'Hårddiskar', url: '/kategori/lagring' },
         ],
       },
       {
         id: 'natlagring',
         title: 'Nätaggregat',
-        url: '/produkter',
+        url: '/kategori/natagregat',
         icon: <img src="/icons/nataggregat.png" alt="Nätaggregat" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'modular', title: 'Modulärt', url: '/produkter' },
-          { id: 'semi-modular', title: 'Semi-modulärt', url: '/produkter' },
+          { id: 'modular', title: 'Modulärt', url: '/kategori/natagregat' },
+          { id: 'semi-modular', title: 'Semi-modulärt', url: '/kategori/natagregat' },
         ],
       },
     ],
@@ -171,32 +171,32 @@ const MENU_DATA: MenuCategory[] = [
       {
         id: 'gaming-laptops',
         title: 'Bärbara',
-        url: '/produkter',
+        url: '/kategori/gaming-laptops',
         icon: <img src="/icons/gaming-laptop.png" alt="Gaming Bärbara" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'high-end', title: 'High-End', url: '/produkter' },
-          { id: 'mid-range', title: 'Mid-Range', url: '/produkter' },
+          { id: 'high-end', title: 'High-End', url: '/kategori/gaming-laptops' },
+          { id: 'mid-range', title: 'Mid-Range', url: '/kategori/gaming-laptops' },
         ],
       },
       {
         id: 'gaming-pc',
         title: 'Datorer',
-        url: '/produkter',
+        url: '/kategori/gaming-pc',
         icon: <img src="/icons/gaming-pc.png" alt="Gaming PC" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'budget', title: 'Budget', url: '/produkter' },
-          { id: 'pro', title: 'Pro', url: '/produkter' },
+          { id: 'budget', title: 'Budget', url: '/kategori/gaming-pc' },
+          { id: 'pro', title: 'Pro', url: '/kategori/gaming-pc' },
         ],
       },
       {
         id: 'gaming-peripherals',
         title: 'Tillbehör',
-        url: '/produkter',
+        url: '/kategori/gaming-tillbehor',
         icon: <img src="/icons/gaming-tillbehor.png" alt="Gamingtillbehör" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'gaming-mus', title: 'Gaming Möss', url: '/produkter' },
-          { id: 'gaming-tangentbord', title: 'Gaming Tangentbord', url: '/produkter' },
-          { id: 'gaming-headset', title: 'Gaming Headset', url: '/produkter' },
+          { id: 'gaming-mus', title: 'Gaming Möss', url: '/kategori/gaming-tillbehor' },
+          { id: 'gaming-tangentbord', title: 'Gaming Tangentbord', url: '/kategori/gaming-tillbehor' },
+          { id: 'gaming-headset', title: 'Gaming Headset', url: '/kategori/gaming-tillbehor' },
         ],
       },
     ],
@@ -209,23 +209,23 @@ const MENU_DATA: MenuCategory[] = [
       {
         id: 'smartphones',
         title: 'Smartphones',
-        url: '/produkter',
+        url: '/kategori/smartphones',
         icon: <img src="/icons/smartphones.png" alt="Smartphones" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'flagship', title: 'Flaggskepp', url: '/produkter' },
-          { id: 'mid-range-phone', title: 'Mid-Range', url: '/produkter' },
-          { id: 'budget-phone', title: 'Budget', url: '/produkter' },
+          { id: 'flagship', title: 'Flaggskepp', url: '/kategori/smartphones' },
+          { id: 'mid-range-phone', title: 'Mid-Range', url: '/kategori/smartphones' },
+          { id: 'budget-phone', title: 'Budget', url: '/kategori/smartphones' },
         ],
       },
       {
         id: 'mobil-tillbehor',
         title: 'Mobil tillbehör',
-        url: '/produkter',
+        url: '/kategori/mobil-tillbehor',
         icon: <img src="/icons/mobiltillbehor.png" alt="Mobiltillbehör" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'skal', title: 'Skal & Skydd', url: '/produkter' },
-          { id: 'laddare', title: 'Laddare', url: '/produkter' },
-          { id: 'screenprotectors', title: 'Skärmskydd', url: '/produkter' },
+          { id: 'skal', title: 'Skal & Skydd', url: '/kategori/mobil-tillbehor' },
+          { id: 'laddare', title: 'Laddare', url: '/kategori/mobil-tillbehor' },
+          { id: 'screenprotectors', title: 'Skärmskydd', url: '/kategori/mobil-tillbehor' },
         ],
       },
     ],
@@ -238,42 +238,42 @@ const MENU_DATA: MenuCategory[] = [
       {
         id: 'accesspunkter',
         title: 'Accesspunkter',
-        url: '/produkter',
+        url: '/kategori/accesspunkter',
         icon: <img src="/icons/accesspunkter.png" alt="Accesspunkter" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'wifi6', title: 'WiFi 6', url: '/produkter' },
-          { id: 'wifi7', title: 'WiFi 7', url: '/produkter' },
+          { id: 'wifi6', title: 'WiFi 6', url: '/kategori/accesspunkter' },
+          { id: 'wifi7', title: 'WiFi 7', url: '/kategori/accesspunkter' },
         ],
       },
       {
         id: 'natsverksforlangarе',
         title: 'Nätverksförlängare',
-        url: '/produkter',
+        url: '/kategori/natverksforlangare',
         icon: <img src="/icons/natverksforlangare.png" alt="Nätverksförlängare" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'wifi-forlangarе', title: 'WiFi', url: '/produkter' },
-          { id: 'mesh-forlangarе', title: 'Mesh', url: '/produkter' },
+          { id: 'wifi-forlangarе', title: 'WiFi', url: '/kategori/natverksforlangare' },
+          { id: 'mesh-forlangarе', title: 'Mesh', url: '/kategori/natverksforlangare' },
         ],
       },
       {
         id: 'routrar',
         title: 'Routrar',
-        url: '/produkter',
+        url: '/kategori/routrar',
         icon: <img src="/icons/routrar.png" alt="Routrar" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'wifi6-routrar', title: 'WiFi 6', url: '/produkter' },
-          { id: 'wifi7-routrar', title: 'WiFi 7', url: '/produkter' },
-          { id: 'gaming-routrar', title: 'Gaming', url: '/produkter' },
+          { id: 'wifi6-routrar', title: 'WiFi 6', url: '/kategori/routrar' },
+          { id: 'wifi7-routrar', title: 'WiFi 7', url: '/kategori/routrar' },
+          { id: 'gaming-routrar', title: 'Gaming', url: '/kategori/routrar' },
         ],
       },
       {
         id: 'mesh',
         title: 'Mesh Nätverk',
-        url: '/produkter',
+        url: '/kategori/mesh-natverk',
         icon: <img src="/icons/mesh.png" alt="Mesh Nätverk" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'mesh-wifi6', title: 'WiFi 6', url: '/produkter' },
-          { id: 'mesh-wifi7', title: 'WiFi 7', url: '/produkter' },
+          { id: 'mesh-wifi6', title: 'WiFi 6', url: '/kategori/mesh-natverk' },
+          { id: 'mesh-wifi7', title: 'WiFi 7', url: '/kategori/mesh-natverk' },
         ],
       },
     ],
@@ -286,33 +286,33 @@ const MENU_DATA: MenuCategory[] = [
       {
         id: 'tv',
         title: 'TV',
-        url: '/produkter',
+        url: '/kategori/tv',
         icon: <img src="/icons/tv.png" alt="TV" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: '4k-tv', title: '4K TV', url: '/produkter' },
-          { id: 'oled-tv', title: 'OLED TV', url: '/produkter' },
-          { id: 'gaming-tv', title: 'Gaming TV', url: '/produkter' },
+          { id: '4k-tv', title: '4K TV', url: '/kategori/tv' },
+          { id: 'oled-tv', title: 'OLED TV', url: '/kategori/tv' },
+          { id: 'gaming-tv', title: 'Gaming TV', url: '/kategori/tv' },
         ],
       },
       {
         id: 'ljud',
         title: 'Ljud & HiFi',
-        url: '/produkter',
+        url: '/kategori/ljud-hifi',
         icon: <img src="/icons/ljud-hifi.png" alt="Ljud & HiFi" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'hogtalare', title: 'Högtalare', url: '/produkter' },
-          { id: 'horlur', title: 'Hörlurar', url: '/produkter' },
-          { id: 'surround', title: 'Surroundljud', url: '/produkter' },
+          { id: 'hogtalare', title: 'Högtalare', url: '/kategori/ljud-hifi' },
+          { id: 'horlur', title: 'Hörlurar', url: '/kategori/ljud-hifi' },
+          { id: 'surround', title: 'Surroundljud', url: '/kategori/ljud-hifi' },
         ],
       },
       {
         id: 'tillbehor-tv',
         title: 'TV Tillbehör',
-        url: '/produkter',
+        url: '/kategori/tv-tillbehor',
         icon: <img src="/icons/tv-tillbehor.png" alt="TV Tillbehör" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'montering', title: 'Montering', url: '/produkter' },
-          { id: 'soundbar', title: 'Soundbar', url: '/produkter' },
+          { id: 'montering', title: 'Montering', url: '/kategori/tv-tillbehor' },
+          { id: 'soundbar', title: 'Soundbar', url: '/kategori/tv-tillbehor' },
         ],
       },
     ],
@@ -902,15 +902,15 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
 
                 {/* Category panels — always in DOM, shown/hidden via display */}
                 {MENU_DATA.map((category) => (
-                  <div key={category.id} style={{ display: activeMegaMenu === category.id ? 'grid' : 'none' }} className="grid-cols-2 md:grid-cols-4 gap-8">
+                  <div key={category.id} style={{ display: activeMegaMenu === category.id ? 'grid' : 'none', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem' }}>
                     {category.items?.map((section) => (
-                      <div key={section.id}>
+                      <div key={section.id} className="w-full">
                         <div className="mb-4 pb-4 border-b border-gray-200">
-                          <div className="mb-2 flex-shrink-0" style={{ width: '120px', height: '80px' }}>
+                          <div style={{ marginBottom: '8px', height: '80px', position: 'relative', left: '0', marginLeft: '-20px' }}>
                             <img
                               src={SECTION_IMAGES[section.id] || '/assets/cat-electronics.png'}
                               alt={section.title}
-                              style={{ width: '120px', height: '80px', objectFit: 'contain', objectPosition: 'left center', transform: section.id === 'tv' ? 'rotate(-90deg)' : 'none' }}
+                              style={{ display: 'block', height: '80px', width: 'auto' }}
                             />
                           </div>
                           <Link href={section.url}>

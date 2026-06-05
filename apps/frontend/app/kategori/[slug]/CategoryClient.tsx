@@ -5,6 +5,7 @@ import { fetchProductsFromMedusa } from '@/app/lib/medusa-client';
 import { ProductCard } from '@/app/components/ProductCard';
 import { ProductFilter } from '@/app/components/ProductFilter';
 import { SortDropdown } from '@/app/components/SortDropdown';
+import { CategoryGrid } from '@/app/components/CategoryGrid';
 
 interface FilterOptions {
   priceRange: [number, number];
@@ -92,6 +93,9 @@ export default function CategoryClient({ slug, categoryTitle }: CategoryClientPr
 
       {/* Products area */}
       <div className="flex-1 min-w-0 px-8">
+        {/* Category subcategories */}
+        <CategoryGrid slug={slug} />
+
         {/* Sort + count */}
         <div className="mb-6 flex justify-between items-center">
           <p className="text-sm text-gray-500">{sorted.length} produkter</p>
@@ -109,7 +113,7 @@ export default function CategoryClient({ slug, categoryTitle }: CategoryClientPr
         </div>
 
         {/* Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-4">
           {paginated.map((product) => (
             <ProductCard key={product.id} product={product} variant="popular" />
           ))}

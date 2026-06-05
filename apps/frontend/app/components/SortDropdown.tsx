@@ -49,18 +49,30 @@ export function SortDropdown({ value, onChange, options }: SortDropdownProps) {
         className="absolute right-0 top-full mt-1 bg-white border border-gray-200 z-50 shadow-sm overflow-hidden transition-all duration-200 ease-out"
         style={{ width: width ? `${width}px` : '100%', maxHeight: open ? '300px' : '0px', opacity: open ? 1 : 0, borderWidth: open ? '1px' : '0px' }}
       >
-        {options.map(option => (
-          <button
-            key={option.value}
-            onClick={() => { onChange(option.value); setOpen(false); }}
-            className="w-full text-left px-3 py-1 text-sm transition-colors whitespace-nowrap"
-            style={value === option.value ? { backgroundColor: '#000000', color: '#ffffff', fontWeight: '600' } : { color: '#374151' }}
-            onMouseEnter={e => { if (value !== option.value) { (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#000000'; (e.currentTarget as HTMLButtonElement).style.color = '#ffffff'; } }}
-            onMouseLeave={e => { if (value !== option.value) { (e.currentTarget as HTMLButtonElement).style.backgroundColor = ''; (e.currentTarget as HTMLButtonElement).style.color = '#374151'; } }}
-          >
-            {option.label}
-          </button>
-        ))}
+        {options.map(option => {
+          const isSelected = value === option.value;
+          return (
+            <button
+              key={option.value}
+              onClick={() => { onChange(option.value); setOpen(false); }}
+              className="w-full text-left px-3 py-1.5 text-sm whitespace-nowrap relative"
+              style={isSelected ? { color: '#000000', fontWeight: '600' } : { color: '#374151' }}
+              onMouseEnter={e => {
+                const line = e.currentTarget.querySelector('.underline-anim') as HTMLElement;
+                if (line) line.style.width = '100%';
+              }}
+              onMouseLeave={e => {
+                const line = e.currentTarget.querySelector('.underline-anim') as HTMLElement;
+                if (line && !isSelected) line.style.width = '0%';
+              }}
+            >
+              <span className="relative inline-flex">
+                {option.label}
+                <span className="underline-anim absolute bottom-0 left-0 h-0.5 bg-black" style={{ width: isSelected ? '100%' : '0%', transition: 'width 300ms ease-out' }} />
+              </span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );

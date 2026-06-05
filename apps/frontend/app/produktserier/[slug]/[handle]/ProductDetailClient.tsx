@@ -275,7 +275,7 @@ export default function ProductDetailClient({
             style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: '540px', overflow: 'hidden' }}
           >
             {/* Countdown badge on image */}
-            <div className="absolute z-20 flex items-center" style={{ top: '16px', right: '16px' }}>
+            <div className="absolute z-20 flex items-center" style={{ top: '24px', right: '24px' }}>
               <SaleCountdown />
             </div>
             {/* Vertical Thumbnails */}
@@ -286,14 +286,14 @@ export default function ProductDetailClient({
                     <button
                       onClick={() => goToImage(idx)}
                       className="relative flex items-center justify-center focus:outline-none"
-                      style={{ width: '110px', height: '110px', backgroundColor: '#f8f9fa' }}
+                      style={{ width: '110px', height: '110px', backgroundColor: '#f5f5f5' }}
                     >
                       <img
                         src={img.url} alt=""
                         className="w-full h-full object-contain p-3 transition-all duration-300"
                       />
                     </button>
-                    <div className="flex items-center justify-center pb-2" style={{ height: '20px', backgroundColor: '#f8f9fa' }}>
+                    <div className="flex items-center justify-center pb-2" style={{ height: '20px', backgroundColor: '#f5f5f5' }}>
                       <div
                         className="rounded-full bg-black"
                         style={{
@@ -312,7 +312,7 @@ export default function ProductDetailClient({
 
             {/* Main image */}
             <div className="flex-1 flex flex-col min-w-0">
-              <div className="relative flex flex-col" style={{ backgroundColor: '#f8f9fa', height: '508px' }}>
+              <div className="relative flex flex-col" style={{ backgroundColor: '#f5f5f5', height: '508px' }}>
                 <button
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
                   className="absolute left-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
@@ -511,7 +511,7 @@ export default function ProductDetailClient({
                 {RECOMMENDED_ACCESSORIES.map((accessory) => {
                   const isSelected = selectedAccessories.includes(accessory.id);
                   return (
-                    <div key={accessory.id} className="flex items-center gap-3 p-2 rounded-lg" style={{ backgroundColor: '#f5f5f5' }}>
+                    <div key={accessory.id} className="flex items-center gap-3 p-2" style={{ backgroundColor: '#f5f5f5' }}>
                       <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-md">
                         <img src={accessory.image} alt={accessory.name} className="w-full h-full object-contain" />
                       </div>
@@ -547,7 +547,7 @@ export default function ProductDetailClient({
 
           <div className="px-6 pt-4 pb-6 border-t border-gray-100 flex flex-col gap-3">
             <div className="flex items-center gap-3">
-              <div className="flex items-center bg-gray-100 h-11 px-4 gap-4">
+              <div className="flex items-center h-11 px-4 gap-4" style={{ backgroundColor: '#f5f5f5' }}>
                 <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="text-gray-500 hover:text-black text-sm font-semibold">−</button>
                 <span className="text-sm font-semibold w-4 text-center tabular-nums">{quantity}</span>
                 <button onClick={() => setQuantity(quantity + 1)} className="text-gray-500 hover:text-black text-sm font-semibold">+</button>
