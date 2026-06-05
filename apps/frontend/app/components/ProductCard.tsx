@@ -23,6 +23,7 @@ export interface ProductData {
   features?: string[];
   stock?: string;
   sectionCategory?: string;
+  metadata?: Record<string, any>;
 }
 
 type ProductCardVariant = 'popular' | 'recommended' | 'new' | 'related' | 'also-like';
@@ -176,16 +177,22 @@ export function ProductCard({
       {/* Quick facts — below image */}
       {config.showFeatures && product.features && product.features.length > 0 && (
         <div className="relative flex items-stretch bg-[#fafaf8] border-b border-gray-200 mb-4">
-          {product.price !== undefined && (() => {
-            const p = product.price;
-            const tier = p < 2000 ? 'Standard' : p < 8000 ? 'Avancerad' : 'Premium';
+          {(() => {
+            const tierRaw = product.features?.find(f => f.startsWith('tier:'))?.split(':')[1] || product.metadata?.tier;
+            const tierMap: Record<string, string> = {
+              standard: 'Standard', essential: 'Standard',
+              avancerad: 'Avancerad', advanced: 'Avancerad',
+              premium: 'Premium',
+            };
+            const tier = tierRaw ? tierMap[tierRaw.toLowerCase()] : null;
+            if (!tier) return null;
             return (
               <div className={`absolute bottom-0 left-0 ${isHovered ? 'opacity-100' : 'opacity-0'}`} style={{ zIndex: 20 }}>
                 <span className="bg-black text-white text-[10px] font-bold px-3 py-1">{tier}</span>
               </div>
             );
           })()}
-          {product.features.slice(0, 3).map((feature: string, idx: number) => {
+          {product.features.filter(f => !f.startsWith('tier:')).slice(0, 3).map((feature: string, idx: number) => {
             const [value, ...labelParts] = feature.split(' ');
             const label = labelParts.join(' ');
             return (
@@ -273,7 +280,7 @@ export function ProductCard({
                 <div key={idx} className="relative group/swatch">
                   <button
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedColor(idx); }}
-                    className="w-6 h-2.5 rounded-[1px] flex-shrink-0"
+                    className="w-8 h-3 rounded-full flex-shrink-0"
                     style={{ backgroundColor: bgColor, outline: isSelected ? '1px solid #999999' : 'none', outlineOffset: '2px', boxShadow: bgColor === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
                   />
                   <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-0 px-2 py-0.5 bg-black text-white text-[10px] font-medium whitespace-nowrap opacity-0 group-hover/swatch:opacity-100 transition-opacity pointer-events-none z-50">

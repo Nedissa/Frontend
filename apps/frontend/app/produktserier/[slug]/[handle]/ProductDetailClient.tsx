@@ -460,7 +460,7 @@ export default function ProductDetailClient({
                 <div key={name} className="relative group/swatch">
                   <button
                     onClick={() => setSelectedColor(name)}
-                    className="w-6 h-2.5 rounded-[1px] flex-shrink-0"
+                    className="w-8 h-3 rounded-full flex-shrink-0"
                     style={{ backgroundColor: hex, outline: selectedColor === name ? '1px solid #999999' : 'none', outlineOffset: '2px', boxShadow: hex === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
                     aria-label={`Välj färg ${name}`}
                   />

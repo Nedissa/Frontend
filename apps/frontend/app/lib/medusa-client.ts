@@ -64,6 +64,7 @@ export async function fetchProductsFromMedusa(): Promise<Product[]> {
       category: product.category || '',
       brand: product.brand || '',
       features: product.features || [],
+      metadata: product.metadata || {},
     }));
     productsCache = { data: result, ts: Date.now() };
     return result;
