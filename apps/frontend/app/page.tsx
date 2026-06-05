@@ -5,6 +5,7 @@ import { FeaturedProductSection } from './components/FeaturedProductSection';
 import { MainLayout } from './components/MainLayout';
 import { NewsletterPopup } from './components/NewsletterPopup';
 import { HeroCarouselClient } from './components/HeroCarouselClient';
+import { LimitedTimeBanner } from './components/LimitedTimeBanner';
 
 export const revalidate = 60;
 
@@ -14,16 +15,6 @@ const FEATURED_COLLECTIONS = [
   { title: 'Gaming Setup', handle: 'gaming-setup' },
 ]
 
-function CampaignBannersSection() {
-  return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <CampaignBanner title="Se alla veckans deals" bgColor="bg-blue-900" />
-      <CampaignBanner title="Samsung Micro RGB" bgColor="bg-black" />
-      <CampaignBanner title="Vi tömmer lagret!" bgColor="bg-blue-900" />
-      <CampaignBanner title="50% rabatt på kök!" bgColor="bg-green-100" />
-    </div>
-  );
-}
 
 async function fetchProductsFromAPI() {
   try {
@@ -89,21 +80,6 @@ async function fetchProductsFromAPI() {
 }
 
 
-function CampaignBanner({
-  title,
-  bgColor,
-}: {
-  title: string;
-  bgColor: string;
-}) {
-  return (
-    <div className={`${bgColor} p-6 h-32 flex items-end justify-start overflow-hidden relative`} style={{}}>
-      <h3 className={`text-xl font-bold ${bgColor === 'bg-green-100' ? 'text-green-700' : 'text-white'}`}>
-        {title}
-      </h3>
-    </div>
-  );
-}
 
 function CallToAction() {
   return (
@@ -146,6 +122,7 @@ export default async function Home() {
                 <ProductBanner />
               </div>
               <ProductCarousel title="Rekommenderade produkter" products={products} variant="recommended" />
+              <LimitedTimeBanner />
               <ProductCarousel title="Nya produkter" products={products} variant="new" />
             </>
           )}

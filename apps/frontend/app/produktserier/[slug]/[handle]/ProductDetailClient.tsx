@@ -43,7 +43,7 @@ function SaleCountdown() {
     <div className="flex flex-col items-start gap-0.5">
       <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>Kampanj</span>
       <span className="text-xs font-bold text-black tabular-nums" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>{time}</span>
-      <div className="h-1 rounded-full overflow-hidden" style={{ width: '60px', backgroundColor: '#000000' }}>
+      <div className="h-1 rounded-full overflow-hidden" style={{ width: '60px', backgroundColor: '#555555' }}>
         <div className="h-full bg-red-500" style={{ width: `${progress}%`, transition: 'width 1s linear' }} />
       </div>
     </div>
@@ -275,7 +275,7 @@ export default function ProductDetailClient({
             style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: '540px', overflow: 'hidden' }}
           >
             {/* Countdown badge on image */}
-            <div className="absolute z-20 flex items-center" style={{ bottom: '28px', right: '36px' }}>
+            <div className="absolute z-20 flex items-center" style={{ top: '16px', right: '16px' }}>
               <SaleCountdown />
             </div>
             {/* Vertical Thumbnails */}

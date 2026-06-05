@@ -66,13 +66,15 @@ export default function CategoryClient({ slug, categoryTitle }: CategoryClientPr
 
   if (loading) {
     return (
-      <div className="flex gap-0">
-        <div className="hidden md:block flex-shrink-0 w-56" />
-        <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
-          {[...Array(8)].map((_, i) => (
-            <div key={i} className="bg-gray-100 aspect-square animate-pulse" />
-          ))}
-        </div>
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <div className="h-0.5 bg-black animate-[progress_1.5s_ease-in-out_infinite]" style={{ width: '100%', transformOrigin: 'left', animation: 'loading-bar 1.5s ease-in-out infinite' }} />
+        <style>{`
+          @keyframes loading-bar {
+            0% { transform: scaleX(0); transform-origin: left; }
+            50% { transform: scaleX(0.7); transform-origin: left; }
+            100% { transform: scaleX(1); transform-origin: left; opacity: 0; }
+          }
+        `}</style>
       </div>
     );
   }
