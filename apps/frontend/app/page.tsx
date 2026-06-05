@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ProductCarousel } from './components/ProductCarousel';
-import { ProductBanner } from './components/ProductBanner';
+import { AboutBanner } from './components/AboutBanner';
 import { FeaturedProductSection } from './components/FeaturedProductSection';
 import { MainLayout } from './components/MainLayout';
 import { NewsletterPopup } from './components/NewsletterPopup';
@@ -104,9 +104,7 @@ export default async function Home() {
           {products.length > 0 && (
             <>
               <ProductCarousel title="Populära produkter" products={products} variant="popular" />
-              <div className="px-6">
-                <ProductBanner />
-              </div>
+              <AboutBanner />
               <ProductCarousel title="Rekommenderade produkter" products={products} variant="recommended" />
               <LimitedTimeBanner />
               <ProductCarousel title="Nya produkter" products={products} variant="new" />

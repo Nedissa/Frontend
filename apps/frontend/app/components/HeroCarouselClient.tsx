@@ -2,6 +2,19 @@
 
 import { useState, useEffect, useRef } from 'react';
 
+const heroCarouselStyle = `
+  @keyframes heroGradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .hero-animated-bg {
+    background: linear-gradient(135deg, #0a1628, #2e5f8a, #0d1b2a, #1a3a5c, #0a1628);
+    background-size: 300% 300%;
+    animation: heroGradientShift 8s ease infinite;
+  }
+`;
+
 interface Collection {
   title: string;
   handle: string;
@@ -67,15 +80,17 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
   }, [isPlaying, collections.length]);
 
   const heroImages = [
-    '/assets/hero-1.jpg',
-    '/assets/hero-2.jpg',
-    '/assets/hero-3.jpg',
+    '/assets/hero-thumb-1.svg',
+    '/assets/hero-thumb-2.svg',
+    '/assets/hero-thumb-3.svg',
   ];
 
   return (
+    <>
+    <style>{heroCarouselStyle}</style>
     <div className="relative z-0 flex justify-center w-full">
       <div
-        className="relative max-w-[1280px] w-full aspect-[1280/484] overflow-hidden flex items-center justify-center cursor-pointer bg-gray-200"
+        className="relative max-w-[1280px] w-full aspect-[1280/640] overflow-hidden flex items-center justify-center cursor-pointer bg-gray-200"
         onClick={() => next(true)}
         onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
         onTouchEnd={(e) => {
@@ -94,26 +109,50 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
           if (isPrev) transform = 'translateX(-100%)';
           if (!isCurrent && !isPrev) transform = 'translateX(100%)';
 
+          const isSvg = src.endsWith('.svg');
           return (
-            <img
+            <div
               key={src}
-              src={src}
-              alt={collections[i]?.title || ''}
-              className="absolute inset-0 w-full h-full object-cover"
+              className={`absolute inset-0 w-full h-full${isSvg ? ' hero-animated-bg' : ''}`}
               style={{
                 transform,
                 transition: (isCurrent || isPrev) && sliding ? 'transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none',
                 zIndex: isCurrent ? 2 : isPrev ? 1 : 0,
               }}
-              width={1280}
-              height={484}
-              fetchPriority={i === 0 ? 'high' : 'low'}
-              loading={i === 0 ? 'eager' : 'lazy'}
-              decoding={i === 0 ? 'sync' : 'async'}
-            />
+            >
+              <img
+                src={src}
+                alt={collections[i]?.title || ''}
+                className="w-full h-full"
+                style={{ objectFit: isSvg ? 'contain' : 'cover' }}
+                width={1280}
+                height={640}
+                fetchPriority={i === 0 ? 'high' : 'low'}
+                loading={i === 0 ? 'eager' : 'lazy'}
+                decoding={i === 0 ? 'sync' : 'async'}
+              />
+            </div>
           );
         })}
         <div className="absolute inset-0 bg-black/30 z-10"></div>
+
+        {/* Bottom-left text overlay */}
+        <div className="absolute top-10 left-10 z-20 flex flex-col gap-3" style={{ maxWidth: '440px' }} onClick={(e) => e.stopPropagation()}>
+          <h2 className="text-white font-bold leading-tight" style={{ fontSize: '2.8rem', maxWidth: '480px', textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}>
+            Teknik för din<br />vardag
+          </h2>
+          <p className="text-gray-200 text-sm leading-relaxed">
+            Hitta rätt produkt enkelt och snabbt<br />— levererad direkt hem till dig.
+          </p>
+          <a
+            href="/produkter"
+            className="inline-flex items-center gap-3 font-bold text-sm px-5 py-3 w-fit mt-1"
+            style={{ backgroundColor: '#f0c040', color: '#111', borderRadius: '999px' }}
+          >
+            <span className="w-2 h-2 rounded-full bg-black flex-shrink-0" />
+            SHOPPA NU
+          </a>
+        </div>
 
         {/* Pill controller */}
         <div
@@ -166,5 +205,6 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
         </div>
       </div>
     </div>
+    </>
   );
 }

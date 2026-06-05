@@ -40,24 +40,38 @@ const PERKS = [
 
 export function PerksBanner() {
   return (
-    <div className="w-full" style={{ background: 'radial-gradient(ellipse at center, #1a2d42 0%, #0d1b2a 70%)' }}>
-      <div className="grid grid-cols-3 divide-x divide-gray-700">
-        {PERKS.map((perk, i) => (
-          <div key={i} className="flex flex-col px-16 py-12">
-            <div className="mb-6">{perk.icon}</div>
-            <h3 className="text-lg font-bold text-white mb-3">{perk.title}</h3>
-            <p className="text-sm text-gray-400 leading-relaxed mb-8">{perk.description}</p>
-            <Link
-              href={perk.href}
-              className="inline-flex items-center gap-3 bg-white text-black text-xs font-bold tracking-widest px-5 py-3 w-fit"
-              style={{ borderRadius: '999px' }}
-            >
-              <span className="w-2 h-2 rounded-full bg-black flex-shrink-0" />
-              {perk.label}
-            </Link>
-          </div>
-        ))}
+    <>
+      <style>{`
+        @keyframes gradientShift {
+          0%   { background-position: 0% 50%; }
+          50%  { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .perks-animated-bg {
+          background: linear-gradient(135deg, #0a1628, #2e5f8a, #0d1b2a, #1a3a5c, #0a1628);
+          background-size: 300% 300%;
+          animation: gradientShift 8s ease infinite;
+        }
+      `}</style>
+      <div className="w-full perks-animated-bg">
+        <div className="grid grid-cols-3 divide-x divide-gray-700">
+          {PERKS.map((perk, i) => (
+            <div key={i} className="flex flex-col px-16 py-8">
+              <div className="mb-6">{perk.icon}</div>
+              <h3 className="text-lg font-bold text-white mb-3">{perk.title}</h3>
+              <p className="text-sm text-gray-400 leading-relaxed mb-8">{perk.description}</p>
+              <Link
+                href={perk.href}
+                className="inline-flex items-center gap-3 bg-white text-black text-xs font-bold tracking-widest px-5 py-3 w-fit"
+                style={{ borderRadius: '999px' }}
+              >
+                <span className="w-2 h-2 rounded-full bg-black flex-shrink-0" />
+                {perk.label}
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
