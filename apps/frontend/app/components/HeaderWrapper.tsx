@@ -319,11 +319,35 @@ const MENU_DATA: MenuCategory[] = [
   },
 ];
 
+const SECTION_IMAGES: Record<string, string> = {
+  barbara: '/assets/mega-barbara.svg',
+  stationara: '/assets/mega-stationara.svg',
+  datortillbehor: '/assets/mega-datortillbehor.svg',
+  processorer: '/assets/mega-processorer.svg',
+  moderkort: '/assets/mega-moderkort.svg',
+  grafikkort: '/assets/mega-grafikkort.svg',
+  ram: '/assets/mega-ram.svg',
+  lagringsenhet: '/assets/mega-lagring.svg',
+  natlagring: '/assets/mega-natlaggregat.svg',
+  'gaming-laptops': '/assets/mega-gaming-laptop.svg',
+  'gaming-pc': '/assets/mega-gaming-pc.svg',
+  'gaming-peripherals': '/assets/mega-gaming-tillbehor.svg',
+  smartphones: '/assets/mega-smartphones.svg',
+  'mobil-tillbehor': '/assets/mega-mobil-tillbehor.svg',
+  accesspunkter: '/assets/mega-accesspunkter.svg',
+  natsverksforlangarе: '/assets/mega-natverksforlangare.svg',
+  routrar: '/assets/mega-routrar.svg',
+  mesh: '/assets/mega-mesh.svg',
+  tv: '/assets/mega-tv.svg',
+  ljud: '/assets/mega-ljud.svg',
+  'tillbehor-tv': '/assets/mega-tv-tillbehor.svg',
+};
+
 const ERBJUDANDEN_CAMPAIGNS = [
-  { id: 'veckans-deals', title: 'Veckans deals', bg: 'bg-gray-900', url: '/erbjudanden/veckans-deals', image: '/assets/kampanj-1.webp' },
-  { id: 'rea', title: 'Rea — upp till 50%', bg: 'bg-red-700', url: '/erbjudanden/rea', image: '/assets/kampanj-2.webp' },
-  { id: 'paketpris', title: 'Paketpris', bg: 'bg-blue-900', url: '/erbjudanden/paketpris', image: '/assets/kampanj-3.webp' },
-  { id: 'lagertomning', title: 'Lagertömning', bg: 'bg-gray-800', url: '/erbjudanden/lagertomning', image: '/assets/kampanj-4.webp' },
+  { id: 'veckans-deals', title: 'Veckans deals', bg: 'bg-gray-900', url: '/erbjudanden/veckans-deals', image: '/assets/kampanj-1.svg' },
+  { id: 'rea', title: 'Rea — upp till 50%', bg: 'bg-red-700', url: '/erbjudanden/rea', image: '/assets/kampanj-2.svg' },
+  { id: 'paketpris', title: 'Paketpris', bg: 'bg-blue-900', url: '/erbjudanden/paketpris', image: '/assets/kampanj-3.svg' },
+  { id: 'lagertomning', title: 'Lagertömning', bg: 'bg-gray-800', url: '/erbjudanden/lagertomning', image: '/assets/kampanj-4.svg' },
 ];
 
 const ERBJUDANDEN_DATA: MenuCategory = {
@@ -885,8 +909,12 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                     {getActiveCategory()?.items?.map((section) => (
                       <div key={section.id}>
                         <div className="mb-4 pb-4 border-b border-gray-200">
-                          <div className="text-white flex-shrink-0 mb-2 w-10 h-10 flex items-center justify-center rounded-full bg-black p-2">
-                            {section.icon}
+                          <div className="mb-2 flex-shrink-0 flex items-center justify-center" style={{ width: '96px', height: '96px', backgroundColor: '#111111', borderRadius: '8px' }}>
+                            <img
+                              src={SECTION_IMAGES[section.id] || '/assets/cat-electronics.png'}
+                              alt={section.title}
+                              style={{ width: '80px', height: '80px', objectFit: 'contain', transform: section.id === 'tv' ? 'rotate(-90deg)' : 'none' }}
+                            />
                           </div>
                           <Link href={section.url}>
                             <h3 className={`font-bold text-sm uppercase tracking-wide transition-colors cursor-pointer ${
