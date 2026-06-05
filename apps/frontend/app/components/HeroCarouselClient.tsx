@@ -80,9 +80,9 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
   }, [isPlaying, collections.length]);
 
   const heroImages = [
-    '/assets/hero-thumb-1.svg',
-    '/assets/hero-thumb-2.svg',
-    '/assets/hero-thumb-3.svg',
+    '/assets/hero-thumb-1.webp',
+    '/assets/hero-thumb-2.webp',
+    '/assets/hero-thumb-3.webp',
   ];
 
   return (

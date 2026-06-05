@@ -19,7 +19,7 @@ export function AboutBanner() {
       {/* Left — image */}
       <div className="relative flex-shrink-0 about-animated-bg" style={{ width: '52%' }}>
         <img
-          src="/assets/svg-hand.svg"
+          src="/assets/svg-hand.webp"
           alt="Techpilots"
           className="w-full h-full object-cover"
         />
