@@ -856,13 +856,11 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
         </nav>
 
         {/* Mega Menu */}
-        {showMegaMenu && activeMegaMenu && (
-          <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white z-40 flex justify-center border-b border-l border-r border-gray-200">
+        <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white z-40 flex justify-center border-b border-l border-r border-gray-200" style={{ visibility: (showMegaMenu && activeMegaMenu) ? 'visible' : 'hidden', pointerEvents: (showMegaMenu && activeMegaMenu) ? 'auto' : 'none' }}>
             <div className="w-[1280px] px-6">
               <div className="py-8">
-                {activeMegaMenu === 'erbjudanden' ? (
-                  <div className="flex gap-8">
-                    {/* Vänster — kategorilista */}
+                {/* Erbjudanden panel */}
+                <div style={{ display: activeMegaMenu === 'erbjudanden' ? 'flex' : 'none', gap: '2rem' }}>
                     <div className="flex flex-col justify-between" style={{ minWidth: '180px' }}>
                       <div>
                         <p className="text-xs text-gray-400 uppercase tracking-widest mb-4 invisible">placeholder</p>
@@ -888,8 +886,6 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                         </Link>
                       </div>
                     </div>
-
-                    {/* Mitten — banners */}
                     <div className="flex-1">
                       <p className="text-xs text-gray-400 uppercase tracking-widest mb-4">Erbjudanden</p>
                       <div className="flex gap-3">
@@ -902,11 +898,12 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                         ))}
                       </div>
                     </div>
+                </div>
 
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                    {getActiveCategory()?.items?.map((section) => (
+                {/* Category panels — always in DOM, shown/hidden via display */}
+                {MENU_DATA.map((category) => (
+                  <div key={category.id} style={{ display: activeMegaMenu === category.id ? 'grid' : 'none' }} className="grid-cols-2 md:grid-cols-4 gap-8">
+                    {category.items?.map((section) => (
                       <div key={section.id}>
                         <div className="mb-4 pb-4 border-b border-gray-200">
                           <div className="mb-2 flex-shrink-0" style={{ width: '96px', height: '96px' }}>
@@ -937,11 +934,11 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                       </div>
                     ))}
                   </div>
-                )}
+                ))}
               </div>
             </div>
           </div>
-        )}
+        </div>
       </div>
       <div className="w-full h-px bg-gray-200 relative z-50"></div>
     </header>
