@@ -109,11 +109,11 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
           if (isPrev) transform = 'translateX(-100%)';
           if (!isCurrent && !isPrev) transform = 'translateX(100%)';
 
-          const isSvg = src.endsWith('.svg');
+          const isHeroThumb = src.includes('hero-thumb');
           return (
             <div
               key={src}
-              className={`absolute inset-0 w-full h-full${isSvg ? ' hero-animated-bg' : ''}`}
+              className={`absolute inset-0 w-full h-full${isHeroThumb ? ' hero-animated-bg' : ''}`}
               style={{
                 transform,
                 transition: (isCurrent || isPrev) && sliding ? 'transform 600ms cubic-bezier(0.25, 0.46, 0.45, 0.94)' : 'none',
@@ -124,7 +124,7 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
                 src={src}
                 alt={collections[i]?.title || ''}
                 className="w-full h-full"
-                style={{ objectFit: isSvg ? 'contain' : 'cover' }}
+                style={{ objectFit: isHeroThumb ? 'contain' : 'cover' }}
                 width={1280}
                 height={640}
                 fetchPriority={i === 0 ? 'high' : 'low'}
