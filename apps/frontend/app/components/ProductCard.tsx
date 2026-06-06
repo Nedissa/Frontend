@@ -84,8 +84,13 @@ export function ProductCard({
       const p = (e as CustomEvent).detail;
       if (p.id === product.id) setInCompare(prev => !prev);
     };
+    const clearHandler = () => setInCompare(false);
     window.addEventListener('toggleCompare', handler);
-    return () => window.removeEventListener('toggleCompare', handler);
+    window.addEventListener('clearCompare', clearHandler);
+    return () => {
+      window.removeEventListener('toggleCompare', handler);
+      window.removeEventListener('clearCompare', clearHandler);
+    };
   }, [product.id]);
 
   const handleClick = () => {
@@ -172,10 +177,10 @@ export function ProductCard({
             <button
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.dispatchEvent(new CustomEvent('toggleCompare', { detail: product })); }}
               className="w-7 h-7 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
-              style={{ background: inCompare ? '#000' : '#fff' }}
-              title={inCompare ? 'Ta bort från jämförelse' : 'Jämför'}
+              style={{ background: inCompare ? '#000' : '#fff', border: inCompare ? 'none' : '1px solid #ccc' }}
+              title={inCompare ? 'Ta bort från jämförelse' : 'Lägg till i jämförelse'}
             >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke={inCompare ? '#fff' : '#333'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke={inCompare ? '#fff' : '#000'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 20V10M12 20V4M6 20v-6" />
               </svg>
             </button>
