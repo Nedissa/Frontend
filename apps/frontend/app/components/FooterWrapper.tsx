@@ -7,7 +7,7 @@ export function FooterWrapper() {
     <footer className="w-full bg-black text-white">
       <div className="py-24">
         <div className="max-w-[1280px] mx-auto px-6">
-          <div className="grid grid-cols-5 gap-12 mb-12 pb-8 border-b border-gray-800 text-white">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-12 mb-12 pb-8 border-b border-gray-800 text-white">
             {/* Logo section */}
             <div>
               <h2 className="text-lg font-bold mb-6">Techpilots</h2>

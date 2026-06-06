@@ -323,7 +323,7 @@ export function ProductCard({
           <button
             onClick={handleClick}
             disabled={added}
-            className="w-full py-2.5 font-semibold text-sm flex items-center justify-center gap-2 relative z-10 text-white transition-all duration-300"
+            className="w-full py-2.5 font-semibold text-sm flex items-center justify-center gap-2 relative z-10 text-white transition-all duration-300 mobile-btn-visible"
             style={{ background: 'black', opacity: (isHovered || added) ? 1 : 0, transform: (isHovered || added) ? 'translateY(0)' : 'translateY(100%)' }}
           >
             <span className="absolute inset-0 bg-black" />

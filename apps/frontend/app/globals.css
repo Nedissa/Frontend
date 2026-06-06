@@ -49,6 +49,14 @@ img {
   border-radius: 4px;
 }
 
+/* On mobile: always show add-to-cart button */
+@media (max-width: 767px) {
+  .mobile-btn-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+}
+
 /* Carousel item responsive width */
 .carousel-item {
   width: calc(80% - 12px);
