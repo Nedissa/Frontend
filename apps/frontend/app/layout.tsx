@@ -18,7 +18,7 @@ export default async function RootLayout({
   const isLoggedIn = !!token;
 
   return (
-    <html lang="sv" style={{ scrollbarGutter: 'stable' }}>
+    <html lang="sv" style={{ scrollbarGutter: 'stable', overflowY: 'scroll' }}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
