@@ -26,7 +26,7 @@ export interface ProductData {
   metadata?: Record<string, any>;
 }
 
-type ProductCardVariant = 'popular' | 'recommended' | 'new' | 'related' | 'also-like';
+type ProductCardVariant = 'popular' | 'recommended' | 'new' | 'related' | 'also-like' | 'recently-viewed';
 
 interface ProductCardProps {
   product: ProductData;
@@ -43,6 +43,7 @@ const VARIANT_CONFIG: Record<ProductCardVariant, { showFeatures: boolean }> = {
   new: { showFeatures: true },
   related: { showFeatures: true },
   'also-like': { showFeatures: true },
+  'recently-viewed': { showFeatures: true },
 };
 
 export function ProductCard({
@@ -119,6 +120,16 @@ export function ProductCard({
       >
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
+          {(() => {
+            const tierRaw = product.features?.find(f => f.startsWith('tier:'))?.split(':')[1] || product.metadata?.tier;
+            const tierMap: Record<string, string> = {
+              standard: 'Standard', essential: 'Standard',
+              avancerad: 'Avancerad', advanced: 'Avancerad',
+              premium: 'Premium',
+            };
+            const tier = tierRaw ? tierMap[tierRaw.toLowerCase()] : null;
+            return tier ? <span className="bg-black text-white text-[10px] font-bold px-3 py-1 w-fit">{tier}</span> : null;
+          })()}
           {product.isNew && (
             <div className="bg-orange-600 text-white px-2.5 py-1 rounded text-xs font-bold w-fit">
               Ny
@@ -177,28 +188,13 @@ export function ProductCard({
       {/* Quick facts — below image */}
       {config.showFeatures && product.features && product.features.length > 0 && (
         <div className="relative flex items-stretch bg-[#fafaf8] border-b border-gray-200 mb-4">
-          {(() => {
-            const tierRaw = product.features?.find(f => f.startsWith('tier:'))?.split(':')[1] || product.metadata?.tier;
-            const tierMap: Record<string, string> = {
-              standard: 'Standard', essential: 'Standard',
-              avancerad: 'Avancerad', advanced: 'Avancerad',
-              premium: 'Premium',
-            };
-            const tier = tierRaw ? tierMap[tierRaw.toLowerCase()] : null;
-            if (!tier) return null;
-            return (
-              <div className={`absolute bottom-0 left-0 ${isHovered ? 'opacity-100' : 'opacity-0'}`} style={{ zIndex: 20 }}>
-                <span className="bg-black text-white text-[10px] font-bold px-3 py-1">{tier}</span>
-              </div>
-            );
-          })()}
           {product.features.filter(f => !f.startsWith('tier:')).slice(0, 3).map((feature: string, idx: number) => {
             const [value, ...labelParts] = feature.split(' ');
             const label = labelParts.join(' ');
             return (
-              <div key={idx} className={`flex-1 flex flex-col items-center justify-center py-1.5 px-1 text-center ${idx < 2 && !isHovered ? 'border-r border-gray-300' : ''}`}>
-                <span className={`text-[11px] font-bold text-gray-800 ${isHovered ? 'opacity-0' : 'opacity-100'}`}>{value}</span>
-                <span className={`text-[9px] text-gray-400 leading-tight ${isHovered ? 'opacity-0' : 'opacity-100'}`}>{label}</span>
+              <div key={idx} className={`flex-1 flex flex-col items-center justify-center py-1.5 px-1 text-center ${idx < 2 ? 'border-r border-gray-300' : ''}`}>
+                <span className="text-[11px] font-bold text-gray-800">{value}</span>
+                <span className="text-[9px] text-gray-400 leading-tight">{label}</span>
               </div>
             );
           })}

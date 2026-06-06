@@ -160,6 +160,7 @@ export default function ProductDetailClient({
   const [pageUrl, setPageUrl] = useState('');
   const [showZoom, setShowZoom] = useState(false);
   const [alsoLikeProducts, setAlsoLikeProducts] = useState<ProductData[]>([]);
+  const [recentlyViewed, setRecentlyViewed] = useState<ProductData[]>([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const router = useRouter();
 
@@ -180,15 +181,28 @@ export default function ProductDetailClient({
   }, []);
 
   useEffect(() => {
-    const loadAlsoLikeProducts = async () => {
-      const products = await fetchProductsFromMedusa();
-      const filtered = products.filter((p: any) => p.sectionCategory === 'also-like');
+    const loadProducts = async () => {
+      const allProducts = await fetchProductsFromMedusa();
+      const filtered = allProducts.filter((p: any) => p.sectionCategory === 'also-like');
       setAlsoLikeProducts(filtered);
+
+      const recentIds: string[] = JSON.parse(localStorage.getItem('recentlyViewedIds') || '[]');
+      const recentExcludingCurrent = recentIds.filter(id => id !== product.id);
+      const recentProducts = recentExcludingCurrent
+        .map(id => allProducts.find((p: any) => p.id === id))
+        .filter(Boolean)
+        .slice(0, 6) as ProductData[];
+      setRecentlyViewed(recentProducts);
     };
-    loadAlsoLikeProducts();
+    loadProducts();
 
     const favoritesList = JSON.parse(localStorage.getItem('favoritesList') || '[]');
     setIsFavorite(favoritesList.some((item: any) => item.id === product.id));
+
+    // Save current product ID to recently viewed list
+    const existingIds: string[] = JSON.parse(localStorage.getItem('recentlyViewedIds') || '[]');
+    const updatedIds = [product.id, ...existingIds.filter(id => id !== product.id)].slice(0, 8);
+    localStorage.setItem('recentlyViewedIds', JSON.stringify(updatedIds));
 
     const handleCartCleared = () => { setSelectedAccessories([]); };
     const handleStorageChange = (e: StorageEvent) => {
@@ -589,7 +603,7 @@ export default function ProductDetailClient({
             </svg>
           </button>
           <div className="mx-6 h-px bg-gray-100" />
-          <div className="px-6 py-4 flex items-center gap-4 flex-wrap">
+          <div className="px-6 py-4 flex items-center gap-4">
             <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs text-gray-700 hover:text-black">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
               Facebook
@@ -653,6 +667,17 @@ export default function ProductDetailClient({
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-4 -my-4 px-4 -mx-4">
             {alsoLikeProducts.map((product) => (
               <ProductCard key={product.id} product={product} variant="also-like" />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {recentlyViewed.length > 0 && (
+        <div className="w-[1280px] mx-auto mt-12 mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Du tittade nyligen på</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 py-4 -my-4 px-4 -mx-4">
+            {recentlyViewed.map((p) => (
+              <ProductCard key={p.id} product={p} variant="recently-viewed" />
             ))}
           </div>
         </div>
