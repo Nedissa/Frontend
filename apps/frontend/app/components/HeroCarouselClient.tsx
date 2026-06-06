@@ -9,7 +9,7 @@ const heroCarouselStyle = `
     100% { background-position: 0% 50%; }
   }
   .hero-animated-bg {
-    background: linear-gradient(135deg, #0a1628, #2e5f8a, #0d1b2a, #1a3a5c, #0a1628);
+    background: linear-gradient(135deg, #1e3048, #4a7faa, #223344, #2e5880, #1e3048);
     background-size: 300% 300%;
     animation: heroGradientShift 8s ease infinite;
   }

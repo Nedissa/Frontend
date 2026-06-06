@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect, useRef, Fragment } from 'react';
 import { useCompare } from './CompareContext';
 
 const COLUMN_COLORS = ['#dce3eb', '#c5d0db', '#a8b8c6', '#8a9fb0'];
+const COLUMN_ACCENTS = ['#7a99b0', '#5f8498', '#4a6f82', '#355a6c'];
 
 const SPEC_CATEGORIES: { label: string; keys: string[] }[] = [
   { label: 'Processor', keys: ['Intel i3', 'Intel i5', 'Intel i7', 'Intel i9', 'AMD Ryzen 5', 'AMD Ryzen 7', 'AMD Ryzen 9'] },
@@ -23,9 +24,24 @@ function getCategoryForKey(key: string): string | null {
 }
 
 export function CompareBar() {
-  const { compareList, clearCompare } = useCompare();
+  const { compareList, clearCompare, removeFromCompare } = useCompare();
   const [modalOpen, setModalOpen] = useState(false);
   const [closing, setClosing] = useState(false);
+  const [barHeight, setBarHeight] = useState(64);
+  const barRef = useRef<HTMLDivElement>(null);
+
+  const modalOpenRef = useRef(false);
+  useEffect(() => { modalOpenRef.current = modalOpen; }, [modalOpen]);
+
+  useEffect(() => {
+    if (!barRef.current) return;
+    const observer = new ResizeObserver(() => {
+      if (barRef.current && !modalOpenRef.current) setBarHeight(barRef.current.getBoundingClientRect().height);
+    });
+    observer.observe(barRef.current);
+    setBarHeight(barRef.current.getBoundingClientRect().height);
+    return () => observer.disconnect();
+  }, []);
 
   const closeSheet = () => {
     setClosing(true);
@@ -67,12 +83,10 @@ export function CompareBar() {
     const specs: { label: string; value: string }[] = (product.metadata?.specifications as any) || [];
     const fromSpecs = specs.find(s => s.label === label)?.value;
     if (fromSpecs) return fromSpecs;
-    return (product.features || []).includes(label) ? '⬤' : null;
+    return (product.features || []).includes(label) ? true : null;
   };
 
-  // Group spec keys by category
   const grouped: { category: string | null; keys: string[] }[] = [];
-  const seen = new Set<string>();
   allSpecKeys.forEach(key => {
     const cat = getCategoryForKey(key);
     const existing = grouped.find(g => g.category === cat);
@@ -81,7 +95,6 @@ export function CompareBar() {
     } else {
       grouped.push({ category: cat, keys: [key] });
     }
-    seen.add(key);
   });
 
   return (
@@ -107,39 +120,37 @@ export function CompareBar() {
         .compare-backdrop { animation: fadeIn 0.2s ease; }
         .compare-sheet-in { animation: sheetIn 0.3s ease; }
         .compare-sheet-out { animation: sheetOut 0.28s ease forwards; }
-        .compare-spec-row:hover .spec-val { background: #111 !important; color: #fff !important; }
-        .compare-spec-row:hover .spec-label { font-weight: 700 !important; color: #000 !important; }
-        .compare-spec-row-even .spec-val { filter: brightness(0.97); }
+        .compare-spec-row:hover .spec-label { color: #000 !important; }
         .compare-sheet-in::-webkit-scrollbar { display: none; }
         .compare-sheet-out::-webkit-scrollbar { display: none; }
+        .remove-btn { opacity: 0; transition: opacity 0.15s; }
+        .compare-product-col:hover .remove-btn { opacity: 1; }
       `}</style>
 
       {/* Floating bar */}
-      <div className="compare-bar fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200" style={{ zIndex: 102, boxShadow: '0 -4px 24px rgba(0,0,0,0.12)' }}>
+      <div ref={barRef} className="compare-bar fixed bottom-0 left-0 right-0 bg-white" style={{ zIndex: 102,  }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px' }}>
-          <span style={{ fontSize: '0.78rem', color: '#555', fontWeight: 600 }}>
-            {compareList.length} / 4 produkter valda
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#f4f4f5', borderRadius: '999px', padding: '6px 14px' }}>
+            <span style={{ fontSize: '0.78rem', color: '#3f3f46', fontWeight: 600, minWidth: '28px' }}>{compareList.length} / 4</span>
+            <div style={{ display: 'flex', gap: '4px' }}>
+              {[0,1,2,3].map(i => (
+                <div key={i} style={{ width: '24px', height: '4px', borderRadius: '999px', background: i < compareList.length ? '#3f3f46' : '#d4d4d8' }} />
+              ))}
+            </div>
+          </div>
           <button
             onClick={() => {
               if (modalOpen) {
                 closeSheet();
                 setTimeout(() => { window.dispatchEvent(new CustomEvent('clearCompare')); clearCompare(); }, 280);
-              } else {
-                window.dispatchEvent(new CustomEvent('clearCompare'));
-                clearCompare();
+              } else if (compareList.length >= 2) {
+                setModalOpen(true);
               }
             }}
-            style={{ background: 'none', border: '1px solid #e5e7eb', padding: '8px 16px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#666' }}
+            disabled={!modalOpen && compareList.length < 2}
+            style={{ background: !modalOpen && compareList.length < 2 ? '#e5e7eb' : '#000', color: !modalOpen && compareList.length < 2 ? '#aaa' : '#fff', border: 'none', padding: '5px 12px', fontSize: '0.78rem', fontWeight: 700, cursor: !modalOpen && compareList.length < 2 ? 'not-allowed' : 'pointer', borderRadius: '6px' }}
           >
-            Rensa
-          </button>
-          <button
-            onClick={() => setModalOpen(true)}
-            disabled={compareList.length < 2}
-            style={{ background: compareList.length < 2 ? '#e5e7eb' : '#000', color: compareList.length < 2 ? '#aaa' : '#fff', border: 'none', padding: '8px 20px', fontSize: '0.78rem', fontWeight: 700, cursor: compareList.length < 2 ? 'not-allowed' : 'pointer' }}
-          >
-            Jämför nu
+            {modalOpen ? 'Rensa' : 'Jämför'}
           </button>
         </div>
       </div>
@@ -158,10 +169,10 @@ export function CompareBar() {
           {/* Sheet */}
           <div
             className={closing ? 'compare-sheet-out' : 'compare-sheet-in'}
-            style={{ position: 'fixed', bottom: '57px', left: 0, right: 0, zIndex: 101, background: '#fff', maxHeight: 'calc(100vh - 57px)', overflowY: 'auto', overscrollBehavior: 'contain', scrollbarWidth: 'none', borderRadius: '12px 12px 0 0', boxShadow: '0 -8px 40px rgba(0,0,0,0.2)' }}
+            style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 101, background: '#fff', maxHeight: '100vh', paddingBottom: `${barHeight}px`, overflowY: 'auto', overscrollBehavior: 'contain', scrollbarWidth: 'none',  }}
           >
             {/* Modal header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 28px', borderBottom: '1px solid #e5e7eb', position: 'sticky', top: 0, background: '#fff', zIndex: 1, maxWidth: '1280px', margin: '0 auto', width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 28px', position: 'sticky', top: 0, background: '#fff', zIndex: 1, maxWidth: '1280px', margin: '0 auto', width: '100%' }}>
               <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>Jämförelse</h2>
               <button
                 onClick={closeSheet}
@@ -176,14 +187,23 @@ export function CompareBar() {
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
                   <tr>
-                    <td style={{ width: '160px', paddingBottom: '8px' }} />
+                    <td style={{ width: '160px', paddingBottom: '24px' }} />
                     {compareList.map((p, i) => (
-                      <td key={p.id} style={{ paddingBottom: '24px', paddingRight: '16px', verticalAlign: 'top', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none', paddingLeft: i > 0 ? '16px' : '0' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                      <td key={p.id} className="compare-product-col" style={{ paddingBottom: '0', verticalAlign: 'top', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '16px 16px 24px', position: 'relative' }}>
+                          <button
+                            className="remove-btn"
+                            onClick={() => {
+                              window.dispatchEvent(new CustomEvent('toggleCompare', { detail: p }));
+                              removeFromCompare(p.id);
+                            }}
+                            style={{ position: 'absolute', top: 0, right: 8, background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.75rem', color: '#999', fontWeight: 600, padding: '4px' }}
+                          >
+                            Ta bort
+                          </button>
                           <img src={p.image} alt={p.title} style={{ width: '90px', height: '90px', objectFit: 'contain' }} />
                           <p style={{ fontSize: '0.82rem', fontWeight: 700, textAlign: 'center', lineHeight: 1.3 }}>{p.title}</p>
                           <p style={{ fontSize: '1rem', fontWeight: 800, color: '#dc2626' }}>{p.price.toLocaleString('sv-SE')} kr</p>
-                          <p style={{ fontSize: '0.72rem', fontWeight: 600, color: '#888' }}>Du jämför</p>
                         </div>
                       </td>
                     ))}
@@ -194,19 +214,33 @@ export function CompareBar() {
                     <Fragment key={category ?? 'uncategorized'}>
                       {category && (
                         <tr key={`cat-${category}`}>
-                          <td colSpan={compareList.length + 1} style={{ padding: '12px 0 6px', fontSize: '0.7rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#999', borderTop: '2px solid #e5e7eb' }}>
-                            {category}
+                          <td style={{ padding: '10px 0 6px', borderTop: '2px solid #e5e7eb' }}>
+                            <span style={{ fontSize: '0.68rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#999' }}>
+                              {category}
+                            </span>
                           </td>
+                          {compareList.map((_, i) => (
+                            <td key={i} style={{ borderTop: '2px solid #e5e7eb', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none' }} />
+                          ))}
                         </tr>
                       )}
                       {keys.map((label) => {
                         const values = compareList.map(p => getSpec(p, label));
                         return (
                           <tr key={label} className="compare-spec-row" style={{ borderBottom: '1px solid #f3f4f6', cursor: 'default', transition: 'background 0.15s' }}>
-                            <td className="spec-label" style={{ padding: '10px 0', fontSize: '0.8rem', color: '#555', fontWeight: 500, transition: 'color 0.15s, font-weight 0.15s' }}>{label}</td>
+                            <td className="spec-label" style={{ padding: '10px 0', fontSize: '0.8rem', color: '#555', fontWeight: 700, transition: 'color 0.15s' }}>{label}</td>
                             {values.map((val, i) => (
-                              <td key={i} className="spec-val" style={{ padding: '10px 16px', fontSize: '0.7rem', fontWeight: 600, color: '#000', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none', background: COLUMN_COLORS[i], textAlign: 'center', transition: 'filter 0.15s' }}>
-                                {val ?? ''}
+                              <td key={i} className="spec-val" style={{ padding: '10px 16px', fontSize: '0.7rem', fontWeight: 600, color: '#000', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none', background: COLUMN_COLORS[i], textAlign: 'center', transition: 'background 0.15s, color 0.15s' }}>
+                                {val === true ? (
+                                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block' }}>
+                                    <polyline points="20 6 9 17 4 12" />
+                                  </svg>
+                                ) : val ? val : (
+                                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#555" strokeWidth="2.5" strokeLinecap="round" style={{ display: 'inline-block' }}>
+                                    <line x1="18" y1="6" x2="6" y2="18" />
+                                    <line x1="6" y1="6" x2="18" y2="18" />
+                                  </svg>
+                                )}
                               </td>
                             ))}
                           </tr>

@@ -66,16 +66,18 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
           </button>
         </div>
       </div>
+      <div style={{ overflow: 'hidden', clipPath: 'inset(0)' }}>
       <div
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto py-4 -my-4 px-4 -mx-4"
+        className="flex gap-6 overflow-x-auto py-4 -my-4"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
-        {products.map((product, idx) => (
-          <div key={product.id} className="flex-shrink-0" style={{ width: '280px' }}>
+        {[...products, ...products].map((product, idx) => (
+          <div key={`${product.id}-${idx}`} className="flex-shrink-0" style={{ width: 'calc(25% - 18px)' }}>
             <ProductCard product={product} variant={variant} priority={idx < 4} />
           </div>
         ))}
+      </div>
       </div>
     </div>
   );

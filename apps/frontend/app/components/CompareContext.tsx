@@ -41,7 +41,9 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
     return compareList.some(p => p.id === id);
   }, [compareList]);
 
-  const clearCompare = useCallback(() => setCompareList([]), []);
+  const clearCompare = useCallback(() => {
+    setCompareList([]);
+  }, []);
 
   return (
     <CompareContext.Provider value={{ compareList, removeFromCompare, isInCompare, clearCompare }}>
