@@ -39,7 +39,9 @@ export function FooterWrapper() {
               <ul className="space-y-1 text-sm">
                 <li><Link href="/frakt-och-leverans">Leverans</Link></li>
                 <li><Link href="/villkor#betalning">Betalning</Link></li>
-                <li><Link href="/villkor#dataskydd">Säkerhet</Link></li>
+                <li><Link href="/villkor">Försäljningsvillkor</Link></li>
+                <li><Link href="/integritetspolicy">Integritetspolicy</Link></li>
+                <li><Link href="/cookiepolicy">Cookiepolicy</Link></li>
               </ul>
             </div>
 
@@ -50,6 +52,7 @@ export function FooterWrapper() {
                 <li><Link href="/kontakt">Kontakta oss</Link></li>
                 <li><Link href="/faq">Vanliga frågor</Link></li>
                 <li><Link href="/returpolicy">Returer & byten</Link></li>
+                <li><Link href="/reklamation">Reklamation & service</Link></li>
               </ul>
             </div>
 
@@ -114,8 +117,7 @@ export function FooterWrapper() {
 
           {/* Footer bottom */}
           <div className="flex justify-between items-center text-xs text-gray-400 pt-8">
-            <p>© 2026 Techpilots. Alla rättigheter förbehållna.</p>
-            <a href="/villkor">Villkor och policyer</a>
+            <p>© 2026 Techpilots AB. Alla rättigheter förbehållna.</p>
           </div>
         </div>
       </div>
