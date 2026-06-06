@@ -73,7 +73,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {[...products, ...products].map((product, idx) => (
-          <div key={`${product.id}-${idx}`} className="flex-shrink-0" style={{ width: 'calc(25% - 18px)' }}>
+          <div key={`${product.id}-${idx}`} className="flex-shrink-0 carousel-item">
             <ProductCard product={product} variant={variant} priority={idx < 4} />
           </div>
         ))}

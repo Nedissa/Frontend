@@ -42,14 +42,15 @@ export function CategoryGrid({ slug }: { slug: string }) {
 
   return (
     <div className="w-full mb-6">
-      <div className="w-full flex items-start justify-center gap-10">
+      <div className="w-full flex flex-wrap items-start justify-center gap-4 sm:gap-10">
         {categories.map((cat) => (
-          <Link key={cat.url + cat.title} href={cat.url} className="flex flex-col items-center gap-3 group">
-            <div style={{ width: '100px', height: '100px', borderRadius: '50%', backgroundColor: '#fafaf8', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+          <Link key={cat.url + cat.title} href={cat.url} className="flex flex-col items-center gap-3 group" style={{ minWidth: '72px' }}>
+            <div style={{ width: '72px', height: '72px', borderRadius: '50%', backgroundColor: '#fafaf8', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }} className="sm:w-[100px] sm:h-[100px]">
               <img
                 src={cat.icon}
                 alt={cat.title}
-                style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                style={{ width: '72px', height: '72px', objectFit: 'cover' }}
+                className="sm:w-[100px] sm:h-[100px]"
               />
             </div>
             <div className="text-center">

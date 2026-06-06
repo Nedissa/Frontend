@@ -379,6 +379,8 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<{ title: string; url: string } | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileExpandedCategory, setMobileExpandedCategory] = useState<string | null>(null);
   const categoryDropdownRef = useRef<HTMLDivElement>(null);
   const [cartCount, setCartCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
@@ -400,7 +402,18 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   useEffect(() => {
     setShowMegaMenu(false);
     setActiveMegaMenu(null);
+    setMobileMenuOpen(false);
+    setMobileExpandedCategory(null);
   }, [pathname]);
+
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileMenuOpen]);
 
   const getCartCount = () => {
     if (typeof window === 'undefined') return cartCount;
@@ -648,8 +661,8 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
           {/* Search Input */}
           <div className="flex-1 max-w-2xl relative" ref={searchContainerRef}>
             <div className="relative flex items-center rounded overflow-visible" style={{ backgroundColor: '#f5f5f5' }}>
-              {/* Category dropdown */}
-              <div className="relative flex-shrink-0" ref={categoryDropdownRef}>
+              {/* Category dropdown - hidden on mobile */}
+              <div className="relative flex-shrink-0 hidden sm:block" ref={categoryDropdownRef}>
                 <button
                   onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
                   className="flex items-center gap-2 px-3 py-2.5 text-sm font-semibold text-black whitespace-nowrap border-r border-gray-300"
@@ -774,7 +787,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
           </div>
 
           {/* Right side icons */}
-          <div className="flex items-center gap-4 flex-shrink-0" style={{ minWidth: '280px', justifyContent: 'flex-end' }}>
+          <div className="flex items-center gap-3 md:gap-4 flex-shrink-0" style={{ justifyContent: 'flex-end' }}>
             <style>{`
               @keyframes vibrate {
                 0%, 100% { transform: translateX(0); }
@@ -807,17 +820,71 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                 </svg>
                 <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-lg" style={{ display: cartCount > 0 ? 'flex' : 'none' }} suppressHydrationWarning>{cartCount}</span>
               </div>
-              <div className="flex flex-col items-start gap-0.5 hidden md:flex" style={{ minWidth: '72px' }}>
+              <div className="flex-col items-start gap-0.5 hidden md:flex" style={{ minWidth: '72px' }}>
                 <span className="text-sm font-bold text-black" suppressHydrationWarning>{cartTotal.toLocaleString('sv-SE')} kr</span>
                 <span className="text-xs font-semibold text-black">Varukorg</span>
               </div>
+            </button>
+            {/* Hamburger - mobile only */}
+            <button
+              className="md:hidden flex flex-col justify-center items-center gap-1.5 p-1"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Meny"
+            >
+              <span className={`block w-5 h-0.5 bg-black transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+              <span className={`block w-5 h-0.5 bg-black transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block w-5 h-0.5 bg-black transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
             </button>
           </div>
         </div>
       </div>
 
-      {/* Navigation & Mega Menu Wrapper */}
-      <div onMouseLeave={() => { setShowMegaMenu(false); setActiveMegaMenu(null); }}>
+      {/* Mobile Menu Overlay */}
+      {mobileMenuOpen && (
+        <div className="md:hidden fixed inset-0 top-[57px] bg-white z-50 overflow-y-auto">
+          <div className="px-6 py-4">
+            {/* Login link */}
+            <Link href="/konto" className="flex items-center gap-2 py-3 border-b border-gray-100 text-sm font-semibold">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+              {isHydrated ? (isLoggedIn ? 'Mina sidor' : 'Logga in') : 'Logga in'}
+            </Link>
+
+            {/* Categories */}
+            {MENU_DATA.map((category) => (
+              <div key={category.id} className="border-b border-gray-100">
+                <button
+                  className="w-full flex items-center justify-between py-3 text-sm font-semibold text-black"
+                  onClick={() => setMobileExpandedCategory(mobileExpandedCategory === category.id ? null : category.id)}
+                >
+                  {category.title}
+                  <svg className={`w-4 h-4 transition-transform ${mobileExpandedCategory === category.id ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                    <path d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {mobileExpandedCategory === category.id && category.items && (
+                  <div className="pb-3 pl-4">
+                    {category.items.map((section) => (
+                      <div key={section.id} className="mb-3">
+                        <Link href={section.url} className="text-sm font-semibold text-black block mb-1">{section.title}</Link>
+                        {section.items?.map((item) => (
+                          <Link key={item.id} href={item.url} className="text-sm text-gray-500 block py-1 pl-3">{item.title}</Link>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+
+            <Link href="/erbjudanden" className="flex items-center justify-between py-3 text-sm font-semibold border-b border-gray-100">
+              Erbjudanden
+            </Link>
+          </div>
+        </div>
+      )}
+
+      {/* Navigation & Mega Menu Wrapper — desktop only */}
+      <div className="hidden md:block" onMouseLeave={() => { setShowMegaMenu(false); setActiveMegaMenu(null); }}>
         {/* Navigation */}
         <nav className="bg-white">
           <div className="px-6 py-0 flex justify-center">
@@ -939,7 +1006,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
             </div>
           </div>
       </div>
-      <div className="w-full h-px bg-gray-200 relative z-50"></div>
+      <div className="hidden md:block w-full h-px bg-gray-200 relative z-50"></div>
     </header>
 
   );

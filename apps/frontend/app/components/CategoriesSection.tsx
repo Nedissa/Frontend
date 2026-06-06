@@ -77,18 +77,18 @@ const CATEGORIES: CategoryCard[] = [
 export function CategoriesSection() {
   return (
     <div className="w-full py-8">
-      <div className="grid grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
         {CATEGORIES.map((category) => (
           <a
             key={category.id}
             href={category.link}
-            className={`bg-gradient-to-br ${category.bgColor} rounded-2xl p-6 flex flex-col justify-between text-white min-h-[400px] cursor-pointer hover:shadow-lg transition-shadow`}
+            className={`bg-gradient-to-br ${category.bgColor} rounded-2xl p-4 sm:p-6 flex flex-col justify-between text-white min-h-[280px] sm:min-h-[340px] lg:min-h-[400px] cursor-pointer hover:shadow-lg transition-shadow`}
           >
             {/* Header with discount */}
             <div>
               <p className="text-sm font-semibold opacity-90 mb-1">Save up to</p>
-              <h3 className="text-4xl font-bold mb-2">{category.discount}</h3>
-              <h2 className="text-2xl font-bold mb-4">{category.title}</h2>
+              <h3 className="text-2xl sm:text-4xl font-bold mb-2">{category.discount}</h3>
+              <h2 className="text-lg sm:text-2xl font-bold mb-4">{category.title}</h2>
             </div>
 
             {/* Image */}
