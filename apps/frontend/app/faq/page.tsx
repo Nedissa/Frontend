@@ -44,7 +44,7 @@ export default function FAQPage() {
           <section>
             <h2 className="font-bold mb-4">3. Betalning</h2>
             <h3 className="font-bold mb-1">Vilka betalningsmetoder accepterar ni?</h3>
-            <p className="mb-4">Vi accepterar kreditkort (Visa, Mastercard), Swish och PayPal.</p>
+            <p className="mb-4">Vi accepterar kreditkort (Visa, Mastercard), Swish, PayPal och Klarna.</p>
             <h3 className="font-bold mb-1">Är det säkert att betala online?</h3>
             <p className="mb-4">Ja, mycket säkert. Vi använder SSL-kryptering och är PCI DSS-certifierade. Vi lagrar aldrig dina fullständiga betalningsuppgifter.</p>
             <h3 className="font-bold mb-1">Kan jag betala senare?</h3>

@@ -47,7 +47,7 @@ export default function TermsPage() {
           <section id="betalning">
             <h2 className="font-bold mb-4">4. Betalning och betalningsvillkor</h2>
             <p className="mb-3">
-              För konsumenter sker betalning med betalkort (Visa, Mastercard), Swish eller PayPal. Betalningen måste genomföras för att beställningen ska behandlas.
+              För konsumenter sker betalning med betalkort (Visa, Mastercard), Swish, PayPal eller Klarna. Betalningen måste genomföras för att beställningen ska behandlas.
             </p>
             <p className="mb-3">
               Vi använder säkra betalningslösningar som är PCI DSS-certifierade. Vi lagrar aldrig dina fullständiga betalningsuppgifter — alla transaktioner hanteras av tredjepartsbetalningsleverantörer.

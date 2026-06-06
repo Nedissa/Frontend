@@ -116,7 +116,11 @@ function InfoSidebar() {
                   {isOpen ? '▲' : '▼'}
                 </span>
               </button>
-              {isOpen && (
+              <div style={{
+                maxHeight: isOpen ? '300px' : '0',
+                overflow: 'hidden',
+                transition: 'max-height 0.3s ease',
+              }}>
                 <div style={{ paddingBottom: '8px' }}>
                   {cat.links.map(link => {
                     const active = pathname === link.href;
@@ -139,7 +143,7 @@ function InfoSidebar() {
                     );
                   })}
                 </div>
-              )}
+              </div>
             </div>
           );
         })}

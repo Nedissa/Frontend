@@ -44,7 +44,7 @@ export default function AboutPage() {
               <li><strong>Originalprodukter med garanti</strong> — Allt vi säljer kommer från auktoriserade leverantörer och omfattas av tillverkarens garanti.</li>
               <li><strong>Leverans inom 1–3 arbetsdagar</strong> — Vi skickar snabbt och når dig normalt inom 1–3 arbetsdagar, oavsett var i Sverige du bor.</li>
               <li><strong>30 dagars öppet köp</strong> — Ångrar du ditt köp returnerar du enkelt inom 30 dagar, inga krångliga regler.</li>
-              <li><strong>Säker betalning</strong> — Vi accepterar kort (Visa, Mastercard), Swish och PayPal med SSL-kryptering.</li>
+              <li><strong>Säker betalning</strong> — Vi accepterar kort (Visa, Mastercard), Swish, PayPal och Klarna med SSL-kryptering.</li>
               <li><strong>Personlig kundservice</strong> — Hör av dig via e-post eller telefon under öppettider så svarar vi så snabbt vi kan.</li>
               <li><strong>Rättvisa priser</strong> — Noggrant utvalt sortiment med konkurrenskraftiga priser och regelbundna erbjudanden på elektronik.</li>
             </ul>
