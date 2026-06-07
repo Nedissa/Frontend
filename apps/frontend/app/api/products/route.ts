@@ -128,10 +128,9 @@ export async function GET() {
         'Cache-Control': 'no-store',
       },
     });
-  } catch (error) {
-    console.error('Error in /api/products:', error);
+  } catch (error: any) {
     return Response.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', detail: error?.message, cause: error?.cause?.message },
       { status: 500 }
     );
   }
