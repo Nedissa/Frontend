@@ -1070,10 +1070,10 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
             })()}
           </div>
 
-          {/* ── LEVEL 2: Nivå 3 ── */}
+          {/* ── LEVEL 2: Nivå 3 — slides down from top ── */}
           <div
             className="absolute inset-0 flex flex-col transition-transform duration-300 ease-in-out overflow-y-auto bg-white"
-            style={{ transform: mobileActiveLevel === 2 ? 'translateX(0)' : 'translateX(100%)' }}
+            style={{ transform: mobileActiveLevel === 2 ? 'translateY(0)' : 'translateY(100%)' }}
           >
             {(() => {
               const activeCat = MENU_DATA.find(c => c.id === mobileExpandedCategory);
