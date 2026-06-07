@@ -729,9 +729,9 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
             </button>
           </div>
         </div>
-        {/* Row 2: search — svart bakgrund */}
-        <div className="bg-black px-4 py-2.5 relative" ref={searchContainerRef}>
-          <div className="flex items-center bg-white rounded px-3 py-2 gap-2">
+        {/* Row 2: search */}
+        <div className="bg-white px-4 py-2.5 relative border-b border-gray-200" ref={searchContainerRef}>
+          <div className="flex items-center bg-gray-100 rounded px-3 py-2 gap-2">
             <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
               <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/>
             </svg>
@@ -951,7 +951,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       {/* Mobile Menu Overlay */}
       <div
         className="md:hidden fixed inset-0 z-50 pointer-events-none"
-        style={{ top: '99px' }}
+        style={{ top: '108px' }}
       >
         {/* Backdrop */}
         <div
