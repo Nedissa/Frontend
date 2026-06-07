@@ -648,14 +648,92 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
     <header suppressHydrationWarning className={`fixed top-0 left-0 right-0 w-full bg-white z-40 transition-transform duration-300 ease-in-out ${
       isHeaderVisible ? 'translate-y-0' : '-translate-y-full'
     }`}>
-      {/* Search bar section */}
-      <div className="py-2 pt-4 px-6">
+
+      {/* ── MOBILE HEADER ── */}
+      <div className="md:hidden">
+        {/* Row 1: hamburger | logo | konto+kundvagn */}
+        <div className="grid items-center px-4 py-2" style={{ gridTemplateColumns: '1fr auto 1fr', backgroundColor: '#f7f7f7' }}>
+          {/* Left: hamburger */}
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Meny" className="inline-flex flex-col items-center gap-0.5 justify-self-start">
+            <svg className="w-6 h-6" fill="none" stroke="#1c1c1c" strokeWidth="2" viewBox="0 0 24 24">
+              {mobileMenuOpen
+                ? <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                : <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />}
+            </svg>
+            <span style={{ fontSize: '9px', color: '#1c1c1c', fontWeight: 600 }}>Meny</span>
+          </button>
+          {/* Center: logo */}
+          <Link href="/" className="inline-flex items-center gap-1.5 justify-self-center">
+            <div style={{ width: '26px', height: '26px' }}><Logo /></div>
+            <span className="font-bold text-black" style={{ fontSize: '17px', letterSpacing: '-0.3px' }}>Techpilots</span>
+          </Link>
+          {/* Right: konto + kundvagn */}
+          <div className="flex items-center gap-3 justify-self-end">
+            <Link href="/konto" className="inline-flex flex-col items-center gap-0.5">
+              <svg className="w-6 h-6" fill="#1c1c1c" viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+              <span style={{ fontSize: '9px', color: '#1c1c1c', fontWeight: 600 }}>{isHydrated ? (isLoggedIn ? 'Mina sidor' : 'Logga in') : 'Logga in'}</span>
+            </Link>
+            <button onClick={() => open('cart')} className="inline-flex flex-col items-center gap-0.5 relative">
+              <div className="relative">
+                <svg className="w-6 h-6 fill-[#1c1c1c]" viewBox="0 0 24 24">
+                  <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
+                </svg>
+                {cartCount > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 bg-red-600 text-white font-bold rounded-full flex items-center justify-center" style={{ fontSize: '9px', width: '16px', height: '16px' }} suppressHydrationWarning>{cartCount}</span>
+                )}
+              </div>
+              <span style={{ fontSize: '9px', color: '#1c1c1c', fontWeight: 600 }}>Kundvagn</span>
+            </button>
+          </div>
+        </div>
+        {/* Row 2: search — svart bakgrund */}
+        <div className="bg-black px-4 py-2.5 relative" ref={searchContainerRef}>
+          <div className="flex items-center bg-white rounded px-3 py-2 gap-2">
+            <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+              <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/>
+            </svg>
+            <input
+              type="text"
+              placeholder="Sök efter produkt..."
+              className="flex-1 bg-transparent text-sm text-black placeholder-gray-400 focus:outline-none"
+              value={searchTerm}
+              onChange={(e) => { setSearchTerm(e.target.value); if (e.target.value.length > 0) setShowSearchResults(true); }}
+              onFocus={() => searchTerm.length > 0 && setShowSearchResults(true)}
+            />
+          </div>
+          {searchTerm.length > 0 && showSearchResults && (
+            <div className="absolute left-0 right-0 bg-white border border-gray-200 shadow-lg z-[9999] mt-1 mx-4">
+              {(() => {
+                const results = searchProducts.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, 5);
+                return results.length > 0 ? (
+                  <div className="divide-y divide-gray-100">
+                    {results.map((product) => (
+                      <Link key={product.id} href={`/produkter/${product.handle || product.id}`} className="flex items-center gap-3 px-4 py-3">
+                        <img src={product.image} alt={product.title} className="w-10 h-10 object-contain flex-shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <div className="text-sm font-semibold truncate">{product.title}</div>
+                          <div className="text-xs text-red-600 font-bold">{product.price.toLocaleString('sv-SE')} kr</div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                ) : <div className="p-3 text-sm text-gray-500">Inga resultat för &quot;{searchTerm}&quot;</div>;
+              })()}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ── DESKTOP HEADER ── */}
+      <div className="hidden md:block py-2 pt-4 px-6">
         <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
           <Link href="/" className="flex-shrink-0 flex items-center gap-1.5 pl-6">
             <div style={{ width: '32px', height: '32px' }}>
               <Logo />
             </div>
-            <span className="font-bold text-black hidden sm:inline" style={{ fontSize: '22px', lineHeight: '32px', letterSpacing: '-0.3px' }}>Techpilots</span>
+            <span className="font-bold text-black" style={{ fontSize: '22px', lineHeight: '32px', letterSpacing: '-0.3px' }}>Techpilots</span>
           </Link>
 
           {/* Search Input */}
@@ -824,16 +902,6 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                 <span className="text-sm font-bold text-black" suppressHydrationWarning>{cartTotal.toLocaleString('sv-SE')} kr</span>
                 <span className="text-xs font-semibold text-black">Varukorg</span>
               </div>
-            </button>
-            {/* Hamburger - mobile only */}
-            <button
-              className="md:hidden flex flex-col justify-center items-center gap-1.5 p-1"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Meny"
-            >
-              <span className={`block w-5 h-0.5 bg-black transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-              <span className={`block w-5 h-0.5 bg-black transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
-              <span className={`block w-5 h-0.5 bg-black transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
             </button>
           </div>
         </div>

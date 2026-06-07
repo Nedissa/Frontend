@@ -49,17 +49,21 @@ img {
   border-radius: 4px;
 }
 
-/* On mobile: always show add-to-cart button */
+/* On mobile: always show add-to-cart button and hover-only elements */
 @media (max-width: 767px) {
   .mobile-btn-visible {
     opacity: 1 !important;
     transform: translateY(0) !important;
   }
+  .mobile-hover-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
 }
 
-/* Carousel item responsive width */
+/* Carousel item responsive width — mobil: 1.5 kort synliga */
 .carousel-item {
-  width: calc(100% - 24px);
+  width: calc(66.666% - 8px);
 }
 @media (min-width: 480px) {
   .carousel-item {

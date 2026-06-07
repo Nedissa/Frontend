@@ -90,7 +90,8 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
     <style>{heroCarouselStyle}</style>
     <div className="relative z-0 flex justify-center w-full">
       <div
-        className="relative max-w-[1280px] w-full aspect-[1280/640] overflow-hidden flex items-center justify-center cursor-pointer bg-gray-200"
+        className="relative max-w-[1280px] w-full overflow-hidden flex items-center justify-center cursor-pointer bg-gray-200"
+        style={{ aspectRatio: '1280/640' }}
         onClick={() => next(true)}
         onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
         onTouchEnd={(e) => {
@@ -137,19 +138,19 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
         <div className="absolute inset-0 bg-black/30 z-10"></div>
 
         {/* Bottom-left text overlay */}
-        <div className="absolute top-10 left-10 z-20 flex flex-col gap-3" style={{ maxWidth: '440px' }} onClick={(e) => e.stopPropagation()}>
-          <h2 className="text-white font-bold leading-tight" style={{ fontSize: '2.8rem', maxWidth: '480px', textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}>
+        <div className="absolute top-4 left-4 sm:top-10 sm:left-10 z-20 flex flex-col gap-2 sm:gap-3" style={{ maxWidth: '440px' }} onClick={(e) => e.stopPropagation()}>
+          <h2 className="text-white font-bold leading-tight text-2xl sm:text-[2.8rem]" style={{ maxWidth: '480px', textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}>
             Teknik för din<br />vardag
           </h2>
-          <p className="text-gray-200 text-sm leading-relaxed">
+          <p className="text-gray-200 text-xs sm:text-sm leading-relaxed hidden sm:block">
             Hitta rätt produkt enkelt och snabbt<br />— levererad direkt hem till dig.
           </p>
           <a
             href="/produkter"
-            className="inline-flex items-center gap-3 font-bold text-sm px-5 py-3 w-fit mt-1"
+            className="inline-flex items-center gap-2 sm:gap-3 font-bold text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-3 w-fit mt-0 sm:mt-1"
             style={{ backgroundColor: '#f0c040', color: '#111', borderRadius: '999px' }}
           >
-            <span className="w-2 h-2 rounded-full bg-black flex-shrink-0" />
+            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-black flex-shrink-0" />
             SHOPPA NU
           </a>
         </div>

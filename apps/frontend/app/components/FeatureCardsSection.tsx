@@ -76,12 +76,12 @@ export function FeatureCardsSection() {
 
   return (
     <div className="w-full bg-white py-4">
-      <div className="px-6 overflow-hidden group relative">
+      <div className="px-4 sm:px-6 overflow-hidden group relative">
         {/* Left Chevron */}
         <button
           onClick={scrollLeft}
           disabled={currentIndex === 0}
-          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-14 h-14 flex items-center justify-center text-gray-900 hover:text-black disabled:opacity-30 disabled:cursor-not-allowed bg-white rounded-full shadow-md"
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 sm:w-14 h-10 sm:h-14 flex items-center justify-center text-gray-900 hover:text-black disabled:opacity-30 disabled:cursor-not-allowed bg-white rounded-full shadow-md"
         >
           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
             <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
@@ -95,7 +95,7 @@ export function FeatureCardsSection() {
           {features.map((feature, idx) => (
             <div
               key={feature.id}
-              className={`flex-shrink-0 w-72 h-96 rounded-3xl bg-gradient-to-br ${feature.bgColor} p-6 flex flex-col justify-between text-white overflow-hidden relative cursor-pointer`}
+              className={`flex-shrink-0 w-64 sm:w-72 h-80 sm:h-96 rounded-3xl bg-gradient-to-br ${feature.bgColor} p-5 sm:p-6 flex flex-col justify-between text-white overflow-hidden relative cursor-pointer`}
             >
               <div>
                 <h3 className="text-2xl font-bold mb-2">{feature.title}</h3>
@@ -116,7 +116,7 @@ export function FeatureCardsSection() {
         <button
           onClick={scrollRight}
           disabled={currentIndex === features.length - 1}
-          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-14 h-14 flex items-center justify-center text-gray-900 hover:text-black disabled:opacity-30 disabled:cursor-not-allowed bg-white rounded-full shadow-md"
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 sm:w-14 h-10 sm:h-14 flex items-center justify-center text-gray-900 hover:text-black disabled:opacity-30 disabled:cursor-not-allowed bg-white rounded-full shadow-md"
         >
           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
             <path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z" />

@@ -36,14 +36,14 @@ export function FeaturedProductSection({
           {title && <h2 className="text-3xl font-bold text-gray-900">{title}</h2>}
         </div>
       )}
-      <div className="flex gap-4" style={{ height: '420px' }}>
+      <div className="flex flex-col sm:flex-row gap-4" style={{ minHeight: '320px' }}>
         {/* Vänster — stor hero-bild */}
-        <div className="relative overflow-hidden flex-1">
+        <div className="relative overflow-hidden flex-1" style={{ minHeight: '200px' }}>
           <img src={heroImage} alt={title} className="w-full h-full object-cover" />
         </div>
 
         {/* Höger — produktkort */}
-        <div className="flex flex-col bg-white overflow-hidden flex-shrink-0" style={{ width: '300px', boxShadow: '0 2px 12px rgba(0,0,0,0.10)' }}>
+        <div className="flex flex-col bg-white overflow-hidden w-full sm:w-[300px] sm:flex-shrink-0" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.10)' }}>
           <div className="relative flex-1 flex items-center justify-center p-4" style={{ backgroundColor: '#f5f5f5' }}>
             <span className="absolute top-3 right-3 flex items-center gap-0.5 bg-white px-2 py-0.5 text-xs font-semibold shadow-sm rounded">
               <span className="text-yellow-400">★</span> {product.rating.toFixed(1)}

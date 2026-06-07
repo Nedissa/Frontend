@@ -36,7 +36,7 @@ export function ProductBanner() {
           <p className="text-sm font-semibold text-gray-900 truncate">{p.title}</p>
           <p className="text-sm font-bold text-gray-900 mt-0.5">{p.price?.toLocaleString('sv-SE')} kr</p>
         </Link>
-        <div className="px-4 pb-4" style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateY(0)' : 'translateY(6px)', transition: 'opacity 200ms, transform 200ms' }}>
+        <div className="px-4 pb-4 mobile-hover-visible" style={{ opacity: hovered ? 1 : 0, transform: hovered ? 'translateY(0)' : 'translateY(6px)', transition: 'opacity 200ms, transform 200ms' }}>
           <button
             onClick={() => handleAdd(p)}
             className="w-full bg-black text-white font-semibold py-2.5 text-sm hover:bg-gray-800 transition-colors"
@@ -49,11 +49,11 @@ export function ProductBanner() {
   };
 
   return (
-    <div className="w-full px-6">
-      <div className="flex gap-4" style={{ minHeight: '420px' }}>
+    <div className="w-full px-4 sm:px-6">
+      <div className="flex flex-col sm:flex-row gap-4">
 
-        {/* Left — hero card */}
-        <div className="relative flex-shrink-0 overflow-hidden" style={{ width: '280px' }}>
+        {/* Left — hero card, dold på mobil */}
+        <div className="relative hidden sm:block flex-shrink-0 overflow-hidden" style={{ width: '280px', minHeight: '320px' }}>
           <img src="/assets/hero-1.jpg" alt="Special Deals" className="absolute inset-0 w-full h-full object-cover" />
           <div className="absolute inset-0 bg-black/40" />
           <div className="relative z-10 h-full flex flex-col justify-between p-6">
@@ -68,8 +68,8 @@ export function ProductBanner() {
         </div>
 
         {/* Group 1 */}
-        <div className="flex-1 flex flex-col border border-gray-200" style={{ overflow: 'hidden' }}>
-          <div className="px-5 pt-5 pb-3 border-b border-gray-100">
+        <div className="flex-1 flex flex-col border border-gray-200 overflow-hidden">
+          <div className="px-4 sm:px-5 pt-4 sm:pt-5 pb-3 border-b border-gray-100">
             <p className="text-sm font-bold text-gray-900">Köp 2 och få 20% rabatt</p>
           </div>
           <div className="flex flex-1">
@@ -82,8 +82,8 @@ export function ProductBanner() {
         </div>
 
         {/* Group 2 */}
-        <div className="flex-1 flex flex-col border border-gray-200" style={{ overflow: 'hidden' }}>
-          <div className="px-5 pt-5 pb-3 border-b border-gray-100 flex items-center justify-between">
+        <div className="flex-1 flex flex-col border border-gray-200 overflow-hidden">
+          <div className="px-4 sm:px-5 pt-4 sm:pt-5 pb-3 border-b border-gray-100 flex items-center justify-between">
             <p className="text-sm font-bold text-gray-900">Köp 3 och få 20% rabatt</p>
             <div className="flex gap-1">
               <button className="w-7 h-7 flex items-center justify-center border border-gray-200 hover:bg-gray-50">‹</button>

@@ -42,9 +42,9 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
   if (!products.length) return null;
 
   return (
-    <div className="px-6 pt-8">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
+    <div className="pt-8">
+      <div className="flex items-center justify-between mb-4 px-4 sm:px-6">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{title}</h2>
         <div className="flex items-center gap-2">
           <button
             onClick={() => scroll('left')}
@@ -66,18 +66,16 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
           </button>
         </div>
       </div>
-      <div style={{ overflow: 'hidden', clipPath: 'inset(0)' }}>
       <div
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto py-4 -my-4"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        className="flex gap-3 overflow-x-auto py-4 -my-4 px-4 sm:px-6"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', scrollSnapType: 'x mandatory' }}
       >
         {[...products, ...products].map((product, idx) => (
-          <div key={`${product.id}-${idx}`} className="flex-shrink-0 carousel-item">
+          <div key={`${product.id}-${idx}`} className="flex-shrink-0 carousel-item" style={{ scrollSnapAlign: 'start' }}>
             <ProductCard product={product} variant={variant} priority={idx < 4} />
           </div>
         ))}
-      </div>
       </div>
     </div>
   );

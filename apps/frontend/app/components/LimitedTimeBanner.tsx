@@ -40,25 +40,25 @@ export function LimitedTimeBanner() {
       `}</style>
       <div className="flex justify-center">
         <div className="max-w-[1280px] w-full px-6">
-          <div className="flex gap-4" style={{ height: '560px' }}>
+          <div className="flex flex-col sm:flex-row gap-4" style={{ minHeight: '320px' }}>
             {/* Left — animated */}
-            <div className="banner-animated-bg flex flex-col items-center justify-center gap-6 px-10 py-10" style={{ width: '45%' }}>
-              <div className="flex gap-3">
+            <div className="banner-animated-bg flex flex-col items-center justify-center gap-6 px-6 sm:px-10 py-8 sm:py-10 w-full sm:w-[45%]">
+              <div className="flex gap-2 sm:gap-3">
                 {[
                   { value: timeLeft.days, label: 'Dagar' },
                   { value: timeLeft.hours, label: 'Timmar' },
                   { value: timeLeft.minutes, label: 'Minuter' },
                   { value: timeLeft.seconds, label: 'Sekunder' },
                 ].map((unit) => (
-                  <div key={unit.label} className="flex flex-col items-center gap-1 rounded-lg px-4 py-3" style={{ backgroundColor: '#1a2d42', minWidth: '70px' }}>
-                    <span className="text-2xl font-bold text-white tabular-nums">{String(unit.value).padStart(2, '0')}</span>
-                    <span className="text-[11px] text-gray-400">{unit.label}</span>
+                  <div key={unit.label} className="flex flex-col items-center gap-1 rounded-lg px-2 sm:px-4 py-2 sm:py-3" style={{ backgroundColor: '#1a2d42', minWidth: '56px' }}>
+                    <span className="text-xl sm:text-2xl font-bold text-white tabular-nums">{String(unit.value).padStart(2, '0')}</span>
+                    <span className="text-[10px] sm:text-[11px] text-gray-400">{unit.label}</span>
                   </div>
                 ))}
               </div>
               <div className="flex flex-col items-center gap-4 text-center">
                 <div>
-                  <h2 className="text-2xl font-bold text-white mb-2">Begränsad tid</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-white mb-2">Begränsad tid</h2>
                   <p className="text-sm text-gray-400 leading-relaxed max-w-xs">
                     Spara 100 kr på beställningar över 500 kr — erbjudandet appliceras automatiskt i kassan.
                   </p>
@@ -70,11 +70,12 @@ export function LimitedTimeBanner() {
             </div>
 
             {/* Right — image */}
-            <div style={{ backgroundColor: '#f0f0ee', width: '55%' }}>
+            <div className="w-full sm:w-[55%]" style={{ backgroundColor: '#f0f0ee', minHeight: '200px' }}>
               <img
                 src="/assets/kampanj-speaker.png"
                 alt="Kampanj"
                 className="w-full h-full object-cover"
+                style={{ maxHeight: '400px' }}
               />
             </div>
           </div>
