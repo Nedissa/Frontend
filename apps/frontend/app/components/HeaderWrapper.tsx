@@ -1018,10 +1018,10 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
             </div>
           </div>
 
-          {/* ── LEVEL 1: Underkategorier ── */}
+          {/* ── LEVEL 1: Underkategorier med accordion för nivå 3 ── */}
           <div
             className="absolute inset-0 flex flex-col transition-transform duration-300 ease-in-out overflow-y-auto bg-white"
-            style={{ transform: mobileActiveLevel === 1 ? 'translateX(0)' : mobileActiveLevel === 0 ? 'translateX(100%)' : 'translateX(-100%)' }}
+            style={{ transform: mobileActiveLevel === 1 ? 'translateX(0)' : 'translateX(100%)' }}
           >
             {(() => {
               const activeCat = MENU_DATA.find(c => c.id === mobileExpandedCategory);
@@ -1029,7 +1029,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                 <>
                   <div className="flex items-center gap-3 px-5 pt-5 pb-3 border-b border-gray-100">
                     <button
-                      onClick={() => setMobileActiveLevel(0)}
+                      onClick={() => { setMobileActiveLevel(0); setMobileActiveSubCategory(null); }}
                       className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 active:bg-gray-200"
                     >
                       <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
@@ -1048,70 +1048,56 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   </Link>
                   <div className="flex-1 overflow-y-auto">
                     {activeCat?.items?.map((section) => (
-                      <button
-                        key={section.id}
-                        className="w-full flex items-center gap-4 px-5 py-4 border-b border-gray-100 text-left active:bg-gray-50"
-                        onClick={() => { setMobileActiveSubCategory(section.id); setMobileActiveLevel(2); }}
-                      >
-                        <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-black">
-                          {MOBILE_SECTION_ICONS[section.id]}
-                        </span>
-                        <span className="flex-1 text-sm font-semibold text-black">{section.title}</span>
-                        {section.items && section.items.length > 0 && (
-                          <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                            <path d="M9 18l6-6-6-6" />
-                          </svg>
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </>
-              );
-            })()}
-          </div>
-
-          {/* ── LEVEL 2: Nivå 3 — slides down from top ── */}
-          <div
-            className="absolute inset-0 flex flex-col transition-transform duration-300 ease-in-out overflow-y-auto bg-white"
-            style={{ transform: mobileActiveLevel === 2 ? 'translateY(0)' : 'translateY(100%)' }}
-          >
-            {(() => {
-              const activeCat = MENU_DATA.find(c => c.id === mobileExpandedCategory);
-              const activeSec = activeCat?.items?.find(s => s.id === mobileActiveSubCategory);
-              return (
-                <>
-                  <div className="flex items-center gap-3 px-5 pt-5 pb-3 border-b border-gray-100">
-                    <button
-                      onClick={() => setMobileActiveLevel(1)}
-                      className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 active:bg-gray-200"
-                    >
-                      <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
-                        <path d="M15 18l-6-6 6-6" />
-                      </svg>
-                    </button>
-                    <p className="text-sm font-bold text-black">{activeSec?.title}</p>
-                  </div>
-                  <Link
-                    href={activeSec?.url || '#'}
-                    className="flex items-center justify-between px-5 py-3.5 bg-gray-50 border-b border-gray-100 text-xs font-bold uppercase tracking-wide text-gray-500"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    Se alla i {activeSec?.title}
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
-                  </Link>
-                  <div className="flex-1 overflow-y-auto">
-                    {activeSec?.items?.map((item) => (
-                      <Link
-                        key={item.id}
-                        href={item.url}
-                        className="flex items-center justify-between px-5 py-4 border-b border-gray-100 active:bg-gray-50"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        <span className="text-sm text-black font-medium">{item.title}</span>
-                        <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                          <path d="M9 18l6-6-6-6" />
-                        </svg>
-                      </Link>
+                      <div key={section.id} className="border-b border-gray-100">
+                        {/* Underkategori-rad */}
+                        <button
+                          className="w-full flex items-center gap-4 px-5 py-4 text-left active:bg-gray-50"
+                          onClick={() => setMobileActiveSubCategory(
+                            mobileActiveSubCategory === section.id ? null : section.id
+                          )}
+                        >
+                          <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center">
+                            {MOBILE_SECTION_ICONS[section.id]}
+                          </span>
+                          <span className="flex-1 text-sm font-semibold text-black">{section.title}</span>
+                          {section.items && section.items.length > 0 && (
+                            <svg
+                              className="w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-200"
+                              style={{ transform: mobileActiveSubCategory === section.id ? 'rotate(90deg)' : 'rotate(0deg)' }}
+                              fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"
+                            >
+                              <path d="M9 18l6-6-6-6" />
+                            </svg>
+                          )}
+                        </button>
+                        {/* Accordion: nivå 3 */}
+                        <div
+                          className="overflow-hidden transition-all duration-300 ease-in-out"
+                          style={{ maxHeight: mobileActiveSubCategory === section.id ? `${(section.items?.length || 0) * 52}px` : '0px' }}
+                        >
+                          <Link
+                            href={section.url}
+                            className="flex items-center justify-between pl-16 pr-5 py-3 bg-gray-50 text-xs font-bold uppercase tracking-wide text-gray-400"
+                            onClick={() => setMobileMenuOpen(false)}
+                          >
+                            Se alla
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+                          </Link>
+                          {section.items?.map((item) => (
+                            <Link
+                              key={item.id}
+                              href={item.url}
+                              className="flex items-center justify-between pl-16 pr-5 py-3 border-t border-gray-100 active:bg-gray-50"
+                              onClick={() => setMobileMenuOpen(false)}
+                            >
+                              <span className="text-sm text-gray-700">{item.title}</span>
+                              <svg className="w-3.5 h-3.5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                                <path d="M9 18l6-6-6-6" />
+                              </svg>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
                     ))}
                   </div>
                 </>
