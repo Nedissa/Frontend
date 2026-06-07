@@ -9,11 +9,11 @@ export async function GET() {
   try {
     const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY;
     const medusaUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
-    const regionId = process.env.NEXT_PUBLIC_MEDUSA_REGION_ID || 'reg_01KR9R4SFABTKM0CVFN7AVZ4RW';
+    const regionId = process.env.NEXT_PUBLIC_MEDUSA_REGION_ID || '';
 
     if (!publishableKey) {
       return Response.json(
-        { error: 'Medusa publishable key not configured' },
+        { error: 'Medusa publishable key not configured', env: Object.keys(process.env).filter(k => k.startsWith('NEXT_PUBLIC')) },
         { status: 500 }
       );
     }

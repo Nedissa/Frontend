@@ -22,13 +22,17 @@ async function fetchProductsFromAPI() {
     const medusaUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
     const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '';
     const regionId = process.env.NEXT_PUBLIC_MEDUSA_REGION_ID || '';
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
     const response = await fetch(
       `${medusaUrl}/store/products?limit=100&region_id=${regionId}&fields=*variants.prices,*variants.inventory_quantity,*collection,+metadata,*options,*options.values`,
       {
         headers: { 'Content-Type': 'application/json', 'x-publishable-api-key': publishableKey },
         cache: 'no-store',
+        signal: controller.signal,
       }
     );
+    clearTimeout(timeout);
     if (!response.ok) return [];
     const data = await response.json();
     const products = data.products || [];
