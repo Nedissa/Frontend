@@ -15,9 +15,9 @@ export function AboutBanner() {
           animation: gradientShiftAbout 8s ease infinite;
         }
       `}</style>
-    <div className="w-full flex items-stretch" style={{ height: '600px', backgroundColor: '#fff' }}>
+    <div className="w-full flex flex-col sm:flex-row items-stretch" style={{ backgroundColor: '#fff' }}>
       {/* Left — image */}
-      <div className="relative flex-shrink-0 about-animated-bg" style={{ width: '52%' }}>
+      <div className="relative flex-shrink-0 about-animated-bg w-full sm:w-[52%]" style={{ minHeight: '280px' }}>
         <img
           src="/assets/svg-hand.webp"
           alt="Techpilots"
@@ -25,7 +25,7 @@ export function AboutBanner() {
         />
         {/* Rotating badge */}
         <div
-          className="absolute"
+          className="absolute hidden sm:block"
           style={{ top: '32px', right: '-48px', width: '96px', height: '96px' }}
         >
           <svg viewBox="0 0 100 100" className="w-full h-full animate-spin" style={{ animationDuration: '12s' }}>
@@ -46,7 +46,7 @@ export function AboutBanner() {
       </div>
 
       {/* Right — content */}
-      <div className="flex flex-col justify-center px-16" style={{ width: '48%' }}>
+      <div className="flex flex-col justify-center px-8 sm:px-16 py-10 sm:py-0 w-full sm:w-[48%]">
         <p className="text-sm font-semibold text-gray-500 mb-4 tracking-wide">Enkelt. Snabbt. Pålitligt.</p>
         <h2 className="text-4xl font-bold text-gray-900 leading-tight mb-5">
           Teknik ska vara<br />enkelt att handla

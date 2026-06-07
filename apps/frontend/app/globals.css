@@ -59,9 +59,9 @@ img {
 
 /* Carousel item responsive width */
 .carousel-item {
-  width: calc(80% - 12px);
+  width: calc(100% - 24px);
 }
-@media (min-width: 640px) {
+@media (min-width: 480px) {
   .carousel-item {
     width: calc(50% - 12px);
   }

@@ -54,9 +54,9 @@ export function PerksBanner() {
         }
       `}</style>
       <div className="w-full perks-animated-bg">
-        <div className="grid grid-cols-3 divide-x divide-gray-700">
+        <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 divide-x-0 sm:divide-x divide-gray-700">
           {PERKS.map((perk, i) => (
-            <div key={i} className="flex flex-col px-16 py-8">
+            <div key={i} className="flex flex-col px-8 sm:px-16 py-8">
               <div className="mb-6">{perk.icon}</div>
               <h3 className="text-lg font-bold text-white mb-3">{perk.title}</h3>
               <p className="text-sm text-gray-400 leading-relaxed mb-8">{perk.description}</p>
