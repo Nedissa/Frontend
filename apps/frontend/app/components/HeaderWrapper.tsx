@@ -388,6 +388,8 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   const [mobileActiveSubCategory, setMobileActiveSubCategory] = useState<string | null>(null);
   const [mobileActiveLevel, setMobileActiveLevel] = useState<0 | 1 | 2>(0);
   const categoryDropdownRef = useRef<HTMLDivElement>(null);
+  const mobileHeaderRef = useRef<HTMLDivElement>(null);
+  const [mobileHeaderHeight, setMobileHeaderHeight] = useState(108);
   const [cartCount, setCartCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
@@ -650,6 +652,17 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const measure = () => {
+      if (mobileHeaderRef.current) {
+        setMobileHeaderHeight(mobileHeaderRef.current.offsetHeight);
+      }
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
+
   const getActiveCategory = () => activeMegaMenu === 'erbjudanden' ? ERBJUDANDEN_DATA : MENU_DATA.find(cat => cat.id === activeMegaMenu);
 
   const MOBILE_CATEGORY_ICONS: Record<string, React.ReactNode> = {
@@ -691,7 +704,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
     }`}>
 
       {/* ── MOBILE HEADER ── */}
-      <div className="md:hidden">
+      <div className="md:hidden" ref={mobileHeaderRef}>
         {/* Row 1: hamburger | logo | konto+kundvagn */}
         <div className="grid items-center px-4 py-2" style={{ gridTemplateColumns: '1fr auto 1fr', backgroundColor: '#f7f7f7' }}>
           {/* Left: hamburger */}
@@ -951,7 +964,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       {/* Mobile Menu Overlay */}
       <div
         className="md:hidden fixed inset-0 z-50 pointer-events-none"
-        style={{ top: '108px' }}
+        style={{ top: `${mobileHeaderHeight}px` }}
       >
         {/* Backdrop */}
         <div
