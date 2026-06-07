@@ -30,6 +30,10 @@ import { TvTillbehorIcon } from './Icons/TvTillbehorIcon';
 import { RouterIcon } from './Icons/RouterIcon';
 import { WifiIcon } from './Icons/WifiIcon';
 import { MeshNetworkIcon } from './Icons/MeshNetworkIcon';
+import { StationarIcon } from './Icons/StationarIcon';
+import { TangentbordIcon } from './Icons/TangentbordIcon';
+import { RamMemoryIcon } from './Icons/RamMemoryIcon';
+import { MouseIcon } from './Icons/MouseIcon';
 
 interface MenuItem {
   id: string;
@@ -381,6 +385,8 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   const [selectedCategory, setSelectedCategory] = useState<{ title: string; url: string } | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpandedCategory, setMobileExpandedCategory] = useState<string | null>(null);
+  const [mobileActiveSubCategory, setMobileActiveSubCategory] = useState<string | null>(null);
+  const [mobileActiveLevel, setMobileActiveLevel] = useState<0 | 1 | 2>(0);
   const categoryDropdownRef = useRef<HTMLDivElement>(null);
   const [cartCount, setCartCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
@@ -404,6 +410,8 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
     setActiveMegaMenu(null);
     setMobileMenuOpen(false);
     setMobileExpandedCategory(null);
+    setMobileActiveSubCategory(null);
+    setMobileActiveLevel(0);
   }, [pathname]);
 
   useEffect(() => {
@@ -643,6 +651,39 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   }, []);
 
   const getActiveCategory = () => activeMegaMenu === 'erbjudanden' ? ERBJUDANDEN_DATA : MENU_DATA.find(cat => cat.id === activeMegaMenu);
+
+  const MOBILE_CATEGORY_ICONS: Record<string, React.ReactNode> = {
+    'datorer-och-tillbehor': <LaptopIcon />,
+    'komponenter': <ProcessorIcon />,
+    'gaming': <GamepadIcon />,
+    'mobiltelefoner': <MobiltelephoneIcon />,
+    'natverk': <RouterIcon />,
+    'tv-hifi': <TvIcon />,
+  };
+
+  const MOBILE_SECTION_ICONS: Record<string, React.ReactNode> = {
+    'barbara': <LaptopIcon />,
+    'stationara': <StationarIcon />,
+    'datortillbehor': <TangentbordIcon />,
+    'processorer': <ProcessorIcon />,
+    'moderkort': <ModerkortIcon />,
+    'grafikkort': <GrafikkortIcon />,
+    'ram': <RamMemoryIcon />,
+    'lagringsenhet': <StorageIcon />,
+    'natlagring': <NataggregatIcon />,
+    'gaming-laptops': <LaptopIcon />,
+    'gaming-pc': <GamingComputerIcon />,
+    'gaming-peripherals': <GamepadIcon />,
+    'smartphones': <MobiltelephoneIcon />,
+    'mobil-tillbehor': <MobilTillbehorIcon />,
+    'accesspunkter': <WifiIcon />,
+    'natsverksforlangarе': <WifiIcon />,
+    'routrar': <RouterIcon />,
+    'mesh': <MeshNetworkIcon />,
+    'tv': <TvIcon />,
+    'ljud': <SpeakerIcon />,
+    'tillbehor-tv': <TvTillbehorIcon />,
+  };
 
   return (
     <header suppressHydrationWarning className={`fixed top-0 left-0 right-0 w-full bg-white z-40 transition-transform duration-300 ease-in-out ${
@@ -908,48 +949,184 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       </div>
 
       {/* Mobile Menu Overlay */}
-      {mobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-[57px] bg-white z-50 overflow-y-auto">
-          <div className="px-6 py-4">
-            {/* Login link */}
-            <Link href="/konto" className="flex items-center gap-2 py-3 border-b border-gray-100 text-sm font-semibold">
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-              {isHydrated ? (isLoggedIn ? 'Mina sidor' : 'Logga in') : 'Logga in'}
-            </Link>
+      <div
+        className="md:hidden fixed inset-0 z-50 pointer-events-none"
+        style={{ top: '99px' }}
+      >
+        {/* Backdrop */}
+        <div
+          className="absolute inset-0 bg-black transition-opacity duration-300"
+          style={{ opacity: mobileMenuOpen ? 0.45 : 0, pointerEvents: mobileMenuOpen ? 'auto' : 'none' }}
+          onClick={() => { setMobileMenuOpen(false); setMobileActiveLevel(0); setMobileExpandedCategory(null); setMobileActiveSubCategory(null); }}
+        />
 
-            {/* Categories */}
-            {MENU_DATA.map((category) => (
-              <div key={category.id} className="border-b border-gray-100">
+        {/* Slide-in panel */}
+        <div
+          className="absolute top-0 left-0 h-full bg-white overflow-hidden flex flex-col transition-transform duration-300 ease-in-out"
+          style={{
+            width: '88vw',
+            maxWidth: '360px',
+            transform: mobileMenuOpen ? 'translateX(0)' : 'translateX(-100%)',
+            pointerEvents: mobileMenuOpen ? 'auto' : 'none',
+            boxShadow: '4px 0 24px rgba(0,0,0,0.13)',
+          }}
+        >
+          {/* ── LEVEL 0: Huvudkategorier ── */}
+          <div
+            className="absolute inset-0 flex flex-col transition-transform duration-300 ease-in-out overflow-y-auto"
+            style={{ transform: mobileActiveLevel === 0 ? 'translateX(0)' : 'translateX(-100%)' }}
+          >
+            <div className="px-5 pt-5 pb-3 border-b border-gray-100">
+              <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Huvudkategorier</p>
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              {MENU_DATA.map((category) => (
                 <button
-                  className="w-full flex items-center justify-between py-3 text-sm font-semibold text-black"
-                  onClick={() => setMobileExpandedCategory(mobileExpandedCategory === category.id ? null : category.id)}
+                  key={category.id}
+                  className="w-full flex items-center gap-4 px-5 py-4 border-b border-gray-100 text-left active:bg-gray-50"
+                  onClick={() => { setMobileExpandedCategory(category.id); setMobileActiveLevel(1); }}
                 >
-                  {category.title}
-                  <svg className={`w-4 h-4 transition-transform ${mobileExpandedCategory === category.id ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path d="M19 9l-7 7-7-7" />
+                  <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-black">
+                    {MOBILE_CATEGORY_ICONS[category.id]}
+                  </span>
+                  <span className="flex-1 text-sm font-semibold text-black">{category.title}</span>
+                  <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                    <path d="M9 18l6-6-6-6" />
                   </svg>
                 </button>
-                {mobileExpandedCategory === category.id && category.items && (
-                  <div className="pb-3 pl-4">
-                    {category.items.map((section) => (
-                      <div key={section.id} className="mb-3">
-                        <Link href={section.url} className="text-sm font-semibold text-black block mb-1">{section.title}</Link>
-                        {section.items?.map((item) => (
-                          <Link key={item.id} href={item.url} className="text-sm text-gray-500 block py-1 pl-3">{item.title}</Link>
-                        ))}
-                      </div>
+              ))}
+              <Link
+                href="/erbjudanden"
+                className="w-full flex items-center gap-4 px-5 py-4 border-b border-gray-100"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-black">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
+                    <path d="M9 14l6-6M10 9h.01M14 13h.01M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+                <span className="flex-1 text-sm font-semibold text-black">Erbjudanden</span>
+                <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path d="M9 18l6-6-6-6" />
+                </svg>
+              </Link>
+              <Link
+                href="/konto"
+                className="w-full flex items-center gap-4 px-5 py-4 border-b border-gray-100"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-black">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  </svg>
+                </span>
+                <span className="flex-1 text-sm font-semibold text-black">{isHydrated ? (isLoggedIn ? 'Mina sidor' : 'Logga in') : 'Logga in'}</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* ── LEVEL 1: Underkategorier ── */}
+          <div
+            className="absolute inset-0 flex flex-col transition-transform duration-300 ease-in-out overflow-y-auto bg-white"
+            style={{ transform: mobileActiveLevel === 1 ? 'translateX(0)' : mobileActiveLevel === 0 ? 'translateX(100%)' : 'translateX(-100%)' }}
+          >
+            {(() => {
+              const activeCat = MENU_DATA.find(c => c.id === mobileExpandedCategory);
+              return (
+                <>
+                  <div className="flex items-center gap-3 px-5 pt-5 pb-3 border-b border-gray-100">
+                    <button
+                      onClick={() => setMobileActiveLevel(0)}
+                      className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 active:bg-gray-200"
+                    >
+                      <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                        <path d="M15 18l-6-6 6-6" />
+                      </svg>
+                    </button>
+                    <p className="text-sm font-bold text-black">{activeCat?.title}</p>
+                  </div>
+                  <Link
+                    href={activeCat?.url || '#'}
+                    className="flex items-center justify-between px-5 py-3.5 bg-gray-50 border-b border-gray-100 text-xs font-bold uppercase tracking-wide text-gray-500"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Se alla i {activeCat?.title}
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+                  </Link>
+                  <div className="flex-1 overflow-y-auto">
+                    {activeCat?.items?.map((section) => (
+                      <button
+                        key={section.id}
+                        className="w-full flex items-center gap-4 px-5 py-4 border-b border-gray-100 text-left active:bg-gray-50"
+                        onClick={() => { setMobileActiveSubCategory(section.id); setMobileActiveLevel(2); }}
+                      >
+                        <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-black">
+                          {MOBILE_SECTION_ICONS[section.id] || <AccessoriesIcon />}
+                        </span>
+                        <span className="flex-1 text-sm font-semibold text-black">{section.title}</span>
+                        {section.items && section.items.length > 0 && (
+                          <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                            <path d="M9 18l6-6-6-6" />
+                          </svg>
+                        )}
+                      </button>
                     ))}
                   </div>
-                )}
-              </div>
-            ))}
+                </>
+              );
+            })()}
+          </div>
 
-            <Link href="/erbjudanden" className="flex items-center justify-between py-3 text-sm font-semibold border-b border-gray-100">
-              Erbjudanden
-            </Link>
+          {/* ── LEVEL 2: Nivå 3 ── */}
+          <div
+            className="absolute inset-0 flex flex-col transition-transform duration-300 ease-in-out overflow-y-auto bg-white"
+            style={{ transform: mobileActiveLevel === 2 ? 'translateX(0)' : 'translateX(100%)' }}
+          >
+            {(() => {
+              const activeCat = MENU_DATA.find(c => c.id === mobileExpandedCategory);
+              const activeSec = activeCat?.items?.find(s => s.id === mobileActiveSubCategory);
+              return (
+                <>
+                  <div className="flex items-center gap-3 px-5 pt-5 pb-3 border-b border-gray-100">
+                    <button
+                      onClick={() => setMobileActiveLevel(1)}
+                      className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 active:bg-gray-200"
+                    >
+                      <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                        <path d="M15 18l-6-6 6-6" />
+                      </svg>
+                    </button>
+                    <p className="text-sm font-bold text-black">{activeSec?.title}</p>
+                  </div>
+                  <Link
+                    href={activeSec?.url || '#'}
+                    className="flex items-center justify-between px-5 py-3.5 bg-gray-50 border-b border-gray-100 text-xs font-bold uppercase tracking-wide text-gray-500"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    Se alla i {activeSec?.title}
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+                  </Link>
+                  <div className="flex-1 overflow-y-auto">
+                    {activeSec?.items?.map((item) => (
+                      <Link
+                        key={item.id}
+                        href={item.url}
+                        className="flex items-center justify-between px-5 py-4 border-b border-gray-100 active:bg-gray-50"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        <span className="text-sm text-black font-medium">{item.title}</span>
+                        <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                          <path d="M9 18l6-6-6-6" />
+                        </svg>
+                      </Link>
+                    ))}
+                  </div>
+                </>
+              );
+            })()}
           </div>
         </div>
-      )}
+      </div>
 
       {/* Navigation & Mega Menu Wrapper — desktop only */}
       <div className="hidden md:block" onMouseLeave={() => { setShowMegaMenu(false); setActiveMegaMenu(null); }}>
