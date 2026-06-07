@@ -361,6 +361,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpandedCategory, setMobileExpandedCategory] = useState<string | null>(null);
   const [mobileActiveSubCategory, setMobileActiveSubCategory] = useState<string | null>(null);
+  const [mobileActiveLevel3, setMobileActiveLevel3] = useState<string | null>(null);
   const [mobileActiveLevel, setMobileActiveLevel] = useState<0 | 1 | 2>(0);
   const categoryDropdownRef = useRef<HTMLDivElement>(null);
   const mobileHeaderRef = useRef<HTMLDivElement>(null);
@@ -388,6 +389,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
     setMobileMenuOpen(false);
     setMobileExpandedCategory(null);
     setMobileActiveSubCategory(null);
+    setMobileActiveLevel3(null);
     setMobileActiveLevel(0);
   }, [pathname]);
 
@@ -1070,31 +1072,48 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                             </svg>
                           )}
                         </button>
-                        {/* Accordion: nivå 3 */}
+                        {/* Accordion nivå 2 öppen — visa nivå 3 som accordion */}
                         <div
                           className="overflow-hidden transition-all duration-300 ease-in-out"
-                          style={{ maxHeight: mobileActiveSubCategory === section.id ? `${(section.items?.length || 0) * 52}px` : '0px' }}
+                          style={{ maxHeight: mobileActiveSubCategory === section.id ? '600px' : '0px' }}
                         >
                           <Link
                             href={section.url}
-                            className="flex items-center justify-between pl-16 pr-5 py-3 bg-gray-50 text-xs font-bold uppercase tracking-wide text-gray-400"
+                            className="flex items-center justify-between pl-16 pr-5 py-3 bg-gray-50 border-t border-gray-100 text-xs font-bold uppercase tracking-wide text-gray-400"
                             onClick={() => setMobileMenuOpen(false)}
                           >
-                            Se alla
+                            Se alla i {section.title}
                             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
                           </Link>
                           {section.items?.map((item) => (
-                            <Link
-                              key={item.id}
-                              href={item.url}
-                              className="flex items-center justify-between pl-16 pr-5 py-3 border-t border-gray-100 active:bg-gray-50"
-                              onClick={() => setMobileMenuOpen(false)}
-                            >
-                              <span className="text-sm text-gray-700">{item.title}</span>
-                              <svg className="w-3.5 h-3.5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                                <path d="M9 18l6-6-6-6" />
-                              </svg>
-                            </Link>
+                            <div key={item.id} className="border-t border-gray-100">
+                              <button
+                                className="w-full flex items-center justify-between pl-16 pr-5 py-3 active:bg-gray-50 text-left"
+                                onClick={() => setMobileActiveLevel3(mobileActiveLevel3 === item.id ? null : item.id)}
+                              >
+                                <span className="text-sm text-gray-800 font-medium">{item.title}</span>
+                                <svg
+                                  className="w-3.5 h-3.5 text-gray-400 flex-shrink-0 transition-transform duration-200"
+                                  style={{ transform: mobileActiveLevel3 === item.id ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                                  fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"
+                                >
+                                  <path d="M19 9l-7 7-7-7" />
+                                </svg>
+                              </button>
+                              <div
+                                className="overflow-hidden transition-all duration-300 ease-in-out"
+                                style={{ maxHeight: mobileActiveLevel3 === item.id ? '200px' : '0px' }}
+                              >
+                                <Link
+                                  href={item.url}
+                                  className="flex items-center justify-between pl-20 pr-5 py-2.5 bg-gray-50 border-t border-gray-100"
+                                  onClick={() => setMobileMenuOpen(false)}
+                                >
+                                  <span className="text-xs text-gray-500 font-semibold uppercase tracking-wide">Gå till {item.title}</span>
+                                  <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+                                </Link>
+                              </div>
+                            </div>
                           ))}
                         </div>
                       </div>
