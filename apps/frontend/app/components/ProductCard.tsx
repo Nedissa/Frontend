@@ -114,7 +114,7 @@ export function ProductCard({
     >
       {/* Image Container with Badges */}
       <div
-        className="relative bg-[#fafaf8] overflow-hidden flex items-center justify-center w-full aspect-[4/3] sm:aspect-square"
+        className="relative bg-[#fafaf8] overflow-hidden aspect-square flex items-center justify-center w-full"
         onMouseMove={(e) => {
           if (!cardImages || cardImages.length === 0) return;
           const rect = e.currentTarget.getBoundingClientRect();
@@ -212,9 +212,9 @@ export function ProductCard({
         </Link>
       </div>
 
-      {/* Quick facts — dold på mobil */}
+      {/* Quick facts — below image */}
       {config.showFeatures && product.features && product.features.length > 0 && (
-        <div className="relative hidden sm:flex items-stretch bg-[#fafaf8] border-b border-gray-200 mb-4">
+        <div className="relative flex items-stretch bg-[#fafaf8] border-b border-gray-200 mb-4">
           {product.features.filter(f => !f.startsWith('tier:')).slice(0, 3).map((feature: string, idx: number) => {
             const [value, ...labelParts] = feature.split(' ');
             const label = labelParts.join(' ');
@@ -228,9 +228,9 @@ export function ProductCard({
         </div>
       )}
 
-      {/* Image Carousel Dots — dold på mobil */}
+      {/* Image Carousel Dots */}
       {cardImages && cardImages.length > 0 && (
-        <div className="hidden sm:flex gap-2 justify-center mt-3 mb-4">
+        <div className="flex gap-2 justify-center mt-3 mb-4">
           {cardImages.map((_, idx) => (
             <button
               key={idx}
@@ -248,89 +248,99 @@ export function ProductCard({
       <div className="flex-1 flex flex-col">
 
         {/* Brand + Title */}
-        <div className="py-1.5 sm:py-2 border-b border-gray-100">
+        <div className="py-2 border-b border-gray-100">
           <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">{product.brand || 'Varumärke'}</p>
-          <h3 className="text-xs sm:text-sm font-semibold text-gray-900 leading-snug line-clamp-2">{product.title}</h3>
+          <h3 className="text-sm font-semibold text-gray-900 leading-snug">{product.title}</h3>
         </div>
 
-        {/* Pris + betyg på samma rad på mobil */}
-        <div className="py-1.5 sm:py-2 border-b border-gray-100">
-          <div className="flex items-center justify-between gap-1">
-            <div className="flex items-baseline gap-1.5">
-              {product.price !== undefined && (
-                <span className="text-sm sm:text-lg font-bold text-gray-900">{product.price.toLocaleString('sv-SE')} kr</span>
-              )}
-              {product.originalPrice && (
-                <span className="hidden sm:inline text-sm text-gray-400 line-through">{product.originalPrice.toLocaleString('sv-SE')} kr</span>
-              )}
-            </div>
-            {/* Betyg — kompakt på mobil */}
-            <Link href={`${productLink}#reviews`} className="flex items-center gap-0.5 hover:opacity-70 transition-opacity flex-shrink-0" onClick={e => e.stopPropagation()}>
-              <span className="text-[11px] text-yellow-500">★</span>
-              <span className="text-[10px] text-gray-500">{(product.rating || 0).toFixed(1)}</span>
-            </Link>
-          </div>
-        </div>
-
-        {/* Lager + färger på samma rad */}
-        <div className="py-1.5 sm:py-2 border-b border-gray-100 flex items-center justify-between gap-2">
-          <p className={`text-[10px] sm:text-xs font-semibold flex items-center gap-1 ${product.stock === 'Slut i lager' ? 'text-red-500' : 'text-green-600'}`}>
-            <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${product.stock === 'Slut i lager' ? 'bg-red-500' : 'bg-green-600'}`}></span>
-            {product.stock || 'I lager'}
-          </p>
-          {/* Färger */}
-          {product.colors && product.colors.length > 0 && (
-            <div className="flex gap-1.5">
-              {product.colors.slice(0, 4).map((color, idx) => {
-                const colorMap: Record<string, string> = {
-                  'svart': '#000000', 'black': '#000000',
-                  'vit': '#FFFFFF', 'white': '#FFFFFF',
-                  'silver': '#C0C0C0', 'grå': '#808080', 'gray': '#808080', 'grey': '#808080',
-                  'röd': '#EF4444', 'red': '#EF4444',
-                  'blå': '#3B82F6', 'blue': '#3B82F6',
-                  'grön': '#22C55E', 'green': '#22C55E',
-                  'gul': '#EAB308', 'yellow': '#EAB308',
-                };
-                const bgColor = colorMap[color.toLowerCase()] || color;
-                const isSelected = selectedColor === idx;
-                return (
-                  <button
-                    key={idx}
-                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedColor(idx); }}
-                    className="w-3 h-3 sm:w-4 sm:h-3 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: bgColor, outline: isSelected ? '1px solid #999' : 'none', outlineOffset: '2px', boxShadow: bgColor === '#FFFFFF' ? '0 0 0 1px #000' : 'none' }}
-                  />
-                );
-              })}
-            </div>
+        {/* Price */}
+        <div className="py-2 border-b border-gray-100 flex items-baseline gap-2">
+          {product.price !== undefined && (
+            <span className="text-lg font-bold text-gray-900">{product.price.toLocaleString('sv-SE')} kr</span>
+          )}
+          {product.originalPrice && (
+            <span className="text-sm text-gray-400 line-through">{product.originalPrice.toLocaleString('sv-SE')} kr</span>
           )}
         </div>
 
-        {/* Knapp */}
+        {/* Stock */}
+        <div className="py-2 border-b border-gray-100">
+          <p className={`text-xs font-semibold flex items-center gap-2 ${product.stock === 'Slut i lager' ? 'text-red-500' : 'text-green-600'}`}>
+            <span className={`w-2 h-2 rounded-full ${product.stock === 'Slut i lager' ? 'bg-red-500' : 'bg-green-600'}`}></span>
+            {product.stock || 'I lager'}
+          </p>
+        </div>
+
+
+        {/* Rating */}
+        <div className="py-2 border-b border-gray-100">
+          <Link href={`${productLink}#reviews`} className="flex items-center gap-1 hover:opacity-70 transition-opacity">
+            <div className="flex gap-0.5">
+              {[...Array(5)].map((_, i) => (
+                <span key={i} className={i < Math.floor(product.rating || 0) ? 'text-black' : 'text-gray-300'}>★</span>
+              ))}
+            </div>
+            <span className="text-xs text-gray-600">({product.reviews || 0})</span>
+          </Link>
+        </div>
+
+        {/* Colors */}
+        <div className="py-2 border-b border-gray-100">
+          <div className="flex gap-2 min-h-[20px]">
+            {product.colors && product.colors.length > 0 && product.colors.map((color, idx) => {
+              const colorMap: Record<string, string> = {
+                'svart': '#000000', 'black': '#000000',
+                'vit': '#FFFFFF', 'white': '#FFFFFF',
+                'silver': '#C0C0C0', 'grå': '#808080', 'gray': '#808080', 'grey': '#808080',
+                'röd': '#EF4444', 'red': '#EF4444',
+                'blå': '#3B82F6', 'blue': '#3B82F6',
+                'grön': '#22C55E', 'green': '#22C55E',
+                'gul': '#EAB308', 'yellow': '#EAB308',
+              };
+              const bgColor = colorMap[color.toLowerCase()] || color;
+              const isSelected = selectedColor === idx;
+              return (
+                <div key={idx} className="relative group/swatch">
+                  <button
+                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedColor(idx); }}
+                    className="w-8 h-3 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: bgColor, outline: isSelected ? '1px solid #999999' : 'none', outlineOffset: '2px', boxShadow: bgColor === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
+                  />
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-0 px-2 py-0.5 bg-black text-white text-[10px] font-medium whitespace-nowrap opacity-0 group-hover/swatch:opacity-100 transition-opacity pointer-events-none z-50">
+                    {color}
+                    <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-black" />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+
+        {/* Button Container */}
         <div className="mt-auto border-t border-gray-200"></div>
         <div className="relative overflow-hidden">
           <button
             onClick={handleClick}
             disabled={added}
-            className="w-full py-2 sm:py-2.5 font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 relative z-10 text-white transition-all duration-300 mobile-btn-visible"
-            style={{ background: 'black', opacity: (isHovered || added) ? 1 : 0, transform: (isHovered || added) ? 'translateY(0)' : 'translateY(8px)' }}
+            className="w-full py-2.5 font-semibold text-sm flex items-center justify-center gap-2 relative z-10 text-white transition-all duration-300 mobile-btn-visible"
+            style={{ background: 'black', opacity: (isHovered || added) ? 1 : 0, transform: (isHovered || added) ? 'translateY(0)' : 'translateY(100%)' }}
           >
             <span className="absolute inset-0 bg-black" />
             <span className="relative z-10 flex items-center gap-2">
               {added ? (
                 <>
-                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
                   </svg>
                   Tillagd
                 </>
               ) : (
                 <>
-                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
                   </svg>
-                  <span className="hidden sm:inline">Lägg i varukorg</span>
-                  <span className="sm:hidden">Lägg i korg</span>
+                  Lägg i varukorg
                 </>
               )}
             </span>
