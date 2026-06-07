@@ -1063,10 +1063,10 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                           {section.items && section.items.length > 0 && (
                             <svg
                               className="w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-200"
-                              style={{ transform: mobileActiveSubCategory === section.id ? 'rotate(90deg)' : 'rotate(0deg)' }}
+                              style={{ transform: mobileActiveSubCategory === section.id ? 'rotate(180deg)' : 'rotate(0deg)' }}
                               fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"
                             >
-                              <path d="M9 18l6-6-6-6" />
+                              <path d="M19 9l-7 7-7-7" />
                             </svg>
                           )}
                         </button>
