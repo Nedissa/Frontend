@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { Logo } from './Logo';
 import { useAside } from './Aside';
 import { LanguageSwitcher } from './LanguageSwitcher';
@@ -961,9 +962,10 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Overlay — rendered via portal outside <header> */}
+      {isHydrated && createPortal(
       <div
-        className="md:hidden fixed inset-0 z-50 pointer-events-none"
+        className="md:hidden fixed inset-0 z-[9999] pointer-events-none"
         style={{ top: `${mobileHeaderHeight}px` }}
       >
         {/* Backdrop */}
@@ -1140,6 +1142,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
           </div>
         </div>
       </div>
+      , document.body)}
 
       {/* Navigation & Mega Menu Wrapper — desktop only */}
       <div className="hidden md:block" onMouseLeave={() => { setShowMegaMenu(false); setActiveMegaMenu(null); }}>
