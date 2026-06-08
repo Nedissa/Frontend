@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { MainLayout } from '@/app/components/MainLayout';
+import './blog.css';
 
 const PAYLOAD_URL = process.env.PAYLOAD_URL || 'https://cms.techpilots.se';
 
@@ -8,12 +9,14 @@ interface Post {
   title: string;
   slug: string;
   createdAt: string;
-  meta?: { description?: string };
+  heroImage?: { url: string; alt?: string };
+  categories?: { title: string }[];
+  meta?: { description?: string; image?: { url: string } };
 }
 
 async function getPosts(): Promise<Post[]> {
   try {
-    const res = await fetch(`${PAYLOAD_URL}/api/posts?where[_status][equals]=published&sort=-createdAt&limit=20`, {
+    const res = await fetch(`${PAYLOAD_URL}/api/posts?where[_status][equals]=published&sort=-createdAt&limit=20&depth=1`, {
       next: { revalidate: 60 },
     });
     if (!res.ok) return [];
@@ -24,37 +27,88 @@ async function getPosts(): Promise<Post[]> {
   }
 }
 
+function timeAgo(dateStr: string): string {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const months = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
+  if (months > 0) return `${months} mån sedan`;
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  if (days > 0) return `${days} d sedan`;
+  return 'Idag';
+}
+
+const DUMMY_POSTS: Post[] = [
+  { id: 'd1', title: 'Bästa laptoparna 2026', slug: '#', createdAt: new Date(Date.now() - 1000*60*60*24*5).toISOString(), categories: [{ title: 'Guider' }], meta: { description: 'Vi har testat och jämfört de bästa laptoparna på marknaden just nu.' } },
+  { id: 'd2', title: 'Så väljer du rätt grafikkort', slug: '#', createdAt: new Date(Date.now() - 1000*60*60*24*12).toISOString(), categories: [{ title: 'Datorkomponenter' }], meta: { description: 'GPU-marknaden är stor och förvirrande — här är vad du ska tänka på.' } },
+  { id: 'd3', title: 'Gaming-setup på budget 2026', slug: '#', createdAt: new Date(Date.now() - 1000*60*60*24*20).toISOString(), categories: [{ title: 'Gaming' }], meta: { description: 'Du behöver inte spendera en förmögenhet för att få ett bra gaming-setup.' } },
+  { id: 'd4', title: 'Nätverk hemma — allt du behöver veta', slug: '#', createdAt: new Date(Date.now() - 1000*60*60*24*30).toISOString(), categories: [{ title: 'Nätverk' }], meta: { description: 'Mesh, router eller switch? Vi reder ut begreppen och ger konkreta råd.' } },
+];
+
+const GRADIENTS = [
+  'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+  'linear-gradient(135deg, #d299c2 0%, #fef9d7 100%)',
+  'linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%)',
+  'linear-gradient(135deg, #fddb92 0%, #d1fdff 100%)',
+];
+
+function PostCard({ post, index }: { post: Post; index: number }) {
+  const imageUrl = post.heroImage?.url || post.meta?.image?.url || null;
+  const categories = post.categories?.map(c => c.title) || [];
+  return (
+    <Link href={`/pilotbloggen/${post.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <article className="blog-card">
+        <div style={{
+          width: '100%',
+          aspectRatio: '1/1',
+          background: imageUrl ? `url(${imageUrl}) center/cover no-repeat` : GRADIENTS[index % GRADIENTS.length],
+          position: 'relative',
+        }}>
+        </div>
+        <div style={{ padding: '20px 24px 24px' }}>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px', alignItems: 'center' }}>
+            {(categories.length > 0 ? categories : ['Techpilots']).map((cat, i) => (
+              <span key={i} style={{
+                fontSize: '0.68rem', fontWeight: 600, letterSpacing: '0.08em',
+                textTransform: 'uppercase', color: '#555',
+                background: '#f3f4f6', borderRadius: '4px', padding: '3px 8px',
+              }}>{cat}</span>
+            ))}
+            <span style={{ fontSize: '0.72rem', color: '#aaa', marginLeft: 'auto' }}>{timeAgo(post.createdAt)}</span>
+          </div>
+          <h2 style={{ fontSize: '1.05rem', fontWeight: 700, lineHeight: 1.3, marginBottom: '8px' }}>{post.title}</h2>
+          {post.meta?.description && (
+            <p style={{ fontSize: '0.85rem', color: '#666', lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+              {post.meta.description}
+            </p>
+          )}
+        </div>
+      </article>
+    </Link>
+  );
+}
+
 export default async function BloggPage() {
-  const posts = await getPosts();
+  const fetchedPosts = await getPosts();
+  const needed = Math.max(0, 4 - fetchedPosts.length);
+  const posts = [...fetchedPosts, ...DUMMY_POSTS.slice(0, needed)];
 
   return (
     <MainLayout>
-      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '48px 24px' }}>
-        <h1 style={{ fontSize: '2rem', fontWeight: 800, marginBottom: '8px' }}>Blogg</h1>
-        <p style={{ color: '#666', marginBottom: '40px' }}>Nyheter och guider från Techpilots</p>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '64px 24px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+          <p style={{ fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#888', marginBottom: '16px' }}>Insights</p>
+          <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, lineHeight: 1.1, marginBottom: '16px' }}>
+            Nyheter &amp; guider från<br /><em style={{ fontStyle: 'italic', fontWeight: 800 }}>Techpilots</em>
+          </h1>
+          <p style={{ color: '#666', fontSize: '1rem', maxWidth: '480px', margin: '0 auto', lineHeight: 1.6 }}>
+            Reflektioner, perspektiv och praktiska guider för dig som vill hålla dig uppdaterad.
+          </p>
+        </div>
 
-        {posts.length === 0 ? (
-          <p style={{ color: '#999' }}>Inga inlägg publicerade ännu.</p>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            {posts.map((post) => (
-              <Link key={post.id} href={`/pilotbloggen/${post.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div style={{ borderBottom: '1px solid #e5e7eb', paddingBottom: '24px' }}>
-                  <p style={{ fontSize: '0.8rem', color: '#999', marginBottom: '8px' }}>
-                    {new Date(post.createdAt).toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' })}
-                  </p>
-                  <h2 style={{ fontSize: '1.2rem', fontWeight: 700, marginBottom: '8px' }}>{post.title}</h2>
-                  {post.meta?.description && (
-                    <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.6 }}>{post.meta.description}</p>
-                  )}
-                  <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#000', marginTop: '12px', display: 'inline-block' }}>
-                    Läs mer →
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
+        <div className="blog-grid">
+          {posts.map((post, i) => (
+            <PostCard key={post.id} post={post} index={i} />
+          ))}
+        </div>
       </div>
     </MainLayout>
   );
