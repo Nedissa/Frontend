@@ -22,10 +22,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
   if (!product) return {};
 
-  const title = `${product.title} | Techpilots`;
-  const description = product.description
-    ? product.description.slice(0, 155)
-    : `Köp ${product.title} hos Techpilots. Snabb leverans och bra pris.`;
+  const title = product.metadata?.seo_title
+    ? `${product.metadata.seo_title} | Techpilots`
+    : `${product.title} | Techpilots`;
+  const description = product.metadata?.seo_description
+    || (product.description ? product.description.slice(0, 155) : `Köp ${product.title} hos Techpilots. Snabb leverans och bra pris.`);
 
   return {
     title,
