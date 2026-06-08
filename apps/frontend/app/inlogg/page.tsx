@@ -91,18 +91,7 @@ export default function LoginPage() {
         return;
       }
 
-      const loginResponse = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: registerEmail, password: registerPassword }),
-      });
-
-      if (!loginResponse.ok) {
-        setLoginError('Kontot skapades men login misslyckades. Försök logga in manuellt.');
-        return;
-      }
-
-      const data = await loginResponse.json();
+      const data = await registerResponse.json();
 
       window.dispatchEvent(new Event('userLogin'));
       const dest = sessionStorage.getItem('preLoginPath') || '/konto';

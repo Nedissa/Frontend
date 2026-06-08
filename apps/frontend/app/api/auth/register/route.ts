@@ -99,7 +99,7 @@ export async function POST(request: Request) {
       token = authData.token;
     }
 
-    return Response.json({
+    const response = Response.json({
       customer: {
         id: customer.id,
         first_name: customer.first_name,
@@ -108,6 +108,13 @@ export async function POST(request: Request) {
       },
       token,
     });
+
+    if (token) {
+      response.headers.append('Set-Cookie', `medusa_token=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800`);
+      response.headers.append('Set-Cookie', `is_logged_in=1; Path=/; SameSite=Lax; Max-Age=604800`);
+    }
+
+    return response;
   } catch (error) {
     console.error('Registration error:', error);
     return Response.json(
