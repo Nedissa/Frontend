@@ -24,7 +24,8 @@ export async function GET() {
       {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json; charset=utf-8',
+          'Accept': 'application/json; charset=utf-8',
           'x-publishable-api-key': publishableKey,
         },
         cache: 'no-store'
@@ -38,7 +39,8 @@ export async function GET() {
       );
     }
 
-    const data = await response.json();
+    const buffer = await response.arrayBuffer();
+    const data = JSON.parse(new TextDecoder('utf-8').decode(buffer));
     const products = data.products || [];
 
     const transformedProducts = products.map((product: any) => {
@@ -120,7 +122,7 @@ export async function GET() {
           const explicit = parseMeta(product.metadata?.features);
           if (explicit.length > 0) return explicit;
           const specs = parseMeta(product.metadata?.specifications);
-          const short = specs.filter((s: any) => s.value.length <= 12);
+          const short = specs.filter((s: any) => s.value.length <= 20);
           return short.slice(0, 3).map((s: any) => `${s.value}|${s.label}`);
         })(),
         isNew: product.isNew || false,

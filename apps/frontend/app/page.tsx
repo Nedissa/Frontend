@@ -34,7 +34,8 @@ async function fetchProductsFromAPI() {
     );
     clearTimeout(timeout);
     if (!response.ok) return [];
-    const data = await response.json();
+    const buffer = await response.arrayBuffer();
+    const data = JSON.parse(new TextDecoder('utf-8').decode(buffer));
     const products = data.products || [];
 
     function parseMeta(val: any): any[] {
@@ -75,7 +76,7 @@ async function fetchProductsFromAPI() {
           const explicit = parseMeta(product.metadata?.features);
           if (explicit.length > 0) return explicit;
           const specs = parseMeta(product.metadata?.specifications);
-          const short = specs.filter((s: any) => s.value.length <= 12);
+          const short = specs.filter((s: any) => s.value.length <= 20);
           return short.slice(0, 3).map((s: any) => `${s.value}|${s.label}`);
         })(),
         brand: product.brand || '',
