@@ -38,7 +38,7 @@ export default async function BloggPage() {
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             {posts.map((post) => (
-              <Link key={post.id} href={`/blogg/${post.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+              <Link key={post.id} href={`/pilotbloggen/${post.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <div style={{ borderBottom: '1px solid #e5e7eb', paddingBottom: '24px' }}>
                   <p style={{ fontSize: '0.8rem', color: '#999', marginBottom: '8px' }}>
                     {new Date(post.createdAt).toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' })}
