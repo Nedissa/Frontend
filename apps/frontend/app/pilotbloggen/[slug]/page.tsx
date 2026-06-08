@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { MainLayout } from '@/app/components/MainLayout';
 
-const PAYLOAD_URL = process.env.PAYLOAD_URL || 'http://89.167.31.77:3000';
+const PAYLOAD_URL = process.env.PAYLOAD_URL || 'http://95.217.163.97:3000/cms';
 
 interface RichTextNode {
   type: string;
