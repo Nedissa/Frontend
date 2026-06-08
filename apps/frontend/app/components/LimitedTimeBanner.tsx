@@ -40,7 +40,7 @@ export function LimitedTimeBanner() {
       `}</style>
       <div className="flex justify-center">
         <div className="max-w-[1280px] w-full px-6">
-          <div className="flex flex-col sm:flex-row gap-4" style={{ minHeight: '320px' }}>
+          <div className="flex flex-col sm:flex-row gap-4" style={{ minHeight: '400px' }}>
             {/* Left — animated */}
             <div className="banner-animated-bg flex flex-col items-center justify-center gap-6 px-6 sm:px-10 py-8 sm:py-10 w-full sm:w-[45%]">
               <div className="flex gap-2 sm:gap-3">
@@ -74,8 +74,7 @@ export function LimitedTimeBanner() {
               <img
                 src="/assets/kampanj-speaker.png"
                 alt="Kampanj"
-                className="w-full h-full object-cover"
-                style={{ maxHeight: '400px' }}
+                className="w-full h-full object-cover object-top"
               />
             </div>
           </div>

@@ -66,16 +66,18 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
           </button>
         </div>
       </div>
-      <div
-        ref={scrollRef}
-        className="flex gap-3 overflow-x-auto py-4 -my-4 px-4 sm:px-6"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', scrollSnapType: 'x mandatory' }}
-      >
-        {[...products, ...products].map((product, idx) => (
-          <div key={`${product.id}-${idx}`} className="flex-shrink-0 carousel-item" style={{ scrollSnapAlign: 'start' }}>
-            <ProductCard product={product} variant={variant} priority={idx < 4} />
-          </div>
-        ))}
+      <div className="px-4 sm:px-6">
+        <div
+          ref={scrollRef}
+          className="grid grid-cols-4 gap-4 py-4 -my-4"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {products.slice(0, 4).map((product, idx) => (
+            <div key={`${product.id}-${idx}`}>
+              <ProductCard product={product} variant={variant} priority={idx < 4} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

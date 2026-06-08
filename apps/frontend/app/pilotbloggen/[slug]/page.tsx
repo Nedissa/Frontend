@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { MainLayout } from '@/app/components/MainLayout';
 
-const PAYLOAD_URL = process.env.PAYLOAD_URL || 'http://95.217.163.97:3000/cms';
+const PAYLOAD_URL = process.env.PAYLOAD_URL || 'https://cms.techpilots.se';
 
 interface RichTextNode {
   type: string;
