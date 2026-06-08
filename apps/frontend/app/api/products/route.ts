@@ -116,7 +116,12 @@ export async function GET() {
         })(),
         rating: product.rating || 0,
         reviews: product.reviews || 0,
-        features: parseMeta(product.metadata?.features),
+        features: (() => {
+          const explicit = parseMeta(product.metadata?.features);
+          if (explicit.length > 0) return explicit;
+          const specs = parseMeta(product.metadata?.specifications);
+          return specs.slice(0, 3).map((s: any) => `${s.value} ${s.label}`);
+        })(),
         isNew: product.isNew || false,
         discountPercent: discountPercent,
         sectionCategory: sectionCategory,
