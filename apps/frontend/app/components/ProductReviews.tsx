@@ -49,12 +49,27 @@ export function ProductReviews({ productId }: { productId: string }) {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
   const [form, setForm] = useState({ rating: 0, comment: '' });
+  const [canReview, setCanReview] = useState<'loading' | 'yes' | 'not_purchased' | 'not_logged_in'>('loading');
 
   useEffect(() => {
     fetch(`/api/reviews?product_id=${productId}`)
       .then(r => r.json())
       .then(data => setReviews(data.reviews || []))
       .finally(() => setLoading(false));
+  }, [productId]);
+
+  useEffect(() => {
+    fetch('/api/auth/me')
+      .then(r => r.json())
+      .then(async meData => {
+        if (!meData.customer) {
+          setCanReview('not_logged_in');
+          return;
+        }
+        const res = await fetch(`/api/reviews/check?product_id=${productId}`);
+        const data = await res.json();
+        setCanReview(data.has_purchased ? 'yes' : 'not_purchased');
+      });
   }, [productId]);
 
   const avgRating = reviews.length > 0
@@ -118,13 +133,21 @@ export function ProductReviews({ productId }: { productId: string }) {
       )}
 
       {/* Write review button */}
-      {!showForm && !submitted && (
+      {!showForm && !submitted && canReview === 'yes' && (
         <button
           onClick={() => setShowForm(true)}
           className="text-sm font-semibold underline text-black hover:text-gray-600"
         >
           Skriv en recension
         </button>
+      )}
+
+      {!submitted && canReview === 'not_purchased' && (
+        <p className="text-sm text-gray-500">Du måste ha köpt produkten för att kunna recensera den.</p>
+      )}
+
+      {!submitted && canReview === 'not_logged_in' && (
+        <p className="text-sm text-gray-500">Logga in för att recensera produkten.</p>
       )}
 
       {submitted && (
