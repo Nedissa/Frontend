@@ -75,7 +75,8 @@ async function fetchProductsFromAPI() {
           const explicit = parseMeta(product.metadata?.features);
           if (explicit.length > 0) return explicit;
           const specs = parseMeta(product.metadata?.specifications);
-          return specs.slice(0, 3).map((s: any) => `${s.value} ${s.label}`);
+          const short = specs.filter((s: any) => s.value.length <= 12);
+          return short.slice(0, 3).map((s: any) => `${s.value}|${s.label}`);
         })(),
         brand: product.brand || '',
         isNew: product.isNew || false,

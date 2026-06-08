@@ -216,12 +216,13 @@ export function ProductCard({
       {config.showFeatures && product.features && product.features.length > 0 && (
         <div className="relative flex items-stretch bg-[#fafaf8] border-b border-gray-200 mb-4">
           {product.features.filter(f => !f.startsWith('tier:')).slice(0, 3).map((feature: string, idx: number) => {
-            const [value, ...labelParts] = feature.split(' ');
-            const label = labelParts.join(' ');
+            const parts = feature.split('|');
+            const value = parts[0]?.trim() || feature;
+            const label = parts[1]?.trim() || '';
             return (
-              <div key={idx} className={`flex-1 flex flex-col items-center justify-center py-1.5 px-1 text-center ${idx < 2 ? 'border-r border-gray-300' : ''}`}>
-                <span className="text-[11px] font-bold text-gray-800">{value}</span>
-                <span className="text-[9px] text-gray-400 leading-tight">{label}</span>
+              <div key={idx} className={`flex-1 flex flex-col items-center justify-center py-1.5 px-1 text-center min-w-0 ${idx < 2 ? 'border-r border-gray-300' : ''}`}>
+                <span className="text-[11px] font-bold text-gray-800 truncate w-full">{value}</span>
+                <span className="text-[9px] text-gray-400 leading-tight truncate w-full">{label}</span>
               </div>
             );
           })}
