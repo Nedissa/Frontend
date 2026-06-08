@@ -71,7 +71,12 @@ async function fetchProductsFromAPI() {
         stock: (() => { const manages = product.variants?.some((v: any) => v.manage_inventory); if (!manages) return 'I lager'; const qty = product.variants?.reduce((s: number, v: any) => s + (v.inventory_quantity || 0), 0) || 0; return qty > 0 ? 'I lager' : 'Slut i lager'; })(),
         rating: product.rating || 0,
         reviews: product.reviews || 0,
-        features: parseMeta(product.metadata?.features),
+        features: (() => {
+          const explicit = parseMeta(product.metadata?.features);
+          if (explicit.length > 0) return explicit;
+          const specs = parseMeta(product.metadata?.specifications);
+          return specs.slice(0, 3).map((s: any) => `${s.value} ${s.label}`);
+        })(),
         brand: product.brand || '',
         isNew: product.isNew || false,
         sectionCategory,
