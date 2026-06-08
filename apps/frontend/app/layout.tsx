@@ -46,6 +46,7 @@ export default async function RootLayout({
         <link rel="preload" as="image" href="/icons/ljud-hifi.png" />
         <link rel="preload" as="image" href="/icons/tv-tillbehor.png" />
         <style>{`.ml-container{max-width:1280px;width:100%}`}</style>
+        <script src="//code.tidio.co/mrr6vc2ikwk66iondgijldmmcjnllu2q.js" async></script>
       </head>
       <body className="bg-white flex flex-col min-h-screen overflow-x-hidden">
         <RootLayoutClient initialIsLoggedIn={isLoggedIn}>
