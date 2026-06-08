@@ -8,6 +8,7 @@ import { Product } from '@/app/lib/products';
 import { Breadcrumb } from '@/app/components/Breadcrumb';
 import { ImageZoomDialog } from '@/app/components/ImageZoomDialog';
 import { ProductCard, type ProductData } from '@/app/components/ProductCard';
+import { ProductReviews } from '@/app/components/ProductReviews';
 import { fetchProductsFromMedusa } from '@/app/lib/medusa-client';
 
 const COUNTDOWN_DURATION = 60000;
@@ -403,7 +404,7 @@ export default function ProductDetailClient({
               {activeTab === 'description' && <div className="space-y-3 pb-8"><div className="border-b border-gray-200 pb-3"><p className="text-sm text-gray-700 whitespace-pre-wrap">{productDetails.description}</p></div></div>}
               {activeTab === 'specifications' && <div className="space-y-3 pb-8">{productDetails.specifications.length > 0 ? productDetails.specifications.map((spec: { label: string; value: string }, idx: number) => (<div key={idx} className="border-b border-gray-200 pb-3"><p className="text-sm font-semibold text-gray-900">{spec.label}</p><p className="text-sm text-gray-700">{spec.value}</p></div>)) : <p className="text-sm text-gray-500">Inga specifikationer tillagda</p>}</div>}
               {activeTab === 'contents' && <div className="space-y-3 pb-8">{productDetails.contents.length > 0 ? <div className="border-b border-gray-200 pb-3"><p className="text-sm text-gray-700">Följande tillbehör ingår i paketet:</p><ul className="text-sm text-gray-700 mt-2 space-y-1 list-disc list-inside">{productDetails.contents.map((item: string, idx: number) => <li key={idx}>{item}</li>)}</ul></div> : <p className="text-sm text-gray-500">Inget produktinnehåll tillagt</p>}</div>}
-              {activeTab === 'reviews' && <div className="space-y-3 pb-8"><p className="text-sm text-gray-600">Denna produkt har inga recensioner än</p><p className="text-xs text-gray-500">Var den första att recensera denna produkt</p></div>}
+              {activeTab === 'reviews' && <ProductReviews productId={product.id} />}
             </div>
           </div>
 
