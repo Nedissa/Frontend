@@ -81,6 +81,7 @@ async function fetchProductsFromAPI() {
         })(),
         brand: product.brand || '',
         isNew: product.isNew || false,
+        created_at: product.created_at || '',
         sectionCategory,
         category: collectionTitle,
         description: product.description || '',
@@ -106,8 +107,8 @@ export default async function Home() {
   };
 
   const popularProducts = getProductsBySection('populär', products);
-  const recommendedProducts = getProductsBySection('rekommenderad', products);
-  const newProducts = getProductsBySection('ny', products);
+  const recommendedProducts = products.filter((p: any) => p.originalPrice && p.originalPrice > p.price);
+  const newProducts = [...products].sort((a: any, b: any) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()).slice(0, 8);
 
   return (
     <div className="relative">
@@ -118,11 +119,11 @@ export default async function Home() {
           </div>
           {products.length > 0 && (
             <>
-              <ProductCarousel title="Populära produkter" products={products} variant="popular" />
+              <ProductCarousel title="Populära produkter" products={popularProducts.length > 0 ? popularProducts : products} variant="popular" />
               <AboutBanner />
-              <ProductCarousel title="Rekommenderade produkter" products={products} variant="recommended" />
+              {recommendedProducts.length > 0 && <ProductCarousel title="Rekommenderade produkter" products={recommendedProducts} variant="recommended" />}
               <LimitedTimeBanner />
-              <ProductCarousel title="Nya produkter" products={products} variant="new" />
+              <ProductCarousel title="Nya produkter" products={newProducts.length > 0 ? newProducts : products} variant="new" />
             </>
           )}
           {products.length === 0 && (
