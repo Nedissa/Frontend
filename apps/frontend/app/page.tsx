@@ -121,6 +121,7 @@ export default async function Home() {
             <>
               <ProductCarousel title="Populära produkter" products={popularProducts.length > 0 ? popularProducts : products} variant="popular" />
               <AboutBanner />
+              {recommendedProducts.length > 0 && <ProductCarousel title="Rekommenderade produkter" products={recommendedProducts} variant="recommended" />}
               <LimitedTimeBanner />
               <ProductCarousel title="Nya produkter" products={newProducts.length > 0 ? newProducts : products} variant="new" />
             </>
