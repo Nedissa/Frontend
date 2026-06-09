@@ -48,6 +48,8 @@ function CheckoutContent() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [shippingOptions, setShippingOptions] = useState<any[]>([]);
   const [loadingShipping, setLoadingShipping] = useState(false);
+  const [isFirstOrder, setIsFirstOrder] = useState(false);
+  const WELCOME_DISCOUNT = 0.10;
   const addressInputRef = useRef<HTMLInputElement>(null);
 
   const fetchShippingOptions = useCallback(async (country: string) => {
@@ -314,6 +316,13 @@ function CheckoutContent() {
               fetchShippingOptions('Sverige');
             }
           }
+
+          // Check if first order
+          const ordersResponse = await fetch('/api/orders');
+          if (ordersResponse.ok) {
+            const ordersData = await ordersResponse.json();
+            setIsFirstOrder((ordersData.orders || []).length === 0);
+          }
         }
       } catch (error) {
         console.error('Failed to load customer data:', error);
@@ -405,7 +414,8 @@ function CheckoutContent() {
     }
     return total;
   }, 0);
-  const finalTotal = cartTotal + shippingCost;
+  const welcomeDiscount = isFirstOrder ? Math.round(cartTotal * WELCOME_DISCOUNT) : 0;
+  const finalTotal = cartTotal + shippingCost - welcomeDiscount;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -439,6 +449,7 @@ function CheckoutContent() {
           total: finalTotal,
           formData,
           shippingCost,
+          welcomeDiscount,
         }),
       });
 
@@ -511,6 +522,12 @@ function CheckoutContent() {
               <div className="flex justify-between text-sm text-green-600">
                 <span>Rabatt</span>
                 <span className="font-semibold">-{totalDiscount.toLocaleString('sv-SE')} kr</span>
+              </div>
+            )}
+            {welcomeDiscount > 0 && (
+              <div className="flex justify-between text-sm text-green-600">
+                <span>Välkomstrabatt (10%)</span>
+                <span className="font-semibold">-{welcomeDiscount.toLocaleString('sv-SE')} kr</span>
               </div>
             )}
             <div className="flex justify-between text-sm">

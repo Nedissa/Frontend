@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
     const body = await request.json();
-    const { cartItems, total, formData, shippingCost } = body;
+    const { cartItems, total, formData, shippingCost, welcomeDiscount } = body;
 
     const lineItems: LineItem[] = cartItems.map((item: any) => ({
       price_data: {
@@ -35,6 +35,19 @@ export async function POST(request: Request) {
           unit_amount: shippingCost * 100,
           product_data: {
             name: 'Expressfrakt',
+          },
+        },
+        quantity: 1,
+      });
+    }
+
+    if (welcomeDiscount > 0) {
+      lineItems.push({
+        price_data: {
+          currency: 'sek',
+          unit_amount: -welcomeDiscount * 100,
+          product_data: {
+            name: 'Välkomstrabatt (10%)',
           },
         },
         quantity: 1,
