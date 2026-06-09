@@ -449,6 +449,7 @@ function CheckoutContent() {
           total: finalTotal,
           formData,
           shippingCost,
+          shippingName: selectedShippingOption?.name || 'Frakt',
           welcomeDiscount,
         }),
       });

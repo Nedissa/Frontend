@@ -15,7 +15,7 @@ export async function POST(request: Request) {
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
     const body = await request.json();
-    const { cartItems, total, formData, shippingCost, welcomeDiscount } = body;
+    const { cartItems, total, formData, shippingCost, shippingName, welcomeDiscount } = body;
 
     const lineItems: LineItem[] = cartItems.map((item: any) => ({
       price_data: {
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
           currency: 'sek',
           unit_amount: shippingCost * 100,
           product_data: {
-            name: 'Expressfrakt',
+            name: shippingName || 'Frakt',
           },
         },
         quantity: 1,
