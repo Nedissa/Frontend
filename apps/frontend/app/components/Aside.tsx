@@ -26,8 +26,14 @@ export function Aside({
     if (expanded) {
       setIsVisible(true);
       document.documentElement.style.overflowY = 'hidden';
+      // Hide Tidio chat when aside is open
+      const tidio = document.getElementById('tidio-chat');
+      if (tidio) tidio.style.display = 'none';
     } else {
       document.documentElement.style.overflowY = 'scroll';
+      // Restore Tidio chat when aside closes
+      const tidio = document.getElementById('tidio-chat');
+      if (tidio) tidio.style.display = '';
       const timer = setTimeout(() => setIsVisible(false), 300);
       return () => clearTimeout(timer);
     }
