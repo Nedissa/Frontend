@@ -121,7 +121,6 @@ export default async function Home() {
             <>
               <ProductCarousel title="Populära produkter" products={popularProducts.length > 0 ? popularProducts : products} variant="popular" />
               <AboutBanner />
-              {recommendedProducts.length > 0 && <ProductCarousel title="Rekommenderade produkter" products={recommendedProducts} variant="recommended" />}
               <LimitedTimeBanner />
               <ProductCarousel title="Nya produkter" products={newProducts.length > 0 ? newProducts : products} variant="new" />
             </>
@@ -132,6 +131,7 @@ export default async function Home() {
             </div>
           )}
           <PerksBanner />
+          <ProductCarousel title="Rekommenderade produkter" products={recommendedProducts.length > 0 ? recommendedProducts : products} variant="recommended" />
         </div>
       </MainLayout>
       <div className="fixed bottom-4 right-4 z-50">
