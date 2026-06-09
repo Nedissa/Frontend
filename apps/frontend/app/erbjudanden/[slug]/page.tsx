@@ -2,7 +2,7 @@ import { MainLayout } from '@/app/components/MainLayout';
 
 const ERBJUDANDEN: Record<string, { title: string; description: string }> = {
   'veckans-deals': { title: 'Veckans deals', description: 'Upp till 40% rabatt på utvalda produkter den här veckan.' },
-  'rea': { title: 'Rea', description: 'Stora rabatter på ett brett sortiment — passa på innan det tar slut.' },
+  'rea': { title: 'Rea', description: 'Stora rabatter på ett brett sortiment. Passa på innan det tar slut.' },
   'paketpris': { title: 'Paketpris', description: 'Köp mer och spara mer med våra paketpriser.' },
   'lagertomning': { title: 'Lagertömning', description: 'Sista exemplaren till kraftigt reducerade priser.' },
 };

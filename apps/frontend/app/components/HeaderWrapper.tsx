@@ -324,7 +324,7 @@ const SECTION_IMAGES: Record<string, string> = {
 
 const ERBJUDANDEN_CAMPAIGNS = [
   { id: 'veckans-deals', title: 'Veckans deals', bg: 'bg-gray-900', url: '/erbjudanden/veckans-deals', image: '/assets/kampanj-1.svg' },
-  { id: 'rea', title: 'Rea — upp till 50%', bg: 'bg-red-700', url: '/erbjudanden/rea', image: '/assets/kampanj-2.svg' },
+  { id: 'rea', title: 'Rea upp till 50%', bg: 'bg-red-700', url: '/erbjudanden/rea', image: '/assets/kampanj-2.svg' },
   { id: 'paketpris', title: 'Paketpris', bg: 'bg-blue-900', url: '/erbjudanden/paketpris', image: '/assets/kampanj-3.svg' },
   { id: 'lagertomning', title: 'Lagertömning', bg: 'bg-gray-800', url: '/erbjudanden/lagertomning', image: '/assets/kampanj-4.svg' },
 ];

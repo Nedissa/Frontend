@@ -74,7 +74,7 @@ export function LimitedTimeBanner() {
               <div>
                 <h2 className="text-xl font-bold text-white mb-1">Begränsad tid</h2>
                 <p className="text-sm text-gray-400 leading-relaxed max-w-xs">
-                  Uppgradera ditt ljud — exklusiva priser på utvalda högtalare just nu.
+                  Uppgradera ditt ljud. Exklusiva priser på utvalda högtalare just nu.
                 </p>
               </div>
               <Link href="/erbjudanden" className="bg-white text-black font-semibold px-8 py-2.5 rounded-full hover:bg-gray-100 transition-colors text-sm">
