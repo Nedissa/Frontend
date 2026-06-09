@@ -122,7 +122,7 @@ export async function GET() {
           const explicit = parseMeta(product.metadata?.features);
           if (explicit.length > 0) return explicit;
           const specs = parseMeta(product.metadata?.specifications);
-          const short = specs.filter((s: any) => s.value.length <= 20);
+          const short = specs.filter((s: any) => s.value.length <= 15);
           return short.slice(0, 3).map((s: any) => `${s.value}|${s.label}`);
         })(),
         isNew: product.isNew || false,

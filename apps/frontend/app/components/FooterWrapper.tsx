@@ -61,8 +61,6 @@ export function FooterWrapper() {
               <h3 className="font-bold mb-3 text-sm">Om oss</h3>
               <ul className="space-y-1 text-sm">
                 <li><Link href="/om-oss">Vår historia</Link></li>
-                <li><Link href="/var-webbyra">Vår webbyrå</Link></li>
-                <li><Link href="/nyheter">Nyheter</Link></li>
                 <li><Link href="/pilotbloggen">Pilotbloggen</Link></li>
               </ul>
             </div>
@@ -71,19 +69,19 @@ export function FooterWrapper() {
             <div>
               <h3 className="font-bold mb-4 text-sm">Följ oss</h3>
               <div className="flex gap-4">
-                <a href="https://facebook.com/techpilots" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <a href="https://www.facebook.com/techpilots.se/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                   </svg>
                 </a>
-                <a href="https://instagram.com/techpilots" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <a href="https://www.instagram.com/techpilots.se/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
                     <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
                     <circle cx="17.5" cy="6.5" r="1.5"/>
                   </svg>
                 </a>
-                <a href="https://linkedin.com/company/techpilots" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <a href="https://www.linkedin.com/company/techpilots-webagency" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/>
                   </svg>

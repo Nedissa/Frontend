@@ -446,8 +446,8 @@ export default function ProductDetailClient({
                 <div className="flex items-center gap-2 mt-2">
                   <div className="flex gap-0.5">
                     {[1,2,3,4,5].map(i => (
-                      <svg key={i} className={`w-3.5 h-3.5 ${i <= Math.round(rating) ? 'text-yellow-400' : 'text-gray-200'}`} fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                      <svg key={i} viewBox="0 0 24 24" className="w-3.5 h-3.5" fill={i <= Math.round(rating) ? '#111827' : '#d1d5db'} stroke={i <= Math.round(rating) ? '#111827' : '#9ca3af'} strokeWidth="1">
+                        <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
                       </svg>
                     ))}
                   </div>

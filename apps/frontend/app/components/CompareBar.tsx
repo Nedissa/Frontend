@@ -6,21 +6,8 @@ import { useCompare } from './CompareContext';
 const COLUMN_COLORS = ['#dce3eb', '#c5d0db', '#a8b8c6', '#8a9fb0'];
 const COLUMN_ACCENTS = ['#7a99b0', '#5f8498', '#4a6f82', '#355a6c'];
 
-const SPEC_CATEGORIES: { label: string; keys: string[] }[] = [
-  { label: 'Processor', keys: ['Intel i3', 'Intel i5', 'Intel i7', 'Intel i9', 'AMD Ryzen 5', 'AMD Ryzen 7', 'AMD Ryzen 9'] },
-  { label: 'Grafik', keys: ['RTX 4070', 'RTX 4080', 'RTX 4090', 'RTX 3080', 'RX 7900 XT', '16GB GDDR6X', '8GB GDDR6', '12GB GDDR6X', 'PCIe 4.0', 'PCIe 5.0'] },
-  { label: 'Minne', keys: ['16GB RAM', '32GB RAM', '64GB RAM', '32GB DDR5', '16GB DDR5', '16GB DDR4'] },
-  { label: 'Lagring', keys: ['512GB SSD', '1TB SSD', '2TB SSD', '1TB NVMe', '2TB NVMe'] },
-  { label: 'Kylning', keys: ['Triple Fan kylning', 'Dual Fan kylning', '6 Heatpipes', '250W TDP', '120mm PWM', '140mm PWM'] },
-];
-
-function getCategoryForKey(key: string): string | null {
-  for (const cat of SPEC_CATEGORIES) {
-    if (cat.keys.some(k => key.toLowerCase().includes(k.toLowerCase()) || k.toLowerCase().includes(key.toLowerCase()))) {
-      return cat.label;
-    }
-  }
-  return null;
+function getCategoryForKey(key: string, specs: { label: string; value: string; category?: string }[]): string {
+  return specs.find(s => s.label === key)?.category || 'Övrigt';
 }
 
 export function CompareBar() {
@@ -74,21 +61,20 @@ export function CompareBar() {
     specs.forEach(s => {
       if (!allSpecKeys.includes(s.label)) allSpecKeys.push(s.label);
     });
-    (p.features || []).filter(f => !f.startsWith('tier:')).forEach(f => {
-      if (!allSpecKeys.includes(f)) allSpecKeys.push(f);
-    });
   });
 
   const getSpec = (product: typeof compareList[0], label: string) => {
     const specs: { label: string; value: string }[] = (product.metadata?.specifications as any) || [];
-    const fromSpecs = specs.find(s => s.label === label)?.value;
-    if (fromSpecs) return fromSpecs;
-    return (product.features || []).includes(label) ? true : null;
+    return specs.find(s => s.label === label)?.value || null;
   };
 
-  const grouped: { category: string | null; keys: string[] }[] = [];
+  const allSpecs = compareList.flatMap(p => (p.metadata?.specifications as any[] || []));
+  const seenKeys = new Set<string>();
+  const grouped: { category: string; keys: string[] }[] = [];
   allSpecKeys.forEach(key => {
-    const cat = getCategoryForKey(key);
+    if (seenKeys.has(key)) return;
+    seenKeys.add(key);
+    const cat = getCategoryForKey(key, allSpecs);
     const existing = grouped.find(g => g.category === cat);
     if (existing) {
       existing.keys.push(key);
@@ -129,7 +115,25 @@ export function CompareBar() {
 
       {/* Floating bar */}
       <div ref={barRef} className="compare-bar fixed bottom-0 left-0 right-0 bg-white" style={{ zIndex: 102,  }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
+          {/* Left slot — fixed width so counter stays centered */}
+          <div style={{ width: '72px', flexShrink: 0, display: 'flex', justifyContent: 'flex-end' }}>
+            <button
+              onClick={() => {
+                if (modalOpen) {
+                  closeSheet();
+                } else {
+                  window.dispatchEvent(new CustomEvent('clearCompare'));
+                  clearCompare();
+                }
+              }}
+              style={{ background: 'none', border: 'none', padding: '5px 4px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#555', whiteSpace: 'nowrap' }}
+            >
+              {modalOpen ? 'Stäng' : 'Rensa'}
+            </button>
+          </div>
+
+          {/* Center counter */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#f4f4f5', borderRadius: '999px', padding: '6px 14px' }}>
             <span style={{ fontSize: '0.78rem', color: '#3f3f46', fontWeight: 600, minWidth: '28px' }}>{compareList.length} / 4</span>
             <div style={{ display: 'flex', gap: '4px' }}>
@@ -138,20 +142,26 @@ export function CompareBar() {
               ))}
             </div>
           </div>
-          <button
-            onClick={() => {
-              if (modalOpen) {
-                closeSheet();
-                setTimeout(() => { window.dispatchEvent(new CustomEvent('clearCompare')); clearCompare(); }, 280);
-              } else if (compareList.length >= 2) {
-                setModalOpen(true);
-              }
-            }}
-            disabled={!modalOpen && compareList.length < 2}
-            style={{ background: !modalOpen && compareList.length < 2 ? '#e5e7eb' : '#000', color: !modalOpen && compareList.length < 2 ? '#aaa' : '#fff', border: 'none', padding: '5px 12px', fontSize: '0.78rem', fontWeight: 700, cursor: !modalOpen && compareList.length < 2 ? 'not-allowed' : 'pointer', borderRadius: '6px' }}
-          >
-            {modalOpen ? 'Rensa' : 'Jämför'}
-          </button>
+
+          {/* Right slot — fixed width so counter stays centered */}
+          <div style={{ width: '72px', flexShrink: 0, display: 'flex', justifyContent: 'flex-start' }}>
+            {modalOpen ? (
+              <button
+                onClick={() => { closeSheet(); setTimeout(() => { window.dispatchEvent(new CustomEvent('clearCompare')); clearCompare(); }, 280); }}
+                style={{ background: '#000', color: '#fff', border: 'none', padding: '5px 12px', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer', borderRadius: '6px', whiteSpace: 'nowrap' }}
+              >
+                Rensa
+              </button>
+            ) : (
+              <button
+                onClick={() => { if (compareList.length >= 2) setModalOpen(true); }}
+                disabled={compareList.length < 2}
+                style={{ background: compareList.length < 2 ? '#e5e7eb' : '#000', color: compareList.length < 2 ? '#aaa' : '#fff', border: 'none', padding: '5px 12px', fontSize: '0.78rem', fontWeight: 700, cursor: compareList.length < 2 ? 'not-allowed' : 'pointer', borderRadius: '6px', whiteSpace: 'nowrap' }}
+              >
+                Jämför
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -172,7 +182,7 @@ export function CompareBar() {
             style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 101, background: '#fff', maxHeight: '100vh', paddingBottom: `${barHeight}px`, overflowY: 'auto', overscrollBehavior: 'contain', scrollbarWidth: 'none',  }}
           >
             {/* Modal header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 28px', position: 'sticky', top: 0, background: '#fff', zIndex: 1, maxWidth: '1280px', margin: '0 auto', width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 28px', position: 'sticky', top: 0, background: '#fff', zIndex: 1, maxWidth: '1280px', margin: '0 auto', width: '100%', borderBottom: '2px solid #e5e7eb' }}>
               <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>Jämförelse</h2>
               <button
                 onClick={closeSheet}
@@ -186,7 +196,7 @@ export function CompareBar() {
             <div style={{ padding: '24px 28px', maxWidth: '1280px', margin: '0 auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead>
-                  <tr>
+                  <tr style={{ borderBottom: '2px solid #e5e7eb' }}>
                     <td style={{ width: '160px', paddingBottom: '24px' }} />
                     {compareList.map((p, i) => (
                       <td key={p.id} className="compare-product-col" style={{ paddingBottom: '0', verticalAlign: 'top', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none' }}>
@@ -214,8 +224,8 @@ export function CompareBar() {
                     <Fragment key={category ?? 'uncategorized'}>
                       {category && (
                         <tr key={`cat-${category}`}>
-                          <td style={{ padding: '10px 0 6px', borderTop: '2px solid #e5e7eb' }}>
-                            <span style={{ fontSize: '0.68rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#999' }}>
+                          <td style={{ padding: '24px 0 6px', borderTop: '2px solid #e5e7eb' }}>
+                            <span style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#999' }}>
                               {category}
                             </span>
                           </td>
@@ -231,11 +241,11 @@ export function CompareBar() {
                             <td className="spec-label" style={{ padding: '10px 0', fontSize: '0.8rem', color: '#555', fontWeight: 700, transition: 'color 0.15s' }}>{label}</td>
                             {values.map((val, i) => (
                               <td key={i} className="spec-val" style={{ padding: '10px 16px', fontSize: '0.7rem', fontWeight: 600, color: '#000', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none', background: COLUMN_COLORS[i], textAlign: 'center', transition: 'background 0.15s, color 0.15s' }}>
-                                {val === true ? (
+                                {val ? (
                                   <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block' }}>
                                     <polyline points="20 6 9 17 4 12" />
                                   </svg>
-                                ) : val ? val : (
+                                ) : (
                                   <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#555" strokeWidth="2.5" strokeLinecap="round" style={{ display: 'inline-block' }}>
                                     <line x1="18" y1="6" x2="6" y2="18" />
                                     <line x1="6" y1="6" x2="18" y2="18" />

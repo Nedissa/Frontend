@@ -13,6 +13,7 @@ export default function PrivacyPolicyPage() {
             <h2 className="font-bold mb-4">1. Personuppgiftsansvarig</h2>
             <p className="mb-1"><strong>Techpilots AB</strong></p>
             <p className="mb-1">Skogshyddegatan 37, 506 31 Borås, Sverige</p>
+            <p className="mb-1"><strong>Momsregistreringsnummer:</strong> SE870101109301</p>
             <p className="mb-1"><strong>E-post:</strong> support@techpilots.se</p>
             <p><strong>Telefon:</strong> +46 10 880 09 81</p>
           </section>

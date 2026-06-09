@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+Disallow: /konto/
+Disallow: /kassan/
+Disallow: /varukorg/
+Disallow: /api/
+Disallow: /inlogg/
+Disallow: /registrera/
+
+Sitemap: https://www.techpilots.se/sitemap.xml

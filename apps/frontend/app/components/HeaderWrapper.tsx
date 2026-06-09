@@ -1185,7 +1185,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                             <li key={item.label}>
                               <Link href={item.url} className="text-sm font-medium text-gray-700 hover:text-black transition-colors relative group inline-flex">
                                 {item.label}
-                                <span className={`absolute bottom-0 left-0 h-0.5 bg-black transition-all duration-300 ease-out ${isPathActive(item.url) ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+                                <span className={`absolute bottom-0 left-0 h-px bg-black transition-all duration-300 ease-out ${isPathActive(item.url) ? 'w-full' : 'w-0 group-hover:w-full'}`} />
                               </Link>
                             </li>
                           ))}
@@ -1237,7 +1237,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                             <li key={item.id}>
                               <Link href={item.url} className="text-sm text-gray-700 hover:text-black transition-colors relative group inline-flex">
                                 {item.title}
-                                <span className={`absolute bottom-0 left-0 h-0.5 bg-black transition-all duration-300 ease-out ${isPathActive(item.url) ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+                                <span className={`absolute bottom-0 left-0 h-px bg-black transition-all duration-300 ease-out ${isPathActive(item.url) ? 'w-full' : 'w-0 group-hover:w-full'}`} />
                               </Link>
                             </li>
                           ))}
