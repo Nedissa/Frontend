@@ -19,6 +19,8 @@ export function CartAside() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [cartTotal, setCartTotal] = useState(0);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [isFirstOrder, setIsFirstOrder] = useState(false);
+  const WELCOME_DISCOUNT = 0.10;
 
   const loadCartFromStorage = () => {
     const savedCartItems = localStorage.getItem('cartItems');
@@ -38,6 +40,13 @@ export function CartAside() {
     // Load from localStorage on mount
     loadCartFromStorage();
     setIsHydrated(true);
+
+    // Check if first order
+    fetch('/api/orders').then(res => {
+      if (res.ok) res.json().then(data => {
+        setIsFirstOrder((data.orders || []).length === 0);
+      });
+    }).catch(() => {});
 
     // Also listen for storage changes from other tabs
     const handleStorageChange = (e: StorageEvent) => {
@@ -295,9 +304,15 @@ export function CartAside() {
                     <span className="text-green-600 font-semibold">-{calculateTotalDiscount().toLocaleString('sv-SE')} kr</span>
                   </div>
                 )}
+                {isFirstOrder && cartTotal > 0 && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-green-600">Välkomstrabatt (10%)</span>
+                    <span className="text-green-600 font-semibold">-{Math.round(cartTotal * WELCOME_DISCOUNT).toLocaleString('sv-SE')} kr</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-base font-bold pt-2">
                   <span className="text-gray-900">Summa</span>
-                  <span className="text-gray-900">{cartTotal.toLocaleString('sv-SE')} kr</span>
+                  <span className="text-gray-900">{isFirstOrder && cartTotal > 0 ? (cartTotal - Math.round(cartTotal * WELCOME_DISCOUNT)).toLocaleString('sv-SE') : cartTotal.toLocaleString('sv-SE')} kr</span>
                 </div>
               </div>
 
