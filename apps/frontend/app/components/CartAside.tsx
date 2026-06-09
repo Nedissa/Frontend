@@ -466,14 +466,14 @@ export function CartAside() {
                       cartItems.forEach(item => {
                         const itemTotal = (item.price * item.quantity).toLocaleString('sv-SE');
                         const originalPriceStr = item.originalPrice ? `<div class="price-strikethrough">${item.originalPrice.toLocaleString('sv-SE')} kr</div>` : '';
-                        const imageUrl = '/assets/Produkt bilder/LAPTOP/1978563_1.webp';
+                        const imageUrl = item.image || '';
                         printWindow.document.write(`
                           <tr>
                             <td style="width: 10%; text-align: center; padding-right: 20px;">
-                              <img src="${imageUrl}" alt="${item.title}" style="width: 60px; height: 60px; object-fit: cover; border: 1px solid #ddd;">
+                              ${imageUrl ? `<img src="${imageUrl}" alt="${item.title}" style="width: 60px; height: 60px; object-fit: contain; border: 1px solid #ddd;">` : ''}
                             </td>
                             <td style="width: 40%; padding-left: 20px;">${item.title}</td>
-                            <td class="sku-col">${item.id}</td>
+                            <td class="sku-col">-</td>
                             <td class="qty-col">${item.quantity}</td>
                             <td class="price-col">
                               <div class="price-red">${itemTotal} kr</div>
