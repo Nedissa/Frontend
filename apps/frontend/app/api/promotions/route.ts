@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const response = await fetch(`${MEDUSA_URL}/admin/campaigns?limit=100`, {
       headers: {
-        'Authorization': `Bearer ${MEDUSA_API_KEY}`,
+        'x-medusa-access-token': MEDUSA_API_KEY,
         'Content-Type': 'application/json',
       },
       next: { revalidate: 60 },
