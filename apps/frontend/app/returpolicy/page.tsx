@@ -14,7 +14,7 @@ export default function ReturnPolicyPage() {
           <section>
             <h2 className="font-bold mb-4">1. Vårt löfte till dig</h2>
             <p className="mb-3">
-              Du har <strong>30 dagars returrätt</strong> på alla köp hos Techpilots — från det att du mottagit din order. Inga krångliga regler, ingen lång process.
+              Du har <strong>30 dagars returrätt</strong> på alla köp hos Techpilots från det att du mottagit din order. Inga krångliga regler, ingen lång process.
             </p>
             <p>
               Det är mer än vad lagen kräver, för vi vill att du ska känna dig trygg när du handlar elektronik hos oss.
@@ -57,22 +57,22 @@ export default function ReturnPolicyPage() {
           <section>
             <h2 className="font-bold mb-4">4. Returprocess - steg för steg</h2>
             <ol>
-              <li><strong>Kontakta oss för godkännande</strong> — Skicka ett e-mail till support@techpilots.se med ditt ordernummer och anledningen till returningen. Du kan också ringa +46 10 880 09 81.</li>
-              <li><strong>Få returetikett och godkännande</strong> — Vi granskar din returering och skickar instruktioner tillsammans med en returfraktsedel. Returering godkänns normalt inom 24 timmar.</li>
-              <li><strong>Packa produkten säkert</strong> — Packa produkten i originalförpackningen tillsammans med all tillbehör och eventuell dokumentation. Se till att allt är väl skyddat för transporten.</li>
-              <li><strong>Skicka tillbaka</strong> — Använd returetikettern och skicka paketet till vår returadress. Du måste skicka det inom 30 dagar från när du mottagit produkten. Spara ditt spårningsnummer.</li>
-              <li><strong>Få pengaråterbetalning</strong> — När vi mottar och inspekterar produkten godkänner vi returningen. Du får pengaråterbetalning inom 5–7 arbetsdagar.</li>
+              <li><strong>Kontakta oss för godkännande.</strong> Skicka ett e-mail till support@techpilots.se med ditt ordernummer och anledningen till returningen. Du kan också ringa +46 10 880 09 81.</li>
+              <li><strong>Få returetikett och godkännande.</strong> Vi granskar din returering och skickar instruktioner tillsammans med en returfraktsedel. Returering godkänns normalt inom 24 timmar.</li>
+              <li><strong>Packa produkten säkert.</strong> Packa produkten i originalförpackningen tillsammans med all tillbehör och eventuell dokumentation. Se till att allt är väl skyddat för transporten.</li>
+              <li><strong>Skicka tillbaka.</strong> Använd returetikettern och skicka paketet till vår returadress. Du måste skicka det inom 30 dagar från när du mottagit produkten. Spara ditt spårningsnummer.</li>
+              <li><strong>Få pengaråterbetalning.</strong> När vi mottar och inspekterar produkten godkänner vi returningen. Du får pengaråterbetalning inom 5–7 arbetsdagar.</li>
             </ol>
           </section>
 
           <section>
             <h2 className="font-bold mb-4">5. Vad gör jag om paketet är skadat?</h2>
             <ol>
-              <li><strong>Inspektera omedelbart</strong> — Öppna paketet varsamt och inspektera produkten. Dokumentera all skada med tydliga bilder från flera vinklar.</li>
-              <li><strong>Spara förpackningen</strong> — Behåll all originalförpackning och transportmaterial. Detta är viktigt för att vi ska kunna dokumentera skadan och få ersättning från försäkringen.</li>
-              <li><strong>Kontakta oss inom 48 timmar</strong> — Skicka ett e-mail till support@techpilots.se eller ring +46 10 880 09 81 med ditt ordernummer och bilder av skadan.</li>
-              <li><strong>Vi granskar och godkänner</strong> — Vi granskar bilderna och godkänner skadeanmälan. Du kommer att få instruktioner om nästa steg.</li>
-              <li><strong>Vi skickar ersättning</strong> — Vi skickar en ny produkt eller pengaråterbetalning omedelbart efter godkännandet. Vi betalar frakten för bytet.</li>
+              <li><strong>Inspektera omedelbart.</strong> Öppna paketet varsamt och inspektera produkten. Dokumentera all skada med tydliga bilder från flera vinklar.</li>
+              <li><strong>Spara förpackningen.</strong> Behåll all originalförpackning och transportmaterial. Detta är viktigt för att vi ska kunna dokumentera skadan och få ersättning från försäkringen.</li>
+              <li><strong>Kontakta oss inom 48 timmar.</strong> Skicka ett e-mail till support@techpilots.se eller ring +46 10 880 09 81 med ditt ordernummer och bilder av skadan.</li>
+              <li><strong>Vi granskar och godkänner.</strong> Vi granskar bilderna och godkänner skadeanmälan. Du kommer att få instruktioner om nästa steg.</li>
+              <li><strong>Vi skickar ersättning.</strong> Vi skickar en ny produkt eller pengaråterbetalning omedelbart efter godkännandet. Vi betalar frakten för bytet.</li>
             </ol>
             <p className="mt-4"><strong>Viktigt:</strong> Rapportera skador inom 48 timmar från mottagandet. Detta säkerställer att vi kan göra ett försäkringskrav hos transportören.</p>
           </section>

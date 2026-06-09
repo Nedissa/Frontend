@@ -12,7 +12,7 @@ export default function ReklamationPage() {
 
           <section>
             <h2 className="font-bold mb-4">1. Dina rättigheter</h2>
-            <p className="mb-3">Som konsument har du enligt svensk lag rätt att reklamera en produkt i upp till <strong>3 år</strong> från köpdatum om felet var ursprungligt — det vill säga att det fanns när du köpte produkten.</p>
+            <p className="mb-3">Som konsument har du enligt svensk lag rätt att reklamera en produkt i upp till <strong>3 år</strong> från köpdatum om felet var ursprungligt, det vill säga att det fanns när du köpte produkten.</p>
             <p className="mb-3">Under de första <strong>2 åren</strong> är det vi som måste bevisa att felet inte var ursprungligt. Efter 2 år är det du som behöver visa att felet fanns redan vid köpet.</p>
             <p>Reklamationsrätten gäller utöver tillverkarens garanti och kan inte avtalas bort.</p>
           </section>
@@ -52,23 +52,23 @@ export default function ReklamationPage() {
             <h2 className="font-bold mb-4">4. Vad ska felanmälan innehålla?</h2>
             <p className="mb-3">För att vi ska kunna hantera ditt ärende så snabbt som möjligt, inkludera:</p>
             <ul>
-              <li><strong>Ordernummer</strong> — finns i din orderbekräftelse via e-post</li>
+              <li><strong>Ordernummer.</strong> Finns i din orderbekräftelse via e-post.</li>
               <li><strong>Produktnamn och modell</strong></li>
-              <li><strong>Beskrivning av felet</strong> — när uppstod det, hur visar det sig?</li>
-              <li><strong>Bilder eller video</strong> — dokumentera felet tydligt</li>
+              <li><strong>Beskrivning av felet.</strong> När uppstod det, hur visar det sig?</li>
+              <li><strong>Bilder eller video.</strong> Dokumentera felet tydligt.</li>
               <li><strong>Inköpsdatum</strong></li>
-              <li><strong>Dina kontaktuppgifter</strong> — namn, e-post och telefonnummer</li>
+              <li><strong>Dina kontaktuppgifter.</strong> Namn, e-post och telefonnummer.</li>
             </ul>
           </section>
 
           <section>
             <h2 className="font-bold mb-4">5. Vad händer efter felanmälan?</h2>
             <ol>
-              <li><strong>Vi bekräftar inom 24 timmar</strong> — du får ett e-mail med ärendenummer</li>
-              <li><strong>Bedömning inom 3 arbetsdagar</strong> — vi granskar din anmälan och bilder</li>
-              <li><strong>Vi meddelar beslut</strong> — godkänd reklamation eller motiverat avslag</li>
-              <li><strong>Åtgärd</strong> — vi erbjuder reparation, byte eller återbetalning beroende på situation</li>
-              <li><strong>Vi betalar frakten</strong> — vid godkänd reklamation står vi för all frakt</li>
+              <li><strong>Vi bekräftar inom 24 timmar.</strong> Du får ett e-mail med ärendenummer.</li>
+              <li><strong>Bedömning inom 3 arbetsdagar.</strong> Vi granskar din anmälan och bilder.</li>
+              <li><strong>Vi meddelar beslut.</strong> Godkänd reklamation eller motiverat avslag.</li>
+              <li><strong>Åtgärd.</strong> Vi erbjuder reparation, byte eller återbetalning beroende på situation.</li>
+              <li><strong>Vi betalar frakten</strong> vid godkänd reklamation.</li>
             </ol>
           </section>
 
@@ -76,9 +76,9 @@ export default function ReklamationPage() {
             <h2 className="font-bold mb-4">6. Reparation eller byte?</h2>
             <p className="mb-3">Vid godkänd reklamation väljer vi i första hand:</p>
             <ul>
-              <li><strong>Reparation</strong> — om produkten kan repareras inom rimlig tid</li>
-              <li><strong>Byte</strong> — om reparation inte är möjlig eller tar för lång tid</li>
-              <li><strong>Återbetalning</strong> — om varken reparation eller byte är möjligt</li>
+              <li><strong>Reparation</strong> om produkten kan repareras inom rimlig tid</li>
+              <li><strong>Byte</strong> om reparation inte är möjlig eller tar för lång tid</li>
+              <li><strong>Återbetalning</strong> om varken reparation eller byte är möjligt</li>
             </ul>
             <p className="mt-3">Du har alltid rätt till prisavdrag eller hävning av köpet om vi inte kan åtgärda felet.</p>
           </section>
@@ -87,7 +87,7 @@ export default function ReklamationPage() {
             <h2 className="font-bold mb-4">7. Tillverkargaranti</h2>
             <p className="mb-3">Utöver din lagstadgade reklamationsrätt kommer de flesta elektronikprodukter med <strong>tillverkarens garanti</strong>, normalt 1–2 år.</p>
             <p className="mb-3">Tillverkargarantin kan ha egna villkor och hanteras ibland direkt av tillverkaren. Vi hjälper dig att kontakta rätt instans om det behövs.</p>
-            <p>Tillverkargarantin ersätter inte din lagstadgade reklamationsrätt — du har alltid rätt att vända dig till oss som säljare.</p>
+            <p>Tillverkargarantin ersätter inte din lagstadgade reklamationsrätt. Du har alltid rätt att vända dig till oss som säljare.</p>
           </section>
 
           <section>

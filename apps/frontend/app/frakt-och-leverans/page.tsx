@@ -18,7 +18,7 @@ export default function ShippingPage() {
             <p className="mb-4"><strong>Kostnad:</strong> Gratis inom hela Sverige</p>
             <h3 className="font-bold mb-1">Express-leverans</h3>
             <p className="mb-1">Leverans samma dag eller nästa dag för brådskande ordrar.</p>
-            <p><strong>Kostnad:</strong> 199 SEK — beställ före 12:00</p>
+            <p><strong>Kostnad:</strong> 199 SEK. Beställ före 12:00.</p>
           </section>
 
           <section>
@@ -42,9 +42,9 @@ export default function ShippingPage() {
           <section>
             <h2 className="font-bold mb-4">4. Spåra din beställning</h2>
             <ol>
-              <li><strong>Logga in på ditt konto</strong> — Gå till "Mitt konto" och navigera till "Mina beställningar"</li>
-              <li><strong>Hitta din beställning</strong> — Välj den beställning du vill spåra från listan</li>
-              <li><strong>Klicka på spårningsnummret</strong> — Du kommer då direkt till PostNords spårningssystem</li>
+              <li><strong>Logga in på ditt konto.</strong> Gå till "Mitt konto" och navigera till "Mina beställningar".</li>
+              <li><strong>Hitta din beställning.</strong> Välj den beställning du vill spåra från listan.</li>
+              <li><strong>Klicka på spårningsnummret.</strong> Du kommer då direkt till PostNords spårningssystem.</li>
             </ol>
           </section>
 
@@ -61,11 +61,11 @@ export default function ShippingPage() {
             <h3 className="font-bold mb-2">Vad gör jag om paketet är skadat?</h3>
             <p className="mb-3">Om du mottar ett skadat paket, följ dessa steg:</p>
             <ol className="mb-4">
-              <li><strong>Inspektera paketet omedelbart</strong> — Öppna varsamt och dokumentera all skada med bilder från flera vinklar.</li>
-              <li><strong>Spara förpackningen</strong> — Behåll all originalförpackning och transportmaterial för försäkringskravet.</li>
-              <li><strong>Kontakta oss inom 48 timmar</strong> — Skicka e-mail till support@techpilots.se eller ring +46 10 880 09 81 med ordernummer och bilder.</li>
-              <li><strong>Vi granskar och godkänner</strong> — Du får instruktioner om nästa steg.</li>
-              <li><strong>Vi skickar ersättning eller ny produkt</strong> — Vi betalar frakten.</li>
+              <li><strong>Inspektera paketet omedelbart.</strong> Öppna varsamt och dokumentera all skada med bilder från flera vinklar.</li>
+              <li><strong>Spara förpackningen.</strong> Behåll all originalförpackning och transportmaterial för försäkringskravet.</li>
+              <li><strong>Kontakta oss inom 48 timmar.</strong> Skicka e-mail till support@techpilots.se eller ring +46 10 880 09 81 med ordernummer och bilder.</li>
+              <li><strong>Vi granskar och godkänner.</strong> Du får instruktioner om nästa steg.</li>
+              <li><strong>Vi skickar ersättning eller ny produkt.</strong> Vi betalar frakten.</li>
             </ol>
             <p><strong>Viktigt:</strong> Rapportera skador inom 48 timmar från mottagandet.</p>
           </section>
@@ -74,11 +74,11 @@ export default function ShippingPage() {
             <h2 className="font-bold mb-4">6. Vanliga returer (ångra köp)</h2>
             <p className="mb-3">Du har <strong>30 dagars returrätt</strong> på alla köp hos Techpilots. Ångrar du ditt köp kontaktar du oss bara så löser vi det.</p>
             <ol className="mb-4">
-              <li><strong>Kontakta oss för godkännande</strong> — Skicka e-mail till support@techpilots.se med ordernummer och anledningen.</li>
-              <li><strong>Få returetikett</strong> — Vi skickar instruktioner med returetikett normalt inom 24 timmar.</li>
-              <li><strong>Packa produkten</strong> — Originalförpackning med all tillbehör. Måste vara oanvänd.</li>
-              <li><strong>Skicka tillbaka</strong> — Inom 30 dagar från mottagandet. Du betalar returfrakten själv.</li>
-              <li><strong>Få pengaråterbetalning</strong> — Inom 5–7 arbetsdagar efter godkänd retur.</li>
+              <li><strong>Kontakta oss för godkännande.</strong> Skicka e-mail till support@techpilots.se med ordernummer och anledningen.</li>
+              <li><strong>Få returetikett.</strong> Vi skickar instruktioner med returetikett normalt inom 24 timmar.</li>
+              <li><strong>Packa produkten.</strong> Originalförpackning med all tillbehör. Måste vara oanvänd.</li>
+              <li><strong>Skicka tillbaka.</strong> Inom 30 dagar från mottagandet. Du betalar returfrakten själv.</li>
+              <li><strong>Få pengaråterbetalning.</strong> Inom 5–7 arbetsdagar efter godkänd retur.</li>
             </ol>
             <p>Se vår <Link href="/returpolicy" className="underline hover:opacity-70">detaljerade returpolicy</Link> för alla villkor.</p>
           </section>
