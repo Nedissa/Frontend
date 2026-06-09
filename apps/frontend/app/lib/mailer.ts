@@ -1,14 +1,4 @@
-import nodemailer from 'nodemailer';
-
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || 'smtp.strato.com',
-  port: Number(process.env.SMTP_PORT) || 465,
-  secure: true,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 
 export async function sendWelcomeEmail(firstName: string, email: string) {
   const html = `
@@ -105,10 +95,23 @@ export async function sendWelcomeEmail(firstName: string, email: string) {
     </html>
   `;
 
-  await transporter.sendMail({
-    from: `"Techpilots" <${process.env.SMTP_USER}>`,
-    to: email,
-    subject: 'Välkommen till Techpilots — 10% på din första order',
-    html,
+  const response = await fetch(BREVO_API_URL, {
+    method: 'POST',
+    headers: {
+      'accept': 'application/json',
+      'api-key': process.env.BREVO_API_KEY!,
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({
+      sender: { name: 'Techpilots', email: 'info@techpilots.se' },
+      to: [{ email, name: firstName }],
+      subject: 'Välkommen till Techpilots — 10% på din första order',
+      htmlContent: html,
+    }),
   });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(`Brevo error: ${JSON.stringify(error)}`);
+  }
 }
