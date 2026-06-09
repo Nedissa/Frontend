@@ -1,3 +1,5 @@
+import { sendWelcomeEmail } from '@/app/lib/mailer';
+
 const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
 
 export async function POST(request: Request) {
@@ -113,6 +115,11 @@ export async function POST(request: Request) {
       response.headers.append('Set-Cookie', `medusa_token=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800`);
       response.headers.append('Set-Cookie', `is_logged_in=1; Path=/; SameSite=Lax; Max-Age=604800`);
     }
+
+    // Send welcome email (non-blocking)
+    sendWelcomeEmail(customer.first_name, customer.email).catch((err) =>
+      console.error('Welcome email failed:', err)
+    );
 
     return response;
   } catch (error) {

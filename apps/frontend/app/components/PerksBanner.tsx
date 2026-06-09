@@ -23,7 +23,7 @@ const PERKS = [
     title: '30 dagars öppet köp',
     description: 'Handla tryggt med vår enkla och kostnadsfria returpolicy.',
     label: 'RETURPOLICY',
-    href: '/retur',
+    href: '/returpolicy',
   },
   {
     icon: (
@@ -34,7 +34,7 @@ const PERKS = [
     title: 'Fri frakt',
     description: 'Fri frakt på alla beställningar. Leverans inom 2–5 arbetsdagar.',
     label: 'FRAKTINFO',
-    href: '/frakt',
+    href: '/frakt-och-leverans',
   },
 ];
 

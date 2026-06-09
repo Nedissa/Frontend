@@ -77,7 +77,7 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
 
     rafRef.current = requestAnimationFrame(tick);
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
-  }, [isPlaying, collections.length]);
+  }, [isPlaying]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const heroImages = [
     '/assets/hero-thumb-1.webp',
