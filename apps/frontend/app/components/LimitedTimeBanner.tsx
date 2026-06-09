@@ -3,15 +3,30 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-const END_DATE = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000 + 59 * 60 * 1000 + 7 * 1000);
-
 export function LimitedTimeBanner() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [endDate, setEndDate] = useState<Date | null>(null);
 
   useEffect(() => {
+    fetch('/api/promotions')
+      .then((r) => r.json())
+      .then((data) => {
+        const campaign = (data.campaigns || []).find((c: any) => c.ends_at);
+        if (campaign?.ends_at) {
+          setEndDate(new Date(campaign.ends_at));
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (!endDate) return;
     const calc = () => {
-      const diff = END_DATE.getTime() - Date.now();
-      if (diff <= 0) return;
+      const diff = endDate.getTime() - Date.now();
+      if (diff <= 0) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      }
       setTimeLeft({
         days: Math.floor(diff / 86400000),
         hours: Math.floor((diff % 86400000) / 3600000),
@@ -22,7 +37,7 @@ export function LimitedTimeBanner() {
     calc();
     const id = setInterval(calc, 1000);
     return () => clearInterval(id);
-  }, []);
+  }, [endDate]);
 
   return (
     <div className="flex justify-center">
