@@ -7,8 +7,10 @@ export function NewsletterPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     setIsHydrated(true);
@@ -24,13 +26,37 @@ export function NewsletterPopup() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
     try {
-      await fetch('/api/newsletter', {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password,
+          firstName: email.split('@')[0],
+          lastName: '',
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || 'Något gick fel, försök igen.');
+        setLoading(false);
+        return;
+      }
+      // Notify store via newsletter route (non-blocking)
+      fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ email }),
-      });
-    } catch {}
+      }).catch(() => {});
+      // Trigger login state update across the app
+      window.dispatchEvent(new Event('authChange'));
+    } catch {
+      setError('Något gick fel, försök igen.');
+      setLoading(false);
+      return;
+    }
     setLoading(false);
     setSubmitted(true);
     setTimeout(handleClose, 5000);
@@ -73,33 +99,45 @@ export function NewsletterPopup() {
             </div>
 
             {/* Email Form */}
-            <form onSubmit={handleSubmit} className="mb-6">
-              <div className="flex gap-2">
-                <div className="flex-1">
-                  <InputWithCheck
-                    type="email"
-                    placeholder="Ange din e-postadress"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                    disabled={submitted}
-                    className="text-sm text-black placeholder-gray-500"
-                  />
+            <form onSubmit={handleSubmit} className="mb-4">
+              <div className="flex flex-col gap-2">
+                <InputWithCheck
+                  type="email"
+                  placeholder="Ange din e-postadress"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={submitted}
+                  className="text-sm text-black placeholder-gray-500"
+                />
+                <div className="flex gap-2">
+                  <div className="flex-1">
+                    <InputWithCheck
+                      type="password"
+                      placeholder="Välj ett lösenord"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      disabled={submitted}
+                      className="text-sm text-black placeholder-gray-500"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={loading || submitted}
+                    className={`px-6 py-3 font-semibold transition-colors flex items-center justify-center ${submitted ? 'bg-green-600 text-white cursor-default' : 'bg-black text-white hover:bg-gray-900'}`}
+                    aria-label="Registrera"
+                  >
+                    {submitted ? (
+                      <span className="text-sm font-bold">Tackar!</span>
+                    ) : (
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                      </svg>
+                    )}
+                  </button>
                 </div>
-                <button
-                  type="submit"
-                  disabled={loading || submitted}
-                  className={`px-6 py-3 font-semibold transition-colors flex items-center justify-center ${submitted ? 'bg-green-600 text-white cursor-default' : 'bg-black text-white hover:bg-gray-900'}`}
-                  aria-label="Prenumerera"
-                >
-                  {submitted ? (
-                    <span className="text-sm font-bold">Tackar!</span>
-                  ) : (
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                  )}
-                </button>
+                {error && <p className="text-red-500 text-xs">{error}</p>}
               </div>
             </form>
 
