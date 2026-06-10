@@ -33,8 +33,7 @@ export function NewsletterPopup() {
     } catch {}
     setLoading(false);
     setSubmitted(true);
-    setEmail('');
-    setTimeout(handleClose, 4000);
+    setTimeout(handleClose, 3000);
   };
 
   if (!isHydrated || !isOpen) return null;
@@ -74,36 +73,35 @@ export function NewsletterPopup() {
             </div>
 
             {/* Email Form */}
-            {submitted ? (
-              <div className="mb-6 py-3 px-4 bg-green-50 border border-green-200 text-green-700 text-sm font-medium">
-                Tack! Din rabattkod skickas till din e-post.
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="mb-6">
-                <div className="flex gap-2">
-                  <div className="flex-1">
-                    <InputWithCheck
-                      type="email"
-                      placeholder="Ange din e-postadress"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      className="text-sm text-black placeholder-gray-500"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="bg-black text-white px-6 py-3 font-semibold hover:bg-gray-900 transition-colors flex items-center justify-center disabled:opacity-50"
-                    aria-label="Prenumerera"
-                  >
+            <form onSubmit={handleSubmit} className="mb-6">
+              <div className="flex gap-2">
+                <div className="flex-1">
+                  <InputWithCheck
+                    type="email"
+                    placeholder="Ange din e-postadress"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    disabled={submitted}
+                    className="text-sm text-black placeholder-gray-500"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={loading || submitted}
+                  className={`px-6 py-3 font-semibold transition-colors flex items-center justify-center ${submitted ? 'bg-green-600 text-white cursor-default' : 'bg-black text-white hover:bg-gray-900'}`}
+                  aria-label="Prenumerera"
+                >
+                  {submitted ? (
+                    <span className="text-sm font-bold">Tackar!</span>
+                  ) : (
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
-                  </button>
-                </div>
-              </form>
-            )}
+                  )}
+                </button>
+              </div>
+            </form>
 
             {/* Description */}
             <p className="text-sm text-gray-600 mb-6">
