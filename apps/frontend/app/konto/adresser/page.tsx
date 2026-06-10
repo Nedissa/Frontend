@@ -1,240 +1,239 @@
 'use client';
 
-import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MainLayout } from '../../components/MainLayout';
-import { InputWithCheck } from '../../components/InputWithCheck';
 
 interface Address {
   id: string;
-  name: string;
-  street: string;
-  zipCode: string;
+  first_name: string;
+  last_name: string;
+  address_1: string;
+  postal_code: string;
   city: string;
-  country: string;
-  phone: string;
-  isDefault: boolean;
-  type: 'billing' | 'shipping';
+  country_code: string;
+  phone?: string;
 }
 
-const MOCK_ADDRESSES: Address[] = [
-  {
-    id: '1',
-    name: 'Johan Andersson',
-    street: 'Storgatan 1',
-    zipCode: '123 45',
-    city: 'Stockholm',
-    country: 'Sverige',
-    phone: '+46 70 123 45 67',
-    isDefault: true,
-    type: 'shipping',
-  },
-  {
-    id: '2',
-    name: 'Johan Andersson',
-    street: 'Företagsgatan 10',
-    zipCode: '456 78',
-    city: 'Stockholm',
-    country: 'Sverige',
-    phone: '+46 70 123 45 67',
-    isDefault: false,
-    type: 'billing',
-  },
-];
+const EMPTY_FORM = {
+  first_name: '',
+  last_name: '',
+  address_1: '',
+  postal_code: '',
+  city: '',
+  phone: '',
+  country_code: 'se',
+};
 
 export default function AddressesPage() {
-  const [addresses, setAddresses] = useState<Address[]>(MOCK_ADDRESSES);
-  const [showAddForm, setShowAddForm] = useState(false);
+  const [addresses, setAddresses] = useState<Address[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [formData, setFormData] = useState({
-    name: '',
-    street: '',
-    zipCode: '',
-    city: '',
-    country: 'Sverige',
-    phone: '',
-    type: 'shipping' as 'billing' | 'shipping',
-  });
+  const [formData, setFormData] = useState(EMPTY_FORM);
+  const [saveError, setSaveError] = useState('');
+  const [saveMessage, setSaveMessage] = useState('');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  useEffect(() => {
+    loadAddresses();
+  }, []);
+
+  async function loadAddresses() {
+    try {
+      const res = await fetch('/api/auth/addresses');
+      if (res.ok) {
+        const data = await res.json();
+        setAddresses(data.addresses || []);
+      }
+    } catch {
+      // keep empty state
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (editingId) {
-      setAddresses(addresses.map(addr =>
-        addr.id === editingId ? { ...addr, ...formData } : addr
-      ));
+    setSaveError('');
+
+    try {
+      let res: Response;
+      if (editingId) {
+        res = await fetch(`/api/auth/addresses/${editingId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+      } else {
+        res = await fetch('/api/auth/addresses', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
+      }
+
+      if (!res.ok) {
+        const err = await res.json();
+        setSaveError(err.error || 'Kunde inte spara adress');
+        return;
+      }
+
+      await loadAddresses();
+      setFormData(EMPTY_FORM);
       setEditingId(null);
-    } else {
-      setAddresses([...addresses, {
-        ...formData,
-        id: Math.random().toString(),
-        isDefault: addresses.length === 0,
-      }]);
+      setShowForm(false);
+      setSaveMessage(editingId ? 'Adress uppdaterad' : 'Adress sparad');
+      setTimeout(() => setSaveMessage(''), 3000);
+    } catch {
+      setSaveError('Ett fel uppstod');
     }
-    setFormData({ name: '', street: '', zipCode: '', city: '', country: 'Sverige', phone: '', type: 'shipping' });
-    setShowAddForm(false);
   };
 
-  const handleDelete = (id: string) => {
-    setAddresses(addresses.filter(addr => addr.id !== id));
-  };
-
-  const handleSetDefault = (id: string) => {
-    setAddresses(addresses.map(addr => ({
-      ...addr,
-      isDefault: addr.id === id,
-    })));
+  const handleDelete = async (id: string) => {
+    try {
+      const res = await fetch(`/api/auth/addresses/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        setAddresses(prev => prev.filter(a => a.id !== id));
+      }
+    } catch {
+      // ignore
+    }
   };
 
   const handleEdit = (address: Address) => {
     setFormData({
-      name: address.name,
-      street: address.street,
-      zipCode: address.zipCode,
-      city: address.city,
-      country: address.country,
-      phone: address.phone,
-      type: address.type,
+      first_name: address.first_name || '',
+      last_name: address.last_name || '',
+      address_1: address.address_1 || '',
+      postal_code: address.postal_code || '',
+      city: address.city || '',
+      phone: address.phone || '',
+      country_code: address.country_code || 'se',
     });
     setEditingId(address.id);
-    setShowAddForm(true);
+    setShowForm(true);
+    setSaveError('');
   };
 
   return (
     <MainLayout bordered={false}>
-      <div className="py-8">
+      <div className="w-full max-w-4xl mx-auto px-6 py-16">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold">Mina adresser</h1>
-          {!showAddForm && (
+          <h1 className="text-2xl font-bold">Mina adresser</h1>
+          {!showForm && (
             <button
-              onClick={() => setShowAddForm(true)}
-              className="bg-black text-white px-6 py-2 font-bold hover:bg-gray-800"
+              onClick={() => { setShowForm(true); setEditingId(null); setFormData(EMPTY_FORM); setSaveError(''); }}
+              className="px-6 py-2 bg-black text-white font-semibold hover:bg-gray-800"
             >
               Lägg till adress
             </button>
           )}
         </div>
-        {/* Add/Edit Form */}
-        {showAddForm && (
-          <div className="p-8 rounded-lg border border-gray-200 mb-12" style={{ backgroundColor: '#f5f5f5' }}>
-            <h2 className="text-2xl font-bold mb-6">
-              {editingId ? 'Redigera adress' : 'Lägg till ny adress'}
-            </h2>
+
+        {saveMessage && (
+          <div className="mb-4 p-4 bg-green-50 text-green-700">{saveMessage}</div>
+        )}
+
+        {showForm && (
+          <div className="p-6 mb-8" style={{ border: '1px solid #e5e7eb' }}>
+            <h2 className="text-lg font-bold mb-4">{editingId ? 'Redigera adress' : 'Ny adress'}</h2>
+            {saveError && <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm">{saveError}</div>}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold mb-2">Namn</label>
-                  <InputWithCheck
+                  <label className="block text-sm font-semibold mb-2">Förnamn</label>
+                  <input
                     type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="Johan Andersson"
+                    name="first_name"
+                    value={formData.first_name}
+                    onChange={handleChange}
                     required
+                    className="w-full px-4 py-2 focus:outline-none focus:border-black border-2 border-transparent"
+                    style={{ border: '1px solid #e5e7eb' }}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold mb-2">Telefon</label>
-                  <InputWithCheck
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="+46 70 123 45 67"
+                  <label className="block text-sm font-semibold mb-2">Efternamn</label>
+                  <input
+                    type="text"
+                    name="last_name"
+                    value={formData.last_name}
+                    onChange={handleChange}
                     required
+                    className="w-full px-4 py-2 focus:outline-none focus:border-black border-2 border-transparent"
+                    style={{ border: '1px solid #e5e7eb' }}
                   />
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-semibold mb-2">Gatuadress</label>
-                <InputWithCheck
+                <input
                   type="text"
-                  name="street"
-                  value={formData.street}
-                  onChange={handleInputChange}
-                  placeholder="Storgatan 1"
+                  name="address_1"
+                  value={formData.address_1}
+                  onChange={handleChange}
                   required
+                  placeholder="Gata och husnummer"
+                  className="w-full px-4 py-2 focus:outline-none focus:border-black border-2 border-transparent"
+                  style={{ border: '1px solid #e5e7eb' }}
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-semibold mb-2">Postnummer</label>
-                  <InputWithCheck
+                  <input
                     type="text"
-                    name="zipCode"
-                    value={formData.zipCode}
-                    onChange={handleInputChange}
-                    placeholder="123 45"
+                    name="postal_code"
+                    value={formData.postal_code}
+                    onChange={handleChange}
                     required
+                    placeholder="12345"
+                    className="w-full px-4 py-2 focus:outline-none focus:border-black border-2 border-transparent"
+                    style={{ border: '1px solid #e5e7eb' }}
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-semibold mb-2">Stad</label>
-                  <InputWithCheck
+                  <input
                     type="text"
                     name="city"
                     value={formData.city}
-                    onChange={handleInputChange}
-                    placeholder="Stockholm"
+                    onChange={handleChange}
                     required
+                    placeholder="Stockholm"
+                    className="w-full px-4 py-2 focus:outline-none focus:border-black border-2 border-transparent"
+                    style={{ border: '1px solid #e5e7eb' }}
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold mb-2">Land</label>
-                  <div className="relative">
-                    <select
-                      name="country"
-                      value={formData.country}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-2 pr-10 focus:outline-none border-2 border-transparent focus:border-black"
-                    style={{ backgroundColor: '#f5f5f5' }}
-                    >
-                      <option>Sverige</option>
-                      <option>Norge</option>
-                      <option>Danmark</option>
-                      <option>Finland</option>
-                    </select>
-                  </div>
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-2">Adresstyp</label>
-                <div className="relative">
-                  <select
-                    name="type"
-                    value={formData.type}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-2 pr-10 focus:outline-none border-2 border-transparent focus:border-black"
-                    style={{ backgroundColor: '#f5f5f5' }}
-                  >
-                    <option value="shipping">Leveransadress</option>
-                    <option value="billing">Fakturaadress</option>
-                  </select>
-                </div>
+                <label className="block text-sm font-semibold mb-2">Telefon (valfritt)</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="+46 70 123 45 67"
+                  className="w-full px-4 py-2 focus:outline-none focus:border-black border-2 border-transparent"
+                  style={{ border: '1px solid #e5e7eb' }}
+                />
               </div>
 
-              <div className="flex gap-4 pt-4">
-                <button
-                  type="submit"
-                  className="flex-1 bg-black text-white py-2 rounded-lg font-bold hover:bg-gray-800"
-                >
-                  {editingId ? 'Uppdatera adress' : 'Lägg till adress'}
+              <div className="flex gap-3 pt-2">
+                <button type="submit" className="px-6 py-2 bg-black text-white font-semibold hover:bg-gray-800">
+                  {editingId ? 'Spara ändringar' : 'Lägg till'}
                 </button>
                 <button
                   type="button"
-                  onClick={() => {
-                    setShowAddForm(false);
-                    setEditingId(null);
-                    setFormData({ name: '', street: '', zipCode: '', city: '', country: 'Sverige', phone: '', type: 'shipping' });
-                  }}
-                  className="flex-1 border-2 border-black text-black py-2 rounded-lg font-bold hover:bg-gray-50"
+                  onClick={() => { setShowForm(false); setEditingId(null); setFormData(EMPTY_FORM); setSaveError(''); }}
+                  className="px-6 py-2 border border-gray-300 font-semibold hover:bg-gray-50"
                 >
                   Avbryt
                 </button>
@@ -243,70 +242,48 @@ export default function AddressesPage() {
           </div>
         )}
 
-        {/* Addresses List */}
-        <div className="space-y-4">
-          {addresses.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-gray-600 mb-4">Du har ingen sparad adress ännu</p>
+        {loading ? (
+          <p className="text-gray-500">Laddar adresser...</p>
+        ) : addresses.length === 0 ? (
+          <div className="p-8 text-center text-gray-500" style={{ border: '1px solid #e5e7eb' }}>
+            <p className="mb-4">Du har inga sparade adresser</p>
+            {!showForm && (
               <button
-                onClick={() => setShowAddForm(true)}
-                className="inline-block bg-black text-white px-8 py-2 rounded-lg font-bold hover:bg-gray-800"
+                onClick={() => setShowForm(true)}
+                className="px-6 py-2 bg-black text-white font-semibold hover:bg-gray-800"
               >
-                Lägg till första adress
+                Lägg till adress
               </button>
-            </div>
-          ) : (
-            addresses.map((address) => (
-              <div key={address.id} className="border border-gray-200 p-6 rounded-lg">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <h3 className="text-xl font-bold">{address.name}</h3>
-                      {address.isDefault && (
-                        <span className="bg-blue-100 text-blue-700 text-xs font-semibold px-2 py-1 rounded">
-                          Standardadress
-                        </span>
-                      )}
-                      <span className={`text-xs font-semibold px-2 py-1 rounded ${
-                        address.type === 'shipping'
-                          ? 'bg-green-100 text-green-700'
-                          : 'bg-gray-100 text-gray-700'
-                      }`}>
-                        {address.type === 'shipping' ? 'Leverans' : 'Faktura'}
-                      </span>
-                    </div>
-                    <p className="text-gray-700">{address.street}</p>
-                    <p className="text-gray-700">{address.zipCode} {address.city}</p>
-                    <p className="text-gray-700">{address.country}</p>
-                    <p className="text-gray-600 text-sm mt-2">{address.phone}</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => handleEdit(address)}
-                      className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 font-semibold text-sm"
-                    >
-                      Redigera
-                    </button>
-                    <button
-                      onClick={() => handleDelete(address.id)}
-                      className="px-4 py-2 text-red-600 border border-red-600 rounded-lg hover:bg-red-50 font-semibold text-sm"
-                    >
-                      Radera
-                    </button>
-                  </div>
+            )}
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {addresses.map((address) => (
+              <div key={address.id} className="p-6 flex justify-between items-start" style={{ border: '1px solid #e5e7eb' }}>
+                <div>
+                  <p className="font-semibold">{address.first_name} {address.last_name}</p>
+                  <p className="text-sm text-gray-600 mt-1">{address.address_1}</p>
+                  <p className="text-sm text-gray-600">{address.postal_code} {address.city}</p>
+                  {address.phone && <p className="text-sm text-gray-500 mt-1">{address.phone}</p>}
                 </div>
-                {!address.isDefault && (
+                <div className="flex gap-2">
                   <button
-                    onClick={() => handleSetDefault(address.id)}
-                    className="text-blue-600 hover:underline text-sm font-semibold"
+                    onClick={() => handleEdit(address)}
+                    className="px-4 py-1.5 text-sm border border-gray-300 font-semibold hover:bg-gray-50"
                   >
-                    Ställ in som standardadress
+                    Redigera
                   </button>
-                )}
+                  <button
+                    onClick={() => handleDelete(address.id)}
+                    className="px-4 py-1.5 text-sm border border-red-300 text-red-600 font-semibold hover:bg-red-50"
+                  >
+                    Radera
+                  </button>
+                </div>
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </MainLayout>
   );
