@@ -42,8 +42,7 @@ export async function GET(request: Request) {
     const orders = data.orders || [];
 
     return Response.json({ orders });
-  } catch (error) {
-    console.error('Error fetching orders:', error);
+  } catch {
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }

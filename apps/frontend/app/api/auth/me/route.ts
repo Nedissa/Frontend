@@ -49,8 +49,7 @@ export async function GET(request: Request) {
         phone: customer.customer?.phone || customer.phone,
       },
     });
-  } catch (error) {
-    console.error('Auth verification error:', error);
+  } catch {
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -117,8 +116,7 @@ export async function POST(request: Request) {
         phone: customer.customer?.phone || customer.phone,
       },
     });
-  } catch (error) {
-    console.error('Profile update error:', error);
+  } catch {
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }

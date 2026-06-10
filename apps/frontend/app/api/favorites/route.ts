@@ -40,11 +40,10 @@ export async function GET(request: Request) {
 
     const data = await response.json();
     const customer = data.customer;
-    const favorites = customer.metadata?.favorites || [];
+    const favorites = customer.metadata?.wishlist || [];
 
     return Response.json({ favorites });
-  } catch (error) {
-    console.error('Error fetching favorites:', error);
+  } catch {
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -106,7 +105,7 @@ export async function POST(request: Request) {
     // Merge with existing metadata to preserve other data
     const updatedMetadata = {
       ...currentMetadata,
-      favorites: wishlist,
+      wishlist: wishlist,
     };
 
     const response = await fetch(
@@ -125,8 +124,6 @@ export async function POST(request: Request) {
     );
 
     if (!response.ok) {
-      const error = await response.json();
-      console.error('Failed to update metadata:', error);
       return Response.json(
         { error: 'Failed to update favorites' },
         { status: response.status }
@@ -134,9 +131,8 @@ export async function POST(request: Request) {
     }
 
     const data = await response.json();
-    return Response.json({ success: true, wishlist: data.customer?.metadata?.favorites || wishlist });
-  } catch (error) {
-    console.error('Error updating favorites:', error);
+    return Response.json({ success: true, wishlist: data.customer?.metadata?.wishlist || wishlist });
+  } catch {
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }

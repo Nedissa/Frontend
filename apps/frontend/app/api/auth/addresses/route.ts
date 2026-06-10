@@ -40,8 +40,7 @@ export async function GET(request: Request) {
 
     const data = await response.json();
     return Response.json({ addresses: data.addresses || [] });
-  } catch (error) {
-    console.error('Fetch addresses error:', error);
+  } catch {
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -103,8 +102,7 @@ export async function POST(request: Request) {
 
     const data = await response.json();
     return Response.json({ address: data.address || data });
-  } catch (error) {
-    console.error('Create address error:', error);
+  } catch {
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }

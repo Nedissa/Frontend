@@ -55,8 +55,7 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 
     const data = await response.json();
     return Response.json({ address: data.address || data });
-  } catch (error) {
-    console.error('Update address error:', error);
+  } catch {
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -105,8 +104,7 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     }
 
     return Response.json({ success: true });
-  } catch (error) {
-    console.error('Delete address error:', error);
+  } catch {
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }

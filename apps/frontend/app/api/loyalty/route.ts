@@ -51,8 +51,7 @@ export async function GET(request: Request) {
     };
 
     return Response.json({ loyalty });
-  } catch (error) {
-    console.error('Error fetching loyalty data:', error);
+  } catch {
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -117,8 +116,7 @@ export async function POST(request: Request) {
     }
 
     return Response.json({ success: true });
-  } catch (error) {
-    console.error('Error updating loyalty points:', error);
+  } catch {
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }

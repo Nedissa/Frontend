@@ -83,8 +83,8 @@ export default function AccountPage() {
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
-    } catch (error) {
-      console.error('Logout error:', error);
+    } catch {
+      // logout errors are non-critical, proceed to redirect
     }
     window.dispatchEvent(new Event('userLogout'));
     router.push('/');
@@ -120,8 +120,7 @@ export default function AccountPage() {
       setShowComplaintForm(false);
       setSaveMessage('Felanmälan sparad');
       setTimeout(() => setSaveMessage(''), 3000);
-    } catch (error) {
-      console.error('Error adding complaint:', error);
+    } catch {
       setSaveError('Ett fel uppstod');
     }
   };
@@ -144,7 +143,6 @@ export default function AccountPage() {
       if (!response.ok) {
         const error = await response.json();
         setSaveError(error.error || 'Kunde inte spara ändringar');
-        console.error('Failed to update profile:', error);
         return;
       }
 
@@ -187,7 +185,6 @@ export default function AccountPage() {
                 const loadedAddresses = reloadData.addresses || [];
                 setAddresses(loadedAddresses);
               }
-              return;
             }
           }
 
@@ -225,20 +222,17 @@ export default function AccountPage() {
             }
           } else {
             const errorData = await createResponse.json();
-            console.error('Failed to create address:', errorData);
-            setSaveError(`Kunde inte spara adress: ${errorData.error || 'Okänt fel'}`);
+            setSaveError(errorData.error || 'Kunde inte spara adress');
           }
-        } catch (error) {
-          console.error('Address save error:', error);
+        } catch {
           setSaveError('Ett fel uppstod när adressen skulle sparas');
         }
       }
 
       setIsSaved(true);
       setTimeout(() => setIsSaved(false), 3000);
-    } catch (error) {
+    } catch {
       setSaveError('Ett fel uppstod när ändringar skulle sparas');
-      console.error('Profile update error:', error);
     }
   };
 
@@ -572,8 +566,8 @@ export default function AccountPage() {
                             body: JSON.stringify({ wishlist: updated }),
                           });
                           setFavoriteProducts(updated);
-                        } catch (error) {
-                          console.error('Failed to remove favorite:', error);
+                        } catch {
+                          // UI already updated optimistically
                         }
                       }}
                       className="text-black hover:text-red-500 transition-colors flex items-center justify-center"
