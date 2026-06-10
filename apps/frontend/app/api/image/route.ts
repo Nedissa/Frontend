@@ -1,3 +1,9 @@
+const ALLOWED_HOSTS = [
+  'api.techpilots.se',
+  'techpilots.se',
+  'localhost',
+];
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -5,6 +11,21 @@ export async function GET(request: Request) {
 
     if (!imageUrl) {
       return new Response('Missing url parameter', { status: 400 });
+    }
+
+    let parsedUrl: URL;
+    try {
+      parsedUrl = new URL(imageUrl);
+    } catch {
+      return new Response('Invalid url', { status: 400 });
+    }
+
+    if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
+      return new Response('Invalid url', { status: 400 });
+    }
+
+    if (!ALLOWED_HOSTS.includes(parsedUrl.hostname)) {
+      return new Response('Invalid url', { status: 400 });
     }
 
     const response = await fetch(imageUrl, {
@@ -18,15 +39,17 @@ export async function GET(request: Request) {
     const buffer = await response.arrayBuffer();
     const contentType = response.headers.get('content-type') || 'image/webp';
 
+    if (!contentType.startsWith('image/')) {
+      return new Response('Invalid content type', { status: 400 });
+    }
+
     return new Response(buffer, {
       headers: {
         'Content-Type': contentType,
         'Cache-Control': 'public, max-age=86400, s-maxage=86400',
-        'Access-Control-Allow-Origin': '*',
       },
     });
-  } catch (error) {
-    console.error('Image proxy error:', error);
+  } catch {
     return new Response('Internal server error', { status: 500 });
   }
 }

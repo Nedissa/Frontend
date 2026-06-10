@@ -13,7 +13,7 @@ export async function GET() {
 
     if (!publishableKey) {
       return Response.json(
-        { error: 'Medusa publishable key not configured', env: Object.keys(process.env).filter(k => k.startsWith('NEXT_PUBLIC')) },
+        { error: 'Server configuration error' },
         { status: 500 }
       );
     }
@@ -136,9 +136,9 @@ export async function GET() {
         'Cache-Control': 'no-store',
       },
     });
-  } catch (error: any) {
+  } catch {
     return Response.json(
-      { error: 'Internal server error', detail: error?.message, cause: error?.cause?.message },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }

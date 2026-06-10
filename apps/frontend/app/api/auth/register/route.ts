@@ -38,8 +38,6 @@ export async function POST(request: Request) {
     );
 
     if (!tokenResponse.ok) {
-      const errorData = await tokenResponse.json();
-      console.error('Token error:', errorData);
       return Response.json(
         { error: 'E-postadressen är redan registrerad. Försök logga in istället.' },
         { status: 400 }
@@ -68,10 +66,8 @@ export async function POST(request: Request) {
     );
 
     if (!registerResponse.ok) {
-      const errorData = await registerResponse.json();
-      console.error('Register error:', errorData);
       return Response.json(
-        { error: errorData.message || 'Failed to register customer' },
+        { error: 'Registrering misslyckades, försök igen.' },
         { status: registerResponse.status }
       );
     }
@@ -112,18 +108,15 @@ export async function POST(request: Request) {
     });
 
     if (token) {
-      response.headers.append('Set-Cookie', `medusa_token=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800`);
-      response.headers.append('Set-Cookie', `is_logged_in=1; Path=/; SameSite=Lax; Max-Age=604800`);
+      response.headers.append('Set-Cookie', `medusa_token=${token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=604800`);
+      response.headers.append('Set-Cookie', `is_logged_in=1; Path=/; Secure; SameSite=Lax; Max-Age=604800`);
     }
 
     // Send welcome email (non-blocking)
-    sendWelcomeEmail(customer.first_name, customer.email).catch((err) =>
-      console.error('Welcome email failed:', err)
-    );
+    sendWelcomeEmail(customer.first_name, customer.email).catch(() => {});
 
     return response;
-  } catch (error) {
-    console.error('Registration error:', error);
+  } catch {
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }

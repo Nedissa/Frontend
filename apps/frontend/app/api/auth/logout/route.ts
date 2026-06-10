@@ -5,16 +5,15 @@ export async function POST(request: Request) {
     // Clear the authentication cookies
     response.headers.append(
       'Set-Cookie',
-      'medusa_token=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0'
+      'medusa_token=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0'
     );
     response.headers.append(
       'Set-Cookie',
-      'is_logged_in=; Path=/; SameSite=Lax; Max-Age=0'
+      'is_logged_in=; Path=/; Secure; SameSite=Lax; Max-Age=0'
     );
 
     return response;
-  } catch (error) {
-    console.error('Logout error:', error);
+  } catch {
     return Response.json(
       { error: 'Internal server error' },
       { status: 500 }

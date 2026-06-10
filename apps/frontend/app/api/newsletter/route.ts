@@ -1,5 +1,9 @@
 const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 
+function escapeHtml(str: string): string {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 export async function POST(request: Request) {
   try {
     const { email } = await request.json();
@@ -8,6 +12,8 @@ export async function POST(request: Request) {
       return Response.json({ error: 'E-postadress krävs' }, { status: 400 });
     }
 
+    const safeEmail = escapeHtml(email);
+
     const html = `
       <div style="font-family:Inter,sans-serif;max-width:600px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
         <div style="background:#000;padding:24px 32px;">
@@ -15,7 +21,7 @@ export async function POST(request: Request) {
         </div>
         <div style="padding:32px;">
           <p style="font-size:0.875rem;color:#333;">En ny person har registrerat sig för nyhetsbrevet och 10% rabatt:</p>
-          <p style="font-size:1rem;font-weight:700;color:#000;">${email}</p>
+          <p style="font-size:1rem;font-weight:700;color:#000;">${safeEmail}</p>
         </div>
         <div style="background:#f5f5f5;padding:16px 32px;font-size:0.75rem;color:#888;">
           Skickat via nyhetsbrevspopupen på techpilots.se
@@ -65,8 +71,7 @@ export async function POST(request: Request) {
     });
 
     return Response.json({ success: true });
-  } catch (error) {
-    console.error('Newsletter signup error:', error);
+  } catch {
     return Response.json({ error: 'Kunde inte registrera' }, { status: 500 });
   }
 }
