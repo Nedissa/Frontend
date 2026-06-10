@@ -22,11 +22,14 @@ export async function POST(request: Request) {
     });
 
     console.log('[reset-password] Medusa status:', response.status);
-    const data = await response.json();
-    console.log('[reset-password] Medusa response:', JSON.stringify(data));
+    const rawText = await response.text();
+    console.log('[reset-password] Medusa raw response:', rawText);
+    let data: any = {};
+    try { data = JSON.parse(rawText); } catch {}
 
     if (response.ok) {
       const token = data.token;
+      console.log('[reset-password] token exists:', !!token, 'keys:', Object.keys(data));
 
       if (token) {
         const resetLink = `${SITE_URL}/aterstall-losenord?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
