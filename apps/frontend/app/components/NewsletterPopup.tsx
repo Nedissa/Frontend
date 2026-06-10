@@ -34,7 +34,7 @@ export function NewsletterPopup() {
     setLoading(false);
     setSubmitted(true);
     setEmail('');
-    setTimeout(handleClose, 2000);
+    setTimeout(handleClose, 4000);
   };
 
   if (!isHydrated || !isOpen) return null;
