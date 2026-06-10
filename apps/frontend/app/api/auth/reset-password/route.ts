@@ -21,15 +21,10 @@ export async function POST(request: Request) {
       body: JSON.stringify({ identifier: email }),
     });
 
-    console.log('[reset-password] Medusa status:', response.status);
-    const rawText = await response.text();
-    console.log('[reset-password] Medusa raw response:', rawText);
-    let data: any = {};
-    try { data = JSON.parse(rawText); } catch {}
-
     if (response.ok) {
+      let data: any = {};
+      try { data = JSON.parse(await response.text()); } catch {}
       const token = data.token;
-      console.log('[reset-password] token exists:', !!token, 'keys:', Object.keys(data));
 
       if (token) {
         const resetLink = `${SITE_URL}/aterstall-losenord?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
@@ -66,7 +61,6 @@ export async function POST(request: Request) {
             htmlContent: html,
           }),
         });
-        console.log('[reset-password] Brevo status:', brevoRes.status, await brevoRes.text());
       }
     }
 
