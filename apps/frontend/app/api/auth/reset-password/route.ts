@@ -21,8 +21,11 @@ export async function POST(request: Request) {
       body: JSON.stringify({ identifier: email }),
     });
 
+    console.log('[reset-password] Medusa status:', response.status);
+    const data = await response.json();
+    console.log('[reset-password] Medusa response:', JSON.stringify(data));
+
     if (response.ok) {
-      const data = await response.json();
       const token = data.token;
 
       if (token) {
@@ -47,7 +50,7 @@ export async function POST(request: Request) {
           </div>
         `;
 
-        await fetch(BREVO_API_URL, {
+        const brevoRes = await fetch(BREVO_API_URL, {
           method: 'POST',
           headers: {
             'api-key': process.env.BREVO_API_KEY!,
@@ -60,6 +63,7 @@ export async function POST(request: Request) {
             htmlContent: html,
           }),
         });
+        console.log('[reset-password] Brevo status:', brevoRes.status, await brevoRes.text());
       }
     }
 
