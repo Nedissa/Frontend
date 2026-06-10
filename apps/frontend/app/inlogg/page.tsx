@@ -23,8 +23,6 @@ export default function LoginPage() {
   const [showLogin, setShowLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
   const [loginError, setLoginError] = useState('');
@@ -78,8 +76,8 @@ export default function LoginPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          firstName,
-          lastName,
+          firstName: registerEmail.split('@')[0],
+          lastName: '',
           email: registerEmail,
           password: registerPassword,
         }),
@@ -196,26 +194,6 @@ export default function LoginPage() {
                   </div>
                   <h2 className="text-2xl font-bold mb-6">Skapa konto</h2>
                   <form onSubmit={handleRegister} className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-semibold mb-2">Förnamn</label>
-                      <InputWithCheck
-                        type="text"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        className="border-0 rounded-lg"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold mb-2">Efternamn</label>
-                      <InputWithCheck
-                        type="text"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        className="border-0 rounded-lg"
-                        required
-                      />
-                    </div>
                     <div>
                       <label className="block text-sm font-semibold mb-2">E-postadress</label>
                       <InputWithCheck
