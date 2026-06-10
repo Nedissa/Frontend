@@ -33,7 +33,7 @@ export function NewsletterPopup() {
     } catch {}
     setLoading(false);
     setSubmitted(true);
-    setTimeout(handleClose, 3000);
+    setTimeout(handleClose, 5000);
   };
 
   if (!isHydrated || !isOpen) return null;
