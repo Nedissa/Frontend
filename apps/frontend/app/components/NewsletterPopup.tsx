@@ -57,7 +57,7 @@ export function NewsletterPopup() {
             <div className="mb-6">
               <p className="text-xs text-gray-500 font-semibold tracking-wide mb-3">FÖRSTA GÅNGEN?</p>
               <h2 className="text-2xl font-bold text-black mb-4 whitespace-nowrap">
-                Registrera dig och få 5% rabatt
+                Bli medlem och få 10% rabatt
               </h2>
             </div>
 
@@ -88,7 +88,7 @@ export function NewsletterPopup() {
 
             {/* Description */}
             <p className="text-sm text-gray-600 mb-6">
-              Bli medlem och få tillgång till exklusiva erbjudanden, nyheter och medlemsförmåner direkt i din inkorg.
+              Registrera dig idag och få 10% rabatt på ditt första köp. Exklusiva erbjudanden och nyheter direkt i din inkorg.
             </p>
 
             {/* Social Links - Footer style */}
