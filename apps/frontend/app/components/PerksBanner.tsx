@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export function PerksBanner() {
   return (
-    <div className="w-full flex perks-banner-bg" style={{ height: '400px' }}>
+    <div className="w-full flex flex-col sm:flex-row perks-banner-bg sm:h-[400px]">
       <style>{`
         @keyframes gradientShiftPerks {
           0%   { background-position: 0% 50%; }
@@ -16,7 +16,7 @@ export function PerksBanner() {
           animation: gradientShiftPerks 8s ease infinite;
         }
       `}</style>
-      <div className="w-1/2 flex items-center justify-center" style={{ height: '400px', overflow: 'hidden', flexShrink: 0 }}>
+      <div className="w-full sm:w-1/2 flex items-center justify-center" style={{ height: '200px', overflow: 'hidden', flexShrink: 0 }}>
         <img
           src="/controllers.png"
           alt="Controllers"
@@ -24,8 +24,7 @@ export function PerksBanner() {
         />
       </div>
       <div
-        className="w-1/2 flex flex-col items-center justify-center gap-4 px-10 text-center"
-        style={{ maxHeight: '400px' }}
+        className="w-full sm:w-1/2 flex flex-col items-center justify-center gap-4 px-6 sm:px-10 text-center py-8 sm:py-0"
       >
         <p className="text-xs font-bold uppercase tracking-widest text-blue-300">Exklusivt erbjudande</p>
         <h2 className="text-2xl font-bold text-white leading-tight">Sonos högtalare — upp till 30% rabatt</h2>

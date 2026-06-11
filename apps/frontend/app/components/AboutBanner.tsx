@@ -2,9 +2,9 @@ import Link from 'next/link';
 
 export function AboutBanner() {
   return (
-    <div className="w-full flex flex-row bg-white h-[400px] overflow-hidden">
+    <div className="w-full flex flex-col sm:flex-row bg-white sm:h-[400px] overflow-hidden">
       {/* Left — image */}
-      <div className="relative flex-shrink-0 w-[52%] h-full" style={{
+      <div className="relative flex-shrink-0 w-full sm:w-[52%] h-[180px] sm:h-full" style={{
         background: 'linear-gradient(135deg, #1e3048, #4a7faa, #223344, #2e5880, #1e3048)',
         backgroundSize: '300% 300%',
         animation: 'gradientShiftAbout 8s ease infinite',
@@ -41,7 +41,7 @@ export function AboutBanner() {
       </div>
 
       {/* Right — content */}
-      <div className="flex flex-col justify-center px-16 w-[48%] h-full overflow-hidden">
+      <div className="flex flex-col justify-center px-6 sm:px-16 w-full sm:w-[48%] py-6 sm:py-0 sm:h-full overflow-hidden">
         <p className="text-sm font-semibold text-gray-500 mb-2 tracking-wide">Enkelt. Snabbt. Pålitligt.</p>
         <h2 className="text-2xl font-bold text-gray-900 leading-tight mb-3">
           Teknik ska vara<br />enkelt att handla

@@ -69,11 +69,11 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
       <div className="px-4 sm:px-6">
         <div
           ref={scrollRef}
-          className="grid grid-cols-4 gap-4 py-4 -my-4"
+          className="mobile-carousel-scroll grid grid-cols-4 gap-4 py-4 -my-4"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {products.slice(0, 4).map((product, idx) => (
-            <div key={`${product.id}-${idx}`}>
+            <div key={`${product.id}-${idx}`} className="mobile-carousel-item">
               <ProductCard product={product} variant={variant} priority={idx < 4} />
             </div>
           ))}

@@ -107,7 +107,7 @@ export function ProductCard({
     <>
     <div className="h-full" style={{ isolation: 'isolate' }}>
     <div
-      className="flex flex-col bg-white h-full p-3 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.14)]"
+      className="flex flex-col bg-white h-full p-2 sm:p-3 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.14)]"
       style={{ transform: isHovered ? 'translateY(-4px)' : 'translateY(0)', transition: 'transform 300ms ease, box-shadow 300ms ease' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -164,28 +164,28 @@ export function ProductCard({
 
 
 
-        {isHovered && (
-          <div className="absolute top-3 right-3 z-20 flex flex-col gap-2">
-            <button
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowZoom(true); }}
-              className="w-7 h-7 bg-white rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
-            >
-              <svg className="w-4 h-4 text-gray-800" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-              </svg>
-            </button>
-            <button
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.dispatchEvent(new CustomEvent('toggleCompare', { detail: product })); }}
-              className="w-7 h-7 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
-              style={{ background: inCompare ? '#000' : '#fff', border: inCompare ? 'none' : '1px solid #ccc' }}
-              title={inCompare ? 'Ta bort från jämförelse' : 'Lägg till i jämförelse'}
-            >
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke={inCompare ? '#fff' : '#000'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 20V10M12 20V4M6 20v-6" />
-              </svg>
-            </button>
-          </div>
-        )}
+        {/* Jämför + Zoom — grupperade uppe till höger, ögat längst höger */}
+        <div className="absolute top-3 right-3 z-20 flex flex-row gap-3">
+          <button
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.dispatchEvent(new CustomEvent('toggleCompare', { detail: product })); }}
+            className="w-11 h-11 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
+            style={{ background: inCompare ? '#000' : '#fff', border: inCompare ? 'none' : '1px solid #ccc' }}
+            title={inCompare ? 'Ta bort från jämförelse' : 'Jämför'}
+          >
+            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke={inCompare ? '#fff' : '#000'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 20V10M12 20V4M6 20v-6" />
+            </svg>
+          </button>
+          <button
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowZoom(true); }}
+            className="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
+            title="Zooma"
+          >
+            <svg className="w-6 h-6 text-gray-800" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+            </svg>
+          </button>
+        </div>
 
         <Link href={productLink} scroll={false} className="absolute inset-0 flex items-center justify-center">
           <style>{`
@@ -250,14 +250,14 @@ export function ProductCard({
 
         {/* Brand + Title */}
         <div className="py-2 border-b border-gray-100">
-          <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">{product.brand || 'Varumärke'}</p>
-          <h3 className="text-sm font-semibold text-gray-900 leading-snug">{product.title}</h3>
+          <p className="text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">{product.brand || 'Varumärke'}</p>
+          <h3 className="text-xs sm:text-sm font-semibold text-gray-900 leading-snug line-clamp-2 sm:line-clamp-none">{product.title}</h3>
         </div>
 
         {/* Price */}
         <div className="py-2 border-b border-gray-100 flex items-baseline gap-2">
           {product.price !== undefined && (
-            <span className="text-lg font-bold text-gray-900">{product.price.toLocaleString('sv-SE')} kr</span>
+            <span className="text-sm sm:text-lg font-bold text-gray-900">{product.price.toLocaleString('sv-SE')} kr</span>
           )}
           {product.originalPrice && (
             <span className="text-sm text-gray-400 line-through">{product.originalPrice.toLocaleString('sv-SE')} kr</span>

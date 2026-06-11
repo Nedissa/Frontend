@@ -54,9 +54,9 @@ export function LimitedTimeBanner() {
         }
       `}</style>
       <div className="w-full">
-        <div className="flex flex-row h-[400px]">
+        <div className="flex flex-col sm:flex-row sm:h-[400px]">
           {/* Left — animated */}
-          <div className="banner-animated-bg flex flex-col items-center justify-center gap-3 px-10 w-[45%] h-full">
+          <div className="banner-animated-bg flex flex-col items-center justify-center gap-3 px-6 sm:px-10 w-full sm:w-[45%] py-8 sm:py-0 sm:h-full">
             <div className="flex gap-3">
               {[
                 { value: timeLeft.days, label: 'Dagar' },
@@ -84,7 +84,7 @@ export function LimitedTimeBanner() {
           </div>
 
           {/* Right — image */}
-          <div className="relative w-[55%] h-full overflow-hidden" style={{ backgroundColor: '#f0f0ee' }}>
+          <div className="relative w-full sm:w-[55%] h-[200px] sm:h-full overflow-hidden" style={{ backgroundColor: '#f0f0ee' }}>
             <img
               src="/assets/kampanj-speaker.png"
               alt="Kampanj"

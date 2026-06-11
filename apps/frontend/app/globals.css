@@ -59,6 +59,26 @@ img {
     opacity: 1 !important;
     transform: translateY(0) !important;
   }
+
+  /* Produktkarusell — horisontell scroll på mobil */
+  .mobile-carousel-scroll {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 12px !important;
+    padding-bottom: 8px !important;
+  }
+  .mobile-carousel-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  .mobile-carousel-item {
+    flex: 0 0 80% !important;
+    scroll-snap-align: start !important;
+    min-width: 0 !important;
+  }
+
 }
 
 /* Carousel item responsive width — mobil: 1.5 kort synliga */

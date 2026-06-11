@@ -360,7 +360,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   const [selectedCategory, setSelectedCategory] = useState<{ title: string; url: string } | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpandedCategory, setMobileExpandedCategory] = useState<string | null>(null);
-  const [mobileActiveSubCategory, setMobileActiveSubCategory] = useState<string | null>(null);
+  const [mobileActiveSubCategory, setMobileActiveSubCategory] = useState<Set<string>>(new Set());
   const [mobileActiveLevel3, setMobileActiveLevel3] = useState<string | null>(null);
   const [mobileActiveLevel, setMobileActiveLevel] = useState<0 | 1 | 2>(0);
   const categoryDropdownRef = useRef<HTMLDivElement>(null);
@@ -376,6 +376,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   const lastScrollY = useRef(0);
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
+  const mobileSearchContainerRef = useRef<HTMLDivElement>(null);
 
   const isPathActive = (url: string) => {
     if (!pathname) return false;
@@ -388,7 +389,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
     setActiveMegaMenu(null);
     setMobileMenuOpen(false);
     setMobileExpandedCategory(null);
-    setMobileActiveSubCategory(null);
+    setMobileActiveSubCategory(new Set());
     setMobileActiveLevel3(null);
     setMobileActiveLevel(0);
   }, [pathname]);
@@ -599,7 +600,9 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   // Handle scroll to show/hide header
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+      const inDesktop = searchContainerRef.current?.contains(event.target as Node);
+      const inMobile = mobileSearchContainerRef.current?.contains(event.target as Node);
+      if (!inDesktop && !inMobile) {
         setShowSearchResults(false);
       }
       if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(event.target as Node)) {
@@ -610,24 +613,6 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-
-      // Show header when scrolling up
-      if (currentScrollY < lastScrollY.current) {
-        setIsHeaderVisible(true);
-      } else if (currentScrollY > lastScrollY.current) {
-        // Hide header when scrolling down
-        setIsHeaderVisible(false);
-      }
-
-      lastScrollY.current = currentScrollY;
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     const measure = () => {
@@ -724,7 +709,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
           </div>
         </div>
         {/* Row 2: search */}
-        <div className="bg-white px-4 py-2.5 relative border-b border-gray-200" ref={searchContainerRef}>
+        <div className="bg-white px-4 py-2.5 relative border-b border-gray-200" ref={mobileSearchContainerRef}>
           <div className="flex items-center bg-gray-100 rounded px-3 py-2 gap-2">
             <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
               <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/>
@@ -739,13 +724,21 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
             />
           </div>
           {searchTerm.length > 0 && showSearchResults && (
-            <div className="absolute left-0 right-0 bg-white border border-gray-200 shadow-lg z-[9999] mt-1 mx-4">
+            <div
+              className="absolute left-0 right-0 bg-white border border-gray-200 shadow-lg z-[9999] mt-1 mx-4"
+              onMouseDown={(e) => e.preventDefault()}
+            >
               {(() => {
                 const results = searchProducts.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, 5);
                 return results.length > 0 ? (
                   <div className="divide-y divide-gray-100">
                     {results.map((product) => (
-                      <Link key={product.id} href={`/produkter/${product.handle || product.id}`} className="flex items-center gap-3 px-4 py-3">
+                      <Link
+                        key={product.id}
+                        href={`/produkter/${product.handle || product.id}`}
+                        className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50"
+                        onClick={() => { setShowSearchResults(false); setSearchTerm(''); }}
+                      >
                         <img src={product.image} alt={product.title} className="w-10 h-10 object-contain flex-shrink-0" />
                         <div className="flex-1 min-w-0">
                           <div className="text-sm font-semibold truncate">{product.title}</div>
@@ -754,7 +747,11 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                       </Link>
                     ))}
                   </div>
-                ) : <div className="p-3 text-sm text-gray-500">Inga resultat för &quot;{searchTerm}&quot;</div>;
+                ) : (
+                  <div className="p-3 text-sm text-gray-500">
+                    {searchProducts.length === 0 ? 'Laddar produkter...' : `Inga resultat för "${searchTerm}"`}
+                  </div>
+                );
               })()}
             </div>
           )}
@@ -959,11 +956,9 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
         <div
           className="absolute top-0 left-0 h-full bg-white overflow-hidden flex flex-col transition-transform duration-300 ease-in-out"
           style={{
-            width: '88vw',
-            maxWidth: '360px',
+            width: '100vw',
             transform: mobileMenuOpen ? 'translateX(0)' : 'translateX(-100%)',
             pointerEvents: mobileMenuOpen ? 'auto' : 'none',
-            boxShadow: '4px 0 24px rgba(0,0,0,0.13)',
           }}
         >
           {/* ── LEVEL 0: Huvudkategorier ── */}
@@ -1054,9 +1049,11 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                         {/* Underkategori-rad */}
                         <button
                           className="w-full flex items-center gap-4 px-5 py-4 text-left active:bg-gray-50"
-                          onClick={() => setMobileActiveSubCategory(
-                            mobileActiveSubCategory === section.id ? null : section.id
-                          )}
+                          onClick={() => setMobileActiveSubCategory(prev => {
+                            const next = new Set(prev);
+                            next.has(section.id) ? next.delete(section.id) : next.add(section.id);
+                            return next;
+                          })}
                         >
                           <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center">
                             {MOBILE_SECTION_ICONS[section.id]}
@@ -1065,7 +1062,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                           {section.items && section.items.length > 0 && (
                             <svg
                               className="w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-200"
-                              style={{ transform: mobileActiveSubCategory === section.id ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                              style={{ transform: mobileActiveSubCategory.has(section.id) ? 'rotate(180deg)' : 'rotate(0deg)' }}
                               fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"
                             >
                               <path d="M19 9l-7 7-7-7" />
@@ -1075,7 +1072,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                         {/* Accordion nivå 2 öppen — visa nivå 3 som accordion */}
                         <div
                           className="overflow-hidden transition-all duration-300 ease-in-out"
-                          style={{ maxHeight: mobileActiveSubCategory === section.id ? '600px' : '0px' }}
+                          style={{ maxHeight: mobileActiveSubCategory.has(section.id) ? '600px' : '0px' }}
                         >
                           <Link
                             href={section.url}
