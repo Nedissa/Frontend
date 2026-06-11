@@ -689,29 +689,29 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
         <div className="grid items-center px-4 py-3 bg-white border-b border-gray-100" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
           {/* Left: hamburger */}
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Meny" className="inline-flex items-center justify-self-start">
-            <svg className="w-6 h-6" viewBox="0 0 24 24">
+            <svg className="w-7 h-7" viewBox="0 0 24 24">
               {mobileMenuOpen
                 ? <path strokeLinecap="round" strokeLinejoin="round" stroke="#111" strokeWidth="2" fill="none" d="M6 18L18 6M6 6l12 12" />
                 : <path stroke="#111" strokeWidth="2.5" strokeLinecap="round" d="M5 6h14M5 12h14M5 18h14"/>}
             </svg>
           </button>
           {/* Center: logo */}
-          <Link href="/" className="inline-flex items-center gap-0.5 justify-self-center">
-            <div style={{ width: '24px', height: '24px' }}><Logo /></div>
-            <span className="font-bold text-black" style={{ fontSize: '16px', letterSpacing: '-0.3px' }}>Techpilots</span>
+          <Link href="/" className="inline-flex items-center gap-1 justify-self-center">
+            <div style={{ width: '26px', height: '26px' }}><Logo /></div>
+            <span className="font-bold text-black" style={{ fontSize: '17px', letterSpacing: '-0.3px' }}>Techpilots</span>
           </Link>
           {/* Right: konto + kundvagn */}
           <div className="flex items-center gap-2 justify-self-end">
             <Link href="/konto" className="inline-flex flex-col items-center gap-1">
-              <svg className="w-5 h-5" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
                 <circle cx="12" cy="7" r="4" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <span style={{ fontSize: '9px', color: '#111', fontWeight: 600 }}>{isHydrated ? (isLoggedIn ? 'Mina sidor' : 'Logga in') : 'Logga in'}</span>
+              <span style={{ fontSize: '10px', color: '#111', fontWeight: 600 }}>{isHydrated ? (isLoggedIn ? 'Mina sidor' : 'Logga in') : 'Logga in'}</span>
             </Link>
             <button onClick={() => open('cart')} className="inline-flex flex-col items-center gap-1 relative">
               <div className="relative">
-                <svg className="w-5 h-5" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
+                <svg className="w-6 h-6" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5H17"/>
                   <circle cx="9" cy="20" r="1"/>
                   <circle cx="16" cy="20" r="1"/>
@@ -720,7 +720,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   <span className="absolute bg-red-600 text-white font-bold rounded-full flex items-center justify-center" style={{ fontSize: '8px', minWidth: '14px', height: '14px', padding: '0 2px', top: '-6px', right: '-8px' }} suppressHydrationWarning>{cartCount}</span>
                 )}
               </div>
-              <span style={{ fontSize: '9px', color: '#111', fontWeight: 600 }}>Kundvagn</span>
+              <span style={{ fontSize: '10px', color: '#111', fontWeight: 600 }}>Kundvagn</span>
             </button>
           </div>
         </div>
