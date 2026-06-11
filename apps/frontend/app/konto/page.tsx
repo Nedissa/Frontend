@@ -258,8 +258,8 @@ export default function AccountPage() {
           </button>
         </div>
 
-        {/* Tabs */}
-        <div className="flex gap-0 mb-8 border-b border-gray-200">
+        {/* Tabs — horisontella på desktop, accordion på mobil */}
+        <div className="hidden md:flex gap-0 mb-8 border-b border-gray-200">
           <button
             onClick={() => {
               setActiveTab('profil');
@@ -325,6 +325,29 @@ export default function AccountPage() {
           >
             Kundklubb
           </button>
+        </div>
+
+        {/* Mobil accordion-navigation */}
+        <div className="md:hidden mb-4 border border-gray-200">
+          {[
+            { key: 'profil', label: 'Profil' },
+            { key: 'orderhistorik', label: 'Orderhistorik' },
+            { key: 'felanmalan', label: 'Felanmälan' },
+            { key: 'favoriter', label: 'Favoriter' },
+            { key: 'kundklubb', label: 'Kundklubb' },
+          ].map((tab, i) => (
+            <div key={tab.key} className={i > 0 ? 'border-t border-gray-200' : ''}>
+              <button
+                onClick={() => { setActiveTab(activeTab === tab.key ? '' : tab.key); localStorage.setItem('accountTab', tab.key); }}
+                className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
+              >
+                <span className={activeTab === tab.key ? 'text-black' : 'text-gray-600'}>{tab.label}</span>
+                <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === tab.key ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
+          ))}
         </div>
 
         {/* Tab Content */}
