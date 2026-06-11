@@ -327,32 +327,176 @@ export default function AccountPage() {
           </button>
         </div>
 
-        {/* Mobil accordion-navigation */}
+        {/* Mobil accordion-navigation med inbyggt innehåll */}
         <div className="md:hidden mb-4 border border-gray-200">
-          {[
-            { key: 'profil', label: 'Profil' },
-            { key: 'orderhistorik', label: 'Orderhistorik' },
-            { key: 'felanmalan', label: 'Felanmälan' },
-            { key: 'favoriter', label: 'Favoriter' },
-            { key: 'kundklubb', label: 'Kundklubb' },
-          ].map((tab, i) => (
-            <div key={tab.key} className={i > 0 ? 'border-t border-gray-200' : ''}>
-              <button
-                onClick={() => { setActiveTab(activeTab === tab.key ? '' : tab.key); localStorage.setItem('accountTab', tab.key); }}
-                className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
-              >
-                <span className={activeTab === tab.key ? 'text-black' : 'text-gray-600'}>{tab.label}</span>
-                <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === tab.key ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
+
+          {/* Profil */}
+          <div>
+            <button
+              onClick={() => { setActiveTab(activeTab === 'profil' ? '' : 'profil'); localStorage.setItem('accountTab', activeTab === 'profil' ? '' : 'profil'); }}
+              className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
+            >
+              <span className={activeTab === 'profil' ? 'text-black' : 'text-gray-600'}>Profil</span>
+              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'profil' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div style={{ display: activeTab === 'profil' ? 'block' : 'none', borderTop: '1px solid #e5e7eb' }}>
+              <div className="p-4">
+                {/* Profil content inline */}
+                <h3 className="text-lg font-bold mb-4">Mina uppgifter</h3>
+                {saveError && <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm">{saveError}</div>}
+                <div className="space-y-3">
+                  <div><label className="block text-sm font-semibold mb-1">Förnamn</label><div className="relative"><input type="text" value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} className="w-full px-3 py-2 pr-8 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />{editFirstName && <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}</div></div>
+                  <div><label className="block text-sm font-semibold mb-1">Efternamn</label><div className="relative"><input type="text" value={editLastName} onChange={(e) => setEditLastName(e.target.value)} className="w-full px-3 py-2 pr-8 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />{editLastName && <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}</div></div>
+                  <div><label className="block text-sm font-semibold mb-1">Telefon</label><div className="relative"><input type="tel" value={editPhone} onChange={(e) => setEditPhone(e.target.value)} className="w-full px-3 py-2 pr-8 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />{editPhone && <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}</div></div>
+                  <div><label className="block text-sm font-semibold mb-1">E-postadress</label><div className="relative"><input type="email" value={editEmail} onChange={(e) => setEditEmail(e.target.value)} className="w-full px-3 py-2 pr-8 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />{editEmail && <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}</div></div>
+                  <div><label className="block text-sm font-semibold mb-1">Adress</label><div className="relative"><input type="text" value={editAddress} onChange={(e) => setEditAddress(e.target.value)} placeholder="Gata och husnummer" className="w-full px-3 py-2 pr-8 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />{editAddress && <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}</div></div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div><label className="block text-sm font-semibold mb-1">Postnummer</label><input type="text" value={editPostalCode} onChange={(e) => setEditPostalCode(e.target.value)} placeholder="00000" className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                    <div><label className="block text-sm font-semibold mb-1">Stad</label><input type="text" value={editCity} onChange={(e) => setEditCity(e.target.value)} placeholder="Stad" className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                  </div>
+                  <button onClick={handleSaveChanges} disabled={!isFormComplete || !hasChanges || isSaved} className="w-full py-2 bg-black text-white font-semibold disabled:opacity-40 mt-2">
+                    {isSaved ? '✓ Sparad' : 'Spara ändringar'}
+                  </button>
+                </div>
+              </div>
             </div>
-          ))}
+          </div>
+
+          {/* Orderhistorik */}
+          <div className="border-t border-gray-200">
+            <button
+              onClick={() => { setActiveTab(activeTab === 'orderhistorik' ? '' : 'orderhistorik'); localStorage.setItem('accountTab', activeTab === 'orderhistorik' ? '' : 'orderhistorik'); }}
+              className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
+            >
+              <span className={activeTab === 'orderhistorik' ? 'text-black' : 'text-gray-600'}>Orderhistorik</span>
+              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'orderhistorik' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div style={{ display: activeTab === 'orderhistorik' ? 'block' : 'none', borderTop: '1px solid #e5e7eb' }}>
+              <div className="p-4">
+                <h3 className="text-lg font-bold mb-4">Orderhistorik</h3>
+                {orders.length > 0 ? (
+                  <div className="space-y-3">
+                    {orders.map((order) => (
+                      <div key={order.id} className="pb-3 border-b last:border-b-0">
+                        <p className="font-semibold text-sm">Beställning #{order.display_id}</p>
+                        <p className="text-xs text-gray-600">{new Date(order.created_at).toLocaleDateString('sv-SE')} • {(order.total / 100).toLocaleString('sv-SE')} SEK</p>
+                        <p className={`text-xs font-semibold mt-1 ${order.status === 'completed' ? 'text-green-600' : 'text-blue-600'}`}>{order.status === 'completed' ? 'Levererad' : 'Bearbetas'}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-700">Du har inga beställningar än</p>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Felanmälan */}
+          <div className="border-t border-gray-200">
+            <button
+              onClick={() => { setActiveTab(activeTab === 'felanmalan' ? '' : 'felanmalan'); localStorage.setItem('accountTab', activeTab === 'felanmalan' ? '' : 'felanmalan'); }}
+              className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
+            >
+              <span className={activeTab === 'felanmalan' ? 'text-black' : 'text-gray-600'}>Felanmälan</span>
+              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'felanmalan' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div style={{ display: activeTab === 'felanmalan' ? 'block' : 'none', borderTop: '1px solid #e5e7eb' }}>
+              <div className="p-4">
+                <h3 className="text-lg font-bold mb-4">Felanmälan</h3>
+                {complaints.length > 0 ? (
+                  <div className="space-y-3">
+                    {complaints.map((complaint) => (
+                      <div key={complaint.id} className="p-3" style={{ border: '1px solid #e5e7eb' }}>
+                        <p className="font-semibold text-sm">Beställning #{complaint.order_id}</p>
+                        <p className="text-xs text-gray-600 mt-1">{complaint.description}</p>
+                        <p className="text-xs font-semibold mt-1">Status: <span className="text-blue-600">{complaint.status === 'open' ? 'Pågående' : 'Stängd'}</span></p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="space-y-3 text-sm text-gray-700">
+                    <p>Du har ingen aktiv felanmälan</p>
+                    {showComplaintForm && (
+                      <div className="space-y-3">
+                        <div><label className="block text-sm font-semibold mb-1">Ordernummer</label><input type="text" value={complaintOrderId} onChange={(e) => setComplaintOrderId(e.target.value)} placeholder="Ditt ordernummer" className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                        <div><label className="block text-sm font-semibold mb-1">Meddelande</label><textarea value={complaintDescription} onChange={(e) => setComplaintDescription(e.target.value)} placeholder="Beskriv ditt ärende..." rows={3} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                        <button onClick={handleAddComplaint} className="w-full py-2 bg-black text-white font-semibold">Skicka felanmälan</button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Favoriter */}
+          <div className="border-t border-gray-200">
+            <button
+              onClick={() => { setActiveTab(activeTab === 'favoriter' ? '' : 'favoriter'); localStorage.setItem('accountTab', activeTab === 'favoriter' ? '' : 'favoriter'); }}
+              className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
+            >
+              <span className={activeTab === 'favoriter' ? 'text-black' : 'text-gray-600'}>Favoriter</span>
+              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'favoriter' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div style={{ display: activeTab === 'favoriter' ? 'block' : 'none', borderTop: '1px solid #e5e7eb' }}>
+              <div className="p-4">
+                <h3 className="text-lg font-bold mb-4">Favoriter</h3>
+                {favoriteProducts.length > 0 ? (
+                  <div className="space-y-3">
+                    {favoriteProducts.map((product) => (
+                      <div key={product.id} className="flex items-center gap-3 pb-3 border-b last:border-b-0">
+                        <img src={product.image} alt={product.title} className="w-16 h-16 object-contain" />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-semibold truncate">{product.title}</p>
+                          <p className="text-sm font-bold mt-1">{product.price.toLocaleString('sv-SE')} kr</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-700">Du har inga sparade favoriter än</p>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Kundklubb */}
+          <div className="border-t border-gray-200">
+            <button
+              onClick={() => { setActiveTab(activeTab === 'kundklubb' ? '' : 'kundklubb'); localStorage.setItem('accountTab', activeTab === 'kundklubb' ? '' : 'kundklubb'); }}
+              className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
+            >
+              <span className={activeTab === 'kundklubb' ? 'text-black' : 'text-gray-600'}>Kundklubb</span>
+              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'kundklubb' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div style={{ display: activeTab === 'kundklubb' ? 'block' : 'none', borderTop: '1px solid #e5e7eb' }}>
+              <div className="p-4">
+                <h3 className="text-lg font-bold mb-2">Kundklubb</h3>
+                <p className="text-sm text-gray-600 mb-4">Som medlem i Techpilots kundklubb får du tillgång till exklusiva priser och förmåner.</p>
+                {loyalty && loyalty.total_points !== undefined ? (
+                  <p className="text-sm font-semibold">Du har {loyalty.total_points} poäng</p>
+                ) : (
+                  <p className="text-sm text-gray-700">Din kundklubbinformation är inte tillgänglig just nu.</p>
+                )}
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        {/* Tab Content */}
+        {/* Tab Content — desktop only */}
         {activeTab === 'profil' && (
-        <div className="p-6  shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
+        <div className="hidden md:block p-6 shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
           <h3 className="text-xl font-bold mb-6">Mina uppgifter</h3>
           {saveError && (
             <div className="mb-4 p-4 bg-red-50 text-red-700 rounded">
@@ -480,7 +624,7 @@ export default function AccountPage() {
         )}
 
         {activeTab === 'orderhistorik' && (
-        <div className="p-6  shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
+        <div className="hidden md:block p-6 shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
           <h3 className="text-xl font-bold mb-6">Orderhistorik</h3>
           {loadingOrdersError && (
             <div className="mb-4 p-4 bg-red-50 text-red-700 rounded">
@@ -515,7 +659,7 @@ export default function AccountPage() {
         )}
 
         {activeTab === 'favoriter' && (
-        <div className="p-6  shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
+        <div className="hidden md:block p-6 shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
           <h3 className="text-xl font-bold mb-6">Favoriter</h3>
           {favoriteProducts.length > 0 ? (
             <div className="space-y-4">
@@ -613,7 +757,7 @@ export default function AccountPage() {
         )}
 
         {activeTab === 'felanmalan' && (
-        <div className="p-6  shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
+        <div className="hidden md:block p-6 shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
           <h3 className="text-xl font-bold mb-6">Felanmälan</h3>
           {loadingComplaintsError && (
             <div className="mb-4 p-4 bg-red-50 text-red-700 rounded">
@@ -694,7 +838,7 @@ export default function AccountPage() {
         )}
 
         {activeTab === 'kundklubb' && (
-        <div className="p-6  shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
+        <div className="hidden md:block p-6 shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
           <h3 className="text-xl font-bold mb-2">Kundklubb</h3>
           <p className="text-gray-600 mb-6">Som medlem i Techpilots kundklubb får du tillgång till exklusiva priser, erbjudanden från våra partners och förmåner anpassade efter din medlemsnivå. Ju mer du handlar, desto mer får du tillbaka.</p>
           {loadingLoyaltyError && (
