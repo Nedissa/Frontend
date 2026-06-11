@@ -949,7 +949,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
         <div
           className="absolute inset-0 bg-black transition-opacity duration-300"
           style={{ opacity: mobileMenuOpen ? 0.45 : 0, pointerEvents: mobileMenuOpen ? 'auto' : 'none' }}
-          onClick={() => { setMobileMenuOpen(false); setMobileActiveLevel(0); setMobileExpandedCategory(null); setMobileActiveSubCategory(null); }}
+          onClick={() => { setMobileMenuOpen(false); setMobileActiveLevel(0); setMobileExpandedCategory(null); setMobileActiveSubCategory(new Set()); }}
         />
 
         {/* Slide-in panel */}
@@ -1026,7 +1026,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                 <>
                   <div className="flex items-center gap-3 px-5 pt-5 pb-3 border-b border-gray-100">
                     <button
-                      onClick={() => { setMobileActiveLevel(0); setMobileActiveSubCategory(null); }}
+                      onClick={() => { setMobileActiveLevel(0); setMobileActiveSubCategory(new Set()); }}
                       className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 active:bg-gray-200"
                     >
                       <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
