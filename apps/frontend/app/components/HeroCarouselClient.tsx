@@ -16,7 +16,7 @@ const heroCarouselStyle = `
   @media (max-width: 767px) {
     .hero-mobile-height {
       aspect-ratio: unset !important;
-      height: 320px !important;
+      height: 60vh !important;
     }
   }
 `;

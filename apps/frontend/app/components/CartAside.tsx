@@ -217,10 +217,10 @@ export function CartAside() {
             <div className="flex-1 overflow-y-auto px-6 flex flex-col" style={{ display: cartItems.length === 0 ? 'none' : 'flex' }}>
               <ul className="space-y-0 py-4 flex-1">
                 {cartItems.map(item => (
-                  <li key={item.id} className="border-b border-gray-200 last:border-b-0">
-                    <div className="flex items-center py-4">
-                      {/* Product image */}
-                      <div className="flex-shrink-0 w-16 h-16 rounded" style={{ marginRight: '12px' }}>
+                  <li key={item.id} className="border-b border-gray-200 last:border-b-0 py-4">
+                    <div className="flex items-center gap-3">
+                      {/* Vänster: bild */}
+                      <div className="flex-shrink-0 w-14 h-14 bg-gray-50">
                         <img
                           src={item.image}
                           alt={item.title}
@@ -229,55 +229,32 @@ export function CartAside() {
                         />
                       </div>
 
-                      {/* Product title and availability */}
-                      <div className="overflow-hidden" style={{ width: '120px', flexShrink: 0, marginRight: '12px' }}>
-                        <Link
-                          href={`/produkter/${item.id}`}
-                          className="text-gray-900 font-semibold text-sm hover:text-gray-700 block truncate"
-                        >
+                      {/* Mitten: titel + status */}
+                      <div className="flex-1 min-w-0">
+                        <Link href={`/produkter/${item.id}`} className="text-gray-900 font-semibold text-sm hover:text-gray-700 leading-snug block">
                           {item.title}
                         </Link>
                         <div className="flex items-center gap-1 mt-0.5">
-                          <svg className="w-2 h-2 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                            <circle cx="10" cy="10" r="10" />
-                          </svg>
-                          <span className="text-xs text-gray-600">I lager</span>
+                          <svg className="w-2 h-2 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" /></svg>
+                          <span className="text-xs text-gray-500">I lager</span>
                         </div>
                       </div>
 
-                      {/* Quantity controls */}
-                      <div className="flex items-center justify-center" style={{ width: '80px', flexShrink: 0, marginRight: '12px' }}>
-                        <button
-                          onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
-                          disabled={item.quantity <= 1}
-                          className="text-gray-700 disabled:text-gray-300 hover:text-gray-900 flex items-center justify-center text-base font-bold"
-                          style={{ width: '20px', flexShrink: 0 }}
-                        >
-                          −
-                        </button>
-                        <span className="text-gray-900 text-sm font-medium text-center tabular-nums" style={{ width: '32px', display: 'inline-block', flexShrink: 0 }}>
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}
-                          className="text-gray-700 hover:text-gray-900 flex items-center justify-center text-sm font-medium"
-                          style={{ width: '20px', flexShrink: 0 }}
-                        >
-                          +
-                        </button>
+                      {/* Mitten-höger: räknare */}
+                      <div className="flex-shrink-0 flex items-center gap-0.5">
+                        <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="text-gray-700 disabled:text-gray-300 font-bold w-9 h-9 flex items-center justify-center text-lg">−</button>
+                        <span className="text-sm font-semibold tabular-nums w-6 text-center">{item.quantity}</span>
+                        <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="text-gray-700 font-bold w-9 h-9 flex items-center justify-center text-lg">+</button>
                       </div>
 
-                      {/* Price and remove */}
-                      <div className="flex-shrink-0 flex items-center gap-3">
-                        <p className="text-sm font-semibold text-gray-900 tabular-nums text-right" style={{ width: '60px' }}>
+                      {/* Höger: pris + ta bort */}
+                      <div className="flex-shrink-0 flex flex-col items-end gap-1">
+                        <span className="text-sm font-bold text-gray-900 tabular-nums whitespace-nowrap">
                           {(item.price * item.quantity).toLocaleString('sv-SE')} kr
-                        </p>
-                        <button
-                          onClick={() => handleRemoveItem(item.id)}
-                          className="text-gray-500 hover:text-red-500 transition-colors"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                            <path d="M19 7l-1 12a2 2 0 01-2 2H8a2 2 0 01-2-2L5 7m3 0V4a1 1 0 011-1h6a1 1 0 011 1v3m-6 4v6m4-6v6" strokeLinecap="round" strokeLinejoin="round"/>
+                        </span>
+                        <button onClick={() => handleRemoveItem(item.id)} className="w-9 h-9 flex items-center justify-center text-black hover:text-red-500 transition-colors">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" />
                           </svg>
                         </button>
                       </div>
@@ -470,7 +447,7 @@ export function CartAside() {
                         printWindow.document.write(`
                           <tr>
                             <td style="width: 10%; text-align: center; padding-right: 20px;">
-                              ${imageUrl ? `<img src="${imageUrl}" alt="${item.title}" style="width: 60px; height: 60px; object-fit: contain; border: 1px solid #ddd;">` : ''}
+                              ${imageUrl ? `<img src="${imageUrl}" alt="${item.title}" style="width: 60px; height: 60px; object-fit: contain;">` : ''}
                             </td>
                             <td style="width: 40%; padding-left: 20px;">${item.title}</td>
                             <td class="sku-col">-</td>
@@ -530,7 +507,7 @@ export function CartAside() {
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-9l-1 1H5v2h14V4z"/>
                   </svg>
-                  Töm
+                  Töm varukorg
                 </button>
               </div>
             </div>
