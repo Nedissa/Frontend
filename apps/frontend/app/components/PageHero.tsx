@@ -77,12 +77,7 @@ const sidebarCategories = [
 
 function InfoSidebar() {
   const pathname = usePathname();
-  const [open, setOpen] = useState<string[]>(() =>
-    sidebarCategories
-      .filter(cat => cat.links.some(l => l.href === pathname))
-      .map(cat => cat.id)
-      .concat(sidebarCategories.map(c => c.id))
-  );
+  const [open, setOpen] = useState<string[]>([sidebarCategories[0].id]);
 
   const toggle = (id: string) => {
     setOpen(prev =>
@@ -91,7 +86,7 @@ function InfoSidebar() {
   };
 
   return (
-    <aside style={{ width: '220px', flexShrink: 0, fontFamily: "'Manrope', sans-serif" }}>
+    <aside className="w-full md:w-[220px] md:flex-shrink-0" style={{ fontFamily: "'Manrope', sans-serif" }}>
       <nav>
         {sidebarCategories.map(cat => {
           const isOpen = open.includes(cat.id);
@@ -133,13 +128,18 @@ function InfoSidebar() {
                         href={link.href}
                         style={{
                           display: 'block',
-                          padding: '6px 0 6px 12px',
+                          padding: '7px 10px 7px 12px',
                           fontSize: '0.82rem',
-                          color: active ? '#000' : '#555',
+                          color: active ? '#fff' : '#555',
                           fontWeight: active ? 700 : 400,
-                          borderLeft: active ? '2px solid #000' : '2px solid transparent',
+                          backgroundColor: active ? '#111' : 'transparent',
+                          borderLeft: active ? '2px solid #111' : '2px solid transparent',
                           textDecoration: 'none',
+                          borderRadius: '3px',
+                          transition: 'background-color 150ms ease, color 150ms ease',
                         }}
+                        onMouseEnter={e => { if (!active) { (e.currentTarget as HTMLElement).style.backgroundColor = '#f3f4f6'; (e.currentTarget as HTMLElement).style.color = '#111'; } }}
+                        onMouseLeave={e => { if (!active) { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#555'; } }}
                       >
                         {link.label}
                       </Link>
@@ -175,7 +175,8 @@ function FadeContent({ children }: { children: React.ReactNode }) {
     <div
       style={{
         opacity: visible ? 1 : 0,
-        transition: 'opacity 280ms ease',
+        transform: visible ? 'translateY(0)' : 'translateY(6px)',
+        transition: 'opacity 220ms ease, transform 220ms ease',
         flex: 1,
         minWidth: 0,
       }}
@@ -265,7 +266,7 @@ export function InfoPageLayout({
         }
       `}</style>
       <div className="min-h-screen w-full info-animated-bg" style={{ fontFamily: "'Manrope', sans-serif" }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 16px 40px', display: 'flex', gap: '48px', alignItems: 'flex-start' }}>
+        <div className="flex flex-col md:flex-row" style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 16px 40px', gap: '48px', alignItems: 'flex-start' }}>
 
           <InfoSidebar />
 

@@ -4,7 +4,7 @@ export function AboutBanner() {
   return (
     <div className="w-full flex flex-col sm:flex-row bg-white sm:h-[400px] overflow-hidden">
       {/* Left — image */}
-      <div className="relative flex-shrink-0 w-full sm:w-[52%] h-[180px] sm:h-full" style={{
+      <div className="relative flex-shrink-0 w-full sm:w-[52%] h-[220px] sm:h-full" style={{
         background: 'linear-gradient(135deg, #1e3048, #4a7faa, #223344, #2e5880, #1e3048)',
         backgroundSize: '300% 300%',
         animation: 'gradientShiftAbout 8s ease infinite',
@@ -22,7 +22,7 @@ export function AboutBanner() {
           className="absolute bottom-[-25%] left-0 h-[160%] w-auto"
         />
         {/* Rotating badge */}
-        <div className="absolute" style={{ top: '32px', right: '-48px', width: '96px', height: '96px' }}>
+        <div className="absolute" style={{ top: '16px', right: '16px', width: '80px', height: '80px' }}>
           <svg viewBox="0 0 100 100" className="w-full h-full animate-spin" style={{ animationDuration: '12s' }}>
             <defs>
               <path id="circle" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />

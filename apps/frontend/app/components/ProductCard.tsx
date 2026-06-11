@@ -165,26 +165,36 @@ export function ProductCard({
 
 
         {/* Jämför + Zoom — grupperade uppe till höger, ögat längst höger */}
-        <div className="absolute top-3 right-3 z-20 flex flex-row gap-3">
-          <button
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.dispatchEvent(new CustomEvent('toggleCompare', { detail: product })); }}
-            className="w-11 h-11 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
-            style={{ background: inCompare ? '#000' : '#fff', border: inCompare ? 'none' : '1px solid #ccc' }}
-            title={inCompare ? 'Ta bort från jämförelse' : 'Jämför'}
-          >
-            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke={inCompare ? '#fff' : '#000'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 20V10M12 20V4M6 20v-6" />
-            </svg>
-          </button>
-          <button
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowZoom(true); }}
-            className="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
-            title="Zooma"
-          >
-            <svg className="w-6 h-6 text-gray-800" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-            </svg>
-          </button>
+        <div className={`absolute top-3 right-3 z-20 flex flex-row gap-3 md:transition-opacity md:duration-200 ${isHovered ? 'md:opacity-100' : 'md:opacity-0'}`}>
+          <div className="relative group/compare">
+            <button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.dispatchEvent(new CustomEvent('toggleCompare', { detail: product })); }}
+              className="w-11 h-11 md:w-8 md:h-8 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
+              style={{ background: inCompare ? '#000' : '#fff', border: inCompare ? 'none' : '1px solid #ccc' }}
+            >
+              <svg className="w-6 h-6 md:w-4 md:h-4" viewBox="0 0 24 24" fill="none" stroke={inCompare ? '#fff' : '#000'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 20V10M12 20V4M6 20v-6" />
+              </svg>
+            </button>
+            <div className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-1 flex flex-col items-center opacity-0 group-hover/compare:opacity-100 transition-opacity duration-100 z-50">
+              <span className="border-4 border-transparent border-b-black" />
+              <span className="px-2 py-0.5 bg-black text-white text-[10px] font-medium whitespace-nowrap">{inCompare ? 'Ta bort' : 'Jämför'}</span>
+            </div>
+          </div>
+          <div className="relative group/zoom">
+            <button
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowZoom(true); }}
+              className="w-11 h-11 md:w-8 md:h-8 bg-white rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
+            >
+              <svg className="w-6 h-6 md:w-4 md:h-4 text-gray-800" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+              </svg>
+            </button>
+            <div className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-1 flex flex-col items-center opacity-0 group-hover/zoom:opacity-100 transition-opacity duration-100 z-50">
+              <span className="border-4 border-transparent border-b-black" />
+              <span className="px-2 py-0.5 bg-black text-white text-[10px] font-medium whitespace-nowrap">Zooma</span>
+            </div>
+          </div>
         </div>
 
         <Link href={productLink} scroll={false} className="absolute inset-0 flex items-center justify-center">
@@ -352,7 +362,7 @@ export function ProductCard({
     </div>
     <ImageZoomDialog
       images={(cardImages && cardImages.length > 0 ? cardImages : [product.image]).map((url, idx) => ({ id: String(idx), url: getProxiedImageUrl(url), altText: product.title }))}
-      initialIndex={imageIndex}
+      initialIndex={0}
       isOpen={showZoom}
       onClose={() => setShowZoom(false)}
     />

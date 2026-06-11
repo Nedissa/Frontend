@@ -7,7 +7,7 @@ export function FooterWrapper() {
     <footer className="w-full bg-black text-white">
       <div className="py-24">
         <div className="max-w-[1280px] mx-auto px-6">
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-12 mb-12 pb-8 border-b border-gray-800 text-white">
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-0 sm:gap-6 lg:gap-12 mb-0 sm:mb-12 sm:border-b sm:border-gray-800 sm:pb-12 text-white [&>div]:border-b [&>div]:border-gray-800 [&>div]:pb-6 [&>div]:pt-6 sm:[&>div]:border-b-0 sm:[&>div]:pt-0 [&>div:last-child]:border-b-0">
             {/* Logo section */}
             <div>
               <h2 className="text-lg font-bold mb-6">Techpilots</h2>
@@ -91,43 +91,50 @@ export function FooterWrapper() {
 
           </div>
 
-          {/* Certifieringar + Betalningsmetoder på samma rad */}
-          <div className="flex flex-wrap items-center justify-between gap-8 py-8 border-b border-gray-800">
-            <div>
-              <h3 className="font-bold mb-4 text-sm">Säkerhet & Certifieringar</h3>
-              <div className="flex gap-8">
-                <div className="flex flex-col items-center gap-2">
-                  <svg className="w-6 h-6" style={{ color: '#f5c842' }} fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
-                  </svg>
-                  <span className="text-xs text-gray-400 whitespace-nowrap">Kryptering</span>
-                </div>
-                <div className="flex flex-col items-center gap-2">
-                  <svg className="w-6 h-6" style={{ color: '#60a5fa' }} fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                  </svg>
-                  <span className="text-xs text-gray-400 whitespace-nowrap">GDPR</span>
-                </div>
-                <div className="flex flex-col items-center gap-2">
-                  <svg className="w-6 h-6" style={{ color: '#4ade80' }} fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20c9 0 11-16 11-16l-1.07-.8A10 10 0 0 1 17 8z"/>
-                  </svg>
-                  <span className="text-xs text-gray-400 whitespace-nowrap">Miljöansvar</span>
-                </div>
+          {/* Certifieringar */}
+          <div className="py-6 border-b border-gray-800">
+            <h3 className="font-bold mb-4 text-sm">Säkerhet & Certifieringar</h3>
+            <div className="flex gap-8">
+              <div className="flex flex-col items-center gap-2">
+                <svg className="w-6 h-6" style={{ color: '#f5c842' }} fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                </svg>
+                <span className="text-xs text-gray-400 whitespace-nowrap">Kryptering</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <svg className="w-6 h-6" style={{ color: '#60a5fa' }} fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <span className="text-xs text-gray-400 whitespace-nowrap">GDPR</span>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <svg className="w-6 h-6" style={{ color: '#4ade80' }} fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20c9 0 11-16 11-16l-1.07-.8A10 10 0 0 1 17 8z"/>
+                </svg>
+                <span className="text-xs text-gray-400 whitespace-nowrap">Miljöansvar</span>
               </div>
             </div>
-            <div className="flex flex-wrap gap-6" style={{ alignItems: 'center' }}>
-              <img src="/icons/klarna-text.svg" alt="Klarna" style={{ height: '16px', filter: 'brightness(0) invert(1)', verticalAlign: 'middle', marginBottom: '3px' }} />
-              <img src="/icons/visa.svg" alt="Visa" style={{ height: '24px', filter: 'brightness(0) invert(1)' }} />
-              <img src="/icons/mastercard.svg" alt="Mastercard" style={{ height: '24px' }} />
-              <img src="/icons/swish.svg" alt="Swish" style={{ height: '24px' }} />
-              <img src="/icons/applepay.svg" alt="Apple Pay" style={{ height: '24px', filter: 'brightness(0) invert(1)' }} />
-              <img src="/icons/googlepay.svg" alt="Google Pay" style={{ height: '24px', filter: 'brightness(0) invert(1)' }} />
+          </div>
+
+          {/* Betalningsmetoder */}
+          <div className="py-6 border-b border-gray-800">
+            <div className="flex flex-row flex-nowrap items-center gap-4 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+              <img src="/icons/klarna-text.svg" alt="Klarna" style={{ height: '14px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
+              <span style={{ color: '#444', flexShrink: 0 }}>|</span>
+              <img src="/icons/visa.svg" alt="Visa" style={{ height: '20px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
+              <span style={{ color: '#444', flexShrink: 0 }}>|</span>
+              <img src="/icons/mastercard.svg" alt="Mastercard" style={{ height: '20px', flexShrink: 0 }} />
+              <span style={{ color: '#444', flexShrink: 0 }}>|</span>
+              <img src="/icons/swish.svg" alt="Swish" style={{ height: '20px', flexShrink: 0 }} />
+              <span style={{ color: '#444', flexShrink: 0 }}>|</span>
+              <img src="/icons/applepay.svg" alt="Apple Pay" style={{ height: '20px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
+              <span style={{ color: '#444', flexShrink: 0 }}>|</span>
+              <img src="/icons/googlepay.svg" alt="Google Pay" style={{ height: '20px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
             </div>
           </div>
 
           {/* Footer bottom */}
-          <div className="flex justify-between items-center text-xs text-gray-400 pt-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-xs text-gray-400 pt-8 gap-2">
             <p>© 2026 Techpilots AB. Alla rättigheter förbehållna.</p>
           </div>
         </div>

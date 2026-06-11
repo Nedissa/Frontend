@@ -194,7 +194,7 @@ export default function ContactPage() {
         </div>
 
         {/* Perks */}
-        <div style={{ maxWidth: '900px', margin: '80px auto 0', borderTop: '1px solid #e5e7eb', paddingTop: '48px', paddingBottom: '60px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '32px', textAlign: 'center', position: 'relative', zIndex: 1 }}>
+        <div style={{ maxWidth: '900px', margin: '80px auto 0', borderTop: '1px solid #e5e7eb', paddingTop: '48px', paddingBottom: '60px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '32px', textAlign: 'center', position: 'relative', zIndex: 1 }} className="sm:!grid-cols-4 px-6">
           {perks.map(perk => (
             <div key={perk.title}>
               <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '12px' }}>{perk.icon}</div>

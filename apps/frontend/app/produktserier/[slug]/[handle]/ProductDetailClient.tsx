@@ -155,6 +155,7 @@ export default function ProductDetailClient({
   };
   const [selectedColor, setSelectedColor] = useState('Svart');
   const [activeTab, setActiveTab] = useState('description');
+  const [mobileActiveTab, setMobileActiveTab] = useState<string>('description');
   const [showAccessories, setShowAccessories] = useState(false);
   const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
   const [isAdded, setIsAdded] = useState(false);
@@ -279,15 +280,15 @@ export default function ProductDetailClient({
       <Breadcrumb items={breadcrumbItems} />
 
       {/* Main layout: left (gallery+tabs) + right (productinfo+handla tryggt) */}
-      <div className="w-[1280px] mx-auto flex gap-[8px]" style={{ alignItems: 'stretch' }}>
+      <div className="w-full max-w-[1280px] mx-auto flex flex-col md:flex-row gap-2" style={{ alignItems: 'stretch' }}>
 
-        {/* Left column — gallery + tabs */}
+        {/* Left column — gallery + tabs (tabs hidden on mobile, shown after right col) */}
         <div className="flex flex-col flex-1 min-w-0" style={{ gap: '8px' }}>
 
           {/* Gallery */}
           <div
-            className="relative flex gap-3 bg-white"
-            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', height: '540px', overflow: 'hidden' }}
+            className="relative flex gap-3 bg-white h-[320px] md:h-[540px]"
+            style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', overflow: 'hidden' }}
           >
             {/* Countdown badge on image */}
             <div className="absolute z-20 flex items-center" style={{ top: '24px', right: '24px' }}>
@@ -295,7 +296,7 @@ export default function ProductDetailClient({
             </div>
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
-              <div className="flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '508px', overflowY: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none', scrollBehavior: 'smooth' }}>
+              <div className="hidden md:flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '508px', overflowY: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none', scrollBehavior: 'smooth' }}>
                 {productDetails.images.map((img, idx) => (
                   <div key={idx} ref={el => { thumbnailRefs.current[idx] = el; }} className="flex flex-col flex-shrink-0" style={{ width: '110px' }}>
                     <button
@@ -381,8 +382,8 @@ export default function ProductDetailClient({
             </div>
           </div>
 
-          {/* Tabs — inside left column */}
-          <div className="p-8 pb-0 bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+          {/* Tabs — inside left column, hidden on mobile */}
+          <div className="hidden md:block p-8 pb-0 bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
             <div className="pt-0 w-full pb-8">
               <div className="flex gap-8 mb-8 border-b border-gray-200 w-full">
                 {[
@@ -411,8 +412,8 @@ export default function ProductDetailClient({
         </div>{/* end left column */}
 
         {/* Right column — productinfo + handla tryggt */}
-        <div className="flex flex-col flex-shrink-0" style={{ width: '288px', gap: '8px', alignSelf: 'stretch' }}>
-        <div ref={productInfoRef} className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', minHeight: '540px' }}>
+        <div className="flex flex-col md:flex-shrink-0 w-full md:w-[288px]" style={{ gap: '8px', alignSelf: 'stretch' }}>
+        <div ref={productInfoRef} className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
 
           <div className="p-6 pb-4">
             <div className="flex items-center gap-2 mb-2">
@@ -604,7 +605,7 @@ export default function ProductDetailClient({
             </svg>
           </button>
           <div className="mx-6 h-px bg-gray-100" />
-          <div className="px-6 py-4 flex items-center gap-4">
+          <div className="px-6 py-4 flex items-center justify-center gap-4">
             <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs text-gray-700 hover:text-black">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
               Facebook
@@ -621,8 +622,33 @@ export default function ProductDetailClient({
 
         </div>{/* end productinfo */}
 
-        {/* Frakt, Retur, Öppet köp + Dela */}
-        <ExtraInfoColumn product={product} />
+        {/* Beskrivning accordion — mobile only, direkt under köpknappen */}
+        <div className="md:hidden flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+          {[
+            { key: 'description', label: 'BESKRIVNING', content: <p className="px-5 pb-4 text-xs text-gray-600 leading-relaxed whitespace-pre-wrap">{productDetails.description || 'Ingen beskrivning tillagd'}</p> },
+            { key: 'specifications', label: 'SPECIFIKATIONER', content: <div className="px-5 pb-4 space-y-2">{productDetails.specifications.length > 0 ? productDetails.specifications.map((spec: { label: string; value: string }, idx: number) => (<div key={idx} className="border-b border-gray-100 pb-2"><p className="text-xs font-semibold text-gray-900">{spec.label}</p><p className="text-xs text-gray-600">{spec.value}</p></div>)) : <p className="text-xs text-gray-400">Inga specifikationer</p>}</div> },
+            { key: 'contents', label: 'INNEHÅLL', content: <div className="px-5 pb-4">{productDetails.contents.length > 0 ? <ul className="text-xs text-gray-600 space-y-1 list-disc list-inside">{productDetails.contents.map((item: string, idx: number) => <li key={idx}>{item}</li>)}</ul> : <p className="text-xs text-gray-400">Inget innehåll tillagt</p>}</div> },
+            { key: 'reviews', label: 'RECENSIONER', content: <div className="px-5 pb-4"><ProductReviews productId={product.id} /></div> },
+          ].map((s, i) => (
+            <div key={s.key} className={i > 0 ? 'border-t border-gray-200' : ''}>
+              <button
+                onClick={() => setMobileActiveTab(mobileActiveTab === s.key ? '' : s.key)}
+                className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50"
+              >
+                <span className="text-xs font-bold tracking-widest text-gray-800">{s.label}</span>
+                <svg className={`w-4 h-4 text-gray-400 transition-transform ${mobileActiveTab === s.key ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div style={{ display: 'grid', gridTemplateRows: mobileActiveTab === s.key ? '1fr' : '0fr', transition: 'grid-template-rows 0.25s ease' }}>
+                <div style={{ overflow: 'hidden' }}>{s.content}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Frakt, Retur, Öppet köp + Dela — desktop only */}
+        <div className="hidden md:block"><ExtraInfoColumn product={product} /></div>
 
         {/* Handla tryggt */}
         <div className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', flex: 1 }}>
@@ -655,6 +681,11 @@ export default function ProductDetailClient({
 
       </div>{/* end main layout */}
 
+      {/* Mobile-only: ExtraInfoColumn below main layout */}
+      <div className="md:hidden w-full max-w-[1280px] mx-auto flex flex-col gap-2 mt-2">
+        <ExtraInfoColumn product={product} />
+      </div>
+
       <ImageZoomDialog
         images={productDetails.images}
         initialIndex={selectedImage}
@@ -662,8 +693,9 @@ export default function ProductDetailClient({
         onClose={() => setShowZoom(false)}
       />
 
+      <div className="hidden md:block">
       {alsoLikeProducts.length > 0 && (
-        <div className="w-[1280px] mx-auto mt-12">
+        <div className="w-full max-w-[1280px] mx-auto mt-12 px-4">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Du kanske också gillar</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-4 -my-4 px-4 -mx-4">
             {alsoLikeProducts.map((product) => (
@@ -672,9 +704,8 @@ export default function ProductDetailClient({
           </div>
         </div>
       )}
-
       {recentlyViewed.length > 0 && (
-        <div className="w-[1280px] mx-auto mt-12 mb-8">
+        <div className="w-full max-w-[1280px] mx-auto mt-12 mb-8 px-4">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Du tittade nyligen på</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 py-4 -my-4 px-4 -mx-4">
             {recentlyViewed.map((p) => (
@@ -683,6 +714,7 @@ export default function ProductDetailClient({
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }
