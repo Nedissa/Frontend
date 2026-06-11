@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { ProductCard, type ProductData } from './ProductCard';
 
 interface ProductCarouselProps {
@@ -13,6 +13,8 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const mobileItemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const checkScroll = () => {
     const el = scrollRef.current;
@@ -31,6 +33,20 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
       el.removeEventListener('scroll', checkScroll);
       window.removeEventListener('resize', checkScroll);
     };
+  }, [products]);
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    mobileItemRefs.current.forEach((el, idx) => {
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveIndex(idx); },
+        { threshold: 0.6 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach(o => o.disconnect());
   }, [products]);
 
   const scroll = (dir: 'left' | 'right') => {
@@ -82,11 +98,15 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
         </div>
       </div>
       {/* Mobil */}
-      <div className="md:hidden">
-        <div className="mobile-carousel-scroll grid grid-cols-4 gap-4 py-4 -my-4" style={{ scrollbarWidth: 'none' }}>
+      <div className="md:hidden overflow-x-auto" style={{ scrollbarWidth: 'none', scrollSnapType: 'x mandatory' }}>
+        <div className="flex gap-4 py-4 -my-4">
           {products.slice(0, 4).map((product, idx) => (
-            <div key={`${product.id}-${idx}`} className="mobile-carousel-item">
-              <ProductCard product={product} variant={variant} priority={idx < 4} />
+            <div
+              key={`${product.id}-${idx}`}
+              ref={el => { mobileItemRefs.current[idx] = el; }}
+              style={{ flexShrink: 0, width: 'calc(100% - 32px)', scrollSnapAlign: 'center' }}
+            >
+              <ProductCard product={product} variant={variant} priority={idx < 4} isActive={activeIndex === idx} />
             </div>
           ))}
         </div>

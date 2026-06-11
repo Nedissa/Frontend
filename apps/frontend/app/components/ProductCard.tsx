@@ -35,6 +35,7 @@ interface ProductCardProps {
   onAddToCart?: (product: ProductData) => void;
   isAdded?: boolean;
   priority?: boolean;
+  isActive?: boolean;
 }
 
 const VARIANT_CONFIG: Record<ProductCardVariant, { showFeatures: boolean }> = {
@@ -53,9 +54,11 @@ export function ProductCard({
   onAddToCart,
   isAdded = false,
   priority = false,
+  isActive = false,
 }: ProductCardProps) {
   const [imageIndex, setImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const activeHover = isHovered || isActive;
   const [showZoom, setShowZoom] = useState(false);
   const [selectedColor, setSelectedColor] = useState(0);
   const config = VARIANT_CONFIG[variant];
@@ -108,7 +111,7 @@ export function ProductCard({
     <div className="h-full" style={{ isolation: 'isolate' }}>
     <div
       className="flex flex-col bg-white h-full p-2 sm:p-3 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.14)]"
-      style={{ transform: isHovered ? 'translateY(-4px)' : 'translateY(0)', transition: 'transform 300ms ease, box-shadow 300ms ease' }}
+      style={{ transform: activeHover ? 'translateY(-4px)' : 'translateY(0)', boxShadow: activeHover ? '0 8px 32px rgba(0,0,0,0.14)' : undefined, transition: 'transform 300ms ease, box-shadow 300ms ease' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -165,7 +168,7 @@ export function ProductCard({
 
 
         {/* Jämför + Zoom — grupperade uppe till höger, ögat längst höger */}
-        <div className={`absolute top-3 right-3 z-20 flex flex-row gap-3 md:transition-opacity md:duration-200 ${isHovered ? 'md:opacity-100' : 'md:opacity-0'}`}>
+        <div className={`absolute top-3 right-3 z-20 flex flex-row gap-3 md:transition-opacity md:duration-200 ${activeHover ? 'md:opacity-100' : 'md:opacity-0'}`}>
           <div className="relative group/compare">
             <button
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.dispatchEvent(new CustomEvent('toggleCompare', { detail: product })); }}
@@ -334,8 +337,8 @@ export function ProductCard({
           <button
             onClick={handleClick}
             disabled={added}
-            className="w-full py-2.5 font-semibold text-sm flex items-center justify-center gap-2 relative z-10 text-white transition-all duration-300 mobile-btn-visible"
-            style={{ background: 'black', opacity: (isHovered || added) ? 1 : 0, transform: (isHovered || added) ? 'translateY(0)' : 'translateY(100%)' }}
+            className="w-full py-2.5 font-semibold text-sm flex items-center justify-center gap-2 relative z-10 text-white transition-all duration-300"
+            style={{ background: 'black', opacity: (activeHover || added) ? 1 : 0, transform: (activeHover || added) ? 'translateY(0)' : 'translateY(100%)' }}
           >
             <span className="absolute inset-0 bg-black" />
             <span className="relative z-10 flex items-center gap-2">
