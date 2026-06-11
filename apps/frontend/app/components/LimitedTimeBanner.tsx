@@ -40,7 +40,7 @@ export function LimitedTimeBanner() {
   }, [endDate]);
 
   return (
-    <div className="flex justify-center">
+    <div className="w-full">
       <style>{`
         @keyframes gradientShift {
           0%   { background-position: 0% 50%; }
@@ -53,8 +53,8 @@ export function LimitedTimeBanner() {
           animation: gradientShift 8s ease infinite;
         }
       `}</style>
-      <div className="max-w-[1280px] w-full">
-        <div className="flex flex-row h-[400px] overflow-hidden">
+      <div className="w-full">
+        <div className="flex flex-row h-[400px]">
           {/* Left — animated */}
           <div className="banner-animated-bg flex flex-col items-center justify-center gap-3 px-10 w-[45%] h-full">
             <div className="flex gap-3">
