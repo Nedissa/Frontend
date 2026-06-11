@@ -82,7 +82,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
         </div>
       </div>
       {/* Mobil */}
-      <div className="md:hidden px-4">
+      <div className="md:hidden">
         <div className="mobile-carousel-scroll grid grid-cols-4 gap-4 py-4 -my-4" style={{ scrollbarWidth: 'none' }}>
           {products.slice(0, 4).map((product, idx) => (
             <div key={`${product.id}-${idx}`} className="mobile-carousel-item">

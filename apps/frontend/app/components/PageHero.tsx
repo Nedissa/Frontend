@@ -269,7 +269,7 @@ export function InfoPageLayout({
         }
       `}</style>
       <div className="min-h-screen w-full info-animated-bg" style={{ fontFamily: "'Manrope', sans-serif" }}>
-        <div className="flex flex-col md:flex-row" style={{ maxWidth: '1100px', margin: '0 auto', padding: '40px 16px 40px', gap: '48px', alignItems: 'flex-start' }}>
+        <div className="flex flex-col md:flex-row" style={{ maxWidth: '1100px', margin: '0 auto', padding: '24px 0 40px', gap: '48px', alignItems: 'flex-start' }}>
 
           <InfoSidebar />
 
@@ -293,7 +293,7 @@ export function InfoPageLayout({
                 )}
               </div>
             )}
-            <div className="px-10 py-10 bg-white" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }}>
+            <div className="px-4 md:px-10 py-6 md:py-10 bg-white" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }}>
               <div className="info-page-content">
                 {children}
               </div>
