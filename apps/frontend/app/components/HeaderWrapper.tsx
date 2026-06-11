@@ -707,6 +707,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                 <path strokeLinecap="round" strokeLinejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
                 <circle cx="12" cy="7" r="4" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
+              <span style={{ fontSize: '9px', color: '#111', fontWeight: 600 }}>{isHydrated ? (isLoggedIn ? 'Mina sidor' : 'Logga in') : 'Logga in'}</span>
             </Link>
             <button onClick={() => open('cart')} className="inline-flex flex-col items-center gap-1 relative">
               <div className="relative">
@@ -719,6 +720,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   <span className="absolute bg-red-600 text-white font-bold rounded-full flex items-center justify-center" style={{ fontSize: '8px', minWidth: '14px', height: '14px', padding: '0 2px', top: '-6px', right: '-8px' }} suppressHydrationWarning>{cartCount}</span>
                 )}
               </div>
+              <span style={{ fontSize: '9px', color: '#111', fontWeight: 600 }}>Kundvagn</span>
             </button>
           </div>
         </div>
