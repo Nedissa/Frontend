@@ -111,7 +111,7 @@ export function ProductCard({
     <div className="h-full" style={{ isolation: 'isolate' }}>
     <div
       className="flex flex-col bg-white h-full p-2 sm:p-3 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.14)]"
-      style={{ transform: activeHover ? 'translateY(-4px)' : 'translateY(0)', boxShadow: activeHover ? '0 8px 32px rgba(0,0,0,0.14)' : undefined, transition: 'transform 300ms ease, box-shadow 300ms ease' }}
+      style={{ boxShadow: activeHover ? '0 8px 32px rgba(0,0,0,0.14)' : undefined, transition: 'box-shadow 300ms ease' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
