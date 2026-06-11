@@ -268,9 +268,10 @@ const MENU_DATA: MenuCategory[] = [
         url: '/kategori/tv',
         icon: <img src="/icons/tv.svg" alt="TV" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: '4k-tv', title: '4K TV', url: '/kategori/tv' },
-          { id: 'oled-tv', title: 'OLED TV', url: '/kategori/tv' },
-          { id: 'gaming-tv', title: 'Gaming TV', url: '/kategori/tv' },
+          { id: 'oled-tv', title: 'OLED', url: '/kategori/oled-tv' },
+          { id: 'qled-tv', title: 'QLED', url: '/kategori/qled-tv' },
+          { id: 'mini-led-tv', title: 'Mini-LED', url: '/kategori/mini-led-tv' },
+          { id: 'led-tv', title: 'LED', url: '/kategori/led-tv' },
         ],
       },
       {
@@ -279,9 +280,9 @@ const MENU_DATA: MenuCategory[] = [
         url: '/kategori/ljud-hifi',
         icon: <img src="/icons/ljud-hifi.svg" alt="Ljud & HiFi" style={{ width: '28px', height: '28px', objectFit: 'contain', filter: 'invert(1)' }} />,
         items: [
-          { id: 'hogtalare', title: 'Högtalare', url: '/kategori/ljud-hifi' },
-          { id: 'horlur', title: 'Hörlurar', url: '/kategori/ljud-hifi' },
-          { id: 'surround', title: 'Surroundljud', url: '/kategori/ljud-hifi' },
+          { id: 'hemmabio', title: 'Hemmabio', url: '/kategori/hemmabio' },
+          { id: 'horlur', title: 'Hörlurar', url: '/kategori/horlur' },
+          { id: 'soundbar', title: 'Soundbar', url: '/kategori/soundbar' },
         ],
       },
       {
@@ -1116,7 +1117,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                             className="flex items-center justify-between pl-16 pr-5 py-3 bg-gray-50 border-t border-gray-100 text-xs font-bold uppercase tracking-wide text-gray-400"
                             onClick={() => setMobileMenuOpen(false)}
                           >
-                            Se alla i {section.title}
+                            Se alla produkter
                             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
                           </Link>
                           {section.items?.map((item) => (

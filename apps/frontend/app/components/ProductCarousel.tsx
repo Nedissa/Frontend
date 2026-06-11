@@ -36,7 +36,8 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
   const scroll = (dir: 'left' | 'right') => {
     const el = scrollRef.current;
     if (!el) return;
-    el.scrollBy({ left: dir === 'left' ? -300 : 300, behavior: 'smooth' });
+    const cardWidth = el.clientWidth / 4;
+    el.scrollBy({ left: dir === 'left' ? -cardWidth : cardWidth, behavior: 'smooth' });
   };
 
   if (!products.length) return null;
@@ -66,12 +67,23 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
           </button>
         </div>
       </div>
-      <div className="px-4 sm:px-6">
+      {/* Desktop */}
+      <div className="hidden md:block px-6">
         <div
           ref={scrollRef}
-          className="mobile-carousel-scroll grid grid-cols-4 gap-4 py-4 -my-4"
+          className="flex gap-4 py-4 -my-4 overflow-x-auto"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
+          {[...products, ...products].map((product, idx) => (
+            <div key={`${product.id}-${idx}`} style={{ flexShrink: 0, width: 'calc(25% - 12px)' }}>
+              <ProductCard product={product} variant={variant} priority={idx < 4} />
+            </div>
+          ))}
+        </div>
+      </div>
+      {/* Mobil */}
+      <div className="md:hidden px-4">
+        <div className="mobile-carousel-scroll grid grid-cols-4 gap-4 py-4 -my-4" style={{ scrollbarWidth: 'none' }}>
           {products.slice(0, 4).map((product, idx) => (
             <div key={`${product.id}-${idx}`} className="mobile-carousel-item">
               <ProductCard product={product} variant={variant} priority={idx < 4} />

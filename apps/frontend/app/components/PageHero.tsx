@@ -77,7 +77,10 @@ const sidebarCategories = [
 
 function InfoSidebar() {
   const pathname = usePathname();
-  const [open, setOpen] = useState<string[]>([sidebarCategories[0].id]);
+  const [open, setOpen] = useState<string[]>(() => {
+    const active = sidebarCategories.filter(cat => cat.links.some(l => l.href === pathname)).map(cat => cat.id);
+    return active.length > 0 ? active : [sidebarCategories[0].id];
+  });
 
   const toggle = (id: string) => {
     setOpen(prev =>
@@ -130,10 +133,10 @@ function InfoSidebar() {
                           display: 'block',
                           padding: '7px 10px 7px 12px',
                           fontSize: '0.82rem',
-                          color: active ? '#fff' : '#555',
+                          color: active ? '#000' : '#555',
                           fontWeight: active ? 700 : 400,
-                          backgroundColor: active ? '#111' : 'transparent',
-                          borderLeft: active ? '2px solid #111' : '2px solid transparent',
+                          backgroundColor: 'transparent',
+                          borderLeft: active ? '2px solid #000' : '2px solid transparent',
                           textDecoration: 'none',
                           borderRadius: '3px',
                           transition: 'background-color 150ms ease, color 150ms ease',
