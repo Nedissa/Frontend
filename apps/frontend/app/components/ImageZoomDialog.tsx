@@ -69,7 +69,7 @@ export function ImageZoomDialog({
       onClick={onClose}
     >
       <div
-        className="relative bg-white w-[90vw] h-[90vh] flex flex-col"
+        className="relative bg-white w-screen h-screen sm:w-[90vw] sm:h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}

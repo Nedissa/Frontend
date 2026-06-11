@@ -68,7 +68,7 @@ export function SortDropdown({ value, onChange, options }: SortDropdownProps) {
             >
               <span className="relative inline-flex">
                 {option.label}
-                <span className="underline-anim absolute bottom-0 left-0 h-0.5 bg-black" style={{ width: isSelected ? '100%' : '0%', transition: 'width 300ms ease-out' }} />
+                <span className="underline-anim absolute bottom-0 left-0 h-px sm:h-0.5 bg-black" style={{ width: isSelected ? '100%' : '0%', transition: 'width 300ms ease-out' }} />
               </span>
             </button>
           );
