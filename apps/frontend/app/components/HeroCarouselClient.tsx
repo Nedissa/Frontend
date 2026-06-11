@@ -166,7 +166,7 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
           className="absolute bottom-5 left-1/2 -translate-x-1/2 z-20"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.15)' }}>
+          <div className="hidden md:flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.15)' }}>
             {/* Prev */}
             <button onClick={() => prev(true)} className="text-gray-500 hover:text-black transition-colors">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>

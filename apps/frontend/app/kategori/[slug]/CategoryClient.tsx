@@ -92,7 +92,7 @@ export default function CategoryClient({ slug, categoryTitle }: CategoryClientPr
       </div>
 
       {/* Products area */}
-      <div className="flex-1 min-w-0 px-8">
+      <div className="flex-1 min-w-0 md:px-8">
         {/* Category subcategories */}
         <CategoryGrid slug={slug} />
 

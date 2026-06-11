@@ -578,7 +578,7 @@ function CheckoutContent() {
                     <InputWithCheck
                       type="text"
                       name="firstName"
-                      placeholder="Förnamn"
+                      placeholder=""
                       value={formData.firstName}
                       onChange={handleInputChange}
                       required
@@ -590,7 +590,7 @@ function CheckoutContent() {
                     <InputWithCheck
                       type="text"
                       name="lastName"
-                      placeholder="Efternamn"
+                      placeholder=""
                       value={formData.lastName}
                       onChange={handleInputChange}
                       required
@@ -605,7 +605,7 @@ function CheckoutContent() {
                     <InputWithCheck
                       type="text"
                       name="companyName"
-                      placeholder="Företagsnamn"
+                      placeholder=""
                       value={formData.companyName}
                       onChange={handleInputChange}
                       required
@@ -620,7 +620,7 @@ function CheckoutContent() {
                     <InputWithCheck
                       type="email"
                       name="email"
-                      placeholder="E-postadress"
+                      placeholder=""
                       value={formData.email}
                       onChange={handleInputChange}
                       required
@@ -633,7 +633,7 @@ function CheckoutContent() {
                     <InputWithCheck
                       type="tel"
                       name="phone"
-                      placeholder="Telefonnummer"
+                      placeholder=""
                       value={formData.phone}
                       onChange={handleInputChange}
                       required
@@ -648,7 +648,7 @@ function CheckoutContent() {
                   <InputWithCheck
                     type="text"
                     name="address"
-                    placeholder="Gata och husnummer"
+                    placeholder=""
                     value={formData.address}
                     onChange={handleInputChange}
                     required
@@ -662,7 +662,7 @@ function CheckoutContent() {
                     <InputWithCheck
                       type="text"
                       name="postalCode"
-                      placeholder="Postnummer"
+                      placeholder=""
                       value={formData.postalCode}
                       onChange={handleInputChange}
                       required
@@ -674,7 +674,7 @@ function CheckoutContent() {
                     <InputWithCheck
                       type="text"
                       name="city"
-                      placeholder="Stad"
+                      placeholder=""
                       value={formData.city}
                       onChange={handleInputChange}
                       required

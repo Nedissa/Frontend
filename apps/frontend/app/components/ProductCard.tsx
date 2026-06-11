@@ -241,7 +241,7 @@ export function ProductCard({
 
       {/* Image Carousel Dots */}
       {cardImages && cardImages.length > 0 && (
-        <div className="flex gap-2 justify-center mt-3 mb-4">
+        <div className="hidden md:flex gap-2 justify-center mt-3 mb-4">
           {cardImages.map((_, idx) => (
             <button
               key={idx}

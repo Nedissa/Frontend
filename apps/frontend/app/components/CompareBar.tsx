@@ -111,6 +111,9 @@ export function CompareBar() {
         .compare-sheet-out::-webkit-scrollbar { display: none; }
         .remove-btn { opacity: 0; transition: opacity 0.15s; }
         .compare-product-col:hover .remove-btn { opacity: 1; }
+        @media (max-width: 767px) {
+          .compare-col-4 { display: none !important; }
+        }
       `}</style>
 
       {/* Floating bar */}
@@ -135,10 +138,16 @@ export function CompareBar() {
 
           {/* Center counter */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#f4f4f5', borderRadius: '999px', padding: '6px 14px' }}>
-            <span style={{ fontSize: '0.78rem', color: '#3f3f46', fontWeight: 600, minWidth: '28px' }}>{compareList.length} / 4</span>
+            <span className="hidden md:inline" style={{ fontSize: '0.78rem', color: '#3f3f46', fontWeight: 600, minWidth: '28px' }}>{compareList.length} / 4</span>
+            <span className="md:hidden" style={{ fontSize: '0.78rem', color: '#3f3f46', fontWeight: 600, minWidth: '28px' }}>{Math.min(compareList.length, 3)} / 3</span>
             <div style={{ display: 'flex', gap: '4px' }}>
+              {/* Desktop: 4 dots */}
               {[0,1,2,3].map(i => (
-                <div key={i} style={{ width: '24px', height: '4px', borderRadius: '999px', background: i < compareList.length ? '#3f3f46' : '#d4d4d8' }} />
+                <div key={i} className="hidden md:block" style={{ width: '24px', height: '4px', borderRadius: '999px', background: i < compareList.length ? '#3f3f46' : '#d4d4d8' }} />
+              ))}
+              {/* Mobil: 3 dots */}
+              {[0,1,2].map(i => (
+                <div key={i} className="md:hidden" style={{ width: '24px', height: '4px', borderRadius: '999px', background: i < compareList.length ? '#3f3f46' : '#d4d4d8' }} />
               ))}
             </div>
           </div>
@@ -179,10 +188,10 @@ export function CompareBar() {
           {/* Sheet */}
           <div
             className={closing ? 'compare-sheet-out' : 'compare-sheet-in'}
-            style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 101, background: '#fff', maxHeight: '100vh', paddingBottom: `${barHeight}px`, overflowY: 'auto', overscrollBehavior: 'contain', scrollbarWidth: 'none',  }}
+            style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 101, background: '#fff', maxHeight: '100vh', paddingBottom: `${barHeight}px`, overflowY: 'auto', overflowX: 'hidden', overscrollBehavior: 'contain', scrollbarWidth: 'none' }}
           >
             {/* Modal header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 28px', position: 'sticky', top: 0, background: '#fff', zIndex: 1, maxWidth: '1280px', margin: '0 auto', width: '100%', borderBottom: '2px solid #e5e7eb' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 12px', position: 'sticky', top: 0, background: '#fff', zIndex: 1, maxWidth: '1280px', margin: '0 auto', width: '100%', borderBottom: '2px solid #e5e7eb' }}>
               <h2 style={{ fontSize: '1rem', fontWeight: 700 }}>Jämförelse</h2>
               <button
                 onClick={closeSheet}
@@ -193,14 +202,20 @@ export function CompareBar() {
             </div>
 
             {/* Modal content */}
-            <div style={{ padding: '24px 28px', maxWidth: '1280px', margin: '0 auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <div style={{ padding: '16px 12px', maxWidth: '1280px', margin: '0 auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+                <colgroup>
+                  <col style={{ width: '35%' }} />
+                  {compareList.map((_, i) => (
+                    <col key={i} className={i === 3 ? 'compare-col-4' : ''} />
+                  ))}
+                </colgroup>
                 <thead>
                   <tr style={{ borderBottom: '2px solid #e5e7eb' }}>
-                    <td style={{ width: '160px', paddingBottom: '24px' }} />
+                    <td style={{ paddingBottom: '24px' }} />
                     {compareList.map((p, i) => (
-                      <td key={p.id} className="compare-product-col" style={{ paddingBottom: '0', verticalAlign: 'top', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '16px 16px 24px', position: 'relative' }}>
+                      <td key={p.id} className={`compare-product-col${i === 3 ? ' compare-col-4' : ''}`} style={{ paddingBottom: '0', verticalAlign: 'top', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', padding: '10px 8px 16px', position: 'relative' }}>
                           <button
                             className="remove-btn"
                             onClick={() => {
@@ -211,9 +226,9 @@ export function CompareBar() {
                           >
                             Ta bort
                           </button>
-                          <img src={p.image} alt={p.title} style={{ width: '90px', height: '90px', objectFit: 'contain' }} />
-                          <p style={{ fontSize: '0.82rem', fontWeight: 700, textAlign: 'center', lineHeight: 1.3 }}>{p.title}</p>
-                          <p style={{ fontSize: '1rem', fontWeight: 800, color: '#dc2626' }}>{p.price.toLocaleString('sv-SE')} kr</p>
+                          <img src={p.image} alt={p.title} style={{ width: '56px', height: '56px', objectFit: 'contain' }} />
+                          <p style={{ fontSize: '0.72rem', fontWeight: 700, textAlign: 'center', lineHeight: 1.3, minHeight: '2.6em' }}>{p.title}</p>
+                          <p style={{ fontSize: '0.82rem', fontWeight: 800, color: '#dc2626' }}>{p.price.toLocaleString('sv-SE')} kr</p>
                         </div>
                       </td>
                     ))}
@@ -230,7 +245,7 @@ export function CompareBar() {
                             </span>
                           </td>
                           {compareList.map((_, i) => (
-                            <td key={i} style={{ borderTop: '2px solid #e5e7eb', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none' }} />
+                            <td key={i} className={i === 3 ? 'compare-col-4' : ''} style={{ borderTop: '2px solid #e5e7eb', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none' }} />
                           ))}
                         </tr>
                       )}
@@ -238,9 +253,9 @@ export function CompareBar() {
                         const values = compareList.map(p => getSpec(p, label));
                         return (
                           <tr key={label} className="compare-spec-row" style={{ borderBottom: '1px solid #f3f4f6', cursor: 'default', transition: 'background 0.15s' }}>
-                            <td className="spec-label" style={{ padding: '10px 0', fontSize: '0.8rem', color: '#555', fontWeight: 700, transition: 'color 0.15s' }}>{label}</td>
+                            <td className="spec-label" style={{ padding: '8px 8px 8px 0', fontSize: '0.72rem', color: '#555', fontWeight: 700, transition: 'color 0.15s', wordBreak: 'break-word', lineHeight: 1.3 }}>{label}</td>
                             {values.map((val, i) => (
-                              <td key={i} className="spec-val" style={{ padding: '10px 16px', fontSize: '0.7rem', fontWeight: 600, color: '#000', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none', background: COLUMN_COLORS[i], textAlign: 'center', transition: 'background 0.15s, color 0.15s' }}>
+                              <td key={i} className={`spec-val${i === 3 ? ' compare-col-4' : ''}`} style={{ padding: '8px 8px', fontSize: '0.7rem', fontWeight: 600, color: '#000', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none', background: COLUMN_COLORS[i], textAlign: 'center', transition: 'background 0.15s, color 0.15s' }}>
                                 {val ? (
                                   <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block' }}>
                                     <polyline points="20 6 9 17 4 12" />
