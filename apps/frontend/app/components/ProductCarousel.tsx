@@ -98,8 +98,9 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
         </div>
       </div>
       {/* Mobil */}
-      <div className="md:hidden overflow-x-auto" style={{ scrollbarWidth: 'none', scrollSnapType: 'x mandatory' }}>
-        <div className="flex gap-4 py-4 -my-4">
+      <div className="md:hidden" style={{ margin: '0 -16px' }}>
+        <div className="overflow-x-auto" style={{ scrollbarWidth: 'none', scrollSnapType: 'x mandatory', padding: '16px 16px' }}>
+        <div className="flex gap-4">
           {products.slice(0, 4).map((product, idx) => (
             <div
               key={`${product.id}-${idx}`}
@@ -109,6 +110,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
               <ProductCard product={product} variant={variant} priority={idx < 4} isActive={activeIndex === idx} />
             </div>
           ))}
+        </div>
         </div>
       </div>
     </div>
