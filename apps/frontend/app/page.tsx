@@ -28,7 +28,7 @@ async function fetchProductsFromAPI() {
       `${medusaUrl}/store/products?limit=100&region_id=${regionId}&fields=*variants.prices,*variants.inventory_quantity,*collection,+metadata,*options,*options.values`,
       {
         headers: { 'Content-Type': 'application/json', 'x-publishable-api-key': publishableKey },
-        cache: 'no-store',
+        next: { revalidate: 60 },
         signal: controller.signal,
       }
     );

@@ -210,11 +210,10 @@ export function ProductCard({
           `}</style>
           {(cardImages?.[imageIndex] || product.image) ? (
             <img
-              key={imageIndex}
               src={getProxiedImageUrl(cardImages?.[imageIndex] || product.image)}
               alt={product.title}
               className="w-full h-full object-contain p-4"
-              loading={priority && imageIndex === 0 ? 'eager' : 'lazy'}
+              loading={priority || imageIndex === 0 ? 'eager' : 'lazy'}
               onError={(e) => { e.currentTarget.style.display = 'none'; }}
             />
           ) : (
