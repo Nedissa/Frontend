@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { ImageZoomDialog } from './ImageZoomDialog';
 
 export interface ProductData {
@@ -81,6 +81,9 @@ export function ProductCard({
 
   const [added, setAdded] = useState(false);
   const [inCompare, setInCompare] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const prevImageSrc = useRef<string>('');
+  useEffect(() => { setImageLoaded(false); }, [imageIndex]);
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -202,14 +205,27 @@ export function ProductCard({
 
         <Link href={productLink} scroll={false} className="absolute inset-0 flex items-center justify-center">
           {(cardImages?.[imageIndex] || product.image) ? (
-            <img
-              src={getProxiedImageUrl(cardImages?.[imageIndex] || product.image)}
-              alt={product.title}
-              className="w-full h-full object-contain p-4"
-              loading={priority ? 'eager' : 'lazy'}
-              fetchPriority={priority ? 'high' : 'low'}
-              onError={(e) => { e.currentTarget.style.display = 'none'; }}
-            />
+            <>
+              {!imageLoaded && (
+                <div className="absolute inset-0 bg-[#f0f0f0] animate-pulse" />
+              )}
+              <img
+                src={getProxiedImageUrl(cardImages?.[imageIndex] || product.image)}
+                alt={product.title}
+                className="w-full h-full object-contain p-4 transition-opacity duration-300"
+                style={{ opacity: imageLoaded ? 1 : 0 }}
+                loading={priority ? 'eager' : 'lazy'}
+                fetchPriority={priority ? 'high' : 'low'}
+                onLoad={(e) => {
+                  const src = e.currentTarget.src;
+                  if (src !== prevImageSrc.current) {
+                    prevImageSrc.current = src;
+                    setImageLoaded(true);
+                  }
+                }}
+                onError={(e) => { e.currentTarget.style.display = 'none'; }}
+              />
+            </>
           ) : (
             <div className="w-full h-full bg-gray-200 flex items-center justify-center">
               <span className="text-gray-400">Ingen bild</span>
