@@ -82,8 +82,12 @@ export function ProductCard({
   const [added, setAdded] = useState(false);
   const [inCompare, setInCompare] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
-  const prevImageSrc = useRef<string>('');
-  useEffect(() => { setImageLoaded(false); }, [imageIndex]);
+  const loadedSrcs = useRef<Set<string>>(new Set());
+  const currentSrc = cardImages?.[imageIndex] || product.image || '';
+  useEffect(() => {
+    if (loadedSrcs.current.has(currentSrc)) setImageLoaded(true);
+    else setImageLoaded(false);
+  }, [currentSrc]);
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -217,11 +221,8 @@ export function ProductCard({
                 loading={priority ? 'eager' : 'lazy'}
                 fetchPriority={priority ? 'high' : 'low'}
                 onLoad={(e) => {
-                  const src = e.currentTarget.src;
-                  if (src !== prevImageSrc.current) {
-                    prevImageSrc.current = src;
-                    setImageLoaded(true);
-                  }
+                  loadedSrcs.current.add(e.currentTarget.getAttribute('src') || '');
+                  setImageLoaded(true);
                 }}
                 onError={(e) => { e.currentTarget.style.display = 'none'; }}
               />
