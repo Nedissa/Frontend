@@ -35,12 +35,22 @@ export function CookieBanner() {
   if (!visible) return null;
 
   return (
-    <div style={{
-      position: 'fixed', bottom: '24px', right: '24px', zIndex: 9999,
-      background: '#fff', border: '1px solid #e5e7eb',
-      borderRadius: '0px', padding: '20px',
-      width: '290px', boxShadow: '0 8px 32px rgba(0,0,0,0.14)',
-    }}>
+    <>
+      <style>{`
+        .cookie-banner-desktop {
+          position: fixed; bottom: 24px; right: 24px; z-index: 9999;
+          background: #fff; border: 1px solid #e5e7eb;
+          padding: 20px; width: 290px; box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+        }
+        @media (max-width: 640px) {
+          .cookie-banner-desktop {
+            left: 0; right: 0; bottom: 0;
+            width: 100%; border-left: none; border-right: none; border-bottom: none;
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.10);
+          }
+        }
+      `}</style>
+      <div className="cookie-banner-desktop">
       <div style={{ marginBottom: '10px' }}>
         <Cookie size={28} weight="fill" color="#111" style={{ marginBottom: '6px' }} />
         <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#111', display: 'block' }}>Vi använder cookies</span>
@@ -66,5 +76,7 @@ export function CookieBanner() {
         </button>
       </div>
     </div>
+    </>
   );
 }
+
