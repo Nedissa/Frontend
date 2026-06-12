@@ -271,7 +271,7 @@ export function InfoPageLayout({
         }
       `}</style>
       <div className="min-h-screen w-full info-animated-bg" style={{ fontFamily: "'Manrope', sans-serif" }}>
-        <div className="flex flex-col md:flex-row" style={{ maxWidth: '1100px', margin: '0 auto', padding: '24px 0 40px', gap: '48px', alignItems: 'flex-start' }}>
+        <div className="flex flex-col md:flex-row px-4 md:px-6" style={{ maxWidth: '1100px', margin: '0 auto', padding: '24px 0 40px', gap: '48px', alignItems: 'flex-start' }}>
 
           <InfoSidebar />
 

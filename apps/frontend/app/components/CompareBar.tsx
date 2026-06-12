@@ -240,8 +240,8 @@ export function CompareBar() {
                 <tbody>
                   {allSpecKeys.length > 0 ? grouped.map(({ category, keys }) => (
                     <Fragment key={category ?? 'uncategorized'}>
-                      {category && (
-                        <tr key={`cat-${category}`} className="hidden md:contents">
+                      {category && category !== 'System' && category !== 'SYSTEM' && category !== 'Övrigt' && (
+                        <tr key={`cat-${category}`}>
                           <td style={{ padding: '24px 0 6px', borderTop: '2px solid #e5e7eb' }}>
                             <span style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#999' }}>
                               {category}

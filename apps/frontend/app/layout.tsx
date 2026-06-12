@@ -46,7 +46,7 @@ export default async function RootLayout({
         <link rel="preload" as="image" href="/icons/tv.png" />
         <link rel="preload" as="image" href="/icons/ljud-hifi.png" />
         <link rel="preload" as="image" href="/icons/tv-tillbehor.png" />
-        <style>{`.ml-container{max-width:1280px;width:100%;padding-left:16px;padding-right:16px;}@media(min-width:768px){.ml-container{padding-left:0;padding-right:0;}}`}</style>
+        <style>{`.ml-container{max-width:1280px;width:100%;padding-left:12px;padding-right:12px;}@media(min-width:768px){.ml-container{padding-left:0;padding-right:0;}}.hero-full-bleed{position:relative;left:50%;right:50%;margin-left:-50vw;margin-right:-50vw;width:100vw;}@media(min-width:768px){.hero-full-bleed{position:static;left:auto;right:auto;margin-left:0;margin-right:0;width:100%;}}`}</style>
       </head>
       <body className="bg-white flex flex-col min-h-screen overflow-x-hidden">
         <RootLayoutClient initialIsLoggedIn={isLoggedIn}>

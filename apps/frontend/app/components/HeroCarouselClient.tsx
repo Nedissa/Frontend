@@ -143,22 +143,14 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
         })}
         <div className="absolute inset-0 bg-black/30 z-10"></div>
 
-        {/* Bottom-left text overlay */}
-        <div className="absolute top-4 left-4 sm:top-10 sm:left-10 z-20 flex flex-col gap-2 sm:gap-3" style={{ maxWidth: '440px' }} onClick={(e) => e.stopPropagation()}>
-          <h2 className="text-white font-bold leading-tight text-2xl sm:text-[2.8rem]" style={{ maxWidth: '480px', textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}>
-            Teknik för din<br />vardag
+        {/* Text overlay — centrerad på mobil, vänster på desktop */}
+        <div className="absolute top-12 left-0 right-0 sm:top-10 sm:left-10 sm:right-auto z-20 flex flex-col gap-2 sm:gap-3 items-center sm:items-start px-4 sm:px-0" style={{ maxWidth: '100%' }} onClick={(e) => e.stopPropagation()}>
+          <h2 className="text-white font-bold leading-tight text-2xl sm:text-[2.8rem] text-center sm:text-left" style={{ maxWidth: '480px', textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}>
+            Teknik för en<br />enklare vardag
           </h2>
-          <p className="text-gray-200 text-xs sm:text-sm leading-relaxed hidden sm:block">
+          <p className="text-gray-200 text-xs sm:text-sm leading-relaxed hidden sm:block text-center sm:text-left">
             Hitta rätt produkt enkelt och snabbt<br />— levererad direkt hem till dig.
           </p>
-          <a
-            href="/produkter"
-            className="inline-flex items-center gap-2 sm:gap-3 font-bold text-xs sm:text-sm px-4 sm:px-5 py-2 sm:py-3 w-fit mt-0 sm:mt-1"
-            style={{ backgroundColor: '#f0c040', color: '#111', borderRadius: '999px' }}
-          >
-            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-black flex-shrink-0" />
-            SHOPPA NU
-          </a>
         </div>
 
         {/* Pill controller */}
