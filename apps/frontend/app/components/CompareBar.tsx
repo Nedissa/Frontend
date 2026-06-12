@@ -39,13 +39,16 @@ export function CompareBar() {
     if (modalOpen) {
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
+      (window as any).tidioChatApi?.hide();
     } else {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
+      (window as any).tidioChatApi?.show();
     }
     return () => {
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
+      (window as any).tidioChatApi?.show();
     };
   }, [modalOpen]);
 
@@ -238,7 +241,7 @@ export function CompareBar() {
                   {allSpecKeys.length > 0 ? grouped.map(({ category, keys }) => (
                     <Fragment key={category ?? 'uncategorized'}>
                       {category && (
-                        <tr key={`cat-${category}`}>
+                        <tr key={`cat-${category}`} className="hidden md:contents">
                           <td style={{ padding: '24px 0 6px', borderTop: '2px solid #e5e7eb' }}>
                             <span style={{ fontSize: '0.78rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#999' }}>
                               {category}
