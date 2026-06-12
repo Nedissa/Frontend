@@ -360,6 +360,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<{ title: string; url: string } | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeMobileCategory, setActiveMobileCategory] = useState<string | null>(null);
   const [mobileExpandedCategory, setMobileExpandedCategory] = useState<string | null>(null);
   const [mobileActiveSubCategory, setMobileActiveSubCategory] = useState<Set<string>>(new Set());
   const [mobileActiveLevel3, setMobileActiveLevel3] = useState<string | null>(null);
@@ -647,36 +648,36 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   );
 
   const MOBILE_CATEGORY_ICONS: Record<string, React.ReactNode> = {
-    'datorer-och-tillbehor': svgIcon('/icons/barbara-datorer.png'),
-    'komponenter':           svgIcon('/icons/cpu.png'),
-    'gaming':                svgIcon('/icons/gaming-pc.png'),
-    'mobiltelefoner':        svgIcon('/icons/smartphones.png'),
-    'natverk':               svgIcon('/icons/routrar.png'),
-    'tv-hifi':               svgIcon('/icons/tv.png'),
+    'datorer-och-tillbehor': svgIcon('/icons/barbara-datorer.svg'),
+    'komponenter':           svgIcon('/icons/cpu.svg'),
+    'gaming':                svgIcon('/icons/gaming-pc.svg'),
+    'mobiltelefoner':        svgIcon('/icons/smartphones.svg'),
+    'natverk':               svgIcon('/icons/routrar.svg'),
+    'tv-hifi':               svgIcon('/icons/tv.svg'),
   };
 
   const MOBILE_SECTION_ICONS: Record<string, React.ReactNode> = {
-    'barbara':              svgIcon('/icons/barbara-datorer.png'),
-    'stationara':           svgIcon('/icons/stationara-datorer.png'),
-    'datortillbehor':       svgIcon('/icons/datortillbehor.png'),
-    'processorer':          svgIcon('/icons/cpu.png'),
-    'moderkort':            svgIcon('/icons/moderkort.png'),
-    'grafikkort':           svgIcon('/icons/gpu.png'),
-    'ram':                  svgIcon('/icons/ram.png'),
-    'lagringsenhet':        svgIcon('/icons/lagring.png'),
-    'natlagring':           svgIcon('/icons/nataggregat.png'),
-    'gaming-laptops':       svgIcon('/icons/gaming-laptop.png'),
-    'gaming-pc':            svgIcon('/icons/gaming-pc.png'),
-    'gaming-peripherals':   svgIcon('/icons/gaming-tillbehor.png'),
-    'smartphones':          svgIcon('/icons/smartphones.png'),
-    'mobil-tillbehor':      svgIcon('/icons/mobiltillbehor.png'),
-    'accesspunkter':        svgIcon('/icons/accesspunkter.png'),
-    'natsverksforlangarе':  svgIcon('/icons/natverksforlangare.png'),
-    'routrar':              svgIcon('/icons/routrar.png'),
-    'mesh':                 svgIcon('/icons/mesh.png'),
-    'tv':                   svgIcon('/icons/tv.png'),
-    'ljud':                 svgIcon('/icons/ljud-hifi.png'),
-    'tillbehor-tv':         svgIcon('/icons/tv-tillbehor.png'),
+    'barbara':              svgIcon('/icons/barbara-datorer.svg'),
+    'stationara':           svgIcon('/icons/stationara-datorer.svg'),
+    'datortillbehor':       svgIcon('/icons/datortillbehor.svg'),
+    'processorer':          svgIcon('/icons/cpu.svg'),
+    'moderkort':            svgIcon('/icons/moderkort.svg'),
+    'grafikkort':           svgIcon('/icons/gpu.svg'),
+    'ram':                  svgIcon('/icons/ram.svg'),
+    'lagringsenhet':        svgIcon('/icons/lagring.svg'),
+    'natlagring':           svgIcon('/icons/nataggregat.svg'),
+    'gaming-laptops':       svgIcon('/icons/gaming-laptop.svg'),
+    'gaming-pc':            svgIcon('/icons/gaming-pc.svg'),
+    'gaming-peripherals':   svgIcon('/icons/gaming-tillbehor.svg'),
+    'smartphones':          svgIcon('/icons/smartphones.svg'),
+    'mobil-tillbehor':      svgIcon('/icons/mobiltillbehor.svg'),
+    'accesspunkter':        svgIcon('/icons/accesspunkter.svg'),
+    'natsverksforlangarе':  svgIcon('/icons/natverksforlangare.svg'),
+    'routrar':              svgIcon('/icons/routrar.svg'),
+    'mesh':                 svgIcon('/icons/mesh.svg'),
+    'tv':                   svgIcon('/icons/tv.svg'),
+    'ljud':                 svgIcon('/icons/ljud-hifi.svg'),
+    'tillbehor-tv':         svgIcon('/icons/tv-tillbehor.svg'),
   };
 
   return (
@@ -1010,21 +1011,45 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   </svg>
                 </button>
               ))}
-              <Link
-                href="/erbjudanden"
-                className="w-full flex items-center gap-4 px-5 py-4 border-b border-gray-100"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-black">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
-                    <path d="M9 14l6-6M10 9h.01M14 13h.01M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z" strokeLinecap="round" strokeLinejoin="round"/>
+              {/* Erbjudanden accordion */}
+              <div className="border-b border-gray-100">
+                <button
+                  className="w-full flex items-center gap-4 px-5 py-4"
+                  onClick={() => setActiveMobileCategory(activeMobileCategory === 'erbjudanden' ? null : 'erbjudanden')}
+                >
+                  <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-black">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
+                      <path d="M9 14l6-6M10 9h.01M14 13h.01M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
+                  <span className="flex-1 text-sm font-semibold text-black text-left">Erbjudanden</span>
+                  <svg className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform ${activeMobileCategory === 'erbjudanden' ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                    <path d="M9 18l6-6-6-6" />
                   </svg>
-                </span>
-                <span className="flex-1 text-sm font-semibold text-black">Erbjudanden</span>
-                <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
-              </Link>
+                </button>
+                {activeMobileCategory === 'erbjudanden' && (
+                  <div className="bg-gray-50 border-t border-gray-100">
+                    {[
+                      { label: 'Veckans deals', url: '/erbjudanden/veckans-deals' },
+                      { label: 'Rea', url: '/erbjudanden/rea' },
+                      { label: 'Paketpris', url: '/erbjudanden/paketpris' },
+                      { label: 'Lagertömning', url: '/erbjudanden/lagertomning' },
+                    ].map(item => (
+                      <Link
+                        key={item.url}
+                        href={item.url}
+                        className="flex items-center gap-3 px-8 py-3 text-sm text-gray-700 border-b border-gray-100 last:border-0"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                    <Link href="/erbjudanden" className="flex items-center gap-2 px-8 py-3 text-xs font-bold text-black border-t border-gray-200" onClick={() => setMobileMenuOpen(false)}>
+                      Se alla erbjudanden →
+                    </Link>
+                  </div>
+                )}
+              </div>
               <Link
                 href="/konto"
                 className="w-full flex items-center gap-4 px-5 py-4 border-b border-gray-100"

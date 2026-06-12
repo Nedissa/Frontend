@@ -243,9 +243,9 @@ export default function AccountPage() {
 
   return (
     <MainLayout bordered={false}>
-      <div className="w-full max-w-4xl mx-auto px-6 py-16">
+      <div className="w-full max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-16">
         {/* Welcome Section */}
-        <div className="p-8 mb-8 shadow-sm flex justify-between items-center" style={{ border: '1px solid #e5e7eb' }}>
+        <div className="p-4 md:p-8 mb-6 md:mb-8 shadow-sm flex justify-between items-center" style={{ border: '1px solid #e5e7eb' }}>
           <div>
             <h2 className="text-2xl font-bold mb-2 select-none">Välkommen, {firstName && lastName ? firstName : firstName || registerEmail?.split('@')[0] || 'Johan'}!</h2>
             <p className="text-gray-600">Hantera ditt konto och se dina beställningar</p>
@@ -341,7 +341,7 @@ export default function AccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div style={{ display: activeTab === 'profil' ? 'block' : 'none', borderTop: '1px solid #e5e7eb' }}>
+            <div style={{ display: 'grid', gridTemplateRows: activeTab === 'profil' ? '1fr' : '0fr', transition: 'grid-template-rows 0.3s ease', borderTop: '1px solid #e5e7eb', overflow: 'hidden' }}>
               <div className="p-4">
                 {/* Profil content inline */}
                 <h3 className="text-lg font-bold mb-4">Mina uppgifter</h3>
@@ -351,10 +351,10 @@ export default function AccountPage() {
                   <div><label className="block text-sm font-semibold mb-1">Efternamn</label><div className="relative"><input type="text" value={editLastName} onChange={(e) => setEditLastName(e.target.value)} className="w-full px-3 py-2 pr-8 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />{editLastName && <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}</div></div>
                   <div><label className="block text-sm font-semibold mb-1">Telefon</label><div className="relative"><input type="tel" value={editPhone} onChange={(e) => setEditPhone(e.target.value)} className="w-full px-3 py-2 pr-8 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />{editPhone && <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}</div></div>
                   <div><label className="block text-sm font-semibold mb-1">E-postadress</label><div className="relative"><input type="email" value={editEmail} onChange={(e) => setEditEmail(e.target.value)} className="w-full px-3 py-2 pr-8 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />{editEmail && <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}</div></div>
-                  <div><label className="block text-sm font-semibold mb-1">Adress</label><div className="relative"><input type="text" value={editAddress} onChange={(e) => setEditAddress(e.target.value)} placeholder="Gata och husnummer" className="w-full px-3 py-2 pr-8 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />{editAddress && <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}</div></div>
+                  <div><label className="block text-sm font-semibold mb-1">Adress</label><div className="relative"><input type="text" value={editAddress} onChange={(e) => setEditAddress(e.target.value)}  className="w-full px-3 py-2 pr-8 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />{editAddress && <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}</div></div>
                   <div className="grid grid-cols-2 gap-3">
-                    <div><label className="block text-sm font-semibold mb-1">Postnummer</label><input type="text" value={editPostalCode} onChange={(e) => setEditPostalCode(e.target.value)} placeholder="00000" className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
-                    <div><label className="block text-sm font-semibold mb-1">Stad</label><input type="text" value={editCity} onChange={(e) => setEditCity(e.target.value)} placeholder="Stad" className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                    <div><label className="block text-sm font-semibold mb-1">Postnummer</label><input type="text" value={editPostalCode} onChange={(e) => setEditPostalCode(e.target.value)}  className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                    <div><label className="block text-sm font-semibold mb-1">Stad</label><input type="text" value={editCity} onChange={(e) => setEditCity(e.target.value)}  className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
                   </div>
                   <button onClick={handleSaveChanges} disabled={!isFormComplete || !hasChanges || isSaved} className="w-full py-2 bg-black text-white font-semibold disabled:opacity-40 mt-2">
                     {isSaved ? '✓ Sparad' : 'Spara ändringar'}
@@ -375,7 +375,7 @@ export default function AccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div style={{ display: activeTab === 'orderhistorik' ? 'block' : 'none', borderTop: '1px solid #e5e7eb' }}>
+            <div style={{ display: 'grid', gridTemplateRows: activeTab === 'orderhistorik' ? '1fr' : '0fr', transition: 'grid-template-rows 0.3s ease', borderTop: '1px solid #e5e7eb', overflow: 'hidden' }}>
               <div className="p-4">
                 <h3 className="text-lg font-bold mb-4">Orderhistorik</h3>
                 {orders.length > 0 ? (
@@ -406,7 +406,7 @@ export default function AccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div style={{ display: activeTab === 'felanmalan' ? 'block' : 'none', borderTop: '1px solid #e5e7eb' }}>
+            <div style={{ display: 'grid', gridTemplateRows: activeTab === 'felanmalan' ? '1fr' : '0fr', transition: 'grid-template-rows 0.3s ease', borderTop: '1px solid #e5e7eb', overflow: 'hidden' }}>
               <div className="p-4">
                 <h3 className="text-lg font-bold mb-4">Felanmälan</h3>
                 {complaints.length > 0 ? (
@@ -424,8 +424,8 @@ export default function AccountPage() {
                     <p>Du har ingen aktiv felanmälan</p>
                     {showComplaintForm && (
                       <div className="space-y-3">
-                        <div><label className="block text-sm font-semibold mb-1">Ordernummer</label><input type="text" value={complaintOrderId} onChange={(e) => setComplaintOrderId(e.target.value)} placeholder="Ditt ordernummer" className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
-                        <div><label className="block text-sm font-semibold mb-1">Meddelande</label><textarea value={complaintDescription} onChange={(e) => setComplaintDescription(e.target.value)} placeholder="Beskriv ditt ärende..." rows={3} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                        <div><label className="block text-sm font-semibold mb-1">Ordernummer</label><input type="text" value={complaintOrderId} onChange={(e) => setComplaintOrderId(e.target.value)}  className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                        <div><label className="block text-sm font-semibold mb-1">Meddelande</label><textarea value={complaintDescription} onChange={(e) => setComplaintDescription(e.target.value)}  rows={3} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
                         <button onClick={handleAddComplaint} className="w-full py-2 bg-black text-white font-semibold">Skicka felanmälan</button>
                       </div>
                     )}
@@ -446,7 +446,7 @@ export default function AccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div style={{ display: activeTab === 'favoriter' ? 'block' : 'none', borderTop: '1px solid #e5e7eb' }}>
+            <div style={{ display: 'grid', gridTemplateRows: activeTab === 'favoriter' ? '1fr' : '0fr', transition: 'grid-template-rows 0.3s ease', borderTop: '1px solid #e5e7eb', overflow: 'hidden' }}>
               <div className="p-4">
                 <h3 className="text-lg font-bold mb-4">Favoriter</h3>
                 {favoriteProducts.length > 0 ? (
@@ -479,7 +479,7 @@ export default function AccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div style={{ display: activeTab === 'kundklubb' ? 'block' : 'none', borderTop: '1px solid #e5e7eb' }}>
+            <div style={{ display: 'grid', gridTemplateRows: activeTab === 'kundklubb' ? '1fr' : '0fr', transition: 'grid-template-rows 0.3s ease', borderTop: '1px solid #e5e7eb', overflow: 'hidden' }}>
               <div className="p-4">
                 <h3 className="text-lg font-bold mb-2">Kundklubb</h3>
                 <p className="text-sm text-gray-600 mb-4">Som medlem i Techpilots kundklubb får du tillgång till exklusiva priser och förmåner.</p>
@@ -573,7 +573,7 @@ export default function AccountPage() {
                     onChange={(e) => setEditAddress(e.target.value)}
                     className="w-full px-4 py-2 pr-10 focus:outline-none border-2 border-transparent focus:border-black"
                     style={{ border: '1px solid #e5e7eb' }}
-                    placeholder="Gata och husnummer"
+                    
                   />
                   {editAddress && <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
                 </div>
@@ -588,7 +588,7 @@ export default function AccountPage() {
                       onChange={(e) => setEditPostalCode(e.target.value)}
                       className="w-full px-4 py-2 pr-10 focus:outline-none border-2 border-transparent focus:border-black"
                       style={{ border: '1px solid #e5e7eb' }}
-                      placeholder="00000"
+                      
                     />
                     {editPostalCode && <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
                   </div>
@@ -602,7 +602,7 @@ export default function AccountPage() {
                       onChange={(e) => setEditCity(e.target.value)}
                       className="w-full px-4 py-2 pr-10 focus:outline-none border-2 border-transparent focus:border-black"
                       style={{ border: '1px solid #e5e7eb' }}
-                      placeholder="Stad"
+                      
                     />
                     {editCity && <svg className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}
                   </div>
@@ -796,7 +796,7 @@ export default function AccountPage() {
                       type="text"
                       value={complaintOrderId}
                       onChange={(e) => setComplaintOrderId(e.target.value)}
-                      placeholder="Ditt ordernummer"
+                      
                       className="w-full px-4 py-2 focus:outline-none"
                       style={{ border: '1px solid #e5e7eb' }}
                     />
@@ -806,7 +806,7 @@ export default function AccountPage() {
                     <textarea
                       value={complaintDescription}
                       onChange={(e) => setComplaintDescription(e.target.value)}
-                      placeholder="Beskriv ditt ärende..."
+                      
                       rows={4}
                       className="w-full px-4 py-2 focus:outline-none"
                       style={{ border: '1px solid #e5e7eb' }}

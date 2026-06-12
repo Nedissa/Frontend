@@ -118,10 +118,11 @@ function InfoSidebar() {
                 </span>
               </button>
               <div style={{
-                maxHeight: isOpen ? '300px' : '0',
-                overflow: 'hidden',
-                transition: 'max-height 0.3s ease',
+                display: 'grid',
+                gridTemplateRows: isOpen ? '1fr' : '0fr',
+                transition: 'grid-template-rows 0.25s ease',
               }}>
+              <div style={{ overflow: 'hidden' }}>
                 <div style={{ paddingBottom: '8px' }}>
                   {cat.links.map(link => {
                     const active = pathname === link.href;
@@ -149,6 +150,7 @@ function InfoSidebar() {
                     );
                   })}
                 </div>
+              </div>
               </div>
             </div>
           );
