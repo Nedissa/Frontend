@@ -60,7 +60,7 @@ export default function TermsPage() {
           <section>
             <h2 className="font-bold mb-4">5. Frakt och leverans</h2>
             <p className="mb-3">
-              Leverans till konsumenter sker normalt genom PostNord MyPack Collect eller Home beroende på vikt och storlek, fritt vårt lager. Normal leveranstid är 1–3 arbetsdagar.
+              Leverans till konsumenter sker normalt genom PostNord MyPack Collect eller Home beroende på vikt och storlek, fritt vårt lager. Normal leveranstid är 2–5 arbetsdagar.
             </p>
             <p className="mb-3">
               Leveranstiderna är vägledande och inte garanterade. Vi är inte ansvariga för leveransförseningar på grund av force majeure.

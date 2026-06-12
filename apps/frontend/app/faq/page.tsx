@@ -26,11 +26,11 @@ export default function FAQPage() {
           <section>
             <h2 className="font-bold mb-4">2. Leverans & Frakt</h2>
             <h3 className="font-bold mb-1">Hur lång tid tar leveransen?</h3>
-            <p className="mb-4">Standard leverans tar normalt 1–3 arbetsdagar. Express-leverans går samma dag eller nästa dag om du beställer före 12:00.</p>
+            <p className="mb-4">Standard leverans tar normalt 2–5 arbetsdagar. Express-leverans går samma dag eller nästa dag om du beställer före 12:00.</p>
             <h3 className="font-bold mb-1">Är frakt kostnadsfritt?</h3>
             <p className="mb-2">Vi erbjuder fri frakt på alla beställningar inom Sverige. Vi har två leveransalternativ:</p>
             <ul className="mb-4">
-              <li><strong>Standardleverans:</strong> Gratis, leverans 1–2 arbetsdagar</li>
+              <li><strong>Standardleverans:</strong> Gratis, leverans 2–5 arbetsdagar</li>
               <li><strong>Express-leverans:</strong> 199 SEK, samma dag eller nästa dag (beställ före 12:00)</li>
             </ul>
             <h3 className="font-bold mb-1">Hur kan jag spåra min beställning?</h3>

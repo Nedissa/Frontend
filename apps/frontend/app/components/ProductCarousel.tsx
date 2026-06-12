@@ -62,7 +62,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
     <div className="pt-8">
       <div className="flex items-center justify-between mb-4 px-4 sm:px-6">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{title}</h2>
-        <div className="flex items-center gap-2">
+        <div className="hidden md:flex items-center gap-2">
           <button
             onClick={() => scroll('left')}
             disabled={!canScrollLeft}

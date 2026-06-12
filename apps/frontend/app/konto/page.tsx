@@ -244,14 +244,12 @@ export default function AccountPage() {
     <MainLayout bordered={false}>
       <div className="w-full max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-16">
         {/* Welcome Section */}
-        <div className="p-4 md:p-8 mb-6 md:mb-8 shadow-sm flex justify-between items-center" style={{ border: '1px solid #e5e7eb' }}>
-          <div>
-            <h2 className="text-xl md:text-2xl font-bold mb-1 md:mb-2 select-none">Välkommen, {firstName && lastName ? firstName : firstName || registerEmail?.split('@')[0] || 'Johan'}!</h2>
-            <p className="text-sm text-gray-600">Hantera ditt konto och se dina beställningar</p>
-          </div>
+        <div className="p-4 md:p-8 mb-6 md:mb-8 shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
+          <h2 className="text-xl md:text-2xl font-bold mb-1 md:mb-2 select-none">Välkommen, {firstName && lastName ? firstName : firstName || registerEmail?.split('@')[0] || 'Johan'}!</h2>
+          <p className="text-sm text-gray-600 mb-3">Hantera ditt konto och se dina beställningar</p>
           <button
             onClick={handleLogout}
-            className="text-red-600 hover:text-red-800 font-semibold whitespace-nowrap ml-4 text-sm"
+            className="text-red-600 hover:text-red-800 font-semibold text-sm"
           >
             Logga ut
           </button>

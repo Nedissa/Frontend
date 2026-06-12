@@ -14,7 +14,7 @@ export default function ShippingPage() {
           <section>
             <h2 className="font-bold mb-4">1. Leveransalternativ</h2>
             <h3 className="font-bold mb-1">Standardleverans</h3>
-            <p className="mb-1">Leverans inom 1–3 arbetsdagar.</p>
+            <p className="mb-1">Leverans inom 2–5 arbetsdagar.</p>
             <p className="mb-4"><strong>Kostnad:</strong> Gratis inom hela Sverige</p>
             <h3 className="font-bold mb-1">Express-leverans</h3>
             <p className="mb-1">Leverans samma dag eller nästa dag för brådskande ordrar.</p>
@@ -23,7 +23,7 @@ export default function ShippingPage() {
 
           <section>
             <h2 className="font-bold mb-4">2. Leveranstider</h2>
-            <p>Vi levererar normalt inom <strong>1–3 arbetsdagar</strong> från beställning. Leveranstider är vägledande och inte garanterade. Helger och helgdagar räknas inte.</p>
+            <p>Vi levererar normalt inom <strong>2–5 arbetsdagar</strong> från beställning. Leveranstider är vägledande och inte garanterade. Helger och helgdagar räknas inte.</p>
           </section>
 
           <section>

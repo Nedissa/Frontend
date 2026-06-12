@@ -29,7 +29,7 @@ export default function AboutPage() {
               </div>
               <div>
                 <h3 className="font-bold mb-1">Snabb leverans</h3>
-                <p>Vi levererar inom 1–3 arbetsdagar, var du än bor i Sverige.</p>
+                <p>Vi levererar inom 2–5 arbetsdagar, var du än bor i Sverige.</p>
               </div>
               <div>
                 <h3 className="font-bold mb-1">Kundservice</h3>
@@ -42,7 +42,7 @@ export default function AboutPage() {
             <h2 className="font-bold mb-4">3. Varför handla hos oss?</h2>
             <ul className="space-y-3">
               <li><strong>Originalprodukter med garanti.</strong> Allt vi säljer kommer från auktoriserade leverantörer och omfattas av tillverkarens garanti.</li>
-              <li><strong>Leverans inom 1–3 arbetsdagar.</strong> Vi skickar snabbt och når dig normalt inom 1–3 arbetsdagar, oavsett var i Sverige du bor.</li>
+              <li><strong>Leverans inom 2–5 arbetsdagar.</strong> Vi skickar snabbt och når dig normalt inom 2–5 arbetsdagar, oavsett var i Sverige du bor.</li>
               <li><strong>30 dagars öppet köp.</strong> Ångrar du ditt köp returnerar du enkelt inom 30 dagar, inga krångliga regler.</li>
               <li><strong>Säker betalning.</strong> Vi accepterar kort (Visa, Mastercard), Swish, PayPal och Klarna med SSL-kryptering.</li>
               <li><strong>Personlig kundservice.</strong> Hör av dig via e-post eller telefon under öppettider så svarar vi så snabbt vi kan.</li>
