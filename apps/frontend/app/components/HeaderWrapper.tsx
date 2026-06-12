@@ -924,7 +924,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
             </div>
             <div className="hidden md:block w-px h-6 bg-gray-300"></div>
             <Link href="/konto" className="hidden md:flex items-center gap-1 text-black hover:text-gray-600" style={{ minWidth: '90px' }}>
-              <span className="text-xs font-semibold" suppressHydrationWarning>{isHydrated ? (isLoggedIn ? 'Mina sidor' : 'Logga in') : 'Logga in'}</span>
+              <span className="text-xs font-semibold">{(isHydrated ? isLoggedIn : initialIsLoggedIn) ? 'Mina sidor' : 'Logga in'}</span>
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
               </svg>
@@ -1053,7 +1053,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                   </svg>
                 </span>
-                <span className="flex-1 text-sm font-semibold text-black">{isHydrated ? (isLoggedIn ? 'Mina sidor' : 'Logga in') : 'Logga in'}</span>
+                <span className="flex-1 text-sm font-semibold text-black">{(isHydrated ? isLoggedIn : initialIsLoggedIn) ? 'Mina sidor' : 'Logga in'}</span>
               </Link>
             </div>
           </div>
