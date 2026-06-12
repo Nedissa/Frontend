@@ -324,10 +324,10 @@ const SECTION_IMAGES: Record<string, string> = {
 };
 
 const ERBJUDANDEN_CAMPAIGNS = [
-  { id: 'veckans-deals', title: 'Veckans deals', bg: 'bg-gray-900', url: '/erbjudanden/veckans-deals', image: '/assets/kampanj-1.svg' },
-  { id: 'rea', title: 'Rea upp till 50%', bg: 'bg-red-700', url: '/erbjudanden/rea', image: '/assets/kampanj-2.svg' },
-  { id: 'paketpris', title: 'Paketpris', bg: 'bg-blue-900', url: '/erbjudanden/paketpris', image: '/assets/kampanj-3.svg' },
-  { id: 'lagertomning', title: 'Lagertömning', bg: 'bg-gray-800', url: '/erbjudanden/lagertomning', image: '/assets/kampanj-4.svg' },
+  { id: 'veckans-deals', title: 'Veckans deals', bg: 'bg-gray-900', url: '/erbjudanden/veckans-deals', image: '/assets/erbjudanden-1.png' },
+  { id: 'rea', title: 'Rea upp till 50%', bg: 'bg-red-700', url: '/erbjudanden/rea', image: '/assets/erbjudanden-2.png' },
+  { id: 'paketpris', title: 'Paketpris', bg: 'bg-blue-900', url: '/erbjudanden/paketpris', image: '/assets/erbjudanden-3.png' },
+  { id: 'lagertomning', title: 'Lagertömning', bg: 'bg-gray-800', url: '/erbjudanden/lagertomning', image: '/assets/erbjudanden-4.png' },
 ];
 
 const ERBJUDANDEN_DATA: MenuCategory = {
@@ -1233,8 +1233,9 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                       <p className="text-xs text-gray-400 uppercase tracking-widest mb-4">Erbjudanden</p>
                       <div className="flex gap-3">
                         {ERBJUDANDEN_CAMPAIGNS.map((b) => (
-                          <Link key={b.id} href={b.url} className={`group relative overflow-hidden rounded flex-1 flex items-end p-3 hover:opacity-90 transition-opacity ${b.bg}`} style={{ aspectRatio: '1/1' }}>
-                            <div>
+                          <Link key={b.id} href={b.url} className="group relative overflow-hidden rounded flex-1 flex items-end p-3 hover:opacity-90 transition-opacity" style={{ aspectRatio: '1/1', backgroundColor: '#111' }}>
+                            <img src={b.image} alt={b.title} className="absolute inset-0 w-full h-full object-cover" />
+                            <div className="relative z-10" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)', position: 'absolute', inset: 0, display: 'flex', alignItems: 'flex-end', padding: '12px' }}>
                               <p className="text-white font-bold text-sm">{b.title}</p>
                             </div>
                           </Link>
