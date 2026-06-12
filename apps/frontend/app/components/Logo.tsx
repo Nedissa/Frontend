@@ -1,12 +1,12 @@
 import Image from 'next/image';
 
-export function Logo() {
+export function Logo({ size = 22 }: { size?: number }) {
   return (
     <Image
       src="/logo.png"
       alt="Techpilots"
-      width={32}
-      height={32}
+      width={size}
+      height={size}
       className="flex-shrink-0"
       priority
     />

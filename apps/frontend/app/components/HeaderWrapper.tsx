@@ -699,7 +699,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
           </button>
           {/* Center: logo */}
           <Link href="/" className="inline-flex items-center gap-1 justify-self-center">
-            <div style={{ width: '32px', height: '32px' }}><Logo /></div>
+            <Logo size={32} />
             <span className="font-bold text-black" style={{ fontSize: '21px', letterSpacing: '-0.3px' }}>Techpilots</span>
           </Link>
           {/* Right: konto + kundvagn */}
@@ -774,9 +774,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       <div className="hidden md:block py-2 pt-4 px-6">
         <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
           <Link href="/" className="flex-shrink-0 flex items-center gap-1.5 pl-6">
-            <div style={{ width: '32px', height: '32px' }}>
-              <Logo />
-            </div>
+            <Logo size={32} />
             <span className="font-bold text-black" style={{ fontSize: '22px', lineHeight: '32px', letterSpacing: '-0.3px' }}>Techpilots</span>
           </Link>
 

@@ -32,7 +32,7 @@ interface Collection {
 
 const SLIDE_DURATION = 5000;
 
-export function HeroCarouselClient({ collections }: { collections: Collection[] }) {
+export function HeroBanner({ collections }: { collections: Collection[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [prevIndex, setPrevIndex] = useState<number | null>(null);
   const [sliding, setSliding] = useState(false);

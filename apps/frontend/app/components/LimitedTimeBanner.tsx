@@ -42,21 +42,23 @@ export function LimitedTimeBanner() {
   return (
     <div className="w-full">
       <style>{`
-        @keyframes gradientShift {
+        @keyframes gradientShiftBanner {
           0%   { background-position: 0% 50%; }
           50%  { background-position: 100% 50%; }
           100% { background-position: 0% 50%; }
         }
+        .speaker-badge { font-size: 9px; padding: 4px 8px; }
+        @media (min-width: 640px) { .speaker-badge { font-size: 11px; padding: 6px 12px; } }
         .banner-animated-bg {
-          background: linear-gradient(135deg, #1e3048, #4a7faa, #223344, #2e5880, #1e3048);
+          background: linear-gradient(135deg, #0a0f1a, #1a3a6e, #0d1b2e, #1e4d8c, #0a0f1a);
           background-size: 300% 300%;
-          animation: gradientShift 8s ease infinite;
+          animation: gradientShiftBanner 8s ease infinite;
         }
       `}</style>
       <div className="w-full">
-        <div className="flex flex-col-reverse sm:flex-row sm:h-[400px]">
-          {/* Left — animated */}
-          <div className="banner-animated-bg flex flex-col items-center justify-center gap-3 px-6 sm:px-10 w-full sm:w-[45%] py-8 sm:py-0 sm:h-full">
+        <div className="banner-animated-bg flex flex-col-reverse sm:flex-row sm:h-[400px]">
+          {/* Left */}
+          <div className="flex flex-col items-center justify-center gap-3 px-6 sm:px-10 w-full sm:w-[45%] py-8 sm:py-0 sm:h-full">
             <div className="flex gap-3">
               {[
                 { value: timeLeft.days, label: 'Dagar' },
@@ -84,12 +86,26 @@ export function LimitedTimeBanner() {
           </div>
 
           {/* Right — image */}
-          <div className="relative w-full sm:w-[55%] h-[200px] sm:h-full overflow-hidden" style={{ backgroundColor: '#f0f0ee' }}>
+          <div className="relative w-full sm:w-[55%] h-[200px] sm:h-full overflow-hidden">
             <img
-              src="/assets/kampanj-speaker.png"
+              src="/assets/bluetooth-speaker.webp"
               alt="Kampanj"
               className="w-full h-full object-cover"
             />
+            {/* Badge */}
+            <div className="speaker-badge absolute top-2 right-2 sm:top-4 sm:right-4" style={{
+              backgroundColor: '#f5c842',
+              color: '#111',
+              fontWeight: '700',
+              borderRadius: '4px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+              lineHeight: '1.4',
+              textAlign: 'center',
+            }}>
+              ● Sony ●<br />Bluetooth Speaker
+            </div>
           </div>
         </div>
       </div>

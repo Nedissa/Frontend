@@ -4,9 +4,9 @@ import { AboutBanner } from './components/AboutBanner';
 import { FeaturedProductSection } from './components/FeaturedProductSection';
 import { MainLayout } from './components/MainLayout';
 import { NewsletterPopup } from './components/NewsletterPopup';
-import { HeroCarouselClient } from './components/HeroCarouselClient';
+import { HeroBanner } from './components/HeroBanner';
 import { LimitedTimeBanner } from './components/LimitedTimeBanner';
-import { PerksBanner } from './components/PerksBanner';
+import { BottomBanner } from './components/BottomBanner';
 
 export const revalidate = 60;
 
@@ -113,12 +113,10 @@ export default async function Home() {
   const newProducts = [...products].sort((a: any, b: any) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()).slice(0, 8);
 
   return (
-    <div className="relative">
+    <div className="relative flex flex-col w-full">
+      <HeroBanner collections={FEATURED_COLLECTIONS} />
       <MainLayout bordered={true} noPadding={true}>
-        <div className="flex flex-col gap-4 pt-0">
-          <div className="hero-full-bleed -mb-4">
-            <HeroCarouselClient collections={FEATURED_COLLECTIONS} />
-          </div>
+        <div className="flex flex-col gap-4 pt-4">
           {products.length > 0 && (
             <>
               <ProductCarousel title="Populära produkter" products={popularProducts} variant="popular" />
@@ -133,7 +131,7 @@ export default async function Home() {
               <p className="text-gray-600">Inga produkter tillgängliga just nu.</p>
             </div>
           )}
-          <PerksBanner />
+          <BottomBanner />
           <ProductCarousel title="Relaterade produkter" products={products} variant="related" />
         </div>
       </MainLayout>

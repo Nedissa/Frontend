@@ -5,9 +5,10 @@ export function AboutBanner() {
     <div className="w-full flex flex-col sm:flex-row bg-white sm:h-[400px] overflow-hidden">
       {/* Left — image */}
       <div className="relative flex-shrink-0 w-full sm:w-[52%] h-[220px] sm:h-full" style={{
-        background: 'linear-gradient(135deg, #1e3048, #4a7faa, #223344, #2e5880, #1e3048)',
+        background: 'linear-gradient(135deg, #0a0f1a, #1a3a6e, #0d1b2e, #1e4d8c, #0a0f1a)',
         backgroundSize: '300% 300%',
         animation: 'gradientShiftAbout 8s ease infinite',
+
       }}>
         <style>{`
           @keyframes gradientShiftAbout {

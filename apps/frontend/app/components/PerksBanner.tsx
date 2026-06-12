@@ -11,7 +11,7 @@ export function PerksBanner() {
           100% { background-position: 0% 50%; }
         }
         .perks-banner-bg {
-          background: linear-gradient(135deg, #1e3048, #4a7faa, #223344, #2e5880, #1e3048);
+          background: linear-gradient(135deg, #0a0f1a, #1a3a6e, #0d1b2e, #1e4d8c, #0a0f1a);
           background-size: 300% 300%;
           animation: gradientShiftPerks 8s ease infinite;
         }
