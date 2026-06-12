@@ -137,7 +137,7 @@ export default async function Home() {
           <ProductCarousel title="Relaterade produkter" products={products} variant="related" />
         </div>
       </MainLayout>
-      <div className="fixed bottom-0 left-0 right-0 md:bottom-4 md:left-4 md:right-auto z-50">
+      <div className="fixed bottom-4 left-4 right-4 md:bottom-4 md:left-4 md:right-auto z-50">
         <NewsletterPopup />
       </div>
     </div>

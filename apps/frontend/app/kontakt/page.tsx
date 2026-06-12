@@ -130,7 +130,7 @@ export default function ContactPage() {
           )}
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
               <div>
                 <label style={labelStyle}>Ditt namn</label>
                 <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Ange ditt namn" required style={inputStyle}

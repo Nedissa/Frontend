@@ -246,12 +246,12 @@ export default function AccountPage() {
         {/* Welcome Section */}
         <div className="p-4 md:p-8 mb-6 md:mb-8 shadow-sm flex justify-between items-center" style={{ border: '1px solid #e5e7eb' }}>
           <div>
-            <h2 className="text-2xl font-bold mb-2 select-none">Välkommen, {firstName && lastName ? firstName : firstName || registerEmail?.split('@')[0] || 'Johan'}!</h2>
-            <p className="text-gray-600">Hantera ditt konto och se dina beställningar</p>
+            <h2 className="text-xl md:text-2xl font-bold mb-1 md:mb-2 select-none">Välkommen, {firstName && lastName ? firstName : firstName || registerEmail?.split('@')[0] || 'Johan'}!</h2>
+            <p className="text-sm text-gray-600">Hantera ditt konto och se dina beställningar</p>
           </div>
           <button
             onClick={handleLogout}
-            className="text-red-600 hover:text-red-800 font-semibold whitespace-nowrap ml-8"
+            className="text-red-600 hover:text-red-800 font-semibold whitespace-nowrap ml-4 text-sm"
           >
             Logga ut
           </button>
@@ -340,7 +340,8 @@ export default function AccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div style={{ maxHeight: activeTab === 'profil' ? '2000px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease', borderTop: activeTab === 'profil' ? '1px solid #e5e7eb' : 'none' }}>
+            <div style={{ display: 'grid', gridTemplateRows: activeTab === 'profil' ? '1fr' : '0fr', transition: 'grid-template-rows 0.28s ease', borderTop: '1px solid #e5e7eb' }}>
+              <div style={{ overflow: 'hidden' }}>
               <div className="p-4">
                 {/* Profil content inline */}
                 <h3 className="text-lg font-bold mb-4">Mina uppgifter</h3>
@@ -360,6 +361,7 @@ export default function AccountPage() {
                   </button>
                 </div>
               </div>
+              </div>
             </div>
           </div>
 
@@ -374,7 +376,8 @@ export default function AccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div style={{ maxHeight: activeTab === 'orderhistorik' ? '2000px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease', borderTop: activeTab === 'orderhistorik' ? '1px solid #e5e7eb' : 'none' }}>
+            <div style={{ display: 'grid', gridTemplateRows: activeTab === 'orderhistorik' ? '1fr' : '0fr', transition: 'grid-template-rows 0.28s ease', borderTop: '1px solid #e5e7eb' }}>
+              <div style={{ overflow: 'hidden' }}>
               <div className="p-4">
                 <h3 className="text-lg font-bold mb-4">Orderhistorik</h3>
                 {orders.length > 0 ? (
@@ -391,6 +394,7 @@ export default function AccountPage() {
                   <p className="text-sm text-gray-700">Du har inga beställningar än</p>
                 )}
               </div>
+              </div>
             </div>
           </div>
 
@@ -405,7 +409,8 @@ export default function AccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div style={{ maxHeight: activeTab === 'felanmalan' ? '2000px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease', borderTop: activeTab === 'felanmalan' ? '1px solid #e5e7eb' : 'none' }}>
+            <div style={{ display: 'grid', gridTemplateRows: activeTab === 'felanmalan' ? '1fr' : '0fr', transition: 'grid-template-rows 0.28s ease', borderTop: '1px solid #e5e7eb' }}>
+              <div style={{ overflow: 'hidden' }}>
               <div className="p-4">
                 <h3 className="text-lg font-bold mb-4">Felanmälan</h3>
                 {complaints.length > 0 ? (
@@ -431,6 +436,7 @@ export default function AccountPage() {
                   </div>
                 )}
               </div>
+              </div>
             </div>
           </div>
 
@@ -445,7 +451,8 @@ export default function AccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div style={{ maxHeight: activeTab === 'favoriter' ? '2000px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease', borderTop: activeTab === 'favoriter' ? '1px solid #e5e7eb' : 'none' }}>
+            <div style={{ display: 'grid', gridTemplateRows: activeTab === 'favoriter' ? '1fr' : '0fr', transition: 'grid-template-rows 0.28s ease', borderTop: '1px solid #e5e7eb' }}>
+              <div style={{ overflow: 'hidden' }}>
               <div className="p-4">
                 <h3 className="text-lg font-bold mb-4">Favoriter</h3>
                 {favoriteProducts.length > 0 ? (
@@ -464,6 +471,7 @@ export default function AccountPage() {
                   <p className="text-sm text-gray-700">Du har inga sparade favoriter än</p>
                 )}
               </div>
+              </div>
             </div>
           </div>
 
@@ -478,7 +486,8 @@ export default function AccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div style={{ maxHeight: activeTab === 'kundklubb' ? '2000px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease', borderTop: activeTab === 'kundklubb' ? '1px solid #e5e7eb' : 'none' }}>
+            <div style={{ display: 'grid', gridTemplateRows: activeTab === 'kundklubb' ? '1fr' : '0fr', transition: 'grid-template-rows 0.28s ease', borderTop: '1px solid #e5e7eb' }}>
+              <div style={{ overflow: 'hidden' }}>
               <div className="p-4">
                 <h3 className="text-lg font-bold mb-2">Kundklubb</h3>
                 <p className="text-sm text-gray-600 mb-4">Som medlem i Techpilots kundklubb får du tillgång till exklusiva priser och förmåner.</p>
@@ -487,6 +496,7 @@ export default function AccountPage() {
                 ) : (
                   <p className="text-sm text-gray-700">Din kundklubbinformation är inte tillgänglig just nu.</p>
                 )}
+              </div>
               </div>
             </div>
           </div>
