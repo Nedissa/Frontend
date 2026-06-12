@@ -923,8 +923,8 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
               <LanguageSwitcher />
             </div>
             <div className="hidden md:block w-px h-6 bg-gray-300"></div>
-            <Link href="/konto" className="hidden md:flex items-center gap-1 text-black hover:text-gray-600">
-              <span className="text-xs font-semibold">{isHydrated ? (isLoggedIn ? 'Mina sidor' : 'Logga in') : 'Logga in'}</span>
+            <Link href="/konto" className="hidden md:flex items-center gap-1 text-black hover:text-gray-600" style={{ minWidth: '90px' }}>
+              <span className="text-xs font-semibold" suppressHydrationWarning>{isHydrated ? (isLoggedIn ? 'Mina sidor' : 'Logga in') : 'Logga in'}</span>
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
               </svg>
@@ -938,10 +938,12 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                 <svg className="w-5 h-5 fill-black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
                 </svg>
-                <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-lg" style={{ display: cartCount > 0 ? 'flex' : 'none' }} suppressHydrationWarning>{cartCount}</span>
+                {isHydrated && cartCount > 0 && (
+                  <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-lg">{cartCount}</span>
+                )}
               </div>
               <div className="flex-col items-start gap-0.5 hidden md:flex" style={{ minWidth: '72px' }}>
-                <span className="text-sm font-bold text-black" suppressHydrationWarning>{cartTotal.toLocaleString('sv-SE')} kr</span>
+                <span className="text-sm font-bold text-black">{isHydrated ? cartTotal.toLocaleString('sv-SE') : '0'} kr</span>
                 <span className="text-xs font-semibold text-black">Varukorg</span>
               </div>
             </button>
