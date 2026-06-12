@@ -342,7 +342,7 @@ export default function AccountPage() {
               </svg>
             </button>
             <div style={{ display: 'grid', gridTemplateRows: activeTab === 'profil' ? '1fr' : '0fr', transition: 'grid-template-rows 0.3s ease', borderTop: '1px solid #e5e7eb' }}>
-              <div className="p-4 overflow-hidden">
+              <div className="p-4 overflow-hidden" style={{ minHeight: 0 }}>
                 {/* Profil content inline */}
                 <h3 className="text-lg font-bold mb-4">Mina uppgifter</h3>
                 {saveError && <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm">{saveError}</div>}
@@ -376,7 +376,7 @@ export default function AccountPage() {
               </svg>
             </button>
             <div style={{ display: 'grid', gridTemplateRows: activeTab === 'orderhistorik' ? '1fr' : '0fr', transition: 'grid-template-rows 0.3s ease', borderTop: '1px solid #e5e7eb' }}>
-              <div className="p-4 overflow-hidden">
+              <div className="p-4 overflow-hidden" style={{ minHeight: 0 }}>
                 <h3 className="text-lg font-bold mb-4">Orderhistorik</h3>
                 {orders.length > 0 ? (
                   <div className="space-y-3">
@@ -407,7 +407,7 @@ export default function AccountPage() {
               </svg>
             </button>
             <div style={{ display: 'grid', gridTemplateRows: activeTab === 'felanmalan' ? '1fr' : '0fr', transition: 'grid-template-rows 0.3s ease', borderTop: '1px solid #e5e7eb' }}>
-              <div className="p-4 overflow-hidden">
+              <div className="p-4 overflow-hidden" style={{ minHeight: 0 }}>
                 <h3 className="text-lg font-bold mb-4">Felanmälan</h3>
                 {complaints.length > 0 ? (
                   <div className="space-y-3">
@@ -447,7 +447,7 @@ export default function AccountPage() {
               </svg>
             </button>
             <div style={{ display: 'grid', gridTemplateRows: activeTab === 'favoriter' ? '1fr' : '0fr', transition: 'grid-template-rows 0.3s ease', borderTop: '1px solid #e5e7eb' }}>
-              <div className="p-4 overflow-hidden">
+              <div className="p-4 overflow-hidden" style={{ minHeight: 0 }}>
                 <h3 className="text-lg font-bold mb-4">Favoriter</h3>
                 {favoriteProducts.length > 0 ? (
                   <div className="space-y-3">
@@ -480,7 +480,7 @@ export default function AccountPage() {
               </svg>
             </button>
             <div style={{ display: 'grid', gridTemplateRows: activeTab === 'kundklubb' ? '1fr' : '0fr', transition: 'grid-template-rows 0.3s ease', borderTop: '1px solid #e5e7eb' }}>
-              <div className="p-4 overflow-hidden">
+              <div className="p-4 overflow-hidden" style={{ minHeight: 0 }}>
                 <h3 className="text-lg font-bold mb-2">Kundklubb</h3>
                 <p className="text-sm text-gray-600 mb-4">Som medlem i Techpilots kundklubb får du tillgång till exklusiva priser och förmåner.</p>
                 {loyalty && loyalty.total_points !== undefined ? (
