@@ -341,7 +341,7 @@ export default function AccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div style={{ display: activeTab === 'profil' ? 'block' : 'none', borderTop: '1px solid #e5e7eb' }}>
+            <div style={{ maxHeight: activeTab === 'profil' ? '2000px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease', borderTop: activeTab === 'profil' ? '1px solid #e5e7eb' : 'none' }}>
               <div className="p-4">
                 {/* Profil content inline */}
                 <h3 className="text-lg font-bold mb-4">Mina uppgifter</h3>
@@ -375,7 +375,7 @@ export default function AccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div style={{ display: activeTab === 'orderhistorik' ? 'block' : 'none', borderTop: '1px solid #e5e7eb' }}>
+            <div style={{ maxHeight: activeTab === 'orderhistorik' ? '2000px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease', borderTop: activeTab === 'orderhistorik' ? '1px solid #e5e7eb' : 'none' }}>
               <div className="p-4">
                 <h3 className="text-lg font-bold mb-4">Orderhistorik</h3>
                 {orders.length > 0 ? (
@@ -406,7 +406,7 @@ export default function AccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div style={{ display: activeTab === 'felanmalan' ? 'block' : 'none', borderTop: '1px solid #e5e7eb' }}>
+            <div style={{ maxHeight: activeTab === 'felanmalan' ? '2000px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease', borderTop: activeTab === 'felanmalan' ? '1px solid #e5e7eb' : 'none' }}>
               <div className="p-4">
                 <h3 className="text-lg font-bold mb-4">Felanmälan</h3>
                 {complaints.length > 0 ? (
@@ -446,7 +446,7 @@ export default function AccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div style={{ display: activeTab === 'favoriter' ? 'block' : 'none', borderTop: '1px solid #e5e7eb' }}>
+            <div style={{ maxHeight: activeTab === 'favoriter' ? '2000px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease', borderTop: activeTab === 'favoriter' ? '1px solid #e5e7eb' : 'none' }}>
               <div className="p-4">
                 <h3 className="text-lg font-bold mb-4">Favoriter</h3>
                 {favoriteProducts.length > 0 ? (
@@ -479,7 +479,7 @@ export default function AccountPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div style={{ display: activeTab === 'kundklubb' ? 'block' : 'none', borderTop: '1px solid #e5e7eb' }}>
+            <div style={{ maxHeight: activeTab === 'kundklubb' ? '2000px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease', borderTop: activeTab === 'kundklubb' ? '1px solid #e5e7eb' : 'none' }}>
               <div className="p-4">
                 <h3 className="text-lg font-bold mb-2">Kundklubb</h3>
                 <p className="text-sm text-gray-600 mb-4">Som medlem i Techpilots kundklubb får du tillgång till exklusiva priser och förmåner.</p>
