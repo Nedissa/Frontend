@@ -4,6 +4,19 @@ function escapeHtml(str: string): string {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+const emailHeader = `
+  <div style="background:#ffffff;padding:20px 40px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:center;gap:4px;">
+    <img src="https://techpilots.se/logo.png" alt="Techpilots" width="32" height="32" style="display:inline-block;" />
+    <span style="font-size:1.3rem;font-weight:800;color:#000;letter-spacing:-0.5px;">Techpilots</span>
+  </div>
+`;
+
+const emailFooter = `
+  <div style="padding:24px 40px;text-align:center;font-size:0.75rem;color:#aaa;border-top:1px solid #e5e7eb;">
+    Techpilots AB &bull; Skogshyddegatan 37, 506 31 Borås &bull; support@techpilots.se
+  </div>
+`;
+
 export async function POST(request: Request) {
   try {
     const { email } = await request.json();
@@ -14,22 +27,20 @@ export async function POST(request: Request) {
 
     const safeEmail = escapeHtml(email);
 
-    const html = `
-      <div style="font-family:Inter,sans-serif;max-width:600px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
-        <div style="background:#000;padding:24px 32px;">
-          <h1 style="color:#fff;margin:0;font-size:1.2rem;">Ny nyhetsbrevsprenumerant</h1>
+    const storeHtml = `
+      <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;background:#f9f9f9;">
+        ${emailHeader}
+        <div style="background:#ffffff;padding:40px;">
+          <h1 style="font-size:1.3rem;font-weight:800;color:#000;margin:0 0 16px;">Ny nyhetsbrevsprenumerant</h1>
+          <p style="font-size:0.9rem;color:#555;margin:0 0 16px;">En ny person har registrerat sig för nyhetsbrevet och 10% rabatt:</p>
+          <div style="background:#f4f4f4;border-radius:8px;padding:20px;">
+            <p style="margin:0;font-size:1rem;font-weight:700;color:#000;">${safeEmail}</p>
+          </div>
         </div>
-        <div style="padding:32px;">
-          <p style="font-size:0.875rem;color:#333;">En ny person har registrerat sig för nyhetsbrevet och 10% rabatt:</p>
-          <p style="font-size:1rem;font-weight:700;color:#000;">${safeEmail}</p>
-        </div>
-        <div style="background:#f5f5f5;padding:16px 32px;font-size:0.75rem;color:#888;">
-          Skickat via nyhetsbrevspopupen på techpilots.se
-        </div>
+        ${emailFooter}
       </div>
     `;
 
-    // Notify store
     await fetch(BREVO_API_URL, {
       method: 'POST',
       headers: { 'api-key': process.env.BREVO_API_KEY!, 'content-type': 'application/json' },
@@ -37,25 +48,23 @@ export async function POST(request: Request) {
         sender: { name: 'Techpilots Nyhetsbrev', email: 'info@techpilots.se' },
         to: [{ email: 'info@techpilots.se', name: 'Techpilots' }],
         subject: 'Ny nyhetsbrevsprenumerant',
-        htmlContent: html,
+        htmlContent: storeHtml,
       }),
     });
 
-    // Welcome email to customer
     const welcomeHtml = `
-      <div style="font-family:Inter,sans-serif;max-width:600px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
-        <div style="background:#000;padding:24px 32px;">
-          <h1 style="color:#fff;margin:0;font-size:1.2rem;">Välkommen till Techpilots!</h1>
+      <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;background:#f9f9f9;">
+        ${emailHeader}
+        <div style="background:#ffffff;padding:40px;">
+          <h1 style="font-size:1.4rem;font-weight:800;color:#000;margin:0 0 8px;">Välkommen till Techpilots!</h1>
+          <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 16px;">Kul att du är med! Som prenumerant får du <strong style="color:#000;">10% rabatt på ditt första köp</strong>. Rabatten läggs till automatiskt när du går till kassan.</p>
+          <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 32px;">Vi skickar erbjudanden och nyheter med jämna mellanrum, aldrig spam.</p>
+          <div style="text-align:center;margin:0 0 32px;">
+            <a href="https://techpilots.se/produkter" style="background:#000;color:#fff;padding:14px 36px;text-decoration:none;font-weight:700;font-size:0.9rem;border-radius:999px;display:inline-block;">Shoppa nu</a>
+          </div>
+          <p style="font-size:0.9rem;color:#555;line-height:1.7;margin:0;">Med vänliga hälsningar,<br/><strong style="color:#000;">Teamet på Techpilots</strong></p>
         </div>
-        <div style="padding:32px;">
-          <p style="font-size:0.95rem;color:#333;line-height:1.7;">Hej!</p>
-          <p style="font-size:0.95rem;color:#333;line-height:1.7;">Kul att du är med! Som prenumerant får du <strong>10% rabatt på ditt första köp</strong>. Rabatten läggs till automatiskt när du går till kassan.</p>
-          <p style="font-size:0.95rem;color:#333;line-height:1.7;">Vi skickar erbjudanden och nyheter med jämna mellanrum, aldrig spam.</p>
-          <p style="font-size:0.95rem;color:#333;line-height:1.7;margin-top:24px;">Med vänliga hälsningar,<br/><strong>Teamet på Techpilots</strong></p>
-        </div>
-        <div style="background:#f5f5f5;padding:16px 32px;font-size:0.75rem;color:#888;">
-          Techpilots AB &bull; support@techpilots.se &bull; +46 10 880 09 81
-        </div>
+        ${emailFooter}
       </div>
     `;
 
@@ -65,7 +74,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         sender: { name: 'Techpilots', email: 'info@techpilots.se' },
         to: [{ email }],
-        subject: 'Välkommen till Techpilots - 10% rabatt på ditt första köp',
+        subject: 'Välkommen till Techpilots',
         htmlContent: welcomeHtml,
       }),
     });
