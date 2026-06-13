@@ -49,10 +49,12 @@ async function fetchProductsFromAPI() {
       let imageUrl = product.images?.[0]?.url || product.thumbnail || '';
       imageUrl = imageUrl.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se').replace(/^http:\/\//, 'https://');
       let price = 0;
-      if (product.variants?.[0]?.calculated_price?.calculated_amount !== undefined) {
-        price = product.variants[0].calculated_price.calculated_amount;
-      } else if (product.variants?.[0]?.prices?.[0]?.amount) {
-        price = product.variants[0].prices[0].amount;
+      const sekVariant = product.variants?.find((v: any) => v.prices?.some((p: any) => p.currency_code === 'sek')) || product.variants?.[0];
+      if (sekVariant?.calculated_price?.calculated_amount !== undefined) {
+        price = sekVariant.calculated_price.calculated_amount;
+      } else {
+        const sekPrice = sekVariant?.prices?.find((p: any) => p.currency_code === 'sek');
+        price = sekPrice?.amount || sekVariant?.prices?.[0]?.amount || 0;
       }
       const collectionTitle = product.collection?.title || '';
       const collectionHandle = product.collection?.handle || '';
@@ -63,6 +65,7 @@ async function fetchProductsFromAPI() {
       else if (collectionTitle === 'Du kanske också gillar' || collectionHandle === 'du-kanske-ocksa-gillar') sectionCategory = 'också-gillar';
       return {
         id: product.id,
+        variantId: sekVariant?.id || '',
         title: product.title,
         handle: product.handle,
         price,

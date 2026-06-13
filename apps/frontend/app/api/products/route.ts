@@ -49,26 +49,22 @@ export async function GET() {
       imageUrl = imageUrl.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se').replace(/^http:\/\//, 'https://');
       const image = imageUrl;
 
-      // Get price from variant prices array
+      // Hitta varianten med SEK-pris — den enda som går att lägga i SEK-cart
       let price = 0;
       let originalPrice: number | undefined = undefined;
+      let sekVariant: any = null;
 
-      // Get price from first variant's prices
-      if (product.variants && product.variants.length > 0) {
-        const firstVariant = product.variants[0];
+      if (product.variants?.length > 0) {
+        sekVariant = product.variants.find((v: any) =>
+          v.prices?.some((p: any) => p.currency_code === 'sek') ||
+          v.calculated_price?.currency_code === 'sek'
+        ) || product.variants[0];
 
-        // Try calculated_price first, then fall back to prices array
-        if (firstVariant.calculated_price) {
-          const calcPrice = firstVariant.calculated_price;
-          if (calcPrice.calculated_amount !== undefined) {
-            price = calcPrice.calculated_amount;
-          } else if (calcPrice.amount) {
-            price = calcPrice.amount;
-          }
-        } else if (firstVariant.prices && firstVariant.prices.length > 0) {
-          // Use the first price in the array
-          const priceObj = firstVariant.prices[0];
-          price = priceObj.amount || 0;
+        if (sekVariant.calculated_price?.calculated_amount !== undefined) {
+          price = sekVariant.calculated_price.calculated_amount;
+        } else {
+          const sekPrice = sekVariant.prices?.find((p: any) => p.currency_code === 'sek');
+          price = sekPrice?.amount || sekVariant.prices?.[0]?.amount || 0;
         }
       }
 
@@ -90,7 +86,7 @@ export async function GET() {
 
       return {
         id: product.id,
-        variantId: product.variants?.[0]?.id || '',
+        variantId: sekVariant?.id || '',
         title: product.title,
         handle: product.handle,
         price: price,

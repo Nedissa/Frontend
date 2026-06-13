@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     const cartRes = await fetch(`${MEDUSA_URL}/store/carts`, {
       method: 'POST',
       headers: h,
-      body: JSON.stringify({ region_id: REGION_ID }),
+      body: JSON.stringify({ region_id: REGION_ID, sales_channel_id: 'sc_01KTHGHXRB6BHE8PH81SEQSBD2' }),
     });
     if (!cartRes.ok) {
       const err = await cartRes.text();
