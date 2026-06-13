@@ -1,4 +1,13 @@
 const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
+const BREVO_CONTACTS_URL = 'https://api.brevo.com/v3/contacts';
+
+async function addBrevoContact(email: string, listId = 2) {
+  await fetch(BREVO_CONTACTS_URL, {
+    method: 'POST',
+    headers: { 'api-key': process.env.BREVO_API_KEY!, 'content-type': 'application/json' },
+    body: JSON.stringify({ email, listIds: [listId], updateEnabled: true }),
+  }).catch(() => {});
+}
 
 function escapeHtml(str: string): string {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -77,6 +86,8 @@ export async function POST(request: Request) {
         htmlContent: welcomeHtml,
       }),
     });
+
+    await addBrevoContact(email);
 
     return Response.json({ success: true });
   } catch {

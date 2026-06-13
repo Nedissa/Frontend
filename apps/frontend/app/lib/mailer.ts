@@ -1,4 +1,18 @@
 const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
+const BREVO_CONTACTS_URL = 'https://api.brevo.com/v3/contacts';
+
+async function addBrevoContact(email: string, firstName: string) {
+  await fetch(BREVO_CONTACTS_URL, {
+    method: 'POST',
+    headers: { 'api-key': process.env.BREVO_API_KEY!, 'content-type': 'application/json' },
+    body: JSON.stringify({
+      email,
+      attributes: { FIRSTNAME: firstName },
+      listIds: [3],
+      updateEnabled: true,
+    }),
+  }).catch(() => {});
+}
 
 const emailHeader = `
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-bottom:1px solid #e5e7eb;"><tr><td align="center" style="padding:20px 40px;">
@@ -63,4 +77,6 @@ export async function sendWelcomeEmail(firstName: string, email: string) {
     const error = await response.json();
     throw new Error(`Brevo error: ${JSON.stringify(error)}`);
   }
+
+  await addBrevoContact(email, firstName);
 }
