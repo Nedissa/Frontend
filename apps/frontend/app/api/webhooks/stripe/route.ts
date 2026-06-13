@@ -2,6 +2,14 @@ import { Stripe } from 'stripe';
 
 const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 const MEDUSA_URL = 'https://api.techpilots.se';
+
+const COUNTRY_CODES: Record<string, string> = {
+  'sverige': 'se', 'sweden': 'se',
+  'norge': 'no', 'norway': 'no',
+  'danmark': 'dk', 'denmark': 'dk',
+  'finland': 'fi',
+  'tyskland': 'de', 'germany': 'de',
+};
 const MEDUSA_PUB_KEY = 'pk_be1d32dae17bd54fa1b82b443354fc250d222284107fd067a30caf3cf2f49b8f';
 const REGION_ID = 'reg_01KTHS2MPSXRTVGRHVJRA8P703';
 
@@ -56,7 +64,7 @@ async function createMedusaOrder(session: Stripe.Checkout.Session) {
         address_1: meta.address || '',
         postal_code: meta.postalCode || '',
         city: meta.city || '',
-        country_code: (meta.country || 'SE').toLowerCase(),
+        country_code: COUNTRY_CODES[(meta.country || 'SE').toLowerCase()] || (meta.country || 'SE').toLowerCase().slice(0, 2),
         phone: meta.phone || '',
       },
     }),

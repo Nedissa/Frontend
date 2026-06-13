@@ -7,6 +7,7 @@ import { ImageZoomDialog } from './ImageZoomDialog';
 
 export interface ProductData {
   id: string;
+  variantId?: string;
   title: string;
   handle: string;
   brand?: string;
@@ -68,6 +69,7 @@ export function ProductCard({
     const cartEvent = new CustomEvent('addToCart', {
       detail: {
         id: product.id,
+        variantId: product.variantId || '',
         title: product.title,
         price: product.price,
         originalPrice: product.originalPrice,

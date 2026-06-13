@@ -8,6 +8,7 @@ import { InputWithCheck } from '../components/InputWithCheck';
 
 interface CartItem {
   id: string;
+  variantId?: string;
   title: string;
   price: number;
   originalPrice?: number;
@@ -447,7 +448,10 @@ function CheckoutContent() {
         body: JSON.stringify({
           cartItems,
           total: finalTotal,
-          formData,
+          formData: {
+            ...formData,
+            country: countryCodeMap[formData.country] || formData.country.toLowerCase().slice(0, 2),
+          },
           shippingCost,
           shippingName: selectedShippingOption?.name || 'Frakt',
           welcomeDiscount,

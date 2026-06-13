@@ -90,6 +90,7 @@ export async function GET() {
 
       return {
         id: product.id,
+        variantId: product.variants?.[0]?.id || '',
         title: product.title,
         handle: product.handle,
         price: price,
