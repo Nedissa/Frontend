@@ -48,9 +48,9 @@ export async function POST(request: Request) {
           <h1 style="color:#fff;margin:0;font-size:1.2rem;">Välkommen till Techpilots!</h1>
         </div>
         <div style="padding:32px;">
-          <p style="font-size:0.95rem;color:#333;line-height:1.7;">Hej,</p>
-          <p style="font-size:0.95rem;color:#333;line-height:1.7;">Tack för att du registrerade dig hos oss. Som ny medlem hos Techpilots får du automatiskt <strong>10% rabatt på ditt första köp</strong> — rabatten appliceras direkt i kassan.</p>
-          <p style="font-size:0.95rem;color:#333;line-height:1.7;">Du kommer även få exklusiva erbjudanden och nyheter direkt i din inkorg.</p>
+          <p style="font-size:0.95rem;color:#333;line-height:1.7;">Hej!</p>
+          <p style="font-size:0.95rem;color:#333;line-height:1.7;">Kul att du är med! Som prenumerant får du <strong>10% rabatt på ditt första köp</strong>. Rabatten läggs till automatiskt när du går till kassan.</p>
+          <p style="font-size:0.95rem;color:#333;line-height:1.7;">Vi skickar erbjudanden och nyheter med jämna mellanrum, aldrig spam.</p>
           <p style="font-size:0.95rem;color:#333;line-height:1.7;margin-top:24px;">Med vänliga hälsningar,<br/><strong>Teamet på Techpilots</strong></p>
         </div>
         <div style="background:#f5f5f5;padding:16px 32px;font-size:0.75rem;color:#888;">

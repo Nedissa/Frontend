@@ -35,8 +35,8 @@ export async function POST(request: Request) {
               <h1 style="color:#fff;margin:0;font-size:1.2rem;">Återställ ditt lösenord</h1>
             </div>
             <div style="padding:32px;">
-              <p style="font-size:0.95rem;color:#333;line-height:1.7;">Hej,</p>
-              <p style="font-size:0.95rem;color:#333;line-height:1.7;">Vi fick en begäran om att återställa lösenordet för ditt konto på Techpilots. Klicka på knappen nedan för att välja ett nytt lösenord.</p>
+              <p style="font-size:0.95rem;color:#333;line-height:1.7;">Hej!</p>
+              <p style="font-size:0.95rem;color:#333;line-height:1.7;">Vi fick en förfrågan om att återställa lösenordet till ditt konto på Techpilots. Klicka på knappen så väljer du ett nytt lösenord.</p>
               <div style="text-align:center;margin:32px 0;">
                 <a href="${resetLink}" style="background:#000;color:#fff;padding:14px 32px;text-decoration:none;font-weight:700;font-size:0.95rem;border-radius:4px;">Återställ lösenord</a>
               </div>

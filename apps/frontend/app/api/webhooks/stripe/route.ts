@@ -18,7 +18,7 @@ async function sendOrderConfirmation(session: Stripe.Checkout.Session) {
       </div>
       <div style="background:#ffffff;padding:40px;">
         <h1 style="font-size:1.4rem;font-weight:800;color:#000;margin:0 0 8px;">Tack för din beställning!</h1>
-        <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 24px;">Hej ${name}, vi har tagit emot din beställning och den behandlas nu. Du hör av oss igen när paketet är på väg.</p>
+        <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 24px;">Hej ${name}! Vi har tagit emot din order och packar den så snart som möjligt. Leverans sker normalt inom 2 till 5 arbetsdagar. Du får ett nytt mail med spårningsnummer när paketet är på väg.</p>
         <div style="background:#f4f4f4;border-radius:8px;padding:24px;margin:0 0 24px;">
           <table style="width:100%;border-collapse:collapse;">
             <tr><td style="padding:6px 0;font-size:0.8rem;color:#888;text-transform:uppercase;letter-spacing:0.05em;">Ordernummer</td></tr>
