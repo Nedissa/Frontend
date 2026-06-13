@@ -69,8 +69,16 @@ export async function POST(request: Request) {
         address: formData.address,
         postalCode: formData.postalCode,
         city: formData.city,
-        country: formData.country,
-        phone: formData.phone,
+        country: formData.country || 'SE',
+        phone: formData.phone || '',
+        cartItems: JSON.stringify(cartItems.map((item: any) => ({
+          variantId: item.variantId,
+          quantity: item.quantity,
+          title: item.title,
+          price: item.price,
+        }))),
+        shippingCost: String(shippingCost || 0),
+        shippingName: shippingName || 'Standardleverans',
       },
     });
 
