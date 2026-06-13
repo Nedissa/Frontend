@@ -69,7 +69,7 @@ export function CartAside() {
   useEffect(() => {
     const handleAddToCart = (event: Event) => {
       const customEvent = event as CustomEvent;
-      const { id, title, price, originalPrice, quantity, image } = customEvent.detail;
+      const { id, title, price, originalPrice, quantity, image, variantId } = customEvent.detail;
       const priceNum = typeof price === 'string' ? parseInt(price) : price;
       const originalPriceNum = originalPrice ? (typeof originalPrice === 'string' ? parseInt(originalPrice) : originalPrice) : undefined;
 
@@ -81,7 +81,7 @@ export function CartAside() {
             item.id === id ? { ...item, quantity: item.quantity + (quantity || 1) } : item
           );
         } else {
-          updated = [...prev, { id, title, price: priceNum, originalPrice: originalPriceNum, quantity: quantity || 1, image }];
+          updated = [...prev, { id, title, price: priceNum, originalPrice: originalPriceNum, quantity: quantity || 1, image, variantId: variantId || '' }];
         }
         localStorage.setItem('cartItems', JSON.stringify(updated));
         sessionStorage.setItem('cartItems', JSON.stringify(updated));
