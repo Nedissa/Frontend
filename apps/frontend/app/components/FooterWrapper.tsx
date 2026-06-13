@@ -123,7 +123,7 @@ export function FooterWrapper() {
             </div>
 
             {/* Betalningsmetoder */}
-            <div className="flex flex-row flex-nowrap items-center gap-4 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+            <div className="flex flex-row flex-nowrap items-center gap-4 overflow-x-auto md:ml-auto" style={{ scrollbarWidth: 'none' }}>
               <img src="/icons/klarna-text.svg" alt="Klarna" style={{ height: '14px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
               <span style={{ color: '#444', flexShrink: 0 }}>|</span>
               <img src="/icons/visa.svg" alt="Visa" style={{ height: '20px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
