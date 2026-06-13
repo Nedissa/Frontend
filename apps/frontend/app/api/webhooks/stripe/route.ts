@@ -69,10 +69,9 @@ async function sendOrderConfirmation(session: Stripe.Checkout.Session) {
 
   const customerHtml = `
     <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;background:#f9f9f9;">
-      <div style="background:#ffffff;padding:20px 40px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:center;gap:4px;">
-        <img src="https://techpilots.se/logo.png" alt="Techpilots" width="32" height="32" style="display:inline-block;" />
-        <span style="font-size:1.3rem;font-weight:800;color:#000;letter-spacing:-0.5px;">Techpilots</span>
-      </div>
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-bottom:1px solid #e5e7eb;"><tr><td align="center" style="padding:20px 40px;">
+        <img src="https://techpilots.se/logo.png" alt="" width="28" height="28" style="vertical-align:middle;display:inline-block;" /><span style="font-size:1.2rem;font-weight:800;color:#000;letter-spacing:-0.5px;vertical-align:middle;"> Techpilots</span>
+      </td></tr></table>
       <div style="background:#ffffff;padding:40px;">
         <h1 style="font-size:1.4rem;font-weight:800;color:#000;margin:0 0 8px;">Tack för din beställning!</h1>
         <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 24px;">Hej ${name}! Vi har tagit emot din order och packar den så snart som möjligt. Leverans sker normalt inom 2 till 5 arbetsdagar. Du får ett nytt mail med spårningsnummer när paketet är på väg.</p>
@@ -97,10 +96,9 @@ async function sendOrderConfirmation(session: Stripe.Checkout.Session) {
 
   const storeHtml = `
     <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;background:#f9f9f9;">
-      <div style="background:#ffffff;padding:20px 40px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:center;gap:4px;">
-        <img src="https://techpilots.se/logo.png" alt="Techpilots" width="32" height="32" style="display:inline-block;" />
-        <span style="font-size:1.3rem;font-weight:800;color:#000;letter-spacing:-0.5px;">Techpilots</span>
-      </div>
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-bottom:1px solid #e5e7eb;"><tr><td align="center" style="padding:20px 40px;">
+        <img src="https://techpilots.se/logo.png" alt="" width="28" height="28" style="vertical-align:middle;display:inline-block;" /><span style="font-size:1.2rem;font-weight:800;color:#000;letter-spacing:-0.5px;vertical-align:middle;"> Techpilots</span>
+      </td></tr></table>
       <div style="background:#ffffff;padding:40px;">
         <h1 style="font-size:1.3rem;font-weight:800;color:#000;margin:0 0 24px;">Ny order inkommen</h1>
         <div style="background:#f4f4f4;border-radius:8px;padding:24px;">

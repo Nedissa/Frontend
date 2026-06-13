@@ -3,10 +3,9 @@ const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://techpilots.se';
 
 const emailHeader = `
-  <div style="background:#ffffff;padding:20px 40px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:center;gap:4px;">
-    <img src="https://techpilots.se/logo.png" alt="Techpilots" width="32" height="32" style="display:inline-block;" />
-    <span style="font-size:1.3rem;font-weight:800;color:#000;letter-spacing:-0.5px;">Techpilots</span>
-  </div>
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-bottom:1px solid #e5e7eb;"><tr><td align="center" style="padding:20px 40px;">
+    <img src="https://techpilots.se/logo.png" alt="" width="28" height="28" style="vertical-align:middle;display:inline-block;" /><span style="font-size:1.2rem;font-weight:800;color:#000;letter-spacing:-0.5px;vertical-align:middle;"> Techpilots</span>
+  </td></tr></table>
 `;
 
 const emailFooter = `
