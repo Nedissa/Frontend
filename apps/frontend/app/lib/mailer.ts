@@ -8,7 +8,7 @@ async function addBrevoContact(email: string, firstName: string) {
     body: JSON.stringify({
       email,
       attributes: { FIRSTNAME: firstName },
-      listIds: [3],
+      listIds: [5],
       updateEnabled: true,
     }),
   }).catch(() => {});
