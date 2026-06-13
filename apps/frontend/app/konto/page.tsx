@@ -285,19 +285,6 @@ export default function AccountPage() {
           </button>
           <button
             onClick={() => {
-              setActiveTab('felanmalan');
-              localStorage.setItem('accountTab', 'felanmalan');
-            }}
-            className={`px-6 py-3 font-semibold text-sm border-b-2 transition-colors ${
-              activeTab === 'felanmalan'
-                ? 'border-black text-black'
-                : 'border-transparent text-gray-600 hover:text-gray-900'
-            }`}
-          >
-            Felanmälan
-          </button>
-          <button
-            onClick={() => {
               setActiveTab('favoriter');
               localStorage.setItem('accountTab', 'favoriter');
             }}
@@ -321,6 +308,19 @@ export default function AccountPage() {
             }`}
           >
             Kundklubb
+          </button>
+          <button
+            onClick={() => {
+              setActiveTab('felanmalan');
+              localStorage.setItem('accountTab', 'felanmalan');
+            }}
+            className={`px-6 py-3 font-semibold text-sm border-b-2 transition-colors ${
+              activeTab === 'felanmalan'
+                ? 'border-black text-black'
+                : 'border-transparent text-gray-600 hover:text-gray-900'
+            }`}
+          >
+            Felanmälan
           </button>
         </div>
 
@@ -396,48 +396,6 @@ export default function AccountPage() {
             </div>
           </div>
 
-          {/* Felanmälan */}
-          <div className="border-t border-gray-200">
-            <button
-              onClick={() => { setActiveTab(activeTab === 'felanmalan' ? '' : 'felanmalan'); localStorage.setItem('accountTab', activeTab === 'felanmalan' ? '' : 'felanmalan'); }}
-              className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
-            >
-              <span className={activeTab === 'felanmalan' ? 'text-black' : 'text-gray-600'}>Felanmälan</span>
-              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'felanmalan' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div style={{ display: 'grid', gridTemplateRows: activeTab === 'felanmalan' ? '1fr' : '0fr', transition: 'grid-template-rows 0.28s ease', borderTop: '1px solid #e5e7eb' }}>
-              <div style={{ overflow: 'hidden' }}>
-              <div className="p-4">
-                <h3 className="text-lg font-bold mb-4">Felanmälan</h3>
-                {complaints.length > 0 ? (
-                  <div className="space-y-3">
-                    {complaints.map((complaint) => (
-                      <div key={complaint.id} className="p-3" style={{ border: '1px solid #e5e7eb' }}>
-                        <p className="font-semibold text-sm">Beställning #{complaint.order_id}</p>
-                        <p className="text-xs text-gray-600 mt-1">{complaint.description}</p>
-                        <p className="text-xs font-semibold mt-1">Status: <span className="text-blue-600">{complaint.status === 'open' ? 'Pågående' : 'Stängd'}</span></p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="space-y-3 text-sm text-gray-700">
-                    <p>Du har ingen aktiv felanmälan</p>
-                    {showComplaintForm && (
-                      <div className="space-y-3">
-                        <div><label className="block text-sm font-semibold mb-1">Ordernummer</label><input type="text" value={complaintOrderId} onChange={(e) => setComplaintOrderId(e.target.value)}  className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
-                        <div><label className="block text-sm font-semibold mb-1">Meddelande</label><textarea value={complaintDescription} onChange={(e) => setComplaintDescription(e.target.value)}  rows={3} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
-                        <button onClick={handleAddComplaint} className="w-full py-2 bg-black text-white font-semibold">Skicka felanmälan</button>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-              </div>
-            </div>
-          </div>
-
           {/* Favoriter */}
           <div className="border-t border-gray-200">
             <button
@@ -493,6 +451,48 @@ export default function AccountPage() {
                   <p className="text-sm font-semibold">Du har {loyalty.total_points} poäng</p>
                 ) : (
                   <p className="text-sm text-gray-700">Din kundklubbinformation är inte tillgänglig just nu.</p>
+                )}
+              </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Felanmälan */}
+          <div className="border-t border-gray-200">
+            <button
+              onClick={() => { setActiveTab(activeTab === 'felanmalan' ? '' : 'felanmalan'); localStorage.setItem('accountTab', activeTab === 'felanmalan' ? '' : 'felanmalan'); }}
+              className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
+            >
+              <span className={activeTab === 'felanmalan' ? 'text-black' : 'text-gray-600'}>Felanmälan</span>
+              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'felanmalan' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div style={{ display: 'grid', gridTemplateRows: activeTab === 'felanmalan' ? '1fr' : '0fr', transition: 'grid-template-rows 0.28s ease', borderTop: '1px solid #e5e7eb' }}>
+              <div style={{ overflow: 'hidden' }}>
+              <div className="p-4">
+                <h3 className="text-lg font-bold mb-4">Felanmälan</h3>
+                {complaints.length > 0 ? (
+                  <div className="space-y-3">
+                    {complaints.map((complaint) => (
+                      <div key={complaint.id} className="p-3" style={{ border: '1px solid #e5e7eb' }}>
+                        <p className="font-semibold text-sm">Beställning #{complaint.order_id}</p>
+                        <p className="text-xs text-gray-600 mt-1">{complaint.description}</p>
+                        <p className="text-xs font-semibold mt-1">Status: <span className="text-blue-600">{complaint.status === 'open' ? 'Pågående' : 'Stängd'}</span></p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="space-y-3 text-sm text-gray-700">
+                    <p>Du har ingen aktiv felanmälan</p>
+                    {showComplaintForm && (
+                      <div className="space-y-3">
+                        <div><label className="block text-sm font-semibold mb-1">Ordernummer</label><input type="text" value={complaintOrderId} onChange={(e) => setComplaintOrderId(e.target.value)}  className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                        <div><label className="block text-sm font-semibold mb-1">Meddelande</label><textarea value={complaintDescription} onChange={(e) => setComplaintDescription(e.target.value)}  rows={3} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                        <button onClick={handleAddComplaint} className="w-full py-2 bg-black text-white font-semibold">Skicka felanmälan</button>
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
               </div>
