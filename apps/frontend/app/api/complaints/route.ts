@@ -144,7 +144,10 @@ export async function POST(req: Request) {
     if (!meRes.ok) return Response.json({ error: "Failed to authenticate" }, { status: 401 })
 
     const meData = await meRes.json()
-    const customerId = meData.customer?.id || meData.id
+    const customer = meData.customer || meData
+    const customerId = customer.id
+    const customerName = `${customer.first_name || ''} ${customer.last_name || ''}`.trim()
+    const customerEmail = customer.email || ''
 
     const res = await fetch(`${MEDUSA_URL}/store/complaints`, {
       method: 'POST',
@@ -160,9 +163,9 @@ export async function POST(req: Request) {
 
     const data = await res.json()
 
-    const customerName = `${meData.customer?.first_name || ''} ${meData.customer?.last_name || ''}`.trim()
-    const customerEmail = meData.customer?.email || ''
-    sendComplaintEmails(customerName, customerEmail, order_id, description).catch(() => {})
+    if (customerEmail) {
+      sendComplaintEmails(customerName, customerEmail, order_id, description).catch(() => {})
+    }
 
     return Response.json({ complaint: data.complaint }, { status: 201 })
   } catch (error) {
