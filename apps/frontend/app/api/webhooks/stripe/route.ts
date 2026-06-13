@@ -11,45 +11,54 @@ async function sendOrderConfirmation(session: Stripe.Checkout.Session) {
   const orderId = session.id.slice(-8).toUpperCase();
 
   const customerHtml = `
-    <div style="font-family:Inter,sans-serif;max-width:600px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
-      <div style="background:#000;padding:24px 32px;">
-        <h1 style="color:#fff;margin:0;font-size:1.2rem;">Tack för din beställning!</h1>
+    <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;background:#f9f9f9;">
+      <div style="background:#ffffff;padding:32px 40px 0;text-align:center;border-bottom:1px solid #e5e7eb;">
+        <img src="https://techpilots.se/logo.png" alt="Techpilots" width="36" height="36" style="display:inline-block;margin-bottom:8px;" />
+        <p style="margin:0 0 24px;font-size:1.1rem;font-weight:800;letter-spacing:-0.3px;color:#000;">Techpilots</p>
       </div>
-      <div style="padding:32px;">
-        <p style="font-size:0.95rem;color:#333;line-height:1.7;">Hej ${name},</p>
-        <p style="font-size:0.95rem;color:#333;line-height:1.7;">Vi har tagit emot din beställning och den behandlas nu. Du hör av oss igen när paketet är på väg.</p>
-        <div style="background:#f9f9f9;border:1px solid #e5e7eb;border-radius:6px;padding:20px;margin:24px 0;">
-          <p style="margin:0 0 8px;font-size:0.85rem;color:#666;">Ordernummer</p>
-          <p style="margin:0 0 16px;font-size:1rem;font-weight:700;color:#000;">#${orderId}</p>
-          <p style="margin:0 0 8px;font-size:0.85rem;color:#666;">Leveransadress</p>
-          <p style="margin:0 0 16px;font-size:0.95rem;color:#333;">${address}</p>
-          <p style="margin:0 0 8px;font-size:0.85rem;color:#666;">Totalt</p>
-          <p style="margin:0;font-size:1rem;font-weight:700;color:#000;">${total} kr</p>
+      <div style="background:#ffffff;padding:40px;">
+        <h1 style="font-size:1.4rem;font-weight:800;color:#000;margin:0 0 8px;">Tack för din beställning!</h1>
+        <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 24px;">Hej ${name}, vi har tagit emot din beställning och den behandlas nu. Du hör av oss igen när paketet är på väg.</p>
+        <div style="background:#f4f4f4;border-radius:8px;padding:24px;margin:0 0 24px;">
+          <table style="width:100%;border-collapse:collapse;">
+            <tr><td style="padding:6px 0;font-size:0.8rem;color:#888;text-transform:uppercase;letter-spacing:0.05em;">Ordernummer</td></tr>
+            <tr><td style="padding:0 0 16px;font-size:1rem;font-weight:700;color:#000;">#${orderId}</td></tr>
+            <tr><td style="padding:6px 0;font-size:0.8rem;color:#888;text-transform:uppercase;letter-spacing:0.05em;">Leveransadress</td></tr>
+            <tr><td style="padding:0 0 16px;font-size:0.9rem;color:#333;">${address}</td></tr>
+            <tr><td style="padding:6px 0;font-size:0.8rem;color:#888;text-transform:uppercase;letter-spacing:0.05em;">Totalt</td></tr>
+            <tr><td style="padding:0;font-size:1.1rem;font-weight:800;color:#000;">${total} kr</td></tr>
+          </table>
         </div>
-        <p style="font-size:0.95rem;color:#333;line-height:1.7;">Har du frågor? Hör av dig till <a href="mailto:support@techpilots.se" style="color:#000;">support@techpilots.se</a> eller ring 010-880 09 81.</p>
-        <p style="font-size:0.95rem;color:#333;line-height:1.7;margin-top:24px;">Med vänliga hälsningar,<br/><strong>Teamet på Techpilots</strong></p>
+        <p style="font-size:0.9rem;color:#555;line-height:1.7;margin:0 0 24px;">Har du frågor? Hör av dig till <a href="mailto:support@techpilots.se" style="color:#000;font-weight:600;">support@techpilots.se</a> eller ring 010-880 09 81.</p>
+        <p style="font-size:0.9rem;color:#555;line-height:1.7;margin:0;">Med vänliga hälsningar,<br/><strong style="color:#000;">Teamet på Techpilots</strong></p>
       </div>
-      <div style="background:#f5f5f5;padding:16px 32px;font-size:0.75rem;color:#888;">
-        Techpilots AB &bull; support@techpilots.se &bull; +46 10 880 09 81
+      <div style="padding:24px 40px;text-align:center;font-size:0.75rem;color:#aaa;border-top:1px solid #e5e7eb;">
+        Techpilots AB &bull; Skogshyddegatan 37, 506 31 Borås &bull; support@techpilots.se
       </div>
     </div>
   `;
 
   const storeHtml = `
-    <div style="font-family:Inter,sans-serif;max-width:600px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
-      <div style="background:#000;padding:24px 32px;">
-        <h1 style="color:#fff;margin:0;font-size:1.2rem;">Ny order inkommen!</h1>
+    <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;background:#f9f9f9;">
+      <div style="background:#000;padding:24px 40px;text-align:center;">
+        <img src="https://techpilots.se/logo.png" alt="Techpilots" width="32" height="32" style="display:inline-block;margin-bottom:6px;filter:invert(1);" />
+        <p style="margin:0;font-size:1rem;font-weight:800;color:#fff;letter-spacing:-0.3px;">Techpilots</p>
       </div>
-      <div style="padding:32px;">
-        <p style="margin:0 0 8px;font-size:0.85rem;color:#666;">Ordernummer</p>
-        <p style="margin:0 0 16px;font-size:1rem;font-weight:700;">#${orderId}</p>
-        <p style="margin:0 0 8px;font-size:0.85rem;color:#666;">Kund</p>
-        <p style="margin:0 0 4px;font-size:0.95rem;">${name}</p>
-        <p style="margin:0 0 16px;font-size:0.95rem;color:#555;">${email}</p>
-        <p style="margin:0 0 8px;font-size:0.85rem;color:#666;">Leveransadress</p>
-        <p style="margin:0 0 16px;font-size:0.95rem;">${address}</p>
-        <p style="margin:0 0 8px;font-size:0.85rem;color:#666;">Totalt</p>
-        <p style="margin:0;font-size:1rem;font-weight:700;">${total} kr</p>
+      <div style="background:#ffffff;padding:40px;">
+        <h1 style="font-size:1.3rem;font-weight:800;color:#000;margin:0 0 24px;">Ny order inkommen</h1>
+        <div style="background:#f4f4f4;border-radius:8px;padding:24px;">
+          <table style="width:100%;border-collapse:collapse;">
+            <tr><td style="padding:6px 0;font-size:0.8rem;color:#888;text-transform:uppercase;letter-spacing:0.05em;">Ordernummer</td></tr>
+            <tr><td style="padding:0 0 16px;font-size:1rem;font-weight:700;color:#000;">#${orderId}</td></tr>
+            <tr><td style="padding:6px 0;font-size:0.8rem;color:#888;text-transform:uppercase;letter-spacing:0.05em;">Kund</td></tr>
+            <tr><td style="padding:0 0 4px;font-size:0.9rem;font-weight:600;color:#000;">${name}</td></tr>
+            <tr><td style="padding:0 0 16px;font-size:0.9rem;color:#555;">${email}</td></tr>
+            <tr><td style="padding:6px 0;font-size:0.8rem;color:#888;text-transform:uppercase;letter-spacing:0.05em;">Leveransadress</td></tr>
+            <tr><td style="padding:0 0 16px;font-size:0.9rem;color:#333;">${address}</td></tr>
+            <tr><td style="padding:6px 0;font-size:0.8rem;color:#888;text-transform:uppercase;letter-spacing:0.05em;">Totalt</td></tr>
+            <tr><td style="padding:0;font-size:1.2rem;font-weight:800;color:#000;">${total} kr</td></tr>
+          </table>
+        </div>
       </div>
     </div>
   `;
