@@ -68,7 +68,7 @@ export default function CookiePolicyPage() {
             <h2 className="font-bold mb-4">6. Tredjepartscookies</h2>
             <p className="mb-3">Följande tredjepartstjänster kan sätta cookies på techpilots.se:</p>
             <ul>
-              <li><strong>Tidio:</strong> Live-chat för kundservice — aktiveras endast vid samtycke</li>
+              <li><strong>Tidio:</strong> Live-chat för kundservice, aktiveras endast vid samtycke</li>
               <li><strong>Stripe / Klarna:</strong> Nödvändigt för att genomföra betalningar</li>
             </ul>
             <p className="mt-3">Dessa tjänsters egna integritetspolicyer gäller för deras cookies.</p>

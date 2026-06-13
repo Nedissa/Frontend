@@ -38,9 +38,9 @@ function timeAgo(dateStr: string): string {
 
 const DUMMY_POSTS: Post[] = [
   { id: 'd1', title: 'Bästa laptoparna 2026', slug: '#', createdAt: new Date(Date.now() - 1000*60*60*24*5).toISOString(), categories: [{ title: 'Guider' }], meta: { description: 'Vi har testat och jämfört de bästa laptoparna på marknaden just nu.' } },
-  { id: 'd2', title: 'Så väljer du rätt grafikkort', slug: '#', createdAt: new Date(Date.now() - 1000*60*60*24*12).toISOString(), categories: [{ title: 'Datorkomponenter' }], meta: { description: 'GPU-marknaden är stor och förvirrande — här är vad du ska tänka på.' } },
+  { id: 'd2', title: 'Så väljer du rätt grafikkort', slug: '#', createdAt: new Date(Date.now() - 1000*60*60*24*12).toISOString(), categories: [{ title: 'Datorkomponenter' }], meta: { description: 'GPU-marknaden är stor och förvirrande. Här är vad du ska tänka på.' } },
   { id: 'd3', title: 'Gaming-setup på budget 2026', slug: '#', createdAt: new Date(Date.now() - 1000*60*60*24*20).toISOString(), categories: [{ title: 'Gaming' }], meta: { description: 'Du behöver inte spendera en förmögenhet för att få ett bra gaming-setup.' } },
-  { id: 'd4', title: 'Nätverk hemma — allt du behöver veta', slug: '#', createdAt: new Date(Date.now() - 1000*60*60*24*30).toISOString(), categories: [{ title: 'Nätverk' }], meta: { description: 'Mesh, router eller switch? Vi reder ut begreppen och ger konkreta råd.' } },
+  { id: 'd4', title: 'Nätverk hemma: allt du behöver veta', slug: '#', createdAt: new Date(Date.now() - 1000*60*60*24*30).toISOString(), categories: [{ title: 'Nätverk' }], meta: { description: 'Mesh, router eller switch? Vi reder ut begreppen och ger konkreta råd.' } },
 ];
 
 const GRADIENTS = [

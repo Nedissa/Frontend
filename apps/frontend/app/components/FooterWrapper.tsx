@@ -11,7 +11,7 @@ export function FooterWrapper() {
           <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-0 sm:gap-6 lg:gap-12 mb-0 sm:mb-12 sm:border-b sm:border-gray-800 sm:pb-12 text-white [&>div]:border-b [&>div]:border-gray-800 [&>div]:pb-6 [&>div]:pt-6 sm:[&>div]:border-b-0 sm:[&>div]:pt-0 [&>div:last-child]:border-b-0">
             {/* Logo section */}
             <div>
-              <div className="flex items-center gap-2 mb-6">
+              <div className="flex items-center gap-1 mb-6">
                 <Logo />
                 <h2 className="text-lg font-bold">Techpilots</h2>
               </div>

@@ -24,13 +24,13 @@ export default function ReturnPolicyPage() {
           <section>
             <h2 className="font-bold mb-4">2. Returvillkor</h2>
             <p className="mb-4">
-              Du har rätt att returnera en produkt inom <strong>30 dagar</strong> från mottagandet om produkten är oanvänd och i originalskick. För att en returering ska godkännas måste följande villkor uppfyllas:
+              Du har rätt att returnera en produkt inom <strong>30 dagar</strong> från mottagandet om produkten är oanvänd och i originalskick. För att en retur ska godkännas måste följande villkor uppfyllas:
             </p>
             <h4 className="font-bold mb-2">Produkten måste vara:</h4>
             <ul className="mb-4">
               <li>I originalskick och oanvänd</li>
               <li>I originalförpackning</li>
-              <li>Med all tillbehör medföljade</li>
+              <li>Med allt tillbehör medföljet</li>
               <li>Utan synlig skada</li>
             </ul>
             <h4 className="font-bold mb-2">Du måste:</h4>
@@ -57,11 +57,11 @@ export default function ReturnPolicyPage() {
           <section>
             <h2 className="font-bold mb-4">4. Returprocess - steg för steg</h2>
             <ol>
-              <li><strong>Kontakta oss för godkännande.</strong> Skicka ett e-mail till support@techpilots.se med ditt ordernummer och anledningen till returningen. Du kan också ringa +46 10 880 09 81.</li>
-              <li><strong>Få returetikett och godkännande.</strong> Vi granskar din returering och skickar instruktioner tillsammans med en returfraktsedel. Returering godkänns normalt inom 24 timmar.</li>
-              <li><strong>Packa produkten säkert.</strong> Packa produkten i originalförpackningen tillsammans med all tillbehör och eventuell dokumentation. Se till att allt är väl skyddat för transporten.</li>
-              <li><strong>Skicka tillbaka.</strong> Använd returetikettern och skicka paketet till vår returadress. Du måste skicka det inom 30 dagar från när du mottagit produkten. Spara ditt spårningsnummer.</li>
-              <li><strong>Få pengaråterbetalning.</strong> När vi mottar och inspekterar produkten godkänner vi returningen. Du får pengaråterbetalning inom 5–7 arbetsdagar.</li>
+              <li><strong>Kontakta oss.</strong> Skicka e-post till support@techpilots.se med ditt ordernummer och anledningen till returen. Du kan också ringa +46 10 880 09 81.</li>
+              <li><strong>Få returetikett.</strong> Vi granskar din retur och skickar instruktioner med en returfraktsedel. Returer godkänns normalt inom 24 timmar.</li>
+              <li><strong>Packa produkten säkert.</strong> Packa produkten i originalförpackningen med allt tillbehör och eventuell dokumentation. Se till att allt är väl skyddat för transporten.</li>
+              <li><strong>Skicka tillbaka.</strong> Använd returfraktsedeln och skicka paketet till vår returadress inom 30 dagar från mottagandet. Spara ditt spårningsnummer.</li>
+              <li><strong>Återbetalning.</strong> När vi mottagit och inspekterat produkten genomförs återbetalningen inom 5–7 arbetsdagar.</li>
             </ol>
           </section>
 
@@ -72,7 +72,7 @@ export default function ReturnPolicyPage() {
               <li><strong>Spara förpackningen.</strong> Behåll all originalförpackning och transportmaterial. Detta är viktigt för att vi ska kunna dokumentera skadan och få ersättning från försäkringen.</li>
               <li><strong>Kontakta oss inom 48 timmar.</strong> Skicka ett e-mail till support@techpilots.se eller ring +46 10 880 09 81 med ditt ordernummer och bilder av skadan.</li>
               <li><strong>Vi granskar och godkänner.</strong> Vi granskar bilderna och godkänner skadeanmälan. Du kommer att få instruktioner om nästa steg.</li>
-              <li><strong>Vi skickar ersättning.</strong> Vi skickar en ny produkt eller pengaråterbetalning omedelbart efter godkännandet. Vi betalar frakten för bytet.</li>
+              <li><strong>Vi skickar ersättning.</strong> Vi skickar en ny produkt eller återbetalning omedelbart efter godkännandet. Vi betalar frakten för bytet.</li>
             </ol>
             <p className="mt-4"><strong>Viktigt:</strong> Rapportera skador inom 48 timmar från mottagandet. Detta säkerställer att vi kan göra ett försäkringskrav hos transportören.</p>
           </section>
@@ -86,7 +86,7 @@ export default function ReturnPolicyPage() {
             <ol>
               <li>Dokumentera defekten med bilder eller video</li>
               <li>Kontakta support@techpilots.se med ordernummer och dokumentation</li>
-              <li>Vi erbjuder antingen byte eller pengaråterbetalning för defekta produkter</li>
+              <li>Vi erbjuder antingen byte eller återbetalning för defekta produkter</li>
               <li>Frakt täcks av oss för byte under garantiperioden</li>
             </ol>
           </section>

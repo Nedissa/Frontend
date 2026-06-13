@@ -27,7 +27,7 @@ export function PerksBanner() {
         className="w-full sm:w-1/2 flex flex-col items-center justify-center gap-4 px-6 sm:px-10 text-center py-8 sm:py-0"
       >
         <p className="text-xs font-bold uppercase tracking-widest text-blue-300">Exklusivt erbjudande</p>
-        <h2 className="text-2xl font-bold text-white leading-tight">Sonos högtalare — upp till 30% rabatt</h2>
+        <h2 className="text-2xl font-bold text-white leading-tight">Sonos högtalare: upp till 30% rabatt</h2>
         <p className="text-sm text-gray-300">Begränsat antal. Passa på nu.</p>
         <Link
           href="/erbjudanden"

@@ -773,7 +773,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       {/* ── DESKTOP HEADER ── */}
       <div className="hidden md:block py-2 pt-4 px-6">
         <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
-          <Link href="/" className="flex-shrink-0 flex items-center gap-1.5 pl-6">
+          <Link href="/" className="flex-shrink-0 flex items-center gap-1 pl-6">
             <Logo size={32} />
             <span className="font-bold text-black" style={{ fontSize: '22px', lineHeight: '32px', letterSpacing: '-0.3px' }}>Techpilots</span>
           </Link>

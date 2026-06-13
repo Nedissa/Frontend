@@ -16,8 +16,8 @@ export function BottomBanner() {
         }
         .bottom-ribbon {
           position: absolute;
-          top: 26px;
-          right: -55px;
+          top: 40px;
+          right: -40px;
           width: 220px;
           background-color: #f5c842;
           color: #111;
@@ -83,7 +83,7 @@ export function BottomBanner() {
 
         <div className="bottom-banner-text-col">
           <p className="text-xs font-bold uppercase tracking-widest text-blue-300">Exklusivt erbjudande</p>
-          <h2 className="text-xl sm:text-2xl font-bold text-white leading-tight">Nintendo Kontroller — spela som ett proffs</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-white leading-tight">Nintendo Kontroller: spela som ett proffs</h2>
           <p className="text-sm text-gray-300">Officiella kontroller för Switch. Begränsat antal.</p>
         </div>
       </div>

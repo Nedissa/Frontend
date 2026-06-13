@@ -24,7 +24,7 @@ export default function PrivacyPolicyPage() {
             <ul>
               <li><strong>Identitetsuppgifter:</strong> För- och efternamn</li>
               <li><strong>Kontaktuppgifter:</strong> E-postadress, telefonnummer och leveransadress</li>
-              <li><strong>Betalningsuppgifter:</strong> Vald betalningsmetod — vi lagrar aldrig dina kortuppgifter</li>
+              <li><strong>Betalningsuppgifter:</strong> Vald betalningsmetod (vi lagrar aldrig dina kortuppgifter)</li>
               <li><strong>Orderuppgifter:</strong> Beställda produkter, ordernummer, leveransstatus och köphistorik</li>
               <li><strong>Garantiärenden:</strong> Uppgifter om reklamationer och garantiärenden på elektronikprodukter</li>
               <li><strong>Tekniska uppgifter:</strong> IP-adress, webbläsartyp och enhetsinformation</li>

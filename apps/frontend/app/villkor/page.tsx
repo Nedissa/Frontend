@@ -50,7 +50,7 @@ export default function TermsPage() {
               För konsumenter sker betalning med betalkort (Visa, Mastercard), Swish, PayPal eller Klarna. Betalningen måste genomföras för att beställningen ska behandlas.
             </p>
             <p className="mb-3">
-              Vi använder säkra betalningslösningar som är PCI DSS-certifierade. Vi lagrar aldrig dina fullständiga betalningsuppgifter — alla transaktioner hanteras av tredjepartsbetalningsleverantörer.
+              Vi använder säkra betalningslösningar som är PCI DSS-certifierade. Vi lagrar aldrig dina fullständiga betalningsuppgifter. Alla transaktioner hanteras av tredjepartsbetalningsleverantörer.
             </p>
             <p>
               För försäljning till minderårig krävs målsmans skriftliga godkännande.
@@ -75,7 +75,7 @@ export default function TermsPage() {
             <p className="mb-3">För leverans debiteras fraktkostnader enligt vår fraktprislista:</p>
             <ul className="mb-3">
               <li>Standardleverans: Gratis</li>
-              <li>Express-leverans: 199 SEK (beställ före 12:00)</li>
+              <li>Expressfrakt: 99 kr</li>
             </ul>
             <p>
               För försändelser som ej är utlösta debiteras en avgift om 249 kr inklusive moms.

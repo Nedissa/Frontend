@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Kontakta oss | Techpilots',
-  description: 'Har du frågor om en order, produkt eller leverans? Kontakta Techpilots — vi svarar snabbt via telefon eller e-post.',
+  description: 'Har du frågor om en order, produkt eller leverans? Kontakta Techpilotsvi svarar snabbt via telefon eller e-post.',
   openGraph: {
     title: 'Kontakta oss | Techpilots',
     description: 'Har du frågor om en order, produkt eller leverans? Kontakta Techpilots.',
