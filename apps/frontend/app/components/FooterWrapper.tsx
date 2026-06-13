@@ -96,7 +96,7 @@ export function FooterWrapper() {
           </div>
 
           {/* Certifieringar + Betalningsmetoder — på desktop på samma rad */}
-          <div className="py-6 border-b border-gray-800 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div className="py-6 border-b border-gray-800 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             {/* Certifieringar */}
             <div>
               <h3 className="font-bold mb-4 text-sm">Säkerhet & Certifieringar</h3>
