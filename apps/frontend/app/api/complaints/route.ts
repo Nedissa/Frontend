@@ -4,6 +4,10 @@ const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localho
 const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '';
 const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 
+function esc(str: string): string {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
 async function sendComplaintEmails(customerName: string, customerEmail: string, orderId: string, description: string) {
   const caseId = `RK-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
 
@@ -14,7 +18,7 @@ async function sendComplaintEmails(customerName: string, customerEmail: string, 
       </td></tr></table>
       <div style="background:#ffffff;padding:40px;">
         <h1 style="font-size:1.4rem;font-weight:800;color:#000;margin:0 0 8px;">Vi har tagit emot din reklamation</h1>
-        <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 24px;">Hej ${customerName}! Vi har tagit emot ditt ärende och återkommer inom 1 till 2 arbetsdagar med mer information.</p>
+        <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 24px;">Hej ${esc(customerName)}! Vi har tagit emot ditt ärende och återkommer inom 1 till 2 arbetsdagar med mer information.</p>
         <div style="background:#f4f4f4;border-radius:8px;padding:24px;margin:0 0 24px;">
           <table style="width:100%;border-collapse:collapse;">
             <tr><td style="padding:6px 0;font-size:0.8rem;color:#888;text-transform:uppercase;letter-spacing:0.05em;">Ärendenummer</td></tr>
@@ -46,12 +50,12 @@ async function sendComplaintEmails(customerName: string, customerEmail: string, 
             <tr><td style="padding:6px 0;font-size:0.8rem;color:#888;text-transform:uppercase;letter-spacing:0.05em;">Ärendenummer</td></tr>
             <tr><td style="padding:0 0 16px;font-size:1rem;font-weight:700;color:#000;">#${caseId}</td></tr>
             <tr><td style="padding:6px 0;font-size:0.8rem;color:#888;text-transform:uppercase;letter-spacing:0.05em;">Kund</td></tr>
-            <tr><td style="padding:0 0 4px;font-size:0.9rem;font-weight:600;color:#000;">${customerName}</td></tr>
-            <tr><td style="padding:0 0 16px;font-size:0.9rem;color:#555;">${customerEmail}</td></tr>
+            <tr><td style="padding:0 0 4px;font-size:0.9rem;font-weight:600;color:#000;">${esc(customerName)}</td></tr>
+            <tr><td style="padding:0 0 16px;font-size:0.9rem;color:#555;">${esc(customerEmail)}</td></tr>
             <tr><td style="padding:6px 0;font-size:0.8rem;color:#888;text-transform:uppercase;letter-spacing:0.05em;">Ordernummer</td></tr>
-            <tr><td style="padding:0 0 16px;font-size:0.9rem;font-weight:700;color:#000;">${orderId}</td></tr>
+            <tr><td style="padding:0 0 16px;font-size:0.9rem;font-weight:700;color:#000;">${esc(orderId)}</td></tr>
             <tr><td style="padding:6px 0;font-size:0.8rem;color:#888;text-transform:uppercase;letter-spacing:0.05em;">Beskrivning</td></tr>
-            <tr><td style="padding:0;font-size:0.9rem;color:#333;line-height:1.6;">${description}</td></tr>
+            <tr><td style="padding:0;font-size:0.9rem;color:#333;line-height:1.6;">${esc(description)}</td></tr>
           </table>
         </div>
       </div>

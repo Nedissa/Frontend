@@ -160,9 +160,9 @@ export async function POST(request: Request) {
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session;
     if (session.payment_status === 'paid') {
-      await Promise.all([
+      await Promise.allSettled([
         sendOrderConfirmation(session),
-        createMedusaOrder(session).catch(() => {}),
+        createMedusaOrder(session),
       ]);
     }
   }

@@ -23,20 +23,22 @@ export async function sendWelcomeEmail(firstName: string, email: string) {
         <div style="text-align:center;margin:0 0 32px;">
           <a href="https://techpilots.se/produkter" style="background:#000;color:#fff;padding:14px 36px;text-decoration:none;font-weight:700;font-size:0.9rem;border-radius:999px;display:inline-block;">Shoppa nu</a>
         </div>
-        <div style="border-top:1px solid #e5e7eb;padding-top:24px;display:flex;gap:0;">
-          <div style="flex:1;padding-right:16px;">
-            <p style="margin:0 0 4px;font-size:0.8rem;font-weight:700;color:#000;">Fri frakt</p>
-            <p style="margin:0;font-size:0.75rem;color:#888;">På alla beställningar</p>
-          </div>
-          <div style="flex:1;padding-right:16px;">
-            <p style="margin:0 0 4px;font-size:0.8rem;font-weight:700;color:#000;">30 dagars öppet köp</p>
-            <p style="margin:0;font-size:0.75rem;color:#888;">Enkel retur utan krångel</p>
-          </div>
-          <div style="flex:1;">
-            <p style="margin:0 0 4px;font-size:0.8rem;font-weight:700;color:#000;">Kundservice</p>
-            <p style="margin:0;font-size:0.75rem;color:#888;">Mån till fre 09 till 17</p>
-          </div>
-        </div>
+        <table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #e5e7eb;padding-top:24px;">
+          <tr>
+            <td width="33%" style="padding-top:24px;padding-right:16px;vertical-align:top;">
+              <p style="margin:0 0 4px;font-size:0.8rem;font-weight:700;color:#000;">Fri frakt</p>
+              <p style="margin:0;font-size:0.75rem;color:#888;">På alla beställningar</p>
+            </td>
+            <td width="33%" style="padding-top:24px;padding-right:16px;vertical-align:top;">
+              <p style="margin:0 0 4px;font-size:0.8rem;font-weight:700;color:#000;">30 dagars öppet köp</p>
+              <p style="margin:0;font-size:0.75rem;color:#888;">Enkel retur utan krångel</p>
+            </td>
+            <td width="33%" style="padding-top:24px;vertical-align:top;">
+              <p style="margin:0 0 4px;font-size:0.8rem;font-weight:700;color:#000;">Kundservice</p>
+              <p style="margin:0;font-size:0.75rem;color:#888;">Mån till fre 09 till 17</p>
+            </td>
+          </tr>
+        </table>
       </div>
       ${emailFooter}
     </div>
