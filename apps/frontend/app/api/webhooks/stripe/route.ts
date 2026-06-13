@@ -2,25 +2,48 @@ import { Stripe } from 'stripe';
 
 const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
 const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'https://api.techpilots.se';
-const MEDUSA_ADMIN_KEY = process.env.MEDUSA_ADMIN_KEY || '';
+const MEDUSA_PUB_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '';
+const REGION_ID = 'reg_01KTHS2MPSXRTVGRHVJRA8P703';
+
+const storeHeaders = {
+  'Content-Type': 'application/json',
+  'x-publishable-api-key': MEDUSA_PUB_KEY,
+};
 
 async function createMedusaOrder(session: Stripe.Checkout.Session) {
   const meta = session.metadata || {};
   const email = session.customer_email || '';
-  const cartItemsRaw = meta.cartItems ? JSON.parse(meta.cartItems) : [];
+  const cartItemsRaw: Array<{ variantId: string; quantity: number }> = meta.cartItems
+    ? JSON.parse(meta.cartItems)
+    : [];
 
-  if (!cartItemsRaw.length) return null;
+  if (!cartItemsRaw.length || !email) return null;
 
-  const res = await fetch(`${MEDUSA_URL}/admin/orders`, {
+  // 1. Skapa cart
+  const cartRes = await fetch(`${MEDUSA_URL}/store/carts`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-medusa-access-token': MEDUSA_ADMIN_KEY,
-    },
+    headers: storeHeaders,
+    body: JSON.stringify({ region_id: REGION_ID }),
+  });
+  if (!cartRes.ok) return null;
+  const { cart } = await cartRes.json();
+  const cartId = cart.id;
+
+  // 2. Lägg till produkter
+  for (const item of cartItemsRaw) {
+    await fetch(`${MEDUSA_URL}/store/carts/${cartId}/line-items`, {
+      method: 'POST',
+      headers: storeHeaders,
+      body: JSON.stringify({ variant_id: item.variantId, quantity: item.quantity }),
+    });
+  }
+
+  // 3. Sätt email och leveransadress
+  await fetch(`${MEDUSA_URL}/store/carts/${cartId}`, {
+    method: 'POST',
+    headers: storeHeaders,
     body: JSON.stringify({
       email,
-      region_id: 'reg_01KTHS2MPSXRTVGRHVJRA8P703',
-      currency_code: 'sek',
       shipping_address: {
         first_name: meta.firstName || '',
         last_name: meta.lastName || '',
@@ -30,18 +53,45 @@ async function createMedusaOrder(session: Stripe.Checkout.Session) {
         country_code: (meta.country || 'SE').toLowerCase(),
         phone: meta.phone || '',
       },
-      items: cartItemsRaw.map((item: any) => ({
-        variant_id: item.variantId,
-        quantity: item.quantity,
-        unit_price: Math.round((item.price || 0) * 100),
-        title: item.title,
-      })),
     }),
   });
 
-  if (!res.ok) return null;
-  const data = await res.json();
-  return data.order;
+  // 4. Välj fraktmetod (ta första tillgängliga)
+  const shippingRes = await fetch(`${MEDUSA_URL}/store/shipping-options?cart_id=${cartId}`, {
+    headers: storeHeaders,
+  });
+  if (shippingRes.ok) {
+    const { shipping_options } = await shippingRes.json();
+    if (shipping_options?.length) {
+      await fetch(`${MEDUSA_URL}/store/carts/${cartId}/shipping-methods`, {
+        method: 'POST',
+        headers: storeHeaders,
+        body: JSON.stringify({ option_id: shipping_options[0].id }),
+      });
+    }
+  }
+
+  // 5. Initiera payment session för Stripe
+  await fetch(`${MEDUSA_URL}/store/carts/${cartId}/payment-sessions`, {
+    method: 'POST',
+    headers: storeHeaders,
+  });
+
+  await fetch(`${MEDUSA_URL}/store/carts/${cartId}/payment-session`, {
+    method: 'POST',
+    headers: storeHeaders,
+    body: JSON.stringify({ provider_id: 'pp_stripe_stripe' }),
+  });
+
+  // 6. Komplettera ordern
+  const completeRes = await fetch(`${MEDUSA_URL}/store/carts/${cartId}/complete`, {
+    method: 'POST',
+    headers: storeHeaders,
+  });
+
+  if (!completeRes.ok) return null;
+  const result = await completeRes.json();
+  return result.order || result.data || null;
 }
 
 async function sendOrderConfirmation(session: Stripe.Checkout.Session) {
