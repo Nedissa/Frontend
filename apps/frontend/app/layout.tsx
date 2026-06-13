@@ -5,8 +5,21 @@ import { CookieBanner } from './components/CookieBanner';
 import { cookies } from 'next/headers';
 
 export const metadata: Metadata = {
-  title: 'Techpilots - Datorkomponenter och Datorer',
-  description: 'Köp högkvalitativa datorer, komponenter och tillbehör',
+  title: {
+    default: 'Techpilots — Gaming & Teknik | Fri frakt',
+    template: '%s | Techpilots',
+  },
+  description: 'Köp gaming-laptops, grafikkort, processorer och tillbehör hos Techpilots. Fri standardleverans, bästa priser och snabb service från Borås.',
+  metadataBase: new URL('https://techpilots.se'),
+  openGraph: {
+    siteName: 'Techpilots',
+    locale: 'sv_SE',
+    type: 'website',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default async function RootLayout({

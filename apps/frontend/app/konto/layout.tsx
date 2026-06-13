@@ -1,4 +1,11 @@
+import type { Metadata } from 'next';
 import { cookies } from 'next/headers';
+
+export const metadata: Metadata = {
+  title: 'Mitt konto | Techpilots',
+  description: 'Hantera ditt konto, se orderhistorik, favoriter och dina uppgifter hos Techpilots.',
+  robots: { index: false, follow: false },
+};
 import { redirect } from 'next/navigation';
 import { KontoProvider, type KontoData } from './konto-context';
 

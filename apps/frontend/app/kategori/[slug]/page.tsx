@@ -1,7 +1,23 @@
+import type { Metadata } from 'next';
 import { MainLayout } from '@/app/components/MainLayout';
 import { Breadcrumb } from '@/app/components/Breadcrumb';
 import { MAIN_CATEGORIES } from '@/app/lib/products';
 import CategoryClient from './CategoryClient';
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const categoryTitle = MAIN_CATEGORIES[slug];
+  if (!categoryTitle) return {};
+  return {
+    title: `${categoryTitle} | Techpilots`,
+    description: `Köp ${categoryTitle.toLowerCase()} hos Techpilots. Stort urval, fri frakt och bästa priser.`,
+    openGraph: {
+      title: `${categoryTitle} | Techpilots`,
+      description: `Köp ${categoryTitle.toLowerCase()} hos Techpilots. Stort urval och fri frakt.`,
+      url: `https://techpilots.se/kategori/${slug}`,
+    },
+  };
+}
 
 export const revalidate = false;
 
