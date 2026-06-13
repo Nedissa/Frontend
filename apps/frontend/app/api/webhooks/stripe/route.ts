@@ -1,14 +1,16 @@
 import { Stripe } from 'stripe';
 
 const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
-const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'https://api.techpilots.se';
-const MEDUSA_PUB_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '';
+const MEDUSA_URL = 'https://api.techpilots.se';
+const MEDUSA_PUB_KEY = 'pk_be1d32dae17bd54fa1b82b443354fc250d222284107fd067a30caf3cf2f49b8f';
 const REGION_ID = 'reg_01KTHS2MPSXRTVGRHVJRA8P703';
 
-const storeHeaders = {
-  'Content-Type': 'application/json',
-  'x-publishable-api-key': MEDUSA_PUB_KEY,
-};
+function storeHeaders() {
+  return {
+    'Content-Type': 'application/json',
+    'x-publishable-api-key': MEDUSA_PUB_KEY,
+  };
+}
 
 async function createMedusaOrder(session: Stripe.Checkout.Session) {
   const meta = session.metadata || {};
@@ -22,26 +24,30 @@ async function createMedusaOrder(session: Stripe.Checkout.Session) {
   // 1. Skapa cart
   const cartRes = await fetch(`${MEDUSA_URL}/store/carts`, {
     method: 'POST',
-    headers: storeHeaders,
+    headers: storeHeaders(),
     body: JSON.stringify({ region_id: REGION_ID }),
   });
-  if (!cartRes.ok) return null;
+  if (!cartRes.ok) {
+    console.error('[Medusa] cart create failed', cartRes.status, await cartRes.text());
+    return null;
+  }
   const { cart } = await cartRes.json();
   const cartId = cart.id;
 
   // 2. Lägg till produkter
   for (const item of cartItemsRaw) {
-    await fetch(`${MEDUSA_URL}/store/carts/${cartId}/line-items`, {
+    const r = await fetch(`${MEDUSA_URL}/store/carts/${cartId}/line-items`, {
       method: 'POST',
-      headers: storeHeaders,
+      headers: storeHeaders(),
       body: JSON.stringify({ variant_id: item.variantId, quantity: item.quantity }),
     });
+    if (!r.ok) console.error('[Medusa] line-item failed', item.variantId, await r.text());
   }
 
   // 3. Sätt email och leveransadress
-  await fetch(`${MEDUSA_URL}/store/carts/${cartId}`, {
+  const updateRes = await fetch(`${MEDUSA_URL}/store/carts/${cartId}`, {
     method: 'POST',
-    headers: storeHeaders,
+    headers: storeHeaders(),
     body: JSON.stringify({
       email,
       shipping_address: {
@@ -55,41 +61,48 @@ async function createMedusaOrder(session: Stripe.Checkout.Session) {
       },
     }),
   });
+  if (!updateRes.ok) console.error('[Medusa] cart update failed', await updateRes.text());
 
-  // 4. Välj fraktmetod (ta första tillgängliga)
+  // 4. Välj fraktmetod
   const shippingRes = await fetch(`${MEDUSA_URL}/store/shipping-options?cart_id=${cartId}`, {
-    headers: storeHeaders,
+    headers: storeHeaders(),
   });
   if (shippingRes.ok) {
     const { shipping_options } = await shippingRes.json();
     if (shipping_options?.length) {
-      await fetch(`${MEDUSA_URL}/store/carts/${cartId}/shipping-methods`, {
+      const sr = await fetch(`${MEDUSA_URL}/store/carts/${cartId}/shipping-methods`, {
         method: 'POST',
-        headers: storeHeaders,
+        headers: storeHeaders(),
         body: JSON.stringify({ option_id: shipping_options[0].id }),
       });
+      if (!sr.ok) console.error('[Medusa] shipping failed', await sr.text());
     }
   }
 
-  // 5. Initiera payment session för Stripe
-  await fetch(`${MEDUSA_URL}/store/carts/${cartId}/payment-sessions`, {
+  // 5. Initiera payment sessions
+  const psRes = await fetch(`${MEDUSA_URL}/store/carts/${cartId}/payment-sessions`, {
     method: 'POST',
-    headers: storeHeaders,
+    headers: storeHeaders(),
   });
+  if (!psRes.ok) console.error('[Medusa] payment-sessions failed', await psRes.text());
 
-  await fetch(`${MEDUSA_URL}/store/carts/${cartId}/payment-session`, {
+  const psSelectRes = await fetch(`${MEDUSA_URL}/store/carts/${cartId}/payment-session`, {
     method: 'POST',
-    headers: storeHeaders,
+    headers: storeHeaders(),
     body: JSON.stringify({ provider_id: 'pp_stripe_stripe' }),
   });
+  if (!psSelectRes.ok) console.error('[Medusa] payment-session select failed', await psSelectRes.text());
 
   // 6. Komplettera ordern
   const completeRes = await fetch(`${MEDUSA_URL}/store/carts/${cartId}/complete`, {
     method: 'POST',
-    headers: storeHeaders,
+    headers: storeHeaders(),
   });
 
-  if (!completeRes.ok) return null;
+  if (!completeRes.ok) {
+    console.error('[Medusa] complete failed', completeRes.status, await completeRes.text());
+    return null;
+  }
   const result = await completeRes.json();
   return result.order || result.data || null;
 }
