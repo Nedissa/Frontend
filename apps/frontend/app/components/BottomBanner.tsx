@@ -27,7 +27,7 @@ export function BottomBanner() {
           padding: 7px 0;
           transform: rotate(45deg);
           text-transform: uppercase;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.2em;
           z-index: 10;
           box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
