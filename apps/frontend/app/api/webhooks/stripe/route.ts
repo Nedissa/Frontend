@@ -1,127 +1,16 @@
 import { Stripe } from 'stripe';
 
 const BREVO_API_URL = 'https://api.brevo.com/v3/smtp/email';
-const MEDUSA_URL = 'https://api.techpilots.se';
 
-const COUNTRY_CODES: Record<string, string> = {
-  'sverige': 'se', 'sweden': 'se',
-  'norge': 'no', 'norway': 'no',
-  'danmark': 'dk', 'denmark': 'dk',
-  'finland': 'fi',
-  'tyskland': 'de', 'germany': 'de',
-};
-const MEDUSA_PUB_KEY = 'pk_be1d32dae17bd54fa1b82b443354fc250d222284107fd067a30caf3cf2f49b8f';
-const REGION_ID = 'reg_01KTHS2MPSXRTVGRHVJRA8P703';
-
-function storeHeaders() {
-  return {
-    'Content-Type': 'application/json',
-    'x-publishable-api-key': MEDUSA_PUB_KEY,
-  };
-}
-
-async function createMedusaOrder(session: Stripe.Checkout.Session) {
-  const meta = session.metadata || {};
-  const email = session.customer_email || '';
-  const cartItemsRaw: Array<{ variantId: string; quantity: number }> = meta.cartItems
-    ? JSON.parse(meta.cartItems)
-    : [];
-
-  if (!cartItemsRaw.length || !email) return null;
-
-  // 1. Skapa cart
-  const cartRes = await fetch(`${MEDUSA_URL}/store/carts`, {
-    method: 'POST',
-    headers: storeHeaders(),
-    body: JSON.stringify({ region_id: REGION_ID }),
-  });
-  if (!cartRes.ok) {
-    console.error('[Medusa] cart create failed', cartRes.status, await cartRes.text());
-    return null;
-  }
-  const { cart } = await cartRes.json();
-  const cartId = cart.id;
-
-  // 2. Lägg till produkter
-  for (const item of cartItemsRaw) {
-    const r = await fetch(`${MEDUSA_URL}/store/carts/${cartId}/line-items`, {
-      method: 'POST',
-      headers: storeHeaders(),
-      body: JSON.stringify({ variant_id: item.variantId, quantity: item.quantity }),
-    });
-    if (!r.ok) console.error('[Medusa] line-item failed', item.variantId, await r.text());
-  }
-
-  // 3. Sätt email och leveransadress
-  const updateRes = await fetch(`${MEDUSA_URL}/store/carts/${cartId}`, {
-    method: 'POST',
-    headers: storeHeaders(),
-    body: JSON.stringify({
-      email,
-      shipping_address: {
-        first_name: meta.firstName || '',
-        last_name: meta.lastName || '',
-        address_1: meta.address || '',
-        postal_code: meta.postalCode || '',
-        city: meta.city || '',
-        country_code: COUNTRY_CODES[(meta.country || 'SE').toLowerCase()] || (meta.country || 'SE').toLowerCase().slice(0, 2),
-        phone: meta.phone || '',
-      },
-    }),
-  });
-  if (!updateRes.ok) console.error('[Medusa] cart update failed', await updateRes.text());
-
-  // 4. Välj fraktmetod
-  const shippingRes = await fetch(`${MEDUSA_URL}/store/shipping-options?cart_id=${cartId}`, {
-    headers: storeHeaders(),
-  });
-  if (shippingRes.ok) {
-    const { shipping_options } = await shippingRes.json();
-    if (shipping_options?.length) {
-      const sr = await fetch(`${MEDUSA_URL}/store/carts/${cartId}/shipping-methods`, {
-        method: 'POST',
-        headers: storeHeaders(),
-        body: JSON.stringify({ option_id: shipping_options[0].id }),
-      });
-      if (!sr.ok) console.error('[Medusa] shipping failed', await sr.text());
-    }
-  }
-
-  // 5. Initiera payment sessions
-  const psRes = await fetch(`${MEDUSA_URL}/store/carts/${cartId}/payment-sessions`, {
-    method: 'POST',
-    headers: storeHeaders(),
-  });
-  if (!psRes.ok) console.error('[Medusa] payment-sessions failed', await psRes.text());
-
-  const psSelectRes = await fetch(`${MEDUSA_URL}/store/carts/${cartId}/payment-session`, {
-    method: 'POST',
-    headers: storeHeaders(),
-    body: JSON.stringify({ provider_id: 'pp_stripe_stripe' }),
-  });
-  if (!psSelectRes.ok) console.error('[Medusa] payment-session select failed', await psSelectRes.text());
-
-  // 6. Komplettera ordern
-  const completeRes = await fetch(`${MEDUSA_URL}/store/carts/${cartId}/complete`, {
-    method: 'POST',
-    headers: storeHeaders(),
-  });
-
-  if (!completeRes.ok) {
-    console.error('[Medusa] complete failed', completeRes.status, await completeRes.text());
-    return null;
-  }
-  const result = await completeRes.json();
-  return result.order || result.data || null;
-}
-
-async function sendOrderConfirmation(session: Stripe.Checkout.Session) {
-  const meta = session.metadata || {};
-  const email = session.customer_email || '';
+async function sendOrderConfirmation(paymentIntent: Stripe.PaymentIntent) {
+  const meta = paymentIntent.metadata || {};
+  const email = meta.email || '';
   const name = `${meta.firstName || ''} ${meta.lastName || ''}`.trim();
   const address = `${meta.address || ''}, ${meta.postalCode || ''} ${meta.city || ''}`;
-  const total = session.amount_total ? (session.amount_total / 100).toLocaleString('sv-SE') : '0';
-  const orderId = session.id.slice(-8).toUpperCase();
+  const total = (paymentIntent.amount / 100).toLocaleString('sv-SE');
+  const orderId = paymentIntent.id.slice(-8).toUpperCase();
+
+  if (!email) return;
 
   const customerHtml = `
     <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;background:#f9f9f9;">
@@ -130,7 +19,7 @@ async function sendOrderConfirmation(session: Stripe.Checkout.Session) {
       </td></tr></table>
       <div style="background:#ffffff;padding:40px;">
         <h1 style="font-size:1.4rem;font-weight:800;color:#000;margin:0 0 8px;">Tack för din beställning!</h1>
-        <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 24px;">Hej ${name}! Vi har tagit emot din order och packar den så snart som möjligt. Leverans sker normalt inom 2 till 5 arbetsdagar. Du får ett nytt mail med spårningsnummer när paketet är på väg.</p>
+        <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 24px;">Hej ${name}! Vi har tagit emot din order och packar den så snart som möjligt. Leverans sker normalt inom 2 till 5 arbetsdagar.</p>
         <div style="background:#f4f4f4;border-radius:8px;padding:24px;margin:0 0 24px;">
           <table style="width:100%;border-collapse:collapse;">
             <tr><td style="padding:6px 0;font-size:0.8rem;color:#888;text-transform:uppercase;letter-spacing:0.05em;">Ordernummer</td></tr>
@@ -174,7 +63,7 @@ async function sendOrderConfirmation(session: Stripe.Checkout.Session) {
     </div>
   `;
 
-  await Promise.all([
+  await Promise.allSettled([
     fetch(BREVO_API_URL, {
       method: 'POST',
       headers: { 'api-key': process.env.BREVO_API_KEY!, 'content-type': 'application/json' },
@@ -206,21 +95,15 @@ export async function POST(request: Request) {
   const signature = request.headers.get('stripe-signature') || '';
 
   let event: Stripe.Event;
-
   try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch {
     return Response.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
-  if (event.type === 'checkout.session.completed') {
-    const session = event.data.object as Stripe.Checkout.Session;
-    if (session.payment_status === 'paid') {
-      await Promise.allSettled([
-        sendOrderConfirmation(session),
-        createMedusaOrder(session),
-      ]);
-    }
+  if (event.type === 'payment_intent.succeeded') {
+    const paymentIntent = event.data.object as Stripe.PaymentIntent;
+    await sendOrderConfirmation(paymentIntent);
   }
 
   return Response.json({ received: true });
