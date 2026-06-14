@@ -393,10 +393,9 @@ function CheckoutContent() {
                 { label: 'Betalsätt', done: !!clientSecret },
                 { label: 'Slutför köp', done: false },
               ];
-              // Visa bara steppern när vi har riktiga mätvärden
-              const hasMeasured = dotTops.length === steps.length && dotTops[steps.length - 1] > dotTops[0];
-              if (!hasMeasured) return null;
-              const tops = dotTops;
+              const tops = dotTops.length === steps.length && dotTops[steps.length - 1] > dotTops[0]
+                ? dotTops
+                : steps.map((_, i) => i * 150);
               const DOT_SIZE = 14;
               const LINE_X = 10; // px från höger
               return (
