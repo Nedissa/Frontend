@@ -378,33 +378,45 @@ function CheckoutContent() {
       <div className="flex pt-6 pb-16 px-4 gap-0 relative justify-center">
 
           {/* Stepper — absolut positionerad mot sektionernas faktiska Y */}
-          {dotTops.length > 0 && (
-            <div className="hidden lg:block pr-8 w-44 flex-shrink-0 relative">
-              {/* vertikal linje */}
-              {dotTops[0] !== undefined && dotTops[dotTops.length - 1] !== undefined && (
-                <div
-                  className="absolute right-8 w-0.5 bg-gray-200"
-                  style={{ top: dotTops[0] + 6, height: (dotTops[dotTops.length - 1] - dotTops[0]) }}
-                />
-              )}
-              {[
+          <div className="hidden lg:block pr-8 w-44 flex-shrink-0 relative">
+            {(() => {
+              const steps = [
                 { label: 'Varukorg', done: true },
                 { label: 'Dina uppgifter', done: !!formData.email },
                 { label: 'Fraktsätt', done: !!shippingMethod },
                 { label: 'Betalsätt', done: !!clientSecret },
                 { label: 'Slutför köp', done: false },
-              ].map((step, i) => (
-                <div
-                  key={step.label}
-                  className="absolute right-0 flex items-center gap-2"
-                  style={{ top: dotTops[i] ?? 0 }}
-                >
-                  <span className={`text-xs font-medium whitespace-nowrap ${step.done ? 'text-black' : 'text-gray-400'}`}>{step.label}</span>
-                  <div className={`w-3 h-3 rounded-full flex-shrink-0 border-2 mr-[26px] ${step.done ? 'bg-black border-black' : 'bg-white border-gray-300'}`} />
-                </div>
-              ))}
-            </div>
-          )}
+              ];
+              const tops = dotTops.length === steps.length ? dotTops : steps.map((_, i) => i * 80);
+              return (
+                <>
+                  {/* Linje-segment per steg */}
+                  {steps.slice(0, -1).map((step, i) => (
+                    <div
+                      key={`line-${i}`}
+                      className={`absolute w-0.5 ${step.done ? 'bg-black' : 'bg-gray-200'}`}
+                      style={{
+                        right: 26,
+                        top: tops[i] + 6,
+                        height: Math.max(0, (tops[i + 1] ?? tops[i] + 60) - tops[i] - 6),
+                      }}
+                    />
+                  ))}
+                  {/* Prickar + labels */}
+                  {steps.map((step, i) => (
+                    <div
+                      key={step.label}
+                      className="absolute right-0 flex items-center gap-2"
+                      style={{ top: tops[i] }}
+                    >
+                      <span className={`text-xs font-medium whitespace-nowrap ${step.done ? 'text-black' : 'text-gray-400'}`}>{step.label}</span>
+                      <div className={`w-3 h-3 rounded-full flex-shrink-0 border-2 mr-[20px] ${step.done ? 'bg-black border-black' : 'bg-white border-gray-300'}`} />
+                    </div>
+                  ))}
+                </>
+              );
+            })()}
+          </div>
 
           <div ref={contentColRef} className="flex-1 max-w-[800px] flex flex-col gap-8">
 
