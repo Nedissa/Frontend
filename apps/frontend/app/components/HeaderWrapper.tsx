@@ -781,13 +781,13 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
 
           {/* Search Input */}
           <div className="flex-1 max-w-2xl relative" ref={searchContainerRef}>
-            <div className="relative flex items-center rounded-full overflow-visible border border-gray-200 bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}>
+            <div className="relative flex items-center rounded overflow-visible border border-gray-200 bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}>
               {/* Category dropdown - hidden on mobile */}
               <div className="relative flex-shrink-0 hidden sm:block" ref={categoryDropdownRef}>
                 <button
                   onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
                   className="flex items-center gap-2 pl-4 pr-3 py-2.5 text-sm font-semibold text-black whitespace-nowrap border-r border-gray-200"
-                  style={{ backgroundColor: 'transparent' }}
+                  style={{ backgroundColor: '#f5f5f5' }}
                 >
                   <span>{selectedCategory ? selectedCategory.title : 'Alla kategorier'}</span>
                   <svg className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${showCategoryDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
@@ -802,7 +802,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                     >
                       <span className="relative inline-block">
                         Alla kategorier
-                        <span className="absolute bottom-0 left-0 h-0.5 bg-black w-0 group-hover:w-full transition-all duration-300 ease-out" />
+                        <span className="absolute bottom-0 left-0 bg-black w-0 group-hover:w-full transition-all duration-300 ease-out" style={{ height: '2px' }} />
                       </span>
                     </button>
                     {MENU_DATA.map((cat) => (
@@ -813,7 +813,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                       >
                         <span className="relative inline-block">
                           {cat.title}
-                          <span className="absolute bottom-0 left-0 h-0.5 bg-black w-0 group-hover:w-full transition-all duration-300 ease-out" />
+                          <span className="absolute bottom-0 left-0 bg-black w-0 group-hover:w-full transition-all duration-300 ease-out" style={{ height: '2px' }} />
                         </span>
                       </button>
                     ))}
@@ -834,7 +834,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   onFocus={() => searchTerm.length > 0 && setShowSearchResults(true)}
                 />
               </div>
-              <button className="flex items-center justify-center w-10 h-10 rounded-full flex-shrink-0 mr-0.5" style={{ backgroundColor: '#5ba3f5' }}>
+              <button className="flex items-center justify-center w-10 h-10 flex-shrink-0" style={{ backgroundColor: '#1a3a6e' }}>
                 <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
                   <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/>
                 </svg>
