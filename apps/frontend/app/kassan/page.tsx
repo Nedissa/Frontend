@@ -30,10 +30,14 @@ const countryCodeMap: Record<string, string> = {
 // --- Stripe payment form ---
 function PaymentForm({
   cartId,
+  formData,
+  finalTotal,
   onSuccess,
   onError,
 }: {
   cartId: string;
+  formData: any;
+  finalTotal: number;
   onSuccess: (order: any) => void;
   onError: (msg: string) => void;
 }) {
@@ -62,7 +66,7 @@ function PaymentForm({
     const res = await fetch('/api/medusa-checkout/confirm', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cartId }),
+      body: JSON.stringify({ cartId, formData, total: finalTotal * 100 }),
     });
     const data = await res.json();
     if (!res.ok) {
@@ -508,7 +512,7 @@ function CheckoutContent() {
                   appearance: { theme: 'stripe', variables: { colorPrimary: '#000000' } },
                 }}
               >
-                <PaymentForm cartId={cartId} onSuccess={handlePaymentSuccess} onError={handlePaymentError} />
+                <PaymentForm cartId={cartId} formData={formData} finalTotal={finalTotal} onSuccess={handlePaymentSuccess} onError={handlePaymentError} />
               </Elements>
             </div>
           )}
