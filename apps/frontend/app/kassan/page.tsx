@@ -129,6 +129,7 @@ function CheckoutContent() {
   const addressInputRef = useRef<HTMLInputElement>(null);
   const hasRestoredRef = useRef(false);
   const formDataRef = useRef(formData);
+  const hasInitPaymentRef = useRef(false);
 
   const WELCOME_DISCOUNT = 0.10;
 
@@ -170,9 +171,10 @@ function CheckoutContent() {
     } catch {}
   }, []);
 
-  // Skapa Medusa cart + hämta Stripe client secret automatiskt
+  // Skapa Medusa cart + hämta Stripe client secret automatiskt (körs bara en gång)
   const initPayment = useCallback(async (items: CartItem[], shipping: string) => {
-    if (!items.length || !shipping || clientSecret) return;
+    if (!items.length || !shipping || hasInitPaymentRef.current) return;
+    hasInitPaymentRef.current = true;
     setIsProcessing(true);
     setPaymentError('');
     try {
@@ -182,16 +184,21 @@ function CheckoutContent() {
         body: JSON.stringify({ cartItems: items, formData: formDataRef.current, shippingOptionId: shipping }),
       });
       const data = await res.json();
-      if (!res.ok) { setPaymentError(data.error || 'Något gick fel'); return; }
+      if (!res.ok) {
+        setPaymentError(data.error || 'Något gick fel');
+        hasInitPaymentRef.current = false;
+        return;
+      }
       setClientSecret(data.clientSecret);
       setCartId(data.cartId);
       setShowPayment(true);
     } catch {
       setPaymentError('Kunde inte ansluta till betalningssystemet');
+      hasInitPaymentRef.current = false;
     } finally {
       setIsProcessing(false);
     }
-  }, [clientSecret]);
+  }, []);
 
   // Load shipping after restore
   useEffect(() => {
@@ -200,12 +207,12 @@ function CheckoutContent() {
     }
   }, [formData.country, shippingOptions.length, fetchShippingOptions]);
 
-  // Auto-initiera betalning när cart och shipping finns
+  // Auto-initiera betalning när cart, shipping och e-post finns
   useEffect(() => {
-    if (cartItems.length > 0 && shippingMethod && !clientSecret && !isProcessing) {
+    if (cartItems.length > 0 && shippingMethod && formData.email && !hasInitPaymentRef.current) {
       initPayment(cartItems, shippingMethod);
     }
-  }, [cartItems, shippingMethod, clientSecret, isProcessing, initPayment]);
+  }, [cartItems, shippingMethod, formData.email, initPayment]);
 
   // Auto-save
   useEffect(() => {
