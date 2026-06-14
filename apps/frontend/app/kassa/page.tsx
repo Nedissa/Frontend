@@ -357,17 +357,11 @@ function CheckoutContent() {
       </div>
       <div className="flex pt-10 pb-16 px-4 gap-0 relative justify-center">
 
-          {/* Vänster navigering */}
-          <div className="hidden lg:flex flex-col gap-2 pt-1 pr-8 w-44 flex-shrink-0">
-            {['Varukorg', 'Dina uppgifter', 'Fraktsätt', 'Betalsätt', 'Slutför köp'].map(label => (
-              <span key={label} className="text-xs font-semibold uppercase tracking-wider bg-black text-white px-2 py-1 w-fit">{label}</span>
-            ))}
-          </div>
-
           <div className="flex-1 max-w-[800px] flex flex-col gap-8">
 
           {/* Orderöversikt */}
-          <section className="bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <section className="bg-white relative" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+            <span className="hidden lg:block absolute -left-36 top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white px-2 py-1">Varukorg</span>
             <div className="grid grid-cols-[1fr_160px_120px] px-6 py-3 border-b border-gray-200">
               <div><span className="text-sm font-semibold uppercase tracking-wider text-gray-500">Orderöversikt</span></div>
               <div className="flex justify-center"><span className="text-sm font-semibold uppercase tracking-wider text-gray-500">Antal</span></div>
@@ -462,8 +456,9 @@ function CheckoutContent() {
                 </button>
               </div>
 
-              <div className="bg-white p-6 space-y-8" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-                <section>
+              <div className="bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+                <section className="relative p-6 border-b border-gray-100">
+                  <span className="hidden lg:block absolute -left-36 top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white px-2 py-1">Dina uppgifter</span>
                   <h2 className="text-2xl font-bold mb-6"><span className="text-black">Leveransadress</span></h2>
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -513,7 +508,8 @@ function CheckoutContent() {
                   </div>
                 </section>
 
-                <section>
+                <section className="relative p-6 border-b border-gray-100">
+                  <span className="hidden lg:block absolute -left-36 top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white px-2 py-1">Fraktsätt</span>
                   <h2 className="text-2xl font-bold mb-6"><span className="text-black">Frakt</span></h2>
                   <div className="space-y-3">
                     {loadingShipping ? (
@@ -535,7 +531,8 @@ function CheckoutContent() {
                   </div>
                 </section>
 
-                <section>
+                <section className="relative p-6">
+                  <span className="hidden lg:block absolute -left-36 top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white px-2 py-1">Betalsätt</span>
                   <h2 className="text-2xl font-bold mb-4"><span className="text-black">Betalning</span></h2>
                   {!clientSecret && !isProcessing && (
                     <p className="text-sm text-gray-400 mb-4">Fyll i dina kontaktuppgifter ovan så visas betalningsalternativen här.</p>
@@ -545,12 +542,15 @@ function CheckoutContent() {
                     <p className="text-gray-400 text-sm mb-4">Laddar betalningsalternativ...</p>
                   )}
                   {showPayment && clientSecret && (
-                    <Elements
-                      stripe={stripePromise}
-                      options={{ clientSecret, appearance: { theme: 'stripe', variables: { colorPrimary: '#000000' } } }}
-                    >
-                      <PaymentForm cartId={cartId} formData={formData} finalTotal={finalTotal} onSuccess={handlePaymentSuccess} onError={handlePaymentError} />
-                    </Elements>
+                    <div className="relative">
+                      <span className="hidden lg:block absolute -left-[10.5rem] top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white px-2 py-1">Slutför köp</span>
+                      <Elements
+                        stripe={stripePromise}
+                        options={{ clientSecret, appearance: { theme: 'stripe', variables: { colorPrimary: '#000000' } } }}
+                      >
+                        <PaymentForm cartId={cartId} formData={formData} finalTotal={finalTotal} onSuccess={handlePaymentSuccess} onError={handlePaymentError} />
+                      </Elements>
+                    </div>
                   )}
                 </section>
               </div>
