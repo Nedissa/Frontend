@@ -444,14 +444,16 @@ function CheckoutContent() {
               <div className="flex gap-0 mb-4 border-b border-gray-200">
                 <button
                   onClick={() => setCustomerType('private')}
-                  className={`px-6 py-3 font-semibold text-sm border-b-2 transition-colors ${customerType === 'private' ? 'border-black text-black' : 'border-transparent text-gray-600 hover:text-gray-900'}`}
+                  className={`flex items-center gap-2 px-6 py-3 font-semibold text-sm border-b-2 transition-colors ${customerType === 'private' ? 'border-black text-black' : 'border-transparent text-gray-600 hover:text-gray-900'}`}
                 >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9" /></svg>
                   Privatperson
                 </button>
                 <button
                   onClick={() => setCustomerType('business')}
-                  className={`px-6 py-3 font-semibold text-sm border-b-2 transition-colors ${customerType === 'business' ? 'border-black text-black' : 'border-transparent text-gray-600 hover:text-gray-900'}`}
+                  className={`flex items-center gap-2 px-6 py-3 font-semibold text-sm border-b-2 transition-colors ${customerType === 'business' ? 'border-black text-black' : 'border-transparent text-gray-600 hover:text-gray-900'}`}
                 >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2zM16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2" /></svg>
                   Företag
                 </button>
               </div>
