@@ -384,7 +384,7 @@ function CheckoutContent() {
           <span className="text-2xl font-bold tracking-tight">Techpilots</span>
         </a>
       </div>
-      <div className="flex pt-10 pb-16 px-4 gap-0 relative justify-center">
+      <div className="flex pt-10 pb-16 px-2 gap-0 relative justify-center">
 
           <div className="flex-1 max-w-[800px] flex flex-col gap-8 relative">
 
@@ -392,20 +392,23 @@ function CheckoutContent() {
           <section className="bg-white relative" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
             <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 block" style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' }}>Orderöversikt</span></span>
             <span className="hidden lg:block absolute w-0.5 bg-black pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-100px' }} />
-            <div className="grid grid-cols-[1fr_auto_auto] sm:grid-cols-[1fr_160px_120px] px-4 sm:px-6 py-3 border-b border-gray-200 gap-3">
-              <div><span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-500">Produkter</span></div>
+            <div className="grid grid-cols-[1fr_100px_80px] sm:grid-cols-[1fr_160px_120px] px-2 sm:px-6 py-3 border-b border-gray-200 gap-3">
+              <div className="flex gap-4 sm:gap-6 items-center">
+                <div className="w-[52px] sm:w-24 flex-shrink-0" />
+                <span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-500">Produkter</span>
+              </div>
               <div className="flex justify-center"><span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-500">Antal</span></div>
               <div className="flex justify-end"><span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-500">Pris</span></div>
             </div>
             <div className="divide-y divide-gray-100">
               {cartItems.map(item => (
-                <div key={item.id} className="grid grid-cols-[1fr_auto_auto] sm:grid-cols-[1fr_160px_120px] items-center px-4 sm:px-6 py-4 gap-3">
+                <div key={item.id} className="grid grid-cols-[1fr_100px_80px] sm:grid-cols-[1fr_160px_120px] items-center px-2 sm:px-6 py-4 gap-3">
                   <div className="flex gap-4 sm:gap-6 items-center min-w-0">
                     <div className="flex-shrink-0">
                       {item.image ? (
-                        <img src={item.image} alt={item.title} className="w-8 h-8 sm:w-24 sm:h-24 object-contain" />
+                        <img src={item.image} alt={item.title} className="w-[52px] h-[52px] sm:w-24 sm:h-24 object-contain" />
                       ) : (
-                        <div className="w-8 h-8 sm:w-24 sm:h-24" />
+                        <div className="w-[52px] h-[52px] sm:w-24 sm:h-24" />
                       )}
                     </div>
                     <div className="min-w-0">
