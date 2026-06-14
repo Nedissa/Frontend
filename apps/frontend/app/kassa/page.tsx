@@ -514,13 +514,13 @@ function CheckoutContent() {
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-900 mb-1">Telefonnummer</label>
-                        <InputWithCheck type="tel" name="phone" placeholder="" value={formData.phone} onChange={handleInputChange} required ref={addressInputRef} style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
+                        <InputWithCheck type="tel" name="phone" placeholder="" value={formData.phone} onChange={handleInputChange} required style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-900 mb-1">Gata och husnummer</label>
-                      <InputWithCheck type="text" name="address" placeholder="" value={formData.address} onChange={handleInputChange} required style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
+                      <label className="block text-sm font-medium text-gray-900 mb-1">Adress</label>
+                      <InputWithCheck type="text" name="address" placeholder="" value={formData.address} onChange={handleInputChange} required ref={addressInputRef} style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
