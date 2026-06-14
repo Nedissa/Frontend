@@ -366,7 +366,7 @@ function CheckoutContent() {
 
           {/* Orderöversikt */}
           <section className="bg-white relative" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <span className="hidden lg:block absolute top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}>Orderöversikt</span>
+            <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 block" style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' }}>Orderöversikt</span></span>
             <span className="hidden lg:block absolute w-0.5 bg-black pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-100px' }} />
             <div className="grid grid-cols-[1fr_160px_120px] px-6 py-3 border-b border-gray-200">
               <div><span className="text-sm font-semibold uppercase tracking-wider text-gray-500">Produkter</span></div>
@@ -466,7 +466,7 @@ function CheckoutContent() {
 
               <div className="bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                 <section className="relative p-6 border-b border-gray-100">
-                  <span className="hidden lg:block absolute top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}>Dina uppgifter</span>
+                  <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 block" style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' }}>Dina uppgifter</span></span>
                   <span className="hidden lg:block absolute w-0.5 bg-black pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-14px' }} />
                   <h2 className="text-2xl font-bold mb-6"><span className="text-black">Leveransadress</span></h2>
                   <div className="space-y-4">
@@ -518,7 +518,7 @@ function CheckoutContent() {
                 </section>
 
                 <section className="relative p-6 border-b border-gray-100">
-                  <span className="hidden lg:block absolute top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}>Fraktsätt</span>
+                  <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 block" style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' }}>Fraktsätt</span></span>
                   <span className="hidden lg:block absolute w-0.5 bg-black pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-14px' }} />
                   <h2 className="text-2xl font-bold mb-6"><span className="text-black">Frakt</span></h2>
                   <div className="space-y-3">
@@ -542,7 +542,7 @@ function CheckoutContent() {
                 </section>
 
                 <section className="relative p-6">
-                  <span className="hidden lg:block absolute top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}>Betalsätt</span>
+                  <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 block" style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' }}>Betalsätt</span></span>
                   <span className="hidden lg:block absolute w-0.5 bg-black pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '0' }} />
                   <h2 className="text-2xl font-bold mb-4"><span className="text-black">Betalning</span></h2>
                   {!clientSecret && !isProcessing && (
