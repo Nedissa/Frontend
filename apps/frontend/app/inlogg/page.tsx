@@ -130,8 +130,9 @@ export default function LoginPage() {
               {/* Login Form */}
               {showLogin && !showResetModal && (
                 <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-                  <Link href="/" className="flex items-center justify-center gap-1 mb-10 hover:opacity-80 transition-opacity">
-                    <Logo />
+                  <Link href="/" className="flex items-center justify-center gap-2 mb-10 hover:opacity-80 transition-opacity">
+                    <span className="block md:hidden"><Logo size={32} /></span>
+                    <span className="hidden md:block"><Logo size={40} /></span>
                     <span className="text-2xl font-bold">Techpilots</span>
                   </Link>
                   <form onSubmit={handleLogin} className="space-y-4">
@@ -234,8 +235,9 @@ export default function LoginPage() {
               {/* Reset Password Form */}
               {showResetModal && (
                 <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-                  <Link href="/" className="flex items-center justify-center gap-1 mb-10 hover:opacity-80 transition-opacity">
-                    <Logo />
+                  <Link href="/" className="flex items-center justify-center gap-2 mb-10 hover:opacity-80 transition-opacity">
+                    <span className="block md:hidden"><Logo size={32} /></span>
+                    <span className="hidden md:block"><Logo size={40} /></span>
                     <span className="text-2xl font-bold">Techpilots</span>
                   </Link>
                   {resetSent ? (
