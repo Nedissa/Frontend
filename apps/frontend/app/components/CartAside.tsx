@@ -227,7 +227,7 @@ export function CartAside() {
                   <li key={item.id} className="border-b border-gray-200 last:border-b-0 py-4">
                     <div className="grid items-center gap-2" style={{ gridTemplateColumns: '56px 1fr 96px 80px' }}>
                       {/* Bild */}
-                      <div className="w-14 h-14 bg-gray-50">
+                      <div className="w-14 h-14">
                         <img
                           src={item.image}
                           alt={item.title}
