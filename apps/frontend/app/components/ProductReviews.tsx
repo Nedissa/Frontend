@@ -14,30 +14,42 @@ interface Review {
 
 function Stars({ rating, interactive = false, onRate }: { rating: number; interactive?: boolean; onRate?: (r: number) => void }) {
   const [hovered, setHovered] = useState(0);
+  const effective = hovered || rating;
 
   return (
     <div className="flex gap-0.5">
-      {[1, 2, 3, 4, 5].map((star) => (
-        <button
-          key={star}
-          type={interactive ? 'button' : undefined}
-          disabled={!interactive}
-          onClick={() => onRate && onRate(star)}
-          onMouseEnter={() => interactive && setHovered(star)}
-          onMouseLeave={() => interactive && setHovered(0)}
-          className={interactive ? 'cursor-pointer' : 'cursor-default'}
-        >
-          <svg
-            className="w-5 h-5"
-            fill={(hovered || rating) >= star ? '#111827' : 'none'}
-            stroke="#111827"
-            strokeWidth="1"
-            viewBox="0 0 24 24"
+      {[1, 2, 3, 4, 5].map((star) => {
+        const full = effective >= star;
+        const half = !full && !interactive && effective >= star - 0.5;
+        const id = `half-${star}`;
+        return (
+          <button
+            key={star}
+            type={interactive ? 'button' : undefined}
+            disabled={!interactive}
+            onClick={() => onRate && onRate(star)}
+            onMouseEnter={() => interactive && setHovered(star)}
+            onMouseLeave={() => interactive && setHovered(0)}
+            className={interactive ? 'cursor-pointer' : 'cursor-default'}
           >
-            <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
-          </svg>
-        </button>
-      ))}
+            <svg className="w-5 h-5" viewBox="0 0 24 24" strokeWidth="1">
+              {half && (
+                <defs>
+                  <linearGradient id={id}>
+                    <stop offset="50%" stopColor="#111827" />
+                    <stop offset="50%" stopColor="transparent" />
+                  </linearGradient>
+                </defs>
+              )}
+              <polygon
+                points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+                fill={full ? '#111827' : half ? `url(#${id})` : 'none'}
+                stroke={full || half ? '#111827' : '#d1d5db'}
+              />
+            </svg>
+          </button>
+        );
+      })}
     </div>
   );
 }
