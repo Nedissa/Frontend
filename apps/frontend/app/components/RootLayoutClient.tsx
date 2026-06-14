@@ -11,13 +11,13 @@ import { usePathname } from 'next/navigation';
 
 export function RootLayoutClient({ children, initialIsLoggedIn = false }: { children: React.ReactNode; initialIsLoggedIn?: boolean }) {
   const pathname = usePathname();
-  const hideHeader = pathname === '/inlogg' || pathname === '/aterstall-losenord';
+  const hideHeader = pathname === '/inlogg' || pathname === '/aterstall-losenord' || pathname === '/kassan' || pathname === '/order-bekraftelse';
 
   return (
     <CompareProvider>
       <Aside.Provider>
         {!hideHeader && <HeaderWrapper initialIsLoggedIn={initialIsLoggedIn} />}
-        <main className="pt-[100px] sm:pt-[108px] pb-24 flex flex-col flex-1 min-h-screen overflow-x-hidden">
+        <main className={`${hideHeader ? '' : 'pt-[100px] sm:pt-[108px]'} pb-24 flex flex-col flex-1 min-h-screen overflow-x-hidden`}>
           {children}
         </main>
         <FooterWrapper />
