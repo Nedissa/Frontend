@@ -361,7 +361,7 @@ function CheckoutContent() {
 
           {/* Orderöversikt */}
           <section className="bg-white relative" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <span className="hidden lg:block absolute top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white px-2 py-1 whitespace-nowrap" style={{ right: 'calc(100% + 24px)' }}>Orderöversikt</span>
+            <span className="hidden lg:block absolute top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.12)' }}>Orderöversikt</span>
             <div className="grid grid-cols-[1fr_160px_120px] px-6 py-3 border-b border-gray-200">
               <div><span className="text-sm font-semibold uppercase tracking-wider text-gray-500">Produkter</span></div>
               <div className="flex justify-center"><span className="text-sm font-semibold uppercase tracking-wider text-gray-500">Antal</span></div>
@@ -458,7 +458,7 @@ function CheckoutContent() {
 
               <div className="bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                 <section className="relative p-6 border-b border-gray-100">
-                  <span className="hidden lg:block absolute top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white px-2 py-1 whitespace-nowrap" style={{ right: 'calc(100% + 24px)' }}>Dina uppgifter</span>
+                  <span className="hidden lg:block absolute top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.12)' }}>Dina uppgifter</span>
                   <h2 className="text-2xl font-bold mb-6"><span className="text-black">Leveransadress</span></h2>
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -509,7 +509,7 @@ function CheckoutContent() {
                 </section>
 
                 <section className="relative p-6 border-b border-gray-100">
-                  <span className="hidden lg:block absolute top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white px-2 py-1 whitespace-nowrap" style={{ right: 'calc(100% + 24px)' }}>Fraktsätt</span>
+                  <span className="hidden lg:block absolute top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.12)' }}>Fraktsätt</span>
                   <h2 className="text-2xl font-bold mb-6"><span className="text-black">Frakt</span></h2>
                   <div className="space-y-3">
                     {loadingShipping ? (
@@ -532,7 +532,7 @@ function CheckoutContent() {
                 </section>
 
                 <section className="relative p-6">
-                  <span className="hidden lg:block absolute top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white px-2 py-1 whitespace-nowrap" style={{ right: 'calc(100% + 24px)' }}>Betalsätt</span>
+                  <span className="hidden lg:block absolute top-0 text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.12)' }}>Betalsätt</span>
                   <h2 className="text-2xl font-bold mb-4"><span className="text-black">Betalning</span></h2>
                   {!clientSecret && !isProcessing && (
                     <p className="text-sm text-gray-400 mb-4">Fyll i dina kontaktuppgifter ovan så visas betalningsalternativen här.</p>
