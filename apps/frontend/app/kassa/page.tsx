@@ -412,7 +412,7 @@ function CheckoutContent() {
                 </div>
               ))}
             </div>
-            <div className="px-6 py-4 border-t border-gray-100 space-y-2">
+            <div className="px-6 py-4 border-t border-gray-100 space-y-3">
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600">Delsumma</span>
                 <span className="font-semibold">{cartTotal.toLocaleString('sv-SE')} kr</span>
@@ -433,7 +433,7 @@ function CheckoutContent() {
                 <span className="text-gray-600">Frakt</span>
                 <span className="font-semibold">{shippingCost === 0 ? 'Gratis' : `${shippingCost.toLocaleString('sv-SE')} kr`}</span>
               </div>
-              <div className="flex justify-between text-base font-bold pt-3 border-t border-gray-100">
+              <div className="flex justify-between text-base font-bold pt-4 mt-2 border-t border-gray-200">
                 <span>Totalt</span>
                 <span>{(finalTotal || cartTotal).toLocaleString('sv-SE')} kr</span>
               </div>
