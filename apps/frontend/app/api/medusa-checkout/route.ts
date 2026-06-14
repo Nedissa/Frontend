@@ -108,10 +108,31 @@ export async function POST(request: Request) {
     const psData = await psRes.json();
     const paymentSession = psData.payment_collection?.payment_sessions?.[0];
     const clientSecret = paymentSession?.data?.client_secret;
+    const paymentIntentId = paymentSession?.data?.id;
 
     if (!clientSecret) {
       console.error('[medusa-checkout] no client_secret in:', JSON.stringify(psData));
       return Response.json({ error: 'Ingen Stripe client secret' }, { status: 500 });
+    }
+
+    // Uppdatera payment intent med kundinfo som metadata så webhook kan skicka mail
+    if (paymentIntentId && process.env.STRIPE_SECRET_KEY) {
+      await fetch(`https://api.stripe.com/v1/payment_intents/${paymentIntentId}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${process.env.STRIPE_SECRET_KEY}`,
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          'metadata[email]': formData.email || '',
+          'metadata[firstName]': formData.firstName || '',
+          'metadata[lastName]': formData.lastName || '',
+          'metadata[address]': formData.address || '',
+          'metadata[postalCode]': formData.postalCode || '',
+          'metadata[city]': formData.city || '',
+          'metadata[phone]': formData.phone || '',
+        }),
+      });
     }
 
     return Response.json({ clientSecret, cartId, paymentCollectionId: payment_collection.id });
