@@ -170,6 +170,29 @@ function CheckoutContent() {
     } catch {}
   }, []);
 
+  // Skapa Medusa cart + hämta Stripe client secret automatiskt
+  const initPayment = useCallback(async (items: CartItem[], shipping: string) => {
+    if (!items.length || !shipping || clientSecret) return;
+    setIsProcessing(true);
+    setPaymentError('');
+    try {
+      const res = await fetch('/api/medusa-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ cartItems: items, formData: formDataRef.current, shippingOptionId: shipping }),
+      });
+      const data = await res.json();
+      if (!res.ok) { setPaymentError(data.error || 'Något gick fel'); return; }
+      setClientSecret(data.clientSecret);
+      setCartId(data.cartId);
+      setShowPayment(true);
+    } catch {
+      setPaymentError('Kunde inte ansluta till betalningssystemet');
+    } finally {
+      setIsProcessing(false);
+    }
+  }, [clientSecret]);
+
   // Load shipping after restore
   useEffect(() => {
     if (hasRestoredRef.current && shippingOptions.length === 0) {
@@ -291,29 +314,6 @@ function CheckoutContent() {
       return next;
     });
   };
-
-  // Skapa Medusa cart + hämta Stripe client secret automatiskt
-  const initPayment = useCallback(async (items: CartItem[], shipping: string) => {
-    if (!items.length || !shipping || clientSecret) return;
-    setIsProcessing(true);
-    setPaymentError('');
-    try {
-      const res = await fetch('/api/medusa-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cartItems: items, formData: formDataRef.current, shippingOptionId: shipping }),
-      });
-      const data = await res.json();
-      if (!res.ok) { setPaymentError(data.error || 'Något gick fel'); return; }
-      setClientSecret(data.clientSecret);
-      setCartId(data.cartId);
-      setShowPayment(true);
-    } catch {
-      setPaymentError('Kunde inte ansluta till betalningssystemet');
-    } finally {
-      setIsProcessing(false);
-    }
-  }, [clientSecret]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
