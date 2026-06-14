@@ -352,23 +352,21 @@ function CheckoutContent() {
         <div className="w-full max-w-[800px] flex flex-col gap-12">
 
           {/* Orderöversikt */}
-          <section className="bg-white p-6" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <h2 className="text-xl font-bold mb-4">Orderöversikt</h2>
-            <div className="space-y-3">
+          <section className="bg-white p-8" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+            <h2 className="text-base font-semibold text-gray-400 uppercase tracking-widest mb-6">Orderöversikt</h2>
+            <div className="divide-y divide-gray-100">
               {cartItems.map(item => (
-                <div key={item.id} className="flex gap-3 items-center p-3 border-b border-gray-200 last:border-b-0">
-                  <div className="flex-shrink-0">
+                <div key={item.id} className="flex gap-4 items-center py-4 first:pt-0 last:pb-0">
+                  <div className="flex-shrink-0 bg-gray-50 rounded-lg p-2">
                     {item.image ? (
                       <img src={item.image} alt={item.title} className="w-16 h-16 object-contain" />
                     ) : (
-                      <div className="w-16 h-16 flex items-center justify-center">
-                        <span className="text-gray-400 text-xs">Bild</span>
-                      </div>
+                      <div className="w-16 h-16" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <h3 className="text-sm font-semibold text-gray-900 truncate">{item.title}</h3>
-                    <p className="text-xs text-gray-600">Antal: {item.quantity}</p>
+                    <p className="text-xs text-gray-400 mt-0.5">Antal: {item.quantity}</p>
                   </div>
                   <div className="text-right flex-shrink-0">
                     <p className="text-sm font-bold text-gray-900">{(item.price * item.quantity).toLocaleString('sv-SE')} kr</p>
@@ -379,7 +377,7 @@ function CheckoutContent() {
                 </div>
               ))}
             </div>
-            <div className="mt-4 pt-4 border-t border-gray-200 space-y-2">
+            <div className="mt-6 pt-6 border-t border-gray-100 space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600">Delsumma</span>
                 <span className="font-semibold">{cartTotal.toLocaleString('sv-SE')} kr</span>
