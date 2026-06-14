@@ -128,6 +128,7 @@ function CheckoutContent() {
 
   const addressInputRef = useRef<HTMLInputElement>(null);
   const hasRestoredRef = useRef(false);
+  const formDataRef = useRef(formData);
 
   const WELCOME_DISCOUNT = 0.10;
 
@@ -175,6 +176,13 @@ function CheckoutContent() {
       fetchShippingOptions(formData.country);
     }
   }, [formData.country, shippingOptions.length, fetchShippingOptions]);
+
+  // Auto-initiera betalning när cart och shipping finns
+  useEffect(() => {
+    if (cartItems.length > 0 && shippingMethod && !clientSecret && !isProcessing) {
+      initPayment(cartItems, shippingMethod);
+    }
+  }, [cartItems, shippingMethod, clientSecret, isProcessing, initPayment]);
 
   // Auto-save
   useEffect(() => {
@@ -277,33 +285,26 @@ function CheckoutContent() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
-    setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value }));
+    setFormData(prev => {
+      const next = { ...prev, [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value };
+      formDataRef.current = next;
+      return next;
+    });
   };
 
-  // Steg 1 — validera formulär och skapa Medusa cart + Stripe client secret
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Skapa Medusa cart + hämta Stripe client secret automatiskt
+  const initPayment = useCallback(async (items: CartItem[], shipping: string) => {
+    if (!items.length || !shipping || clientSecret) return;
     setIsProcessing(true);
     setPaymentError('');
-
     try {
       const res = await fetch('/api/medusa-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          cartItems,
-          formData,
-          shippingOptionId: shippingMethod,
-        }),
+        body: JSON.stringify({ cartItems: items, formData: formDataRef.current, shippingOptionId: shipping }),
       });
-
       const data = await res.json();
-      if (!res.ok) {
-        setPaymentError(data.error || 'Något gick fel');
-        setIsProcessing(false);
-        return;
-      }
-
+      if (!res.ok) { setPaymentError(data.error || 'Något gick fel'); return; }
       setClientSecret(data.clientSecret);
       setCartId(data.cartId);
       setShowPayment(true);
@@ -312,6 +313,10 @@ function CheckoutContent() {
     } finally {
       setIsProcessing(false);
     }
+  }, [clientSecret]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
   };
 
   const handlePaymentSuccess = (order: any) => {
@@ -478,32 +483,21 @@ function CheckoutContent() {
                   </div>
                 </section>
 
-                {/* Stripe PaymentElement visas direkt i formuläret när clientSecret finns */}
-                {showPayment && clientSecret && (
-                  <section>
-                    <h2 className="text-2xl font-bold mb-6">Betalning</h2>
-                    {paymentError && <p className="text-red-600 text-sm mb-4">{paymentError}</p>}
+                <section>
+                  <h2 className="text-2xl font-bold mb-6">Betalning</h2>
+                  {paymentError && <p className="text-red-600 text-sm mb-4">{paymentError}</p>}
+                  {isProcessing && !clientSecret && (
+                    <p className="text-gray-500 text-sm">Laddar betalning...</p>
+                  )}
+                  {showPayment && clientSecret && (
                     <Elements
                       stripe={stripePromise}
                       options={{ clientSecret, appearance: { theme: 'stripe', variables: { colorPrimary: '#000000' } } }}
                     >
                       <PaymentForm cartId={cartId} formData={formData} finalTotal={finalTotal} onSuccess={handlePaymentSuccess} onError={handlePaymentError} />
                     </Elements>
-                  </section>
-                )}
-
-                {!showPayment && (
-                  <>
-                    {paymentError && <p className="text-red-600 text-sm">{paymentError}</p>}
-                    <button
-                      type="submit"
-                      disabled={isProcessing || cartItems.length === 0}
-                      className="w-full bg-black text-white py-3 rounded font-semibold hover:bg-gray-900 disabled:bg-gray-400 disabled:cursor-not-allowed"
-                    >
-                      {isProcessing ? 'Förbereder betalning...' : 'Fortsätt till betalning'}
-                    </button>
-                  </>
-                )}
+                  )}
+                </section>
               </form>
             </div>
           )}
