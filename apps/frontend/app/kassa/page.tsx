@@ -134,32 +134,6 @@ function CheckoutContent() {
   const formDataRef = useRef(formData);
   const hasInitPaymentRef = useRef(false);
 
-  // Refs för stepper-positionering
-  const sectionRefs = useRef<(HTMLElement | null)[]>([null, null, null, null, null]);
-  const contentColRef = useRef<HTMLDivElement>(null);
-  const [dotTops, setDotTops] = useState<number[]>([]);
-
-  useEffect(() => {
-    const measure = () => {
-      const containerTop = contentColRef.current?.getBoundingClientRect().top ?? 0;
-      const tops = sectionRefs.current.map((el, i) => {
-        if (!el) return 0;
-        const rect = el.getBoundingClientRect();
-        // "Slutför köp" (index 4) = botten av betalningssektionen (index 3)
-        if (i === 4) {
-          const payEl = sectionRefs.current[3];
-          if (payEl) return payEl.getBoundingClientRect().bottom - containerTop - 14;
-        }
-        return rect.top - containerTop;
-      });
-      setDotTops(tops);
-    };
-    measure();
-    const observer = new ResizeObserver(measure);
-    if (contentColRef.current) observer.observe(contentColRef.current);
-    sectionRefs.current.forEach(el => { if (el) observer.observe(el); });
-    return () => observer.disconnect();
-  }, [cartItems, shippingOptions, clientSecret, isProcessing]);
 
   // Håll formDataRef synkad med formData
   useEffect(() => { formDataRef.current = formData; }, [formData]);
@@ -375,83 +349,33 @@ function CheckoutContent() {
 
   return (
     <MainLayout bordered={false} noPadding>
-      <div className="flex justify-center py-6 border-b border-gray-100 mb-0">
+      <div className="flex justify-center py-12 border-b border-gray-100 mb-0">
         <a href="/" className="flex items-center gap-2">
-          <img src="/logo.png" alt="Techpilots" className="w-14 h-14" />
+          <img src="/logo.png" alt="Techpilots" className="w-10 h-10" />
           <span className="text-2xl font-bold tracking-tight">Techpilots</span>
         </a>
       </div>
-      <div className="flex pt-6 pb-16 px-4 gap-0 relative justify-center">
+      <div className="flex pt-10 pb-16 px-4 gap-0 relative justify-center">
 
-          {/* Stepper — absolut positionerad mot sektionernas faktiska Y */}
-          <div className="hidden lg:block flex-shrink-0 relative" style={{ width: 160, paddingRight: 32 }}>
-            {(() => {
-              const steps = [
-                { label: 'Varukorg', done: true },
-                { label: 'Dina uppgifter', done: !!formData.email },
-                { label: 'Fraktsätt', done: !!shippingMethod },
-                { label: 'Betalsätt', done: !!clientSecret },
-                { label: 'Slutför köp', done: false },
-              ];
-              const tops = dotTops.length === steps.length && dotTops[steps.length - 1] > dotTops[0]
-                ? dotTops
-                : steps.map((_, i) => i * 150);
-              const DOT_SIZE = 14;
-              const LINE_X = 10; // px från höger
-              return (
-                <>
-                  {/* Linje — en sammanhängande linje från första till sista prick */}
-                  {tops.length === steps.length && tops[steps.length - 1] > 0 && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        right: LINE_X,
-                        width: 2,
-                        top: tops[0] + DOT_SIZE,
-                        height: Math.max(0, tops[steps.length - 1] - tops[0]),
-                        background: 'linear-gradient(to bottom, #000 0%, #000 100%)',
-                        backgroundColor: '#d1d5db',
-                      }}
-                    />
-                  )}
-                  {/* Prickar + labels */}
-                  {steps.map((step, i) => (
-                    <div
-                      key={step.label}
-                      className="absolute flex items-center gap-2"
-                      style={{ top: tops[i], right: 0 }}
-                    >
-                      <span style={{ fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', color: '#000' }}>{step.label}</span>
-                      <div
-                        style={{
-                          width: DOT_SIZE,
-                          height: DOT_SIZE,
-                          borderRadius: '50%',
-                          flexShrink: 0,
-                          marginRight: LINE_X - DOT_SIZE / 2 + 1,
-                          backgroundColor: '#000',
-                          border: '2px solid #000',
-                        }}
-                      />
-                    </div>
-                  ))}
-                </>
-              );
-            })()}
+          {/* Vänster navigering */}
+          <div className="hidden lg:flex flex-col gap-2 pt-1 pr-8 w-44 flex-shrink-0">
+            {['Varukorg', 'Dina uppgifter', 'Fraktsätt', 'Betalsätt', 'Slutför köp'].map(label => (
+              <span key={label} className="text-xs font-semibold uppercase tracking-wider bg-black text-white px-2 py-1 w-fit">{label}</span>
+            ))}
           </div>
 
-          <div ref={contentColRef} className="flex-1 max-w-[800px] flex flex-col gap-8">
+          <div className="flex-1 max-w-[800px] flex flex-col gap-8">
 
           {/* Orderöversikt */}
-          <section ref={el => { sectionRefs.current[0] = el; }} className="bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <div className="grid grid-cols-[1fr_auto_auto] gap-x-6 px-6 py-3 border-b border-gray-100">
-              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Produkt</span>
-              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider text-center">Antal</span>
-              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider text-right">Pris</span>
+          <section className="bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+            <div className="grid grid-cols-[1fr_160px_120px] px-6 py-3 border-b border-gray-200">
+              <div><span className="text-sm font-semibold uppercase tracking-wider text-gray-500">Orderöversikt</span></div>
+              <div className="flex justify-center"><span className="text-sm font-semibold uppercase tracking-wider text-gray-500">Antal</span></div>
+              <div className="flex justify-end"><span className="text-sm font-semibold uppercase tracking-wider text-gray-500">Pris</span></div>
             </div>
             <div className="divide-y divide-gray-100">
               {cartItems.map(item => (
-                <div key={item.id} className="grid grid-cols-[1fr_auto_auto] gap-x-6 items-center px-6 py-4">
+                <div key={item.id} className="grid grid-cols-[1fr_160px_120px] items-center px-6 py-4">
                   <div className="flex gap-4 items-center min-w-0">
                     <div className="flex-shrink-0 bg-gray-50 rounded-lg p-1.5">
                       {item.image ? (
@@ -464,7 +388,27 @@ function CheckoutContent() {
                       <h3 className="text-sm font-semibold text-gray-900 truncate">{item.title}</h3>
                     </div>
                   </div>
-                  <div className="text-center text-sm text-gray-700 font-medium">{item.quantity}</div>
+                  <div className="flex items-center justify-center gap-2">
+                    <button
+                      onClick={() => {
+                        const updated = cartItems.map(i => i.id === item.id ? { ...i, quantity: Math.max(1, i.quantity - 1) } : i);
+                        setCartItems(updated);
+                        setCartTotal(updated.reduce((s, i) => s + i.price * i.quantity, 0));
+                        localStorage.setItem('cartItems', JSON.stringify(updated));
+                      }}
+                      className="w-7 h-7 flex items-center justify-center border border-gray-300 rounded text-gray-700 hover:bg-gray-100 text-lg font-medium"
+                    >−</button>
+                    <span className="text-sm font-medium w-4 text-center">{item.quantity}</span>
+                    <button
+                      onClick={() => {
+                        const updated = cartItems.map(i => i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i);
+                        setCartItems(updated);
+                        setCartTotal(updated.reduce((s, i) => s + i.price * i.quantity, 0));
+                        localStorage.setItem('cartItems', JSON.stringify(updated));
+                      }}
+                      className="w-7 h-7 flex items-center justify-center border border-gray-300 rounded text-gray-700 hover:bg-gray-100 text-lg font-medium"
+                    >+</button>
+                  </div>
                   <div className="text-right flex-shrink-0">
                     <p className="text-sm font-bold text-gray-900">{(item.price * item.quantity).toLocaleString('sv-SE')} kr</p>
                     {item.originalPrice && (
@@ -519,8 +463,8 @@ function CheckoutContent() {
               </div>
 
               <div className="bg-white p-6 space-y-8" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-                <section ref={el => { sectionRefs.current[1] = el; }}>
-                  <h2 className="text-2xl font-bold mb-6">Leveransadress</h2>
+                <section>
+                  <h2 className="text-2xl font-bold mb-6"><span className="text-black">Leveransadress</span></h2>
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
@@ -569,8 +513,8 @@ function CheckoutContent() {
                   </div>
                 </section>
 
-                <section ref={el => { sectionRefs.current[2] = el; }}>
-                  <h2 className="text-2xl font-bold mb-6">Frakt</h2>
+                <section>
+                  <h2 className="text-2xl font-bold mb-6"><span className="text-black">Frakt</span></h2>
                   <div className="space-y-3">
                     {loadingShipping ? (
                       <p className="text-gray-600">Laddar fraktalternativ...</p>
@@ -591,8 +535,8 @@ function CheckoutContent() {
                   </div>
                 </section>
 
-                <section ref={el => { sectionRefs.current[3] = el; }}>
-                  <h2 className="text-2xl font-bold mb-2">Betalning</h2>
+                <section>
+                  <h2 className="text-2xl font-bold mb-4"><span className="text-black">Betalning</span></h2>
                   {!clientSecret && !isProcessing && (
                     <p className="text-sm text-gray-400 mb-4">Fyll i dina kontaktuppgifter ovan så visas betalningsalternativen här.</p>
                   )}

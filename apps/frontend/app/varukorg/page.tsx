@@ -190,7 +190,7 @@ export default function CartPage() {
                 </div>
 
                 {/* Checkout Button */}
-                <Link href="/kassan">
+                <Link href="/kassa">
                   <button className="w-full bg-green-600 text-white py-3 font-bold hover:bg-green-700 mb-4">
                     Till kassan
                   </button>

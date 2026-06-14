@@ -12,7 +12,7 @@ import { usePathname } from 'next/navigation';
 
 export function RootLayoutClient({ children, initialIsLoggedIn = false }: { children: React.ReactNode; initialIsLoggedIn?: boolean }) {
   const pathname = usePathname();
-  const hideHeader = pathname === '/inlogg' || pathname === '/aterstall-losenord' || pathname === '/kassan' || pathname === '/order-bekraftelse';
+  const hideHeader = pathname === '/inlogg' || pathname === '/aterstall-losenord' || pathname === '/kassa' || pathname === '/order-bekraftelse';
 
   return (
     <CompareProvider>

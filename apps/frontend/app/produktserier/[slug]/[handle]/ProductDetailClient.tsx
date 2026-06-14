@@ -587,7 +587,7 @@ export default function ProductDetailClient({
             <button
               onClick={() => {
                 localStorage.setItem('quickCheckout', JSON.stringify({ id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity }));
-                router.push('/kassan');
+                router.push('/kassa');
               }}
               className="w-full bg-green-600 text-white text-sm font-semibold h-11 flex items-center justify-center hover:bg-green-700 transition-colors"
             >
