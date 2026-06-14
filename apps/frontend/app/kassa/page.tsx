@@ -319,7 +319,7 @@ function CheckoutContent() {
             ...prev,
             address: (c.find((x: any) => x.types.includes('route'))?.long_name || '') + ' ' + (c.find((x: any) => x.types.includes('street_number'))?.long_name || ''),
             postalCode: c.find((x: any) => x.types.includes('postal_code'))?.long_name || '',
-            city: c.find((x: any) => x.types.includes('locality'))?.long_name || '',
+            city: c.find((x: any) => x.types.includes('postal_town'))?.long_name || c.find((x: any) => x.types.includes('locality'))?.long_name || '',
             country: selectedCountry,
           }));
           fetchShippingOptions(selectedCountry);
