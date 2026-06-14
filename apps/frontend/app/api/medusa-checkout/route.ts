@@ -98,7 +98,7 @@ export async function POST(request: Request) {
       {
         method: 'POST',
         headers: h,
-        body: JSON.stringify({ provider_id: 'pp_stripe_stripe' }),
+        body: JSON.stringify({ provider_id: 'pp_stripe_stripe', context: { capture_method: 'automatic' } }),
       }
     );
     if (!psRes.ok) {
