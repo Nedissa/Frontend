@@ -389,8 +389,7 @@ function CheckoutContent() {
             </div>
           </section>
 
-          {!showPayment ? (
-            <div className="w-full">
+          <div className="w-full">
               <div className="flex gap-0 mb-4 border-b border-gray-200">
                 <button
                   onClick={() => setCustomerType('private')}
@@ -479,41 +478,33 @@ function CheckoutContent() {
                   </div>
                 </section>
 
-                {paymentError && (
-                  <p className="text-red-600 text-sm">{paymentError}</p>
+                {/* Stripe PaymentElement visas direkt i formuläret när clientSecret finns */}
+                {showPayment && clientSecret && (
+                  <section>
+                    <h2 className="text-2xl font-bold mb-6">Betalning</h2>
+                    {paymentError && <p className="text-red-600 text-sm mb-4">{paymentError}</p>}
+                    <Elements
+                      stripe={stripePromise}
+                      options={{ clientSecret, appearance: { theme: 'stripe', variables: { colorPrimary: '#000000' } } }}
+                    >
+                      <PaymentForm cartId={cartId} formData={formData} finalTotal={finalTotal} onSuccess={handlePaymentSuccess} onError={handlePaymentError} />
+                    </Elements>
+                  </section>
                 )}
 
-                <button
-                  type="submit"
-                  disabled={isProcessing || cartItems.length === 0}
-                  className="w-full bg-black text-white py-3 rounded font-semibold hover:bg-gray-900 disabled:bg-gray-400 disabled:cursor-not-allowed"
-                >
-                  {isProcessing ? 'Förbereder betalning...' : 'Fortsätt till betalning'}
-                </button>
+                {!showPayment && (
+                  <>
+                    {paymentError && <p className="text-red-600 text-sm">{paymentError}</p>}
+                    <button
+                      type="submit"
+                      disabled={isProcessing || cartItems.length === 0}
+                      className="w-full bg-black text-white py-3 rounded font-semibold hover:bg-gray-900 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    >
+                      {isProcessing ? 'Förbereder betalning...' : 'Fortsätt till betalning'}
+                    </button>
+                  </>
+                )}
               </form>
-            </div>
-          ) : (
-            <div className="bg-white p-6" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-              <div className="flex items-center gap-3 mb-6">
-                <button onClick={() => setShowPayment(false)} className="text-sm text-gray-500 hover:text-black underline">
-                  ← Tillbaka
-                </button>
-                <h2 className="text-2xl font-bold">Betalning</h2>
-              </div>
-
-              {paymentError && (
-                <p className="text-red-600 text-sm mb-4">{paymentError}</p>
-              )}
-
-              <Elements
-                stripe={stripePromise}
-                options={{
-                  clientSecret,
-                  appearance: { theme: 'stripe', variables: { colorPrimary: '#000000' } },
-                }}
-              >
-                <PaymentForm cartId={cartId} formData={formData} finalTotal={finalTotal} onSuccess={handlePaymentSuccess} onError={handlePaymentError} />
-              </Elements>
             </div>
           )}
         </div>
