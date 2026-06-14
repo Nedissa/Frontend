@@ -347,7 +347,7 @@ function CheckoutContent() {
   };
 
   return (
-    <MainLayout bordered={false}>
+    <MainLayout bordered={false} noPadding>
       <div className="flex justify-center py-5 border-b border-gray-100 mb-0">
         <a href="/" className="flex items-center gap-3">
           <img src="/logo.png" alt="Techpilots" className="w-12 h-12" />
@@ -552,7 +552,6 @@ function CheckoutContent() {
             </div>
           </div>
         </div>
-      </div>
     </MainLayout>
   );
 }
