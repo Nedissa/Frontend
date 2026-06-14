@@ -225,9 +225,9 @@ export function CartAside() {
               <ul className="space-y-0 py-4 flex-1">
                 {cartItems.map(item => (
                   <li key={item.id} className="border-b border-gray-200 last:border-b-0 py-4">
-                    <div className="flex items-center gap-3">
-                      {/* Vänster: bild */}
-                      <div className="flex-shrink-0 w-14 h-14 bg-gray-50">
+                    <div className="grid items-center gap-2" style={{ gridTemplateColumns: '56px 1fr 96px 80px' }}>
+                      {/* Bild */}
+                      <div className="w-14 h-14 bg-gray-50">
                         <img
                           src={item.image}
                           alt={item.title}
@@ -236,10 +236,10 @@ export function CartAside() {
                         />
                       </div>
 
-                      {/* Mitten: titel + status */}
-                      <div className="flex-1 min-w-0">
-                        <Link href={`/produkter/${item.id}`} className="text-gray-900 font-semibold text-sm hover:text-gray-700 leading-snug block">
-                          {item.title}
+                      {/* Titel + status */}
+                      <div className="min-w-0">
+                        <Link href={`/produkter/${item.id}`} className="text-gray-900 font-semibold text-sm hover:text-gray-700 leading-snug block" style={{ textTransform: 'capitalize' }}>
+                          {item.title.toLowerCase()}
                         </Link>
                         <div className="flex items-center gap-1 mt-0.5">
                           <svg className="w-2 h-2 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" /></svg>
@@ -247,15 +247,15 @@ export function CartAside() {
                         </div>
                       </div>
 
-                      {/* Mitten-höger: räknare */}
-                      <div className="flex-shrink-0 flex items-center gap-0.5">
+                      {/* Räknare — fast kolumn */}
+                      <div className="flex items-center justify-center gap-0.5">
                         <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="text-gray-700 disabled:text-gray-300 font-bold w-9 h-9 flex items-center justify-center text-lg">−</button>
                         <span className="text-sm font-semibold tabular-nums w-6 text-center">{item.quantity}</span>
                         <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="text-gray-700 font-bold w-9 h-9 flex items-center justify-center text-lg">+</button>
                       </div>
 
-                      {/* Höger: pris + ta bort */}
-                      <div className="flex-shrink-0 flex flex-col items-end gap-1">
+                      {/* Pris + ta bort */}
+                      <div className="flex flex-col items-end gap-1">
                         <span className="text-sm font-bold text-gray-900 tabular-nums whitespace-nowrap">
                           {(item.price * item.quantity).toLocaleString('sv-SE')} kr
                         </span>
