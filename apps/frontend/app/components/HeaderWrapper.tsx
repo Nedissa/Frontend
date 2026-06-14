@@ -800,7 +800,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                       onClick={() => { setSelectedCategory(null); setShowCategoryDropdown(false); }}
                       className="w-full text-left px-4 py-2.5 text-sm font-semibold text-black relative group"
                     >
-                      <span className="relative inline-flex">
+                      <span className="relative inline-block">
                         Alla kategorier
                         <span className="absolute bottom-0 left-0 h-0.5 bg-black w-0 group-hover:w-full transition-all duration-300 ease-out" />
                       </span>
@@ -811,7 +811,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                         onClick={() => { setSelectedCategory({ title: cat.title, url: cat.url }); setShowCategoryDropdown(false); }}
                         className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:text-black relative group"
                       >
-                        <span className="relative inline-flex">
+                        <span className="relative inline-block">
                           {cat.title}
                           <span className="absolute bottom-0 left-0 h-0.5 bg-black w-0 group-hover:w-full transition-all duration-300 ease-out" />
                         </span>
