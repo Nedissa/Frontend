@@ -1037,7 +1037,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                         {item.label}
                       </Link>
                     ))}
-                    <Link href="/erbjudanden" className="flex items-center gap-2 px-8 py-3 text-xs font-bold text-black border-t border-gray-200" onClick={() => setMobileMenuOpen(false)}>
+                    <Link href="/erbjudanden/rea" className="flex items-center gap-2 px-8 py-3 text-xs font-bold text-black border-t border-gray-200" onClick={() => setMobileMenuOpen(false)}>
                       Se alla erbjudanden →
                     </Link>
                   </div>
@@ -1226,7 +1226,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                         </ul>
                       </div>
                       <div className="border-t border-gray-200 pt-4 mt-6">
-                        <Link href="/erbjudanden" className="text-sm font-bold text-black flex items-center gap-1 hover:gap-2 transition-all">
+                        <Link href="/erbjudanden/rea" className="text-sm font-bold text-black flex items-center gap-1 hover:gap-2 transition-all">
                           Se alla erbjudanden <span>→</span>
                         </Link>
                       </div>
