@@ -796,15 +796,6 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                 </button>
                 {showCategoryDropdown && (
                   <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 shadow-lg z-[9999] min-w-[200px]">
-                    <button
-                      onClick={() => { setSelectedCategory(null); setShowCategoryDropdown(false); }}
-                      className="w-full text-left px-4 py-2.5 text-sm font-semibold text-black relative group"
-                    >
-                      <span className="relative inline-block">
-                        Alla kategorier
-                        <span className="absolute bottom-0 left-0 bg-black w-0 group-hover:w-full transition-all duration-300 ease-out" style={{ height: '2px' }} />
-                      </span>
-                    </button>
                     {MENU_DATA.map((cat) => (
                       <button
                         key={cat.id}
