@@ -378,7 +378,7 @@ function CheckoutContent() {
       <div className="flex pt-6 pb-16 px-4 gap-0 relative justify-center">
 
           {/* Stepper — absolut positionerad mot sektionernas faktiska Y */}
-          <div className="hidden lg:block pr-8 w-44 flex-shrink-0 relative">
+          <div className="hidden lg:block flex-shrink-0 relative" style={{ width: 200, paddingRight: 40 }}>
             {(() => {
               const steps = [
                 { label: 'Varukorg', done: true },
@@ -387,30 +387,40 @@ function CheckoutContent() {
                 { label: 'Betalsätt', done: !!clientSecret },
                 { label: 'Slutför köp', done: false },
               ];
-              const tops = dotTops.length === steps.length ? dotTops : steps.map((_, i) => i * 80);
+              const tops = dotTops.length === steps.length ? dotTops : steps.map((_, i) => i * 100);
+              const dotRight = 14; // px från höger kant av containern till center av prick
               return (
                 <>
-                  {/* Linje-segment per steg */}
-                  {steps.slice(0, -1).map((step, i) => (
-                    <div
-                      key={`line-${i}`}
-                      className={`absolute w-0.5 ${step.done ? 'bg-black' : 'bg-gray-200'}`}
-                      style={{
-                        right: 26,
-                        top: tops[i] + 6,
-                        height: Math.max(0, (tops[i + 1] ?? tops[i] + 60) - tops[i] - 6),
-                      }}
-                    />
-                  ))}
+                  {/* Linje-segment per steg — inklusive till sista pricken */}
+                  {steps.map((step, i) => {
+                    if (i === steps.length - 1) return null;
+                    const nextTop = tops[i + 1] ?? tops[i] + 100;
+                    return (
+                      <div
+                        key={`line-${i}`}
+                        className={step.done ? 'bg-black' : 'bg-gray-300'}
+                        style={{
+                          position: 'absolute',
+                          right: dotRight + 1,
+                          width: 2,
+                          top: tops[i] + 14,
+                          height: Math.max(0, nextTop - tops[i] - 14),
+                        }}
+                      />
+                    );
+                  })}
                   {/* Prickar + labels */}
                   {steps.map((step, i) => (
                     <div
                       key={step.label}
-                      className="absolute right-0 flex items-center gap-2"
-                      style={{ top: tops[i] }}
+                      className="absolute flex items-center gap-2"
+                      style={{ top: tops[i] + 2, right: 0 }}
                     >
                       <span className={`text-xs font-medium whitespace-nowrap ${step.done ? 'text-black' : 'text-gray-400'}`}>{step.label}</span>
-                      <div className={`w-3 h-3 rounded-full flex-shrink-0 border-2 mr-[20px] ${step.done ? 'bg-black border-black' : 'bg-white border-gray-300'}`} />
+                      <div
+                        className={`rounded-full flex-shrink-0 border-2 ${step.done ? 'bg-black border-black' : 'bg-white border-gray-300'}`}
+                        style={{ width: 12, height: 12, marginRight: dotRight - 5 }}
+                      />
                     </div>
                   ))}
                 </>
