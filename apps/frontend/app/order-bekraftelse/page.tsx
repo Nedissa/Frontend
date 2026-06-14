@@ -1,14 +1,54 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { MainLayout } from '../components/MainLayout';
 
-export default function OrderConfirmation() {
+function OrderConfirmationContent() {
+  const searchParams = useSearchParams();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
   useEffect(() => {
-    localStorage.removeItem('checkoutData');
-    sessionStorage.removeItem('checkoutData');
-  }, []);
+    const paymentIntent = searchParams.get('payment_intent');
+    const redirectStatus = searchParams.get('redirect_status');
+
+    if (paymentIntent && redirectStatus === 'succeeded') {
+      const pending = sessionStorage.getItem('pendingOrder');
+      if (pending) {
+        const { cartId, formData, total } = JSON.parse(pending);
+        setLoading(true);
+        fetch('/api/medusa-checkout/confirm', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cartId, formData, total }),
+        })
+          .then(r => r.json())
+          .then(() => {
+            sessionStorage.removeItem('pendingOrder');
+            localStorage.removeItem('cartItems');
+            localStorage.removeItem('checkoutData');
+            window.dispatchEvent(new CustomEvent('cartCleared'));
+          })
+          .catch(() => setError('Ordern kunde inte bekräftas, kontakta support.'))
+          .finally(() => setLoading(false));
+      }
+    } else {
+      localStorage.removeItem('checkoutData');
+      sessionStorage.removeItem('checkoutData');
+    }
+  }, [searchParams]);
+
+  if (loading) {
+    return (
+      <MainLayout bordered={false}>
+        <div className="max-w-lg mx-auto py-16 px-4 text-center">
+          <p className="text-gray-500">Bekräftar din order...</p>
+        </div>
+      </MainLayout>
+    );
+  }
 
   return (
     <MainLayout bordered={false}>
@@ -21,6 +61,8 @@ export default function OrderConfirmation() {
         <p className="text-gray-500 mb-10">
           En orderbekräftelse har skickats till din e-post.
         </p>
+
+        {error && <p className="text-red-500 text-sm mb-6">{error}</p>}
 
         <div className="text-left border border-gray-100 rounded-lg p-6 mb-8 space-y-5">
           {[
@@ -52,5 +94,15 @@ export default function OrderConfirmation() {
         </p>
       </div>
     </MainLayout>
+  );
+}
+
+import { Suspense } from 'react';
+
+export default function OrderConfirmation() {
+  return (
+    <Suspense fallback={<div className="p-12">Laddar...</div>}>
+      <OrderConfirmationContent />
+    </Suspense>
   );
 }

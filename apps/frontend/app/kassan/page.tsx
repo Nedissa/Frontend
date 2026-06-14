@@ -50,6 +50,9 @@ function PaymentForm({
     if (!stripe || !elements) return;
     setProcessing(true);
 
+    // Spara data för redirect-flödet (3DS etc)
+    sessionStorage.setItem('pendingOrder', JSON.stringify({ cartId, formData, total: finalTotal * 100 }));
+
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: { return_url: window.location.origin + '/order-bekraftelse' },
@@ -62,7 +65,7 @@ function PaymentForm({
       return;
     }
 
-    // Betalning godkänd — komplettera ordern i Medusa
+    // Betalning godkänd utan redirect — komplettera ordern i Medusa
     const res = await fetch('/api/medusa-checkout/confirm', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
