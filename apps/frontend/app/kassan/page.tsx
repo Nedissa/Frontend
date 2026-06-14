@@ -495,10 +495,13 @@ function CheckoutContent() {
                 </section>
 
                 <section>
-                  <h2 className="text-2xl font-bold mb-6">Betalning</h2>
+                  <h2 className="text-2xl font-bold mb-2">Betalning</h2>
+                  {!clientSecret && !isProcessing && (
+                    <p className="text-sm text-gray-400 mb-4">Fyll i dina kontaktuppgifter ovan så visas betalningsalternativen här.</p>
+                  )}
                   {paymentError && <p className="text-red-600 text-sm mb-4">{paymentError}</p>}
                   {isProcessing && !clientSecret && (
-                    <p className="text-gray-500 text-sm">Laddar betalning...</p>
+                    <p className="text-gray-400 text-sm mb-4">Laddar betalningsalternativ...</p>
                   )}
                   {showPayment && clientSecret && (
                     <Elements
