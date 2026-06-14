@@ -133,13 +133,13 @@ export default function ContactPage() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>
               <div>
                 <label style={labelStyle}>Ditt namn</label>
-                <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Ange ditt namn" required style={inputStyle}
+                <input type="text" value={name} onChange={e => setName(e.target.value)} required style={inputStyle}
                   onFocus={e => (e.target.style.borderColor = '#000')}
                   onBlur={e => (e.target.style.borderColor = '#e5e7eb')} />
               </div>
               <div>
                 <label style={labelStyle}>Din e-post <span style={{ color: '#000' }}>*</span></label>
-                <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Ange din e-post" required style={inputStyle}
+                <input type="email" value={email} onChange={e => setEmail(e.target.value)} required style={inputStyle}
                   onFocus={e => (e.target.style.borderColor = '#000')}
                   onBlur={e => (e.target.style.borderColor = '#e5e7eb')} />
               </div>
@@ -161,14 +161,14 @@ export default function ContactPage() {
 
             <div>
               <label style={labelStyle}>Rubrik <span style={{ color: '#000' }}>*</span></label>
-              <input type="text" value={subject} onChange={e => setSubject(e.target.value)} placeholder="Ange meddelandets rubrik" required style={inputStyle}
+              <input type="text" value={subject} onChange={e => setSubject(e.target.value)} required style={inputStyle}
                 onFocus={e => (e.target.style.borderColor = '#000')}
                 onBlur={e => (e.target.style.borderColor = '#e5e7eb')} />
             </div>
 
             <div>
               <label style={labelStyle}>Ditt meddelande <span style={{ color: '#000' }}>*</span></label>
-              <textarea rows={6} value={message} onChange={e => setMessage(e.target.value)} placeholder="Ange ditt meddelande" required
+              <textarea rows={6} value={message} onChange={e => setMessage(e.target.value)} required
                 style={{ ...inputStyle, resize: 'vertical' }}
                 onFocus={e => (e.target.style.borderColor = '#000')}
                 onBlur={e => (e.target.style.borderColor = '#e5e7eb')} />

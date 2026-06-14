@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { fetchProductsFromMedusa } from '@/app/lib/medusa-client';
+import { Spinner } from './Spinner';
 
 export function ProductBanner() {
   const [products, setProducts] = useState<any[]>([]);
@@ -76,7 +77,7 @@ export function ProductBanner() {
             {group1.length > 0 ? group1.map((p, i) => (
               <ProductItem key={p.id} p={p} borderRight={i === 0} />
             )) : (
-              <div className="flex-1 flex items-center justify-center text-gray-300 text-sm">Laddar...</div>
+              <div className="flex-1 flex items-center justify-center text-gray-300"><Spinner size={18} /></div>
             )}
           </div>
         </div>
@@ -94,7 +95,7 @@ export function ProductBanner() {
             {group2.length > 0 ? group2.map((p, i) => (
               <ProductItem key={p.id} p={p} borderRight={i === 0} />
             )) : (
-              <div className="flex-1 flex items-center justify-center text-gray-300 text-sm">Laddar...</div>
+              <div className="flex-1 flex items-center justify-center text-gray-300"><Spinner size={18} /></div>
             )}
           </div>
         </div>

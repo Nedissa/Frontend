@@ -7,6 +7,7 @@ import { MainLayout } from '../components/MainLayout';
 import { InputWithCheck } from '../components/InputWithCheck';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { Spinner } from '../components/Spinner';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
@@ -523,7 +524,7 @@ function CheckoutContent() {
                   <h2 className="text-2xl font-bold mb-6"><span className="text-black">Frakt</span></h2>
                   <div className="space-y-3">
                     {loadingShipping ? (
-                      <p className="text-gray-600">Laddar fraktalternativ...</p>
+                      <div className="flex items-center gap-2 text-gray-400 text-sm"><Spinner size={16} /> Hämtar fraktalternativ...</div>
                     ) : shippingOptions.length > 0 ? (
                       shippingOptions.map(option => (
                         <label key={option.id} className="flex items-center p-4 border border-gray-200 rounded cursor-pointer hover:bg-gray-50">
@@ -550,7 +551,7 @@ function CheckoutContent() {
                   )}
                   {paymentError && <p className="text-red-600 text-sm mb-4">{paymentError}</p>}
                   {isProcessing && !clientSecret && (
-                    <p className="text-gray-400 text-sm mb-4">Laddar betalningsalternativ...</p>
+                    <div className="flex items-center gap-2 text-gray-400 text-sm mb-4"><Spinner size={16} /> Förbereder betalning...</div>
                   )}
                   {showPayment && clientSecret && (
                     <Elements

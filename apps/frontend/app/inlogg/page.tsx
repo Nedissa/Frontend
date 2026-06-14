@@ -255,7 +255,6 @@ export default function LoginPage() {
                             type="email"
                             value={resetEmail}
                             onChange={(e) => setResetEmail(e.target.value)}
-                            placeholder="din@epost.se"
                             required
                             className="w-full px-4 py-3 text-sm outline-none rounded-lg border border-gray-200"
                             style={{ backgroundColor: '#f5f5f5', WebkitBoxShadow: '0 0 0 1000px #f5f5f5 inset' }}

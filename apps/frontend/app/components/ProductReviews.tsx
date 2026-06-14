@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Spinner } from './Spinner';
 
 interface Review {
   id: string;
@@ -193,7 +194,7 @@ export function ProductReviews({ productId }: { productId: string }) {
       )}
 
       {/* Reviews list */}
-      {loading && <p className="text-sm text-gray-500">Laddar recensioner...</p>}
+      {loading && <div className="flex justify-center py-4 text-gray-400"><Spinner size={20} /></div>}
 
       {!loading && reviews.length === 0 && (
         <div>

@@ -9,6 +9,7 @@ import { createPortal } from 'react-dom';
 import { Logo } from './Logo';
 import { useAside } from './Aside';
 import { LanguageSwitcher } from './LanguageSwitcher';
+import { Spinner } from './Spinner';
 
 interface MenuItem {
   id: string;
@@ -760,8 +761,8 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                     ))}
                   </div>
                 ) : (
-                  <div className="p-3 text-sm text-gray-500">
-                    {searchProducts.length === 0 ? 'Laddar produkter...' : `Inga resultat för "${searchTerm}"`}
+                  <div className="p-3 text-sm text-gray-500 flex items-center gap-2">
+                    {searchProducts.length === 0 ? <><Spinner size={14} /> Söker...</> : `Inga resultat för "${searchTerm}"`}
                   </div>
                 );
               })()}
@@ -897,8 +898,8 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                       ))}
                     </div>
                   ) : (
-                    <div className="p-3 text-sm text-gray-600">
-                      {searchProducts.length === 0 ? 'Laddar produkter...' : `Inga resultat för "${searchTerm}"`}
+                    <div className="p-3 text-sm text-gray-600 flex items-center gap-2">
+                      {searchProducts.length === 0 ? <><Spinner size={14} /> Söker...</> : `Inga resultat för "${searchTerm}"`}
                     </div>
                   );
                 })()}
@@ -1208,8 +1209,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                 <div style={{ display: activeMegaMenu === 'erbjudanden' ? 'flex' : 'none', gap: '2rem' }}>
                     <div className="flex flex-col justify-between" style={{ minWidth: '180px' }}>
                       <div>
-                        <p className="text-xs text-gray-400 uppercase tracking-widest mb-4 invisible">placeholder</p>
-                        <ul className="space-y-3">
+<ul className="space-y-3">
                           {[
                             { label: 'Veckans deals', url: '/erbjudanden/veckans-deals' },
                             { label: 'Rea', url: '/erbjudanden/rea' },
