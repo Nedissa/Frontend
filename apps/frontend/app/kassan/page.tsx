@@ -352,22 +352,28 @@ function CheckoutContent() {
         <div className="w-full max-w-[800px] flex flex-col gap-12">
 
           {/* Orderöversikt */}
-          <section className="bg-white p-8" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <h2 className="text-base font-semibold text-gray-400 uppercase tracking-widest mb-6">Orderöversikt</h2>
+          <section className="bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+            <div className="grid grid-cols-[1fr_auto_auto] gap-x-6 px-6 py-3 border-b border-gray-100">
+              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Produkt</span>
+              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider text-center">Antal</span>
+              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider text-right">Pris</span>
+            </div>
             <div className="divide-y divide-gray-100">
               {cartItems.map(item => (
-                <div key={item.id} className="flex gap-4 items-center py-4 first:pt-0 last:pb-0">
-                  <div className="flex-shrink-0 bg-gray-50 rounded-lg p-2">
-                    {item.image ? (
-                      <img src={item.image} alt={item.title} className="w-16 h-16 object-contain" />
-                    ) : (
-                      <div className="w-16 h-16" />
-                    )}
+                <div key={item.id} className="grid grid-cols-[1fr_auto_auto] gap-x-6 items-center px-6 py-4">
+                  <div className="flex gap-4 items-center min-w-0">
+                    <div className="flex-shrink-0 bg-gray-50 rounded-lg p-1.5">
+                      {item.image ? (
+                        <img src={item.image} alt={item.title} className="w-12 h-12 object-contain" />
+                      ) : (
+                        <div className="w-12 h-12" />
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="text-sm font-semibold text-gray-900 truncate">{item.title}</h3>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-semibold text-gray-900 truncate">{item.title}</h3>
-                    <p className="text-xs text-gray-400 mt-0.5">Antal: {item.quantity}</p>
-                  </div>
+                  <div className="text-center text-sm text-gray-700 font-medium">{item.quantity}</div>
                   <div className="text-right flex-shrink-0">
                     <p className="text-sm font-bold text-gray-900">{(item.price * item.quantity).toLocaleString('sv-SE')} kr</p>
                     {item.originalPrice && (
@@ -377,7 +383,7 @@ function CheckoutContent() {
                 </div>
               ))}
             </div>
-            <div className="mt-6 pt-6 border-t border-gray-100 space-y-2">
+            <div className="px-6 py-4 border-t border-gray-100 space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600">Delsumma</span>
                 <span className="font-semibold">{cartTotal.toLocaleString('sv-SE')} kr</span>
@@ -398,7 +404,7 @@ function CheckoutContent() {
                 <span className="text-gray-600">Frakt</span>
                 <span className="font-semibold">{shippingCost === 0 ? 'Gratis' : `${shippingCost.toLocaleString('sv-SE')} kr`}</span>
               </div>
-              <div className="flex justify-between text-lg font-bold pt-3 border-t border-gray-200">
+              <div className="flex justify-between text-base font-bold pt-3 border-t border-gray-100">
                 <span>Totalt</span>
                 <span>{(finalTotal || cartTotal).toLocaleString('sv-SE')} kr</span>
               </div>
