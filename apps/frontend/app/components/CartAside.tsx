@@ -55,7 +55,14 @@ export function CartAside() {
       }
     };
     window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
+
+    const handleCartCleared = () => setCartItems([]);
+    window.addEventListener('cartCleared', handleCartCleared);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('cartCleared', handleCartCleared);
+    };
   }, []);
 
   useEffect(() => {
