@@ -150,15 +150,28 @@ function StarRating({ rating, count }: { rating: number; count: number }) {
   return (
     <div className="flex items-center gap-1">
       <div className="flex gap-0.5">
-        {[...Array(5)].map((_, i) => (
-          <svg
-            key={i}
-            className={`w-3 h-3 ${i < Math.round(rating) ? 'fill-black' : 'fill-gray-300'}`}
-            viewBox="0 0 20 20"
-          >
-            <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-          </svg>
-        ))}
+        {[1,2,3,4,5].map(star => {
+          const full = rating >= star;
+          const half = !full && rating >= star - 0.5;
+          const id = `pi-half-${star}`;
+          return (
+            <svg key={star} className="w-3 h-3" viewBox="0 0 24 24" strokeWidth="1">
+              {half && (
+                <defs>
+                  <linearGradient id={id}>
+                    <stop offset="50%" stopColor="#111827" />
+                    <stop offset="50%" stopColor="transparent" />
+                  </linearGradient>
+                </defs>
+              )}
+              <polygon
+                points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+                fill={full ? '#111827' : half ? `url(#${id})` : 'none'}
+                stroke={full || half ? '#111827' : '#d1d5db'}
+              />
+            </svg>
+          );
+        })}
       </div>
       <span className="text-xs text-gray-600">({count})</span>
     </div>

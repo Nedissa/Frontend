@@ -164,6 +164,7 @@ export default function ProductDetailClient({
   const [alsoLikeProducts, setAlsoLikeProducts] = useState<ProductData[]>([]);
   const [recentlyViewed, setRecentlyViewed] = useState<ProductData[]>([]);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [reviewStats, setReviewStats] = useState<{ avg: number; count: number } | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -177,6 +178,20 @@ export default function ProductDetailClient({
     if (productInfoRef.current) observer.observe(productInfoRef.current);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    fetch(`/api/reviews?product_id=${product.id}`)
+      .then(r => r.json())
+      .then(data => {
+        const reviews = data.reviews || [];
+        if (reviews.length > 0) {
+          const avg = reviews.reduce((s: number, r: any) => s + r.rating, 0) / reviews.length;
+          setReviewStats({ avg, count: reviews.length });
+        } else {
+          setReviewStats({ avg: 0, count: 0 });
+        }
+      });
+  }, [product.id]);
 
   useEffect(() => {
     setPageUrl(window.location.href);
@@ -402,9 +417,56 @@ export default function ProductDetailClient({
                   </button>
                 ))}
               </div>
-              {activeTab === 'description' && <div className="space-y-3 pb-8"><div className="border-b border-gray-200 pb-3"><p className="text-sm text-gray-700 whitespace-pre-wrap">{productDetails.description}</p></div></div>}
-              {activeTab === 'specifications' && <div className="space-y-3 pb-8">{productDetails.specifications.length > 0 ? productDetails.specifications.map((spec: { label: string; value: string }, idx: number) => (<div key={idx} className="border-b border-gray-200 pb-3"><p className="text-sm font-semibold text-gray-900">{spec.label}</p><p className="text-sm text-gray-700">{spec.value}</p></div>)) : <p className="text-sm text-gray-500">Inga specifikationer tillagda</p>}</div>}
-              {activeTab === 'contents' && <div className="space-y-3 pb-8">{productDetails.contents.length > 0 ? <div className="border-b border-gray-200 pb-3"><p className="text-sm text-gray-700">Följande tillbehör ingår i paketet:</p><ul className="text-sm text-gray-700 mt-2 space-y-1 list-disc list-inside">{productDetails.contents.map((item: string, idx: number) => <li key={idx}>{item}</li>)}</ul></div> : <p className="text-sm text-gray-500">Inget produktinnehåll tillagt</p>}</div>}
+              {activeTab === 'description' && (
+                <div className="pb-8">
+                  {(() => {
+                    const text = productDetails.description || '';
+                    const firstDot = text.search(/[.!?]\s/);
+                    const ingress = firstDot > 0 ? text.slice(0, firstDot + 1) : text.slice(0, 120);
+                    const rest = firstDot > 0 ? text.slice(firstDot + 2) : text.slice(120);
+                    return (
+                      <>
+                        <p className="text-sm font-semibold text-gray-900 leading-relaxed mb-3">{ingress}</p>
+                        {rest && <p className="text-sm text-gray-600 whitespace-pre-wrap leading-relaxed">{rest}</p>}
+                      </>
+                    );
+                  })()}
+                </div>
+              )}
+              {activeTab === 'specifications' && (
+                <div className="pb-8">
+                  {productDetails.specifications.length > 0 ? (
+                    <table className="w-full text-sm border-collapse">
+                      <tbody>
+                        {productDetails.specifications.map((spec: { label: string; value: string }, idx: number) => (
+                          <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? '#f9fafb' : 'white' }}>
+                            <td className="py-2.5 px-4 font-semibold text-gray-700 w-2/5">{spec.label}</td>
+                            <td className="py-2.5 px-4 text-gray-600">{spec.value}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  ) : <p className="text-sm text-gray-500">Inga specifikationer tillagda</p>}
+                </div>
+              )}
+              {activeTab === 'contents' && (
+                <div className="pb-8">
+                  {productDetails.contents.length > 0 ? (
+                    <>
+                      <p className="text-sm font-semibold text-gray-900 mb-3">Detta ingår i förpackningen</p>
+                      <table className="w-full text-sm border-collapse">
+                        <tbody>
+                          {productDetails.contents.map((item: string, idx: number) => (
+                            <tr key={idx} style={{ backgroundColor: idx % 2 === 0 ? '#f9fafb' : 'white' }}>
+                              <td className="py-2.5 px-4 text-gray-600">{item}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </>
+                  ) : <p className="text-sm text-gray-500">Inget produktinnehåll tillagt</p>}
+                </div>
+              )}
               {activeTab === 'reviews' && <ProductReviews productId={product.id} />}
             </div>
           </div>
@@ -439,25 +501,37 @@ export default function ProductDetailClient({
             })()}
             <h1 className="text-xl font-bold text-black leading-tight">{product.title}</h1>
             <p className="text-xs text-gray-400 mt-1">Varukod: {productDetails.sku}</p>
-            {(() => {
-              const rating = (product as any).rating || 4.2;
-              const reviews = (product as any).reviews || 12;
-              if (!rating && !reviews) return null;
-              return (
+            {reviewStats && reviewStats.count > 0 && (
                 <div className="flex items-center gap-2 mt-2">
                   <div className="flex gap-0.5">
-                    {[1,2,3,4,5].map(i => (
-                      <svg key={i} viewBox="0 0 24 24" className="w-3.5 h-3.5" fill={i <= Math.round(rating) ? '#111827' : '#d1d5db'} stroke={i <= Math.round(rating) ? '#111827' : '#9ca3af'} strokeWidth="1">
-                        <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
-                      </svg>
-                    ))}
+                    {[1,2,3,4,5].map(star => {
+                      const full = reviewStats.avg >= star;
+                      const half = !full && reviewStats.avg >= star - 0.5;
+                      const id = `pd-half-${star}`;
+                      return (
+                        <svg key={star} viewBox="0 0 24 24" className="w-3.5 h-3.5" strokeWidth="1">
+                          {half && (
+                            <defs>
+                              <linearGradient id={id}>
+                                <stop offset="50%" stopColor="#111827" />
+                                <stop offset="50%" stopColor="transparent" />
+                              </linearGradient>
+                            </defs>
+                          )}
+                          <polygon
+                            points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
+                            fill={full ? '#111827' : half ? `url(#${id})` : 'none'}
+                            stroke={full || half ? '#111827' : '#d1d5db'}
+                          />
+                        </svg>
+                      );
+                    })}
                   </div>
-                  <span className="text-xs text-gray-500">{rating.toFixed(1)}/5</span>
+                  <span className="text-xs text-gray-500">{reviewStats.avg.toFixed(1)}/5</span>
                   <span className="text-xs text-gray-300">|</span>
-                  <span className="text-xs text-gray-500">{reviews} {reviews === 1 ? 'recension' : 'recensioner'}</span>
+                  <span className="text-xs text-gray-500">{reviewStats.count} {reviewStats.count === 1 ? 'recension' : 'recensioner'}</span>
                 </div>
-              );
-            })()}
+            )}
           </div>
 
           <div className="mx-6 h-px bg-gray-100" />

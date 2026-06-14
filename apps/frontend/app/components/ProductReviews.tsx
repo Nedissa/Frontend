@@ -139,7 +139,7 @@ export function ProductReviews({ productId }: { productId: string }) {
         <div className="flex items-center gap-4 pb-4 border-b border-gray-200">
           <div className="text-4xl font-bold">{avgRating.toFixed(1)}</div>
           <div>
-            <Stars rating={Math.round(avgRating)} />
+            <Stars rating={avgRating} />
             <p className="text-sm text-gray-500 mt-1">{reviews.length} recension{reviews.length !== 1 ? 'er' : ''}</p>
           </div>
         </div>
