@@ -1244,8 +1244,8 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   <div key={category.id} style={{ display: activeMegaMenu === category.id ? 'grid' : 'none', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem' }}>
                     {category.items?.map((section) => (
                       <div key={section.id} className="w-full">
-                        <div className="mb-4 pb-4 border-b border-gray-200">
-                          <div style={{ marginBottom: '8px', height: '80px', position: 'relative', left: '0', marginLeft: '-20px' }}>
+                        <div className="mb-4 pb-4 border-b border-gray-200 w-full">
+                          <div style={{ marginBottom: '8px', height: '80px' }}>
                             <img
                               src={SECTION_IMAGES[section.id] || '/assets/cat-electronics.png'}
                               alt={section.title}
