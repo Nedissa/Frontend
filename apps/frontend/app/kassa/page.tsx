@@ -378,7 +378,7 @@ function CheckoutContent() {
 
   return (
     <MainLayout bordered={false} noPadding>
-      <div className="flex justify-center py-12 border-b border-gray-100 mb-0">
+      <div className="flex justify-center py-12 mb-0">
         <a href="/" className="flex items-center gap-2">
           <img src="/logo.png" alt="Techpilots" className="w-10 h-10" />
           <span className="text-2xl font-bold tracking-tight">Techpilots</span>
@@ -393,8 +393,7 @@ function CheckoutContent() {
             <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 block" style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' }}>Orderöversikt</span></span>
             <span className="hidden lg:block absolute w-0.5 bg-black pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-100px' }} />
             <div className="grid grid-cols-[1fr_100px_80px] sm:grid-cols-[1fr_160px_120px] px-2 sm:px-6 py-3 border-b border-gray-200 gap-3">
-              <div className="flex gap-4 sm:gap-6 items-center">
-                <div className="w-[52px] sm:w-24 flex-shrink-0" />
+              <div className="flex items-center">
                 <span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-500">Produkter</span>
               </div>
               <div className="flex justify-center"><span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-500">Antal</span></div>
