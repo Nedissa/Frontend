@@ -221,8 +221,18 @@ function CheckoutContent() {
   }, [formData.country, shippingOptions.length, fetchShippingOptions]);
 
   // Auto-initiera betalning när cart, shipping och e-post finns
+  // Om frakt ändras efter att betalning initierats — skapa ny session med rätt belopp
+  const prevShippingRef = useRef('');
   useEffect(() => {
-    if (cartItems.length > 0 && shippingMethod && formData.email && !hasInitPaymentRef.current) {
+    if (!cartItems.length || !shippingMethod || !formData.email) return;
+    const shippingChanged = prevShippingRef.current && prevShippingRef.current !== shippingMethod;
+    if (shippingChanged && hasInitPaymentRef.current) {
+      hasInitPaymentRef.current = false;
+      setShowPayment(false);
+      setClientSecret('');
+    }
+    prevShippingRef.current = shippingMethod;
+    if (!hasInitPaymentRef.current) {
       initPayment(cartItems, shippingMethod);
     }
   }, [cartItems, shippingMethod, formData.email, initPayment]);
