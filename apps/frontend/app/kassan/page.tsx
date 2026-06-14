@@ -142,9 +142,15 @@ function CheckoutContent() {
   useEffect(() => {
     const measure = () => {
       const containerTop = contentColRef.current?.getBoundingClientRect().top ?? 0;
-      const tops = sectionRefs.current.map(el => {
+      const tops = sectionRefs.current.map((el, i) => {
         if (!el) return 0;
-        return el.getBoundingClientRect().top - containerTop;
+        const rect = el.getBoundingClientRect();
+        // "Slutför köp" (index 4) = botten av betalningssektionen (index 3)
+        if (i === 4) {
+          const payEl = sectionRefs.current[3];
+          if (payEl) return payEl.getBoundingClientRect().bottom - containerTop - 14;
+        }
+        return rect.top - containerTop;
       });
       setDotTops(tops);
     };
@@ -369,9 +375,9 @@ function CheckoutContent() {
 
   return (
     <MainLayout bordered={false} noPadding>
-      <div className="flex justify-center py-5 border-b border-gray-100 mb-0">
-        <a href="/" className="flex items-center gap-3">
-          <img src="/logo.png" alt="Techpilots" className="w-12 h-12" />
+      <div className="flex justify-center py-6 border-b border-gray-100 mb-0">
+        <a href="/" className="flex items-center gap-2">
+          <img src="/logo.png" alt="Techpilots" className="w-14 h-14" />
           <span className="text-2xl font-bold tracking-tight">Techpilots</span>
         </a>
       </div>
@@ -387,39 +393,43 @@ function CheckoutContent() {
                 { label: 'Betalsätt', done: !!clientSecret },
                 { label: 'Slutför köp', done: false },
               ];
-              const tops = dotTops.length === steps.length ? dotTops : steps.map((_, i) => i * 100);
-              const dotRight = 14; // px från höger kant av containern till center av prick
+              const tops = dotTops.length === steps.length ? dotTops : steps.map((_, i) => i * 120);
+              const DOT_SIZE = 14;
+              const LINE_X = 10; // px från höger
               return (
                 <>
-                  {/* Linje-segment per steg — inklusive till sista pricken */}
-                  {steps.map((step, i) => {
-                    if (i === steps.length - 1) return null;
-                    const nextTop = tops[i + 1] ?? tops[i] + 100;
-                    return (
-                      <div
-                        key={`line-${i}`}
-                        className={step.done ? 'bg-black' : 'bg-gray-300'}
-                        style={{
-                          position: 'absolute',
-                          right: dotRight + 1,
-                          width: 2,
-                          top: tops[i] + 14,
-                          height: Math.max(0, nextTop - tops[i] - 14),
-                        }}
-                      />
-                    );
-                  })}
+                  {/* Linje — en sammanhängande linje från första till sista prick */}
+                  {tops.length === steps.length && tops[steps.length - 1] > 0 && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        right: LINE_X,
+                        width: 2,
+                        top: tops[0] + DOT_SIZE,
+                        height: Math.max(0, tops[steps.length - 1] - tops[0]),
+                        background: 'linear-gradient(to bottom, #000 0%, #000 100%)',
+                        backgroundColor: '#d1d5db',
+                      }}
+                    />
+                  )}
                   {/* Prickar + labels */}
                   {steps.map((step, i) => (
                     <div
                       key={step.label}
                       className="absolute flex items-center gap-2"
-                      style={{ top: tops[i] + 2, right: 0 }}
+                      style={{ top: tops[i], right: 0 }}
                     >
-                      <span className={`text-xs font-medium whitespace-nowrap ${step.done ? 'text-black' : 'text-gray-400'}`}>{step.label}</span>
+                      <span style={{ fontSize: 13, fontWeight: 500, whiteSpace: 'nowrap', color: '#000' }}>{step.label}</span>
                       <div
-                        className={`rounded-full flex-shrink-0 border-2 ${step.done ? 'bg-black border-black' : 'bg-white border-gray-300'}`}
-                        style={{ width: 12, height: 12, marginRight: dotRight - 5 }}
+                        style={{
+                          width: DOT_SIZE,
+                          height: DOT_SIZE,
+                          borderRadius: '50%',
+                          flexShrink: 0,
+                          marginRight: LINE_X - DOT_SIZE / 2 + 1,
+                          backgroundColor: '#000',
+                          border: '2px solid #000',
+                        }}
                       />
                     </div>
                   ))}
