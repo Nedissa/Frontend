@@ -348,37 +348,38 @@ function CheckoutContent() {
 
   return (
     <MainLayout bordered={false}>
-      <div className="flex justify-center py-4 border-b border-gray-100 mb-0">
-        <a href="/" className="flex items-center gap-2">
-          <img src="/logo.png" alt="Techpilots" className="w-9 h-9" />
+      <div className="flex justify-center py-5 border-b border-gray-100 mb-0">
+        <a href="/" className="flex items-center gap-3">
+          <img src="/logo.png" alt="Techpilots" className="w-12 h-12" />
           <span className="text-2xl font-bold tracking-tight">Techpilots</span>
         </a>
       </div>
-      <div className="flex justify-center pt-6 pb-16">
-        <div className="w-full max-w-[900px] flex gap-8">
+      <div className="flex pt-6 pb-16 px-4 gap-0 relative justify-center">
 
-          {/* Stepper */}
-          <div className="hidden md:flex flex-col items-center pt-2 w-36 flex-shrink-0">
-            {[
-              { label: 'Varukorg', done: true },
-              { label: 'Dina uppgifter', done: !!formData.email },
-              { label: 'Fraktsätt', done: !!shippingMethod },
-              { label: 'Betalsätt', done: !!clientSecret },
-              { label: 'Slutför köp', done: false },
-            ].map((step, i, arr) => (
-              <div key={step.label} className="flex flex-col items-center w-full">
-                <div className="flex items-center gap-3 w-full">
-                  <div className={`w-3 h-3 rounded-full flex-shrink-0 border-2 ${step.done ? 'bg-black border-black' : 'bg-white border-gray-300'}`} />
-                  <span className={`text-xs font-medium ${step.done ? 'text-black' : 'text-gray-400'}`}>{step.label}</span>
+          {/* Stepper — fast till vänster */}
+          <div className="hidden lg:flex flex-col items-end pr-8 w-44 flex-shrink-0">
+            <div className="sticky top-8 flex flex-col">
+              {[
+                { label: 'Varukorg', done: true },
+                { label: 'Dina uppgifter', done: !!formData.email },
+                { label: 'Fraktsätt', done: !!shippingMethod },
+                { label: 'Betalsätt', done: !!clientSecret },
+                { label: 'Slutför köp', done: false },
+              ].map((step, i, arr) => (
+                <div key={step.label} className="flex flex-col items-end">
+                  <div className="flex items-center gap-2">
+                    <span className={`text-xs font-medium whitespace-nowrap ${step.done ? 'text-black' : 'text-gray-400'}`}>{step.label}</span>
+                    <div className={`w-3 h-3 rounded-full flex-shrink-0 border-2 ${step.done ? 'bg-black border-black' : 'bg-white border-gray-300'}`} />
+                  </div>
+                  {i < arr.length - 1 && (
+                    <div className={`w-0.5 h-10 mr-1.5 self-end ${step.done ? 'bg-black' : 'bg-gray-200'}`} />
+                  )}
                 </div>
-                {i < arr.length - 1 && (
-                  <div className={`w-0.5 h-8 ml-1.5 ${step.done ? 'bg-black' : 'bg-gray-200'}`} />
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
-          <div className="flex-1 flex flex-col gap-8">
+          <div className="flex-1 max-w-[800px] flex flex-col gap-8">
 
           {/* Orderöversikt */}
           <section className="bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
