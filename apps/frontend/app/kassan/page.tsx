@@ -423,7 +423,7 @@ function CheckoutContent() {
                 </button>
               </div>
 
-              <form onSubmit={handleSubmit} className="bg-white p-6 space-y-8" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+              <div className="bg-white p-6 space-y-8" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                 <section>
                   <h2 className="text-2xl font-bold mb-6">Leveransadress</h2>
                   <div className="space-y-4">
@@ -511,7 +511,7 @@ function CheckoutContent() {
                     </Elements>
                   )}
                 </section>
-              </form>
+              </div>
             </div>
         </div>
       </div>
