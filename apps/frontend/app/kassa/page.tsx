@@ -233,7 +233,9 @@ function CheckoutContent() {
     }
     prevShippingRef.current = shippingMethod;
     if (!hasInitPaymentRef.current) {
-      initPayment(cartItems, shippingMethod);
+      // Debounce 600ms så autofyll hinner fylla alla fält innan vi skickar till Medusa
+      const t = setTimeout(() => initPayment(cartItems, shippingMethod), 600);
+      return () => clearTimeout(t);
     }
   }, [cartItems, shippingMethod, formData.email, initPayment]);
 
