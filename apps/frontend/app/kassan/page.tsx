@@ -134,18 +134,26 @@ function CheckoutContent() {
   const formDataRef = useRef(formData);
   const hasInitPaymentRef = useRef(false);
 
-  // Refs för sektionshöjder
+  // Refs för stepper-positionering
   const sectionRefs = useRef<(HTMLElement | null)[]>([null, null, null, null, null]);
-  const [sectionHeights, setSectionHeights] = useState<number[]>([0, 0, 0, 0, 0]);
+  const contentColRef = useRef<HTMLDivElement>(null);
+  const [dotTops, setDotTops] = useState<number[]>([]);
 
   useEffect(() => {
-    const observer = new ResizeObserver(() => {
-      setSectionHeights(sectionRefs.current.map(el => el?.getBoundingClientRect().height ?? 0));
-    });
+    const measure = () => {
+      const containerTop = contentColRef.current?.getBoundingClientRect().top ?? 0;
+      const tops = sectionRefs.current.map(el => {
+        if (!el) return 0;
+        return el.getBoundingClientRect().top - containerTop;
+      });
+      setDotTops(tops);
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    if (contentColRef.current) observer.observe(contentColRef.current);
     sectionRefs.current.forEach(el => { if (el) observer.observe(el); });
-    setSectionHeights(sectionRefs.current.map(el => el?.getBoundingClientRect().height ?? 0));
     return () => observer.disconnect();
-  }, [cartItems, shippingOptions, clientSecret]);
+  }, [cartItems, shippingOptions, clientSecret, isProcessing]);
 
   // Håll formDataRef synkad med formData
   useEffect(() => { formDataRef.current = formData; }, [formData]);
@@ -369,33 +377,36 @@ function CheckoutContent() {
       </div>
       <div className="flex pt-6 pb-16 px-4 gap-0 relative justify-center">
 
-          {/* Stepper — vänsterkolumn med dynamiska linjehöjder */}
-          <div className="hidden lg:block pr-8 w-44 flex-shrink-0 relative">
-            <div className="sticky top-8">
+          {/* Stepper — absolut positionerad mot sektionernas faktiska Y */}
+          {dotTops.length > 0 && (
+            <div className="hidden lg:block pr-8 w-44 flex-shrink-0 relative">
+              {/* vertikal linje */}
+              {dotTops[0] !== undefined && dotTops[dotTops.length - 1] !== undefined && (
+                <div
+                  className="absolute right-8 w-0.5 bg-gray-200"
+                  style={{ top: dotTops[0] + 6, height: (dotTops[dotTops.length - 1] - dotTops[0]) }}
+                />
+              )}
               {[
                 { label: 'Varukorg', done: true },
                 { label: 'Dina uppgifter', done: !!formData.email },
                 { label: 'Fraktsätt', done: !!shippingMethod },
                 { label: 'Betalsätt', done: !!clientSecret },
                 { label: 'Slutför köp', done: false },
-              ].map((step, i, arr) => {
-                const lineH = i < arr.length - 1 ? (sectionHeights[i] || 80) : 0;
-                return (
-                  <div key={step.label} className="flex flex-col items-end" style={{ height: i < arr.length - 1 ? sectionHeights[i] || undefined : undefined }}>
-                    <div className="flex items-center gap-2 pt-1">
-                      <span className={`text-xs font-medium whitespace-nowrap ${step.done ? 'text-black' : 'text-gray-400'}`}>{step.label}</span>
-                      <div className={`w-3 h-3 rounded-full flex-shrink-0 border-2 ${step.done ? 'bg-black border-black' : 'bg-white border-gray-300'}`} />
-                    </div>
-                    {i < arr.length - 1 && (
-                      <div className={`w-0.5 mr-1.5 flex-1 ${step.done ? 'bg-black' : 'bg-gray-200'}`} style={{ minHeight: 20 }} />
-                    )}
-                  </div>
-                );
-              })}
+              ].map((step, i) => (
+                <div
+                  key={step.label}
+                  className="absolute right-0 flex items-center gap-2"
+                  style={{ top: dotTops[i] ?? 0 }}
+                >
+                  <span className={`text-xs font-medium whitespace-nowrap ${step.done ? 'text-black' : 'text-gray-400'}`}>{step.label}</span>
+                  <div className={`w-3 h-3 rounded-full flex-shrink-0 border-2 mr-[26px] ${step.done ? 'bg-black border-black' : 'bg-white border-gray-300'}`} />
+                </div>
+              ))}
             </div>
-          </div>
+          )}
 
-          <div className="flex-1 max-w-[800px] flex flex-col gap-8">
+          <div ref={contentColRef} className="flex-1 max-w-[800px] flex flex-col gap-8">
 
           {/* Orderöversikt */}
           <section ref={el => { sectionRefs.current[0] = el; }} className="bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
