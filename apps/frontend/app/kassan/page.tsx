@@ -384,7 +384,7 @@ function CheckoutContent() {
       <div className="flex pt-6 pb-16 px-4 gap-0 relative justify-center">
 
           {/* Stepper — absolut positionerad mot sektionernas faktiska Y */}
-          <div className="hidden lg:block flex-shrink-0 relative" style={{ width: 200, paddingRight: 40 }}>
+          <div className="hidden lg:block flex-shrink-0 relative" style={{ width: 160, paddingRight: 32 }}>
             {(() => {
               const steps = [
                 { label: 'Varukorg', done: true },
@@ -393,7 +393,10 @@ function CheckoutContent() {
                 { label: 'Betalsätt', done: !!clientSecret },
                 { label: 'Slutför köp', done: false },
               ];
-              const tops = dotTops.length === steps.length ? dotTops : steps.map((_, i) => i * 120);
+              // Visa bara steppern när vi har riktiga mätvärden
+              const hasMeasured = dotTops.length === steps.length && dotTops[steps.length - 1] > dotTops[0];
+              if (!hasMeasured) return null;
+              const tops = dotTops;
               const DOT_SIZE = 14;
               const LINE_X = 10; // px från höger
               return (
