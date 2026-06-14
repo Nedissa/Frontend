@@ -500,7 +500,6 @@ function CheckoutContent() {
                 </section>
               </form>
             </div>
-          )}
         </div>
       </div>
     </MainLayout>
