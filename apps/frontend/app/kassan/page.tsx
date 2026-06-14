@@ -134,6 +134,19 @@ function CheckoutContent() {
   const formDataRef = useRef(formData);
   const hasInitPaymentRef = useRef(false);
 
+  // Refs för sektionshöjder
+  const sectionRefs = useRef<(HTMLElement | null)[]>([null, null, null, null, null]);
+  const [sectionHeights, setSectionHeights] = useState<number[]>([0, 0, 0, 0, 0]);
+
+  useEffect(() => {
+    const observer = new ResizeObserver(() => {
+      setSectionHeights(sectionRefs.current.map(el => el?.getBoundingClientRect().height ?? 0));
+    });
+    sectionRefs.current.forEach(el => { if (el) observer.observe(el); });
+    setSectionHeights(sectionRefs.current.map(el => el?.getBoundingClientRect().height ?? 0));
+    return () => observer.disconnect();
+  }, [cartItems, shippingOptions, clientSecret]);
+
   // Håll formDataRef synkad med formData
   useEffect(() => { formDataRef.current = formData; }, [formData]);
 
@@ -356,33 +369,36 @@ function CheckoutContent() {
       </div>
       <div className="flex pt-6 pb-16 px-4 gap-0 relative justify-center">
 
-          {/* Stepper — fast till vänster */}
-          <div className="hidden lg:flex flex-col items-end pr-8 w-44 flex-shrink-0">
-            <div className="sticky top-8 flex flex-col">
+          {/* Stepper — vänsterkolumn med dynamiska linjehöjder */}
+          <div className="hidden lg:block pr-8 w-44 flex-shrink-0 relative">
+            <div className="sticky top-8">
               {[
                 { label: 'Varukorg', done: true },
                 { label: 'Dina uppgifter', done: !!formData.email },
                 { label: 'Fraktsätt', done: !!shippingMethod },
                 { label: 'Betalsätt', done: !!clientSecret },
                 { label: 'Slutför köp', done: false },
-              ].map((step, i, arr) => (
-                <div key={step.label} className="flex flex-col items-end">
-                  <div className="flex items-center gap-2">
-                    <span className={`text-xs font-medium whitespace-nowrap ${step.done ? 'text-black' : 'text-gray-400'}`}>{step.label}</span>
-                    <div className={`w-3 h-3 rounded-full flex-shrink-0 border-2 ${step.done ? 'bg-black border-black' : 'bg-white border-gray-300'}`} />
+              ].map((step, i, arr) => {
+                const lineH = i < arr.length - 1 ? (sectionHeights[i] || 80) : 0;
+                return (
+                  <div key={step.label} className="flex flex-col items-end" style={{ height: i < arr.length - 1 ? sectionHeights[i] || undefined : undefined }}>
+                    <div className="flex items-center gap-2 pt-1">
+                      <span className={`text-xs font-medium whitespace-nowrap ${step.done ? 'text-black' : 'text-gray-400'}`}>{step.label}</span>
+                      <div className={`w-3 h-3 rounded-full flex-shrink-0 border-2 ${step.done ? 'bg-black border-black' : 'bg-white border-gray-300'}`} />
+                    </div>
+                    {i < arr.length - 1 && (
+                      <div className={`w-0.5 mr-1.5 flex-1 ${step.done ? 'bg-black' : 'bg-gray-200'}`} style={{ minHeight: 20 }} />
+                    )}
                   </div>
-                  {i < arr.length - 1 && (
-                    <div className={`w-0.5 h-10 mr-1.5 self-end ${step.done ? 'bg-black' : 'bg-gray-200'}`} />
-                  )}
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
           <div className="flex-1 max-w-[800px] flex flex-col gap-8">
 
           {/* Orderöversikt */}
-          <section className="bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <section ref={el => { sectionRefs.current[0] = el; }} className="bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
             <div className="grid grid-cols-[1fr_auto_auto] gap-x-6 px-6 py-3 border-b border-gray-100">
               <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Produkt</span>
               <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider text-center">Antal</span>
@@ -458,7 +474,7 @@ function CheckoutContent() {
               </div>
 
               <div className="bg-white p-6 space-y-8" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-                <section>
+                <section ref={el => { sectionRefs.current[1] = el; }}>
                   <h2 className="text-2xl font-bold mb-6">Leveransadress</h2>
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -508,7 +524,7 @@ function CheckoutContent() {
                   </div>
                 </section>
 
-                <section>
+                <section ref={el => { sectionRefs.current[2] = el; }}>
                   <h2 className="text-2xl font-bold mb-6">Frakt</h2>
                   <div className="space-y-3">
                     {loadingShipping ? (
@@ -530,7 +546,7 @@ function CheckoutContent() {
                   </div>
                 </section>
 
-                <section>
+                <section ref={el => { sectionRefs.current[3] = el; }}>
                   <h2 className="text-2xl font-bold mb-2">Betalning</h2>
                   {!clientSecret && !isProcessing && (
                     <p className="text-sm text-gray-400 mb-4">Fyll i dina kontaktuppgifter ovan så visas betalningsalternativen här.</p>
