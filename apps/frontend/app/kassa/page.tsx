@@ -84,13 +84,18 @@ function PaymentForm({
   return (
     <form onSubmit={handlePay} className="space-y-4">
       <PaymentElement />
-      <button
-        type="submit"
-        disabled={processing || !stripe}
-        className="w-full bg-black text-white py-3 rounded font-semibold hover:bg-gray-900 disabled:bg-gray-400 disabled:cursor-not-allowed mt-4"
-      >
-        {processing ? 'Bearbetar...' : 'Slutför köp'}
-      </button>
+      <div className="flex gap-3 mt-4">
+        <a href="/varukorg" className="flex-1 py-3 border border-gray-300 text-sm font-semibold text-gray-600 hover:text-black hover:border-black transition-colors text-center">
+          Avbryt köp
+        </a>
+        <button
+          type="submit"
+          disabled={processing || !stripe}
+          className="flex-1 bg-black text-white py-3 font-semibold hover:bg-gray-900 disabled:bg-gray-400 disabled:cursor-not-allowed"
+        >
+          {processing ? 'Bearbetar...' : 'Slutför köp'}
+        </button>
+      </div>
     </form>
   );
 }
