@@ -53,17 +53,13 @@ function PaymentForm({
     // Spara data för redirect-flödet (3DS etc)
     sessionStorage.setItem('pendingOrder', JSON.stringify({ cartId, formData, total: finalTotal * 100 }));
 
-    console.log('[pay] calling confirmPayment...');
-    const result = await stripe.confirmPayment({
+    const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: { return_url: window.location.origin + '/order-bekraftelse' },
       redirect: 'if_required',
     });
-    console.log('[pay] result:', JSON.stringify(result));
 
-    const { error } = result;
     if (error) {
-      console.log('[pay] error:', error);
       onError(error.message || 'Betalningen misslyckades');
       setProcessing(false);
       return;
