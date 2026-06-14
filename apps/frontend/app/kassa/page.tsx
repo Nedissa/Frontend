@@ -315,14 +315,25 @@ function CheckoutContent() {
           const c = place.address_components;
           const countryMap: Record<string, string> = { SE: 'Sverige', NO: 'Norge', DK: 'Danmark', FI: 'Finland' };
           const selectedCountry = countryMap[c.find((x: any) => x.types.includes('country'))?.short_name || ''] || 'Sverige';
+          const streetNumber = c.find((x: any) => x.types.includes('street_number'))?.long_name || '';
+          const route = c.find((x: any) => x.types.includes('route'))?.long_name || '';
+          const fullAddress = streetNumber ? `${route} ${streetNumber}` : `${route} `;
           setFormData(prev => ({
             ...prev,
-            address: (c.find((x: any) => x.types.includes('route'))?.long_name || '') + ' ' + (c.find((x: any) => x.types.includes('street_number'))?.long_name || ''),
+            address: fullAddress,
             postalCode: c.find((x: any) => x.types.includes('postal_code'))?.long_name || '',
             city: c.find((x: any) => x.types.includes('postal_town'))?.long_name || c.find((x: any) => x.types.includes('locality'))?.long_name || '',
             country: selectedCountry,
           }));
           fetchShippingOptions(selectedCountry);
+          // Sätt fokus tillbaka på adressfältet om husnummer saknas
+          if (!streetNumber && addressInputRef.current) {
+            setTimeout(() => {
+              addressInputRef.current?.focus();
+              const len = addressInputRef.current?.value.length || 0;
+              addressInputRef.current?.setSelectionRange(len, len);
+            }, 50);
+          }
         });
       } catch {}
     };
