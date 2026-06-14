@@ -781,16 +781,16 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
 
           {/* Search Input */}
           <div className="flex-1 max-w-2xl relative" ref={searchContainerRef}>
-            <div className="relative flex items-center rounded overflow-visible" style={{ backgroundColor: '#f5f5f5' }}>
+            <div className="relative flex items-center rounded-full overflow-visible border border-gray-200 bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}>
               {/* Category dropdown - hidden on mobile */}
               <div className="relative flex-shrink-0 hidden sm:block" ref={categoryDropdownRef}>
                 <button
                   onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-                  className="flex items-center gap-2 px-3 py-2.5 text-sm font-semibold text-black whitespace-nowrap border-r border-gray-300"
+                  className="flex items-center gap-2 pl-4 pr-3 py-2.5 text-sm font-semibold text-black whitespace-nowrap border-r border-gray-200"
                   style={{ backgroundColor: 'transparent' }}
                 >
                   <span>{selectedCategory ? selectedCategory.title : 'Alla kategorier'}</span>
-                  <svg className={`w-3.5 h-3.5 text-gray-500 transition-transform duration-200 ${showCategoryDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+                  <svg className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${showCategoryDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
                     <path d="M19 9l-7 7-7-7" />
                   </svg>
                 </button>
@@ -825,7 +825,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                 <input
                   type="text"
                   placeholder="Sök efter produkt, kategori eller artikel"
-                  className="flex-1 bg-transparent text-sm placeholder-gray-400 focus:outline-none py-1.5"
+                  className="flex-1 bg-transparent text-sm placeholder-gray-400 focus:outline-none py-2"
                   value={searchTerm}
                   onChange={(e) => {
                     setSearchTerm(e.target.value);
@@ -833,10 +833,12 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   }}
                   onFocus={() => searchTerm.length > 0 && setShowSearchResults(true)}
                 />
-                <svg className="w-4 h-4 text-gray-400 ml-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+              </div>
+              <button className="flex items-center justify-center w-10 h-10 rounded-full flex-shrink-0 mr-0.5" style={{ backgroundColor: '#5ba3f5' }}>
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
                   <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/>
                 </svg>
-              </div>
+              </button>
             </div>
             {searchTerm.length > 0 && showSearchResults && (
               <div
