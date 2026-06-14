@@ -580,7 +580,7 @@ function CheckoutContent() {
 
 export default function Checkout() {
   return (
-    <Suspense fallback={<div className="p-12">Laddar...</div>}>
+    <Suspense fallback={<div className="p-12 flex justify-center"><Spinner size={24} /></div>}>
       <CheckoutContent />
     </Suspense>
   );
