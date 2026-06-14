@@ -13,6 +13,9 @@ export function NavigationProgress() {
 
   useEffect(() => {
     NProgress.done();
+    if (window.history.state?.scrollY === undefined) {
+      window.scrollTo(0, 0);
+    }
   }, [pathname, searchParams]);
 
   useEffect(() => {
