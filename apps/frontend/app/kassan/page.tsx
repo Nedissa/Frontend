@@ -131,6 +131,9 @@ function CheckoutContent() {
   const formDataRef = useRef(formData);
   const hasInitPaymentRef = useRef(false);
 
+  // Håll formDataRef synkad med formData
+  useEffect(() => { formDataRef.current = formData; }, [formData]);
+
   const WELCOME_DISCOUNT = 0.10;
 
   const fetchShippingOptions = useCallback(async (country: string) => {
