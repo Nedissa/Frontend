@@ -85,9 +85,9 @@ function PaymentForm({
     <form onSubmit={handlePay} className="space-y-4">
       <PaymentElement />
       <div className="flex gap-3 mt-4">
-        <a href="/varukorg" className="flex-1 py-3 border border-gray-300 text-sm font-semibold text-gray-600 hover:text-black hover:border-black transition-colors text-center">
+        <button type="button" onClick={() => window.history.back()} className="flex-1 py-3 border border-gray-300 text-sm font-semibold text-gray-600 hover:text-black hover:border-black transition-colors">
           Avbryt köp
-        </a>
+        </button>
         <button
           type="submit"
           disabled={processing || !stripe}
