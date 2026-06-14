@@ -89,7 +89,7 @@ function PaymentForm({
         disabled={processing || !stripe}
         className="w-full bg-black text-white py-3 rounded font-semibold hover:bg-gray-900 disabled:bg-gray-400 disabled:cursor-not-allowed mt-4"
       >
-        {processing ? 'Bearbetar...' : 'Betala'}
+        {processing ? 'Bearbetar...' : 'Slutför köp'}
       </button>
     </form>
   );
@@ -348,7 +348,13 @@ function CheckoutContent() {
 
   return (
     <MainLayout bordered={false}>
-      <div className="flex justify-center pt-12 pb-16">
+      <div className="flex justify-center py-6 border-b border-gray-100 mb-4">
+        <a href="/" className="flex items-center gap-2">
+          <img src="/logo.png" alt="Techpilots" className="w-7 h-7" />
+          <span className="text-lg font-bold tracking-tight">Techpilots</span>
+        </a>
+      </div>
+      <div className="flex justify-center pt-8 pb-16">
         <div className="w-full max-w-[800px] flex flex-col gap-12">
 
           {/* Orderöversikt */}
