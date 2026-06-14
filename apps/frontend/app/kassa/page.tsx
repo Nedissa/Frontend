@@ -369,24 +369,24 @@ function CheckoutContent() {
           <section className="bg-white relative" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
             <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 block" style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' }}>Orderöversikt</span></span>
             <span className="hidden lg:block absolute w-0.5 bg-black pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-100px' }} />
-            <div className="grid grid-cols-[1fr_160px_120px] px-6 py-3 border-b border-gray-200">
-              <div><span className="text-sm font-semibold uppercase tracking-wider text-gray-500">Produkter</span></div>
-              <div className="flex justify-center"><span className="text-sm font-semibold uppercase tracking-wider text-gray-500">Antal</span></div>
-              <div className="flex justify-end"><span className="text-sm font-semibold uppercase tracking-wider text-gray-500">Pris</span></div>
+            <div className="grid grid-cols-[1fr_auto_auto] sm:grid-cols-[1fr_160px_120px] px-4 sm:px-6 py-3 border-b border-gray-200 gap-3">
+              <div><span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-500">Produkter</span></div>
+              <div className="flex justify-center"><span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-500">Antal</span></div>
+              <div className="flex justify-end"><span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-500">Pris</span></div>
             </div>
             <div className="divide-y divide-gray-100">
               {cartItems.map(item => (
-                <div key={item.id} className="grid grid-cols-[1fr_160px_120px] items-center px-6 py-4">
-                  <div className="flex gap-4 items-center min-w-0">
-                    <div className="flex-shrink-0 bg-gray-50 rounded-lg p-1.5">
+                <div key={item.id} className="grid grid-cols-[1fr_auto_auto] sm:grid-cols-[1fr_160px_120px] items-center px-4 sm:px-6 py-4 gap-3">
+                  <div className="flex gap-2 sm:gap-4 items-center min-w-0">
+                    <div className="flex-shrink-0 bg-gray-50 rounded-lg p-1">
                       {item.image ? (
-                        <img src={item.image} alt={item.title} className="w-12 h-12 object-contain" />
+                        <img src={item.image} alt={item.title} className="w-8 h-8 sm:w-12 sm:h-12 object-contain" />
                       ) : (
-                        <div className="w-12 h-12" />
+                        <div className="w-8 h-8 sm:w-12 sm:h-12" />
                       )}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-sm font-semibold text-gray-900 truncate">{item.title}</h3>
+                      <h3 className="text-xs sm:text-sm font-semibold text-gray-900 line-clamp-2">{item.title}</h3>
                     </div>
                   </div>
                   <div className="flex items-center justify-center gap-2">
@@ -411,7 +411,7 @@ function CheckoutContent() {
                     >+</button>
                   </div>
                   <div className="text-right flex-shrink-0">
-                    <p className="text-sm font-bold text-gray-900">{(item.price * item.quantity).toLocaleString('sv-SE')} kr</p>
+                    <p className="text-xs sm:text-sm font-bold text-gray-900 whitespace-nowrap">{(item.price * item.quantity).toLocaleString('sv-SE')} kr</p>
                     {item.originalPrice && (
                       <p className="text-xs text-gray-400 line-through">{(item.originalPrice * item.quantity).toLocaleString('sv-SE')} kr</p>
                     )}
@@ -419,7 +419,7 @@ function CheckoutContent() {
                 </div>
               ))}
             </div>
-            <div className="px-6 py-4 border-t border-gray-100 space-y-3">
+            <div className="px-4 sm:px-6 py-4 border-t border-gray-100 space-y-3">
               <div className="flex justify-between text-sm">
                 <span className="text-gray-600">Delsumma</span>
                 <span className="font-semibold">{cartTotal.toLocaleString('sv-SE')} kr</span>
