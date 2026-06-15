@@ -478,7 +478,7 @@ export default function AccountPage() {
                       <div key={complaint.id} className="p-3" style={{ border: '1px solid #e5e7eb' }}>
                         <p className="font-semibold text-sm">Beställning #{complaint.order_id}</p>
                         <p className="text-xs text-gray-600 mt-1">{complaint.description}</p>
-                        <p className="text-xs font-semibold mt-1">Status: <span className="text-blue-600">{complaint.status === 'open' ? 'Pågående' : 'Stängd'}</span></p>
+                        <p className="text-xs font-semibold mt-1">Status: <span className={complaint.status === 'resolved' ? 'text-green-600' : 'text-blue-600'}>{complaint.status === 'open' ? 'Pågående' : complaint.status === 'resolved' ? 'Löst' : 'Stängd'}</span></p>
                       </div>
                     ))}
                   </div>
@@ -781,7 +781,7 @@ export default function AccountPage() {
                   <p className="font-semibold">Beställning #{complaint.order_id}</p>
                   <p className="text-sm text-gray-600 mt-1">{complaint.description}</p>
                   <p className="text-sm font-semibold mt-2">
-                    Status: <span className="text-blue-600">{complaint.status === 'open' ? 'Pågående' : complaint.status === 'closed' ? 'Stängd' : complaint.status}</span>
+                    Status: <span className={complaint.status === 'resolved' ? 'text-green-600' : 'text-blue-600'}>{complaint.status === 'open' ? 'Pågående' : complaint.status === 'resolved' ? 'Löst' : 'Stängd'}</span>
                   </p>
                 </div>
               ))}
