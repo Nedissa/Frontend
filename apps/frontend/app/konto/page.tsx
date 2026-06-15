@@ -78,6 +78,24 @@ export default function AccountPage() {
     }
   }, []);
 
+  useEffect(() => {
+    const customerId = kontoData?.profile?.id;
+    if (!customerId) return;
+
+    const poll = async () => {
+      try {
+        const res = await fetch(`/api/complaints`);
+        if (res.ok) {
+          const data = await res.json();
+          setComplaints(data.complaints || []);
+        }
+      } catch {}
+    };
+
+    const interval = setInterval(poll, 30000);
+    return () => clearInterval(interval);
+  }, [kontoData?.profile?.id]);
+
   const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
@@ -261,12 +279,13 @@ export default function AccountPage() {
               setActiveTab('profil');
               localStorage.setItem('accountTab', 'profil');
             }}
-            className={`px-6 py-3 font-semibold text-sm border-b-2 transition-colors ${
+            className={`px-6 py-3 font-semibold text-sm border-b-2 transition-colors flex items-center gap-2 ${
               activeTab === 'profil'
                 ? 'border-black text-black'
                 : 'border-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
             Profil
           </button>
           <button
@@ -274,12 +293,13 @@ export default function AccountPage() {
               setActiveTab('orderhistorik');
               localStorage.setItem('accountTab', 'orderhistorik');
             }}
-            className={`px-6 py-3 font-semibold text-sm border-b-2 transition-colors ${
+            className={`px-6 py-3 font-semibold text-sm border-b-2 transition-colors flex items-center gap-2 ${
               activeTab === 'orderhistorik'
                 ? 'border-black text-black'
                 : 'border-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
             Orderhistorik
           </button>
           <button
@@ -287,12 +307,13 @@ export default function AccountPage() {
               setActiveTab('favoriter');
               localStorage.setItem('accountTab', 'favoriter');
             }}
-            className={`px-6 py-3 font-semibold text-sm border-b-2 transition-colors ${
+            className={`px-6 py-3 font-semibold text-sm border-b-2 transition-colors flex items-center gap-2 ${
               activeTab === 'favoriter'
                 ? 'border-black text-black'
                 : 'border-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
             Favoriter
           </button>
           <button
@@ -300,12 +321,13 @@ export default function AccountPage() {
               setActiveTab('kundklubb');
               localStorage.setItem('accountTab', 'kundklubb');
             }}
-            className={`px-6 py-3 font-semibold text-sm border-b-2 transition-colors ${
+            className={`px-6 py-3 font-semibold text-sm border-b-2 transition-colors flex items-center gap-2 ${
               activeTab === 'kundklubb'
                 ? 'border-black text-black'
                 : 'border-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             Kundklubb
           </button>
           <button
@@ -313,12 +335,13 @@ export default function AccountPage() {
               setActiveTab('felanmalan');
               localStorage.setItem('accountTab', 'felanmalan');
             }}
-            className={`px-6 py-3 font-semibold text-sm border-b-2 transition-colors ${
+            className={`px-6 py-3 font-semibold text-sm border-b-2 transition-colors flex items-center gap-2 ${
               activeTab === 'felanmalan'
                 ? 'border-black text-black'
                 : 'border-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" /></svg>
             Felanmälan
           </button>
         </div>
@@ -473,13 +496,33 @@ export default function AccountPage() {
                 <h3 className="text-lg font-bold mb-4">Felanmälan</h3>
                 {complaints.length > 0 ? (
                   <div className="space-y-3">
+                    <p className="text-sm text-gray-700">Du har {complaints.length} {complaints.length === 1 ? 'felanmälan' : 'felanmälningar'}</p>
                     {complaints.map((complaint) => (
                       <div key={complaint.id} className="p-3" style={{ border: '1px solid #e5e7eb' }}>
-                        <p className="font-semibold text-sm">Beställning #{complaint.order_id}</p>
-                        <p className="text-xs text-gray-600 mt-1">{complaint.description}</p>
+                        <p className="font-semibold text-sm">Beställning #{complaint.order_number || complaint.order_id}</p>
+                        <p className="text-xs text-gray-400 mt-0.5">{new Date(complaint.created_at).toLocaleDateString('sv-SE')}</p>
+                        <p className="text-xs text-gray-600 mt-1"><span className="font-semibold">Beskrivning:</span> {complaint.description}</p>
                         <p className="text-xs font-semibold mt-1">Status: <span className={complaint.status === 'resolved' ? 'text-green-600' : 'text-blue-600'}>{complaint.status === 'open' ? 'Pågående' : complaint.status === 'resolved' ? 'Löst' : 'Stängd'}</span></p>
+                        {complaint.status === 'resolved' && (
+                          <p className="text-xs text-gray-500 mt-1">Ärendet är avslutat. Fler frågor? support@techpilots.se</p>
+                        )}
                       </div>
                     ))}
+                    <div className="pt-1">
+                      {!showComplaintForm ? (
+                        <button onClick={() => setShowComplaintForm(true)} className="w-full py-2 bg-black text-white font-semibold text-sm">Ny felanmälan</button>
+                      ) : (
+                        <div className="space-y-3">
+                          <p className="text-sm font-semibold">Ny felanmälan</p>
+                          <div><label className="block text-sm font-semibold mb-1">Ordernummer</label><input type="text" value={complaintOrderId} onChange={(e) => setComplaintOrderId(e.target.value)} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                          <div><label className="block text-sm font-semibold mb-1">Meddelande</label><textarea value={complaintDescription} onChange={(e) => setComplaintDescription(e.target.value)} rows={3} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                          <div className="flex gap-2">
+                            <button onClick={handleAddComplaint} className="flex-1 py-2 bg-black text-white font-semibold text-sm">Skicka</button>
+                            <button onClick={() => { setShowComplaintForm(false); setComplaintOrderId(''); setComplaintDescription(''); }} className="flex-1 py-2 border border-gray-300 text-gray-700 font-semibold text-sm">Avbryt</button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ) : (
                   <div className="space-y-3 text-sm text-gray-700">
@@ -774,16 +817,43 @@ export default function AccountPage() {
             <p className="text-gray-500">Laddar...</p>
           ) : complaints.length > 0 ? (
             <div className="space-y-4">
-              <p className="text-gray-700">Du har {complaints.length} felanmälningar</p>
+              <p className="text-gray-700">Du har {complaints.length} {complaints.length === 1 ? 'felanmälan' : 'felanmälningar'}</p>
               {complaints.map((complaint) => (
                 <div key={complaint.id} className="p-4 border border-gray-200">
-                  <p className="font-semibold">Beställning #{complaint.order_id}</p>
-                  <p className="text-sm text-gray-600 mt-1">{complaint.description}</p>
+                  <p className="font-semibold">Beställning #{complaint.order_number || complaint.order_id}</p>
+                  <p className="text-xs text-gray-400 mt-0.5">{new Date(complaint.created_at).toLocaleDateString('sv-SE')}</p>
+                  <p className="text-sm text-gray-600 mt-2"><span className="font-semibold">Beskrivning:</span> {complaint.description}</p>
                   <p className="text-sm font-semibold mt-2">
                     Status: <span className={complaint.status === 'resolved' ? 'text-green-600' : 'text-blue-600'}>{complaint.status === 'open' ? 'Pågående' : complaint.status === 'resolved' ? 'Löst' : 'Stängd'}</span>
                   </p>
+                  {complaint.status === 'resolved' && (
+                    <p className="text-xs text-gray-500 mt-1">Ärendet är avslutat. Har du fler frågor? Kontakta oss på support@techpilots.se</p>
+                  )}
                 </div>
               ))}
+              <div className="pt-2">
+                {!showComplaintForm ? (
+                  <button onClick={() => setShowComplaintForm(true)} className="px-6 py-2 bg-black text-white hover:bg-gray-800 font-semibold text-sm">
+                    Ny felanmälan
+                  </button>
+                ) : (
+                  <div className="p-4 space-y-4" style={{ border: '1px solid #e5e7eb' }}>
+                    <h4 className="font-semibold text-sm">Ny felanmälan</h4>
+                    <div>
+                      <label className="block text-sm font-semibold mb-2">Ditt ordernummer</label>
+                      <input type="text" value={complaintOrderId} onChange={(e) => setComplaintOrderId(e.target.value)} className="w-full px-4 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold mb-2">Meddelande</label>
+                      <textarea value={complaintDescription} onChange={(e) => setComplaintDescription(e.target.value)} rows={4} className="w-full px-4 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />
+                    </div>
+                    <div className="flex gap-2">
+                      <button onClick={handleAddComplaint} className="px-6 py-2 bg-black text-white hover:bg-gray-800 font-semibold">Skicka felanmälan</button>
+                      <button onClick={() => { setShowComplaintForm(false); setComplaintOrderId(''); setComplaintDescription(''); }} className="px-6 py-2 border border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold">Avbryt</button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           ) : (
             <div className="space-y-4 text-gray-700">
@@ -802,7 +872,7 @@ export default function AccountPage() {
                       type="text"
                       value={complaintOrderId}
                       onChange={(e) => setComplaintOrderId(e.target.value)}
-                      
+
                       className="w-full px-4 py-2 focus:outline-none"
                       style={{ border: '1px solid #e5e7eb' }}
                     />
@@ -812,7 +882,7 @@ export default function AccountPage() {
                     <textarea
                       value={complaintDescription}
                       onChange={(e) => setComplaintDescription(e.target.value)}
-                      
+
                       rows={4}
                       className="w-full px-4 py-2 focus:outline-none"
                       style={{ border: '1px solid #e5e7eb' }}

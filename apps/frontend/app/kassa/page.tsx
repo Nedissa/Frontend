@@ -378,13 +378,13 @@ function CheckoutContent() {
 
   return (
     <MainLayout bordered={false} noPadding>
-      <div className="flex justify-center py-12 mb-0">
+      <div className="flex justify-center py-6 mb-0">
         <a href="/" className="flex items-center gap-2">
           <img src="/logo.png" alt="Techpilots" className="w-10 h-10" />
           <span className="text-2xl font-bold tracking-tight">Techpilots</span>
         </a>
       </div>
-      <div className="flex pt-10 pb-16 px-2 gap-0 relative justify-center">
+      <div className="flex pt-4 pb-16 px-2 gap-0 relative justify-center">
 
           <div className="flex-1 max-w-[800px] flex flex-col gap-8 relative">
 
