@@ -21,7 +21,7 @@ export default function AccountPage() {
   const [postalCode, setPostalCode] = useState(firstAddress?.postal_code || '');
   const [city, setCity] = useState(firstAddress?.city || '');
   const [addressPhone, setAddressPhone] = useState(firstAddress?.phone || '');
-  const [activeTab, setActiveTab] = useState('');
+  const [activeTab, setActiveTab] = useState('profil');
   const [isHydrated, setIsHydrated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [editFirstName, setEditFirstName] = useState(kontoData?.profile?.firstName || '');
@@ -67,7 +67,6 @@ export default function AccountPage() {
 
 
   useEffect(() => {
-    setActiveTab('');
     setIsHydrated(true);
 
     // Load favorites from localStorage if not already loaded from server
