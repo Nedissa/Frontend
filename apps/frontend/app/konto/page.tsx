@@ -378,7 +378,10 @@ export default function AccountPage() {
               onClick={() => { setActiveTab(activeTab === 'profil' ? '' : 'profil'); localStorage.setItem('accountTab', activeTab === 'profil' ? '' : 'profil'); }}
               className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
             >
-              <span className={activeTab === 'profil' ? 'text-black' : 'text-gray-600'}>Profil</span>
+              <span className={`flex items-center gap-2 ${activeTab === 'profil' ? 'text-black' : 'text-gray-600'}`}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+                Profil
+              </span>
               <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'profil' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
@@ -414,7 +417,10 @@ export default function AccountPage() {
               onClick={() => { setActiveTab(activeTab === 'orderhistorik' ? '' : 'orderhistorik'); localStorage.setItem('accountTab', activeTab === 'orderhistorik' ? '' : 'orderhistorik'); }}
               className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
             >
-              <span className={activeTab === 'orderhistorik' ? 'text-black' : 'text-gray-600'}>Orderhistorik</span>
+              <span className={`flex items-center gap-2 ${activeTab === 'orderhistorik' ? 'text-black' : 'text-gray-600'}`}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                Orderhistorik
+              </span>
               <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'orderhistorik' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
@@ -517,7 +523,10 @@ export default function AccountPage() {
               onClick={() => { setActiveTab(activeTab === 'favoriter' ? '' : 'favoriter'); localStorage.setItem('accountTab', activeTab === 'favoriter' ? '' : 'favoriter'); }}
               className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
             >
-              <span className={activeTab === 'favoriter' ? 'text-black' : 'text-gray-600'}>Favoriter</span>
+              <span className={`flex items-center gap-2 ${activeTab === 'favoriter' ? 'text-black' : 'text-gray-600'}`}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                Favoriter
+              </span>
               <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'favoriter' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
@@ -552,7 +561,10 @@ export default function AccountPage() {
               onClick={() => { setActiveTab(activeTab === 'kundklubb' ? '' : 'kundklubb'); localStorage.setItem('accountTab', activeTab === 'kundklubb' ? '' : 'kundklubb'); }}
               className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
             >
-              <span className={activeTab === 'kundklubb' ? 'text-black' : 'text-gray-600'}>Kundklubb</span>
+              <span className={`flex items-center gap-2 ${activeTab === 'kundklubb' ? 'text-black' : 'text-gray-600'}`}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                Kundklubb
+              </span>
               <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'kundklubb' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
@@ -578,7 +590,10 @@ export default function AccountPage() {
               onClick={() => { setActiveTab(activeTab === 'felanmalan' ? '' : 'felanmalan'); localStorage.setItem('accountTab', activeTab === 'felanmalan' ? '' : 'felanmalan'); }}
               className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
             >
-              <span className={activeTab === 'felanmalan' ? 'text-black' : 'text-gray-600'}>Felanmälan</span>
+              <span className={`flex items-center gap-2 ${activeTab === 'felanmalan' ? 'text-black' : 'text-gray-600'}`}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" /></svg>
+                Felanmälan
+              </span>
               <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'felanmalan' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
