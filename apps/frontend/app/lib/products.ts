@@ -1,5 +1,6 @@
 export interface Product {
   id: string;
+  variantId?: string;
   title: string;
   handle: string;
   price: number;

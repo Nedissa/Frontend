@@ -644,7 +644,7 @@ export default function ProductDetailClient({
               </div>
               <button
                 onClick={() => {
-                  window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity, image: product.image } }));
+                  window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, variantId: product.variantId, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity, image: product.image } }));
                   selectedAccessories.forEach((accessoryId) => {
                     const accessory = RECOMMENDED_ACCESSORIES.find(a => a.id === accessoryId);
                     if (accessory) window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: accessory.id, title: accessory.name, price: Number(accessory.price), quantity: 1, image: accessory.image } }));
