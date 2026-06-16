@@ -128,7 +128,7 @@ export default function OrdersPage() {
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-lg">{(order.total / 100).toFixed(0)} SEK</p>
+                        <p className="font-bold text-lg">{order.total.toLocaleString('sv-SE')} kr</p>
                         <p className="text-sm text-gray-600">{order.items?.length || 0} artikel{(order.items?.length || 0) !== 1 ? 'ar' : ''}</p>
                       </div>
                       <span className="ml-4 text-gray-400 text-xl">
@@ -176,12 +176,12 @@ export default function OrdersPage() {
                                     <p className="text-sm text-gray-500">Antal: {item.quantity}</p>
                                   </div>
                                 </div>
-                                <span className="font-semibold">{((item.unit_price * item.quantity) / 100).toFixed(0)} SEK</span>
+                                <span className="font-semibold">{(item.unit_price * item.quantity).toLocaleString('sv-SE')} kr</span>
                               </div>
                             ))}
                             <div className="flex justify-between font-bold text-lg pt-2">
                               <span>Totalt</span>
-                              <span>{(order.total / 100).toFixed(0)} SEK</span>
+                              <span>{order.total.toLocaleString('sv-SE')} kr</span>
                             </div>
                           </div>
                         </div>

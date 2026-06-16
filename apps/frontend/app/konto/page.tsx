@@ -405,7 +405,7 @@ export default function AccountPage() {
                     {orders.map((order) => (
                       <div key={order.id} className="pb-3 border-b last:border-b-0">
                         <p className="font-semibold text-sm">Beställning #{order.display_id}</p>
-                        <p className="text-xs text-gray-600">{new Date(order.created_at).toLocaleDateString('sv-SE')} • {(order.total / 100).toLocaleString('sv-SE')} SEK</p>
+                        <p className="text-xs text-gray-600">{new Date(order.created_at).toLocaleDateString('sv-SE')} • {order.total.toLocaleString('sv-SE')} kr</p>
                         <p className={`text-xs font-semibold mt-1 ${order.status === 'completed' ? 'text-green-600' : 'text-blue-600'}`}>{order.status === 'completed' ? 'Levererad' : 'Bearbetas'}</p>
                       </div>
                     ))}
@@ -686,7 +686,7 @@ export default function AccountPage() {
                 <div key={order.id} className="pb-4 border-b last:border-b-0">
                   <p className="font-semibold">Beställning #{order.display_id}</p>
                   <p className="text-sm text-gray-600">
-                    {new Date(order.created_at).toLocaleDateString('sv-SE')} • {(order.total / 100).toLocaleString('sv-SE')} SEK
+                    {new Date(order.created_at).toLocaleDateString('sv-SE')} • {order.total.toLocaleString('sv-SE')} kr
                   </p>
                   <p className={`text-sm font-semibold mt-1 ${order.status === 'completed' ? 'text-green-600' : 'text-blue-600'}`}>
                     {order.status === 'completed' ? 'Levererad' : 'Bearbetas'}
