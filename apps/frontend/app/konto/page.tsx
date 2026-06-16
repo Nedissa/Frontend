@@ -485,7 +485,17 @@ export default function AccountPage() {
                                 ) : (
                                   <button disabled className="flex-1 px-3 py-2 border-2 border-gray-300 text-gray-400 text-xs font-semibold cursor-not-allowed">Spåra paket</button>
                                 )}
-                                <Link href="/reklamation" className="flex-1 px-3 py-2 border-2 border-black text-black text-xs font-semibold text-center">Returera</Link>
+                                <button
+                                  onClick={() => {
+                                    setComplaintOrderId(String(order.display_id));
+                                    setShowComplaintForm(true);
+                                    setActiveTab('felanmalan');
+                                    localStorage.setItem('accountTab', 'felanmalan');
+                                  }}
+                                  className="flex-1 px-3 py-2 border-2 border-black text-black text-xs font-semibold text-center"
+                                >
+                                  Returera
+                                </button>
                               </div>
                             </div>
                           )}
@@ -860,12 +870,17 @@ export default function AccountPage() {
                               Spåra paket
                             </button>
                           )}
-                          <Link
-                            href="/reklamation"
+                          <button
+                            onClick={() => {
+                              setComplaintOrderId(String(order.display_id));
+                              setShowComplaintForm(true);
+                              setActiveTab('felanmalan');
+                              localStorage.setItem('accountTab', 'felanmalan');
+                            }}
                             className="flex-1 px-4 py-2 border-2 border-black text-black rounded-lg hover:bg-gray-100 font-semibold text-center"
                           >
                             Returera produkt
-                          </Link>
+                          </button>
                         </div>
                       </div>
                     )}
