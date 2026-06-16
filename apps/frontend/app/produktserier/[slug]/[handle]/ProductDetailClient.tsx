@@ -295,7 +295,7 @@ export default function ProductDetailClient({
       <Breadcrumb items={breadcrumbItems} />
 
       {/* Main layout: left (gallery+tabs) + right (productinfo+handla tryggt) */}
-      <div className="w-full max-w-[1280px] mx-auto flex flex-col md:flex-row gap-2" style={{ alignItems: 'stretch' }}>
+      <div className="w-full max-w-[1280px] mx-auto flex flex-col md:flex-row gap-4" style={{ alignItems: 'stretch' }}>
 
         {/* Left column — gallery + tabs (tabs hidden on mobile, shown after right col) */}
         <div className="flex flex-col flex-1 min-w-0" style={{ gap: '8px' }}>
