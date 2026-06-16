@@ -7,6 +7,7 @@ import { MAIN_CATEGORIES } from '@/app/lib/products';
 
 interface CartItem {
   id: string;
+  variantId?: string;
   title: string;
   price: number;
   originalPrice?: number;

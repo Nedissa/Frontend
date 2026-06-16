@@ -7,6 +7,28 @@ import { MainLayout } from '../components/MainLayout';
 import { ProductCard, type ProductData } from '@/app/components/ProductCard';
 import { useKontoData } from './konto-context';
 
+const orderStatusColors: Record<string, { bg: string; text: string; label: string }> = {
+  pending: { bg: 'bg-yellow-50', text: 'text-yellow-700', label: 'Bearbetas' },
+  processing: { bg: 'bg-yellow-50', text: 'text-yellow-700', label: 'Bearbetas' },
+  shipped: { bg: 'bg-blue-50', text: 'text-blue-700', label: 'Skickad' },
+  fulfilled: { bg: 'bg-blue-50', text: 'text-blue-700', label: 'Skickad' },
+  delivered: { bg: 'bg-green-50', text: 'text-green-700', label: 'Levererad' },
+  completed: { bg: 'bg-green-50', text: 'text-green-700', label: 'Levererad' },
+  canceled: { bg: 'bg-red-50', text: 'text-red-700', label: 'Avbruten' },
+  cancelled: { bg: 'bg-red-50', text: 'text-red-700', label: 'Avbruten' },
+  not_fulfilled: { bg: 'bg-gray-50', text: 'text-gray-700', label: 'Ej skickad' },
+};
+
+function getOrderStatusInfo(order: any) {
+  const key = order.fulfillment_status || order.status;
+  return orderStatusColors[key] || { bg: 'bg-gray-50', text: 'text-gray-700', label: key };
+}
+
+function getOrderTrackingNumber(order: any): string | null {
+  const numbers = order.fulfillments?.flatMap((f: any) => f.tracking_numbers || []);
+  return numbers && numbers.length > 0 ? numbers[0] : null;
+}
+
 export default function AccountPage() {
   const router = useRouter();
   const kontoData = useKontoData();
@@ -41,6 +63,7 @@ export default function AccountPage() {
   const [loadingComplaints, setLoadingComplaints] = useState(false);
   const [loyalty, setLoyalty] = useState<any>(kontoData?.loyalty || null);
   const [orders, setOrders] = useState<any[]>(kontoData?.orders || []);
+  const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   const [loadingComplaintsError, setLoadingComplaintsError] = useState('');
   const [loadingLoyaltyError, setLoadingLoyaltyError] = useState('');
   const [loadingOrdersError, setLoadingOrdersError] = useState('');
@@ -402,13 +425,73 @@ export default function AccountPage() {
                 <h3 className="text-lg font-bold mb-4">Orderhistorik</h3>
                 {orders.length > 0 ? (
                   <div className="space-y-3">
-                    {orders.map((order) => (
-                      <div key={order.id} className="pb-3 border-b last:border-b-0">
-                        <p className="font-semibold text-sm">Beställning #{order.display_id}</p>
-                        <p className="text-xs text-gray-600">{new Date(order.created_at).toLocaleDateString('sv-SE')} • {order.total.toLocaleString('sv-SE')} kr</p>
-                        <p className={`text-xs font-semibold mt-1 ${order.status === 'completed' ? 'text-green-600' : 'text-blue-600'}`}>{order.status === 'completed' ? 'Levererad' : 'Bearbetas'}</p>
-                      </div>
-                    ))}
+                    {orders.map((order) => {
+                      const statusInfo = getOrderStatusInfo(order);
+                      const isExpanded = expandedOrder === order.id;
+                      const trackingNumber = getOrderTrackingNumber(order);
+
+                      return (
+                        <div key={order.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                          <button
+                            onClick={() => setExpandedOrder(isExpanded ? null : order.id)}
+                            className="w-full px-3 py-3 flex justify-between items-center text-left"
+                          >
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <p className="font-semibold text-sm">#{order.display_id}</p>
+                                <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${statusInfo.bg} ${statusInfo.text}`}>{statusInfo.label}</span>
+                              </div>
+                              <p className="text-xs text-gray-600 mt-1">{new Date(order.created_at).toLocaleDateString('sv-SE')} • {order.total.toLocaleString('sv-SE')} kr</p>
+                            </div>
+                            <span className="text-gray-400 text-lg">{isExpanded ? '−' : '+'}</span>
+                          </button>
+
+                          {isExpanded && (
+                            <div className="px-3 py-4 border-t border-gray-200 text-sm">
+                              <p className="text-xs text-gray-600 mb-1">Spårningsnummer</p>
+                              <p className="font-semibold mb-3">{trackingNumber || 'Ej tillgängligt'}</p>
+
+                              {order.shipping_address && (
+                                <div className="mb-3 pb-3 border-b">
+                                  <p className="font-semibold mb-1 text-xs text-gray-600">Leveransadress</p>
+                                  <p className="text-gray-700">{order.shipping_address.first_name} {order.shipping_address.last_name}</p>
+                                  <p className="text-gray-700">{order.shipping_address.address_1}</p>
+                                  <p className="text-gray-700">{order.shipping_address.postal_code} {order.shipping_address.city}</p>
+                                </div>
+                              )}
+
+                              <div className="mb-3 space-y-2">
+                                {order.items?.map((item: any) => (
+                                  <div key={item.id} className="flex justify-between items-center">
+                                    <div className="flex items-center gap-2">
+                                      {item.thumbnail && <img src={item.thumbnail} alt={item.title} className="w-10 h-10 object-cover rounded" />}
+                                      <div>
+                                        <p className="text-xs">{item.title}</p>
+                                        <p className="text-xs text-gray-500">Antal: {item.quantity}</p>
+                                      </div>
+                                    </div>
+                                    <span className="text-xs font-semibold">{(item.unit_price * item.quantity).toLocaleString('sv-SE')} kr</span>
+                                  </div>
+                                ))}
+                                <div className="flex justify-between font-bold pt-2 border-t">
+                                  <span>Totalt</span>
+                                  <span>{order.total.toLocaleString('sv-SE')} kr</span>
+                                </div>
+                              </div>
+
+                              <div className="flex gap-2">
+                                {trackingNumber ? (
+                                  <a href={`https://www.postnord.se/vara-verktyg/spara-brev-paket-och-pall?shipmentId=${trackingNumber}`} target="_blank" rel="noopener noreferrer" className="flex-1 px-3 py-2 border-2 border-black text-black text-xs font-semibold text-center">Spåra paket</a>
+                                ) : (
+                                  <button disabled className="flex-1 px-3 py-2 border-2 border-gray-300 text-gray-400 text-xs font-semibold cursor-not-allowed">Spåra paket</button>
+                                )}
+                                <Link href="/reklamation" className="flex-1 px-3 py-2 border-2 border-black text-black text-xs font-semibold text-center">Returera</Link>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 ) : (
                   <p className="text-sm text-gray-700">Du har inga beställningar än</p>
@@ -682,22 +765,113 @@ export default function AccountPage() {
           )}
           {orders.length > 0 ? (
             <div className="space-y-4">
-              {orders.map((order) => (
-                <div key={order.id} className="pb-4 border-b last:border-b-0">
-                  <p className="font-semibold">Beställning #{order.display_id}</p>
-                  <p className="text-sm text-gray-600">
-                    {new Date(order.created_at).toLocaleDateString('sv-SE')} • {order.total.toLocaleString('sv-SE')} kr
-                  </p>
-                  <p className={`text-sm font-semibold mt-1 ${order.status === 'completed' ? 'text-green-600' : 'text-blue-600'}`}>
-                    {order.status === 'completed' ? 'Levererad' : 'Bearbetas'}
-                  </p>
-                </div>
-              ))}
-              <Link href="/konto/bestallningar">
-                <button className="w-full px-6 py-2 bg-black text-white  hover:bg-gray-800 font-semibold mt-4">
-                  Se alla ordrar
-                </button>
-              </Link>
+              <p className="text-gray-600">Du har {orders.length} beställning{orders.length !== 1 ? 'ar' : ''}</p>
+              {orders.map((order) => {
+                const statusInfo = getOrderStatusInfo(order);
+                const isExpanded = expandedOrder === order.id;
+                const trackingNumber = getOrderTrackingNumber(order);
+
+                return (
+                  <div key={order.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                    <button
+                      onClick={() => setExpandedOrder(isExpanded ? null : order.id)}
+                      className="w-full px-6 py-4 hover:bg-gray-50 flex justify-between items-center"
+                    >
+                      <div className="text-left flex-1">
+                        <div className="flex items-center gap-4">
+                          <div>
+                            <p className="font-bold text-lg">#{order.display_id}</p>
+                            <p className="text-sm text-gray-600">{new Date(order.created_at).toLocaleDateString('sv-SE')}</p>
+                          </div>
+                          <div className={`px-3 py-1 rounded-full text-sm font-semibold ${statusInfo.bg} ${statusInfo.text}`}>
+                            {statusInfo.label}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold text-lg">{order.total.toLocaleString('sv-SE')} kr</p>
+                        <p className="text-sm text-gray-600">{order.items?.length || 0} artikel{(order.items?.length || 0) !== 1 ? 'ar' : ''}</p>
+                      </div>
+                      <span className="ml-4 text-gray-400 text-xl">{isExpanded ? '−' : '+'}</span>
+                    </button>
+
+                    {isExpanded && (
+                      <div className="px-6 py-6 border-t border-gray-200">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                          <div>
+                            <p className="text-sm text-gray-600 mb-1">Ordernummer</p>
+                            <p className="font-semibold">#{order.display_id}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-600 mb-1">Orderdatum</p>
+                            <p className="font-semibold">{new Date(order.created_at).toLocaleDateString('sv-SE')}</p>
+                          </div>
+                          <div>
+                            <p className="text-sm text-gray-600 mb-1">Spårningsnummer</p>
+                            <p className="font-semibold">{trackingNumber || 'Ej tillgängligt'}</p>
+                          </div>
+                        </div>
+
+                        {order.shipping_address && (
+                          <div className="mb-6 pb-6 border-b">
+                            <p className="font-semibold mb-2">Leveransadress</p>
+                            <p className="text-gray-700">{order.shipping_address.first_name} {order.shipping_address.last_name}</p>
+                            <p className="text-gray-700">{order.shipping_address.address_1}</p>
+                            <p className="text-gray-700">{order.shipping_address.postal_code} {order.shipping_address.city}</p>
+                          </div>
+                        )}
+
+                        <div className="mb-6">
+                          <p className="font-semibold mb-4">Produkter</p>
+                          <div className="space-y-3">
+                            {order.items?.map((item: any) => (
+                              <div key={item.id} className="flex justify-between items-center border-b pb-3">
+                                <div className="flex items-center gap-3">
+                                  {item.thumbnail && (
+                                    <img src={item.thumbnail} alt={item.title} className="w-12 h-12 object-cover rounded" />
+                                  )}
+                                  <div>
+                                    <p>{item.title}</p>
+                                    <p className="text-sm text-gray-500">Antal: {item.quantity}</p>
+                                  </div>
+                                </div>
+                                <span className="font-semibold">{(item.unit_price * item.quantity).toLocaleString('sv-SE')} kr</span>
+                              </div>
+                            ))}
+                            <div className="flex justify-between font-bold text-lg pt-2">
+                              <span>Totalt</span>
+                              <span>{order.total.toLocaleString('sv-SE')} kr</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="flex gap-4">
+                          {trackingNumber ? (
+                            <a
+                              href={`https://www.postnord.se/vara-verktyg/spara-brev-paket-och-pall?shipmentId=${trackingNumber}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex-1 px-4 py-2 border-2 border-black text-black rounded-lg hover:bg-gray-100 font-semibold text-center"
+                            >
+                              Spåra paket
+                            </a>
+                          ) : (
+                            <button disabled className="flex-1 px-4 py-2 border-2 border-gray-300 text-gray-400 rounded-lg font-semibold cursor-not-allowed">
+                              Spåra paket
+                            </button>
+                          )}
+                          <Link
+                            href="/reklamation"
+                            className="flex-1 px-4 py-2 border-2 border-black text-black rounded-lg hover:bg-gray-100 font-semibold text-center"
+                          >
+                            Returera produkt
+                          </Link>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           ) : (
             <div className="text-gray-700">
