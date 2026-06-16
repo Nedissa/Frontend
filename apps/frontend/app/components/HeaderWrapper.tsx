@@ -340,6 +340,7 @@ const ERBJUDANDEN_DATA: MenuCategory = {
 
 interface SearchProduct {
   id: string;
+  variantId?: string;
   title: string;
   handle?: string;
   image: string;

@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 interface Product {
   id: string;
+  variantId?: string;
   title: string;
   handle: string;
   price: string | number;
