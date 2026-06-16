@@ -8,7 +8,7 @@ export async function POST(request: Request) {
 
     if (!firstName || !lastName || !email || !password) {
       return Response.json(
-        { error: 'Missing required fields' },
+        { error: 'Alla fält måste fyllas i' },
         { status: 400 }
       );
     }
@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY;
     if (!publishableKey) {
       return Response.json(
-        { error: 'Server configuration error' },
+        { error: 'Serverkonfigurationsfel' },
         { status: 500 }
       );
     }
@@ -118,7 +118,7 @@ export async function POST(request: Request) {
     return response;
   } catch {
     return Response.json(
-      { error: 'Internal server error' },
+      { error: 'Ett internt serverfel uppstod' },
       { status: 500 }
     );
   }

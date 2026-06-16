@@ -6,7 +6,7 @@ export async function POST(request: Request) {
 
     if (!email || !password) {
       return Response.json(
-        { error: 'Email and password required' },
+        { error: 'E-postadress och lösenord krävs' },
         { status: 400 }
       );
     }
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY;
     if (!publishableKey) {
       return Response.json(
-        { error: 'Server configuration error' },
+        { error: 'Serverkonfigurationsfel' },
         { status: 500 }
       );
     }
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
 
     if (!authResponse.ok) {
       return Response.json(
-        { error: 'Invalid email or password' },
+        { error: 'E-postadressen eller lösenordet är felaktigt' },
         { status: 401 }
       );
     }
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
 
     if (!token) {
       return Response.json(
-        { error: 'Authentication failed' },
+        { error: 'Inloggningen misslyckades' },
         { status: 401 }
       );
     }
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
 
     if (!customerResponse.ok) {
       return Response.json(
-        { error: 'Failed to fetch customer profile' },
+        { error: 'Kunde inte hämta kundprofil' },
         { status: 500 }
       );
     }

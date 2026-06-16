@@ -164,6 +164,9 @@ export default function LoginPage() {
                         required
                       />
                     </div>
+                    {loginError && (
+                      <p className="text-sm text-red-600">{loginError}</p>
+                    )}
                     <button type="submit" disabled={isLoading} className="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800 mt-6 disabled:opacity-50 disabled:cursor-not-allowed">
                       {isLoading ? 'Loggar in...' : 'Logga in'}
                     </button>
@@ -215,6 +218,9 @@ export default function LoginPage() {
                         required
                       />
                     </div>
+                    {loginError && (
+                      <p className="text-sm text-red-600">{loginError}</p>
+                    )}
                     <button type="submit" disabled={isLoading} className="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800 mt-6 disabled:opacity-50 disabled:cursor-not-allowed">
                       {isLoading ? 'Skapar konto...' : 'Skapa konto'}
                     </button>
