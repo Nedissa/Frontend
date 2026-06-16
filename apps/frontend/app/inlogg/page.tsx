@@ -58,6 +58,7 @@ export default function LoginPage() {
       const dest = sessionStorage.getItem('preLoginPath') || '/konto';
       sessionStorage.removeItem('preLoginPath');
       sessionStorage.removeItem('preLoginScrollY');
+      setIsLoading(false);
       router.push(dest);
       router.refresh();
     } catch (error) {
