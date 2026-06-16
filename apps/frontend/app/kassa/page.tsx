@@ -224,7 +224,7 @@ function CheckoutContent() {
   // Om frakt ändras efter att betalning initierats — skapa ny session med rätt belopp
   const prevShippingRef = useRef('');
   useEffect(() => {
-    if (!cartItems.length || !shippingMethod || !formData.email || shippingOptions.length === 0) return;
+    if (!cartItems.length || !shippingMethod || !formData.email) return;
     const shippingChanged = prevShippingRef.current && prevShippingRef.current !== shippingMethod;
     if (shippingChanged && hasInitPaymentRef.current) {
       hasInitPaymentRef.current = false;
