@@ -343,7 +343,7 @@ export default function ProductDetailClient({
 
             {/* Main image */}
             <div className="flex-1 flex flex-col min-w-0">
-              <div className="relative flex flex-col" style={{ backgroundColor: '#f5f5f5', height: '508px' }}>
+              <div className="relative flex flex-col h-full" style={{ backgroundColor: '#f5f5f5' }}>
                 <button
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
                   className="absolute left-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
