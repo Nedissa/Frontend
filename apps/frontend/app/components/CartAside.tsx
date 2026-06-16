@@ -85,7 +85,7 @@ export function CartAside() {
         let updated;
         if (existingItem) {
           updated = prev.map(item =>
-            item.id === id ? { ...item, quantity: item.quantity + (quantity || 1) } : item
+            item.id === id ? { ...item, quantity: item.quantity + (quantity || 1), variantId: item.variantId || variantId || '' } : item
           );
         } else {
           updated = [...prev, { id, title, price: priceNum, originalPrice: originalPriceNum, quantity: quantity || 1, image, variantId: variantId || '' }];
