@@ -437,7 +437,7 @@ export default function AccountPage() {
                       const trackingNumber = getOrderTrackingNumber(order);
 
                       return (
-                        <div key={order.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                        <div key={order.id} className="border border-gray-200 overflow-hidden">
                           <button
                             onClick={() => setExpandedOrder(isExpanded ? null : order.id)}
                             className="w-full px-3 py-3 flex justify-between items-center text-left"
@@ -487,21 +487,10 @@ export default function AccountPage() {
 
                               <div className="flex gap-2">
                                 {trackingNumber ? (
-                                  <a href={`https://www.postnord.se/vara-verktyg/spara-brev-paket-och-pall?shipmentId=${trackingNumber}`} target="_blank" rel="noopener noreferrer" className="flex-1 px-3 py-2 border-2 border-black text-black text-xs font-semibold text-center">Spåra paket</a>
+                                  <a href={`https://www.postnord.se/vara-verktyg/spara-brev-paket-och-pall?shipmentId=${trackingNumber}`} target="_blank" rel="noopener noreferrer" className="flex-1 px-3 py-2 bg-black text-white text-xs font-semibold text-center">Spåra paket</a>
                                 ) : (
                                   <button disabled className="flex-1 px-3 py-2 border-2 border-gray-300 text-gray-400 text-xs font-semibold cursor-not-allowed">Spåra paket</button>
                                 )}
-                                <button
-                                  onClick={() => {
-                                    setComplaintOrderId(String(order.display_id));
-                                    setShowComplaintForm(true);
-                                    setActiveTab('felanmalan');
-                                    localStorage.setItem('accountTab', 'felanmalan');
-                                  }}
-                                  className="flex-1 px-3 py-2 border-2 border-black text-black text-xs font-semibold text-center"
-                                >
-                                  Returera
-                                </button>
                               </div>
                             </div>
                           )}
@@ -797,7 +786,7 @@ export default function AccountPage() {
                 const trackingNumber = getOrderTrackingNumber(order);
 
                 return (
-                  <div key={order.id} className="border border-gray-200 rounded-lg overflow-hidden">
+                  <div key={order.id} className="border border-gray-200 overflow-hidden">
                     <button
                       onClick={() => setExpandedOrder(isExpanded ? null : order.id)}
                       className="w-full px-6 py-4 hover:bg-gray-50 flex justify-between items-center"
@@ -876,26 +865,15 @@ export default function AccountPage() {
                               href={`https://www.postnord.se/vara-verktyg/spara-brev-paket-och-pall?shipmentId=${trackingNumber}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex-1 px-4 py-2 border-2 border-black text-black rounded-lg hover:bg-gray-100 font-semibold text-center"
+                              className="flex-1 px-4 py-2 bg-black text-white hover:bg-gray-800 font-semibold text-center"
                             >
                               Spåra paket
                             </a>
                           ) : (
-                            <button disabled className="flex-1 px-4 py-2 border-2 border-gray-300 text-gray-400 rounded-lg font-semibold cursor-not-allowed">
+                            <button disabled className="flex-1 px-4 py-2 border-2 border-gray-300 text-gray-400 font-semibold cursor-not-allowed">
                               Spåra paket
                             </button>
                           )}
-                          <button
-                            onClick={() => {
-                              setComplaintOrderId(String(order.display_id));
-                              setShowComplaintForm(true);
-                              setActiveTab('felanmalan');
-                              localStorage.setItem('accountTab', 'felanmalan');
-                            }}
-                            className="flex-1 px-4 py-2 border-2 border-black text-black rounded-lg hover:bg-gray-100 font-semibold text-center"
-                          >
-                            Returera produkt
-                          </button>
                         </div>
                       </div>
                     )}
