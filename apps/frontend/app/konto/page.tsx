@@ -756,6 +756,7 @@ export default function AccountPage() {
                         const event = new CustomEvent('addToCart', {
                           detail: {
                             id: product.id,
+                            variantId: product.variantId,
                             title: product.title,
                             price: product.price,
                             originalPrice: product.originalPrice,

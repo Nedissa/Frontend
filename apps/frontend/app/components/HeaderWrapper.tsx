@@ -874,6 +874,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                                 window.dispatchEvent(new CustomEvent('addToCart', {
                                   detail: {
                                     id: product.id,
+                                    variantId: product.variantId,
                                     title: product.title,
                                     price: product.price,
                                     image: product.image,

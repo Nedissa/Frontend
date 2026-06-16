@@ -17,7 +17,7 @@ export function ProductBanner() {
 
   const handleAdd = (p: any) => {
     window.dispatchEvent(new CustomEvent('addToCart', {
-      detail: { id: p.id, title: p.title, price: p.price, image: p.image, quantity: 1 }
+      detail: { id: p.id, variantId: p.variantId, title: p.title, price: p.price, image: p.image, quantity: 1 }
     }));
   };
 
