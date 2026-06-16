@@ -167,7 +167,7 @@ export default function LoginPage() {
                     {loginError && (
                       <p className="text-sm text-red-600">{loginError}</p>
                     )}
-                    <button type="submit" disabled={isLoading} className="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800 mt-6 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <button type="submit" disabled={isLoading} className="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800 mt-6 disabled:cursor-not-allowed">
                       {isLoading ? 'Loggar in...' : 'Logga in'}
                     </button>
                   </form>
@@ -221,7 +221,7 @@ export default function LoginPage() {
                     {loginError && (
                       <p className="text-sm text-red-600">{loginError}</p>
                     )}
-                    <button type="submit" disabled={isLoading} className="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800 mt-6 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <button type="submit" disabled={isLoading} className="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800 mt-6 disabled:cursor-not-allowed">
                       {isLoading ? 'Skapar konto...' : 'Skapa konto'}
                     </button>
                   </form>
@@ -268,7 +268,7 @@ export default function LoginPage() {
                             style={{ backgroundColor: '#f5f5f5', WebkitBoxShadow: '0 0 0 1000px #f5f5f5 inset' }}
                           />
                         </div>
-                        <button type="submit" disabled={resetLoading} className="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800 mt-6 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <button type="submit" disabled={resetLoading} className="w-full bg-black text-white py-3 rounded-lg font-bold hover:bg-gray-800 mt-6 disabled:cursor-not-allowed">
                           {resetLoading ? 'Skickar...' : 'Skicka återställningslänk'}
                         </button>
                       </form>
