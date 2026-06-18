@@ -1247,7 +1247,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                     {category.items?.map((section) => (
                       <div key={section.id} className="w-full">
                         <div className="mb-4 pb-4 border-b border-gray-200 w-full">
-                          <div style={{ marginBottom: '8px', height: '80px' }}>
+                          <div style={{ marginBottom: '8px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
                             <img
                               src={SECTION_IMAGES[section.id] || '/assets/cat-electronics.png'}
                               alt={section.title}
