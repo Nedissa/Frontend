@@ -124,7 +124,7 @@ export async function POST(request: Request) {
     const token = tokenMatch ? tokenMatch[1] : null;
     if (token && orderTotal > 0) {
       try {
-        const pointsEarned = Math.floor((orderTotal / 100) / 20);
+        const pointsEarned = Math.floor(orderTotal / 20);
         if (pointsEarned > 0) {
           const meRes = await fetch(`${MEDUSA_URL}/store/customers/me`, {
             headers: { 'Authorization': `Bearer ${token}`, 'x-publishable-api-key': MEDUSA_PUB_KEY },
