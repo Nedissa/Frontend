@@ -1118,6 +1118,7 @@ export default function AccountPage() {
               {/* Tier progress stepper */}
               <div>
                 <p className="font-semibold text-lg mb-1">{loyalty.total_points >= 3000 ? 'Platinum' : loyalty.total_points >= 1500 ? 'Guld' : loyalty.total_points >= 500 ? 'Silver' : 'Brons'}-medlem</p>
+                <p className="text-sm text-gray-500 mb-3">Du har <span className="font-bold text-black">{loyalty.total_points} poäng</span></p>
                 {(() => {
                   const tiers = [
                     { name: 'Brons', threshold: 0 },

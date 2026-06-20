@@ -20,7 +20,7 @@ async function fetchKontoData(token: string): Promise<KontoData | null> {
 
   // Fetch customer + orders in parallel
   const [meRes, ordersRes] = await Promise.allSettled([
-    fetch(`${MEDUSA_URL}/store/customers/me?fields=*metadata`, { headers: storeHeaders }),
+    fetch(`${MEDUSA_URL}/store/customers/me?fields=+metadata`, { headers: storeHeaders }),
     fetch(`${MEDUSA_URL}/store/orders?limit=5`, { headers: storeHeaders }),
   ]);
 
@@ -29,6 +29,7 @@ async function fetchKontoData(token: string): Promise<KontoData | null> {
   const meData = await meRes.value.json();
   const customer = meData.customer || meData;
   const customerId = customer.id;
+
   const metadata = customer.metadata || {};
 
   // Fetch complaints from store endpoint (stored in customer metadata via backend)
