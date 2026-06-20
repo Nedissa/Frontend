@@ -92,8 +92,11 @@ export default function AccountPage() {
   useEffect(() => {
     setIsHydrated(true);
 
-    // På desktop: sätt aktiv tab till profil som standard
-    if (window.innerWidth >= 768) {
+    // Återställ senast aktiva tab (desktop: fallback till profil, mobil: stängd)
+    const savedTab = localStorage.getItem('accountTab');
+    if (savedTab) {
+      setActiveTab(savedTab);
+    } else if (window.innerWidth >= 768) {
       setActiveTab('profil');
     }
 
