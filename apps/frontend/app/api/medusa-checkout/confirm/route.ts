@@ -82,7 +82,7 @@ async function sendMail(formData: any, total: number, orderId: string) {
       headers: { 'api-key': process.env.BREVO_API_KEY!, 'content-type': 'application/json' },
       body: JSON.stringify({
         sender: { name: 'Techpilots Order', email: 'info@techpilots.se' },
-        to: [{ email: 'info@techpilots.se', name: 'Techpilots' }],
+        to: [{ email: 'order@techpilots.se', name: 'Techpilots' }],
         subject: `Ny order #${orderId} - ${totalStr} kr`,
         htmlContent: storeHtml,
       }),

@@ -47,14 +47,17 @@ async function fetchKontoData(token: string): Promise<KontoData | null> {
     },
     orders: [],
     complaints: [],
-    loyalty: metadata.loyalty || {
-      current_tier: 'Brons',
-      total_points: 0,
-      points_to_next_tier: 500,
-      lifetime_orders: 0,
-      lifetime_spend: 0,
-      member_since: new Date().toISOString(),
-    },
+    loyalty: (() => {
+      const pts = metadata.loyalty?.total_points || 0;
+      const tier = pts >= 2000 ? 'Platinum' : pts >= 1000 ? 'Guld' : pts >= 500 ? 'Silver' : 'Brons';
+      const next = tier === 'Brons' ? 500 : tier === 'Silver' ? 1000 : tier === 'Guld' ? 2000 : null;
+      return {
+        current_tier: tier,
+        total_points: pts,
+        points_to_next_tier: next,
+        member_since: metadata.loyalty?.member_since || new Date().toISOString(),
+      };
+    })(),
     addresses: customer.addresses || [],
     favoriteProducts: metadata.wishlist || [],
   };
