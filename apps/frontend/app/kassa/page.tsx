@@ -52,7 +52,7 @@ function PaymentForm({
     setProcessing(true);
 
     // Spara data för redirect-flödet (3DS etc)
-    sessionStorage.setItem('pendingOrder', JSON.stringify({ cartId, formData, total: finalTotal * 100 }));
+    sessionStorage.setItem('pendingOrder', JSON.stringify({ cartId, formData, total: finalTotal }));
 
     const { error } = await stripe.confirmPayment({
       elements,
