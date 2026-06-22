@@ -70,7 +70,7 @@ function PaymentForm({
     const res = await fetch('/api/medusa-checkout/confirm', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cartId, formData, total: finalTotal * 100 }),
+      body: JSON.stringify({ cartId, formData, total: finalTotal }),
     });
     const data = await res.json();
     if (!res.ok) {
