@@ -94,16 +94,17 @@ export async function POST(request: Request) {
   const body = await request.text();
   const signature = request.headers.get('stripe-signature') || '';
 
+  if (!webhookSecret) {
+    console.error('[webhook] STRIPE_WEBHOOK_SECRET saknas');
+    return Response.json({ error: 'Server configuration error' }, { status: 500 });
+  }
+
   let event: Stripe.Event;
   try {
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err) {
-    console.error('[webhook] signature failed, trying raw parse. secret length:', webhookSecret.length, 'err:', err);
-    try {
-      event = JSON.parse(body) as Stripe.Event;
-    } catch {
-      return Response.json({ error: 'Invalid payload' }, { status: 400 });
-    }
+    console.error('[webhook] ogiltig signatur:', err);
+    return Response.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
   console.log('[webhook] event type:', event.type);
