@@ -127,7 +127,7 @@ export default function LoginPage() {
       <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center px-6">
         <div className="max-w-md w-full flex flex-col items-center">
           <div className="w-full">
-            <div className="space-y-6">
+            <div className="space-y-6" style={{ minHeight: '480px' }}>
               {/* Login Form */}
               {showLogin && !showResetModal && (
                 <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
