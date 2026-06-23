@@ -193,11 +193,11 @@ export default function LoginPage() {
               {/* Registration Form */}
               {!showLogin && !showResetModal && (
                 <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-                  <div className="flex items-center justify-center gap-1 mb-6">
-                    <Logo />
+                  <Link href="/" className="flex items-center justify-center gap-2 mb-10 hover:opacity-80 transition-opacity">
+                    <span className="block md:hidden"><Logo size={32} /></span>
+                    <span className="hidden md:block"><Logo size={40} /></span>
                     <span className="text-2xl font-bold">Techpilots</span>
-                  </div>
-                  <h2 className="text-2xl font-bold mb-6">Skapa konto</h2>
+                  </Link>
                   <form onSubmit={handleRegister} className="space-y-4">
                     <div>
                       <label className="block text-sm font-semibold mb-2">E-postadress</label>
