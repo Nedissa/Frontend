@@ -6,9 +6,9 @@ export async function POST(request: Request) {
   try {
     const { firstName, lastName, email, password } = await request.json();
 
-    if (!firstName || !lastName || !email || !password) {
+    if (!email || !password) {
       return Response.json(
-        { error: 'Alla fält måste fyllas i' },
+        { error: 'E-post och lösenord måste fyllas i' },
         { status: 400 }
       );
     }
