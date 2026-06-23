@@ -126,8 +126,8 @@ export default function LoginPage() {
       <div className="relative">
       <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center px-6">
         <div className="max-w-md w-full flex flex-col items-center">
-          <div className="w-full">
-            <div className="space-y-6" style={{ minHeight: '480px' }}>
+          <div className="w-full" style={{ minHeight: '520px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <div className="space-y-6">
               {/* Login Form */}
               {showLogin && !showResetModal && (
                 <div className="p-8 rounded-lg shadow-sm" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
@@ -226,15 +226,18 @@ export default function LoginPage() {
                       {isLoading ? 'Skapar konto...' : 'Skapa konto'}
                     </button>
                   </form>
-                  <div className="border-t pt-4 mt-6 text-center">
-                    <p className="text-xs text-gray-600 mb-2">Redan medlem?</p>
-                    <button
-                      type="button"
-                      onClick={() => setShowLogin(true)}
-                      className="text-sm font-semibold text-black hover:text-gray-700"
-                    >
-                      Logga in här
-                    </button>
+                  <div className="space-y-3 mt-6">
+                    <div className="py-2" style={{ minHeight: '32px' }} />
+                    <div className="border-t pt-4 text-center">
+                      <p className="text-xs text-gray-600 mb-2">Redan medlem?</p>
+                      <button
+                        type="button"
+                        onClick={() => setShowLogin(true)}
+                        className="text-sm font-semibold text-black hover:text-gray-700"
+                      >
+                        Logga in här
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}
