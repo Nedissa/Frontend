@@ -90,7 +90,7 @@ function OrderConfirmationContent() {
         </Link>
 
         <p className="text-gray-400 text-xs mt-6">
-          Frågor? <Link href="/kontakt" className="text-black underline">Kontakta oss</Link>
+          Frågor? <Link href="/kundservice" className="text-black underline">Kontakta oss</Link>
         </p>
       </div>
     </MainLayout>

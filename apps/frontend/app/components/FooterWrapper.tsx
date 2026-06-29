@@ -41,9 +41,9 @@ export function FooterWrapper() {
             <div>
               <h3 className="font-bold mb-3 text-sm">Information</h3>
               <ul className="space-y-1 text-sm">
-                <li><Link href="/frakt-och-leverans">Leverans</Link></li>
-                <li><Link href="/villkor#betalning">Betalning</Link></li>
-                <li><Link href="/villkor">Försäljningsvillkor</Link></li>
+                <li><Link href="/kundservice#leverans">Leverans</Link></li>
+                <li><Link href="/kundservice#villkor">Betalning</Link></li>
+                <li><Link href="/kundservice#villkor">Försäljningsvillkor</Link></li>
                 <li><Link href="/integritetspolicy">Integritetspolicy</Link></li>
                 <li><Link href="/cookiepolicy">Cookiepolicy</Link></li>
               </ul>
@@ -53,10 +53,10 @@ export function FooterWrapper() {
             <div>
               <h3 className="font-bold mb-3 text-sm">Kundservice</h3>
               <ul className="space-y-1 text-sm">
-                <li><Link href="/kontakt">Kontakta oss</Link></li>
-                <li><Link href="/faq">Vanliga frågor</Link></li>
-                <li><Link href="/returpolicy">Returer & byten</Link></li>
-                <li><Link href="/reklamation">Reklamation & service</Link></li>
+                <li><Link href="/kundservice#kontakt">Kontakta oss</Link></li>
+                <li><Link href="/kundservice#vanliga-fragor">Vanliga frågor</Link></li>
+                <li><Link href="/kundservice#returer">Returer & byten</Link></li>
+                <li><Link href="/kundservice#reklamation">Reklamation & service</Link></li>
               </ul>
             </div>
 
