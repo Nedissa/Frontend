@@ -74,24 +74,22 @@ const sidebarCategories = [
 
 function InfoSidebar() {
   const pathname = usePathname();
-  const [open, setOpen] = useState<string[]>(() => {
-    const active = sidebarCategories.filter(cat => cat.links.some(l => l.href === pathname)).map(cat => cat.id);
-    return active.length > 0 ? active : [sidebarCategories[0].id];
+  const [open, setOpen] = useState<string | null>(() => {
+    const active = sidebarCategories.find(cat => cat.links.some(l => l.href === pathname && l.href !== '/kundservice'));
+    return active ? active.id : sidebarCategories[0].id;
   });
 
   const toggle = (id: string) => {
-    setOpen(prev =>
-      prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
-    );
+    setOpen(prev => prev === id ? null : id);
   };
 
   return (
     <aside className="w-full md:w-[220px] md:flex-shrink-0" style={{ fontFamily: "'Manrope', sans-serif" }}>
       <nav>
         {sidebarCategories.map(cat => {
-          const isOpen = open.includes(cat.id);
+          const isOpen = open === cat.id;
           return (
-            <div key={cat.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
+            <div key={cat.id}>
               <button
                 onClick={() => toggle(cat.id)}
                 style={{
@@ -102,6 +100,7 @@ function InfoSidebar() {
                   padding: '12px 0',
                   background: 'none',
                   border: 'none',
+                  borderTop: '1px solid #e5e7eb',
                   cursor: 'pointer',
                   fontSize: '0.85rem',
                   fontWeight: 600,
@@ -122,10 +121,10 @@ function InfoSidebar() {
               <div style={{ overflow: 'hidden' }}>
                 <div style={{ paddingBottom: '8px' }}>
                   {cat.links.map(link => {
-                    const active = pathname === link.href;
+                    const active = pathname === link.href && link.href !== '/kundservice';
                     return (
                       <Link
-                        key={link.href}
+                        key={link.label}
                         href={link.href}
                         style={{
                           display: 'block',
