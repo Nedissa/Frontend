@@ -35,32 +35,31 @@ const sidebarCategories = [
     id: 'kundservice',
     label: 'Kundservice',
     links: [
-      { href: '/kontakt', label: 'Kontakta oss' },
-      { href: '/faq', label: 'Vanliga frågor' },
+      { href: '/kundservice', label: 'Kontakta oss' },
     ],
   },
   {
     id: 'leverans',
     label: 'Leverans',
     links: [
-      { href: '/frakt-och-leverans', label: 'Frakt och leverans' },
+      { href: '/kundservice', label: 'Frakt och leverans' },
     ],
   },
   {
     id: 'retur',
     label: 'Öppet köp och retur',
     links: [
-      { href: '/returpolicy', label: 'Returpolicy' },
-      { href: '/reklamation', label: 'Reklamation & service' },
+      { href: '/kundservice', label: 'Returer & öppet köp' },
+      { href: '/kundservice', label: 'Garanti & reklamation' },
     ],
   },
   {
     id: 'villkor',
     label: 'Villkor och tjänster',
     links: [
-      { href: '/villkor', label: 'Försäljningsvillkor' },
-      { href: '/integritetspolicy', label: 'Integritetspolicy' },
-      { href: '/cookiepolicy', label: 'Cookiepolicy' },
+      { href: '/kundservice', label: 'Försäljningsvillkor' },
+      { href: '/kundservice', label: 'Integritetspolicy' },
+      { href: '/kundservice', label: 'Cookiepolicy' },
     ],
   },
   {
@@ -68,8 +67,6 @@ const sidebarCategories = [
     label: 'Om oss',
     links: [
       { href: '/om-oss', label: 'Vår historia' },
-      { href: '/var-webbyra', label: 'Vår webbyrå' },
-      { href: '/nyheter', label: 'Nyheter' },
       { href: '/pilotbloggen', label: 'Pilotbloggen' },
     ],
   },
