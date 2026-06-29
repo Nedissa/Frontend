@@ -82,6 +82,8 @@ export default function KundservicePage() {
           from { opacity: 0; transform: translateY(10px); }
           to   { opacity: 1; transform: translateY(0); }
         }
+        .ks-nav-btn { color: #555 !important; }
+        .ks-nav-btn.ks-active { color: #000 !important; }
       `}</style>
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '48px 24px', fontFamily: "'Inter', sans-serif" }}>
 
@@ -117,10 +119,10 @@ export default function KundservicePage() {
           <nav className="hidden md:block" style={{ width: '220px', flexShrink: 0, position: 'sticky', top: '100px' }}>
             {SECTIONS.map(s => (
               <button key={s.id} onClick={() => navigate(s.id)}
+                className={`ks-nav-btn${s.id === active ? ' ks-active' : ''}`}
                 style={{
                   display: 'block', width: '100%', textAlign: 'left', padding: '10px 14px',
                   fontSize: '0.875rem', fontWeight: s.id === active ? 700 : 400,
-                  color: s.id === active ? '#000' : '#555',
                   background: s.id === active ? '#f5f5f5' : 'transparent',
                   border: 'none', borderLeft: `2px solid ${s.id === active ? '#000' : 'transparent'}`,
                   cursor: 'pointer', marginBottom: '2px', borderRadius: '0 4px 4px 0',
