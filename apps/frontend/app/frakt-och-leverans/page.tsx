@@ -18,7 +18,7 @@ export default function ShippingPage() {
             <p className="mb-4"><strong>Kostnad:</strong> Gratis inom hela Sverige</p>
             <h3 className="font-bold mb-1">Express-leverans</h3>
             <p className="mb-1">Leverans samma dag eller nästa dag för brådskande ordrar.</p>
-            <p><strong>Kostnad:</strong> 199 SEK. Beställ före 12:00.</p>
+            <p><strong>Kostnad:</strong> 99 kr, leverans 1–2 arbetsdagar.</p>
           </section>
 
           <section>
