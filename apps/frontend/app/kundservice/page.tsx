@@ -200,190 +200,83 @@ export default function KundservicePage() {
             {/* VANLIGA FRÅGOR */}
             {active === 'vanliga-fragor' && (
               <div className="space-y-8">
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '24px' }}>Vanliga frågor</h2>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, fontSize: '1.05rem', marginBottom: '16px', paddingBottom: '8px', borderBottom: '1px solid #e5e7eb' }}>Beställning</h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Hur gör jag en beställning?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Lägg produkter i din varukorg, gå till kassan, fyll i dina uppgifter och välj betalningsmetod. Du får omedelbar orderbekräftelse via e-mail.</p></div>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Kan jag ändra min beställning efter att jag lagt den?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Om din beställning inte redan skickats kan vi hjälpa dig. Kontakta omedelbart support@techpilots.se eller ring +46 10 880 09 81.</p></div>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Måste jag ha ett konto för att beställa?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Ja, du behöver registrera dig. Det tar bara några minuter och gör det enkelt att spåra dina beställningar.</p></div>
-                  </div>
-                </section>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, fontSize: '1.05rem', marginBottom: '16px', paddingBottom: '8px', borderBottom: '1px solid #e5e7eb' }}>Leverans & Frakt</h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Hur lång tid tar leveransen?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Standardleverans tar 2–5 arbetsdagar. Express 1–2 arbetsdagar.</p></div>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Är frakt kostnadsfritt?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Standardleverans är gratis inom Sverige. Express kostar 99 kr.</p></div>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Hur kan jag spåra min beställning?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Du får ett spårningsnummer via e-mail när din beställning skickas. Logga även in på Mina sidor för att se status.</p></div>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Levererar ni utanför Sverige?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Vi levererar för närvarande till Sverige. Leverans till övriga Norden kan diskuteras på förfrågan.</p></div>
-                  </div>
-                </section>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, fontSize: '1.05rem', marginBottom: '16px', paddingBottom: '8px', borderBottom: '1px solid #e5e7eb' }}>Betalning</h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Vilka betalningsmetoder accepterar ni?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Vi accepterar kreditkort (Visa, Mastercard), Swish, PayPal och Klarna.</p></div>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Är det säkert att betala online?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Ja. Vi använder SSL-kryptering och är PCI DSS-certifierade. Vi lagrar aldrig dina fullständiga betalningsuppgifter.</p></div>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Varför blev min betalning nekad?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Kontrollera att ditt betalningsmedel är giltigt och att beloppet finns tillgängligt. Kontakta din bank eller försök med en annan metod.</p></div>
-                  </div>
-                </section>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, fontSize: '1.05rem', marginBottom: '16px', paddingBottom: '8px', borderBottom: '1px solid #e5e7eb' }}>Returer & Ångerrätt</h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Kan jag returnera en produkt?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Ja, du har 30 dagars returrätt på alla köp. Produkten ska vara oanvänd och i originalskick.</p></div>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Betalar jag returfrakten?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Ja, du betalar returfrakten själv vid vanlig retur. Vid reklamation betalar vi.</p></div>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Hur länge tar det att få återbetalt?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Du får återbetalning inom 14 dagar från att vi mottagit och godkänt din retur.</p></div>
-                  </div>
-                </section>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, fontSize: '1.05rem', marginBottom: '16px', paddingBottom: '8px', borderBottom: '1px solid #e5e7eb' }}>Garanti & Reklamation</h3>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Har produkterna garanti?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Ja, alla produkter har tillverkarens garanti (normalt 2 år). Du har även lagstadgad reklamationsrätt i 3 år.</p></div>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Vad täcker inte garantin?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Garantin täcker inte slitage, felaktig användning, olyckor, vattenskador eller skador från felaktig installation.</p></div>
-                    <div><p style={{ fontWeight: 600, marginBottom: '4px' }}>Hur gör jag ett garantikrav?</p><p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Kontakta support@techpilots.se med ordernummer och beskrivning av problemet. Bifoga gärna bilder.</p></div>
-                  </div>
-                </section>
-
-                <div style={{ marginTop: '8px', padding: '20px', background: '#f9f9f9', borderRadius: '8px' }}>
-                  <p style={{ fontWeight: 700, marginBottom: '4px' }}>Hittade du inte svaret?</p>
-                  <p style={{ fontSize: '0.875rem', color: '#666' }}>Ring oss på <strong>+46 10 880 09 81</strong> eller maila <strong>support@techpilots.se</strong> — vi svarar inom 24 timmar.</p>
-                </div>
+                <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '4px' }}>Vanliga frågor</h2>
+                <p style={{ color: '#888', fontSize: '0.8rem', marginBottom: '24px' }}>Hittade du inte svaret? Ring +46 10 880 09 81 eller maila support@techpilots.se</p>
+                {[
+                  { title: 'Hur gör jag en beställning?', content: 'Lägg produkter i din varukorg, gå till kassan, fyll i dina uppgifter och välj betalningsmetod. Du får omedelbar orderbekräftelse via e-mail.' },
+                  { title: 'Kan jag ändra min beställning?', content: 'Om din beställning inte redan skickats kan vi hjälpa dig. Kontakta omedelbart support@techpilots.se eller ring +46 10 880 09 81.' },
+                  { title: 'Måste jag ha ett konto för att beställa?', content: 'Ja, du behöver registrera dig. Det tar bara några minuter och gör det enkelt att spåra dina beställningar.' },
+                  { title: 'Hur lång tid tar leveransen?', content: 'Standardleverans tar 2–5 arbetsdagar. Express 1–2 arbetsdagar. Standardleverans är gratis, express kostar 99 kr.' },
+                  { title: 'Hur spårar jag min beställning?', content: 'Du får ett spårningsnummer via e-mail när din beställning skickas. Du kan även logga in på Mina sidor för att se status.' },
+                  { title: 'Vilka betalningsmetoder accepterar ni?', content: 'Vi accepterar kreditkort (Visa, Mastercard), Swish, PayPal och Klarna. Alla betalningar är SSL-krypterade.' },
+                  { title: 'Kan jag returnera en produkt?', content: 'Ja, du har 30 dagars returrätt på alla köp. Produkten ska vara oanvänd och i originalskick. Du betalar returfrakten själv, och återbetalning sker inom 14 dagar efter godkänd retur.' },
+                  { title: 'Har produkterna garanti?', content: 'Ja, alla produkter har tillverkarens garanti (normalt 2 år). Du har även lagstadgad reklamationsrätt i 3 år. Kontakta support@techpilots.se med ordernummer och bilder vid fel.' },
+                ].map(s => (
+                  <section key={s.title}>
+                    <h3 style={{ fontWeight: 700, marginBottom: '8px' }}>{s.title}</h3>
+                    <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.8 }}>{s.content}</p>
+                  </section>
+                ))}
               </div>
             )}
 
             {/* LEVERANS */}
             {active === 'leverans' && (
               <div className="space-y-8">
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '24px' }}>Leverans & Frakt</h2>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, marginBottom: '12px' }}>Leveransalternativ</h3>
-                  <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '8px' }}>
-                    <div style={{ flex: 1, minWidth: '200px', padding: '20px', borderRadius: '8px' }}>
-                      <p style={{ fontWeight: 700, marginBottom: '4px' }}>Standardleverans</p>
-                      <p style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '4px' }}>Gratis</p>
-                      <p style={{ fontSize: '0.85rem', color: '#666' }}>2–5 arbetsdagar inom Sverige</p>
-                    </div>
-                    <div style={{ flex: 1, minWidth: '200px', padding: '20px', borderRadius: '8px' }}>
-                      <p style={{ fontWeight: 700, marginBottom: '4px' }}>Express</p>
-                      <p style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '4px' }}>99 kr</p>
-                      <p style={{ fontSize: '0.85rem', color: '#666' }}>1–2 arbetsdagar</p>
-                    </div>
-                  </div>
-                </section>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, marginBottom: '12px' }}>Leveransområden</h3>
-                  <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '8px' }}>Vi skickar till hela Sverige utan extra kostnad. För leverans till Norge, Danmark, Finland och övriga EU kan vi erbjuda priser på förfrågan — kontakta oss på support@techpilots.se.</p>
-                </section>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, marginBottom: '12px' }}>Spåra din beställning</h3>
-                  <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '8px' }}>Du får ett spårningsnummer via e-mail när din beställning skickas. Du kan även logga in på <strong>Mina sidor</strong> och klicka på din order för att följa paketet direkt via PostNord.</p>
-                </section>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, marginBottom: '12px' }}>Förpackning & Säkerhet</h3>
-                  <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '8px' }}>Vi använder luftbubbelpapper, skumkuddar och stödjematerial för att säkerställa att produkterna anländer i perfekt skick. Alla försändelser är försäkrade för fullt värde.</p>
-                </section>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, marginBottom: '12px' }}>Skadat paket?</h3>
-                  <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '8px' }}>Om du mottar ett skadat paket — inspektera omedelbart, dokumentera med bilder och kontakta oss på support@techpilots.se inom <strong>48 timmar</strong> med ditt ordernummer. Vi skickar ersättning eller ny produkt och betalar frakten.</p>
-                </section>
+                <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '4px' }}>Leverans & Frakt</h2>
+                <p style={{ color: '#888', fontSize: '0.8rem', marginBottom: '24px' }}>Standardleverans är gratis · Express 99 kr</p>
+                {[
+                  { title: 'Standardleverans', content: 'Fri frakt inom hela Sverige. Leveranstid 2–5 arbetsdagar via PostNord.' },
+                  { title: 'Expressfrakt', content: 'Expressfrakt kostar 99 kr och levereras inom 1–2 arbetsdagar.' },
+                  { title: 'Leveransområden', content: 'Vi skickar till hela Sverige utan extra kostnad. För leverans till Norge, Danmark, Finland och övriga EU kan vi erbjuda priser på förfrågan — kontakta oss på support@techpilots.se.' },
+                  { title: 'Spåra din beställning', content: 'Du får ett spårningsnummer via e-mail när din beställning skickas. Du kan även logga in på Mina sidor och klicka på din order för att följa paketet direkt via PostNord.' },
+                  { title: 'Förpackning & Säkerhet', content: 'Vi använder luftbubbelpapper, skumkuddar och stödjematerial för att säkerställa att produkterna anländer i perfekt skick. Alla försändelser är försäkrade för fullt värde.' },
+                  { title: 'Skadat paket?', content: 'Om du mottar ett skadat paket — inspektera omedelbart, dokumentera med bilder och kontakta oss på support@techpilots.se inom 48 timmar med ditt ordernummer. Vi skickar ersättning eller ny produkt och betalar frakten.' },
+                ].map(s => (
+                  <section key={s.title}>
+                    <h3 style={{ fontWeight: 700, marginBottom: '8px' }}>{s.title}</h3>
+                    <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.8 }}>{s.content}</p>
+                  </section>
+                ))}
               </div>
             )}
 
             {/* RETURER */}
             {active === 'returer' && (
               <div className="space-y-8">
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '8px' }}>Returer & Öppet köp</h2>
-                <p style={{ color: '#555', fontSize: '0.95rem', marginBottom: '24px' }}>Du har <strong>30 dagars returrätt</strong> på alla köp hos oss — mer än vad lagen kräver.</p>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, marginBottom: '12px' }}>Returvillkor</h3>
-                  <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '8px' }}>För att en retur ska godkännas måste produkten vara oanvänd, i originalförpackning, med allt tillbehör och utan synlig skada. Du initierar returen inom 30 dagar och betalar returfrakten själv.</p>
-                </section>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, marginBottom: '12px' }}>Returprocess — steg för steg</h3>
-                  <ol style={{ paddingLeft: '20px', color: '#555', fontSize: '0.9rem', lineHeight: 2 }}>
-                    <li><strong>Kontakta oss.</strong> Maila support@techpilots.se med ordernummer och anledning.</li>
-                    <li><strong>Få returetikett.</strong> Vi skickar instruktioner inom 24 timmar.</li>
-                    <li><strong>Packa produkten säkert.</strong> Originalförpackning med all tillbehör.</li>
-                    <li><strong>Skicka tillbaka.</strong> Använd returfraktsedeln och spara ditt spårningsnummer.</li>
-                    <li><strong>Återbetalning.</strong> Inom 5–7 arbetsdagar efter godkänd retur.</li>
-                  </ol>
-                </section>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, marginBottom: '12px' }}>Undantag från returrätt</h3>
-                  <ul style={{ paddingLeft: '20px', color: '#555', fontSize: '0.9rem', lineHeight: 2 }}>
-                    <li>Förbrukningsvaror och öppna/använda produkter</li>
-                    <li>Kroppsnära produkter och hygienartiklar (t.ex. in-ear hörlurar)</li>
-                    <li>Spel och digitala produkter där licens aktiverats</li>
-                    <li>Specialbeställda varor</li>
-                    <li>Presentkort</li>
-                  </ul>
-                </section>
+                <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '4px' }}>Returer & Öppet köp</h2>
+                <p style={{ color: '#888', fontSize: '0.8rem', marginBottom: '24px' }}>30 dagars returrätt på alla köp</p>
+                {[
+                  { title: 'Returvillkor', content: 'För att en retur ska godkännas måste produkten vara oanvänd, i originalförpackning, med allt tillbehör och utan synlig skada. Du initierar returen inom 30 dagar och betalar returfrakten själv.' },
+                  { title: 'Så gör du en retur', content: 'Kontakta oss på support@techpilots.se med ordernummer och anledning. Vi skickar instruktioner inom 24 timmar. Packa produkten säkert i originalförpackningen och skicka tillbaka med returfraktsedeln. Återbetalning sker inom 5–7 arbetsdagar efter godkänd retur.' },
+                  { title: 'Undantag från returrätt', content: 'Returrätt gäller inte förbrukningsvaror, öppna eller använda produkter, kroppsnära produkter och hygienartiklar (t.ex. in-ear hörlurar), spel och digitala produkter där licens aktiverats, specialbeställda varor eller presentkort.' },
+                ].map(s => (
+                  <section key={s.title}>
+                    <h3 style={{ fontWeight: 700, marginBottom: '8px' }}>{s.title}</h3>
+                    <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.8 }}>{s.content}</p>
+                  </section>
+                ))}
               </div>
             )}
 
             {/* REKLAMATION */}
             {active === 'reklamation' && (
               <div className="space-y-8">
-                <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '8px' }}>Garanti & Reklamation</h2>
-                <p style={{ color: '#555', fontSize: '0.95rem', marginBottom: '24px' }}>Du har lagstadgad reklamationsrätt i <strong>3 år</strong> från köpdatum. Under de första 2 åren är det vi som måste bevisa att felet inte var ursprungligt.</p>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, marginBottom: '12px' }}>Vad täcker reklamationsrätten?</h3>
-                  <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-                    <div style={{ flex: 1, minWidth: '200px' }}>
-                      <p style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '8px', color: '#16a34a' }}>✓ Täcks</p>
-                      <ul style={{ paddingLeft: '16px', color: '#555', fontSize: '0.875rem', lineHeight: 1.9 }}>
-                        <li>Tillverkningsfel och materialfel</li>
-                        <li>Defekt batteri</li>
-                        <li>Skärm som slutar fungera utan yttre påverkan</li>
-                        <li>Komponenter som inte fungerar som utlovat</li>
-                      </ul>
-                    </div>
-                    <div style={{ flex: 1, minWidth: '200px' }}>
-                      <p style={{ fontWeight: 600, fontSize: '0.85rem', marginBottom: '8px', color: '#dc2626' }}>✗ Täcks inte</p>
-                      <ul style={{ paddingLeft: '16px', color: '#555', fontSize: '0.875rem', lineHeight: 1.9 }}>
-                        <li>Fysisk skada (tappat, stött)</li>
-                        <li>Vattenskada</li>
-                        <li>Normalt slitage</li>
-                        <li>Felaktig installation eller användning</li>
-                      </ul>
-                    </div>
-                  </div>
-                </section>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, marginBottom: '12px' }}>Så gör du en felanmälan</h3>
-                  <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: '8px' }}>Maila <strong>support@techpilots.se</strong> med ordernummer, produktnamn, beskrivning av felet och bilder eller video. En reklamation som görs inom <strong>2 månader</strong> från att felet upptäcktes anses alltid vara gjord i rätt tid.</p>
-                  <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Du kan även ringa <strong>+46 10 880 09 81</strong> mån-fre 09:00–17:00.</p>
-                </section>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, marginBottom: '12px' }}>Vad händer efter felanmälan?</h3>
-                  <ol style={{ paddingLeft: '20px', color: '#555', fontSize: '0.9rem', lineHeight: 2 }}>
-                    <li><strong>Vi bekräftar inom 24 timmar</strong> med ett ärendenummer.</li>
-                    <li><strong>Bedömning inom 3 arbetsdagar.</strong> Vi granskar anmälan och bilder.</li>
-                    <li><strong>Vi meddelar beslut</strong> — godkänd reklamation eller motiverat avslag.</li>
-                    <li><strong>Åtgärd.</strong> Reparation, byte eller återbetalning beroende på situation.</li>
-                    <li><strong>Vi betalar frakten</strong> vid godkänd reklamation.</li>
-                  </ol>
-                </section>
-
-                <section>
-                  <h3 style={{ fontWeight: 700, marginBottom: '12px' }}>Tvist</h3>
-                  <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.7 }}>Om vi inte kan komma överens kan du vända dig till <strong>Allmänna Reklamationsnämnden (ARN)</strong>, Box 174, 101 23 Stockholm — arn.se. Du kan även använda EU:s plattform för tvistlösning: ec.europa.eu/consumers/odr</p>
-                </section>
+                <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '4px' }}>Garanti & Reklamation</h2>
+                <p style={{ color: '#888', fontSize: '0.8rem', marginBottom: '24px' }}>3 års reklamationsrätt enligt lag</p>
+                {[
+                  { title: 'Reklamationsrätt', content: 'Du har lagstadgad reklamationsrätt i 3 år från köpdatum. Under de första 2 åren är det vi som måste bevisa att felet inte var ursprungligt.' },
+                  { title: 'Vad täcks?', content: 'Reklamationsrätten täcker tillverkningsfel och materialfel, defekt batteri, skärm som slutar fungera utan yttre påverkan samt komponenter som inte fungerar som utlovat.' },
+                  { title: 'Vad täcks inte?', content: 'Garantin täcker inte fysisk skada (tappat, stött), vattenskada, normalt slitage eller felaktig installation och användning.' },
+                  { title: 'Så gör du en felanmälan', content: 'Maila support@techpilots.se med ordernummer, produktnamn, beskrivning av felet och bilder eller video. En reklamation som görs inom 2 månader från att felet upptäcktes anses alltid vara gjord i rätt tid. Du kan även ringa +46 10 880 09 81 mån-fre 09:00–17:00.' },
+                  { title: 'Vad händer sen?', content: 'Vi bekräftar inom 24 timmar med ett ärendenummer. Bedömning sker inom 3 arbetsdagar. Vid godkänd reklamation erbjuder vi reparation, byte eller återbetalning — och vi betalar alltid frakten.' },
+                  { title: 'Tvist', content: 'Om vi inte kan komma överens kan du vända dig till Allmänna Reklamationsnämnden (ARN), Box 174, 101 23 Stockholm, arn.se. Du kan även använda EU:s plattform för tvistlösning: ec.europa.eu/consumers/odr' },
+                ].map(s => (
+                  <section key={s.title}>
+                    <h3 style={{ fontWeight: 700, marginBottom: '8px' }}>{s.title}</h3>
+                    <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.8 }}>{s.content}</p>
+                  </section>
+                ))}
               </div>
             )}
 
