@@ -64,7 +64,7 @@ export default async function BloggPostPage({ params }: { params: Promise<{ slug
 
   return (
     <MainLayout>
-      <div style={{ maxWidth: '720px', margin: '0 auto', padding: '48px 24px' }}>
+      <div style={{ maxWidth: '720px', margin: '0 auto', padding: '64px 48px' }}>
         <Link href="/pilotbloggen" style={{ fontSize: '0.85rem', color: '#666', textDecoration: 'none', display: 'inline-block', marginBottom: '32px' }}>
           ← Tillbaka till bloggen
         </Link>
@@ -72,7 +72,7 @@ export default async function BloggPostPage({ params }: { params: Promise<{ slug
           {new Date(post.createdAt).toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' })}
         </p>
         <h1 style={{ fontSize: '2rem', fontWeight: 800, lineHeight: 1.2, marginBottom: '32px' }}>{post.title}</h1>
-        <div style={{ fontSize: '1rem', color: '#333' }}>
+        <div style={{ fontSize: '1.05rem', color: '#333', lineHeight: 1.9 }}>
           {post.content?.root?.children?.map((node, i) => renderNode(node, i))}
         </div>
       </div>
