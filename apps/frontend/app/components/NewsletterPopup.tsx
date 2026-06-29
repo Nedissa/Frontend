@@ -15,7 +15,28 @@ export function NewsletterPopup() {
   useEffect(() => {
     setIsHydrated(true);
     const closed = localStorage.getItem('newsletterPopupClosed');
-    if (!closed) setIsOpen(true);
+    if (closed) return;
+
+    const show = () => {
+      setIsOpen(true);
+      cleanup();
+    };
+
+    // Exit intent: mouse moves toward top of browser (desktop)
+    const handleMouseLeave = (e: MouseEvent) => {
+      if (e.clientY <= 20) show();
+    };
+
+    // Fallback: 60 seconds (covers mobile where exit intent doesn't work)
+    const timer = setTimeout(show, 60000);
+
+    const cleanup = () => {
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      clearTimeout(timer);
+    };
+
+    document.addEventListener('mouseleave', handleMouseLeave);
+    return cleanup;
   }, []);
 
   const handleClose = () => {
