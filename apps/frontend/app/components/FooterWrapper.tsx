@@ -44,8 +44,8 @@ export function FooterWrapper() {
                 <li><Link href="/kundservice#leverans">Leverans</Link></li>
                 <li><Link href="/kundservice#villkor">Betalning</Link></li>
                 <li><Link href="/kundservice#villkor">Försäljningsvillkor</Link></li>
-                <li><Link href="/integritetspolicy">Integritetspolicy</Link></li>
-                <li><Link href="/cookiepolicy">Cookiepolicy</Link></li>
+                <li><Link href="/kundservice#integritet">Integritetspolicy</Link></li>
+                <li><Link href="/kundservice#cookies">Cookiepolicy</Link></li>
               </ul>
             </div>
 
