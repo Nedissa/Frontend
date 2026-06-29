@@ -14,6 +14,8 @@ const SECTIONS = [
   { id: 'returer', label: 'Returer & Öppet köp' },
   { id: 'reklamation', label: 'Garanti & Reklamation' },
   { id: 'villkor', label: 'Försäljningsvillkor' },
+  { id: 'integritet', label: 'Integritetspolicy' },
+  { id: 'cookies', label: 'Cookiepolicy' },
 ];
 
 export default function KundservicePage() {
@@ -402,6 +404,51 @@ export default function KundservicePage() {
                   { title: '10. Dataskydd', content: 'Vi behandlar din personliga data enligt GDPR. Din information används endast för att genomföra beställningar och förbättra vår service. Vi delar aldrig din data med tredjeparter utan ditt samtycke, förutom vid leverans och betalningshantering.' },
                   { title: '11. Tillämplig lag och tvister', content: 'Dessa villkor regleras av svensk lag. Tvist kan hänskjutas till Allmänna Reklamationsnämnden (ARN), Box 174, 101 23 Stockholm, eller online via europa.eu/consumers/odr.' },
                   { title: '12. Kontaktinformation', content: 'Techpilots AB · Skogshyddegatan 37, 506 31 Borås · Telefon: +46 10 880 09 81 · E-post: support@techpilots.se · Öppettider: Mån-Fre 09:00–17:00' },
+                ].map(s => (
+                  <section key={s.title}>
+                    <h3 style={{ fontWeight: 700, marginBottom: '8px' }}>{s.title}</h3>
+                    <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.8 }}>{s.content}</p>
+                  </section>
+                ))}
+              </div>
+            )}
+
+            {/* INTEGRITETSPOLICY */}
+            {active === 'integritet' && (
+              <div className="space-y-8">
+                <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '4px' }}>Integritetspolicy</h2>
+                <p style={{ color: '#888', fontSize: '0.8rem', marginBottom: '24px' }}>Senast uppdaterad 6 juni 2026 · Techpilots AB</p>
+
+                {[
+                  { title: 'Personuppgiftsansvarig', content: 'Techpilots AB, org.nr 559385-5346, Skogshyddegatan 37, 506 31 Borås, är personuppgiftsansvarig för behandlingen av dina personuppgifter.' },
+                  { title: 'Vilka uppgifter vi samlar in', content: 'Vi samlar in namn, e-postadress, leveransadress, telefonnummer och betalningsinformation när du handlar hos oss. Vi samlar även in tekniska uppgifter om din enhet och ditt beteende på sajten (IP-adress, webbläsare, klick) via cookies.' },
+                  { title: 'Varför vi behandlar dina uppgifter', content: 'Vi behandlar dina uppgifter för att genomföra köp och leverans (avtalsgrund), skicka orderbekräftelser och statusuppdateringar (berättigat intresse), förbättra vår webbplats och kundupplevelse (berättigat intresse), samt skicka nyhetsbrev om du samtyckt till det.' },
+                  { title: 'Hur länge vi sparar uppgifterna', content: 'Orderuppgifter sparas i 7 år enligt bokföringslagen. Nyhetsbrevsprenumerationer sparas tills du avregistrerar dig. Tekniska loggar raderas efter 12 månader.' },
+                  { title: 'Dina rättigheter', content: 'Du har rätt att begära tillgång till dina uppgifter, rätta felaktiga uppgifter, begära radering ("rätten att bli glömd"), begränsa eller invända mot behandling, samt dataportabilitet. Kontakta oss på info@techpilots.se för att utöva dina rättigheter.' },
+                  { title: 'Tredjeparter', content: 'Vi delar uppgifter med PostNord (leverans), Stripe och Klarna (betalning), Brevo (e-post), Vercel (webbhotell) och Google Analytics (statistik). Alla tredjeparter är GDPR-kompatibla och behandlar data enligt databehandlingsavtal.' },
+                  { title: 'Klagomål', content: 'Om du anser att vi behandlar dina uppgifter felaktigt har du rätt att lämna klagomål till Integritetsskyddsmyndigheten (IMY), imy.se.' },
+                ].map(s => (
+                  <section key={s.title}>
+                    <h3 style={{ fontWeight: 700, marginBottom: '8px' }}>{s.title}</h3>
+                    <p style={{ color: '#555', fontSize: '0.9rem', lineHeight: 1.8 }}>{s.content}</p>
+                  </section>
+                ))}
+              </div>
+            )}
+
+            {/* COOKIEPOLICY */}
+            {active === 'cookies' && (
+              <div className="space-y-8">
+                <h2 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '4px' }}>Cookiepolicy</h2>
+                <p style={{ color: '#888', fontSize: '0.8rem', marginBottom: '24px' }}>Senast uppdaterad 6 juni 2026 · Techpilots AB</p>
+
+                {[
+                  { title: 'Vad är cookies?', content: 'Cookies är små textfiler som lagras i din webbläsare när du besöker en webbplats. De används för att webbplatsen ska fungera korrekt, för att komma ihåg dina inställningar och för att förstå hur besökare använder sajten.' },
+                  { title: 'Nödvändiga cookies', content: 'Dessa cookies krävs för att webbplatsen ska fungera. De lagrar exempelvis din varukorg, inloggningsstatus och preferenser. Du kan inte stänga av dessa utan att webbplatsen slutar fungera.' },
+                  { title: 'Analyscookies', content: 'Vi använder Google Analytics för att förstå hur besökare navigerar på sajten. Dessa cookies samlar anonym statistik om sidvisningar, trafikkällor och användarflöden. Du kan tacka nej till dessa via vår cookiebanner.' },
+                  { title: 'Marknadsföringscookies', content: 'Om du godkänner marknadsföringscookies kan vi visa relevanta annonser för dig på andra plattformar (t.ex. Google, Meta). Vi delar aldrig din identitet med dessa plattformar utan enbart anonymiserade signaler.' },
+                  { title: 'Hantera dina val', content: 'Du kan när som helst ändra dina cookie-inställningar via vår cookiebanner (klicka på "Cookie-inställningar" i sidfoten) eller direkt i din webbläsares inställningar. Observera att blockering av cookies kan påverka webbplatsens funktionalitet.' },
+                  { title: 'Kontakt', content: 'Frågor om vår cookiepolicy? Kontakta oss på info@techpilots.se eller +46 10 880 09 81.' },
                 ].map(s => (
                   <section key={s.title}>
                     <h3 style={{ fontWeight: 700, marginBottom: '8px' }}>{s.title}</h3>
