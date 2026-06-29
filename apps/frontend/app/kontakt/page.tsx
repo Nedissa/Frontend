@@ -104,9 +104,6 @@ export default function ContactPage() {
         {/* Hero */}
         <div style={{ textAlign: 'center', padding: '60px 24px 64px', position: 'relative', zIndex: 1 }}>
           <div style={{ position: 'relative', zIndex: 1 }}>
-          <span style={{ display: 'inline-block', background: 'linear-gradient(135deg, #f5f5f5, #ffffff)', padding: '8px 20px', borderRadius: '999px', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#333', marginBottom: '24px', border: '1px solid #e5e7eb' }}>
-            Kontakta oss
-          </span>
           <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: 800, color: '#111', lineHeight: 1.1, marginBottom: '16px' }}>
             Vi hjälper dig gärna.
           </h1>
