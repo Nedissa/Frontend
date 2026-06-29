@@ -259,12 +259,12 @@ export default function KundservicePage() {
                 <section>
                   <h3 style={{ fontWeight: 700, marginBottom: '12px' }}>Leveransalternativ</h3>
                   <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '8px' }}>
-                    <div style={{ flex: 1, minWidth: '200px', padding: '20px', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+                    <div style={{ flex: 1, minWidth: '200px', padding: '20px', borderRadius: '8px' }}>
                       <p style={{ fontWeight: 700, marginBottom: '4px' }}>Standardleverans</p>
                       <p style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '4px' }}>Gratis</p>
                       <p style={{ fontSize: '0.85rem', color: '#666' }}>2–5 arbetsdagar inom Sverige</p>
                     </div>
-                    <div style={{ flex: 1, minWidth: '200px', padding: '20px', border: '1px solid #e5e7eb', borderRadius: '8px' }}>
+                    <div style={{ flex: 1, minWidth: '200px', padding: '20px', borderRadius: '8px' }}>
                       <p style={{ fontWeight: 700, marginBottom: '4px' }}>Express</p>
                       <p style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '4px' }}>99 kr</p>
                       <p style={{ fontSize: '0.85rem', color: '#666' }}>1–2 arbetsdagar</p>
