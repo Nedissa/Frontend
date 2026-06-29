@@ -67,7 +67,7 @@ export function NewsletterPopup() {
   return (
     <div className="w-full max-w-3xl">
       <div className="bg-white overflow-hidden shadow-2xl">
-        <div className="flex flex-col md:flex-row md:h-96">
+        <div className="flex flex-col md:flex-row md:h-96 min-h-[420px] md:min-h-0">
           {/* Image Section — hidden on mobile */}
           <div className="hidden md:flex w-[35%] bg-gray-200 items-center justify-center p-6">
             <img
@@ -78,7 +78,7 @@ export function NewsletterPopup() {
           </div>
 
           {/* Content Section */}
-          <div className="w-full md:w-[65%] p-6 md:p-10 flex flex-col justify-center relative">
+          <div className="w-full md:w-[65%] p-6 md:p-10 flex flex-col justify-center relative overflow-hidden">
             {/* Close Button */}
             <button
               onClick={handleClose}
@@ -137,7 +137,7 @@ export function NewsletterPopup() {
                     )}
                   </button>
                 </div>
-                {error && <p className="text-red-500 text-xs">{error}</p>}
+                <p className="text-red-500 text-xs min-h-[1rem]">{error}</p>
               </div>
             </form>
 

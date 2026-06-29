@@ -99,7 +99,7 @@ function ResetPasswordForm() {
                   required
                 />
               </div>
-              {error && <p className="text-red-600 text-sm">{error}</p>}
+              <p className="text-red-600 text-sm min-h-[1.25rem]">{error}</p>
               <button
                 type="submit"
                 disabled={isLoading}

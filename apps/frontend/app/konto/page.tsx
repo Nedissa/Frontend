@@ -399,7 +399,7 @@ export default function AccountPage() {
               <div className="p-4">
                 {/* Profil content inline */}
                 <h3 className="text-lg font-bold mb-4">Mina uppgifter</h3>
-                {saveError && <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm">{saveError}</div>}
+                <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm min-h-[2.5rem]">{saveError}</div>
                 <div className="space-y-3">
                   <div><label className="block text-sm font-semibold mb-1">Förnamn</label><div className="relative"><input type="text" value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} className="w-full px-3 py-2 pr-8 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />{editFirstName && <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}</div></div>
                   <div><label className="block text-sm font-semibold mb-1">Efternamn</label><div className="relative"><input type="text" value={editLastName} onChange={(e) => setEditLastName(e.target.value)} className="w-full px-3 py-2 pr-8 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />{editLastName && <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}</div></div>
@@ -652,11 +652,7 @@ export default function AccountPage() {
         {activeTab === 'profil' && (
         <div className="hidden md:block p-6 shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
           <h3 className="text-xl font-bold mb-6">Mina uppgifter</h3>
-          {saveError && (
-            <div className="mb-4 p-4 bg-red-50 text-red-700 rounded">
-              {saveError}
-            </div>
-          )}
+          <div className="mb-4 p-4 bg-red-50 text-red-700 rounded min-h-[3rem]">{saveError}</div>
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>

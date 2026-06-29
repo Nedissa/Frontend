@@ -579,13 +579,15 @@ function CheckoutContent() {
                   <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 block" style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' }}>Betalsätt</span></span>
                   <span className="hidden lg:block absolute w-0.5 bg-black pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '0' }} />
                   <h2 className="text-2xl font-bold mb-4"><span className="text-black">Betalning</span></h2>
-                  {!clientSecret && !isProcessing && (
-                    <p className="text-sm text-gray-400 mb-4">Fyll i dina kontaktuppgifter ovan så visas betalningsalternativen här.</p>
-                  )}
-                  {paymentError && <p className="text-red-600 text-sm mb-4">{paymentError}</p>}
-                  {isProcessing && !clientSecret && (
-                    <div className="flex items-center gap-2 text-gray-400 text-sm mb-4"><Spinner size={16} /> Förbereder betalning...</div>
-                  )}
+                  <div style={{ minHeight: '2.5rem' }} className="mb-4">
+                    {!clientSecret && !isProcessing && (
+                      <p className="text-sm text-gray-400">Fyll i dina kontaktuppgifter ovan så visas betalningsalternativen här.</p>
+                    )}
+                    {paymentError && <p className="text-red-600 text-sm">{paymentError}</p>}
+                    {isProcessing && !clientSecret && (
+                      <div className="flex items-center gap-2 text-gray-400 text-sm"><Spinner size={16} /> Förbereder betalning...</div>
+                    )}
+                  </div>
                   {showPayment && clientSecret && (
                     <Elements
                       stripe={stripePromise}

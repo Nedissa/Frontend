@@ -118,16 +118,18 @@ export default function ContactPage() {
 
         <div style={{ maxWidth: '640px', margin: '0 auto', padding: '60px 24px 0', position: 'relative', zIndex: 1 }}>
 
-          {successMessage && (
-            <div style={{ padding: '12px 16px', background: '#14532d', border: '1px solid #166534', color: '#86efac', fontSize: '0.875rem', borderRadius: '4px', marginBottom: '20px' }}>
-              {successMessage}
-            </div>
-          )}
-          {errorMessage && (
-            <div style={{ padding: '12px 16px', background: '#450a0a', border: '1px solid #991b1b', color: '#fca5a5', fontSize: '0.875rem', borderRadius: '4px', marginBottom: '20px' }}>
-              {errorMessage}
-            </div>
-          )}
+          <div style={{ minHeight: '52px' }}>
+            {successMessage && (
+              <div style={{ padding: '12px 16px', background: '#14532d', border: '1px solid #166534', color: '#86efac', fontSize: '0.875rem', borderRadius: '4px', marginBottom: '20px' }}>
+                {successMessage}
+              </div>
+            )}
+            {errorMessage && (
+              <div style={{ padding: '12px 16px', background: '#450a0a', border: '1px solid #991b1b', color: '#fca5a5', fontSize: '0.875rem', borderRadius: '4px', marginBottom: '20px' }}>
+                {errorMessage}
+              </div>
+            )}
+          </div>
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '16px' }}>

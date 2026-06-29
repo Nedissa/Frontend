@@ -6,7 +6,7 @@ import { cookies } from 'next/headers';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Techpilots: Gaming och Teknik | Fri frakt',
+    default: 'Techpilots – Din guide genom teknikdjungeln',
     template: '%s | Techpilots',
   },
   description: 'Köp gaming-laptops, grafikkort, processorer och tillbehör hos Techpilots. Fri standardleverans, bästa priser och snabb service från Borås.',
