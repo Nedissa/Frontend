@@ -1,7 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { MainLayout } from '@/app/components/MainLayout';
+
+const fadeIn: React.CSSProperties = {
+  animation: 'ks-fade-in 0.25s ease forwards',
+};
 
 const SECTIONS = [
   { id: 'kontakt', label: 'Kontakt' },
@@ -14,7 +18,13 @@ const SECTIONS = [
 
 export default function KundservicePage() {
   const [active, setActive] = useState('kontakt');
+  const [animKey, setAnimKey] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navigate = (id: string) => {
+    setActive(id);
+    setAnimKey(k => k + 1);
+  };
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [topic, setTopic] = useState('');
@@ -26,7 +36,7 @@ export default function KundservicePage() {
 
   useEffect(() => {
     const hash = window.location.hash.replace('#', '');
-    if (hash && SECTIONS.find(s => s.id === hash)) setActive(hash);
+    if (hash && SECTIONS.find(s => s.id === hash)) navigate(hash);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -65,6 +75,12 @@ export default function KundservicePage() {
 
   return (
     <MainLayout>
+      <style>{`
+        @keyframes ks-fade-in {
+          from { opacity: 0; transform: translateY(10px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '48px 24px', fontFamily: "'Inter', sans-serif" }}>
 
         <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 800, marginBottom: '8px' }}>Kundservice</h1>
@@ -84,7 +100,7 @@ export default function KundservicePage() {
           {mobileOpen && (
             <div style={{ border: '1px solid #e5e7eb', borderTop: 'none', borderRadius: '0 0 6px 6px', overflow: 'hidden' }}>
               {SECTIONS.map(s => (
-                <button key={s.id} onClick={() => { setActive(s.id); setMobileOpen(false); }}
+                <button key={s.id} onClick={() => { navigate(s.id); setMobileOpen(false); }}
                   style={{ width: '100%', padding: '12px 16px', textAlign: 'left', fontSize: '0.875rem', fontWeight: s.id === active ? 700 : 400, background: s.id === active ? '#f5f5f5' : '#fff', border: 'none', borderBottom: '1px solid #f0f0f0', cursor: 'pointer' }}>
                   {s.label}
                 </button>
@@ -98,7 +114,7 @@ export default function KundservicePage() {
           {/* Sidebar */}
           <nav className="hidden md:block" style={{ width: '220px', flexShrink: 0, position: 'sticky', top: '100px' }}>
             {SECTIONS.map(s => (
-              <button key={s.id} onClick={() => setActive(s.id)}
+              <button key={s.id} onClick={() => navigate(s.id)}
                 style={{
                   display: 'block', width: '100%', textAlign: 'left', padding: '10px 14px',
                   fontSize: '0.875rem', fontWeight: s.id === active ? 700 : 400,
@@ -114,7 +130,7 @@ export default function KundservicePage() {
           </nav>
 
           {/* Content */}
-          <div style={{ flex: 1, minWidth: 0 }}>
+          <div key={animKey} style={{ flex: 1, minWidth: 0, ...fadeIn }}>
 
             {/* KONTAKT */}
             {active === 'kontakt' && (
