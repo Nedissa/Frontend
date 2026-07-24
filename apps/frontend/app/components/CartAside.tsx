@@ -222,7 +222,7 @@ export function CartAside() {
       <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         Din varukorg
         {isSharedCart && (
-          <span style={{ fontSize: '0.6rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', background: '#000', color: '#fff', padding: '1px 7px', borderRadius: '999px' }}>
+          <span style={{ fontSize: '0.6rem', fontWeight: 600, letterSpacing: '0.08em', textTransform: 'uppercase', background: '#000', color: '#fff', padding: '2px 7px', borderRadius: '999px', display: 'inline-flex', alignItems: 'center' }}>
             delad
           </span>
         )}
