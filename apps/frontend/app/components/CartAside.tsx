@@ -60,9 +60,13 @@ export function CartAside() {
     const handleCartCleared = () => setCartItems([]);
     window.addEventListener('cartCleared', handleCartCleared);
 
+    const handleCartReplace = () => loadCartFromStorage();
+    window.addEventListener('cartReplaced', handleCartReplace);
+
     return () => {
       window.removeEventListener('storage', handleStorageChange);
       window.removeEventListener('cartCleared', handleCartCleared);
+      window.removeEventListener('cartReplaced', handleCartReplace);
     };
   }, []);
 

@@ -405,12 +405,6 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
     return () => window.removeEventListener('openCart', handleOpenCart);
   }, [open]);
 
-  useEffect(() => {
-    if (sessionStorage.getItem('openCartOnLoad')) {
-      sessionStorage.removeItem('openCartOnLoad');
-      setTimeout(() => open('cart'), 200);
-    }
-  }, [open]);
 
   useEffect(() => {
     if (mobileMenuOpen) {

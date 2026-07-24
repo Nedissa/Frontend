@@ -19,12 +19,13 @@ export default function SharedCartPage() {
         }
 
         localStorage.setItem('cartItems', JSON.stringify(data.items));
-        window.dispatchEvent(new CustomEvent('cartUpdated', {
-          detail: { count: data.items.reduce((s: number, i: any) => s + i.quantity, 0) }
-        }));
-        // Flagga att korgen ska öppnas efter navigation
         sessionStorage.setItem('openCartOnLoad', '1');
         router.push('/');
+        // Efter navigation: ladda om korgen och öppna aside
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('cartReplaced'));
+          window.dispatchEvent(new CustomEvent('openCart'));
+        }, 400);
       });
   }, [id, router]);
 
