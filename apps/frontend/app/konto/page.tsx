@@ -77,8 +77,7 @@ export default function AccountPage() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [passwordSaved, setPasswordSaved] = useState(false);
-  const [passwordLoading, setPasswordLoading] = useState(false);
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
   const addressInputRef = useRef<HTMLInputElement>(null);
 
   // Check if all required fields are filled
@@ -281,48 +280,41 @@ export default function AccountPage() {
         }
       }
 
+      // Byt lösenord om fälten är ifyllda
+      if (showPasswordForm && (currentPassword || newPassword || confirmPassword)) {
+        setPasswordError('');
+        if (!currentPassword || !newPassword || !confirmPassword) {
+          setSaveError('Fyll i alla lösenordsfält.');
+          return;
+        }
+        if (newPassword !== confirmPassword) {
+          setSaveError('Det nya lösenordet matchar inte.');
+          return;
+        }
+        if (newPassword.length < 8) {
+          setSaveError('Lösenordet måste vara minst 8 tecken.');
+          return;
+        }
+        const res = await fetch('/api/auth/change-password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ currentPassword, newPassword }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setSaveError(data.error || 'Kunde inte byta lösenord.');
+          return;
+        }
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
+        setShowPasswordForm(false);
+      }
+
       setIsSaved(true);
       setTimeout(() => setIsSaved(false), 3000);
     } catch {
       setSaveError('Ett fel uppstod när ändringar skulle sparas');
-    }
-  };
-
-  const handleChangePassword = async () => {
-    setPasswordError('');
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      setPasswordError('Fyll i alla lösenordsfält.');
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      setPasswordError('Det nya lösenordet matchar inte.');
-      return;
-    }
-    if (newPassword.length < 8) {
-      setPasswordError('Lösenordet måste vara minst 8 tecken.');
-      return;
-    }
-    setPasswordLoading(true);
-    try {
-      const res = await fetch('/api/auth/change-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ currentPassword, newPassword }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setPasswordError(data.error || 'Kunde inte byta lösenord.');
-        return;
-      }
-      setPasswordSaved(true);
-      setCurrentPassword('');
-      setNewPassword('');
-      setConfirmPassword('');
-      setTimeout(() => setPasswordSaved(false), 3000);
-    } catch {
-      setPasswordError('Ett fel uppstod, försök igen.');
-    } finally {
-      setPasswordLoading(false);
     }
   };
 
@@ -439,7 +431,7 @@ export default function AccountPage() {
               <div className="p-4">
                 {/* Profil content inline */}
                 <h3 className="text-lg font-bold mb-4">Mina uppgifter</h3>
-                <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm min-h-[2.5rem]">{saveError}</div>
+                {saveError && <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm">{saveError}</div>}
                 <div className="space-y-3">
                   <div><label className="block text-sm font-semibold mb-1">Förnamn</label><div className="relative"><input type="text" value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} className="w-full px-3 py-2 pr-8 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />{editFirstName && <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}</div></div>
                   <div><label className="block text-sm font-semibold mb-1">Efternamn</label><div className="relative"><input type="text" value={editLastName} onChange={(e) => setEditLastName(e.target.value)} className="w-full px-3 py-2 pr-8 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />{editLastName && <svg className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>}</div></div>
@@ -450,25 +442,28 @@ export default function AccountPage() {
                     <div><label className="block text-sm font-semibold mb-1">Postnummer</label><input type="text" value={editPostalCode} onChange={(e) => setEditPostalCode(e.target.value)}  className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
                     <div><label className="block text-sm font-semibold mb-1">Stad</label><input type="text" value={editCity} onChange={(e) => setEditCity(e.target.value)}  className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
                   </div>
-                  <button onClick={handleSaveChanges} disabled={!isFormComplete || !hasChanges || isSaved} className="w-full py-2 bg-black text-white font-semibold disabled:opacity-40 mt-2">
+                  <button onClick={handleSaveChanges} disabled={!isFormComplete || (!hasChanges && !showPasswordForm) || isSaved} className="w-full py-2 bg-black text-white font-semibold disabled:opacity-40 mt-2">
                     {isSaved ? '✓ Sparad' : 'Spara ändringar'}
                   </button>
                 </div>
 
-                {/* Byt lösenord */}
-                <div className="mt-8 pt-6" style={{ borderTop: '1px solid #e5e7eb' }}>
-                  <h4 className="text-sm font-bold mb-3">Byt lösenord</h4>
-                  <div className="space-y-3">
-                    <div><label className="block text-sm font-semibold mb-1">Nuvarande lösenord</label><input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
-                    <div><label className="block text-sm font-semibold mb-1">Nytt lösenord</label><input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
-                    <div><label className="block text-sm font-semibold mb-1">Bekräfta nytt lösenord</label><input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
-                    <div style={{ minHeight: '20px' }}>
-                      {passwordError && <p className="text-red-600 text-xs">{passwordError}</p>}
+                {/* Byt lösenord — mobil */}
+                <div className="mt-6 pt-4" style={{ borderTop: '1px solid #e5e7eb' }}>
+                  <button
+                    type="button"
+                    onClick={() => { setShowPasswordForm(!showPasswordForm); setPasswordError(''); setCurrentPassword(''); setNewPassword(''); setConfirmPassword(''); }}
+                    className="text-sm font-semibold text-gray-600 flex items-center gap-1"
+                  >
+                    Byt lösenord
+                    <svg className={`w-4 h-4 transition-transform ${showPasswordForm ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </button>
+                  {showPasswordForm && (
+                    <div className="mt-3 space-y-3">
+                      <div><label className="block text-sm font-semibold mb-1">Nuvarande lösenord</label><input type="password" autoComplete="current-password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                      <div><label className="block text-sm font-semibold mb-1">Nytt lösenord</label><input type="password" autoComplete="new-password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                      <div><label className="block text-sm font-semibold mb-1">Bekräfta nytt lösenord</label><input type="password" autoComplete="new-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
                     </div>
-                    <button onClick={handleChangePassword} disabled={passwordLoading || passwordSaved} className="w-full py-2 bg-black text-white font-semibold disabled:opacity-40">
-                      {passwordSaved ? '✓ Lösenord bytt' : passwordLoading ? 'Sparar...' : 'Byt lösenord'}
-                    </button>
-                  </div>
+                  )}
                 </div>
               </div>
               </div>
@@ -708,7 +703,7 @@ export default function AccountPage() {
         {activeTab === 'profil' && (
         <div className="hidden md:block p-6 shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
           <h3 className="text-xl font-bold mb-6">Mina uppgifter</h3>
-          <div className="mb-4 p-4 bg-red-50 text-red-700 rounded min-h-[3rem]">{saveError}</div>
+          {saveError && <div className="mb-4 p-4 bg-red-50 text-red-700 rounded">{saveError}</div>}
           <div className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
@@ -816,39 +811,45 @@ export default function AccountPage() {
               </div>
             </div>
 
-            <button
-              onClick={handleSaveChanges}
-              disabled={(!isFormComplete || !hasChanges || isSaved) ? true : false}
-              className="mt-6 px-8 py-2 bg-black text-white hover:bg-gray-800 font-semibold whitespace-nowrap disabled:cursor-not-allowed"
-              style={{ minWidth: '180px', textAlign: 'center' }}
-            >
-              {isSaved ? '✓ Sparad' : 'Spara ändringar'}
-            </button>
-
           </div>
 
           {/* Byt lösenord — desktop */}
-          <div className="mt-8 pt-6" style={{ borderTop: '1px solid #e5e7eb' }}>
-            <h4 className="text-sm font-bold mb-4">Byt lösenord</h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-semibold mb-2">Nuvarande lösenord</label>
-                <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className="w-full px-4 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />
+          <div className="mt-6 pt-6" style={{ borderTop: '1px solid #e5e7eb' }}>
+            <button
+              type="button"
+              onClick={() => { setShowPasswordForm(!showPasswordForm); setPasswordError(''); setCurrentPassword(''); setNewPassword(''); setConfirmPassword(''); }}
+              className="text-sm font-semibold text-gray-600 hover:text-black flex items-center gap-1 transition-colors"
+            >
+              Byt lösenord
+              <svg className={`w-4 h-4 transition-transform ${showPasswordForm ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </button>
+            {showPasswordForm && (
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold mb-2">Nuvarande lösenord</label>
+                  <input type="password" autoComplete="current-password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className="w-full px-4 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-2">Nytt lösenord</label>
+                  <input type="password" autoComplete="new-password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full px-4 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold mb-2">Bekräfta nytt lösenord</label>
+                  <input type="password" autoComplete="new-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="w-full px-4 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />
+                </div>
               </div>
-              <div>
-                <label className="block text-sm font-semibold mb-2">Nytt lösenord</label>
-                <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full px-4 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold mb-2">Bekräfta nytt lösenord</label>
-                <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="w-full px-4 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />
-              </div>
-            </div>
-            <div style={{ minHeight: '20px' }} className="mt-2">
-              {passwordError && <p className="text-red-600 text-xs">{passwordError}</p>}
-            </div>
-            <button onClick={handleChangePassword} disabled={passwordLoading || passwordSaved} className="mt-2 px-8 py-2 bg-black text-white hover:bg-gray-800 font-semibold disabled:opacity-40">
-              {passwordSaved ? '✓ Lösenord bytt' : passwordLoading ? 'Sparar...' : 'Byt lösenord'}
+            )}
+          </div>
+
+          <div className="mt-6">
+            {passwordError && <p className="text-red-600 text-xs mb-2">{passwordError}</p>}
+            <button
+              onClick={handleSaveChanges}
+              disabled={(!isFormComplete || (!hasChanges && !showPasswordForm) || isSaved) ? true : false}
+              className="px-8 py-2 bg-black text-white hover:bg-gray-800 font-semibold whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-40"
+              style={{ minWidth: '180px', textAlign: 'center' }}
+            >
+              {isSaved ? '✓ Sparad' : 'Spara ändringar'}
             </button>
           </div>
         </div>
