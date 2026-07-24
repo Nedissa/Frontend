@@ -180,17 +180,28 @@ export function CartAside() {
     }
   };
 
-  const handleShare = () => {
-    const cartUrl = window.location.origin;
-    if (navigator.share) {
-      navigator.share({
-        title: 'Min varukorg',
-        url: cartUrl
+  const handleShare = async () => {
+    if (cartItems.length === 0) return;
+
+    try {
+      const res = await fetch('/api/shared-cart', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: cartItems }),
       });
-    } else {
-      navigator.clipboard.writeText(cartUrl).then(() => {
+      const data = await res.json();
+      if (!res.ok || !data.id) throw new Error();
+
+      const url = `${window.location.origin}/varukorg/${data.id}`;
+
+      if (navigator.share) {
+        navigator.share({ title: 'Min varukorg på Techpilots', url });
+      } else {
+        await navigator.clipboard.writeText(url);
         alert('Länken har kopierats!');
-      });
+      }
+    } catch {
+      alert('Kunde inte dela korgen, försök igen.');
     }
   };
 

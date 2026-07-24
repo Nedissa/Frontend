@@ -400,6 +400,12 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   }, [pathname]);
 
   useEffect(() => {
+    const handleOpenCart = () => open('cart');
+    window.addEventListener('openCart', handleOpenCart);
+    return () => window.removeEventListener('openCart', handleOpenCart);
+  }, [open]);
+
+  useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {

@@ -92,12 +92,11 @@ export default function AccountPage() {
   useEffect(() => {
     setIsHydrated(true);
 
-    // Återställ senast aktiva tab (desktop: fallback till profil, mobil: stängd)
+    // Desktop: återställ senast aktiva tab, mobil: alltid stängt vid besök
     const savedTab = localStorage.getItem('accountTab');
-    if (savedTab) {
-      setActiveTab(savedTab);
-    } else if (window.innerWidth >= 768) {
-      setActiveTab('profil');
+    if (window.innerWidth >= 768) {
+      setActiveTab(savedTab || 'profil');
+    } else {
     }
 
     // Load favorites from localStorage if not already loaded from server

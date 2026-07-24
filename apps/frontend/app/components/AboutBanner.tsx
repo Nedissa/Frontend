@@ -63,7 +63,7 @@ export function AboutBanner() {
           ))}
         </ul>
         <Link
-          href="/om-oss"
+          href="/kundservice"
           className="inline-flex items-center justify-center bg-black text-white font-semibold text-sm px-8 py-2.5 hover:bg-gray-800 transition-colors w-fit rounded-full"
         >
           Läs mer

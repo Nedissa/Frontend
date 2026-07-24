@@ -66,7 +66,7 @@ const sidebarCategories = [
     id: 'om-oss',
     label: 'Om oss',
     links: [
-      { href: '/om-oss', label: 'Vår historia' },
+      { href: '/kundservice', label: 'Vår historia' },
       { href: '/pilotbloggen', label: 'Pilotbloggen' },
     ],
   },

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MainLayout } from '@/app/components/MainLayout';
 
 const NAV = [
@@ -137,7 +137,13 @@ const SUBTITLES: Record<string, string> = {
 };
 
 export default function KundservicePage() {
-  const [active, setActive] = useState('kontakt');
+  const [active, setActive] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const seg = window.location.pathname.split('/kundservice/')[1];
+      if (seg) return seg;
+    }
+    return 'kontakt';
+  });
   const [animKey, setAnimKey] = useState(0);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -148,7 +154,16 @@ export default function KundservicePage() {
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const navigate = (id: string) => { setActive(id); setAnimKey(k => k + 1); };
+  useEffect(() => {
+    const seg = window.location.pathname.split('/kundservice/')[1];
+    if (seg) { setActive(seg); setAnimKey(k => k + 1); }
+  }, []);
+
+  const navigate = (id: string) => {
+    setActive(id);
+    setAnimKey(k => k + 1);
+    window.history.pushState(null, '', `/kundservice/${id}`);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
