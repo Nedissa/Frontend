@@ -408,7 +408,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   useEffect(() => {
     if (sessionStorage.getItem('openCartOnLoad')) {
       sessionStorage.removeItem('openCartOnLoad');
-      open('cart');
+      setTimeout(() => open('cart'), 200);
     }
   }, [open]);
 
