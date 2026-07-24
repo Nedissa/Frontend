@@ -73,6 +73,12 @@ export default function AccountPage() {
   const [showComplaintForm, setShowComplaintForm] = useState(true);
   const [complaintOrderId, setComplaintOrderId] = useState('');
   const [complaintDescription, setComplaintDescription] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [passwordSaved, setPasswordSaved] = useState(false);
+  const [passwordLoading, setPasswordLoading] = useState(false);
   const addressInputRef = useRef<HTMLInputElement>(null);
 
   // Check if all required fields are filled
@@ -282,8 +288,43 @@ export default function AccountPage() {
     }
   };
 
-
-
+  const handleChangePassword = async () => {
+    setPasswordError('');
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setPasswordError('Fyll i alla lösenordsfält.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setPasswordError('Det nya lösenordet matchar inte.');
+      return;
+    }
+    if (newPassword.length < 8) {
+      setPasswordError('Lösenordet måste vara minst 8 tecken.');
+      return;
+    }
+    setPasswordLoading(true);
+    try {
+      const res = await fetch('/api/auth/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setPasswordError(data.error || 'Kunde inte byta lösenord.');
+        return;
+      }
+      setPasswordSaved(true);
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+      setTimeout(() => setPasswordSaved(false), 3000);
+    } catch {
+      setPasswordError('Ett fel uppstod, försök igen.');
+    } finally {
+      setPasswordLoading(false);
+    }
+  };
 
   if (!isHydrated) return <MainLayout bordered={false}><div className="w-full max-w-4xl mx-auto px-6 py-16" /></MainLayout>;
 
@@ -412,6 +453,22 @@ export default function AccountPage() {
                   <button onClick={handleSaveChanges} disabled={!isFormComplete || !hasChanges || isSaved} className="w-full py-2 bg-black text-white font-semibold disabled:opacity-40 mt-2">
                     {isSaved ? '✓ Sparad' : 'Spara ändringar'}
                   </button>
+                </div>
+
+                {/* Byt lösenord */}
+                <div className="mt-8 pt-6" style={{ borderTop: '1px solid #e5e7eb' }}>
+                  <h4 className="text-sm font-bold mb-3">Byt lösenord</h4>
+                  <div className="space-y-3">
+                    <div><label className="block text-sm font-semibold mb-1">Nuvarande lösenord</label><input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                    <div><label className="block text-sm font-semibold mb-1">Nytt lösenord</label><input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                    <div><label className="block text-sm font-semibold mb-1">Bekräfta nytt lösenord</label><input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                    <div style={{ minHeight: '20px' }}>
+                      {passwordError && <p className="text-red-600 text-xs">{passwordError}</p>}
+                    </div>
+                    <button onClick={handleChangePassword} disabled={passwordLoading || passwordSaved} className="w-full py-2 bg-black text-white font-semibold disabled:opacity-40">
+                      {passwordSaved ? '✓ Lösenord bytt' : passwordLoading ? 'Sparar...' : 'Byt lösenord'}
+                    </button>
+                  </div>
                 </div>
               </div>
               </div>
