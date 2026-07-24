@@ -20,6 +20,7 @@ export function CartAside() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [cartTotal, setCartTotal] = useState(0);
   const [isHydrated, setIsHydrated] = useState(false);
+  const [isSharedCart, setIsSharedCart] = useState(false);
   const [isFirstOrder, setIsFirstOrder] = useState(false);
   const WELCOME_DISCOUNT = 0.10;
 
@@ -41,6 +42,7 @@ export function CartAside() {
     // Load from localStorage on mount
     loadCartFromStorage();
     setIsHydrated(true);
+    setIsSharedCart(!!sessionStorage.getItem('sharedCart'));
 
     // Check if first order
     fetch('/api/orders').then(res => {
@@ -57,10 +59,10 @@ export function CartAside() {
     };
     window.addEventListener('storage', handleStorageChange);
 
-    const handleCartCleared = () => setCartItems([]);
+    const handleCartCleared = () => { setCartItems([]); setIsSharedCart(false); sessionStorage.removeItem('sharedCart'); };
     window.addEventListener('cartCleared', handleCartCleared);
 
-    const handleCartReplace = () => loadCartFromStorage();
+    const handleCartReplace = () => { loadCartFromStorage(); setTimeout(() => setIsSharedCart(!!sessionStorage.getItem('sharedCart')), 100); };
     window.addEventListener('cartReplaced', handleCartReplace);
 
     return () => {
@@ -210,7 +212,16 @@ export function CartAside() {
   };
 
   return (
-    <Aside type="cart" heading="Din varukorg">
+    <Aside type="cart" heading={
+      <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        Din varukorg
+        {isSharedCart && (
+          <span style={{ fontSize: '0.65rem', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', background: '#000', color: '#fff', padding: '2px 8px', borderRadius: '999px' }}>
+            Delad
+          </span>
+        )}
+      </span>
+    }>
       <div className="flex flex-col h-full bg-white">
         {cartItems.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center px-6 py-8" style={{ display: cartItems.length > 0 ? 'none' : 'flex' }}>

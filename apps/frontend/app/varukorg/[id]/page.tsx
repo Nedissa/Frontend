@@ -20,6 +20,7 @@ export default function SharedCartPage() {
 
         localStorage.setItem('cartItems', JSON.stringify(data.items));
         sessionStorage.setItem('openCartOnLoad', '1');
+        sessionStorage.setItem('sharedCart', '1');
         router.push('/');
         // Efter navigation: ladda om korgen och öppna aside
         setTimeout(() => {
