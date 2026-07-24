@@ -83,7 +83,6 @@ export default function AccountPage() {
   // Check if all required fields are filled
   const isFormComplete = !!(editFirstName && editLastName && editEmail && editAddress && editPostalCode && editCity);
 
-  // Track if any changes have been made
   const hasChanges = editFirstName !== firstName ||
     editLastName !== lastName ||
     editEmail !== registerEmail ||
@@ -91,7 +90,8 @@ export default function AccountPage() {
     editAddress !== address ||
     editPostalCode !== postalCode ||
     editCity !== city ||
-    editAddressPhone !== addressPhone;
+    editAddressPhone !== addressPhone ||
+    !!(currentPassword || newPassword || confirmPassword);
 
 
   useEffect(() => {
@@ -442,7 +442,7 @@ export default function AccountPage() {
                     <div><label className="block text-sm font-semibold mb-1">Postnummer</label><input type="text" value={editPostalCode} onChange={(e) => setEditPostalCode(e.target.value)}  className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
                     <div><label className="block text-sm font-semibold mb-1">Stad</label><input type="text" value={editCity} onChange={(e) => setEditCity(e.target.value)}  className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
                   </div>
-                  <button onClick={handleSaveChanges} disabled={!isFormComplete || (!hasChanges && !showPasswordForm) || isSaved} className="w-full py-2 bg-black text-white font-semibold disabled:opacity-40 mt-2">
+                  <button onClick={handleSaveChanges} disabled={!isFormComplete || !hasChanges || isSaved} className="w-full py-2 bg-black text-white font-semibold disabled:opacity-40 mt-2">
                     {isSaved ? '✓ Sparad' : 'Spara ändringar'}
                   </button>
                 </div>
@@ -845,7 +845,7 @@ export default function AccountPage() {
             {passwordError && <p className="text-red-600 text-xs mb-2">{passwordError}</p>}
             <button
               onClick={handleSaveChanges}
-              disabled={(!isFormComplete || (!hasChanges && !showPasswordForm) || isSaved) ? true : false}
+              disabled={(!isFormComplete || !hasChanges || isSaved) ? true : false}
               className="px-8 py-2 bg-black text-white hover:bg-gray-800 font-semibold whitespace-nowrap disabled:cursor-not-allowed disabled:opacity-40"
               style={{ minWidth: '180px', textAlign: 'center' }}
             >
