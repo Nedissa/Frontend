@@ -62,7 +62,13 @@ export function CartAside() {
     const handleCartCleared = () => { setCartItems([]); setIsSharedCart(false); sessionStorage.removeItem('sharedCart'); };
     window.addEventListener('cartCleared', handleCartCleared);
 
-    const handleCartReplace = () => { loadCartFromStorage(); setTimeout(() => setIsSharedCart(!!sessionStorage.getItem('sharedCart')), 100); };
+    const handleCartReplace = () => {
+      loadCartFromStorage();
+      setTimeout(() => setIsSharedCart(!!sessionStorage.getItem('sharedCart')), 100);
+      const items = JSON.parse(localStorage.getItem('cartItems') || '[]');
+      const count = items.reduce((s: number, i: any) => s + i.quantity, 0);
+      window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { count } }));
+    };
     window.addEventListener('cartReplaced', handleCartReplace);
 
     return () => {
@@ -216,8 +222,8 @@ export function CartAside() {
       <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
         Din varukorg
         {isSharedCart && (
-          <span style={{ fontSize: '0.65rem', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', background: '#000', color: '#fff', padding: '2px 8px', borderRadius: '999px' }}>
-            Delad
+          <span style={{ fontSize: '0.6rem', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase', background: '#f3f4f6', color: '#555', padding: '2px 7px', borderRadius: '999px', border: '1px solid #e5e7eb' }}>
+            delad
           </span>
         )}
       </span>
