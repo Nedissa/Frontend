@@ -406,6 +406,13 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   }, [open]);
 
   useEffect(() => {
+    if (sessionStorage.getItem('openCartOnLoad')) {
+      sessionStorage.removeItem('openCartOnLoad');
+      open('cart');
+    }
+  }, [open]);
+
+  useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {

@@ -1,11 +1,11 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useParams } from 'next/navigation';
-import { MainLayout } from '@/app/components/MainLayout';
+import { useParams, useRouter } from 'next/navigation';
 
 export default function SharedCartPage() {
   const { id } = useParams<{ id: string }>();
+  const router = useRouter();
 
   useEffect(() => {
     if (!id) return;
@@ -13,15 +13,20 @@ export default function SharedCartPage() {
     fetch(`/api/shared-cart?id=${id}`)
       .then(r => r.json())
       .then(data => {
-        if (data.error || !data.items) return;
+        if (data.error || !data.items) {
+          router.push('/');
+          return;
+        }
 
         localStorage.setItem('cartItems', JSON.stringify(data.items));
         window.dispatchEvent(new CustomEvent('cartUpdated', {
           detail: { count: data.items.reduce((s: number, i: any) => s + i.quantity, 0) }
         }));
-        window.dispatchEvent(new CustomEvent('openCart'));
+        // Flagga att korgen ska öppnas efter navigation
+        sessionStorage.setItem('openCartOnLoad', '1');
+        router.push('/');
       });
-  }, [id]);
+  }, [id, router]);
 
-  return <MainLayout bordered={false}><div /></MainLayout>;
+  return null;
 }
