@@ -135,7 +135,12 @@ export async function POST(request: Request) {
       });
     }
 
-    return Response.json({ clientSecret, cartId, paymentCollectionId: payment_collection.id });
+    // 7. Hämta cart för att få discount_total
+    const cartFetchRes = await fetch(`${MEDUSA_URL}/store/carts/${cartId}`, { headers: h });
+    const cartFetchData = cartFetchRes.ok ? await cartFetchRes.json() : null;
+    const discountTotal = cartFetchData?.cart?.discount_total ?? 0;
+
+    return Response.json({ clientSecret, cartId, paymentCollectionId: payment_collection.id, discountTotal });
   } catch (error) {
     console.error('[medusa-checkout] error:', error);
     return Response.json({ error: 'Internt fel' }, { status: 500 });

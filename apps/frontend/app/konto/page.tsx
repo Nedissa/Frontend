@@ -508,7 +508,7 @@ export default function AccountPage() {
                               </div>
                               <p className="text-xs text-gray-600 mt-1">{new Date(order.created_at).toLocaleDateString('sv-SE')} • {order.total.toLocaleString('sv-SE')} kr</p>
                             </div>
-                            <span className="text-gray-400 text-lg">{isExpanded ? '−' : '+'}</span>
+                            <svg className={`w-4 h-4 text-gray-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                           </button>
 
                           {isExpanded && (
@@ -655,10 +655,10 @@ export default function AccountPage() {
                     <p className="text-sm text-gray-700">Du har {complaints.length} {complaints.length === 1 ? 'felanmälan' : 'felanmälningar'}</p>
                     {complaints.map((complaint) => (
                       <div key={complaint.id} className="p-3" style={{ border: '1px solid #e5e7eb' }}>
-                        <p className="font-semibold text-sm">Beställning #{complaint.order_number || complaint.order_id}</p>
+                        <p className="font-semibold text-sm">Beställning {complaint.order_number || complaint.order_id}</p>
                         <p className="text-xs text-gray-400 mt-0.5">{new Date(complaint.created_at).toLocaleDateString('sv-SE')}</p>
                         <p className="text-xs text-gray-600 mt-1"><span className="font-semibold">Beskrivning:</span> {complaint.description}</p>
-                        <p className="text-xs font-semibold mt-1">Status: <span className={complaint.status === 'resolved' ? 'text-green-600' : 'text-blue-600'}>{complaint.status === 'open' ? 'Pågående' : complaint.status === 'resolved' ? 'Löst' : 'Stängd'}</span></p>
+                        <span style={{ display: 'inline-block', marginTop: '4px', background: complaint.status === 'resolved' ? '#000' : '#eff6ff', color: complaint.status === 'resolved' ? '#4ade80' : '#1d4ed8', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', padding: '2px 8px', borderRadius: '999px' }}>{complaint.status === 'open' ? 'Pågående' : complaint.status === 'resolved' ? 'Löst' : 'Stängd'}</span>
                         {complaint.status === 'resolved' && (
                           <p className="text-xs text-gray-500 mt-1">Ärendet är avslutat. Fler frågor? support@techpilots.se</p>
                         )}
@@ -666,10 +666,10 @@ export default function AccountPage() {
                     ))}
                     <div className="pt-1">
                       {!showComplaintForm ? (
-                        <button onClick={() => setShowComplaintForm(true)} className="w-full py-2 bg-black text-white font-semibold text-sm">Ny felanmälan</button>
+                        <button onClick={() => setShowComplaintForm(true)} className="w-full py-2 bg-black text-white font-semibold text-sm">Skapa felanmälan</button>
                       ) : (
                         <div className="space-y-3">
-                          <p className="text-sm font-semibold">Ny felanmälan</p>
+                          <p className="text-sm font-semibold">Skapa felanmälan</p>
                           <div><label className="block text-sm font-semibold mb-1">Ordernummer</label><input type="text" value={complaintOrderId} onChange={(e) => setComplaintOrderId(e.target.value)} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
                           <div><label className="block text-sm font-semibold mb-1">Meddelande</label><textarea value={complaintDescription} onChange={(e) => setComplaintDescription(e.target.value)} rows={3} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
                           <div className="flex gap-2">
@@ -892,7 +892,7 @@ export default function AccountPage() {
                         <p className="font-bold text-lg">{order.total.toLocaleString('sv-SE')} kr</p>
                         <p className="text-sm text-gray-600">{order.items?.length || 0} artikel{(order.items?.length || 0) !== 1 ? 'ar' : ''}</p>
                       </div>
-                      <span className="ml-4 text-gray-400 text-xl">{isExpanded ? '−' : '+'}</span>
+                      <svg className={`ml-4 w-5 h-5 text-gray-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                     </button>
 
                     {isExpanded && (
@@ -1089,11 +1089,11 @@ export default function AccountPage() {
               <p className="text-gray-700">Du har {complaints.length} {complaints.length === 1 ? 'felanmälan' : 'felanmälningar'}</p>
               {complaints.map((complaint) => (
                 <div key={complaint.id} className="p-4 border border-gray-200">
-                  <p className="font-semibold">Beställning #{complaint.order_number || complaint.order_id}</p>
+                  <p className="font-semibold">Beställning {complaint.order_number || complaint.order_id}</p>
                   <p className="text-xs text-gray-400 mt-0.5">{new Date(complaint.created_at).toLocaleDateString('sv-SE')}</p>
                   <p className="text-sm text-gray-600 mt-2"><span className="font-semibold">Beskrivning:</span> {complaint.description}</p>
                   <p className="text-sm font-semibold mt-2">
-                    Status: <span className={complaint.status === 'resolved' ? 'text-green-600' : 'text-blue-600'}>{complaint.status === 'open' ? 'Pågående' : complaint.status === 'resolved' ? 'Löst' : 'Stängd'}</span>
+                    <span style={{ display: 'inline-block', background: complaint.status === 'resolved' ? '#000' : '#eff6ff', color: complaint.status === 'resolved' ? '#4ade80' : '#1d4ed8', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', padding: '2px 10px', borderRadius: '999px' }}>{complaint.status === 'open' ? 'Pågående' : complaint.status === 'resolved' ? 'Löst' : 'Stängd'}</span>
                   </p>
                   {complaint.status === 'resolved' && (
                     <p className="text-xs text-gray-500 mt-1">Ärendet är avslutat. Har du fler frågor? Kontakta oss på support@techpilots.se</p>
@@ -1103,11 +1103,11 @@ export default function AccountPage() {
               <div className="pt-2">
                 {!showComplaintForm ? (
                   <button onClick={() => setShowComplaintForm(true)} className="px-6 py-2 bg-black text-white hover:bg-gray-800 font-semibold text-sm">
-                    Ny felanmälan
+                    Skapa felanmälan
                   </button>
                 ) : (
                   <div className="p-4 space-y-4" style={{ border: '1px solid #e5e7eb' }}>
-                    <h4 className="font-semibold text-sm">Ny felanmälan</h4>
+                    <h4 className="font-semibold text-sm">Skapa felanmälan</h4>
                     <div>
                       <label className="block text-sm font-semibold mb-2">Ditt ordernummer</label>
                       <input type="text" value={complaintOrderId} onChange={(e) => setComplaintOrderId(e.target.value)} className="w-full px-4 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />

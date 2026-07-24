@@ -126,7 +126,6 @@ function CheckoutContent() {
   const [shippingMethod, setShippingMethod] = useState('');
   const [shippingOptions, setShippingOptions] = useState<any[]>([]);
   const [loadingShipping, setLoadingShipping] = useState(false);
-  const [isFirstOrder, setIsFirstOrder] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentError, setPaymentError] = useState('');
 
@@ -134,6 +133,7 @@ function CheckoutContent() {
   const [clientSecret, setClientSecret] = useState('');
   const [cartId, setCartId] = useState('');
   const [showPayment, setShowPayment] = useState(false);
+  const [medusaDiscountTotal, setMedusaDiscountTotal] = useState(0);
 
   const addressInputRef = useRef<HTMLInputElement>(null);
   const hasRestoredRef = useRef(false);
@@ -143,8 +143,6 @@ function CheckoutContent() {
 
   // Håll formDataRef synkad med formData
   useEffect(() => { formDataRef.current = formData; }, [formData]);
-
-  const WELCOME_DISCOUNT = 0.10;
 
   const fetchShippingOptions = useCallback(async (country: string) => {
     setLoadingShipping(true);
@@ -204,6 +202,7 @@ function CheckoutContent() {
       }
       setClientSecret(data.clientSecret);
       setCartId(data.cartId);
+      setMedusaDiscountTotal(data.discountTotal ?? 0);
       setShowPayment(true);
     } catch {
       setPaymentError('Kunde inte ansluta till betalningssystemet');
@@ -272,11 +271,6 @@ function CheckoutContent() {
           postalCode: addresses[0]?.postal_code || '',
           city: addresses[0]?.city || '',
         }));
-        const ordRes = await fetch('/api/orders');
-        if (ordRes.ok) {
-          const ordData = await ordRes.json();
-          setIsFirstOrder((ordData.orders || []).length === 0);
-        }
       } catch {}
     };
 
@@ -346,8 +340,7 @@ function CheckoutContent() {
   const selectedShippingOption = shippingOptions.find(o => o.id === shippingMethod);
   const shippingCost = selectedShippingOption?.amount || 0;
   const totalDiscount = cartItems.reduce((s, i) => i.originalPrice ? s + (i.originalPrice - i.price) * i.quantity : s, 0);
-  const welcomeDiscount = isFirstOrder ? Math.round(cartTotal * WELCOME_DISCOUNT) : 0;
-  const finalTotal = cartTotal + shippingCost - welcomeDiscount;
+  const finalTotal = cartTotal + shippingCost - medusaDiscountTotal;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -463,10 +456,10 @@ function CheckoutContent() {
                   <span className="font-semibold">-{totalDiscount.toLocaleString('sv-SE')} kr</span>
                 </div>
               )}
-              {welcomeDiscount > 0 && (
+              {medusaDiscountTotal > 0 && (
                 <div className="flex justify-between text-sm text-green-600">
                   <span>Välkomstrabatt (10%)</span>
-                  <span className="font-semibold">-{welcomeDiscount.toLocaleString('sv-SE')} kr</span>
+                  <span className="font-semibold">-{Math.round(medusaDiscountTotal).toLocaleString('sv-SE')} kr</span>
                 </div>
               )}
               <div className="flex justify-between text-sm">
