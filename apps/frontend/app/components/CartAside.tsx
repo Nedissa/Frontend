@@ -237,7 +237,7 @@ export function CartAside() {
               <ul className="space-y-0 py-4 flex-1">
                 {cartItems.map(item => (
                   <li key={item.id} className="border-b border-gray-200 last:border-b-0 py-4">
-                    <div className="grid items-center gap-2" style={{ gridTemplateColumns: '56px 1fr 96px 80px' }}>
+                    <div className="grid items-center gap-2" style={{ gridTemplateColumns: '56px 1fr 96px 80px', columnGap: '20px' }}>
                       {/* Bild */}
                       <div className="w-14 h-14">
                         <img
