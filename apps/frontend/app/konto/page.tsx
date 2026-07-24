@@ -826,6 +826,31 @@ export default function AccountPage() {
             </button>
 
           </div>
+
+          {/* Byt lösenord — desktop */}
+          <div className="mt-8 pt-6" style={{ borderTop: '1px solid #e5e7eb' }}>
+            <h4 className="text-sm font-bold mb-4">Byt lösenord</h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm font-semibold mb-2">Nuvarande lösenord</label>
+                <input type="password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} className="w-full px-4 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold mb-2">Nytt lösenord</label>
+                <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} className="w-full px-4 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold mb-2">Bekräfta nytt lösenord</label>
+                <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="w-full px-4 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} />
+              </div>
+            </div>
+            <div style={{ minHeight: '20px' }} className="mt-2">
+              {passwordError && <p className="text-red-600 text-xs">{passwordError}</p>}
+            </div>
+            <button onClick={handleChangePassword} disabled={passwordLoading || passwordSaved} className="mt-2 px-8 py-2 bg-black text-white hover:bg-gray-800 font-semibold disabled:opacity-40">
+              {passwordSaved ? '✓ Lösenord bytt' : passwordLoading ? 'Sparar...' : 'Byt lösenord'}
+            </button>
+          </div>
         </div>
         )}
 
