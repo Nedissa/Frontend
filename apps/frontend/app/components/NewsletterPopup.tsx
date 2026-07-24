@@ -1,13 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { InputWithCheck } from './InputWithCheck';
 
 export function NewsletterPopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -16,6 +16,8 @@ export function NewsletterPopup() {
     setIsHydrated(true);
     const closed = localStorage.getItem('newsletterPopupClosed');
     if (closed) return;
+    const isLoggedIn = document.cookie.includes('is_logged_in=1');
+    if (isLoggedIn) return;
 
     const show = () => {
       setIsOpen(true);
@@ -49,29 +51,37 @@ export function NewsletterPopup() {
     setLoading(true);
     setError('');
     try {
+      // Auto-generera lösenord
+      const password = Math.random().toString(36).slice(-10) + Math.random().toString(36).slice(-6).toUpperCase() + '!';
+
       const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
           email,
           password,
-          firstName: email.split('@')[0],
+          firstName: '',
           lastName: '',
         }),
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || 'Något gick fel, försök igen.');
+        if (res.status === 400 && data.error?.includes('redan registrerad')) {
+          setError('already_exists');
+        } else {
+          setError(data.error || 'Något gick fel, försök igen.');
+        }
         setLoading(false);
         return;
       }
-      // Notify store via newsletter route (non-blocking)
+
+      // Skicka välkomstmail med lösenordet via newsletter-routen
       fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, password }),
       }).catch(() => {});
-      // Trigger login state update across the app
+
       window.dispatchEvent(new Event('authChange'));
     } catch {
       setError('Något gick fel, försök igen.');
@@ -122,27 +132,17 @@ export function NewsletterPopup() {
             {/* Email Form */}
             <form onSubmit={handleSubmit} className="mb-4">
               <div className="flex flex-col gap-2">
-                <InputWithCheck
-                  type="email"
-                  placeholder="Ange din e-postadress"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  disabled={submitted}
-                  className="text-sm text-black placeholder-gray-500"
-                />
                 <div className="flex gap-2">
-                  <div className="flex-1">
-                    <InputWithCheck
-                      type="password"
-                      placeholder="Välj ett lösenord"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      disabled={submitted}
-                      className="text-sm text-black placeholder-gray-500"
-                    />
-                  </div>
+                  <input
+                    type="email"
+                    placeholder="Ange din e-postadress"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    disabled={submitted}
+                    className="flex-1 px-4 py-3 text-sm text-black placeholder-gray-500 border border-gray-200 focus:outline-none focus:border-black"
+                    style={{ backgroundColor: '#f5f5f5' }}
+                  />
                   <button
                     type="submit"
                     disabled={loading || submitted}
@@ -158,7 +158,16 @@ export function NewsletterPopup() {
                     )}
                   </button>
                 </div>
-                <p className="text-red-500 text-xs min-h-[1rem]">{error}</p>
+                <div style={{ minHeight: '24px' }}>
+                  {error === 'already_exists' ? (
+                    <p className="text-sm text-red-500">
+                      Det finns redan ett konto med den adressen.{' '}
+                      <Link href="/inlogg" onClick={handleClose} className="text-black font-semibold">Logga in här</Link>
+                    </p>
+                  ) : error ? (
+                    <p className="text-red-500 text-xs">{error}</p>
+                  ) : null}
+                </div>
               </div>
             </form>
 

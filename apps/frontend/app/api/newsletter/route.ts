@@ -27,7 +27,7 @@ const emailFooter = `
 
 export async function POST(request: Request) {
   try {
-    const { email } = await request.json();
+    const { email, password } = await request.json();
 
     if (!email) {
       return Response.json({ error: 'E-postadress krävs' }, { status: 400 });
@@ -66,6 +66,7 @@ export async function POST(request: Request) {
         <div style="background:#ffffff;padding:40px;">
           <h1 style="font-size:1.4rem;font-weight:800;color:#000;margin:0 0 8px;">Välkommen till Techpilots!</h1>
           <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 16px;">Kul att du är med! Som prenumerant får du <strong style="color:#000;">10% rabatt på ditt första köp</strong>. Rabatten läggs till automatiskt när du går till kassan.</p>
+          ${password ? `<div style="background:#f4f4f4;padding:16px 20px;margin:0 0 16px;border-radius:4px;"><p style="margin:0 0 4px;font-size:0.8rem;color:#888;">Ditt lösenord för inloggning:</p><p style="margin:0;font-size:1rem;font-weight:700;color:#000;letter-spacing:0.05em;">${password}</p></div>` : ''}
           <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 32px;">Vi skickar erbjudanden och nyheter med jämna mellanrum, aldrig spam.</p>
           <div style="text-align:center;margin:0 0 32px;">
             <a href="https://techpilots.se/produkter" style="background:#000;color:#fff;padding:14px 36px;text-decoration:none;font-weight:700;font-size:0.9rem;border-radius:999px;display:inline-block;">Shoppa nu</a>
