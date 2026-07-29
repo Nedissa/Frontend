@@ -275,7 +275,7 @@ export function LoginAside({
                 <label className="block text-sm font-semibold mb-2">Bekräfta lösenord</label>
                 <InputWithCheck type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
               </div>
-              <p className={`text-sm text-red-600 ${confirmError ? 'visible' : 'invisible'}`}>{confirmError || '.'}</p>
+              <p className={`text-sm text-red-600 ${confirmError ? 'visible' : 'invisible'}`} style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{confirmError || '.'}</p>
               <button type="submit" disabled={confirmLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
                 {confirmLoading ? 'Sparar...' : 'Spara'}
               </button>
