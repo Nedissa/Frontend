@@ -141,7 +141,7 @@ export function LoginAside({
         body: JSON.stringify({ token: resetToken, password: newPassword }),
       });
       if (!response.ok) {
-        setConfirmError('Länken är ogiltig eller har gått ut. Begär en ny återställningslänk.');
+        setConfirmError('Länken är ogiltig. Begär en ny återställningslänk.');
         return;
       }
       setConfirmSuccess(true);
