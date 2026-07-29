@@ -11,14 +11,16 @@ export function LoginAside({
   onViewChange,
   resetToken,
   resetEmail: initialResetEmail,
+  initialView,
 }: {
   onViewChange?: (view: View) => void;
   resetToken?: string;
   resetEmail?: string;
+  initialView?: View;
 }) {
   const router = useRouter();
   const { close } = useAside();
-  const [view, setView] = useState<View>(resetToken ? 'reset-confirm' : 'login');
+  const [view, setView] = useState<View>(resetToken ? 'reset-confirm' : (initialView || 'login'));
 
   const changeView = (v: View) => {
     setView(v);
