@@ -93,6 +93,7 @@ export function RootLayoutClient({ children, initialIsLoggedIn = false }: { chil
         <CartAside />
         <Aside type="login" heading={loginHeading}>
           <LoginAside
+            key={resetToken || loginInitialView || 'default'}
             resetToken={resetToken}
             resetEmail={resetEmail}
             initialView={loginInitialView}
