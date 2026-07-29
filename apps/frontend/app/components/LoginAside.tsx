@@ -5,15 +5,26 @@ import { useRouter } from 'next/navigation';
 import { InputWithCheck } from './InputWithCheck';
 import { useAside } from './Aside';
 
-export function LoginAside({ onViewChange }: { onViewChange?: (view: 'login' | 'register' | 'reset') => void }) {
+type View = 'login' | 'register' | 'reset' | 'reset-confirm';
+
+export function LoginAside({
+  onViewChange,
+  resetToken,
+  resetEmail: initialResetEmail,
+}: {
+  onViewChange?: (view: View) => void;
+  resetToken?: string;
+  resetEmail?: string;
+}) {
   const router = useRouter();
   const { close } = useAside();
-  const [view, setView] = useState<'login' | 'register' | 'reset'>('login');
+  const [view, setView] = useState<View>(resetToken ? 'reset-confirm' : 'login');
 
-  const changeView = (v: 'login' | 'register' | 'reset') => {
+  const changeView = (v: View) => {
     setView(v);
     onViewChange?.(v);
   };
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [registerEmail, setRegisterEmail] = useState('');
@@ -23,6 +34,13 @@ export function LoginAside({ onViewChange }: { onViewChange?: (view: 'login' | '
   const [resetEmail, setResetEmail] = useState('');
   const [resetSent, setResetSent] = useState(false);
   const [resetLoading, setResetLoading] = useState(false);
+
+  // Panel 4: nytt lösenord
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [confirmError, setConfirmError] = useState('');
+  const [confirmSuccess, setConfirmSuccess] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -102,9 +120,42 @@ export function LoginAside({ onViewChange }: { onViewChange?: (view: 'login' | '
     }
   };
 
-  // Ordning: Login | Register | Reset
-  // login=0%, register=-100%, reset=-200%
-  const slideX = view === 'login' ? '0%' : view === 'register' ? '-100%' : '-200%';
+  const handleConfirmReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setConfirmError('');
+    if (newPassword !== confirmPassword) {
+      setConfirmError('Lösenorden matchar inte.');
+      return;
+    }
+    if (newPassword.length < 8) {
+      setConfirmError('Lösenordet måste vara minst 8 tecken.');
+      return;
+    }
+    setConfirmLoading(true);
+    try {
+      const response = await fetch('/api/auth/confirm-reset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token: resetToken, password: newPassword }),
+      });
+      if (!response.ok) {
+        setConfirmError('Länken är ogiltig eller har gått ut. Begär en ny återställningslänk.');
+        return;
+      }
+      setConfirmSuccess(true);
+    } catch {
+      setConfirmError('Ett fel uppstod. Försök igen.');
+    } finally {
+      setConfirmLoading(false);
+    }
+  };
+
+  // Ordning: Login | Register | Reset | Reset-confirm
+  const slideX =
+    view === 'login' ? '0%' :
+    view === 'register' ? '-100%' :
+    view === 'reset' ? '-200%' :
+    '-300%';
 
   return (
     <div style={{ overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -157,12 +208,19 @@ export function LoginAside({ onViewChange }: { onViewChange?: (view: 'login' | '
           </form>
         </div>
 
-        {/* Panel 3: Reset (höger) */}
+        {/* Panel 3: Reset */}
         <div style={{ flex: '0 0 100%', width: '100%', padding: '24px', boxSizing: 'border-box' }}>
           {resetSent ? (
             <div className="space-y-4">
-              <h3 className="text-lg font-bold">E-post skickad</h3>
+              <div aria-hidden style={{ visibility: 'hidden' }}>
+                <label className="block text-sm font-semibold mb-2">‎</label>
+                <InputWithCheck type="password" value="" onChange={() => {}} />
+              </div>
               <p className="text-sm text-gray-600">Om e-postadressen finns i vårt system skickar vi instruktioner för att återställa lösenordet.</p>
+              <div aria-hidden style={{ visibility: 'hidden' }}>
+                <label className="block text-sm font-semibold mb-2">‎</label>
+                <InputWithCheck type="email" value="" onChange={() => {}} />
+              </div>
               <button onClick={() => changeView('login')} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800">Stäng</button>
             </div>
           ) : (
@@ -185,6 +243,41 @@ export function LoginAside({ onViewChange }: { onViewChange?: (view: 'login' | '
                 <button type="button" onClick={() => changeView('login')} className="text-xs text-gray-500 hover:text-black">Avbryt</button>
               </div>
             </div>
+          )}
+        </div>
+
+        {/* Panel 4: Nytt lösenord (från mail-länk) */}
+        <div style={{ flex: '0 0 100%', width: '100%', padding: '24px', boxSizing: 'border-box' }}>
+          {confirmSuccess ? (
+            <div className="space-y-4">
+              <div aria-hidden style={{ visibility: 'hidden' }}>
+                <label className="block text-sm font-semibold mb-2">‎</label>
+                <InputWithCheck type="password" value="" onChange={() => {}} />
+              </div>
+              <p className="text-sm text-gray-600">Ditt lösenord har uppdaterats. Du kan nu logga in med ditt nya lösenord.</p>
+              <div aria-hidden style={{ visibility: 'hidden' }}>
+                <label className="block text-sm font-semibold mb-2">‎</label>
+                <InputWithCheck type="password" value="" onChange={() => {}} />
+              </div>
+              <button onClick={() => { close(); router.replace('/'); }} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800">
+                Logga in
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleConfirmReset} className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold mb-2">Nytt lösenord</label>
+                <InputWithCheck type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold mb-2">Bekräfta lösenord</label>
+                <InputWithCheck type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+              </div>
+              <p className={`text-sm text-red-600 ${confirmError ? 'visible' : 'invisible'}`}>{confirmError || '.'}</p>
+              <button type="submit" disabled={confirmLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
+                {confirmLoading ? 'Sparar...' : 'Spara'}
+              </button>
+            </form>
           )}
         </div>
 
