@@ -5,6 +5,8 @@
 #nprogress .bar { background: #000 !important; height: 2px !important; }
 #nprogress .peg { box-shadow: 0 0 10px #000, 0 0 5px #000 !important; }
 
+html[style*="overflow-y: hidden"] { background-color: rgba(0,0,0,0.3); }
+
 
 :root {
   --aside-width: 600px;

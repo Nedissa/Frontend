@@ -351,7 +351,8 @@ interface SearchProduct {
 }
 
 export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn?: boolean }) {
-  const { open } = useAside();
+  const { open, type: asideType } = useAside();
+  const cartOpen = asideType === 'cart';
   const pathname = usePathname();
 
   if (pathname === '/inlogg' || pathname === '/aterstall-losenord') return null;
@@ -442,6 +443,26 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
     }
     return cartTotal;
   };
+
+  useEffect(() => {
+    function updatePositions() {
+      const searchBtn = document.getElementById('header-search-btn');
+      if (searchBtn) {
+        const r = searchBtn.getBoundingClientRect();
+        document.documentElement.style.setProperty('--search-right', `${Math.round(r.right)}px`);
+        document.documentElement.style.setProperty('--search-left', `${Math.round(r.left)}px`);
+      }
+      const loginBtn = document.getElementById('header-login-btn');
+      if (loginBtn) {
+        const r = loginBtn.getBoundingClientRect();
+        document.documentElement.style.setProperty('--login-left', `${Math.round(r.left)}px`);
+        document.documentElement.style.setProperty('--login-right', `${Math.round(window.innerWidth - r.right)}px`);
+      }
+    }
+    updatePositions();
+    window.addEventListener('resize', updatePositions);
+    return () => window.removeEventListener('resize', updatePositions);
+  }, []);
 
   useEffect(() => {
     // Load cart from cartItems in localStorage on mount
@@ -788,7 +809,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
           </Link>
 
           {/* Search Input */}
-          <div className="flex-1 max-w-2xl relative" ref={searchContainerRef}>
+          <div className="flex-1 max-w-2xl relative" ref={searchContainerRef} id="header-search-container">
             <div className="relative flex items-center rounded overflow-visible border border-gray-200 bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.08)' }}>
               {/* Category dropdown - hidden on mobile */}
               <div className="relative flex-shrink-0 hidden sm:block" ref={categoryDropdownRef}>
@@ -833,7 +854,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   onFocus={() => searchTerm.length > 0 && setShowSearchResults(true)}
                 />
               </div>
-              <button className="flex items-center justify-center w-10 h-10 flex-shrink-0" style={{ backgroundColor: '#1a3a6e' }}>
+              <button id="header-search-btn" className="flex items-center justify-center w-10 h-10 flex-shrink-0" style={{ backgroundColor: '#1a3a6e' }}>
                 <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
                   <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/>
                 </svg>
@@ -926,12 +947,21 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
               <LanguageSwitcher />
             </div>
             <div className="hidden md:block w-px h-6 bg-gray-300"></div>
-            <Link href="/konto" className="hidden md:flex items-center gap-1 text-black hover:text-gray-600" style={{ minWidth: '90px' }}>
-              <span className="text-xs font-semibold">{(isHydrated ? isLoggedIn : initialIsLoggedIn) ? 'Mina sidor' : 'Logga in'}</span>
-              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-              </svg>
-            </Link>
+            {(isHydrated ? isLoggedIn : initialIsLoggedIn) ? (
+              <Link href="/konto" className="hidden md:flex items-center gap-1 text-black hover:text-gray-600" style={{ minWidth: '90px' }}>
+                <span className="text-xs font-semibold">Mina sidor</span>
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+              </Link>
+            ) : (
+              <button id="header-login-btn" onClick={() => open('login')} className="hidden md:flex items-center gap-1 text-black hover:text-gray-600" style={{ minWidth: '90px' }}>
+                <span className="text-xs font-semibold">Logga in</span>
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+              </button>
+            )}
             <div className="hidden md:block w-px h-6 bg-gray-300"></div>
             <button
               onClick={() => open('cart')}

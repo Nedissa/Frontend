@@ -1,0 +1,194 @@
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { InputWithCheck } from './InputWithCheck';
+import { useAside } from './Aside';
+
+export function LoginAside({ onViewChange }: { onViewChange?: (view: 'login' | 'register' | 'reset') => void }) {
+  const router = useRouter();
+  const { close } = useAside();
+  const [view, setView] = useState<'login' | 'register' | 'reset'>('login');
+
+  const changeView = (v: 'login' | 'register' | 'reset') => {
+    setView(v);
+    onViewChange?.(v);
+  };
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [registerEmail, setRegisterEmail] = useState('');
+  const [registerPassword, setRegisterPassword] = useState('');
+  const [loginError, setLoginError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
+  const [resetSent, setResetSent] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoginError('');
+    setIsLoading(true);
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!response.ok) {
+        const error = await response.json();
+        setLoginError(error.error || 'E-postadressen eller lösenordet är felaktig');
+        setIsLoading(false);
+        return;
+      }
+      window.dispatchEvent(new Event('userLogin'));
+      const dest = sessionStorage.getItem('preLoginPath') || '/konto';
+      sessionStorage.removeItem('preLoginPath');
+      sessionStorage.removeItem('preLoginScrollY');
+      setIsLoading(false);
+      close();
+      router.push(dest);
+      router.refresh();
+    } catch {
+      setLoginError('Ett fel uppstod. Försök igen senare.');
+      setIsLoading(false);
+    }
+  };
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const registerResponse = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: registerEmail.split('@')[0],
+          lastName: '',
+          email: registerEmail,
+          password: registerPassword,
+        }),
+      });
+      if (!registerResponse.ok) {
+        const error = await registerResponse.json();
+        setLoginError(error.error || 'Registreringen misslyckades. Försök igen.');
+        return;
+      }
+      window.dispatchEvent(new Event('userLogin'));
+      const dest = sessionStorage.getItem('preLoginPath') || '/konto';
+      sessionStorage.removeItem('preLoginPath');
+      sessionStorage.removeItem('preLoginScrollY');
+      close();
+      router.push(dest);
+      router.refresh();
+    } catch {
+      setLoginError('Ett fel uppstod. Försök igen senare.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setResetLoading(true);
+    try {
+      await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: resetEmail }),
+      });
+      setResetSent(true);
+    } finally {
+      setResetLoading(false);
+    }
+  };
+
+  // Ordning: Login | Register | Reset
+  // login=0%, register=-100%, reset=-200%
+  const slideX = view === 'login' ? '0%' : view === 'register' ? '-100%' : '-200%';
+
+  return (
+    <div style={{ overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ display: 'flex', flex: 1, transform: `translateX(${slideX})`, transition: 'transform 250ms ease' }}>
+
+        {/* Panel 1: Login */}
+        <div style={{ flex: '0 0 100%', width: '100%', padding: '24px', boxSizing: 'border-box' }}>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold mb-2">E-postadress</label>
+              <InputWithCheck type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="border-0" required />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold mb-2">Lösenord</label>
+              <InputWithCheck type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="border-0" required />
+            </div>
+            <p className={`text-sm text-red-600 ${loginError ? 'visible' : 'invisible'}`}>{loginError || '.'}</p>
+            <button type="submit" disabled={isLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
+              {isLoading ? 'Loggar in...' : 'Logga in'}
+            </button>
+            <div className="flex flex-col items-center gap-0 pt-2">
+              <button type="button" onClick={() => { setResetSent(false); setResetEmail(''); changeView('reset'); }} className="w-full text-xs text-gray-500 hover:text-black py-2">
+                Glömt lösenord?
+              </button>
+              <button type="button" onClick={() => changeView('register')} className="w-full text-xs text-gray-500 hover:text-black py-2 border-t border-gray-200">
+                Skapa konto
+              </button>
+            </div>
+          </form>
+        </div>
+
+        {/* Panel 2: Register */}
+        <div style={{ flex: '0 0 100%', width: '100%', padding: '24px', boxSizing: 'border-box' }}>
+          <form onSubmit={handleRegister} className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold mb-2">E-postadress</label>
+              <InputWithCheck type="email" value={registerEmail} onChange={(e) => setRegisterEmail(e.target.value)} className="border-0" required />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold mb-2">Lösenord</label>
+              <InputWithCheck type="password" value={registerPassword} onChange={(e) => setRegisterPassword(e.target.value)} className="border-0" required />
+            </div>
+            <p className={`text-sm text-red-600 ${loginError ? 'visible' : 'invisible'}`}>{loginError || '.'}</p>
+            <button type="submit" disabled={isLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
+              {isLoading ? 'Registrerar...' : 'Registrera'}
+            </button>
+            <div className="flex flex-col items-center gap-0 pt-2">
+              <button type="button" onClick={() => changeView('login')} className="w-full text-xs text-gray-500 hover:text-black py-2">Avbryt</button>
+            </div>
+          </form>
+        </div>
+
+        {/* Panel 3: Reset (höger) */}
+        <div style={{ flex: '0 0 100%', width: '100%', padding: '24px', boxSizing: 'border-box' }}>
+          {resetSent ? (
+            <div className="space-y-4">
+              <h3 className="text-lg font-bold">E-post skickad</h3>
+              <p className="text-sm text-gray-600">Om e-postadressen finns i vårt system skickar vi instruktioner för att återställa lösenordet.</p>
+              <button onClick={() => changeView('login')} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800">Stäng</button>
+            </div>
+          ) : (
+            <div className="space-y-4" style={{ width: '100%' }}>
+              <form onSubmit={handleResetPassword} className="space-y-4" style={{ width: '100%' }}>
+                <div aria-hidden style={{ visibility: 'hidden' }}>
+                  <label className="block text-sm font-semibold mb-2">‎</label>
+                  <InputWithCheck type="password" value="" onChange={() => {}} />
+                </div>
+                <p className="text-sm text-gray-500">Ange din e-post så skickar vi dig en återställningslänk.</p>
+                <div>
+                  <label className="block text-sm font-semibold mb-2">E-postadress</label>
+                  <InputWithCheck type="email" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} required />
+                </div>
+                <button type="submit" disabled={resetLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
+                  {resetLoading ? 'Skickar...' : 'Skicka'}
+                </button>
+              </form>
+              <div className="text-center">
+                <button type="button" onClick={() => changeView('login')} className="text-xs text-gray-500 hover:text-black">Avbryt</button>
+              </div>
+            </div>
+          )}
+        </div>
+
+      </div>
+    </div>
+  );
+}

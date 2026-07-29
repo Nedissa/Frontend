@@ -22,7 +22,7 @@ export function InputWithCheck({
   ...props
 }: InputWithCheckProps) {
   return (
-    <div className="relative">
+    <div className="relative" style={{ width: '100%' }}>
       <input
         type={type}
         name={name}

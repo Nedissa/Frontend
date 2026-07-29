@@ -271,7 +271,7 @@ export function CartAside() {
 
                       {/* Titel + status */}
                       <div className="min-w-0">
-                        <Link href={`/produkter/${item.id}`} className="text-gray-900 font-semibold text-sm hover:text-gray-700 leading-snug block" style={{ textTransform: 'capitalize' }}>
+                        <Link href={`/produkter/${item.id}`} className="text-gray-900 font-semibold text-sm hover:text-gray-700 leading-snug block truncate" style={{ textTransform: 'capitalize' }} title={item.title}>
                           {item.title.toLowerCase()}
                         </Link>
                         <div className="flex items-center gap-1 mt-0.5">

@@ -2,7 +2,8 @@
 
 import { Aside } from './Aside';
 import { CartAside } from './CartAside';
-import React, { Suspense } from 'react';
+import { LoginAside } from './LoginAside';
+import React, { Suspense, useState } from 'react';
 import { HeaderWrapper } from './HeaderWrapper';
 import { FooterWrapper } from './FooterWrapper';
 import { CompareProvider } from './CompareContext';
@@ -12,6 +13,7 @@ import { usePathname } from 'next/navigation';
 
 export function RootLayoutClient({ children, initialIsLoggedIn = false }: { children: React.ReactNode; initialIsLoggedIn?: boolean }) {
   const pathname = usePathname();
+  const [loginHeading, setLoginHeading] = useState('Logga in');
   const hideHeader = pathname === '/inlogg' || pathname === '/aterstall-losenord' || pathname === '/kassa' || pathname === '/order-bekraftelse';
 
   return (
@@ -24,6 +26,9 @@ export function RootLayoutClient({ children, initialIsLoggedIn = false }: { chil
         </main>
         <FooterWrapper />
         <CartAside />
+        <Aside type="login" heading={loginHeading}>
+          <LoginAside onViewChange={(v) => setLoginHeading(v === 'login' ? 'Logga in' : v === 'register' ? 'Skapa konto' : 'Återställ lösenord')} />
+        </Aside>
         <CompareBar />
       </Aside.Provider>
     </CompareProvider>

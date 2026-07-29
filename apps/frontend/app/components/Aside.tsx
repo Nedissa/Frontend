@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 
-type AsideType = 'search' | 'cart' | 'mobile' | 'closed';
+type AsideType = 'search' | 'cart' | 'login' | 'mobile' | 'closed';
 type AsideContextValue = {
   type: AsideType;
   open: (mode: AsideType) => void;
@@ -26,12 +26,12 @@ export function Aside({
     if (expanded) {
       setIsVisible(true);
       document.documentElement.style.overflowY = 'hidden';
-      // Hide Tidio chat when aside is open
+      document.documentElement.style.scrollbarGutter = 'stable';
       const tidio = document.getElementById('tidio-chat');
       if (tidio) tidio.style.display = 'none';
     } else {
-      document.documentElement.style.overflowY = 'scroll';
-      // Restore Tidio chat when aside closes
+      document.documentElement.style.overflowY = '';
+      document.documentElement.style.scrollbarGutter = '';
       const tidio = document.getElementById('tidio-chat');
       if (tidio) tidio.style.display = '';
       const timer = setTimeout(() => setIsVisible(false), 300);
@@ -58,50 +58,55 @@ export function Aside({
 
   return (
     <div
-      className={`fixed inset-0 overflow-hidden z-40 ${
-        expanded ? 'opacity-100' : 'opacity-0 pointer-events-none'
-      }`}
-      style={{
-        visibility: isVisible ? 'visible' : 'hidden',
-        transition: 'opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)'
-      }}
+      className={`fixed inset-0 z-40 ${expanded ? 'pointer-events-auto' : 'pointer-events-none'}`}
+      style={{ visibility: isVisible ? 'visible' : 'hidden' }}
       role="dialog"
       aria-modal="true"
     >
       {/* Overlay */}
       <button
-        className="absolute inset-0 bg-black/30"
+        className={`absolute inset-0 bg-black/30 transition-opacity duration-300 ${expanded ? 'opacity-100' : 'opacity-0'}`}
         onClick={close}
         aria-label="Close"
       />
 
-      {/* Aside Panel */}
-      <aside className={`fixed right-0 top-0 h-screen w-full max-w-md bg-white shadow-lg z-50 flex flex-col ${
+      {/* Desktop cart + login: dropdown. Allt annat (search, mobile): full panel från höger */}
+      {(type === 'cart' || type === 'login') ? (
+        <aside
+          className={`hidden md:flex absolute top-[56px] bg-white shadow-2xl border border-gray-200 z-50 flex-col rounded-none ${
+            expanded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
+          }`}
+          style={{
+            maxHeight: 'calc(100vh - 56px)',
+            transition: 'opacity 200ms ease, transform 200ms ease',
+            left: type === 'cart' ? 'calc(var(--search-left, 209px) - 60px)' : 'var(--search-left, 209px)',
+            right: 'max(0px, calc((100vw - 1280px) / 2))',
+            ...(type === 'login' ? { height: '420px' } : {}),
+          }}
+        >
+          <header className="border-b border-gray-200 px-4 py-3 flex items-center justify-between">
+            <h2 className="text-sm font-bold text-black uppercase tracking-wide">{heading}</h2>
+            <button onClick={close} className="text-xl text-gray-500 hover:text-black transition-colors" aria-label="Close">×</button>
+          </header>
+          <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', minHeight: 0 }}>
+            {children}
+            <style>{`main::-webkit-scrollbar { display: none; }`}</style>
+          </main>
+        </aside>
+      ) : null}
+
+      {/* Mobil cart + login + alla övriga asides: full panel från höger */}
+      <aside className={`${(type === 'cart' || type === 'login') ? 'flex md:hidden' : 'flex'} fixed right-0 top-0 h-screen w-full max-w-md bg-white shadow-lg z-50 flex-col ${
         expanded ? 'translate-x-0' : 'translate-x-full'
       }`}
-      style={{
-        transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)'
-      }}>
-        {/* Header */}
+      style={{ transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)' }}>
         <header className="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
           <h2 className="text-lg font-bold text-black">{heading}</h2>
-          <button
-            onClick={close}
-            className="text-2xl text-gray-600 hover:text-black transition-colors"
-            aria-label="Close"
-          >
-            ×
-          </button>
+          <button onClick={close} className="text-2xl text-gray-600 hover:text-black transition-colors" aria-label="Close">×</button>
         </header>
-
-        {/* Content */}
         <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
           {children}
-          <style>{`
-            main::-webkit-scrollbar {
-              display: none;
-            }
-          `}</style>
+          <style>{`main::-webkit-scrollbar { display: none; }`}</style>
         </main>
       </aside>
     </div>
