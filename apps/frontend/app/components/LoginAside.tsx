@@ -236,7 +236,8 @@ export function LoginAside({
                 </div>
                 <div>
                   <label className="block text-sm font-semibold mb-2">E-postadress</label>
-                  <InputWithCheck type="email" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} placeholder="Ange din e-postadress" required />
+                  <InputWithCheck type="email" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} required />
+                  <p className="text-sm text-gray-500 mt-2">Ange din e-post så skickar vi dig en återställningslänk.</p>
                 </div>
                 <button type="submit" disabled={resetLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
                   {resetLoading ? 'Skickar...' : 'Skicka'}
