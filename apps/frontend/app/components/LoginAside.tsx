@@ -152,19 +152,22 @@ export function LoginAside({
     }
   };
 
-  // Ordning: Login | Register | Reset | Reset-confirm
-  const slideX =
-    view === 'login' ? '0%' :
-    view === 'register' ? '-100%' :
-    view === 'reset' ? '-200%' :
-    '-300%';
+  const panelStyle = (p: View): React.CSSProperties => ({
+    position: 'absolute',
+    inset: 0,
+    padding: '24px',
+    boxSizing: 'border-box',
+    opacity: view === p ? 1 : 0,
+    pointerEvents: view === p ? 'auto' : 'none',
+    transition: 'opacity 200ms ease',
+  });
 
   return (
     <div style={{ overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ display: 'flex', flex: 1, transform: `translateX(${slideX})`, transition: 'transform 250ms ease' }}>
+      <div style={{ position: 'relative', flex: 1 }}>
 
         {/* Panel 1: Login */}
-        <div style={{ flex: '0 0 100%', width: '100%', padding: '24px', boxSizing: 'border-box' }}>
+        <div style={panelStyle('login')}>
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="block text-sm font-semibold mb-2">E-postadress</label>
@@ -190,7 +193,7 @@ export function LoginAside({
         </div>
 
         {/* Panel 2: Register */}
-        <div style={{ flex: '0 0 100%', width: '100%', padding: '24px', boxSizing: 'border-box' }}>
+        <div style={panelStyle('register')}>
           <form onSubmit={handleRegister} className="space-y-4">
             <div>
               <label className="block text-sm font-semibold mb-2">E-postadress</label>
@@ -211,7 +214,7 @@ export function LoginAside({
         </div>
 
         {/* Panel 3: Reset */}
-        <div style={{ flex: '0 0 100%', width: '100%', padding: '24px', boxSizing: 'border-box' }}>
+        <div style={panelStyle('reset')}>
           {resetSent ? (
             <div className="space-y-4">
               <div aria-hidden style={{ visibility: 'hidden' }}>
@@ -226,30 +229,27 @@ export function LoginAside({
               <button onClick={() => changeView('login')} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800">Stäng</button>
             </div>
           ) : (
-            <div className="space-y-4" style={{ width: '100%' }}>
-              <form onSubmit={handleResetPassword} className="space-y-4" style={{ width: '100%' }}>
+            <form onSubmit={handleResetPassword} className="space-y-4">
                 <div aria-hidden style={{ visibility: 'hidden' }}>
                   <label className="block text-sm font-semibold mb-2">‎</label>
                   <InputWithCheck type="password" value="" onChange={() => {}} />
                 </div>
-                <p className="text-sm text-gray-500">Ange din e-post så skickar vi dig en återställningslänk.</p>
                 <div>
                   <label className="block text-sm font-semibold mb-2">E-postadress</label>
-                  <InputWithCheck type="email" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} required />
+                  <InputWithCheck type="email" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} placeholder="Ange din e-postadress" required />
                 </div>
                 <button type="submit" disabled={resetLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
                   {resetLoading ? 'Skickar...' : 'Skicka'}
                 </button>
+                <div className="text-center">
+                  <button type="button" onClick={() => changeView('login')} className="text-xs text-gray-500 hover:text-black">Avbryt</button>
+                </div>
               </form>
-              <div className="text-center">
-                <button type="button" onClick={() => changeView('login')} className="text-xs text-gray-500 hover:text-black">Avbryt</button>
-              </div>
-            </div>
           )}
         </div>
 
         {/* Panel 4: Nytt lösenord (från mail-länk) */}
-        <div style={{ flex: '0 0 100%', width: '100%', padding: '24px', boxSizing: 'border-box' }}>
+        <div style={panelStyle('reset-confirm')}>
           {confirmSuccess ? (
             <div className="space-y-4">
               <div aria-hidden style={{ visibility: 'hidden' }}>
