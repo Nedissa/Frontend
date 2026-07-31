@@ -338,6 +338,14 @@ function CheckoutContent() {
   }, [fetchShippingOptions]);
 
   const selectedShippingOption = shippingOptions.find(o => o.id === shippingMethod);
+  const hasContactInfo = !!(formData.email && formData.firstName && formData.lastName && formData.address && formData.postalCode && formData.city);
+  const hasPayment = showPayment && hasContactInfo && !!shippingMethod;
+  const step = !hasContactInfo ? 1 : !shippingMethod ? 2 : hasPayment ? 3 : 2;
+  const [desktopStep, setDesktopStep] = useState(-1);
+  useEffect(() => {
+    const t = setTimeout(() => setDesktopStep(step), 200);
+    return () => clearTimeout(t);
+  }, [step]);
   const shippingCost = selectedShippingOption?.amount || 0;
   const totalDiscount = cartItems.reduce((s, i) => i.originalPrice ? s + (i.originalPrice - i.price) * i.quantity : s, 0);
   const finalTotal = cartTotal + shippingCost - medusaDiscountTotal;
@@ -371,14 +379,15 @@ function CheckoutContent() {
 
   return (
     <MainLayout bordered={false} noPadding>
-      <style>{`@media(max-width:767px){.ml-container{padding-left:8px!important;padding-right:8px!important;}}`}</style>
+      <style>{`
+        @media(max-width:767px){.ml-container{padding-left:8px!important;padding-right:8px!important;}}
+      `}</style>
       {/* Steg-indikator — endast mobil */}
       {(() => {
-        const step = showPayment ? 3 : shippingMethod ? 2 : 1;
         const steps = [
-          { label: 'Varukorg', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="square" strokeLinejoin="miter" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5H17"/><circle cx="9" cy="22" r="1"/><circle cx="16" cy="22" r="1"/></svg> },
+          { label: 'Orderöversikt', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 12h6M9 16h4"/></svg> },
           { label: 'Uppgifter', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg> },
-          { label: 'Frakt', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg> },
+          { label: 'Frakt', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="18.5" cy="18.5" r="1.5"/></svg> },
           { label: 'Betalning', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path strokeLinecap="square" d="M2 10h20"/></svg> },
         ];
         return (
@@ -386,7 +395,7 @@ function CheckoutContent() {
             {steps.map((s, i) => (
               <div key={i} className="flex items-center">
                 <div className={`flex flex-col items-center gap-1 ${i <= step ? 'text-black' : 'text-gray-300'}`}>
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${i === step ? 'bg-orange-500 text-white' : i < step ? 'bg-black text-white' : 'bg-gray-100 text-gray-400'}`}>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${i === step ? 'text-white' : i < step ? 'bg-black text-white' : 'bg-gray-100 text-gray-400'}`} style={i === step ? { background: '#ea580c' } : {}}>
                     {s.icon}
                   </div>
                   <span className="text-[10px] font-semibold">{s.label}</span>
@@ -399,13 +408,13 @@ function CheckoutContent() {
           </div>
         );
       })()}
-      <div className="flex pt-4 pb-16 gap-0 relative justify-center">
+      <div className="flex pt-4 lg:pt-12 pb-16 gap-0 relative justify-center">
 
           <div className="flex-1 max-w-[800px] flex flex-col gap-8 relative">
 
           {/* Orderöversikt */}
           <section className="bg-white relative" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 block" style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' }}>Orderöversikt</span></span>
+            <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider p-2 block" style={{ background: '#000', color: '#fff', boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)', transition: 'background 300ms ease' }}>Orderöversikt</span></span>
             <span className="hidden lg:block absolute w-0.5 bg-black pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-100px' }} />
             <div className="grid grid-cols-[1fr_80px_64px] sm:grid-cols-[1fr_160px_120px] px-2 sm:px-6 py-3 border-b border-gray-200 gap-3">
               <div className="flex items-center">
@@ -515,8 +524,8 @@ function CheckoutContent() {
 
               <div className="bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                 <section className="relative p-6 border-b border-gray-100">
-                  <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 block" style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' }}>Dina uppgifter</span></span>
-                  <span className="hidden lg:block absolute w-0.5 bg-black pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-14px' }} />
+                  <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider p-2 block" style={{ background: step === 1 ? '#ea580c' : step > 1 ? '#000' : '#d1d5db', color: '#fff', transition: 'background 300ms ease', boxShadow: step >= 1 ? '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' : 'none' }}>Dina uppgifter</span></span>
+                  <span className="hidden lg:block absolute w-0.5 pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-14px', background: desktopStep >= 2 ? '#000' : '#d1d5db', transition: 'background 600ms ease' }} />
                   <h2 className="text-2xl font-bold mb-6"><span className="text-black">Leveransadress</span></h2>
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -567,8 +576,8 @@ function CheckoutContent() {
                 </section>
 
                 <section className="relative p-6 border-b border-gray-100">
-                  <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 block" style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' }}>Fraktsätt</span></span>
-                  <span className="hidden lg:block absolute w-0.5 bg-black pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-14px' }} />
+                  <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider p-2 block" style={{ background: step === 2 ? '#ea580c' : step > 2 ? '#000' : '#d1d5db', color: '#fff', transition: 'background 300ms ease', boxShadow: step >= 2 ? '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' : 'none' }}>Fraktsätt</span></span>
+                  <span className="hidden lg:block absolute w-0.5 pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-14px', background: desktopStep >= 3 ? '#000' : '#d1d5db', transition: 'background 600ms ease' }} />
                   <h2 className="text-2xl font-bold mb-6"><span className="text-black">Frakt</span></h2>
                   <div className="space-y-3">
                     {loadingShipping ? (
@@ -591,8 +600,8 @@ function CheckoutContent() {
                 </section>
 
                 <section className="relative p-6">
-                  <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 block" style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' }}>Betalsätt</span></span>
-                  <span className="hidden lg:block absolute w-0.5 bg-black pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '0' }} />
+                  <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider p-2 block" style={{ background: step === 3 ? '#ea580c' : step > 3 ? '#000' : '#d1d5db', color: '#fff', transition: 'background 300ms ease', boxShadow: step >= 3 ? '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' : 'none' }}>Betalsätt</span></span>
+                  <span className="hidden lg:block absolute w-0.5 pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '0', background: desktopStep >= 3 ? '#000' : '#d1d5db', transition: 'background 600ms ease' }} />
                   <h2 className="text-2xl font-bold mb-4"><span className="text-black">Betalning</span></h2>
                   <div style={{ minHeight: '2.5rem' }} className="mb-4">
                     {!clientSecret && !isProcessing && (
