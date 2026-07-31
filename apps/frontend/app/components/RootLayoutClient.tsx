@@ -59,16 +59,19 @@ const headingMap: Record<View, string> = {
   'reset-confirm': 'Nytt lösenord',
 };
 
-const LoginHeading = () => (
-  <span className="flex items-center gap-2">
-    <Logo size={28} />
-    <span className="font-bold text-black text-base normal-case tracking-normal">Techpilots</span>
-  </span>
-);
+function LoginHeadingLink() {
+  const { close } = useAside();
+  return (
+    <a href="/" onClick={close} className="flex items-center gap-1" style={{ textDecoration: 'none' }}>
+      <Logo size={28} />
+      <span className="font-bold text-black text-base normal-case tracking-normal">Techpilots</span>
+    </a>
+  );
+}
 
 export function RootLayoutClient({ children, initialIsLoggedIn = false }: { children: React.ReactNode; initialIsLoggedIn?: boolean }) {
   const pathname = usePathname();
-  const [loginHeading, setLoginHeading] = useState<React.ReactNode>(<LoginHeading />);
+  const [loginHeading, setLoginHeading] = useState<React.ReactNode>(<LoginHeadingLink />);
   const [resetToken, setResetToken] = useState<string | undefined>();
   const [resetEmail, setResetEmail] = useState<string | undefined>();
   const [loginInitialView, setLoginInitialView] = useState<View | undefined>();
@@ -83,7 +86,7 @@ export function RootLayoutClient({ children, initialIsLoggedIn = false }: { chil
   const handleOpenLogin = (view?: string) => {
     const v = (view as View) || 'login';
     setLoginInitialView(v);
-    setLoginHeading(v === 'login' ? <LoginHeading /> : (headingMap[v] || 'Logga in'));
+    setLoginHeading(v === 'login' ? <LoginHeadingLink /> : (headingMap[v] || 'Logga in'));
   };
 
   return (
@@ -105,7 +108,7 @@ export function RootLayoutClient({ children, initialIsLoggedIn = false }: { chil
             resetToken={resetToken}
             resetEmail={resetEmail}
             initialView={loginInitialView}
-            onViewChange={(v) => setLoginHeading(v === 'login' ? <LoginHeading /> : headingMap[v])}
+            onViewChange={(v) => setLoginHeading(v === 'login' ? <LoginHeadingLink /> : headingMap[v])}
           />
         </Aside>
         <CompareBar />
