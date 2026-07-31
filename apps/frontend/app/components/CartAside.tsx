@@ -269,7 +269,7 @@ export function CartAside() {
 
                       {/* Titel + (I lager + räknare på samma rad) */}
                       <div className="min-w-0">
-                        <Link href={`/produkter/${item.id}`} className="text-gray-900 font-semibold text-sm hover:text-gray-700 leading-snug block truncate" style={{ textTransform: 'capitalize' }} title={item.title}>
+                        <Link href={`/produkter/${item.id}`} className="text-gray-900 font-semibold text-sm hover:text-gray-700 block truncate" style={{ textTransform: 'capitalize', lineHeight: '1.2', marginBottom: '-4px' }} title={item.title}>
                           {item.title.toLowerCase()}
                         </Link>
                         <div className="flex items-center flex-nowrap">

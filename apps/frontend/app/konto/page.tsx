@@ -337,7 +337,9 @@ export default function AccountPage() {
         {/* Desktop */}
         <div className="mb-8 overflow-hidden" style={{ background: '#000', position: 'relative', isolation: 'isolate' }}>
           {/* Roboten — absolut bakgrund på alla skärmar, centrerad */}
-          <img src="/assets/medlem-banner.png" alt="" style={{ position: 'absolute', bottom: 0, right: '0', marginRight: '32px', maxHeight: '100%', width: 'auto', objectFit: 'contain', mixBlendMode: 'lighten', pointerEvents: 'none' }} />
+          {/* Mobil: robot till höger */}
+          <img src="/assets/medlem-banner.png" alt="" className="sm:hidden" style={{ position: 'absolute', bottom: 0, right: '32px', maxHeight: '100%', width: 'auto', objectFit: 'contain', mixBlendMode: 'lighten', pointerEvents: 'none' }} />
+          {/* Desktop: robot centrerad i mitten via tre-kolumn */}
           <div className="relative flex items-stretch" style={{ minHeight: '220px', zIndex: 1 }}>
             {/* Text vänster */}
             <div className="flex flex-col justify-center px-8 sm:px-10 py-5 sm:py-8" style={{ flex: 1, zIndex: 1 }}>
@@ -359,6 +361,10 @@ export default function AccountPage() {
                 </svg>
                 Logga ut
               </button>
+            </div>
+            {/* Robot mitten — bara desktop */}
+            <div className="hidden sm:flex" style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center', overflow: 'hidden' }}>
+              <img src="/assets/medlem-banner.png" alt="" style={{ maxHeight: '220px', width: 'auto', objectFit: 'contain', mixBlendMode: 'lighten' }} />
             </div>
             {/* Poäng höger — dold på mobil */}
             <div className="hidden sm:flex flex-col justify-center py-5 sm:py-8" style={{ paddingRight: 'clamp(16px, 4vw, 40px)', paddingLeft: '8px', alignItems: 'flex-end', zIndex: 1 }}>
