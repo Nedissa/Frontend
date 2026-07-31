@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback, useLayoutEffect, Suspense } from 'react';
+import { useState, useEffect, useRef, useCallback, useLayoutEffect, useMemo, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { MainLayout } from '../components/MainLayout';
@@ -134,6 +134,7 @@ function CheckoutContent() {
   const [cartId, setCartId] = useState('');
   const [showPayment, setShowPayment] = useState(false);
   const [medusaDiscountTotal, setMedusaDiscountTotal] = useState(0);
+  const stripeOptions = useMemo(() => clientSecret ? { clientSecret, appearance: { theme: 'stripe' as const, variables: { colorPrimary: '#000000' } } } : null, [clientSecret]);
 
   const addressInputRef = useRef<HTMLInputElement>(null);
   const hasRestoredRef = useRef(false);
@@ -612,11 +613,8 @@ function CheckoutContent() {
                       <div className="flex items-center gap-2 text-gray-400 text-sm"><Spinner size={16} /> Förbereder betalning...</div>
                     )}
                   </div>
-                  {showPayment && clientSecret && (
-                    <Elements
-                      stripe={stripePromise}
-                      options={{ clientSecret, appearance: { theme: 'stripe', variables: { colorPrimary: '#000000' } } }}
-                    >
+                  {showPayment && stripeOptions && (
+                    <Elements stripe={stripePromise} options={stripeOptions}>
                       <PaymentForm cartId={cartId} formData={formData} finalTotal={finalTotal} onSuccess={handlePaymentSuccess} onError={handlePaymentError} />
                     </Elements>
                   )}
