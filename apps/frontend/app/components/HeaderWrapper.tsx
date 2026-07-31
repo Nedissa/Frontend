@@ -1092,18 +1092,20 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   </div>
                 )}
               </div>
-              <Link
-                href="/konto"
-                className="w-full flex items-center gap-4 px-5 py-4 border-b border-gray-100"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-black">
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                  </svg>
-                </span>
-                <span className="flex-1 text-sm font-semibold text-black">{(isHydrated ? isLoggedIn : initialIsLoggedIn) ? 'Mina sidor' : 'Logga in / Registrera'}</span>
-              </Link>
+              {(isHydrated ? isLoggedIn : initialIsLoggedIn) && (
+                <Link
+                  href="/konto"
+                  className="w-full flex items-center gap-4 px-5 py-4 border-b border-gray-100"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-black">
+                    <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                  </span>
+                  <span className="flex-1 text-sm font-semibold text-black">Mina sidor</span>
+                </Link>
+              )}
             </div>
           </div>
 
