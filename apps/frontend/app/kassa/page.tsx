@@ -30,24 +30,10 @@ const countryCodeMap: Record<string, string> = {
 
 // --- Sticky step bar (mobil) ---
 function StickyStepBar({ steps, step }: { steps: { label: string; icon: React.ReactNode }[]; step: number }) {
-  const [visible, setVisible] = useState(true);
-  const lastY = useRef(0);
-
-  useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      if (y < 10) { setVisible(true); lastY.current = y; return; }
-      setVisible(y < lastY.current);
-      lastY.current = y;
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   return (
     <div
-      className="sm:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 transition-transform duration-300"
-      style={{ transform: visible ? 'translateY(0)' : 'translateY(-100%)', paddingTop: 'env(safe-area-inset-top)', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
+      className="sm:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100"
+      style={{ paddingTop: 'env(safe-area-inset-top)', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
     >
       <div className="flex items-center justify-center py-3 px-2">
         {steps.map((s, i) => (
