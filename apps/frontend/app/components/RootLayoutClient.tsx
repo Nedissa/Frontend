@@ -72,6 +72,7 @@ function LoginHeadingLink() {
 export function RootLayoutClient({ children, initialIsLoggedIn = false }: { children: React.ReactNode; initialIsLoggedIn?: boolean }) {
   const pathname = usePathname();
   const [loginHeading, setLoginHeading] = useState<React.ReactNode>(<LoginHeadingLink />);
+  const [loginDesktopHeading, setLoginDesktopHeading] = useState<string>('Logga in');
   const [resetToken, setResetToken] = useState<string | undefined>();
   const [resetEmail, setResetEmail] = useState<string | undefined>();
   const [loginInitialView, setLoginInitialView] = useState<View | undefined>();
@@ -81,12 +82,14 @@ export function RootLayoutClient({ children, initialIsLoggedIn = false }: { chil
     setResetToken(token);
     setResetEmail(email);
     setLoginHeading('Nytt lösenord');
+    setLoginDesktopHeading('Nytt lösenord');
   };
 
   const handleOpenLogin = (view?: string) => {
     const v = (view as View) || 'login';
     setLoginInitialView(v);
     setLoginHeading(v === 'login' ? <LoginHeadingLink /> : (headingMap[v] || 'Logga in'));
+    setLoginDesktopHeading(headingMap[v] || 'Logga in');
   };
 
   return (
@@ -102,13 +105,16 @@ export function RootLayoutClient({ children, initialIsLoggedIn = false }: { chil
         </main>
         <FooterWrapper />
         <CartAside />
-        <Aside type="login" heading={loginHeading}>
+        <Aside type="login" heading={loginHeading} desktopHeading={loginDesktopHeading}>
           <LoginAside
             key={resetToken || loginInitialView || 'default'}
             resetToken={resetToken}
             resetEmail={resetEmail}
             initialView={loginInitialView}
-            onViewChange={(v) => setLoginHeading(v === 'login' ? <LoginHeadingLink /> : headingMap[v])}
+            onViewChange={(v) => {
+              setLoginHeading(v === 'login' ? <LoginHeadingLink /> : headingMap[v]);
+              setLoginDesktopHeading(headingMap[v] || 'Logga in');
+            }}
           />
         </Aside>
         <CompareBar />

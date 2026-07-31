@@ -12,11 +12,13 @@ type AsideContextValue = {
 export function Aside({
   children,
   heading,
+  desktopHeading,
   type,
 }: {
   children?: React.ReactNode;
   type: AsideType;
   heading: React.ReactNode;
+  desktopHeading?: React.ReactNode;
 }) {
   const { type: activeType, close } = useAside();
   const expanded = type === activeType;
@@ -85,7 +87,7 @@ export function Aside({
           }}
         >
           <header className="border-b border-gray-200 px-4 py-3 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-black uppercase tracking-wide">{heading}</h2>
+            <h2 className="text-sm font-bold text-black uppercase tracking-wide">{desktopHeading ?? heading}</h2>
             <button onClick={close} className="text-xl text-gray-500 hover:text-black transition-colors" aria-label="Close">×</button>
           </header>
           <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', minHeight: 0 }}>
