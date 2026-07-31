@@ -258,7 +258,7 @@ export function CartAside() {
               <ul className="space-y-0 py-4 flex-1">
                 {cartItems.map(item => (
                   <li key={item.id} className="border-b border-gray-200 last:border-b-0 py-4">
-                    <div className="grid items-center" style={{ gridTemplateColumns: '56px 1fr 80px 64px', columnGap: '12px' }}>
+                    <div className="grid items-center" style={{ gridTemplateColumns: '56px 1fr 80px 72px', columnGap: '16px' }}>
                       {/* Bild */}
                       <div className="w-14 h-14">
                         <img
@@ -280,8 +280,8 @@ export function CartAside() {
                         </div>
                       </div>
 
-                      {/* Räknare — fast kolumn */}
-                      <div className="flex items-center gap-2">
+                      {/* Räknare — centrerad */}
+                      <div className="flex items-center justify-center gap-1">
                         <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="text-gray-700 disabled:text-gray-300 font-bold w-6 h-6 flex items-center justify-center text-lg">−</button>
                         <span className="text-sm font-semibold tabular-nums w-4 text-center">{item.quantity}</span>
                         <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="text-gray-700 font-bold w-6 h-6 flex items-center justify-center text-lg">+</button>
@@ -292,8 +292,8 @@ export function CartAside() {
                         <span className="text-sm font-bold text-gray-900 tabular-nums whitespace-nowrap">
                           {(item.price * item.quantity).toLocaleString('sv-SE')} kr
                         </span>
-                        <button onClick={() => handleRemoveItem(item.id)} className="w-9 h-9 flex items-center justify-center text-black hover:text-red-500 transition-colors">
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                        <button onClick={() => handleRemoveItem(item.id)} className="w-7 h-7 flex items-center justify-center text-black hover:text-red-500 transition-colors">
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" />
                           </svg>
                         </button>
