@@ -3,6 +3,7 @@
 import { Aside } from './Aside';
 import { CartAside } from './CartAside';
 import { LoginAside } from './LoginAside';
+import { Logo } from './Logo';
 import React, { Suspense, useState, useEffect } from 'react';
 import { HeaderWrapper } from './HeaderWrapper';
 import { FooterWrapper } from './FooterWrapper';
@@ -52,15 +53,22 @@ function ParamHandler({
 type View = 'login' | 'register' | 'reset' | 'reset-confirm';
 
 const headingMap: Record<View, string> = {
-  login: 'Logga in',
+  login: '',
   register: 'Skapa konto',
   reset: 'Återställ lösenord',
   'reset-confirm': 'Nytt lösenord',
 };
 
+const LoginHeading = () => (
+  <span className="flex items-center gap-2">
+    <Logo size={28} />
+    <span className="font-bold text-black text-base normal-case tracking-normal">Techpilots</span>
+  </span>
+);
+
 export function RootLayoutClient({ children, initialIsLoggedIn = false }: { children: React.ReactNode; initialIsLoggedIn?: boolean }) {
   const pathname = usePathname();
-  const [loginHeading, setLoginHeading] = useState('Logga in');
+  const [loginHeading, setLoginHeading] = useState<React.ReactNode>(<LoginHeading />);
   const [resetToken, setResetToken] = useState<string | undefined>();
   const [resetEmail, setResetEmail] = useState<string | undefined>();
   const [loginInitialView, setLoginInitialView] = useState<View | undefined>();
@@ -75,7 +83,7 @@ export function RootLayoutClient({ children, initialIsLoggedIn = false }: { chil
   const handleOpenLogin = (view?: string) => {
     const v = (view as View) || 'login';
     setLoginInitialView(v);
-    setLoginHeading(headingMap[v] || 'Logga in');
+    setLoginHeading(v === 'login' ? <LoginHeading /> : (headingMap[v] || 'Logga in'));
   };
 
   return (
@@ -97,7 +105,7 @@ export function RootLayoutClient({ children, initialIsLoggedIn = false }: { chil
             resetToken={resetToken}
             resetEmail={resetEmail}
             initialView={loginInitialView}
-            onViewChange={(v) => setLoginHeading(headingMap[v])}
+            onViewChange={(v) => setLoginHeading(v === 'login' ? <LoginHeading /> : headingMap[v])}
           />
         </Aside>
         <CompareBar />

@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { InputWithCheck } from './InputWithCheck';
 import { useAside } from './Aside';
-import { Logo } from './Logo';
 
 type View = 'login' | 'register' | 'reset' | 'reset-confirm';
 
@@ -169,10 +168,6 @@ export function LoginAside({
 
         {/* Panel 1: Login */}
         <div style={panelStyle('login')}>
-          <div className="flex items-center justify-center gap-2 mb-6">
-            <Logo size={36} />
-            <span className="font-bold text-black text-xl">Techpilots</span>
-          </div>
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="block text-sm font-semibold mb-2">E-postadress</label>
