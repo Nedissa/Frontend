@@ -337,12 +337,12 @@ export default function AccountPage() {
         {/* Desktop */}
         <div className="mb-8 overflow-hidden" style={{ background: '#000', position: 'relative', isolation: 'isolate' }}>
           {/* Roboten — absolut bakgrund på alla skärmar, centrerad */}
-          <img src="/assets/medlem-banner.png" alt="" style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', maxHeight: '100%', width: 'auto', objectFit: 'contain', mixBlendMode: 'lighten', pointerEvents: 'none' }} />
+          <img src="/assets/medlem-banner.png" alt="" style={{ position: 'absolute', bottom: 0, right: '0', marginRight: '32px', maxHeight: '100%', width: 'auto', objectFit: 'contain', mixBlendMode: 'lighten', pointerEvents: 'none' }} />
           <div className="relative flex items-stretch" style={{ minHeight: '220px', zIndex: 1 }}>
             {/* Text vänster */}
-            <div className="flex flex-col justify-center px-5 sm:px-10 py-5 sm:py-8" style={{ flex: 1, zIndex: 1 }}>
-              <h2 className="font-bold select-none text-white leading-tight" style={{ fontSize: 'clamp(1.1rem, 4vw, 1.5rem)', marginBottom: '4px' }}>
-                <span className="sm:hidden">Välkommen,<br /></span>
+            <div className="flex flex-col justify-center px-8 sm:px-10 py-5 sm:py-8" style={{ flex: 1, zIndex: 1 }}>
+              <h2 className="font-bold select-none text-white leading-tight" style={{ fontSize: 'clamp(1.4rem, 5vw, 1.5rem)', marginBottom: '4px' }}>
+                <span className="sm:hidden">Välkommen<br /></span>
                 <span className="hidden sm:inline">Välkommen, </span>
                 {firstName && lastName ? firstName : firstName || registerEmail?.split('@')[0] || 'Johan'}!
               </h2>
@@ -360,8 +360,8 @@ export default function AccountPage() {
                 Logga ut
               </button>
             </div>
-            {/* Poäng höger */}
-            <div className="flex flex-col justify-center py-5 sm:py-8" style={{ paddingRight: 'clamp(16px, 4vw, 40px)', paddingLeft: '8px', alignItems: 'flex-end', zIndex: 1 }}>
+            {/* Poäng höger — dold på mobil */}
+            <div className="hidden sm:flex flex-col justify-center py-5 sm:py-8" style={{ paddingRight: 'clamp(16px, 4vw, 40px)', paddingLeft: '8px', alignItems: 'flex-end', zIndex: 1 }}>
               {loyalty && loyalty.total_points !== undefined && (() => {
                 const points = loyalty.total_points;
                 const tier = points >= 3000 ? 'Platinum' : points >= 1500 ? 'Guld' : points >= 500 ? 'Silver' : 'Brons';
