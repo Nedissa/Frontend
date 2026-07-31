@@ -24,6 +24,7 @@ export interface ProductData {
   features?: string[];
   stock?: string;
   sectionCategory?: string;
+  categorySlug?: string;
   metadata?: Record<string, any>;
 }
 
@@ -173,7 +174,7 @@ export function ProductCard({
         <div className={`absolute top-3 right-3 z-20 flex flex-row gap-3 md:transition-opacity md:duration-200 ${activeHover ? 'md:opacity-100' : 'md:opacity-0'}`}>
           <div className="relative group/compare">
             <button
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.dispatchEvent(new CustomEvent('toggleCompare', { detail: product })); }}
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.dispatchEvent(new CustomEvent('toggleCompare', { detail: { ...product, categorySlug: categorySlug || product.sectionCategory } })); }}
               className="w-11 h-11 md:w-8 md:h-8 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
               style={{ background: inCompare ? '#000' : '#fff', border: inCompare ? 'none' : '1px solid #ccc' }}
             >
@@ -311,9 +312,14 @@ export function ProductCard({
                 <div key={idx} className="relative group/swatch">
                   <button
                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedColor(idx); }}
-                    className="w-8 h-3 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: bgColor, outline: isSelected ? '1px solid #999999' : 'none', outlineOffset: '2px', boxShadow: bgColor === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
-                  />
+                    className="w-11 h-11 flex items-center justify-center flex-shrink-0"
+                    style={{ background: 'none', border: 'none', padding: 0 }}
+                  >
+                    <span
+                      className="w-8 h-3 rounded-full block"
+                      style={{ backgroundColor: bgColor, outline: isSelected ? '2px solid #999999' : 'none', outlineOffset: '2px', boxShadow: bgColor === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
+                    />
+                  </button>
                   <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-0 px-2 py-0.5 bg-black text-white text-[10px] font-medium whitespace-nowrap opacity-0 group-hover/swatch:opacity-100 transition-opacity pointer-events-none z-50">
                     {color}
                     <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-black" />

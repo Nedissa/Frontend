@@ -218,14 +218,14 @@ export function CompareBar() {
                     <td style={{ paddingBottom: '24px' }} />
                     {compareList.map((p, i) => (
                       <td key={p.id} className={`compare-product-col${i === 3 ? ' compare-col-4' : ''}`} style={{ paddingBottom: '0', verticalAlign: 'top', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', padding: '10px 8px 16px', position: 'relative' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', padding: '6px 8px 16px' }}>
                           <button
                             className="remove-btn"
                             onClick={() => {
-                              window.dispatchEvent(new CustomEvent('toggleCompare', { detail: p }));
+                              window.dispatchEvent(new CustomEvent('toggleCompare', { detail: compareList.find(x => x.id === p.id) }));
                               removeFromCompare(p.id);
                             }}
-                            style={{ position: 'absolute', top: 0, right: 8, background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.75rem', color: '#999', fontWeight: 600, padding: '4px' }}
+                            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.75rem', color: '#999', fontWeight: 600, padding: '2px 0 6px' }}
                           >
                             Ta bort
                           </button>
@@ -254,6 +254,7 @@ export function CompareBar() {
                       )}
                       {keys.map((label) => {
                         const values = compareList.map(p => getSpec(p, label));
+                        if (values.every(v => !v)) return null;
                         return (
                           <tr key={label} className="compare-spec-row" style={{ borderBottom: '1px solid #f3f4f6', cursor: 'default', transition: 'background 0.15s' }}>
                             <td className="spec-label" style={{ padding: '8px 8px 8px 0', fontSize: '0.72rem', color: '#555', fontWeight: 700, transition: 'color 0.15s', wordBreak: 'break-word', lineHeight: 1.3 }}>{label}</td>

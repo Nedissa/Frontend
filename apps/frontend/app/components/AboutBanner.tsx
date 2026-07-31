@@ -42,7 +42,7 @@ export function AboutBanner() {
       </div>
 
       {/* Right — content */}
-      <div className="flex flex-col justify-center px-6 sm:px-16 w-full sm:w-[48%] py-6 sm:py-0 sm:h-full overflow-hidden">
+      <div className="flex flex-col justify-center px-2 sm:px-16 w-full sm:w-[48%] py-6 sm:py-0 sm:h-full overflow-hidden">
         <p className="text-sm font-semibold text-gray-500 mb-2 tracking-wide">Enkelt. Snabbt. Pålitligt.</p>
         <h2 className="text-2xl font-bold text-gray-900 leading-tight mb-3">
           Teknik ska vara<br />enkelt att handla

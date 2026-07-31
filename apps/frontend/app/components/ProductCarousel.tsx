@@ -60,7 +60,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
 
   return (
     <div className="pt-8">
-      <div className="flex items-center justify-between mb-4 px-4 sm:px-6">
+      <div className="flex items-center justify-between mb-4 px-2 md:px-6">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{title}</h2>
         <div className="hidden md:flex items-center gap-2">
           <button
@@ -98,19 +98,17 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
         </div>
       </div>
       {/* Mobil */}
-      <div className="md:hidden" style={{ margin: '0 -16px' }}>
-        <div className="overflow-x-auto" style={{ scrollbarWidth: 'none', scrollSnapType: 'x mandatory', padding: '16px 16px' }}>
-        <div className="flex gap-4">
+      <div className="md:hidden overflow-x-auto" style={{ scrollbarWidth: 'none', scrollSnapType: 'x mandatory' }}>
+        <div className="flex gap-3" style={{ paddingRight: '12px' }}>
           {products.slice(0, 4).map((product, idx) => (
             <div
               key={`${product.id}-${idx}`}
               ref={el => { mobileItemRefs.current[idx] = el; }}
-              style={{ flexShrink: 0, width: 'calc(100% - 32px)', scrollSnapAlign: 'center' }}
+              style={{ flexShrink: 0, width: 'calc(85vw)', scrollSnapAlign: 'start' }}
             >
               <ProductCard product={product} variant={variant} priority={idx < 4} isActive={activeIndex === idx} />
             </div>
           ))}
-        </div>
         </div>
       </div>
     </div>
