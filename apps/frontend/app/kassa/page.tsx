@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback, useLayoutEffect, useMemo, Suspense } from 'react';
+import { useState, useEffect, useRef, useCallback, useLayoutEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { MainLayout } from '../components/MainLayout';
@@ -27,6 +27,46 @@ const countryCodeMap: Record<string, string> = {
   'Danmark': 'dk',
   'Finland': 'fi',
 };
+
+// --- Sticky step bar (mobil) ---
+function StickyStepBar({ steps, step }: { steps: { label: string; icon: React.ReactNode }[]; step: number }) {
+  const [visible, setVisible] = useState(true);
+  const lastY = useRef(0);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y < 10) { setVisible(true); lastY.current = y; return; }
+      setVisible(y < lastY.current);
+      lastY.current = y;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  return (
+    <div
+      className="sm:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100 transition-transform duration-300"
+      style={{ transform: visible ? 'translateY(0)' : 'translateY(-100%)', paddingTop: 'env(safe-area-inset-top)', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
+    >
+      <div className="flex items-center justify-center py-3 px-2">
+        {steps.map((s, i) => (
+          <div key={i} className="flex items-center">
+            <div className={`flex flex-col items-center gap-1 ${i <= step ? 'text-black' : 'text-gray-300'}`}>
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${i === step ? 'text-white' : i < step ? 'bg-black text-white' : 'bg-gray-100 text-gray-400'}`} style={i === step ? { background: '#ea580c' } : {}}>
+                {s.icon}
+              </div>
+              <span className="text-[10px] font-semibold">{s.label}</span>
+            </div>
+            {i < steps.length - 1 && (
+              <div className={`w-8 h-0.5 mb-4 mx-1 ${i < step ? 'bg-black' : 'bg-gray-200'}`} />
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 // --- Stripe payment form ---
 function PaymentForm({
@@ -134,7 +174,6 @@ function CheckoutContent() {
   const [cartId, setCartId] = useState('');
   const [showPayment, setShowPayment] = useState(false);
   const [medusaDiscountTotal, setMedusaDiscountTotal] = useState(0);
-  const stripeOptions = useMemo(() => clientSecret ? { clientSecret, appearance: { theme: 'stripe' as const, variables: { colorPrimary: '#000000' } } } : null, [clientSecret]);
 
   const addressInputRef = useRef<HTMLInputElement>(null);
   const hasRestoredRef = useRef(false);
@@ -392,24 +431,10 @@ function CheckoutContent() {
           { label: 'Betalning', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path strokeLinecap="square" d="M2 10h20"/></svg> },
         ];
         return (
-          <div className="sm:hidden flex items-center justify-center pt-6 mb-4 px-2">
-            {steps.map((s, i) => (
-              <div key={i} className="flex items-center">
-                <div className={`flex flex-col items-center gap-1 ${i <= step ? 'text-black' : 'text-gray-300'}`}>
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${i === step ? 'text-white' : i < step ? 'bg-black text-white' : 'bg-gray-100 text-gray-400'}`} style={i === step ? { background: '#ea580c' } : {}}>
-                    {s.icon}
-                  </div>
-                  <span className="text-[10px] font-semibold">{s.label}</span>
-                </div>
-                {i < steps.length - 1 && (
-                  <div className={`w-10 h-0.5 mb-4 mx-1 ${i < step ? 'bg-black' : 'bg-gray-200'}`} />
-                )}
-              </div>
-            ))}
-          </div>
+          <StickyStepBar steps={steps} step={step} />
         );
       })()}
-      <div className="flex pt-4 lg:pt-12 pb-16 gap-0 relative justify-center">
+      <div className="flex pt-[88px] sm:pt-4 lg:pt-12 pb-16 gap-0 relative justify-center">
 
           <div className="flex-1 max-w-[800px] flex flex-col gap-8 relative">
 
@@ -451,7 +476,7 @@ function CheckoutContent() {
                         setCartTotal(updated.reduce((s, i) => s + i.price * i.quantity, 0));
                         localStorage.setItem('cartItems', JSON.stringify(updated));
                       }}
-                      className="w-7 h-7 flex items-center justify-center border border-gray-300 rounded text-gray-700 hover:bg-gray-100 text-lg font-medium"
+                      className="w-7 h-7 flex items-center justify-center text-gray-700 hover:bg-gray-100 text-lg font-medium rounded"
                     >−</button>
                     <span className="text-sm font-medium w-4 text-center">{item.quantity}</span>
                     <button
@@ -461,7 +486,7 @@ function CheckoutContent() {
                         setCartTotal(updated.reduce((s, i) => s + i.price * i.quantity, 0));
                         localStorage.setItem('cartItems', JSON.stringify(updated));
                       }}
-                      className="w-7 h-7 flex items-center justify-center border border-gray-300 rounded text-gray-700 hover:bg-gray-100 text-lg font-medium"
+                      className="w-7 h-7 flex items-center justify-center text-gray-700 hover:bg-gray-100 text-lg font-medium rounded"
                     >+</button>
                   </div>
                   <div className="text-right flex-shrink-0">
@@ -604,23 +629,23 @@ function CheckoutContent() {
                   <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider p-2 block" style={{ background: step === 3 ? '#ea580c' : step > 3 ? '#000' : '#d1d5db', color: '#fff', transition: 'background 300ms ease', boxShadow: step >= 3 ? '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' : 'none' }}>Betalsätt</span></span>
                   <span className="hidden lg:block absolute w-0.5 pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '0', background: desktopStep >= 3 ? '#000' : '#d1d5db', transition: 'background 600ms ease' }} />
                   <h2 className="text-2xl font-bold mb-4"><span className="text-black">Betalning</span></h2>
-                  <div style={{ minHeight: '2.5rem' }} className="mb-4">
-                    {!clientSecret && !isProcessing && (
-                      <p className="text-sm text-gray-400">Fyll i dina kontaktuppgifter ovan så visas betalningsalternativen här.</p>
-                    )}
-                    {paymentError && <p className="text-red-600 text-sm">{paymentError}</p>}
-                    {isProcessing && !clientSecret && (
-                      <div className="flex items-center gap-2 text-gray-400 text-sm"><Spinner size={16} /> Förbereder betalning...</div>
-                    )}
-                  </div>
-                  {showPayment && stripeOptions && (
-                    <Elements stripe={stripePromise} options={stripeOptions}>
+                  {!clientSecret && !isProcessing && (
+                    <p className="text-sm text-gray-400 mb-4">Fyll i dina kontaktuppgifter ovan så visas betalningsalternativen här.</p>
+                  )}
+                  {paymentError && <p className="text-red-600 text-sm mb-4">{paymentError}</p>}
+                  {isProcessing && !clientSecret && (
+                    <div className="flex items-center gap-2 text-gray-400 text-sm mb-4"><Spinner size={16} /> Förbereder betalning...</div>
+                  )}
+                  {showPayment && clientSecret && (
+                    <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe', variables: { colorPrimary: '#000000' } } }}>
                       <PaymentForm cartId={cartId} formData={formData} finalTotal={finalTotal} onSuccess={handlePaymentSuccess} onError={handlePaymentError} />
                     </Elements>
                   )}
-                  <div className="text-center pt-4">
-                    <a href="/" className="text-sm text-gray-500 hover:text-black">Avbryt</a>
-                  </div>
+                  {!showPayment && (
+                    <div className="text-center pt-4">
+                      <a href="/" className="text-sm text-gray-500 hover:text-black">Avbryt</a>
+                    </div>
+                  )}
                 </section>
               </div>
             </div>
