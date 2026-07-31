@@ -31,7 +31,7 @@ export async function sendWelcomeEmail(firstName: string, email: string) {
     <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:600px;margin:0 auto;background:#f9f9f9;">
       ${emailHeader}
       <div style="background:#ffffff;padding:40px;">
-        <h1 style="font-size:1.4rem;font-weight:800;color:#000;margin:0 0 8px;">Hej ${firstName}, kul att du är med!</h1>
+        <h1 style="font-size:1.4rem;font-weight:800;color:#000;margin:0 0 8px;">${firstName ? `Hej ${firstName}, kul att du är med!` : 'Kul att du är med!'}</h1>
         <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 16px;">Ditt konto är nu skapat och du är redo att handla. Som ny medlem får du <strong style="color:#000;">10% rabatt på din första order</strong>. Rabatten läggs till automatiskt när du går till kassan.</p>
         <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 32px;">Vi har ett noggrant utvalt sortiment av elektronik med fri standardleverans och 30 dagars öppet köp.</p>
         <div style="text-align:center;margin:0 0 32px;">

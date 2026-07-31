@@ -44,9 +44,9 @@ export function CookieBanner() {
         }
         @media (max-width: 640px) {
           .cookie-banner-desktop {
-            left: 0; right: 0; bottom: 0;
-            width: 100%; border-left: none; border-right: none; border-bottom: none;
-            box-shadow: 0 -4px 16px rgba(0,0,0,0.10);
+            left: 12px; right: 12px; bottom: 12px;
+            width: auto; border: 1px solid #e5e7eb;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.14);
           }
         }
       `}</style>

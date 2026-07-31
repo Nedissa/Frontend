@@ -568,7 +568,7 @@ export default function ProductDetailClient({
                     aria-label={`Välj färg ${name}`}
                   >
                     <span
-                      className="w-7 h-7 rounded-full block"
+                      className="w-10 h-4 rounded-full block"
                       style={{ backgroundColor: hex, outline: selectedColor === name ? '2px solid #999999' : 'none', outlineOffset: '2px', boxShadow: hex === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
                     />
                   </button>

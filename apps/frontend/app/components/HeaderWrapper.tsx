@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import React from 'react';
 import { createPortal } from 'react-dom';
@@ -377,6 +377,13 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   const [isVibrating, setIsVibrating] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(initialIsLoggedIn);
   const [isHydrated, setIsHydrated] = useState(false);
+  const router = useRouter();
+
+  const doLogout = async () => {
+    try { await fetch('/api/auth/logout', { method: 'POST' }); } catch {}
+    window.dispatchEvent(new Event('userLogout'));
+    router.push('/');
+  };
   const [searchProducts, setSearchProducts] = useState<SearchProduct[]>([]);
   const searchFetchedRef = useRef(false);
   const lastScrollY = useRef(0);
