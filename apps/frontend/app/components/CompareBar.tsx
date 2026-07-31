@@ -114,13 +114,14 @@ export function CompareBar() {
         .compare-sheet-out::-webkit-scrollbar { display: none; }
         .remove-btn { opacity: 0; transition: opacity 0.15s; }
         .compare-product-col:hover .remove-btn { opacity: 1; }
+        @media (hover: none) { .remove-btn { opacity: 1; } }
         @media (max-width: 767px) {
           .compare-col-4 { display: none !important; }
         }
       `}</style>
 
       {/* Floating bar */}
-      <div ref={barRef} className="compare-bar fixed bottom-0 left-0 right-0 bg-white" style={{ zIndex: 102,  }}>
+      <div ref={barRef} className="compare-bar fixed bottom-0 left-0 right-0 bg-white" style={{ zIndex: 102, paddingBottom: 'env(safe-area-inset-bottom)' }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
           {/* Left slot — fixed width so counter stays centered */}
           <div style={{ width: '72px', flexShrink: 0, display: 'flex', justifyContent: 'flex-end' }}>
@@ -186,7 +187,6 @@ export function CompareBar() {
             onClick={closeSheet}
             style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100, touchAction: 'none' }}
             onWheel={(e) => e.preventDefault()}
-            onTouchMove={(e) => e.preventDefault()}
           />
           {/* Sheet */}
           <div

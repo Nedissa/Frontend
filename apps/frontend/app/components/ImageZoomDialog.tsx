@@ -78,7 +78,7 @@ export function ImageZoomDialog({
           if (touchStartX.current === null) return;
           const dx = e.changedTouches[0].clientX - touchStartX.current;
           touchStartX.current = null;
-          if (Math.abs(dx) < 30) return;
+          if (Math.abs(dx) < 50) return;
           if (dx < 0) setCurrentIndex((prev) => (prev + 1) % images.length);
           else setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
         }}

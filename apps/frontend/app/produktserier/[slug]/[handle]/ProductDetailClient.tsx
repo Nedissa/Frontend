@@ -563,10 +563,15 @@ export default function ProductDetailClient({
                 <div key={name} className="relative group/swatch">
                   <button
                     onClick={() => setSelectedColor(name)}
-                    className="w-8 h-3 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: hex, outline: selectedColor === name ? '1px solid #999999' : 'none', outlineOffset: '2px', boxShadow: hex === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
+                    className="w-11 h-11 flex items-center justify-center flex-shrink-0"
+                    style={{ background: 'none', border: 'none', padding: 0 }}
                     aria-label={`Välj färg ${name}`}
-                  />
+                  >
+                    <span
+                      className="w-7 h-7 rounded-full block"
+                      style={{ backgroundColor: hex, outline: selectedColor === name ? '2px solid #999999' : 'none', outlineOffset: '2px', boxShadow: hex === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
+                    />
+                  </button>
                   <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-0 px-2 py-0.5 bg-black text-white text-[10px] font-medium whitespace-nowrap opacity-0 group-hover/swatch:opacity-100 transition-opacity pointer-events-none z-50">
                     {name}
                     <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-black" />

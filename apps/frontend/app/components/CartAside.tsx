@@ -277,10 +277,10 @@ export function CartAside() {
                             <svg className="w-2 h-2 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" /></svg>
                             <span className="text-xs text-gray-500 whitespace-nowrap">I lager</span>
                           </div>
-                          <div className="flex items-center gap-1 ml-16 sm:ml-28">
-                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="text-gray-700 disabled:text-gray-300 font-bold w-6 h-6 flex items-center justify-center text-lg">−</button>
+                          <div className="flex items-center ml-16 sm:ml-28">
+                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="text-gray-700 disabled:text-gray-300 font-bold w-11 h-11 flex items-center justify-center text-lg">−</button>
                             <span className="text-sm font-semibold tabular-nums w-5 text-center">{item.quantity}</span>
-                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="text-gray-700 font-bold w-6 h-6 flex items-center justify-center text-lg">+</button>
+                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="text-gray-700 font-bold w-11 h-11 flex items-center justify-center text-lg">+</button>
                           </div>
                         </div>
                       </div>
@@ -290,7 +290,7 @@ export function CartAside() {
                         <span className="text-sm font-bold text-gray-900 tabular-nums whitespace-nowrap">
                           {(item.price * item.quantity).toLocaleString('sv-SE')} kr
                         </span>
-                        <button onClick={() => handleRemoveItem(item.id)} className="w-7 h-7 flex items-center justify-center text-black hover:text-red-500 transition-colors">
+                        <button onClick={() => handleRemoveItem(item.id)} className="w-11 h-11 flex items-center justify-center text-black hover:text-red-500 transition-colors" style={{ marginRight: '-8px' }}>
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" />
                           </svg>
@@ -338,10 +338,8 @@ export function CartAside() {
                 >
                   Fortsätt handla
                 </button>
-                <Link href="/kassa" className="flex-1" onClick={close}>
-                  <button className="w-full bg-green-600 text-white py-3 text-sm font-semibold hover:bg-green-700 flex items-center justify-center gap-2">
-                    Till kassan
-                  </button>
+                <Link href="/kassa" onClick={close} className="flex-1 bg-green-600 text-white py-3 text-sm font-semibold hover:bg-green-700 flex items-center justify-center gap-2">
+                  Till kassan
                 </Link>
               </div>
 

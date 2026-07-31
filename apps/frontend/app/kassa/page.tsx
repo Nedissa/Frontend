@@ -553,7 +553,7 @@ function CheckoutContent() {
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-900 mb-1">Telefonnummer</label>
-                        <InputWithCheck type="tel" name="phone" placeholder="" value={formData.phone} onChange={handleInputChange} required style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
+                        <InputWithCheck type="tel" name="phone" placeholder="" value={formData.phone} onChange={handleInputChange} required autoComplete="tel" inputMode="tel" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
                       </div>
                     </div>
 
@@ -565,7 +565,7 @@ function CheckoutContent() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-900 mb-1">Postnummer</label>
-                        <InputWithCheck type="text" name="postalCode" placeholder="" value={formData.postalCode} onChange={handleInputChange} required style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
+                        <InputWithCheck type="text" name="postalCode" placeholder="" value={formData.postalCode} onChange={handleInputChange} required inputMode="numeric" autoComplete="postal-code" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-900 mb-1">Stad</label>

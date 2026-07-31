@@ -378,7 +378,24 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   const [isLoggedIn, setIsLoggedIn] = useState(initialIsLoggedIn);
   const [isHydrated, setIsHydrated] = useState(false);
   const [searchProducts, setSearchProducts] = useState<SearchProduct[]>([]);
+  const searchFetchedRef = useRef(false);
   const lastScrollY = useRef(0);
+
+  const fetchProductsForSearch = async () => {
+    if (searchFetchedRef.current) return;
+    searchFetchedRef.current = true;
+    try {
+      const response = await fetch('/api/products');
+      if (response.ok) {
+        const data = await response.json();
+        const products = data.products || [];
+        setSearchProducts(products.map((p: any) => ({
+          id: p.id, title: p.title, handle: p.handle, image: p.image,
+          category: p.category, price: p.price, rating: p.rating || 0, reviews: p.reviews || 0,
+        })));
+      }
+    } catch {}
+  };
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const mobileSearchContainerRef = useRef<HTMLDivElement>(null);
@@ -521,31 +538,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
     window.addEventListener('cartCleared', handleCartUpdated);
     window.addEventListener('storage', handleStorageChange);
 
-    // Fetch products from API for search
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('/api/products');
-        if (response.ok) {
-          const data = await response.json();
-          const products = data.products || [];
-          const formattedProducts: SearchProduct[] = products.map((p: any) => ({
-            id: p.id,
-            title: p.title,
-            handle: p.handle,
-            image: p.image,
-            category: p.category,
-            price: p.price,
-            rating: p.rating || 0,
-            reviews: p.reviews || 0,
-          }));
-          setSearchProducts(formattedProducts);
-        }
-      } catch (error) {
-        console.error('Error fetching products for search:', error);
-      }
-    };
-
-    fetchProducts();
+    // Fetch products lazily on search focus (see fetchProductsForSearch)
 
     // Listen for login event
     window.addEventListener('userLogin', handleLogin);
@@ -713,7 +706,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   return (
     <header suppressHydrationWarning className={`fixed top-0 left-0 right-0 w-full bg-white z-40 transition-transform duration-300 ease-in-out ${
       isHeaderVisible && !mobileMenuOpen ? 'translate-y-0' : mobileMenuOpen ? 'translate-y-0' : '-translate-y-full'
-    }`}>
+    }`} style={{ paddingTop: 'env(safe-area-inset-top)' }}>
 
       {/* ── MOBILE HEADER ── */}
       <div className="md:hidden" ref={mobileHeaderRef}>
@@ -774,11 +767,16 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
             <input
               ref={mobileSearchInputRef}
               type="text"
+              inputMode="search"
+              enterKeyHint="search"
+              autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="none"
               placeholder="Sök efter produkt..."
               className="flex-1 bg-transparent text-sm text-black placeholder-gray-400 focus:outline-none"
               value={searchTerm}
               onChange={(e) => { setSearchTerm(e.target.value); if (e.target.value.length > 0) setShowSearchResults(true); }}
-              onFocus={() => searchTerm.length > 0 && setShowSearchResults(true)}
+              onFocus={() => { fetchProductsForSearch(); if (searchTerm.length > 0) setShowSearchResults(true); }}
             />
           </div>
           {searchTerm.length > 0 && showSearchResults && (
@@ -860,6 +858,11 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
               <div className="flex items-center flex-1 px-3">
                 <input
                   type="text"
+                  inputMode="search"
+                  enterKeyHint="search"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="none"
                   placeholder="Sök efter produkt, kategori eller artikel"
                   className="flex-1 bg-transparent text-sm placeholder-gray-400 focus:outline-none py-2"
                   value={searchTerm}
@@ -867,7 +870,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                     setSearchTerm(e.target.value);
                     if (e.target.value.length > 0) setShowSearchResults(true);
                   }}
-                  onFocus={() => searchTerm.length > 0 && setShowSearchResults(true)}
+                  onFocus={() => { fetchProductsForSearch(); if (searchTerm.length > 0) setShowSearchResults(true); }}
                 />
               </div>
               <button id="header-search-btn" className="flex items-center justify-center w-10 h-10 flex-shrink-0" style={{ backgroundColor: '#1a3a6e' }}>
@@ -1030,7 +1033,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
               <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Huvudkategorier</p>
               <button
                 onClick={() => { setMobileMenuOpen(false); setMobileActiveLevel(0); setMobileExpandedCategory(null); setMobileActiveSubCategory(new Set()); }}
-                className="w-9 h-9 flex items-center justify-center text-gray-500 hover:text-black"
+                className="w-11 h-11 flex items-center justify-center text-gray-500 hover:text-black"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -1121,7 +1124,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   <div className="flex items-center gap-3 px-5 pt-5 pb-3 border-b border-gray-100">
                     <button
                       onClick={() => { setMobileActiveLevel(0); setMobileActiveSubCategory(new Set()); }}
-                      className="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 active:bg-gray-200"
+                      className="flex-shrink-0 w-11 h-11 flex items-center justify-center rounded-full bg-gray-100 active:bg-gray-200"
                     >
                       <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
                         <path d="M15 18l-6-6 6-6" />
@@ -1193,7 +1196,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                             <Link
                               key={item.id}
                               href={item.url}
-                              className="flex items-center justify-between pl-16 pr-5 py-3 border-t border-gray-100 active:bg-gray-50"
+                              className="flex items-center justify-between pl-16 pr-5 min-h-[44px] py-2 border-t border-gray-100 active:bg-gray-50"
                               onClick={() => setMobileMenuOpen(false)}
                             >
                               <span className="text-sm text-gray-700">{item.title}</span>
