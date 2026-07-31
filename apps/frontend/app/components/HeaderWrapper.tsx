@@ -740,7 +740,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                 <svg className="w-5 h-5" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/>
                 </svg>
-                <span style={{ fontSize: '10px', color: '#111', fontWeight: 600 }}>Konto</span>
+                <span style={{ fontSize: '10px', color: '#111', fontWeight: 600 }}>Mina sidor</span>
               </Link>
             ) : (
               <button onClick={() => open('login')} className="inline-flex flex-col items-center gap-1 p-2 -m-2">

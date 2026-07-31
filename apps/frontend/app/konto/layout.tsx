@@ -21,7 +21,7 @@ async function fetchKontoData(token: string): Promise<KontoData | null> {
   // Fetch customer + orders in parallel
   const [meRes, ordersRes] = await Promise.allSettled([
     fetch(`${MEDUSA_URL}/store/customers/me?fields=+metadata`, { headers: storeHeaders }),
-    fetch(`${MEDUSA_URL}/store/orders?limit=5`, { headers: storeHeaders }),
+    fetch(`${MEDUSA_URL}/store/orders?limit=5&fields=*items,*items.variant,*items.variant.product,*items.variant.product.images,*shipping_methods,*payment_collections,*payment_collections.payments`, { headers: storeHeaders }),
   ]);
 
   if (meRes.status !== 'fulfilled' || !meRes.value.ok) return null;

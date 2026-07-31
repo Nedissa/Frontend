@@ -64,6 +64,7 @@ export default function AccountPage() {
   const [loyalty, setLoyalty] = useState<any>(kontoData?.loyalty || null);
   const [orders, setOrders] = useState<any[]>(kontoData?.orders || []);
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
+  const [orderSearch, setOrderSearch] = useState('');
   const [loadingComplaintsError, setLoadingComplaintsError] = useState('');
   const [loadingLoyaltyError, setLoadingLoyaltyError] = useState('');
   const [loadingOrdersError, setLoadingOrdersError] = useState('');
@@ -325,13 +326,16 @@ export default function AccountPage() {
       <div className="w-full max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-16">
         {/* Welcome Section */}
         {/* Mobil */}
-        <div className="md:hidden p-4 mb-6 shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
+        <div className="hidden p-4 mb-6 shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
           <h2 className="text-xl font-bold mb-1 select-none">Välkommen, {firstName && lastName ? firstName : firstName || registerEmail?.split('@')[0] || 'Johan'}!</h2>
           <p className="text-sm text-gray-600 mb-3">Hantera ditt konto och se dina beställningar</p>
-          <button onClick={handleLogout} className="text-red-600 hover:text-red-800 font-semibold text-sm">Logga ut</button>
+          <button onClick={handleLogout} className="inline-flex items-center gap-2 text-red-600 hover:text-red-800 font-semibold text-sm">
+            <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+            Logga ut
+          </button>
         </div>
         {/* Desktop */}
-        <div className="hidden md:flex mb-8 overflow-hidden" style={{ background: '#000', minHeight: '200px', alignItems: 'stretch', position: 'relative' }}>
+        <div className="flex mb-8 overflow-hidden" style={{ background: '#000', minHeight: '200px', alignItems: 'stretch', position: 'relative' }}>
           <div className="flex flex-col justify-center px-10 py-6" style={{ flex: 1, zIndex: 1 }}>
             <h2 className="text-2xl font-bold mb-2 select-none text-white">Välkommen, {firstName && lastName ? firstName : firstName || registerEmail?.split('@')[0] || 'Johan'}!</h2>
             <p className="text-sm mb-3" style={{ color: 'rgba(255,255,255,0.55)' }}>Hantera ditt konto och se dina beställningar</p>
@@ -350,7 +354,7 @@ export default function AccountPage() {
           </div>
           {/* Robot i mitten */}
           <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }} className="hidden sm:block">
-            <img src="/assets/medlem-banner.png" alt="" style={{ position: 'absolute', bottom: '-10px', left: '50%', transform: 'translateX(-50%)', height: '115%', width: 'auto', objectFit: 'contain', mixBlendMode: 'lighten' }} />
+            <img src="/assets/medlem-banner.png" alt="" style={{ position: 'absolute', bottom: '0', top: 'auto', left: '50%', transform: 'translateX(-50%) scale(1.4)', transformOrigin: 'bottom center', mixBlendMode: 'lighten' }} />
           </div>
           {/* Poäng + progress höger */}
           <div className="hidden sm:flex flex-col justify-center px-10" style={{ flex: 1, alignItems: 'flex-end' }}>
@@ -541,10 +545,13 @@ export default function AccountPage() {
             <div style={{ display: 'grid', gridTemplateRows: activeTab === 'orderhistorik' ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1)', borderTop: '1px solid #e5e7eb' }}>
               <div style={{ overflow: 'hidden' }} className={activeTab === 'orderhistorik' ? 'accordion-content-enter' : ''}>
               <div className="p-4">
-                <h3 className="text-lg font-bold mb-4">Orderhistorik</h3>
                 {orders.length > 0 ? (
                   <div className="space-y-3">
-                    {orders.map((order) => {
+                    {orders.filter(o =>
+                      orderSearch === '' ||
+                      o.items?.some((i: any) => i.title?.toLowerCase().includes(orderSearch.toLowerCase())) ||
+                      `TP-${String(o.display_id).padStart(5, '0')}`.toLowerCase().includes(orderSearch.toLowerCase())
+                    ).map((order) => {
                       const statusInfo = getOrderStatusInfo(order);
                       const isExpanded = expandedOrder === order.id;
                       const trackingNumber = getOrderTrackingNumber(order);
@@ -553,60 +560,73 @@ export default function AccountPage() {
                         <div key={order.id} className="border border-gray-200 overflow-hidden">
                           <button
                             onClick={() => setExpandedOrder(isExpanded ? null : order.id)}
-                            className="w-full px-3 py-3 flex justify-between items-center text-left"
+                            className="w-full px-4 py-3 flex justify-between items-center text-left hover:bg-gray-50"
                           >
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <p className="font-semibold text-sm">#{order.display_id}</p>
-                                <span className={`px-2 py-0.5 rounded-full text-xs font-semibold ${statusInfo.bg} ${statusInfo.text}`}>{statusInfo.label}</span>
-                              </div>
-                              <p className="text-xs text-gray-600 mt-1">{new Date(order.created_at).toLocaleDateString('sv-SE')} • {order.total.toLocaleString('sv-SE')} kr</p>
+                            <div className="text-left flex-1">
+                              <p className="font-bold text-sm">{new Date(order.created_at).toLocaleDateString('sv-SE')}</p>
+                              <p className="text-xs text-gray-500 mt-0.5">
+                                {order.items?.[0]?.title}
+                                {(order.items?.length || 0) > 1 && ` (+ ${order.items.length - 1} art)`}
+                              </p>
                             </div>
-                            <svg className={`w-4 h-4 text-gray-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            <div className="flex items-center gap-3">
+                              <span className="text-xs text-gray-500">{order.items?.length || 0} artikel{(order.items?.length || 0) !== 1 ? 'ar' : ''}</span>
+                              <svg className={`w-4 h-4 text-gray-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </div>
                           </button>
 
-                          {isExpanded && (
-                            <div className="px-3 py-4 border-t border-gray-200 text-sm">
-                              <p className="text-xs text-gray-600 mb-1">Spårningsnummer</p>
-                              <p className="font-semibold mb-3">{trackingNumber || 'Ej tillgängligt'}</p>
-
-                              {order.shipping_address && (
-                                <div className="mb-3 pb-3 border-b">
-                                  <p className="font-semibold mb-1 text-xs text-gray-600">Leveransadress</p>
-                                  <p className="text-gray-700">{order.shipping_address.first_name} {order.shipping_address.last_name}</p>
-                                  <p className="text-gray-700">{order.shipping_address.address_1}</p>
-                                  <p className="text-gray-700">{order.shipping_address.postal_code} {order.shipping_address.city}</p>
-                                </div>
-                              )}
-
-                              <div className="mb-3 space-y-2">
-                                {order.items?.map((item: any) => (
-                                  <div key={item.id} className="flex justify-between items-center">
-                                    <div className="flex items-center gap-2">
-                                      {item.thumbnail && <img src={item.thumbnail} alt={item.title} className="w-10 h-10 object-cover rounded" />}
-                                      <div>
-                                        <p className="text-xs">{item.title}</p>
-                                        <p className="text-xs text-gray-500">Antal: {item.quantity}</p>
-                                      </div>
+                          <div style={{ display: 'grid', gridTemplateRows: isExpanded ? '1fr' : '0fr', transition: 'grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                            <div style={{ overflow: 'hidden' }}>
+                              <div style={{ borderTop: '1px solid #e5e7eb' }}>
+                                {/* Metadata */}
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: '1px solid #e5e7eb' }}>
+                                  {[
+                                    { label: 'Ordernummer', value: `TP-${String(order.display_id).padStart(5, '0')}` },
+                                    { label: 'Datum', value: new Date(order.created_at).toLocaleDateString('sv-SE') },
+                                    { label: 'Status', value: statusInfo.label },
+                                    { label: 'Spårningsnummer', value: trackingNumber || '—' },
+                                  ].map(({ label, value }) => (
+                                    <div key={label} style={{ padding: '12px 16px', borderBottom: '1px solid #f3f4f6' }}>
+                                      <p style={{ fontSize: '0.65rem', fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 2 }}>{label}</p>
+                                      <p style={{ fontSize: '0.8rem', fontWeight: 600 }}>{value}</p>
                                     </div>
-                                    <span className="text-xs font-semibold">{(item.unit_price * item.quantity).toLocaleString('sv-SE')} kr</span>
-                                  </div>
-                                ))}
-                                <div className="flex justify-between font-bold pt-2 border-t">
-                                  <span>Totalt</span>
-                                  <span>{order.total.toLocaleString('sv-SE')} kr</span>
+                                  ))}
                                 </div>
-                              </div>
 
-                              <div className="flex gap-2">
-                                {trackingNumber ? (
-                                  <a href={`https://www.postnord.se/vara-verktyg/spara-brev-paket-och-pall?shipmentId=${trackingNumber}`} target="_blank" rel="noopener noreferrer" className="flex-1 px-3 py-2 bg-black text-white text-xs font-semibold text-center">Spåra paket</a>
-                                ) : (
-                                  <button disabled className="flex-1 px-3 py-2 border-2 border-gray-300 text-gray-400 text-xs font-semibold cursor-not-allowed">Spåra paket</button>
-                                )}
+                                {/* Produkter */}
+                                <div style={{ padding: '12px 16px' }}>
+                                  {order.items?.map((item: any, idx: number) => {
+                                    const img = item.thumbnail || item.variant?.product?.thumbnail || item.variant?.product?.images?.[0]?.url;
+                                    return (
+                                      <div key={item.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 12, marginBottom: idx < (order.items?.length - 1) ? 12 : 0, borderBottom: idx < (order.items?.length - 1) ? '1px solid #f3f4f6' : 'none' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                                          {img && <img src={img} alt={item.title} style={{ width: 48, height: 48, objectFit: 'contain', borderRadius: 4, flexShrink: 0 }} />}
+                                          <div>
+                                            <p style={{ fontSize: '0.8rem', fontWeight: 600 }}>{item.title}</p>
+                                            <p style={{ fontSize: '0.7rem', color: '#6b7280', marginTop: 2 }}>Antal: {item.quantity}</p>
+                                          </div>
+                                        </div>
+                                        <p style={{ fontSize: '0.8rem', fontWeight: 700 }}>{(item.unit_price * item.quantity).toLocaleString('sv-SE')} kr</p>
+                                      </div>
+                                    );
+                                  })}
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', paddingTop: 12, borderTop: '1px solid #e5e7eb', marginTop: 4 }}>
+                                    <span style={{ fontSize: '0.8rem', fontWeight: 700 }}>Totalt</span>
+                                    <span style={{ fontSize: '0.875rem', fontWeight: 800 }}>{order.total.toLocaleString('sv-SE')} kr</span>
+                                  </div>
+                                </div>
+
+                                {/* Spåra-knapp */}
+                                <div style={{ padding: '0 16px 16px' }}>
+                                  {trackingNumber ? (
+                                    <a href={`https://www.postnord.se/vara-verktyg/spara-brev-paket-och-pall?shipmentId=${trackingNumber}`} target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', padding: '10px', background: '#000', color: '#fff', fontWeight: 600, fontSize: '0.8rem', textAlign: 'center' }}>Spåra paket</a>
+                                  ) : (
+                                    <button disabled style={{ display: 'block', width: '100%', padding: '10px', border: '1px solid #e5e7eb', color: '#9ca3af', fontWeight: 600, fontSize: '0.8rem', cursor: 'not-allowed', background: 'none' }}>Spåra paket</button>
+                                  )}
+                                </div>
                               </div>
                             </div>
-                          )}
+                          </div>
                         </div>
                       );
                     })}
@@ -636,19 +656,30 @@ export default function AccountPage() {
             <div style={{ display: 'grid', gridTemplateRows: activeTab === 'favoriter' ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1)', borderTop: '1px solid #e5e7eb' }}>
               <div style={{ overflow: 'hidden' }} className={activeTab === 'favoriter' ? 'accordion-content-enter' : ''}>
               <div className="p-4">
-                <h3 className="text-lg font-bold mb-4">Favoriter</h3>
                 {favoriteProducts.length > 0 ? (
-                  <div className="space-y-3">
-                    {favoriteProducts.map((product) => (
-                      <div key={product.id} className="flex items-center gap-3 pb-3 border-b last:border-b-0">
-                        <img src={product.image} alt={product.title} className="w-16 h-16 object-contain" />
-                        <div className="flex-1 min-w-0">
-                          <p className="text-sm font-semibold truncate">{product.title}</p>
-                          <p className="text-sm font-bold mt-1">{product.price.toLocaleString('sv-SE')} kr</p>
+                  <>
+                    <p className="text-sm text-gray-500 mb-3">{favoriteProducts.length} sparade favoriter</p>
+                    {favoriteProducts.map((product, idx) => (
+                      <div key={product.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', borderTop: idx === 0 ? '1px solid #e5e7eb' : 'none', borderBottom: '1px solid #e5e7eb' }}>
+                        <img src={product.image} alt={product.title} style={{ width: 64, height: 64, objectFit: 'contain', flexShrink: 0 }} />
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <Link href={`/produkter/${product.handle}`} className="text-sm font-semibold hover:underline line-clamp-1">{product.title}</Link>
+                          <p style={{ fontSize: '0.875rem', fontWeight: 700, marginTop: 2 }}>{product.price.toLocaleString('sv-SE')} kr</p>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+                          <button onClick={() => window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, variantId: product.variantId, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity: 1, image: product.image } }))} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#111' }}>
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                          </button>
+                          <button onClick={async () => { const updated = favoriteProducts.filter(p => p.id !== product.id); await fetch('/api/favorites', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ wishlist: updated }) }); setFavoriteProducts(updated); }} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.7rem', fontWeight: 600, color: '#9ca3af' }}>Ta bort</button>
                         </div>
                       </div>
                     ))}
-                  </div>
+                    <div style={{ marginTop: 12 }}>
+                      <button onClick={() => favoriteProducts.forEach(product => window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, variantId: product.variantId, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity: 1, image: product.image } })))} style={{ background: '#000', color: '#fff', border: 'none', padding: '8px 20px', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer' }}>
+                        Lägg alla i kundvagnen
+                      </button>
+                    </div>
+                  </>
                 ) : (
                   <p className="text-sm text-gray-700">Du har inga sparade favoriter än</p>
                 )}
@@ -674,11 +705,70 @@ export default function AccountPage() {
             <div style={{ display: 'grid', gridTemplateRows: activeTab === 'kundklubb' ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1)', borderTop: '1px solid #e5e7eb' }}>
               <div style={{ overflow: 'hidden' }} className={activeTab === 'kundklubb' ? 'accordion-content-enter' : ''}>
               <div className="p-4">
-                <h3 className="text-lg font-bold mb-2">Kundklubb</h3>
-                <p className="text-sm text-gray-600 mb-4">Som medlem i Techpilots kundklubb får du tillgång till exklusiva priser och förmåner.</p>
-                {loyalty && loyalty.total_points !== undefined ? (
-                  <p className="text-sm font-semibold">Du har {loyalty.total_points} poäng</p>
-                ) : (
+                {loyalty && loyalty.total_points !== undefined ? (() => {
+                  const points = loyalty.total_points;
+                  const tiers = [
+                    { name: 'Brons', threshold: 0, color: '#cd7f32', glow: 'rgba(205,127,50,0.3)', bg: 'rgba(205,127,50,0.08)', benefits: ['Fri frakt', '30 dagars öppet köp', 'Erbjudanden'] },
+                    { name: 'Silver', threshold: 500, color: '#a0a0a0', glow: 'rgba(160,160,160,0.3)', bg: 'rgba(160,160,160,0.08)', benefits: ['Fri frakt', '30 dagars öppet köp', 'Erbjudanden', '5% på fyndvaror'] },
+                    { name: 'Guld', threshold: 1500, color: '#d4a017', glow: 'rgba(212,160,23,0.3)', bg: 'rgba(212,160,23,0.08)', benefits: ['Fri frakt', '30 dagars öppet köp', 'Erbjudanden', '10% på fyndvaror'] },
+                    { name: 'Platinum', threshold: 3000, color: '#8b9eb0', glow: 'rgba(139,158,176,0.3)', bg: 'rgba(139,158,176,0.08)', benefits: ['Fri frakt', '30 dagars öppet köp', 'Erbjudanden', '15% på fyndvaror', 'Fri hemleverans', 'Prioriterad service'] },
+                  ];
+                  const benefitIcons: Record<string, JSX.Element> = {
+                    'Fri frakt': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 17H5a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v3m0 0h2l3 4v3h-5m0 0a2 2 0 11-4 0m4 0a2 2 0 10-4 0"/></svg>,
+                    '30 dagars öppet köp': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4h16v2H4zM4 8l1 12h14l1-12H4zm5 4v4m6-4v4"/></svg>,
+                    'Erbjudanden': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M17 17h.01M3 12l9-9 9 9-9 9-9-9zm7-2a1 1 0 100 2 1 1 0 000-2z"/></svg>,
+                    '5% på fyndvaror': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 14l6-6M9.5 9.5h.01M14.5 14.5h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>,
+                    '10% på fyndvaror': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 14l6-6M9.5 9.5h.01M14.5 14.5h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>,
+                    '15% på fyndvaror': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 14l6-6M9.5 9.5h.01M14.5 14.5h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>,
+                    'Fri hemleverans': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9"/></svg>,
+                    'Prioriterad service': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M18.364 5.636A9 9 0 105.636 18.364 9 9 0 0018.364 5.636zM12 8v4l3 3"/></svg>,
+                  };
+                  const currentTierObj = [...tiers].reverse().find(t => points >= t.threshold)!;
+                  const nextTierObj = tiers[tiers.indexOf(currentTierObj) + 1];
+                  const progressPct = nextTierObj ? Math.min(100, Math.round(((points - currentTierObj.threshold) / (nextTierObj.threshold - currentTierObj.threshold)) * 100)) : 100;
+                  return (
+                    <>
+                      {/* Progress */}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 20 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                          <span style={{ color: currentTierObj.color, fontSize: '0.7rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{currentTierObj.name}</span>
+                          {nextTierObj && <span style={{ color: '#9ca3af', fontSize: '0.65rem' }}>{nextTierObj.name} om {nextTierObj.threshold - points} p</span>}
+                        </div>
+                        <div style={{ height: 4, background: '#f3f4f6', borderRadius: 999 }}>
+                          <div style={{ height: '100%', width: `${progressPct}%`, background: currentTierObj.color, borderRadius: 999 }} />
+                        </div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={{ fontSize: '1.5rem', fontWeight: 900 }}>{points}</span>
+                          <span style={{ fontSize: '0.7rem', color: '#9ca3af' }}>poäng</span>
+                        </div>
+                      </div>
+                      {/* Nivåkort — 2 kolumner på mobil */}
+                      <p style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#999', marginBottom: 12 }}>Nivåer & förmåner</p>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                        {tiers.map(tier => {
+                          const isCurrent = tier.name === currentTierObj.name;
+                          return (
+                            <div key={tier.name} style={{ border: `1px solid ${isCurrent ? tier.color : '#e5e7eb'}`, background: isCurrent ? tier.bg : '#fff', padding: 12, boxShadow: isCurrent ? `0 0 12px ${tier.glow}` : 'none' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 2 }}>
+                                <span style={{ fontWeight: 800, fontSize: '0.8rem', color: isCurrent ? tier.color : '#111' }}>{tier.name}</span>
+                                {isCurrent && <span style={{ fontSize: '0.55rem', fontWeight: 700, background: tier.color, color: '#fff', padding: '2px 6px', borderRadius: 999 }}>DIN NIVÅ</span>}
+                              </div>
+                              <p style={{ fontSize: '0.65rem', color: '#bbb', marginBottom: 10 }}>{tier.threshold === 0 ? '0' : tier.threshold.toLocaleString('sv-SE')} p</p>
+                              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                                {tier.benefits.map((b, i) => (
+                                  <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.75rem', color: '#555' }}>
+                                    <span style={{ color: isCurrent ? tier.color : '#999', flexShrink: 0 }}>{benefitIcons[b] ?? <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>}</span>
+                                    {b}
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </>
+                  );
+                })() : (
                   <p className="text-sm text-gray-700">Din kundklubbinformation är inte tillgänglig just nu.</p>
                 )}
               </div>
@@ -703,48 +793,38 @@ export default function AccountPage() {
             <div style={{ display: 'grid', gridTemplateRows: activeTab === 'felanmalan' ? '1fr' : '0fr', transition: 'grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1)', borderTop: '1px solid #e5e7eb' }}>
               <div style={{ overflow: 'hidden' }} className={activeTab === 'felanmalan' ? 'accordion-content-enter' : ''}>
               <div className="p-4">
-                <h3 className="text-lg font-bold mb-4">Reklamation</h3>
                 {complaints.length > 0 ? (
                   <div className="space-y-3">
-                    <p className="text-sm text-gray-700">Du har {complaints.length} {complaints.length === 1 ? 'reklamation' : 'reklamationer'}</p>
+                    <p className="text-sm text-gray-500 mb-2">Du har {complaints.length} {complaints.length === 1 ? 'reklamation' : 'reklamationer'}</p>
                     {complaints.map((complaint) => (
-                      <div key={complaint.id} className="p-3" style={{ border: '1px solid #e5e7eb' }}>
+                      <div key={complaint.id} className="p-4" style={{ border: '1px solid #e5e7eb' }}>
                         <p className="font-semibold text-sm">Ordernummer {complaint.order_number || complaint.order_id}</p>
-                        <p className="text-xs text-gray-400 mt-0.5">{new Date(complaint.created_at).toLocaleDateString('sv-SE')}</p>
-                        <p className="text-xs text-gray-600 mt-1"><span className="font-semibold">Beskrivning:</span> {complaint.description}</p>
-                        <span style={{ display: 'inline-block', marginTop: '4px', background: complaint.status === 'resolved' ? '#000' : '#eff6ff', color: complaint.status === 'resolved' ? '#fff' : '#1d4ed8', fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', padding: '4px 10px', borderRadius: '999px' }}>{complaint.status === 'open' ? 'Pågående' : complaint.status === 'resolved' ? 'Löst' : 'Stängd'}</span>
-                        {complaint.status === 'resolved' && (
-                          <p className="text-xs text-gray-500 mt-1">Ärendet är avslutat. Har du fler frågor?<br />Kontakta oss på support@techpilots.se</p>
-                        )}
+                        <p className="text-xs text-gray-400 mt-1">{new Date(complaint.created_at).toLocaleDateString('sv-SE')}</p>
+                        <div className="border-t border-gray-100 my-3" />
+                        <p className="text-sm text-gray-600"><span className="font-semibold">Beskrivning:</span> {complaint.description}</p>
+                        <div className="border-t border-gray-100 my-3" />
+                        <span style={{ display: 'inline-block', background: complaint.status === 'resolved' ? '#000' : '#eff6ff', color: complaint.status === 'resolved' ? '#fff' : '#1d4ed8', fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', padding: '5px 14px', borderRadius: '999px' }}>{complaint.status === 'open' ? 'Pågående' : complaint.status === 'resolved' ? 'Löst' : 'Stängd'}</span>
+                        {complaint.status === 'resolved' && <p className="text-xs text-gray-500 mt-3">Ärendet är avslutat. Har du fler frågor?<br />Kontakta oss på support@techpilots.se</p>}
                       </div>
                     ))}
-                    <div className="pt-1">
-                      {!showComplaintForm ? (
-                        <button onClick={() => setShowComplaintForm(true)} className="w-full py-2 bg-black text-white font-semibold text-sm">Starta en reklamation</button>
-                      ) : (
-                        <div className="space-y-3">
-                          <div><label className="block text-sm font-semibold mb-1">Ordernummer</label><input type="text" value={complaintOrderId} onChange={(e) => setComplaintOrderId(e.target.value)} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
-                          <div><label className="block text-sm font-semibold mb-1">Beskriv felet</label><textarea value={complaintDescription} onChange={(e) => setComplaintDescription(e.target.value)} rows={3} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
-                          <div className="flex gap-2">
-                            <button onClick={handleAddComplaint} className="flex-1 py-2 bg-black text-white font-semibold text-sm">Skicka</button>
-                            <button onClick={() => { setShowComplaintForm(false); setComplaintOrderId(''); setComplaintDescription(''); }} className="flex-1 py-2 border border-gray-300 text-gray-700 font-semibold text-sm">Avbryt</button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
                   </div>
                 ) : (
-                  <div className="space-y-3 text-sm text-gray-700">
-                    <p>Du har ingen aktiv reklamation</p>
-                    {showComplaintForm && (
-                      <div className="space-y-3">
-                        <div><label className="block text-sm font-semibold mb-1">Ordernummer</label><input type="text" value={complaintOrderId} onChange={(e) => setComplaintOrderId(e.target.value)}  className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
-                        <div><label className="block text-sm font-semibold mb-1">Beskriv felet</label><textarea value={complaintDescription} onChange={(e) => setComplaintDescription(e.target.value)}  rows={3} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
-                        <button onClick={handleAddComplaint} className="w-full py-2 bg-black text-white font-semibold">Ny reklamation</button>
-                      </div>
-                    )}
-                  </div>
+                  <p className="text-sm text-gray-500">Du har ingen aktiv reklamation</p>
                 )}
+                <div className="mt-4">
+                  {!showComplaintForm ? (
+                    <button onClick={() => setShowComplaintForm(true)} className="w-full py-2 bg-black text-white font-semibold text-sm">Ny reklamation</button>
+                  ) : (
+                    <div className="space-y-3">
+                      <div><label className="block text-sm font-semibold mb-1">Ordernummer</label><input type="text" value={complaintOrderId} onChange={(e) => setComplaintOrderId(e.target.value)} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                      <div><label className="block text-sm font-semibold mb-1">Beskriv felet</label><textarea value={complaintDescription} onChange={(e) => setComplaintDescription(e.target.value)} rows={3} className="w-full px-3 py-2 focus:outline-none" style={{ border: '1px solid #e5e7eb' }} /></div>
+                      <div className="flex gap-2">
+                        <button onClick={handleAddComplaint} className="flex-1 py-2 bg-black text-white font-semibold text-sm">Skicka</button>
+                        <button onClick={() => { setShowComplaintForm(false); setComplaintOrderId(''); setComplaintDescription(''); }} className="flex-1 py-2 border border-gray-300 text-gray-700 font-semibold text-sm">Avbryt</button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
               </div>
             </div>
@@ -918,8 +998,23 @@ export default function AccountPage() {
           )}
           {orders.length > 0 ? (
             <div className="space-y-4">
-              <p className="text-gray-600">Du har {orders.length} beställning{orders.length !== 1 ? 'ar' : ''}</p>
-              {orders.map((order) => {
+              <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #e5e7eb', marginBottom: 16 }}>
+                <input
+                  type="text"
+                  placeholder="Sök på produktnamn eller ordernummer"
+                  value={orderSearch}
+                  onChange={e => setOrderSearch(e.target.value)}
+                  style={{ flex: 1, padding: '10px 14px', fontSize: '0.875rem', border: 'none', outline: 'none' }}
+                />
+                <div style={{ padding: '10px 14px', background: '#f3f4f6', borderLeft: '1px solid #e5e7eb' }}>
+                  <svg width="16" height="16" fill="none" stroke="#6b7280" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </div>
+              </div>
+              {orders.filter(o =>
+                orderSearch === '' ||
+                o.items?.some((i: any) => i.title?.toLowerCase().includes(orderSearch.toLowerCase())) ||
+                `TP-${String(o.display_id).padStart(5, '0')}`.toLowerCase().includes(orderSearch.toLowerCase())
+              ).map((order) => {
                 const statusInfo = getOrderStatusInfo(order);
                 const isExpanded = expandedOrder === order.id;
                 const trackingNumber = getOrderTrackingNumber(order);
@@ -931,91 +1026,90 @@ export default function AccountPage() {
                       className="w-full px-6 py-4 hover:bg-gray-50 flex justify-between items-center"
                     >
                       <div className="text-left flex-1">
-                        <div className="flex items-center gap-4">
-                          <div>
-                            <p className="font-bold text-lg">#{order.display_id}</p>
-                            <p className="text-sm text-gray-600">{new Date(order.created_at).toLocaleDateString('sv-SE')}</p>
-                          </div>
-                          <div className={`px-3 py-1 rounded-full text-sm font-semibold ${statusInfo.bg} ${statusInfo.text}`}>
-                            {statusInfo.label}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-bold text-lg">{order.total.toLocaleString('sv-SE')} kr</p>
-                        <p className="text-sm text-gray-600">{order.items?.length || 0} artikel{(order.items?.length || 0) !== 1 ? 'ar' : ''}</p>
+                        <p className="font-bold text-sm">{new Date(order.created_at).toLocaleDateString('sv-SE')}</p>
+                        <p className="text-sm mt-0.5 text-gray-500">
+                          {order.items?.[0]?.title}
+                          {(order.items?.length || 0) > 1 && ` (+ ${order.items.length - 1} art)`}
+                        </p>
                       </div>
                       <svg className={`ml-4 w-5 h-5 text-gray-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                     </button>
 
-                    {isExpanded && (
-                      <div className="px-6 py-6 border-t border-gray-200">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                          <div>
-                            <p className="text-sm text-gray-600 mb-1">Ordernummer</p>
-                            <p className="font-semibold">#{order.display_id}</p>
-                          </div>
-                          <div>
-                            <p className="text-sm text-gray-600 mb-1">Orderdatum</p>
-                            <p className="font-semibold">{new Date(order.created_at).toLocaleDateString('sv-SE')}</p>
-                          </div>
-                          <div>
-                            <p className="text-sm text-gray-600 mb-1">Spårningsnummer</p>
-                            <p className="font-semibold">{trackingNumber || 'Ej tillgängligt'}</p>
-                          </div>
+                    <div style={{ display: 'grid', gridTemplateRows: isExpanded ? '1fr' : '0fr', transition: 'grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+                      <div style={{ overflow: 'hidden' }}>
+                    {true && (
+                      <div style={{ borderTop: '1px solid #e5e7eb' }}>
+                        {/* Metadata-rad */}
+                        <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1fr', borderBottom: '1px solid #e5e7eb' }}>
+                          {[
+                            { label: 'Ordernummer', value: `TP-${String(order.display_id).padStart(5, '0')}` },
+                            { label: 'Datum', value: new Date(order.created_at).toLocaleDateString('sv-SE') },
+                            { label: 'Status', value: null, badge: true },
+                            { label: 'Spårningsnummer', value: trackingNumber || '—' },
+                          ].map(({ label, value, badge }) => (
+                            <div key={label} style={{ padding: '16px 24px', borderRight: '1px solid #e5e7eb' }}>
+                              <p style={{ fontSize: '0.7rem', fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>{label}</p>
+                              {badge
+                                ? <p style={{ fontSize: '0.875rem', fontWeight: 600, color: '#111' }}>{statusInfo.label}</p>
+                                : <p style={{ fontSize: '0.875rem', fontWeight: 600, color: '#111' }}>{value}</p>
+                              }
+                            </div>
+                          ))}
                         </div>
 
-                        {order.shipping_address && (
-                          <div className="mb-6 pb-6 border-b">
-                            <p className="font-semibold mb-2">Leveransadress</p>
-                            <p className="text-gray-700">{order.shipping_address.first_name} {order.shipping_address.last_name}</p>
-                            <p className="text-gray-700">{order.shipping_address.address_1}</p>
-                            <p className="text-gray-700">{order.shipping_address.postal_code} {order.shipping_address.city}</p>
-                          </div>
-                        )}
-
-                        <div className="mb-6">
-                          <p className="font-semibold mb-4">Produkter</p>
-                          <div className="space-y-3">
-                            {order.items?.map((item: any) => (
-                              <div key={item.id} className="flex justify-between items-center border-b pb-3">
-                                <div className="flex items-center gap-3">
-                                  {item.thumbnail && (
-                                    <img src={item.thumbnail} alt={item.title} className="w-12 h-12 object-cover rounded" />
-                                  )}
+                        {/* Produkter */}
+                        <div style={{ padding: '20px 24px' }}>
+                          {order.items?.map((item: any, idx: number) => {
+                            const img = item.thumbnail || item.variant?.product?.thumbnail || item.variant?.product?.images?.[0]?.url;
+                            return (
+                              <div key={item.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 16, marginBottom: idx < (order.items?.length - 1) ? 16 : 0, borderBottom: idx < (order.items?.length - 1) ? '1px solid #f3f4f6' : 'none' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                                  {img && <img src={img} alt={item.title} style={{ width: 64, height: 64, objectFit: 'contain', borderRadius: 6, flexShrink: 0 }} />}
                                   <div>
-                                    <p>{item.title}</p>
-                                    <p className="text-sm text-gray-500">Antal: {item.quantity}</p>
+                                    <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>{item.title}</p>
+                                    <p style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: 2 }}>Antal: {item.quantity}</p>
                                   </div>
                                 </div>
-                                <span className="font-semibold">{(item.unit_price * item.quantity).toLocaleString('sv-SE')} kr</span>
+                                <p style={{ fontSize: '0.875rem', fontWeight: 700 }}>{(item.unit_price * item.quantity).toLocaleString('sv-SE')} kr</p>
                               </div>
-                            ))}
-                            <div className="flex justify-between font-bold text-lg pt-2">
-                              <span>Totalt</span>
-                              <span>{order.total.toLocaleString('sv-SE')} kr</span>
-                            </div>
+                            );
+                          })}
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 16, borderTop: '1px solid #e5e7eb', marginTop: 4 }}>
+                            <span style={{ fontSize: '0.875rem', fontWeight: 700 }}>Totalt</span>
+                            <span style={{ fontSize: '1rem', fontWeight: 800 }}>{order.total.toLocaleString('sv-SE')} kr</span>
                           </div>
                         </div>
 
-                        <div className="flex gap-4">
+                        {/* Betalsätt + Leveranssätt */}
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderTop: '1px solid #e5e7eb', padding: '16px 24px', gap: 24 }}>
+                          <div>
+                            <p style={{ fontSize: '0.7rem', fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Betalsätt</p>
+                            <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>
+                              {order.payment_collections?.[0]?.payments?.[0]?.provider_id === 'pp_stripe_stripe' ? 'Kortbetalning (Stripe)' : order.payment_collections?.[0]?.payments?.[0]?.provider_id || '—'}
+                            </p>
+                          </div>
+                          <div>
+                            <p style={{ fontSize: '0.7rem', fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Leveranssätt</p>
+                            <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>{order.shipping_methods?.[0]?.name || '—'}</p>
+                          </div>
+                        </div>
+
+                        {/* Spåra-knapp */}
+                        <div style={{ padding: '0 24px 20px' }}>
                           {trackingNumber ? (
-                            <a
-                              href={`https://www.postnord.se/vara-verktyg/spara-brev-paket-och-pall?shipmentId=${trackingNumber}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex-1 px-4 py-2 bg-black text-white hover:bg-gray-800 font-semibold text-center"
-                            >
+                            <a href={`https://www.postnord.se/vara-verktyg/spara-brev-paket-och-pall?shipmentId=${trackingNumber}`} target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', padding: '10px', background: '#000', color: '#fff', fontWeight: 600, fontSize: '0.875rem', textAlign: 'center' }}>
                               Spåra paket
                             </a>
                           ) : (
-                            <button disabled className="flex-1 px-4 py-2 border-2 border-gray-300 text-gray-400 font-semibold cursor-not-allowed">
+                            <button disabled style={{ display: 'block', width: '100%', padding: '10px', border: '1px solid #e5e7eb', color: '#9ca3af', fontWeight: 600, fontSize: '0.875rem', cursor: 'not-allowed', background: 'none' }}>
                               Spåra paket
                             </button>
                           )}
                         </div>
                       </div>
                     )}
+                      </div>
+                    </div>
                   </div>
                 );
               })}
@@ -1032,92 +1126,53 @@ export default function AccountPage() {
         <div className="hidden md:block p-6 shadow-sm" style={{ border: '1px solid #e5e7eb' }}>
           <h3 className="text-xl font-bold mb-6">Favoriter</h3>
           {favoriteProducts.length > 0 ? (
-            <div className="space-y-4">
-              <p className="text-gray-700 mb-6">Du har {favoriteProducts.length} sparade favoriter</p>
-              {favoriteProducts.map((product) => (
-                <div key={product.id} className="flex items-stretch gap-0 py-8 border-b border-gray-200 last:border-b-0">
-                  {/* Product image */}
-                  <div className="flex-1 flex items-center justify-start">
-                    <img
-                      src={product.image}
-                      alt={product.title}
-                      className="w-32 h-32 object-contain rounded"
-                    />
-                  </div>
-
-                  {/* Product title and availability */}
-                  <div className="flex-1 flex items-center justify-start">
-                    <div>
-                      <Link
-                        href={`/produkter/${product.handle}`}
-                        className="text-gray-900 font-semibold text-sm hover:text-gray-700 line-clamp-1 block"
-                      >
-                        {product.title}
-                      </Link>
-                      <div className="flex items-center gap-1 mt-1">
-                        <svg className="w-2 h-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                          <circle cx="10" cy="10" r="10" />
-                        </svg>
-                        <span className="text-xs text-gray-600">I lager</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Price */}
-                  <div className="flex-1 flex items-center justify-start">
-                    <p className="text-sm font-semibold text-gray-900">
-                      {product.price.toLocaleString('sv-SE')} kr
-                    </p>
-                  </div>
-
-                  {/* Add to cart and remove buttons */}
-                  <div className="flex-1 flex items-center justify-start gap-8">
-                    <button
-                      onClick={() => {
-                        const event = new CustomEvent('addToCart', {
-                          detail: {
-                            id: product.id,
-                            variantId: product.variantId,
-                            title: product.title,
-                            price: product.price,
-                            originalPrice: product.originalPrice,
-                            quantity: 1,
-                            image: product.image,
-                          },
-                        });
-                        window.dispatchEvent(event);
-                      }}
-                      className="text-black hover:text-gray-600 transition-colors flex items-center justify-center"
-                      title="Lägg till i kundvagn"
-                    >
-                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
-                      </svg>
-                    </button>
-                    <button
-                      onClick={async () => {
-                        try {
-                          const updated = favoriteProducts.filter(p => p.id !== product.id);
-                          await fetch('/api/favorites', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ wishlist: updated }),
-                          });
-                          setFavoriteProducts(updated);
-                        } catch {
-                          // UI already updated optimistically
-                        }
-                      }}
-                      className="text-black hover:text-red-500 transition-colors flex items-center justify-center"
-                      title="Ta bort från favoriter"
-                    >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path d="M19 7l-1 12a2 2 0 01-2 2H8a2 2 0 01-2-2L5 7m3 0V4a1 1 0 011-1h6a1 1 0 011 1v3m-6 4v6m4-6v6" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              ))}
+            <div>
+              <p className="text-sm text-gray-500 mb-4">{favoriteProducts.length} sparade favoriter</p>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr style={{ borderBottom: '2px solid #e5e7eb' }}>
+                    <th style={{ width: 96, padding: '8px 0' }} />
+                    <th style={{ textAlign: 'left', fontSize: '0.7rem', fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.06em', padding: '8px 16px 8px 0' }}>Produkt</th>
+                    <th style={{ textAlign: 'left', fontSize: '0.7rem', fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.06em', padding: '8px 16px' }}>Pris</th>
+                    <th style={{ width: 100 }} />
+                  </tr>
+                </thead>
+                <tbody>
+                  {favoriteProducts.map((product) => (
+                    <tr key={product.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
+                      <td style={{ padding: '16px 16px 16px 0' }}>
+                        <img src={product.image} alt={product.title} style={{ width: 80, height: 80, objectFit: 'contain', display: 'block' }} />
+                      </td>
+                      <td style={{ padding: '16px 16px 16px 0' }}>
+                        <Link href={`/produkter/${product.handle}`} className="text-sm font-semibold hover:underline">{product.title}</Link>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 4, marginTop: 4 }}>
+                          <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#16a34a', display: 'inline-block', flexShrink: 0 }} />
+                          <span style={{ fontSize: '0.7rem', color: '#6b7280' }}>I lager</span>
+                        </div>
+                      </td>
+                      <td style={{ padding: '16px', fontSize: '0.875rem', fontWeight: 700, whiteSpace: 'nowrap' }}>{product.price.toLocaleString('sv-SE')} kr</td>
+                      <td style={{ padding: '16px 0', whiteSpace: 'nowrap' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                          <button onClick={() => window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, variantId: product.variantId, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity: 1, image: product.image } }))} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#111' }} title="Lägg till i kundvagn">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                          </button>
+                          <button onClick={async () => { const updated = favoriteProducts.filter(p => p.id !== product.id); await fetch('/api/favorites', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ wishlist: updated }) }); setFavoriteProducts(updated); }} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600, color: '#9ca3af' }}>
+                            Ta bort
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div style={{ marginTop: 16 }}>
+                <button
+                  onClick={() => favoriteProducts.forEach(product => window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, variantId: product.variantId, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity: 1, image: product.image } })))}
+                  style={{ background: '#000', color: '#fff', border: 'none', padding: '10px 24px', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer' }}
+                >
+                  Lägg alla i kundvagnen
+                </button>
+              </div>
             </div>
           ) : (
             <div className="space-y-3 text-gray-700">
