@@ -1304,7 +1304,7 @@ export default function AccountPage() {
             const ct = tiers.find(t => t.name === currentTier)!;
             const nextTier = tiers.find(t => t.threshold > points);
             const progressPct = nextTier ? Math.min(100, ((points - ct.threshold) / (nextTier.threshold - ct.threshold)) * 100) : 100;
-            const benefitIcons: Record<string, JSX.Element> = {
+            const benefitIcons: Record<string, React.ReactElement> = {
               'Fri frakt': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 17H5a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v3m0 0h2l3 4v3h-5m0 0a2 2 0 11-4 0m4 0a2 2 0 10-4 0"/></svg>,
               '30 dagars öppet köp': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4h16v2H4zM4 8l1 12h14l1-12H4zm5 4v4m6-4v4"/></svg>,
               'Erbjudanden': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M17 17h.01M3 12l9-9 9 9-9 9-9-9zm7-2a1 1 0 100 2 1 1 0 000-2z"/></svg>,
