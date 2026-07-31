@@ -371,13 +371,35 @@ function CheckoutContent() {
 
   return (
     <MainLayout bordered={false} noPadding>
-      <div className="flex justify-center py-6 mb-0">
-        <a href="/" className="flex items-center gap-2">
-          <img src="/logo.png" alt="Techpilots" className="w-10 h-10" />
-          <span className="text-2xl font-bold tracking-tight">Techpilots</span>
-        </a>
-      </div>
-      <div className="flex pt-4 pb-16 px-2 gap-0 relative justify-center">
+      <style>{`@media(max-width:767px){.ml-container{padding-left:8px!important;padding-right:8px!important;}}`}</style>
+      {/* Steg-indikator — endast mobil */}
+      {(() => {
+        const step = showPayment ? 3 : shippingMethod ? 2 : 1;
+        const steps = [
+          { label: 'Varukorg', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="square" strokeLinejoin="miter" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5H17"/><circle cx="9" cy="22" r="1"/><circle cx="16" cy="22" r="1"/></svg> },
+          { label: 'Uppgifter', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg> },
+          { label: 'Frakt', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg> },
+          { label: 'Betalning', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path strokeLinecap="square" d="M2 10h20"/></svg> },
+        ];
+        return (
+          <div className="sm:hidden flex items-center justify-center pt-6 mb-4 px-2">
+            {steps.map((s, i) => (
+              <div key={i} className="flex items-center">
+                <div className={`flex flex-col items-center gap-1 ${i <= step ? 'text-black' : 'text-gray-300'}`}>
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors ${i === step ? 'bg-orange-500 text-white' : i < step ? 'bg-black text-white' : 'bg-gray-100 text-gray-400'}`}>
+                    {s.icon}
+                  </div>
+                  <span className="text-[10px] font-semibold">{s.label}</span>
+                </div>
+                {i < steps.length - 1 && (
+                  <div className={`w-10 h-0.5 mb-4 mx-1 ${i < step ? 'bg-black' : 'bg-gray-200'}`} />
+                )}
+              </div>
+            ))}
+          </div>
+        );
+      })()}
+      <div className="flex pt-4 pb-16 gap-0 relative justify-center">
 
           <div className="flex-1 max-w-[800px] flex flex-col gap-8 relative">
 
@@ -385,7 +407,7 @@ function CheckoutContent() {
           <section className="bg-white relative" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
             <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider bg-black text-white p-2 block" style={{ boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' }}>Orderöversikt</span></span>
             <span className="hidden lg:block absolute w-0.5 bg-black pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-100px' }} />
-            <div className="grid grid-cols-[1fr_100px_80px] sm:grid-cols-[1fr_160px_120px] px-2 sm:px-6 py-3 border-b border-gray-200 gap-3">
+            <div className="grid grid-cols-[1fr_80px_64px] sm:grid-cols-[1fr_160px_120px] px-2 sm:px-6 py-3 border-b border-gray-200 gap-3">
               <div className="flex items-center">
                 <span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-500">Produkter</span>
               </div>
@@ -394,17 +416,17 @@ function CheckoutContent() {
             </div>
             <div className="divide-y divide-gray-100">
               {cartItems.map(item => (
-                <div key={item.id} className="grid grid-cols-[1fr_100px_80px] sm:grid-cols-[1fr_160px_120px] items-center px-2 sm:px-6 py-4 gap-3">
+                <div key={item.id} className="grid grid-cols-[1fr_80px_64px] sm:grid-cols-[1fr_160px_120px] items-center px-2 sm:px-6 py-4 gap-3">
                   <div className="flex gap-4 sm:gap-6 items-center min-w-0">
                     <div className="flex-shrink-0">
                       {item.image ? (
-                        <img src={item.image} alt={item.title} className="w-[52px] h-[52px] sm:w-24 sm:h-24 object-contain" />
+                        <img src={item.image} alt={item.title} className="w-10 h-10 sm:w-24 sm:h-24 object-contain" />
                       ) : (
                         <div className="w-[52px] h-[52px] sm:w-24 sm:h-24" />
                       )}
                     </div>
                     <div className="min-w-0">
-                      <h3 className="text-xs sm:text-sm font-semibold text-gray-900 line-clamp-2">{item.title}</h3>
+                      <h3 className="text-xs sm:text-sm font-semibold text-gray-900 leading-snug truncate">{item.title}</h3>
                       <div className="flex items-center gap-1 mt-0.5">
                         <svg className="w-2 h-2 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" /></svg>
                         <span className="text-xs text-gray-500">I lager</span>
@@ -589,6 +611,9 @@ function CheckoutContent() {
                       <PaymentForm cartId={cartId} formData={formData} finalTotal={finalTotal} onSuccess={handlePaymentSuccess} onError={handlePaymentError} />
                     </Elements>
                   )}
+                  <div className="text-center pt-4">
+                    <a href="/" className="text-sm text-gray-500 hover:text-black">Avbryt</a>
+                  </div>
                 </section>
               </div>
             </div>
