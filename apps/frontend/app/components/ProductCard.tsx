@@ -119,7 +119,7 @@ export function ProductCard({
     >
       {/* Image Container with Badges */}
       <div
-        className="relative bg-[#f0f0f0] overflow-hidden aspect-square flex items-center justify-center w-full"
+        className="relative bg-[#f0f0f0] overflow-hidden aspect-[4/3] sm:aspect-square flex items-center justify-center w-full"
         onMouseMove={(e) => {
           if (!cardImages || cardImages.length === 0) return;
           const rect = e.currentTarget.getBoundingClientRect();

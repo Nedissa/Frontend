@@ -93,12 +93,25 @@ export function NewsletterPopup() {
     setTimeout(handleClose, 5000);
   };
 
-  if (!isHydrated || !isOpen) return null;
+  if (!isHydrated) return null;
+
+  if (!isOpen && process.env.NODE_ENV === 'development') {
+    return (
+      <button
+        onClick={() => setIsOpen(true)}
+        style={{ position: 'fixed', bottom: 80, right: 16, zIndex: 9999, background: '#111', color: '#fff', fontSize: '11px', padding: '6px 10px', border: 'none', cursor: 'pointer' }}
+      >
+        Visa popup
+      </button>
+    );
+  }
+
+  if (!isOpen) return null;
 
   return (
     <div className="w-full max-w-3xl">
       <div className="bg-white overflow-hidden shadow-2xl">
-        <div className="flex flex-col md:flex-row md:h-96 min-h-[420px] md:min-h-0">
+        <div className="flex flex-col md:flex-row md:h-96">
           {/* Image Section — hidden on mobile */}
           <div className="hidden md:flex w-[35%] bg-gray-200 items-center justify-center p-6">
             <img
@@ -123,14 +136,14 @@ export function NewsletterPopup() {
 
             {/* Text Content */}
             <div className="mb-6">
-              <p className="text-xs text-gray-500 font-semibold tracking-wide mb-3">FÖRSTA GÅNGEN?</p>
-              <h2 className="text-2xl font-bold text-black mb-4 whitespace-nowrap">
+              <p className="text-xs text-gray-500 font-semibold tracking-wide mb-3">NY KUND?</p>
+              <h2 className="text-xl font-black text-black mb-4 whitespace-nowrap">
                 Bli medlem och få 10% rabatt
               </h2>
             </div>
 
             {/* Email Form */}
-            <form onSubmit={handleSubmit} className="mb-4">
+            <form onSubmit={handleSubmit} className="mb-2">
               <div className="flex flex-col gap-2">
                 <div className="flex gap-2">
                   <input
@@ -172,8 +185,8 @@ export function NewsletterPopup() {
             </form>
 
             {/* Description */}
-            <p className="text-sm text-gray-600 mb-6">
-              Registrera dig idag och få 10% rabatt på ditt första köp. Exklusiva erbjudanden och nyheter direkt i din inkorg.
+            <p className="text-sm text-gray-600 mb-4">
+              Skapa konto och få 10% rabatt på ditt första köp. Rabatten läggs till automatiskt i kassan.
             </p>
 
             {/* Social Links - Footer style */}
