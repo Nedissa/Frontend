@@ -335,54 +335,59 @@ export default function AccountPage() {
           </button>
         </div>
         {/* Desktop */}
-        <div className="flex mb-8 overflow-hidden" style={{ background: '#000', minHeight: '200px', alignItems: 'stretch', position: 'relative' }}>
-          <div className="flex flex-col justify-center px-10 py-6" style={{ flex: 1, zIndex: 1 }}>
-            <h2 className="text-2xl font-bold mb-2 select-none text-white">Välkommen, {firstName && lastName ? firstName : firstName || registerEmail?.split('@')[0] || 'Johan'}!</h2>
-            <p className="text-sm mb-3" style={{ color: 'rgba(255,255,255,0.55)' }}>Hantera ditt konto och se dina beställningar</p>
-            <button
-              onClick={handleLogout}
-              className="inline-flex items-center gap-2 font-semibold text-sm w-fit transition-colors"
-              style={{ color: '#ef4444' }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#ff6b6b')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#ef4444')}
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-              </svg>
-              Logga ut
-            </button>
-          </div>
-          {/* Robot i mitten */}
-          <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }} className="hidden sm:block">
-            <img src="/assets/medlem-banner.png" alt="" style={{ position: 'absolute', bottom: '0', top: 'auto', left: '50%', transform: 'translateX(-50%) scale(1.4)', transformOrigin: 'bottom center', mixBlendMode: 'lighten' }} />
-          </div>
-          {/* Poäng + progress höger */}
-          <div className="hidden sm:flex flex-col justify-center px-10" style={{ flex: 1, alignItems: 'flex-end' }}>
-            {loyalty && loyalty.total_points !== undefined && (() => {
-              const points = loyalty.total_points;
-              const tier = points >= 3000 ? 'Platinum' : points >= 1500 ? 'Guld' : points >= 500 ? 'Silver' : 'Brons';
-              const tierColors: Record<string, string> = { Brons: '#cd7f32', Silver: '#a0a0a0', Guld: '#d4a017', Platinum: '#8b9eb0' };
-              const color = tierColors[tier];
-              const nextTiers: Record<string, { name: string; threshold: number }> = { Brons: { name: 'Silver', threshold: 500 }, Silver: { name: 'Guld', threshold: 1500 }, Guld: { name: 'Platinum', threshold: 3000 } };
-              const tierThresholds: Record<string, number> = { Brons: 0, Silver: 500, Guld: 1500, Platinum: 3000 };
-              const next = nextTiers[tier];
-              const progressPct = next ? Math.min(100, ((points - tierThresholds[tier]) / (next.threshold - tierThresholds[tier])) * 100) : 100;
-              return (
-                <div style={{ width: '200px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                    <span style={{ color, fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{tier}</span>
-                    {next && <span style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.65rem' }}>{next.name} om {next.threshold - points} p</span>}
+        <div className="mb-8 overflow-hidden" style={{ background: '#000', position: 'relative', isolation: 'isolate' }}>
+          {/* Roboten — absolut bakgrund på alla skärmar, centrerad */}
+          <img src="/assets/medlem-banner.png" alt="" style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', maxHeight: '100%', width: 'auto', objectFit: 'contain', mixBlendMode: 'lighten', pointerEvents: 'none' }} />
+          <div className="relative flex items-stretch" style={{ minHeight: '220px', zIndex: 1 }}>
+            {/* Text vänster */}
+            <div className="flex flex-col justify-center px-5 sm:px-10 py-5 sm:py-8" style={{ flex: 1, zIndex: 1 }}>
+              <h2 className="font-bold select-none text-white leading-tight" style={{ fontSize: 'clamp(1.1rem, 4vw, 1.5rem)', marginBottom: '4px' }}>
+                <span className="sm:hidden">Välkommen,<br /></span>
+                <span className="hidden sm:inline">Välkommen, </span>
+                {firstName && lastName ? firstName : firstName || registerEmail?.split('@')[0] || 'Johan'}!
+              </h2>
+              <p className="hidden sm:block mb-3" style={{ color: 'rgba(255,255,255,0.55)', fontSize: 'clamp(0.75rem, 1.5vw, 0.875rem)' }}>Hantera ditt konto och se dina beställningar</p>
+              <button
+                onClick={handleLogout}
+                className="inline-flex items-center gap-2 font-semibold w-fit transition-colors"
+                style={{ color: '#ef4444', fontSize: 'clamp(0.75rem, 2vw, 0.875rem)', marginTop: '4px' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#ff6b6b')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#ef4444')}
+              >
+                <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                </svg>
+                Logga ut
+              </button>
+            </div>
+            {/* Poäng höger */}
+            <div className="flex flex-col justify-center py-5 sm:py-8" style={{ paddingRight: 'clamp(16px, 4vw, 40px)', paddingLeft: '8px', alignItems: 'flex-end', zIndex: 1 }}>
+              {loyalty && loyalty.total_points !== undefined && (() => {
+                const points = loyalty.total_points;
+                const tier = points >= 3000 ? 'Platinum' : points >= 1500 ? 'Guld' : points >= 500 ? 'Silver' : 'Brons';
+                const tierColors: Record<string, string> = { Brons: '#cd7f32', Silver: '#a0a0a0', Guld: '#d4a017', Platinum: '#8b9eb0' };
+                const color = tierColors[tier];
+                const nextTiers: Record<string, { name: string; threshold: number }> = { Brons: { name: 'Silver', threshold: 500 }, Silver: { name: 'Guld', threshold: 1500 }, Guld: { name: 'Platinum', threshold: 3000 } };
+                const tierThresholds: Record<string, number> = { Brons: 0, Silver: 500, Guld: 1500, Platinum: 3000 };
+                const next = nextTiers[tier];
+                const progressPct = next ? Math.min(100, ((points - tierThresholds[tier]) / (next.threshold - tierThresholds[tier])) * 100) : 100;
+                return (
+                  <div style={{ width: 'clamp(90px, 20vw, 200px)', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', gap: '8px' }}>
+                      <span style={{ color, fontSize: 'clamp(0.55rem, 1.5vw, 0.68rem)', fontWeight: 800, letterSpacing: '0.1em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{tier}</span>
+                      {next && <span className="hidden md:inline" style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.6rem', whiteSpace: 'nowrap' }}>{next.name} om {next.threshold - points} p</span>}
+                    </div>
+                    <div style={{ height: '2px', background: 'rgba(255,255,255,0.1)', borderRadius: '999px' }}>
+                      <div style={{ height: '100%', width: `${progressPct}%`, background: color, borderRadius: '999px' }} />
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ color: '#fff', fontSize: 'clamp(1rem, 3vw, 1.4rem)', fontWeight: 900, lineHeight: 1 }}>{points}</span>
+                      <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: 'clamp(0.55rem, 1.5vw, 0.65rem)' }}>poäng</span>
+                    </div>
                   </div>
-                  <div style={{ height: '4px', background: 'rgba(255,255,255,0.1)', borderRadius: '999px' }}>
-                    <div style={{ height: '100%', width: `${progressPct}%`, background: color, borderRadius: '999px', boxShadow: `0 0 8px ${color}` }} />
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ color: '#fff', fontSize: '1.4rem', fontWeight: 900, lineHeight: 1 }}>{points}</span>
-                    <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.68rem' }}>poäng</span>
-                  </div>
-                </div>
-              );
-            })()}
+                );
+              })()}
+            </div>
           </div>
         </div>
 
