@@ -254,41 +254,39 @@ export function CartAside() {
         ) : (
           <>
             {/* Cart Items */}
-            <div className="flex-1 overflow-y-auto px-6 flex flex-col" style={{ display: cartItems.length === 0 ? 'none' : 'flex' }}>
+            <div className="flex-1 overflow-y-auto px-4 flex flex-col" style={{ display: cartItems.length === 0 ? 'none' : 'flex' }}>
               <ul className="space-y-0 py-4 flex-1">
                 {cartItems.map(item => (
                   <li key={item.id} className="border-b border-gray-200 last:border-b-0 py-4">
-                    <div className="grid items-center" style={{ gridTemplateColumns: '56px 1fr 72px 60px', columnGap: 'clamp(8px, 3vw, 20px)' }}>
+                    <div className="grid items-center" style={{ gridTemplateColumns: '56px 1fr auto auto', columnGap: '12px' }}>
                       {/* Bild */}
-                      <div className="w-14 h-14">
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="w-full h-full object-contain"
-                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                        />
-                      </div>
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-14 h-14 object-contain"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                      />
 
-                      {/* Titel + status */}
+                      {/* Titel + (I lager + räknare på samma rad) */}
                       <div className="min-w-0">
                         <Link href={`/produkter/${item.id}`} className="text-gray-900 font-semibold text-sm hover:text-gray-700 leading-snug block truncate" style={{ textTransform: 'capitalize' }} title={item.title}>
                           {item.title.toLowerCase()}
                         </Link>
-                        <div className="flex items-center gap-1">
-                          <svg className="w-2 h-2 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" /></svg>
-                          <span className="text-xs text-gray-500">I lager</span>
+                        <div className="flex items-center flex-nowrap">
+                          <div className="flex items-center gap-1">
+                            <svg className="w-2 h-2 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" /></svg>
+                            <span className="text-xs text-gray-500 whitespace-nowrap">I lager</span>
+                          </div>
+                          <div className="flex items-center gap-1 ml-16 sm:ml-28">
+                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="text-gray-700 disabled:text-gray-300 font-bold w-6 h-6 flex items-center justify-center text-lg">−</button>
+                            <span className="text-sm font-semibold tabular-nums w-5 text-center">{item.quantity}</span>
+                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="text-gray-700 font-bold w-6 h-6 flex items-center justify-center text-lg">+</button>
+                          </div>
                         </div>
                       </div>
 
-                      {/* Räknare — centrerad */}
-                      <div className="flex items-center justify-center gap-1">
-                        <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="text-gray-700 disabled:text-gray-300 font-bold w-6 h-6 flex items-center justify-center text-lg">−</button>
-                        <span className="text-sm font-semibold tabular-nums w-4 text-center">{item.quantity}</span>
-                        <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="text-gray-700 font-bold w-6 h-6 flex items-center justify-center text-lg">+</button>
-                      </div>
-
                       {/* Pris + ta bort */}
-                      <div className="flex flex-col items-end gap-1">
+                      <div className="flex flex-col items-end gap-1" style={{ width: '72px' }}>
                         <span className="text-sm font-bold text-gray-900 tabular-nums whitespace-nowrap">
                           {(item.price * item.quantity).toLocaleString('sv-SE')} kr
                         </span>
@@ -305,7 +303,7 @@ export function CartAside() {
             </div>
 
             {/* Cart Summary */}
-            <div className="border-t border-gray-200 px-6 py-4 space-y-4">
+            <div className="border-t border-gray-200 px-4 py-4 space-y-4">
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Delsumma</span>
