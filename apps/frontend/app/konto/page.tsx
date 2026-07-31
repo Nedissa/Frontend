@@ -713,7 +713,7 @@ export default function AccountPage() {
                     { name: 'Guld', threshold: 1500, color: '#d4a017', glow: 'rgba(212,160,23,0.3)', bg: 'rgba(212,160,23,0.08)', benefits: ['Fri frakt', '30 dagars öppet köp', 'Erbjudanden', '10% på fyndvaror'] },
                     { name: 'Platinum', threshold: 3000, color: '#8b9eb0', glow: 'rgba(139,158,176,0.3)', bg: 'rgba(139,158,176,0.08)', benefits: ['Fri frakt', '30 dagars öppet köp', 'Erbjudanden', '15% på fyndvaror', 'Fri hemleverans', 'Prioriterad service'] },
                   ];
-                  const benefitIcons: Record<string, JSX.Element> = {
+                  const benefitIcons: Record<string, React.ReactElement> = {
                     'Fri frakt': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 17H5a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v3m0 0h2l3 4v3h-5m0 0a2 2 0 11-4 0m4 0a2 2 0 10-4 0"/></svg>,
                     '30 dagars öppet köp': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4h16v2H4zM4 8l1 12h14l1-12H4zm5 4v4m6-4v4"/></svg>,
                     'Erbjudanden': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M17 17h.01M3 12l9-9 9 9-9 9-9-9zm7-2a1 1 0 100 2 1 1 0 000-2z"/></svg>,
