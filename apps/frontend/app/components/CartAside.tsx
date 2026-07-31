@@ -258,7 +258,7 @@ export function CartAside() {
               <ul className="space-y-0 py-4 flex-1">
                 {cartItems.map(item => (
                   <li key={item.id} className="border-b border-gray-200 last:border-b-0 py-4">
-                    <div className="grid items-center gap-2" style={{ gridTemplateColumns: '56px 1fr 96px 80px', columnGap: '20px' }}>
+                    <div className="grid items-center gap-2" style={{ gridTemplateColumns: '56px 1fr 70px 60px', columnGap: '8px' }}>
                       {/* Bild */}
                       <div className="w-14 h-14">
                         <img
@@ -274,17 +274,17 @@ export function CartAside() {
                         <Link href={`/produkter/${item.id}`} className="text-gray-900 font-semibold text-sm hover:text-gray-700 leading-snug block truncate" style={{ textTransform: 'capitalize' }} title={item.title}>
                           {item.title.toLowerCase()}
                         </Link>
-                        <div className="flex items-center gap-1 mt-0.5">
+                        <div className="flex items-center gap-1">
                           <svg className="w-2 h-2 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" /></svg>
                           <span className="text-xs text-gray-500">I lager</span>
                         </div>
                       </div>
 
                       {/* Räknare — fast kolumn */}
-                      <div className="flex items-center justify-center gap-0.5">
-                        <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="text-gray-700 disabled:text-gray-300 font-bold w-9 h-9 flex items-center justify-center text-lg">−</button>
-                        <span className="text-sm font-semibold tabular-nums w-6 text-center">{item.quantity}</span>
-                        <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="text-gray-700 font-bold w-9 h-9 flex items-center justify-center text-lg">+</button>
+                      <div className="flex items-center gap-2">
+                        <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="text-gray-700 disabled:text-gray-300 font-bold w-6 h-6 flex items-center justify-center text-lg">−</button>
+                        <span className="text-sm font-semibold tabular-nums w-4 text-center">{item.quantity}</span>
+                        <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="text-gray-700 font-bold w-6 h-6 flex items-center justify-center text-lg">+</button>
                       </div>
 
                       {/* Pris + ta bort */}
@@ -351,7 +351,7 @@ export function CartAside() {
               <div className="flex justify-around items-start pt-4 border-t border-gray-200">
                 <button
                   onClick={handleShare}
-                  className="flex flex-col items-center gap-1 text-gray-700 hover:text-gray-900 text-xs font-medium flex-1"
+                  className="flex flex-col items-center gap-1 text-gray-800 hover:text-black text-xs font-medium flex-1"
                 >
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M15.5 1h-8C6.12 1 5 2.12 5 3.5v17C5 21.88 6.12 23 7.5 23h8c1.38 0 2.5-1.12 2.5-2.5v-17C18 2.12 16.88 1 15.5 1zm-4 21c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4.5-4H7V4h9v14z"/>
@@ -533,7 +533,7 @@ export function CartAside() {
                       setTimeout(() => printWindow.print(), 250);
                     }
                   }}
-                  className="flex flex-col items-center gap-1 text-gray-700 hover:text-gray-900 text-xs font-medium flex-1"
+                  className="flex flex-col items-center gap-1 text-gray-800 hover:text-black text-xs font-medium flex-1"
                 >
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v3h12V3z"/>
