@@ -191,7 +191,7 @@ export function CompareBar() {
           {/* Sheet */}
           <div
             className={closing ? 'compare-sheet-out' : 'compare-sheet-in'}
-            style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 101, background: '#fff', maxHeight: '100vh', paddingBottom: `${barHeight}px`, overflowY: 'auto', overflowX: 'hidden', overscrollBehavior: 'contain', scrollbarWidth: 'none' }}
+            style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 101, background: '#fff', maxHeight: '100dvh', paddingBottom: `${barHeight}px`, overflowY: 'auto', overflowX: 'hidden', overscrollBehavior: 'contain', scrollbarWidth: 'none' }}
           >
             {/* Modal header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 12px', position: 'sticky', top: 0, background: '#fff', zIndex: 1, maxWidth: '1280px', margin: '0 auto', width: '100%', borderBottom: '2px solid #e5e7eb' }}>

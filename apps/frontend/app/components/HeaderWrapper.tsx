@@ -718,23 +718,39 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       {/* ── MOBILE HEADER ── */}
       <div className="md:hidden" ref={mobileHeaderRef}>
         {/* Row 1: hamburger | logo | konto+kundvagn */}
-        <div className="grid items-center px-4 py-3 bg-white border-b border-gray-100" style={{ gridTemplateColumns: '1fr auto 1fr' }}>
+        <div className="relative flex items-center px-4 py-3 bg-white border-b border-gray-100">
           {/* Left: hamburger */}
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Meny" className="inline-flex items-center justify-self-start">
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Meny" className="inline-flex flex-col items-center gap-1 p-2 -m-2">
             <svg className="w-7 h-7" viewBox="0 0 24 24">
               {mobileMenuOpen
                 ? <path strokeLinecap="round" strokeLinejoin="round" stroke="#111" strokeWidth="2" fill="none" d="M6 18L18 6M6 6l12 12" />
-                : <path stroke="#111" strokeWidth="2.5" strokeLinecap="round" d="M5 6h14M5 12h14M5 18h14"/>}
+                : <path stroke="#111" strokeWidth="2.5" strokeLinecap="round" d="M3 6h18M3 12h18M3 18h18"/>}
             </svg>
+            <span style={{ fontSize: '10px', color: '#111', fontWeight: 600 }}>Meny</span>
           </button>
-          {/* Center: logo */}
-          <Link href="/" className="inline-flex items-center gap-1 justify-self-center">
-            <Logo size={32} />
-            <span className="font-bold text-black" style={{ fontSize: '21px', letterSpacing: '-0.3px' }}>Techpilots</span>
+          {/* Center: logo — absolut centrerad */}
+          <Link href="/" className="absolute left-1/2 -translate-x-1/2 inline-flex items-center gap-1">
+            <Logo size={36} />
+            <span className="font-bold text-black" style={{ fontSize: '20px', letterSpacing: '-0.3px' }}>Techpilots</span>
           </Link>
-          {/* Right: konto + kundvagn */}
-          <div className="flex items-center gap-2 justify-self-end">
-            <button onClick={() => open('cart')} className="inline-flex flex-col items-center gap-1 relative">
+          {/* Right: logga in + kundvagn */}
+          <div className="flex items-center gap-3 ml-auto">
+            {isLoggedIn ? (
+              <Link href="/konto" className="inline-flex flex-col items-center gap-1 p-2 -m-2">
+                <svg className="w-6 h-6" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/>
+                </svg>
+                <span style={{ fontSize: '10px', color: '#111', fontWeight: 600 }}>Konto</span>
+              </Link>
+            ) : (
+              <button onClick={() => open('login')} className="inline-flex flex-col items-center gap-1 p-2 -m-2">
+                <svg className="w-6 h-6" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/>
+                </svg>
+                <span style={{ fontSize: '10px', color: '#111', fontWeight: 600 }}>Logga in</span>
+              </button>
+            )}
+            <button onClick={() => open('cart')} className="inline-flex flex-col items-center gap-1 relative p-2 -m-2">
               <div className="relative">
                 <svg className="w-6 h-6" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5H17"/>

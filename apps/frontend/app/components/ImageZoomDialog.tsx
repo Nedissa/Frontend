@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 interface ImageZoomDialogProps {
   images: Array<{ id: string; url: string; altText: string }>;
@@ -16,6 +16,7 @@ export function ImageZoomDialog({
   onClose,
 }: ImageZoomDialogProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const touchStartX = useRef<number | null>(null);
 
   const goTo = (idx: number) => {
     setCurrentIndex(idx);
@@ -69,8 +70,18 @@ export function ImageZoomDialog({
       onClick={onClose}
     >
       <div
-        className="relative bg-white w-screen h-screen sm:w-[90vw] sm:h-[90vh] flex flex-col"
+        className="relative bg-white w-screen sm:w-[90vw] sm:h-[90vh] flex flex-col"
+        style={{ height: '100dvh' }}
         onClick={(e) => e.stopPropagation()}
+        onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+        onTouchEnd={(e) => {
+          if (touchStartX.current === null) return;
+          const dx = e.changedTouches[0].clientX - touchStartX.current;
+          touchStartX.current = null;
+          if (Math.abs(dx) < 30) return;
+          if (dx < 0) setCurrentIndex((prev) => (prev + 1) % images.length);
+          else setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+        }}
       >
         {/* Close Button */}
         <button

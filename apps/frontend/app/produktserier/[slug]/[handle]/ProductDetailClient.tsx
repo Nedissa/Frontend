@@ -161,6 +161,7 @@ export default function ProductDetailClient({
   const [isAdded, setIsAdded] = useState(false);
   const [pageUrl, setPageUrl] = useState('');
   const [showZoom, setShowZoom] = useState(false);
+  const touchStartX = useRef<number | null>(null);
   const [alsoLikeProducts, setAlsoLikeProducts] = useState<ProductData[]>([]);
   const [recentlyViewed, setRecentlyViewed] = useState<ProductData[]>([]);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -348,7 +349,19 @@ export default function ProductDetailClient({
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
                   className="absolute left-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
                 >‹</button>
-                <div className="relative flex-1 overflow-hidden" onClick={() => setShowZoom(true)}>
+                <div
+                  className="relative flex-1 overflow-hidden"
+                  onClick={() => setShowZoom(true)}
+                  onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+                  onTouchEnd={(e) => {
+                    if (touchStartX.current === null) return;
+                    const dx = e.changedTouches[0].clientX - touchStartX.current;
+                    touchStartX.current = null;
+                    if (Math.abs(dx) < 30) return;
+                    if (dx < 0) goToImage((selectedImage + 1) % productDetails.images.length);
+                    else goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length);
+                  }}
+                >
                   {[prevImage, selectedImage].map((imgIdx, i) => {
                     if (imgIdx === null) return null;
                     const isCurrent = imgIdx === selectedImage;

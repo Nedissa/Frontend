@@ -96,10 +96,10 @@ export function Aside({
       ) : null}
 
       {/* Mobil cart + login + alla övriga asides: full panel från höger */}
-      <aside className={`${(type === 'cart' || type === 'login') ? 'flex md:hidden' : 'flex'} fixed right-0 top-0 h-screen w-full max-w-md bg-white shadow-lg z-50 flex-col ${
+      <aside className={`${(type === 'cart' || type === 'login') ? 'flex md:hidden' : 'flex'} fixed right-0 top-0 w-full max-w-md bg-white shadow-lg z-50 flex-col ${
         expanded ? 'translate-x-0' : 'translate-x-full'
       }`}
-      style={{ transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)' }}>
+      style={{ transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)', height: '100dvh' }}>
         <header className="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
           <h2 className="text-lg font-bold text-black">{heading}</h2>
           <button onClick={close} className="text-2xl text-gray-600 hover:text-black transition-colors" aria-label="Close">×</button>
