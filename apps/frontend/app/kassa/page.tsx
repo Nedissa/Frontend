@@ -384,9 +384,11 @@ function CheckoutContent() {
 
   useEffect(() => {
     if (prevStepRef.current !== -1 && step !== prevStepRef.current) {
-      const sectionIndex = step - 1;
-      const el = sectionRefs.current[sectionIndex];
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (window.innerWidth < 640) {
+        const sectionIndex = step - 1;
+        const el = sectionRefs.current[sectionIndex];
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     }
     prevStepRef.current = step;
   }, [step]);
