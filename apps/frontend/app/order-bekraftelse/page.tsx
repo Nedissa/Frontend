@@ -55,8 +55,6 @@ function OrderConfirmationContent() {
   return (
     <MainLayout bordered={false}>
       <div className="max-w-lg mx-auto py-16 px-4 text-center">
-        <img src="/assets/logo.png" alt="Techpilots" className="h-7 mx-auto mb-8 object-contain" />
-
         <svg className="w-14 h-14 mx-auto text-green-500 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
