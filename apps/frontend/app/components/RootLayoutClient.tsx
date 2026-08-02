@@ -4,7 +4,7 @@ import { Aside } from './Aside';
 import { CartAside } from './CartAside';
 import { LoginAside } from './LoginAside';
 import { Logo } from './Logo';
-import React, { Suspense, useState, useEffect } from 'react';
+import React, { Suspense, useState, useEffect, useCallback, useRef } from 'react';
 import { HeaderWrapper } from './HeaderWrapper';
 import { FooterWrapper } from './FooterWrapper';
 import { CompareProvider } from './CompareContext';
@@ -23,13 +23,19 @@ function ParamHandler({
   const searchParams = useSearchParams();
   const router = useRouter();
   const { open } = useAside();
+  const handled = useRef(false);
 
   useEffect(() => {
+    if (handled.current) return;
+
     const token = searchParams.get('reset_token');
     const email = searchParams.get('reset_email');
     const openLogin = searchParams.get('open_login');
     const loginView = searchParams.get('login_view');
 
+    if (!token && !openLogin) return;
+
+    handled.current = true;
     const url = new URL(window.location.href);
 
     if (token) {
@@ -37,14 +43,14 @@ function ParamHandler({
       open('login');
       url.searchParams.delete('reset_token');
       url.searchParams.delete('reset_email');
-      router.replace(url.pathname + (url.search || ''));
     } else if (openLogin) {
       onOpenLogin(loginView || undefined);
       open('login');
       url.searchParams.delete('open_login');
       url.searchParams.delete('login_view');
-      router.replace(url.pathname + (url.search || ''));
     }
+
+    router.replace(url.pathname + (url.search || ''));
   }, [searchParams, onReset, onOpenLogin, open, router]);
 
   return null;
@@ -85,12 +91,12 @@ export function RootLayoutClient({ children, initialIsLoggedIn = false }: { chil
     setLoginDesktopHeading('Nytt lösenord');
   };
 
-  const handleOpenLogin = (view?: string) => {
+  const handleOpenLogin = useCallback((view?: string) => {
     const v = (view as View) || 'login';
     setLoginInitialView(v);
     setLoginHeading(v === 'login' ? <LoginHeadingLink /> : (headingMap[v] || 'Logga in'));
     setLoginDesktopHeading(headingMap[v] || 'Logga in');
-  };
+  }, []);
 
   return (
     <CompareProvider>

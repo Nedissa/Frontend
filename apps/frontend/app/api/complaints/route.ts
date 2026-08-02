@@ -115,7 +115,7 @@ export async function POST(req: Request) {
     const data = await res.json()
 
     if (customerEmail) {
-      sendComplaintEmails(customerName, customerEmail, order_id, description).catch(() => {})
+      sendComplaintEmails(customerName, customerEmail, order_id).catch(() => {})
     }
 
     return Response.json({ complaint: data.complaint }, { status: 201 })
