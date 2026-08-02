@@ -721,7 +721,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
         <div className="relative flex items-center px-4 py-3 bg-white border-b border-gray-100">
           {/* Left: hamburger */}
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Meny" className="inline-flex flex-col items-center gap-1 p-2 -m-2">
-            <svg className="w-7 h-7" viewBox="0 0 24 24">
+            <svg className="w-5 h-5" viewBox="0 0 24 24">
               {mobileMenuOpen
                 ? <path strokeLinecap="round" strokeLinejoin="round" stroke="#111" strokeWidth="2" fill="none" d="M6 18L18 6M6 6l12 12" />
                 : <path stroke="#111" strokeWidth="2.5" strokeLinecap="round" d="M3 6h18M3 12h18M3 18h18"/>}
