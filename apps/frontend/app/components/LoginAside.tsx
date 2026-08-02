@@ -164,7 +164,7 @@ export function LoginAside({
 
   return (
     <div style={{ overflow: 'hidden', height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ position: 'relative', flex: 1 }}>
+      <div style={{ position: 'relative', flex: 1, minHeight: '360px' }}>
 
         {/* Panel 1: Login */}
         <div style={panelStyle('login')}>
@@ -216,24 +216,16 @@ export function LoginAside({
         {/* Panel 3: Reset */}
         <div style={panelStyle('reset')}>
           {resetSent ? (
-            <div className="space-y-4">
-              <div aria-hidden style={{ visibility: 'hidden' }}>
-                <label className="block text-sm font-semibold mb-2">‎</label>
-                <InputWithCheck type="password" value="" onChange={() => {}} />
-              </div>
-              <p className="text-sm text-gray-600">Om e-postadressen finns i vårt system skickar vi instruktioner för att återställa lösenordet.</p>
-              <div aria-hidden style={{ visibility: 'hidden' }}>
-                <label className="block text-sm font-semibold mb-2">‎</label>
-                <InputWithCheck type="email" value="" onChange={() => {}} />
-              </div>
+            <div className="flex flex-col h-full">
+              <div style={{ flex: 1 }} />
+              <p className="text-sm text-gray-600 mb-4">Om e-postadressen finns i vårt system skickar vi instruktioner för att återställa lösenordet.</p>
+              <div style={{ flex: 1 }} />
               <button onClick={() => changeView('login')} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800">Stäng</button>
             </div>
           ) : (
-            <form onSubmit={handleResetPassword} className="space-y-4">
-                <div aria-hidden style={{ visibility: 'hidden' }}>
-                  <label className="block text-sm font-semibold mb-2">‎</label>
-                  <InputWithCheck type="password" value="" onChange={() => {}} />
-                </div>
+            <form onSubmit={handleResetPassword} className="flex flex-col h-full">
+              <div style={{ flex: 1 }} />
+              <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-semibold mb-2">E-postadress</label>
                   <InputWithCheck type="email" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} required />
@@ -245,23 +237,18 @@ export function LoginAside({
                 <div className="text-center">
                   <button type="button" onClick={() => changeView('login')} className="text-xs text-gray-500 hover:text-black">Avbryt</button>
                 </div>
-              </form>
+              </div>
+            </form>
           )}
         </div>
 
         {/* Panel 4: Nytt lösenord (från mail-länk) */}
         <div style={panelStyle('reset-confirm')}>
           {confirmSuccess ? (
-            <div className="space-y-4">
-              <div aria-hidden style={{ visibility: 'hidden' }}>
-                <label className="block text-sm font-semibold mb-2">‎</label>
-                <InputWithCheck type="password" value="" onChange={() => {}} />
-              </div>
-              <p className="text-sm text-gray-600">Ditt lösenord har uppdaterats. Du kan nu logga in med ditt nya lösenord.</p>
-              <div aria-hidden style={{ visibility: 'hidden' }}>
-                <label className="block text-sm font-semibold mb-2">‎</label>
-                <InputWithCheck type="password" value="" onChange={() => {}} />
-              </div>
+            <div className="flex flex-col h-full">
+              <div style={{ flex: 1 }} />
+              <p className="text-sm text-gray-600 mb-4">Ditt lösenord har uppdaterats. Du kan nu logga in med ditt nya lösenord.</p>
+              <div style={{ flex: 1 }} />
               <button onClick={() => { close(); router.replace('/'); }} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800">
                 Logga in
               </button>
