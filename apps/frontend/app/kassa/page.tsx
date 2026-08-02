@@ -80,14 +80,13 @@ function PaymentForm({
     // Spara data för redirect-flödet (3DS etc)
     sessionStorage.setItem('pendingOrder', JSON.stringify({ cartId, formData, total: finalTotal }));
 
-    const countryCode = countryCodeMap[formData.country] || 'se';
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: window.location.origin + '/order-bekraftelse',
         payment_method_data: {
           billing_details: {
-            address: { country: countryCode.toUpperCase() },
+            address: { country: 'SE' },
           },
         },
       },
