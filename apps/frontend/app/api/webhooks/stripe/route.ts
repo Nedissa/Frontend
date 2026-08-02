@@ -23,27 +23,5 @@ export async function POST(request: Request) {
     return Response.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
-  console.log('[webhook] event type:', event.type);
-
-  if (event.type === 'payment_intent.succeeded') {
-    const paymentIntent = event.data.object as Stripe.PaymentIntent;
-    console.log('[webhook] sending mail to:', (paymentIntent.metadata as any)?.email);
-    await sendOrderConfirmation(paymentIntent);
-  } else if (event.type === 'checkout.session.completed') {
-    const session = event.data.object as any;
-    const piId = session.payment_intent;
-    console.log('[webhook] checkout.session.completed, payment_intent:', piId);
-    if (piId && process.env.STRIPE_SECRET_KEY) {
-      const piRes = await fetch(`https://api.stripe.com/v1/payment_intents/${piId}`, {
-        headers: { 'Authorization': `Bearer ${process.env.STRIPE_SECRET_KEY}` },
-      });
-      if (piRes.ok) {
-        const pi = await piRes.json();
-        console.log('[webhook] fetched PI, email:', pi.metadata?.email);
-        await sendOrderConfirmation(pi);
-      }
-    }
-  }
-
   return Response.json({ received: true });
 }
