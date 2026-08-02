@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Kundservice | Techpilots',
@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Kundservice | Techpilots',
     description: 'Hjälp med order, leverans, returer, reklamation och köpvillkor.',
-    url: 'https://techpilots.se/kundservice',
+    url: 'https://techpilots.vercel.app/kundservice',
   },
 };
 

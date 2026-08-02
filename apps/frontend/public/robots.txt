@@ -1,4 +1,4 @@
-User-agent: *
+﻿User-agent: *
 Allow: /
 
 Disallow: /konto/
@@ -8,4 +8,4 @@ Disallow: /api/
 Disallow: /inlogg/
 Disallow: /registrera/
 
-Sitemap: https://www.techpilots.se/sitemap.xml
+Sitemap: https://techpilots.vercel.app/sitemap.xml

@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       body: JSON.stringify({
         to: [{ email }],
         templateId: 5,
-        params: { discountCode: 'WELCOME10', unsubscribeUrl: 'https://techpilots.se/avprenumerera' },
+        params: { discountCode: 'WELCOME10', unsubscribeUrl: 'https://techpilots.vercel.app/avprenumerera' },
       }),
     });
 

@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title: `${categoryTitle} | Techpilots`,
       description: `Köp ${categoryTitle.toLowerCase()} hos Techpilots. Stort urval och fri frakt.`,
-      url: `https://techpilots.se/kategori/${slug}`,
+      url: `https://techpilots.vercel.app/kategori/${slug}`,
     },
   };
 }

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Cookiepolicy | Techpilots',
@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Cookiepolicy | Techpilots',
     description: 'Information om hur Techpilots använder cookies.',
-    url: 'https://techpilots.se/cookiepolicy',
+    url: 'https://techpilots.vercel.app/cookiepolicy',
   },
 };
 

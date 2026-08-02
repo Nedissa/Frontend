@@ -172,6 +172,7 @@ function CheckoutContent() {
   const hasRestoredRef = useRef(false);
   const formDataRef = useRef(formData);
   const hasInitPaymentRef = useRef(false);
+  const sectionRefs = useRef<(HTMLElement | null)[]>([null, null, null]);
 
 
   // Håll formDataRef synkad med formData
@@ -375,9 +376,19 @@ function CheckoutContent() {
   const hasPayment = showPayment && hasContactInfo && !!shippingMethod;
   const step = !hasContactInfo ? 1 : !shippingMethod ? 2 : hasPayment ? 3 : 2;
   const [desktopStep, setDesktopStep] = useState(-1);
+  const prevStepRef = useRef(-1);
   useEffect(() => {
     const t = setTimeout(() => setDesktopStep(step), 200);
     return () => clearTimeout(t);
+  }, [step]);
+
+  useEffect(() => {
+    if (prevStepRef.current !== -1 && step !== prevStepRef.current) {
+      const sectionIndex = step - 1;
+      const el = sectionRefs.current[sectionIndex];
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    prevStepRef.current = step;
   }, [step]);
   const shippingCost = selectedShippingOption?.amount || 0;
   const totalDiscount = cartItems.reduce((s, i) => i.originalPrice ? s + (i.originalPrice - i.price) * i.quantity : s, 0);
@@ -542,7 +553,7 @@ function CheckoutContent() {
               </div>
 
               <div className="bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-                <section className="relative p-6 border-b border-gray-100">
+                <section ref={el => { sectionRefs.current[0] = el; }} className="relative p-6 border-b border-gray-100">
                   <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider p-2 block" style={{ background: step === 1 ? '#ea580c' : step > 1 ? '#000' : '#d1d5db', color: '#fff', transition: 'background 300ms ease', boxShadow: step >= 1 ? '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' : 'none' }}>Dina uppgifter</span></span>
                   <span className="hidden lg:block absolute w-0.5 pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-14px', background: desktopStep >= 2 ? '#000' : '#d1d5db', transition: 'background 600ms ease' }} />
                   <h2 className="text-2xl font-bold mb-6"><span className="text-black">Leveransadress</span></h2>
@@ -594,7 +605,7 @@ function CheckoutContent() {
                   </div>
                 </section>
 
-                <section className="relative p-6 border-b border-gray-100">
+                <section ref={el => { sectionRefs.current[1] = el; }} className="relative p-6 border-b border-gray-100">
                   <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider p-2 block" style={{ background: step === 2 ? '#ea580c' : step > 2 ? '#000' : '#d1d5db', color: '#fff', transition: 'background 300ms ease', boxShadow: step >= 2 ? '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' : 'none' }}>Fraktsätt</span></span>
                   <span className="hidden lg:block absolute w-0.5 pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-14px', background: desktopStep >= 3 ? '#000' : '#d1d5db', transition: 'background 600ms ease' }} />
                   <h2 className="text-2xl font-bold mb-6"><span className="text-black">Frakt</span></h2>
@@ -618,7 +629,7 @@ function CheckoutContent() {
                   </div>
                 </section>
 
-                <section className="relative p-6">
+                <section ref={el => { sectionRefs.current[2] = el; }} className="relative p-6">
                   <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider p-2 block" style={{ background: step === 3 ? '#ea580c' : step > 3 ? '#000' : '#d1d5db', color: '#fff', transition: 'background 300ms ease', boxShadow: step >= 3 ? '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' : 'none' }}>Betalsätt</span></span>
                   <span className="hidden lg:block absolute w-0.5 pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '0', background: desktopStep >= 3 ? '#000' : '#d1d5db', transition: 'background 600ms ease' }} />
                   <h2 className="text-2xl font-bold mb-4"><span className="text-black">Betalning</span></h2>

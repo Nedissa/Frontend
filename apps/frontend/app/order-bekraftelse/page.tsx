@@ -12,6 +12,14 @@ function OrderConfirmationContent() {
   const [firstName, setFirstName] = useState('');
 
   useEffect(() => {
+    // Blockera bakåt-knappen — ersätt med startsidan i history
+    window.history.pushState(null, '', window.location.href);
+    const onPopState = () => { window.history.pushState(null, '', window.location.href); };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
+  useEffect(() => {
     const paymentIntent = searchParams.get('payment_intent');
     const redirectStatus = searchParams.get('redirect_status');
 

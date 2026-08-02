@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Integritetspolicy | Techpilots',
@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Integritetspolicy | Techpilots',
     description: 'Läs hur Techpilots hanterar dina personuppgifter i enlighet med GDPR.',
-    url: 'https://techpilots.se/integritetspolicy',
+    url: 'https://techpilots.vercel.app/integritetspolicy',
   },
 };
 

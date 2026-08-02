@@ -16,7 +16,7 @@ async function addBrevoContact(email: string, firstName: string) {
 
 const emailHeader = `
   <table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;border-bottom:1px solid #e5e7eb;"><tr><td align="center" style="padding:20px 40px;">
-    <img src="https://techpilots.se/logo.png" alt="" width="28" height="28" style="vertical-align:middle;display:inline-block;" /><span style="font-size:1.2rem;font-weight:800;color:#000;letter-spacing:-0.5px;vertical-align:middle;"> Techpilots</span>
+    <img src="https://techpilots.vercel.app/logo.png" alt="" width="28" height="28" style="vertical-align:middle;display:inline-block;" /><span style="font-size:1.2rem;font-weight:800;color:#000;letter-spacing:-0.5px;vertical-align:middle;"> Techpilots</span>
   </td></tr></table>
 `;
 
@@ -35,7 +35,7 @@ export async function sendWelcomeEmail(firstName: string, email: string) {
         <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 16px;">Ditt konto är nu skapat och du är redo att handla. Som ny medlem får du <strong style="color:#000;">10% rabatt på din första order</strong>. Rabatten läggs till automatiskt när du går till kassan.</p>
         <p style="font-size:0.95rem;color:#555;line-height:1.7;margin:0 0 32px;">Vi har ett noggrant utvalt sortiment av elektronik med fri standardleverans och 30 dagars öppet köp.</p>
         <div style="text-align:center;margin:0 0 32px;">
-          <a href="https://techpilots.se/produkter" style="background:#000;color:#fff;padding:14px 36px;text-decoration:none;font-weight:700;font-size:0.9rem;border-radius:999px;display:inline-block;">Shoppa nu</a>
+          <a href="https://techpilots.vercel.app/produkter" style="background:#000;color:#fff;padding:14px 36px;text-decoration:none;font-weight:700;font-size:0.9rem;border-radius:999px;display:inline-block;">Shoppa nu</a>
         </div>
         <table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #e5e7eb;padding-top:24px;">
           <tr>

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     template: '%s | Techpilots',
   },
   description: 'Köp gaming-laptops, grafikkort, processorer och tillbehör hos Techpilots. Fri standardleverans, bästa priser och snabb service från Borås.',
-  metadataBase: new URL('https://techpilots.se'),
+  metadataBase: new URL('https://techpilots.vercel.app'),
   openGraph: {
     siteName: 'Techpilots',
     locale: 'sv_SE',
