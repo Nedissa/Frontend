@@ -52,12 +52,12 @@ function PostCard({ post, index }: { post: Post; index: number }) {
       <article className="blog-card">
         <div style={{
           width: '100%',
-          aspectRatio: '1/1',
+          height: '340px',
+          flexShrink: 0,
           background: imageUrl ? `url(${imageUrl}) center/cover no-repeat` : GRADIENTS[index % GRADIENTS.length],
-          position: 'relative',
         }}>
         </div>
-        <div style={{ padding: '20px 24px 24px' }}>
+        <div style={{ padding: '20px 24px 24px', flex: 1 }}>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '10px', alignItems: 'center' }}>
             {(categories.length > 0 ? categories : ['Techpilots']).map((cat, i) => (
               <span key={i} style={{
