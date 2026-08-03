@@ -240,8 +240,8 @@ export function CompareBar() {
                         <button onClick={() => { window.dispatchEvent(new CustomEvent('toggleCompare', { detail: p })); removeFromCompare(p.id); }} style={{ position: 'absolute', top: 0, right: 0, background: '#f0f0f0', border: 'none', cursor: 'pointer', borderRadius: '0 4px 0 999px', padding: '5px 5px 7px 9px', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
                           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#111" strokeWidth="1.5" strokeLinecap="round"><line x1="2" y1="2" x2="8" y2="8" /><line x1="8" y1="2" x2="2" y2="8" /></svg>
                         </button>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px', height: '70px' }}>
-                          <img src={p.image} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', padding: '8px', height: '70px' }}>
+                          <img src={p.image} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'left' }} />
                         </div>
                         <div style={{ padding: '5px 8px', borderBottom: '1px solid #f3f4f6' }}>
                           <p style={{ fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#aaa', marginBottom: '1px' }}>{p.brand || 'Varumärke'}</p>
@@ -287,7 +287,7 @@ export function CompareBar() {
                             <tr key={label} className="compare-spec-row" style={{ borderBottom: '1px solid #f3f4f6' }}>
                               <td className="spec-label" style={{ padding: '8px', fontSize: '0.72rem', color: '#555', fontWeight: 700, wordBreak: 'break-word', lineHeight: 1.3, verticalAlign: 'top' }}>{label}</td>
                               {values.map((val, i) => (
-                                <td key={i} style={{ padding: '8px', fontSize: '0.7rem', fontWeight: 500, color: val ? '#111' : '#ccc', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none', background: COLUMN_COLORS[i], textAlign: 'left', verticalAlign: 'top' }}>
+                                <td key={i} style={{ padding: '8px 8px 8px 12px', fontSize: '0.7rem', fontWeight: 500, color: val ? '#111' : '#ccc', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none', background: COLUMN_COLORS[i], textAlign: 'left', verticalAlign: 'top' }}>
                                   {val || '—'}
                                 </td>
                               ))}
