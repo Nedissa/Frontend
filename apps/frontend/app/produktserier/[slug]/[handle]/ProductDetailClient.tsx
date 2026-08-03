@@ -40,12 +40,26 @@ function SaleCountdown() {
   const progress = Math.min(100, (remainingSeconds / totalSeconds) * 100);
   const time = `${String(timeLeft.hours).padStart(2, '0')}:${String(timeLeft.minutes).padStart(2, '0')}:${String(timeLeft.seconds).padStart(2, '0')}`;
 
+  const r = 36;
+  const circ = 2 * Math.PI * r;
+  const dash = (progress / 100) * circ;
+
   return (
-    <div className="flex flex-col items-start gap-0.5">
-      <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>Kampanj</span>
-      <span className="text-xs font-bold text-black tabular-nums" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.15)' }}>{time}</span>
-      <div className="h-1 rounded-full overflow-hidden" style={{ width: '60px', backgroundColor: '#555555' }}>
-        <div className="h-full bg-red-500" style={{ width: `${progress}%`, transition: 'width 1s linear' }} />
+    <div style={{ position: 'relative', width: '96px', height: '96px', filter: 'drop-shadow(0 4px 12px rgba(239,68,68,0.45))' }}>
+      <svg width="96" height="96" style={{ position: 'absolute', top: 0, left: 0, transform: 'rotate(-90deg)' }}>
+        <defs>
+          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#ff6b6b" />
+            <stop offset="100%" stopColor="#ef4444" />
+          </linearGradient>
+        </defs>
+        <circle cx="48" cy="48" r={r + 6} fill="#1a3a6e" />
+        <circle cx="48" cy="48" r={r} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="3" />
+        <circle cx="48" cy="48" r={r} fill="none" stroke="url(#ringGrad)" strokeWidth="3" strokeDasharray={`${dash} ${circ}`} strokeLinecap="butt" style={{ transition: 'stroke-dasharray 1s linear' }} />
+      </svg>
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '3px' }}>
+        <span style={{ fontSize: '8px', fontWeight: 700, color: 'white', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Kampanj</span>
+        <span style={{ fontSize: '11px', fontWeight: 700, color: 'white', fontVariantNumeric: 'tabular-nums' }}>{time}</span>
       </div>
     </div>
   );
@@ -380,7 +394,7 @@ export default function ProductDetailClient({
                         <img
                           src={productDetails.images[imgIdx]?.url}
                           alt={productDetails.images[imgIdx]?.altText}
-                          className="object-contain p-4"
+                          className="object-contain p-20"
                           style={{ width: '100%', height: '100%' }}
                         />
                       </div>
