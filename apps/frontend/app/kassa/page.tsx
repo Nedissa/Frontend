@@ -198,6 +198,22 @@ function CheckoutContent() {
   // Restore cart from localStorage
   useLayoutEffect(() => {
     try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('quick') === '1') {
+        const item: CartItem = {
+          id: params.get('id') || '',
+          variantId: params.get('variantId') || params.get('id') || '',
+          title: params.get('title') || '',
+          price: Number(params.get('price')) || 0,
+          originalPrice: params.get('originalPrice') ? Number(params.get('originalPrice')) : undefined,
+          quantity: Number(params.get('qty')) || 1,
+          image: params.get('image') || undefined,
+        };
+        setCartItems([item]);
+        setCartTotal(item.price * item.quantity);
+        hasRestoredRef.current = true;
+        return;
+      }
       const savedCartItems = localStorage.getItem('cartItems');
       if (savedCartItems) {
         const items = JSON.parse(savedCartItems);

@@ -653,9 +653,9 @@ export default function ProductDetailClient({
             </div>
           </div>
 
-          <div className="px-6 pt-4 pb-6 border-t border-gray-100 flex flex-col gap-3">
+          <div className="px-6 pt-4 pb-6 border-t border-gray-100 flex flex-col gap-2">
             <div className="flex items-center gap-3">
-              <div className="flex items-center h-11 px-4 gap-4" style={{ backgroundColor: '#f5f5f5' }}>
+              <div className="flex items-center h-11 px-4 gap-4 self-stretch" style={{ backgroundColor: '#f5f5f5' }}>
                 <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="text-gray-500 hover:text-black text-sm font-semibold">−</button>
                 <span className="text-sm font-semibold w-4 text-center tabular-nums">{quantity}</span>
                 <button onClick={() => setQuantity(quantity + 1)} className="text-gray-500 hover:text-black text-sm font-semibold">+</button>
@@ -678,10 +678,22 @@ export default function ProductDetailClient({
             </div>
             <button
               onClick={() => {
-                localStorage.setItem('quickCheckout', JSON.stringify({ id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity }));
-                router.push('/kassa');
+                const params = new URLSearchParams({
+                  quick: '1',
+                  id: product.id,
+                  title: product.title,
+                  price: String(product.price),
+                  qty: String(quantity),
+                  ...(product.variantId ? { variantId: product.variantId } : {}),
+                  ...(product.originalPrice ? { originalPrice: String(product.originalPrice) } : {}),
+                  ...(product.image ? { image: product.image } : {}),
+                });
+                router.push(`/kassa?${params.toString()}`);
               }}
-              className="w-full bg-green-600 text-white text-sm font-semibold h-11 flex items-center justify-center hover:bg-green-700 transition-colors"
+              className="w-full text-white text-sm font-semibold h-11 flex items-center justify-center transition-colors px-4"
+              style={{ backgroundColor: '#16a34a' }}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#15803d')}
+              onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#16a34a')}
             >
               Handla nu
             </button>
