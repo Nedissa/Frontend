@@ -382,7 +382,7 @@ export default function ProductDetailClient({
               >
                 <button
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
-                  className="absolute left-2 z-10 w-9 h-9 flex items-center justify-center bg-white rounded-full top-1/2 -translate-y-1/2"
+                  className="absolute left-2 z-10 w-9 h-9 hidden md:flex items-center justify-center bg-white rounded-full top-1/2 -translate-y-1/2"
                   style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
                 >
                   <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
@@ -418,7 +418,7 @@ export default function ProductDetailClient({
                 </div>
                 <button
                   onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
-                  className="absolute right-2 z-10 w-9 h-9 flex items-center justify-center bg-white rounded-full top-1/2 -translate-y-1/2"
+                  className="absolute right-2 z-10 w-9 h-9 hidden md:flex items-center justify-center bg-white rounded-full top-1/2 -translate-y-1/2"
                   style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
                 >
                   <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>

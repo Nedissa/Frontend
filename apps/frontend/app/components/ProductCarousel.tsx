@@ -104,7 +104,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
             <div
               key={`${product.id}-${idx}`}
               ref={el => { mobileItemRefs.current[idx] = el; }}
-              style={{ flexShrink: 0, width: 'calc(85vw)', scrollSnapAlign: 'start' }}
+              style={{ flexShrink: 0, width: 'calc(75vw)', scrollSnapAlign: 'start' }}
             >
               <ProductCard product={product} variant={variant} priority={idx < 4} isActive={activeIndex === idx} />
             </div>
