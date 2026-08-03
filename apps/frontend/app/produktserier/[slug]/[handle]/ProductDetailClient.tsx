@@ -119,11 +119,6 @@ const COLORS = {
   'Silver': '#C0C0C0',
 };
 
-const RECOMMENDED_ACCESSORIES = [
-  { id: 'acc1', name: 'Skärmskydd', price: '199.00', image: '/assets/Produkt bilder/LAPTOP/1978563_1.webp' },
-  { id: 'acc2', name: 'Väska för Laptop', price: '399.00', image: '/assets/Produkt bilder/STATIONÄR/1.webp' },
-  { id: 'acc3', name: 'USB-C Hub', price: '149.00', image: '/assets/Produkt bilder/LAPTOP/1978563_2.webp' },
-];
 
 interface BreadcrumbTrail {
   mainCategorySlug: string;
@@ -178,6 +173,7 @@ export default function ProductDetailClient({
   const touchStartX = useRef<number | null>(null);
   const [alsoLikeProducts, setAlsoLikeProducts] = useState<ProductData[]>([]);
   const [recentlyViewed, setRecentlyViewed] = useState<ProductData[]>([]);
+  const [accessories, setAccessories] = useState<ProductData[]>([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [reviewStats, setReviewStats] = useState<{ avg: number; count: number } | null>(null);
   const router = useRouter();
@@ -193,6 +189,12 @@ export default function ProductDetailClient({
     if (productInfoRef.current) observer.observe(productInfoRef.current);
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    fetch(`/api/accessories?product_id=${product.id}`)
+      .then(r => r.json())
+      .then(data => setAccessories(data.accessories || []));
+  }, [product.id]);
 
   useEffect(() => {
     fetch(`/api/reviews?product_id=${product.id}`)
@@ -516,6 +518,31 @@ export default function ProductDetailClient({
             </div>
           </div>
 
+          {/* Rekommenderat tillbehör — desktop */}
+          {accessories.length > 0 && (
+            <div className="hidden md:block mt-2" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+              <button
+                onClick={() => setActiveTab(activeTab === 'accessories' ? '' : 'accessories')}
+                className="w-full flex items-center justify-between px-8 py-4 text-left"
+                style={{ background: '#3a3a3a' }}
+              >
+                <span className="text-xs font-bold tracking-widest text-white">REKOMMENDERAT TILLBEHÖR</span>
+                <svg className={`w-4 h-4 text-white transition-transform ${activeTab === 'accessories' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div style={{ display: 'grid', gridTemplateRows: activeTab === 'accessories' ? '1fr' : '0fr', transition: 'grid-template-rows 0.25s ease' }}>
+                <div style={{ overflow: 'hidden' }}>
+                  <div className="p-6 grid grid-cols-4 gap-4 bg-white">
+                    {accessories.map((acc) => (
+                      <ProductCard key={acc.id} product={acc} variant="related" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
         </div>{/* end left column */}
 
         {/* Right column — productinfo + handla tryggt */}
@@ -633,8 +660,8 @@ export default function ProductDetailClient({
             );
           })()}
 
-          <div className="mx-6 h-px bg-gray-100" />
-          <div>
+          {accessories.length > 0 && <div className="mx-6 h-px bg-gray-100" />}
+          {accessories.length > 0 && <div>
             <button
               type="button"
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowAccessories(!showAccessories); }}
@@ -648,16 +675,16 @@ export default function ProductDetailClient({
             <div style={{ display: 'grid', gridTemplateRows: showAccessories ? '1fr' : '0fr', transition: 'grid-template-rows 0.25s ease' }}>
               <div style={{ overflow: 'hidden' }}>
               <div className="px-4 pb-3 flex flex-col gap-2">
-                {RECOMMENDED_ACCESSORIES.map((accessory) => {
+                {accessories.map((accessory) => {
                   const isSelected = selectedAccessories.includes(accessory.id);
                   return (
                     <div key={accessory.id} className="flex items-center gap-3 p-2" style={{ backgroundColor: '#f5f5f5' }}>
                       <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-md">
-                        <img src={accessory.image} alt={accessory.name} className="w-full h-full object-contain" />
+                        <img src={accessory.image} alt={accessory.title} className="w-full h-full object-contain" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-bold text-gray-900 truncate">{accessory.name}</p>
-                        <p className="text-xs text-gray-500">{Number(accessory.price).toLocaleString('sv-SE')} kr</p>
+                        <p className="text-xs font-bold text-gray-900 truncate">{accessory.title}</p>
+                        <p className="text-xs text-gray-500">{accessory.price.toLocaleString('sv-SE')} kr</p>
                       </div>
                       <button
                         onClick={() => {
@@ -696,8 +723,8 @@ export default function ProductDetailClient({
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, variantId: product.variantId, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity, image: product.image } }));
                   selectedAccessories.forEach((accessoryId) => {
-                    const accessory = RECOMMENDED_ACCESSORIES.find(a => a.id === accessoryId);
-                    if (accessory) window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: accessory.id, title: accessory.name, price: Number(accessory.price), quantity: 1, image: accessory.image } }));
+                    const accessory = accessories.find(a => a.id === accessoryId);
+                    if (accessory) window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: accessory.id, variantId: accessory.variantId, title: accessory.title, price: accessory.price, quantity: 1, image: accessory.image } }));
                   });
                   setSelectedAccessories([]);
                   setIsAdded(true);
@@ -793,6 +820,31 @@ export default function ProductDetailClient({
             </div>
           ))}
         </div>
+
+        {/* Rekommenderat tillbehör */}
+        {accessories.length > 0 && (
+          <div className="flex flex-col" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+            <button
+              onClick={() => setMobileActiveTab(mobileActiveTab === 'accessories' ? '' : 'accessories')}
+              className="w-full flex items-center justify-between px-5 py-4 text-left"
+              style={{ background: '#3a3a3a' }}
+            >
+              <span className="text-xs font-bold tracking-widest text-white">REKOMMENDERAT TILLBEHÖR</span>
+              <svg className={`w-4 h-4 text-white transition-transform ${mobileActiveTab === 'accessories' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div style={{ display: 'grid', gridTemplateRows: mobileActiveTab === 'accessories' ? '1fr' : '0fr', transition: 'grid-template-rows 0.25s ease' }}>
+              <div style={{ overflow: 'hidden' }}>
+                <div className="p-4 grid grid-cols-2 gap-3 bg-white">
+                  {accessories.map((acc) => (
+                    <ProductCard key={acc.id} product={acc} variant="related" />
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Frakt, Retur, Öppet köp + Dela — desktop only */}
         <div className="hidden md:block"><ExtraInfoColumn product={product} /></div>

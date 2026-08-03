@@ -998,7 +998,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
                 </svg>
                 {isHydrated && cartCount > 0 && (
-                  <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-lg">{cartCount}</span>
+                  <span className="absolute -top-1.5 -right-2.5 bg-red-600 text-white font-bold rounded-full flex items-center justify-center shadow-lg" style={{ fontSize: '9px', minWidth: '16px', height: '16px', padding: '0 2px' }}>{cartCount}</span>
                 )}
               </div>
               <div className="flex-col items-start gap-0.5 hidden md:flex" style={{ minWidth: '72px' }}>

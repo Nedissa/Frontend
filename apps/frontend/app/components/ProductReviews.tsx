@@ -132,40 +132,58 @@ export function ProductReviews({ productId }: { productId: string }) {
     setSubmitting(false);
   };
 
+  const starCounts = [5, 4, 3, 2, 1].map(star => ({
+    star,
+    count: reviews.filter(r => r.rating === star).length,
+  }));
+
   return (
     <div className="space-y-6 pb-8">
-      {/* Summary */}
-      {reviews.length > 0 && (
-        <div className="flex items-center gap-4 pb-4 border-b border-gray-200">
-          <div className="text-4xl font-bold">{avgRating.toFixed(1)}</div>
+      {/* Summary header */}
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 pb-6 border-b border-gray-200">
+        <div className="space-y-6">
           <div>
-            <Stars rating={avgRating} />
-            <p className="text-sm text-gray-500 mt-1">{reviews.length} recension{reviews.length !== 1 ? 'er' : ''}</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Total värdering</p>
+            <div className="flex items-center gap-3">
+              <span className="text-5xl font-bold">{reviews.length > 0 ? avgRating.toFixed(1) : '—'}</span>
+              <div>
+                <Stars rating={avgRating} />
+                <p className="text-sm text-gray-500 mt-1">{reviews.length} recension{reviews.length !== 1 ? 'er' : ''}</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">Sammanfattning</p>
+            {starCounts.map(({ star, count }) => (
+              <div key={star} className="flex items-center gap-2 mb-1">
+                <span className="text-xs text-gray-500 w-14">{star} stjärn{star === 1 ? 'a' : 'or'}</span>
+                <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-gray-800 rounded-full"
+                    style={{ width: reviews.length > 0 ? `${(count / reviews.length) * 100}%` : '0%' }}
+                  />
+                </div>
+                <span className="text-xs text-gray-500 w-4 text-right">{count}</span>
+              </div>
+            ))}
           </div>
         </div>
-      )}
+        {(canReview === 'yes' || canReview === 'not_purchased') && !submitted && (
+          <button
+            onClick={() => setShowForm(true)}
+            className="inline-flex items-center gap-2 px-4 py-2 border border-black text-sm font-semibold hover:bg-black hover:text-white transition-colors w-fit"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+              <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            </svg>
+            Skriv recension
+          </button>
+        )}
+        {submitted && (
+          <p className="text-sm text-green-600 font-semibold">Tack för din recension!</p>
+        )}
+      </div>
 
-      {/* Write review button */}
-      {!showForm && !submitted && canReview === 'yes' && (
-        <button
-          onClick={() => setShowForm(true)}
-          className="text-sm font-semibold underline text-black hover:text-gray-600"
-        >
-          Skriv en recension
-        </button>
-      )}
-
-      {!submitted && canReview === 'not_purchased' && (
-        <p className="text-sm text-gray-500">Du måste ha köpt produkten för att kunna recensera den.</p>
-      )}
-
-      {!submitted && canReview === 'not_logged_in' && (
-        <p className="text-sm text-gray-500">Logga in för att recensera produkten.</p>
-      )}
-
-      {submitted && (
-        <p className="text-sm text-green-600 font-semibold">Tack för din recension!</p>
-      )}
 
       {/* Review form */}
       {showForm && (
