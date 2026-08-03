@@ -191,10 +191,10 @@ export default function ProductDetailClient({
   }, []);
 
   useEffect(() => {
-    fetch(`/api/accessories?product_id=${product.id}`)
+    fetch(`/api/accessories?category=${categorySlug}`)
       .then(r => r.json())
       .then(data => setAccessories(data.accessories || []));
-  }, [product.id]);
+  }, [categorySlug]);
 
   useEffect(() => {
     fetch(`/api/reviews?product_id=${product.id}`)
@@ -710,7 +710,7 @@ export default function ProductDetailClient({
               </div>
               </div>
             </div>
-          </div>
+          </div>}
 
           <div className="px-6 pt-4 pb-6 border-t border-gray-100 flex flex-col gap-2">
             <div className="flex items-center gap-3">
