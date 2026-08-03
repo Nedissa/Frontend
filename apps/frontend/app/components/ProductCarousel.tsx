@@ -60,31 +60,11 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
 
   return (
     <div className="pt-8">
-      <div className="flex items-center justify-between mb-4 px-2 md:px-6">
+      <div className="flex items-center mb-4 px-2 md:px-6">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{title}</h2>
-        <div className="hidden md:flex items-center gap-2">
-          <button
-            onClick={() => scroll('left')}
-            disabled={!canScrollLeft}
-            className="w-8 h-8 flex items-center justify-center border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-30 transition-opacity"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <button
-            onClick={() => scroll('right')}
-            disabled={!canScrollRight}
-            className="w-8 h-8 flex items-center justify-center border border-gray-200 bg-white hover:bg-gray-50 disabled:opacity-30 transition-opacity"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
       </div>
       {/* Desktop */}
-      <div className="hidden md:block px-6">
+      <div className="hidden md:block px-6" style={{ position: 'relative' }}>
         <div
           ref={scrollRef}
           className="flex gap-4 py-4 -my-4 overflow-x-auto"
@@ -96,6 +76,28 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
             </div>
           ))}
         </div>
+        {canScrollLeft && (
+          <button
+            onClick={() => scroll('left')}
+            className="hidden md:flex"
+            style={{ position: 'absolute', left: '-16px', top: '50%', transform: 'translateY(-50%)', width: '32px', height: '32px', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '50%', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.10)', zIndex: 2 }}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+        )}
+        {canScrollRight && (
+          <button
+            onClick={() => scroll('right')}
+            className="hidden md:flex"
+            style={{ position: 'absolute', right: '-16px', top: '50%', transform: 'translateY(-50%)', width: '32px', height: '32px', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '50%', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.10)', zIndex: 2 }}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        )}
       </div>
       {/* Mobil */}
       <div className="md:hidden overflow-x-auto" style={{ scrollbarWidth: 'none', scrollSnapType: 'x mandatory' }}>

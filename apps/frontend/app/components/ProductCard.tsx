@@ -232,7 +232,7 @@ export function ProductCard({
 
       {/* Quick facts — below image */}
       {config.showFeatures && product.features && product.features.length > 0 && (
-        <div className="relative flex items-stretch bg-[#fafaf8] border-b border-gray-200 mb-4">
+        <div className="relative flex items-stretch bg-[#fafaf8] border-b border-gray-200">
           {product.features.filter(f => !f.startsWith('tier:')).slice(0, 3).map((feature: string, idx: number) => {
             const parts = feature.split('|');
             const value = parts[0]?.trim() || feature;
@@ -247,27 +247,12 @@ export function ProductCard({
         </div>
       )}
 
-      {/* Image Carousel Dots */}
-      {cardImages && cardImages.length > 0 && (
-        <div className="hidden md:flex gap-2 justify-center mt-3 mb-4">
-          {cardImages.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setImageIndex(idx)}
-              className={`w-2 h-2 rounded-full transition-colors cursor-pointer ${
-                imageIndex === idx ? 'bg-gray-900' : 'bg-gray-300'
-              }`}
-              aria-label={`Image ${idx + 1}`}
-            />
-          ))}
-        </div>
-      )}
 
       {/* Product Info */}
       <div className="flex-1 flex flex-col">
 
         {/* Brand + Title */}
-        <div className="py-1 border-b border-gray-100">
+        <div className="pt-2 pb-1 border-b border-gray-100">
           <p className="text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">{product.brand || 'Varumärke'}</p>
           <h3 className="text-xs sm:text-sm font-semibold text-gray-900 leading-snug line-clamp-2 sm:line-clamp-none">{product.title}</h3>
         </div>
