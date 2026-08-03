@@ -20,7 +20,8 @@ interface Post {
   slug: string;
   createdAt: string;
   content?: { root: { children: RichTextNode[] } };
-  meta?: { description?: string };
+  heroImage?: { url: string; alt?: string };
+  meta?: { description?: string; image?: { url: string } };
 }
 
 async function getPost(slug: string): Promise<Post | null> {
@@ -64,15 +65,26 @@ export default async function BloggPostPage({ params }: { params: Promise<{ slug
 
   return (
     <MainLayout>
-      <div style={{ maxWidth: '720px', margin: '0 auto', padding: '64px 48px' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '64px 24px' }}>
         <Link href="/pilotbloggen" style={{ fontSize: '0.85rem', color: '#666', textDecoration: 'none', display: 'inline-block', marginBottom: '32px' }}>
           ← Tillbaka till bloggen
         </Link>
+
+        {/* Hero image / placeholder */}
+        <div style={{
+          width: '100%',
+          height: '420px',
+          marginBottom: '40px',
+          background: post.heroImage?.url || post.meta?.image?.url
+            ? `url(${post.heroImage?.url || post.meta?.image?.url}) center/cover no-repeat`
+            : 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+        }} />
+
         <p style={{ fontSize: '0.8rem', color: '#999', marginBottom: '12px' }}>
           {new Date(post.createdAt).toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' })}
         </p>
         <h1 style={{ fontSize: '2rem', fontWeight: 800, lineHeight: 1.2, marginBottom: '32px' }}>{post.title}</h1>
-        <div style={{ fontSize: '1.05rem', color: '#333', lineHeight: 1.9 }}>
+        <div style={{ fontSize: '1.05rem', color: '#333', lineHeight: 1.9, maxWidth: '720px' }}>
           {post.content?.root?.children?.map((node, i) => renderNode(node, i))}
         </div>
       </div>
