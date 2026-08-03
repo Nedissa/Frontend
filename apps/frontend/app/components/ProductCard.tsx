@@ -111,10 +111,10 @@ export function ProductCard({
 
   return (
     <>
-    <div className="h-full" style={{ isolation: 'isolate' }}>
+    <div className="h-full" style={{ isolation: 'isolate', contain: 'layout' }}>
     <div
-      className="flex flex-col bg-white h-full p-2 sm:p-3 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(0,0,0,0.14)] md:hover:-translate-y-1"
-      style={{ boxShadow: activeHover ? '0 8px 32px rgba(0,0,0,0.14)' : undefined, transition: 'box-shadow 300ms ease, transform 300ms ease' }}
+      className="flex flex-col bg-white h-full p-2 sm:p-3 md:hover:-translate-y-1"
+      style={{ boxShadow: activeHover ? '0 4px 20px rgba(0,0,0,0.12)' : undefined, transition: 'box-shadow 300ms ease, transform 300ms ease', willChange: 'transform' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -333,20 +333,22 @@ export function ProductCard({
 
         {/* Button Container */}
         <div className="mt-auto border-t border-gray-200"></div>
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden" style={{ height: '38px' }}>
           <button
             onClick={handleClick}
             disabled={added}
-            className="w-full py-2.5 font-semibold text-sm flex items-center justify-center gap-2 relative z-10 text-white transition-all duration-300"
+            className="absolute inset-0 w-full py-2.5 font-semibold text-sm flex items-center justify-center gap-2 z-10 text-white transition-all duration-300"
             style={{ background: 'black', opacity: (activeHover || added) ? 1 : 0, transform: (activeHover || added) ? 'translateY(0)' : 'translateY(100%)' }}
           >
             <span className="absolute inset-0 bg-black" />
             <span className="relative z-10 flex items-center gap-2">
               {added ? (
                 <>
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                  </svg>
+                  <span className="w-5 h-5 rounded-full bg-white flex items-center justify-center flex-shrink-0">
+                    <svg className="w-3 h-3" fill="none" stroke="black" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                      <path d="M5 13l4 4L19 7" />
+                    </svg>
+                  </span>
                   Tillagd
                 </>
               ) : (

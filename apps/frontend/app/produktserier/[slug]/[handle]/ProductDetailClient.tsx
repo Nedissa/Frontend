@@ -683,11 +683,22 @@ export default function ProductDetailClient({
                   });
                   setSelectedAccessories([]);
                   setIsAdded(true);
-                  setTimeout(() => setIsAdded(false), 100);
+                  setTimeout(() => setIsAdded(false), 2000);
                 }}
-                className="flex-1 bg-black text-white text-sm font-semibold h-11 flex items-center justify-center hover:bg-gray-800 transition-colors"
+                disabled={isAdded}
+                className="flex-1 text-white text-sm font-semibold h-11 flex items-center justify-center gap-2 transition-colors"
+                style={{ background: 'black' }}
               >
-                {isAdded ? 'Tillagd' : 'Lägg i varukorg'}
+                {isAdded ? (
+                  <>
+                    <span className="w-5 h-5 rounded-full bg-white flex items-center justify-center flex-shrink-0">
+                      <svg className="w-3 h-3" fill="none" stroke="black" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                        <path d="M5 13l4 4L19 7" />
+                      </svg>
+                    </span>
+                    Tillagd
+                  </>
+                ) : 'Lägg i varukorg'}
               </button>
             </div>
             <button
