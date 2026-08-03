@@ -86,6 +86,16 @@ export function ProductCard({
   const [inCompare, setInCompare] = useState(false);
 
   useEffect(() => {
+    try {
+      const stored = localStorage.getItem('techpilots_compare');
+      if (stored) {
+        const list = JSON.parse(stored);
+        if (Array.isArray(list) && list.some((p: any) => p.id === product.id)) {
+          setInCompare(true);
+        }
+      }
+    } catch {}
+
     const handler = (e: Event) => {
       const p = (e as CustomEvent).detail;
       if (p.id === product.id) setInCompare(prev => !prev);
@@ -257,7 +267,7 @@ export function ProductCard({
       <div className="flex-1 flex flex-col">
 
         {/* Brand + Title */}
-        <div className="py-2 border-b border-gray-100">
+        <div className="py-1 border-b border-gray-100">
           <p className="text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">{product.brand || 'Varumärke'}</p>
           <h3 className="text-xs sm:text-sm font-semibold text-gray-900 leading-snug line-clamp-2 sm:line-clamp-none">{product.title}</h3>
         </div>
@@ -273,7 +283,7 @@ export function ProductCard({
         </div>
 
         {/* Stock */}
-        <div className="py-2 border-b border-gray-100">
+        <div className="py-1 border-b border-gray-100">
           <p className={`text-xs font-semibold flex items-center gap-2 ${product.stock === 'Slut i lager' ? 'text-red-500' : 'text-green-600'}`}>
             <span className={`w-2 h-2 rounded-full ${product.stock === 'Slut i lager' ? 'bg-red-500' : 'bg-green-600'}`}></span>
             {product.stock || 'I lager'}
@@ -282,7 +292,7 @@ export function ProductCard({
 
 
         {/* Rating */}
-        <div className="py-2 border-b border-gray-100">
+        <div className="py-1 border-b border-gray-100">
           <Link href={`${productLink}#reviews`} className="flex items-center gap-1 hover:opacity-70 transition-opacity">
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
@@ -294,7 +304,7 @@ export function ProductCard({
         </div>
 
         {/* Colors */}
-        <div className="py-2 border-b border-gray-100">
+        <div className="py-1 border-b border-gray-100">
           <div className="flex gap-2 min-h-[20px]">
             {product.colors && product.colors.length > 0 && product.colors.map((color, idx) => {
               const colorMap: Record<string, string> = {

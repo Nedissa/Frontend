@@ -17,8 +17,34 @@ const CompareContext = createContext<CompareContextType>({
   clearCompare: () => {},
 });
 
+const STORAGE_KEY = 'techpilots_compare';
+
 export function CompareProvider({ children }: { children: React.ReactNode }) {
   const [compareList, setCompareList] = useState<ProductData[]>([]);
+
+  // Ladda från localStorage vid start
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed: ProductData[] = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setCompareList(parsed);
+        }
+      }
+    } catch {}
+  }, []);
+
+  // Spara till localStorage när listan ändras
+  useEffect(() => {
+    try {
+      if (compareList.length > 0) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(compareList));
+      } else {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    } catch {}
+  }, [compareList]);
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -29,8 +55,13 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
         return [...prev, product];
       });
     };
+    const clearHandler = () => setCompareList([]);
     window.addEventListener('toggleCompare', handler);
-    return () => window.removeEventListener('toggleCompare', handler);
+    window.addEventListener('clearCompare', clearHandler);
+    return () => {
+      window.removeEventListener('toggleCompare', handler);
+      window.removeEventListener('clearCompare', clearHandler);
+    };
   }, []);
 
   const removeFromCompare = useCallback((id: string) => {
