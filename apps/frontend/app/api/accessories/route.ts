@@ -1,6 +1,6 @@
 const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
 
-const CATEGORY_TO_COLLECTION: Record<string, string> = {
+const CATEGORY_TO_HANDLE: Record<string, string> = {
   grafikkort: 'grafikkort-tillbehor',
   'stationär-dator': 'stationardator-tillbehor',
   kylare: 'kylare-tillbehor',
@@ -9,39 +9,31 @@ const CATEGORY_TO_COLLECTION: Record<string, string> = {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const collectionHandle = searchParams.get('collection');
   const category = searchParams.get('category');
 
-  const handle = collectionHandle || (category ? CATEGORY_TO_COLLECTION[category] : null);
-
-  if (!handle) {
-    return Response.json({ accessories: [] }, { status: 400 });
-  }
+  const handle = category ? CATEGORY_TO_HANDLE[category] : null;
+  if (!handle) return Response.json({ accessories: [] }, { status: 400 });
 
   const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY;
 
-  const collectionRes = await fetch(
-    `${MEDUSA_URL}/store/collections?handle=${handle}&limit=1`,
+  const catRes = await fetch(
+    `${MEDUSA_URL}/store/product-categories?handle=${handle}&limit=1`,
     { headers: { 'x-publishable-api-key': publishableKey || '' } }
   );
+  if (!catRes.ok) return Response.json({ accessories: [] });
 
-  if (!collectionRes.ok) return Response.json({ accessories: [] });
-
-  const collectionData = await collectionRes.json();
-  const collection = collectionData.collections?.[0];
-  if (!collection) return Response.json({ accessories: [] });
+  const catData = await catRes.json();
+  const cat = catData.product_categories?.[0];
+  if (!cat) return Response.json({ accessories: [] });
 
   const productsRes = await fetch(
-    `${MEDUSA_URL}/store/products?collection_id[]=${collection.id}&limit=8`,
+    `${MEDUSA_URL}/store/products?category_id[]=${cat.id}&limit=8`,
     { headers: { 'x-publishable-api-key': publishableKey || '' } }
   );
-
   if (!productsRes.ok) return Response.json({ accessories: [] });
 
   const data = await productsRes.json();
-  const products = data.products || [];
-
-  const accessories = products.map((p: any) => ({
+  const accessories = (data.products || []).map((p: any) => ({
     id: p.id,
     title: p.title,
     handle: p.handle,
