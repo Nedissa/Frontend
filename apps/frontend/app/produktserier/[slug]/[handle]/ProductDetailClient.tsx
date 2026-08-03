@@ -319,6 +319,15 @@ export default function ProductDetailClient({
           <div
             className="relative flex gap-3 bg-white h-[320px] md:h-[540px]"
             style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', padding: '16px', overflow: 'hidden' }}
+            onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+            onTouchEnd={(e) => {
+              if (touchStartX.current === null) return;
+              const dx = e.changedTouches[0].clientX - touchStartX.current;
+              touchStartX.current = null;
+              if (Math.abs(dx) < 30) return;
+              if (dx < 0) goToImage((selectedImage + 1) % productDetails.images.length);
+              else goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length);
+            }}
           >
             {/* Countdown badge on image */}
             <div className="absolute z-20 flex items-center" style={{ top: '24px', right: '24px' }}>
@@ -358,23 +367,28 @@ export default function ProductDetailClient({
 
             {/* Main image */}
             <div className="flex-1 flex flex-col min-w-0">
-              <div className="relative flex flex-col h-full" style={{ backgroundColor: '#f5f5f5' }}>
+              <div
+                className="relative flex flex-col h-full"
+                style={{ backgroundColor: '#f5f5f5' }}
+                onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
+                onTouchEnd={(e) => {
+                  if (touchStartX.current === null) return;
+                  const dx = e.changedTouches[0].clientX - touchStartX.current;
+                  touchStartX.current = null;
+                  if (Math.abs(dx) < 30) return;
+                  if (dx < 0) goToImage((selectedImage + 1) % productDetails.images.length);
+                  else goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length);
+                }}
+              >
                 <button
                   onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
-                  className="absolute left-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
-                >‹</button>
+                  className="absolute left-2 z-10 w-9 h-9 flex items-center justify-center bg-white rounded-full top-1/2 -translate-y-1/2"
+                  style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
+                >
+                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                </button>
                 <div
                   className="relative flex-1 overflow-hidden"
-                  onClick={() => setShowZoom(true)}
-                  onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
-                  onTouchEnd={(e) => {
-                    if (touchStartX.current === null) return;
-                    const dx = e.changedTouches[0].clientX - touchStartX.current;
-                    touchStartX.current = null;
-                    if (Math.abs(dx) < 30) return;
-                    if (dx < 0) goToImage((selectedImage + 1) % productDetails.images.length);
-                    else goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length);
-                  }}
                 >
                   {[prevImage, selectedImage].map((imgIdx, i) => {
                     if (imgIdx === null) return null;
@@ -384,7 +398,8 @@ export default function ProductDetailClient({
                     return (
                       <div
                         key={imgIdx}
-                        className="absolute inset-0 flex items-center justify-center cursor-zoom-in"
+                        className="absolute inset-0 flex items-center justify-center md:cursor-zoom-in"
+                  onClick={() => { if (window.innerWidth >= 768) setShowZoom(true); }}
                         style={{
                           transform: isCurrent ? (isSliding ? `translateX(${enterFrom})` : 'translateX(0)') : `translateX(${exitTo})`,
                           transition: 'transform 350ms cubic-bezier(0.4, 0, 0.2, 1)',
@@ -403,8 +418,11 @@ export default function ProductDetailClient({
                 </div>
                 <button
                   onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
-                  className="absolute right-3 z-10 text-gray-600 hover:text-black text-6xl font-light w-12 h-full flex items-center justify-center"
-                >›</button>
+                  className="absolute right-2 z-10 w-9 h-9 flex items-center justify-center bg-white rounded-full top-1/2 -translate-y-1/2"
+                  style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
+                >
+                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                </button>
                 {productDetails.images.length > 1 && (
                   <div className="flex justify-center py-3 flex-shrink-0 relative z-10">
                     <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.12)' }}>
