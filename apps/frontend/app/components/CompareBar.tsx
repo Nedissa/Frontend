@@ -301,13 +301,13 @@ export function CompareBar() {
                 </table>
               </div>
 
-              {/* Mobil — en scroll-container för allt */}
-              <div className="md:hidden" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', marginLeft: '-12px', marginRight: '-12px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: `repeat(${compareList.length}, 50vw)`, minWidth: `${compareList.length * 50}vw` }}>
-                  {compareList.map((p) => (
-                    <div key={p.id} style={{ borderRight: '1px solid #e5e7eb' }}>
-                      {/* Produktkort — sticky överst */}
-                      <div style={{ position: 'sticky', top: 0, zIndex: 4, background: '#fff', margin: '0 6px 8px', boxShadow: '0 2px 8px rgba(0,0,0,0.10)', borderRadius: '4px', overflow: 'hidden' }}>
+              {/* Mobil */}
+              <div className="md:hidden" style={{ marginLeft: '-12px', marginRight: '-12px' }}>
+                {/* Sticky produktkort-rad — synkas horisontellt med specs via JS */}
+                <div ref={mobileCardRef} style={{ position: 'sticky', top: '65px', zIndex: 10, background: '#fff', borderBottom: '2px solid #e5e7eb', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', overflowX: 'hidden' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: `repeat(${compareList.length}, 50vw)`, minWidth: `${compareList.length * 50}vw` }}>
+                    {compareList.map((p) => (
+                      <div key={p.id} style={{ borderRight: '1px solid #e5e7eb', position: 'relative' }}>
                         <button onClick={() => { window.dispatchEvent(new CustomEvent('toggleCompare', { detail: p })); removeFromCompare(p.id); }} style={{ position: 'absolute', top: 0, right: 0, background: '#f0f0f0', border: 'none', cursor: 'pointer', borderRadius: '0 4px 0 999px', padding: '5px 5px 7px 9px', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
                           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#111" strokeWidth="1.5" strokeLinecap="round"><line x1="2" y1="2" x2="8" y2="8" /><line x1="8" y1="2" x2="2" y2="8" /></svg>
                         </button>
@@ -331,33 +331,44 @@ export function CompareBar() {
                           </button>
                         </div>
                       </div>
-                      {/* Specs för denna kolumn */}
-                      {grouped.map(({ category, keys }) => {
-                        const visibleKeys = keys.filter(label => {
-                          const values = compareList.map(p2 => getSpec(p2, label));
-                          if (values.every(v => !v)) return false;
-                          if (onlyDiffs && (values.every(v => !!v) || values.every(v => !v))) return false;
-                          return true;
-                        });
-                        if (visibleKeys.length === 0) return null;
-                        return (
-                          <Fragment key={category ?? 'uncategorized'}>
-                            {category && category !== 'System' && category !== 'SYSTEM' && (
-                              <div style={{ padding: '14px 8px 4px', borderTop: '2px solid #e5e7eb' }}>
-                                <span style={{ fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#999' }}>{category === 'Övrigt' ? 'Allmänt' : category}</span>
-                              </div>
-                            )}
-                            {visibleKeys.map((label) => (
-                              <div key={label} style={{ padding: '8px', borderBottom: '1px solid #f3f4f6' }}>
-                                <div style={{ fontSize: '0.6rem', color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '2px' }}>{label}</div>
-                                <div style={{ fontSize: '0.72rem', fontWeight: 500, color: getSpec(p, label) ? '#111' : '#ccc' }}>{getSpec(p, label) || '—'}</div>
-                              </div>
-                            ))}
-                          </Fragment>
-                        );
-                      })}
-                    </div>
-                  ))}
+                    ))}
+                  </div>
+                </div>
+                {/* Specs — horisontell scroll, synkar korten */}
+                <div
+                  style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}
+                  onScroll={(e) => { if (mobileCardRef.current) mobileCardRef.current.scrollLeft = (e.currentTarget as HTMLDivElement).scrollLeft; }}
+                >
+                  <div style={{ display: 'grid', gridTemplateColumns: `repeat(${compareList.length}, 50vw)`, minWidth: `${compareList.length * 50}vw` }}>
+                    {compareList.map((p) => (
+                      <div key={p.id} style={{ borderRight: '1px solid #e5e7eb' }}>
+                        {grouped.map(({ category, keys }) => {
+                          const visibleKeys = keys.filter(label => {
+                            const values = compareList.map(p2 => getSpec(p2, label));
+                            if (values.every(v => !v)) return false;
+                            if (onlyDiffs && (values.every(v => !!v) || values.every(v => !v))) return false;
+                            return true;
+                          });
+                          if (visibleKeys.length === 0) return null;
+                          return (
+                            <Fragment key={category ?? 'uncategorized'}>
+                              {category && category !== 'System' && category !== 'SYSTEM' && (
+                                <div style={{ padding: '14px 8px 4px', borderTop: '2px solid #e5e7eb' }}>
+                                  <span style={{ fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#999' }}>{category === 'Övrigt' ? 'Allmänt' : category}</span>
+                                </div>
+                              )}
+                              {visibleKeys.map((label) => (
+                                <div key={label} style={{ padding: '8px', borderBottom: '1px solid #f3f4f6' }}>
+                                  <div style={{ fontSize: '0.6rem', color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '2px' }}>{label}</div>
+                                  <div style={{ fontSize: '0.72rem', fontWeight: 500, color: getSpec(p, label) ? '#111' : '#ccc' }}>{getSpec(p, label) || '—'}</div>
+                                </div>
+                              ))}
+                            </Fragment>
+                          );
+                        })}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
