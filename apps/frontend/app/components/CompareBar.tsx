@@ -335,43 +335,52 @@ export function CompareBar() {
                     ))}
                   </div>
                 </div>
-                {/* Specs — horisontell scroll, synkar kortrad via scrollLeft */}
+                {/* Specs — tabell med delade rader så allt ligger i linje */}
                 <div
-                  style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollSnapType: 'x mandatory', scrollbarWidth: 'none', paddingTop: '16px' }}
+                  style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', paddingTop: '16px' }}
                   onScroll={(e) => {
                     if (mobileCardRef.current) mobileCardRef.current.scrollLeft = e.currentTarget.scrollLeft;
                   }}
                 >
-                  <div style={{ display: 'grid', gridTemplateColumns: `repeat(${compareList.length}, 50vw)`, minWidth: `${compareList.length * 50}vw` }}>
-                    {compareList.map((p) => (
-                      <div key={p.id} style={{ borderRight: '1px solid #e5e7eb', scrollSnapAlign: 'start' }}>
-                        {grouped.map(({ category, keys }) => {
-                          const visibleKeys = keys.filter(label => {
-                            const values = compareList.map(p2 => getSpec(p2, label));
-                            if (values.every(v => !v)) return false;
-                            if (onlyDiffs && (values.every(v => !!v) || values.every(v => !v))) return false;
-                            return true;
-                          });
-                          if (visibleKeys.length === 0) return null;
-                          return (
-                            <Fragment key={category ?? 'uncategorized'}>
-                              {category && category !== 'System' && category !== 'SYSTEM' && (
-                                <div style={{ padding: '14px 8px 4px', borderTop: '2px solid #e5e7eb' }}>
-                                  <span style={{ fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#999' }}>{category === 'Övrigt' ? 'Allmänt' : category}</span>
-                                </div>
-                              )}
-                              {visibleKeys.map((label) => (
-                                <div key={label} style={{ padding: '8px', borderBottom: '1px solid #f3f4f6' }}>
-                                  <div style={{ fontSize: '0.6rem', color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '2px' }}>{label}</div>
-                                  <div style={{ fontSize: '0.72rem', fontWeight: 500, color: getSpec(p, label) ? '#111' : '#ccc' }}>{getSpec(p, label) || '—'}</div>
-                                </div>
-                              ))}
-                            </Fragment>
-                          );
-                        })}
-                      </div>
-                    ))}
-                  </div>
+                  <table style={{ width: `${compareList.length * 50}vw`, minWidth: `${compareList.length * 50}vw`, borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+                    <colgroup>
+                      {compareList.map((_, i) => <col key={i} style={{ width: '50vw' }} />)}
+                    </colgroup>
+                    <tbody>
+                      {grouped.map(({ category, keys }) => {
+                        const visibleKeys = keys.filter(label => {
+                          const values = compareList.map(p => getSpec(p, label));
+                          if (values.every(v => !v)) return false;
+                          if (onlyDiffs && (values.every(v => !!v) || values.every(v => !v))) return false;
+                          return true;
+                        });
+                        if (visibleKeys.length === 0) return null;
+                        return (
+                          <Fragment key={category ?? 'uncategorized'}>
+                            {category && category !== 'System' && category !== 'SYSTEM' && (
+                              <tr>
+                                {compareList.map((_, i) => (
+                                  <td key={i} style={{ padding: '14px 8px 4px', borderTop: '2px solid #e5e7eb', borderRight: i < compareList.length - 1 ? '1px solid #e5e7eb' : 'none' }}>
+                                    {i === 0 && <span style={{ fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#999' }}>{category === 'Övrigt' ? 'Allmänt' : category}</span>}
+                                  </td>
+                                ))}
+                              </tr>
+                            )}
+                            {visibleKeys.map((label) => (
+                              <tr key={label} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                                {compareList.map((p, i) => (
+                                  <td key={i} style={{ padding: '8px', borderRight: i < compareList.length - 1 ? '1px solid #e5e7eb' : 'none', verticalAlign: 'top' }}>
+                                    <div style={{ fontSize: '0.6rem', color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '2px' }}>{label}</div>
+                                    <div style={{ fontSize: '0.72rem', fontWeight: 500, color: getSpec(p, label) ? '#111' : '#ccc' }}>{getSpec(p, label) || '—'}</div>
+                                  </td>
+                                ))}
+                              </tr>
+                            ))}
+                          </Fragment>
+                        );
+                      })}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
