@@ -45,7 +45,7 @@ function SaleCountdown() {
   const dash = (progress / 100) * circ;
 
   return (
-    <div style={{ position: 'relative', width: '96px', height: '96px', filter: 'drop-shadow(0 4px 12px rgba(239,68,68,0.45))' }}>
+    <div className="scale-75 md:scale-100 origin-top-right" style={{ position: 'relative', width: '96px', height: '96px', filter: 'drop-shadow(0 4px 12px rgba(239,68,68,0.45))' }}>
       <svg width="96" height="96" style={{ position: 'absolute', top: 0, left: 0, transform: 'rotate(-90deg)' }}>
         <defs>
           <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -394,7 +394,7 @@ export default function ProductDetailClient({
                         <img
                           src={productDetails.images[imgIdx]?.url}
                           alt={productDetails.images[imgIdx]?.altText}
-                          className="object-contain p-20"
+                          className="object-contain p-4 md:p-20"
                           style={{ width: '100%', height: '100%' }}
                         />
                       </div>
