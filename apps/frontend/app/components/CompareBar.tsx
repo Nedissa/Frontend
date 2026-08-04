@@ -191,14 +191,13 @@ export function CompareBar() {
           >
             {/* Modal header */}
             <div style={{ position: 'sticky', top: 0, background: '#fff', zIndex: 50, borderBottom: '1px solid #e5e7eb' }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 28px', maxWidth: '1280px', margin: '0 auto', width: '100%' }}>
-                <h2 className="hidden md:block" style={{ fontSize: '1.1rem', fontWeight: 800, letterSpacing: '-0.01em' }}>Jämförelse</h2>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 16px', maxWidth: '1280px', margin: '0 auto', width: '100%' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#f3f4f6', borderRadius: '12px', padding: '6px 10px' }}>
                   {/* Nollställ */}
                   <button
                     className="compare-header-btn"
                     onClick={() => { closeSheet(); setTimeout(() => { window.dispatchEvent(new CustomEvent('clearCompare')); clearCompare(); }, 280); }}
-                    style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#f3f4f6', border: 'none', borderRadius: '8px', padding: '7px 14px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#444', transition: 'box-shadow 0.15s' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'transparent', border: 'none', borderRadius: '8px', padding: '5px 10px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#444' }}
                   >
                     <svg width="14" height="14" fill="none" stroke="#111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
                     Nollställ
@@ -207,13 +206,14 @@ export function CompareBar() {
                   <button
                     className="compare-header-btn"
                     onClick={copyLink}
-                    style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#f3f4f6', border: 'none', borderRadius: '8px', padding: '7px 14px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#444', transition: 'box-shadow 0.15s' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'transparent', border: 'none', borderRadius: '8px', padding: '5px 10px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#444' }}
                   >
                     <svg width="14" height="14" fill="none" stroke="#111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                     {copied ? '✓ Kopierad' : 'Dela'}
                   </button>
+                  <div style={{ width: '1px', height: '16px', background: '#d1d5db' }} />
                   {/* Visa bara skillnader */}
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '0.78rem', fontWeight: 600, color: '#444' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '0.78rem', fontWeight: 600, color: '#444', padding: '5px 10px' }}>
                     <div
                       onClick={() => setOnlyDiffs(v => !v)}
                       style={{ width: '36px', height: '20px', borderRadius: '999px', background: onlyDiffs ? '#000' : '#d1d5db', position: 'relative', transition: 'background 0.2s', cursor: 'pointer', flexShrink: 0 }}
@@ -302,51 +302,48 @@ export function CompareBar() {
                 </table>
               </div>
 
-              {/* Mobil */}
+              {/* Mobil — EN scrollbar container med kort + specs */}
               <div className="md:hidden" style={{ marginLeft: '-12px', marginRight: '-12px' }}>
-                {/* Kortrad — sticky, overflow hidden, synkas via JS */}
-                <div ref={mobileCardRef} style={{ background: '#fff', borderBottom: '2px solid #e5e7eb', overflowX: 'hidden' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: `repeat(${compareList.length}, 50vw)`, minWidth: `${compareList.length * 50}vw` }}>
-                    {compareList.map((p) => (
-                      <div key={p.id} style={{ borderRight: '1px solid #e5e7eb', position: 'relative' }}>
-                        <button onClick={() => { window.dispatchEvent(new CustomEvent('toggleCompare', { detail: p })); removeFromCompare(p.id); }} style={{ position: 'absolute', top: 0, right: 0, background: '#f0f0f0', border: 'none', cursor: 'pointer', borderRadius: '0 4px 0 999px', padding: '5px 5px 7px 9px', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
-                          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#111" strokeWidth="1.5" strokeLinecap="round"><line x1="2" y1="2" x2="8" y2="8" /><line x1="8" y1="2" x2="2" y2="8" /></svg>
-                        </button>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px', height: '80px' }}>
-                          <img src={p.image} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
-                        </div>
-                        <div style={{ padding: '5px 8px', borderBottom: '1px solid #f3f4f6' }}>
-                          <p style={{ fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#aaa', marginBottom: '1px' }}>{p.brand || 'Varumärke'}</p>
-                          <p style={{ fontSize: '0.7rem', fontWeight: 600, lineHeight: 1.2, color: '#111' }}>{p.title}</p>
-                        </div>
-                        <div style={{ padding: '4px 8px', borderBottom: '1px solid #f3f4f6' }}>
-                          <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#111' }}>{p.price.toLocaleString('sv-SE')} kr</span>
-                        </div>
-                        <div style={{ padding: '4px 8px', borderBottom: '1px solid #f3f4f6', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                          <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: p.stock === 'Slut i lager' ? '#ef4444' : '#22c55e', flexShrink: 0 }} />
-                          <span style={{ fontSize: '0.65rem', fontWeight: 600, color: p.stock === 'Slut i lager' ? '#ef4444' : '#16a34a' }}>{p.stock || 'I lager'}</span>
-                        </div>
-                        <div style={{ padding: '5px 8px' }}>
-                          <button onClick={() => window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: p.id, variantId: p.variantId, title: p.title, price: p.price, quantity: 1, image: p.image } }))} style={{ width: '100%', background: '#000', color: '#fff', border: 'none', padding: '6px 0', fontSize: '0.65rem', fontWeight: 700, cursor: 'pointer' }}>
-                            Lägg i varukorg
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                {/* Specs — tabell med delade rader så allt ligger i linje */}
                 <div
-                  style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', paddingTop: '16px' }}
-                  onScroll={(e) => {
-                    if (mobileCardRef.current) mobileCardRef.current.scrollLeft = e.currentTarget.scrollLeft;
-                  }}
+                  style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', scrollSnapType: 'x mandatory' }}
                 >
                   <table style={{ width: `${compareList.length * 50}vw`, minWidth: `${compareList.length * 50}vw`, borderCollapse: 'collapse', tableLayout: 'fixed' }}>
                     <colgroup>
                       {compareList.map((_, i) => <col key={i} style={{ width: '50vw' }} />)}
                     </colgroup>
                     <tbody>
+                      {/* Produktkort-rad */}
+                      <tr>
+                        {compareList.map((p, i) => (
+                            <td key={p.id} style={{ borderRight: i < compareList.length - 1 ? '1px solid #e5e7eb' : 'none', verticalAlign: 'top', padding: 0 }}>
+                              <div style={{ position: 'relative', borderBottom: '2px solid #e5e7eb' }}>
+                                <button onClick={() => { window.dispatchEvent(new CustomEvent('toggleCompare', { detail: p })); removeFromCompare(p.id); }} style={{ position: 'absolute', top: 0, right: 0, background: '#f0f0f0', border: 'none', cursor: 'pointer', borderRadius: '0 4px 0 999px', padding: '5px 5px 7px 9px', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
+                                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#111" strokeWidth="1.5" strokeLinecap="round"><line x1="2" y1="2" x2="8" y2="8" /><line x1="8" y1="2" x2="2" y2="8" /></svg>
+                                </button>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px', height: '80px' }}>
+                                  <img src={p.image} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                                </div>
+                                <div style={{ padding: '5px 8px', borderTop: '1px solid #f3f4f6' }}>
+                                  <p style={{ fontSize: '0.55rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#aaa', marginBottom: '1px' }}>{p.brand || 'Varumärke'}</p>
+                                  <p style={{ fontSize: '0.7rem', fontWeight: 600, lineHeight: 1.2, color: '#111' }}>{p.title}</p>
+                                </div>
+                                <div style={{ padding: '4px 8px', borderTop: '1px solid #f3f4f6' }}>
+                                  <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#111' }}>{p.price.toLocaleString('sv-SE')} kr</span>
+                                </div>
+                                <div style={{ padding: '4px 8px', borderTop: '1px solid #f3f4f6', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: p.stock === 'Slut i lager' ? '#ef4444' : '#22c55e', flexShrink: 0 }} />
+                                  <span style={{ fontSize: '0.65rem', fontWeight: 600, color: p.stock === 'Slut i lager' ? '#ef4444' : '#16a34a' }}>{p.stock || 'I lager'}</span>
+                                </div>
+                                <div style={{ padding: '5px 8px' }}>
+                                  <button onClick={() => window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: p.id, variantId: p.variantId, title: p.title, price: p.price, quantity: 1, image: p.image } }))} style={{ width: '100%', background: '#000', color: '#fff', border: 'none', padding: '6px 0', fontSize: '0.65rem', fontWeight: 700, cursor: 'pointer' }}>
+                                    Lägg i varukorg
+                                  </button>
+                                </div>
+                              </div>
+                            </td>
+                          ))}
+                        </tr>
+                      {/* Specs-rader */}
                       {grouped.map(({ category, keys }) => {
                         const visibleKeys = keys.filter(label => {
                           const values = compareList.map(p => getSpec(p, label));
@@ -360,8 +357,12 @@ export function CompareBar() {
                             {category && category !== 'System' && category !== 'SYSTEM' && (
                               <tr>
                                 {compareList.map((_, i) => (
-                                  <td key={i} style={{ padding: '14px 8px 4px', borderTop: '2px solid #e5e7eb', borderRight: i < compareList.length - 1 ? '1px solid #e5e7eb' : 'none' }}>
-                                    {i === 0 && <span style={{ fontSize: '0.65rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#999' }}>{category === 'Övrigt' ? 'Allmänt' : category}</span>}
+                                  <td key={i} style={{ padding: '14px 8px 4px', borderTop: '2px solid #e5e7eb', borderRight: i < compareList.length - 1 ? '1px solid #e5e7eb' : 'none', position: 'relative' }}>
+                                    {i === 0 && (
+                                      <>
+                                        <span style={{ fontSize: '0.78rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#111', paddingLeft: '4px' }}>{category === 'Övrigt' ? 'Allmänt' : category}</span>
+                                      </>
+                                    )}
                                   </td>
                                 ))}
                               </tr>
@@ -369,9 +370,9 @@ export function CompareBar() {
                             {visibleKeys.map((label) => (
                               <tr key={label} style={{ borderBottom: '1px solid #f3f4f6' }}>
                                 {compareList.map((p, i) => (
-                                  <td key={i} style={{ padding: '8px', borderRight: i < compareList.length - 1 ? '1px solid #e5e7eb' : 'none', verticalAlign: 'top' }}>
-                                    <div style={{ fontSize: '0.6rem', color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '2px' }}>{label}</div>
-                                    <div style={{ fontSize: '0.72rem', fontWeight: 500, color: getSpec(p, label) ? '#111' : '#ccc' }}>{getSpec(p, label) || '—'}</div>
+                                  <td key={i} style={{ padding: '10px', borderRight: i < compareList.length - 1 ? '1px solid #e5e7eb' : 'none', verticalAlign: 'top' }}>
+                                    <div style={{ fontSize: '0.6rem', color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '3px' }}>{label}</div>
+                                    <div style={{ fontSize: '0.78rem', fontWeight: 600, color: getSpec(p, label) ? '#111' : '#ccc' }}>{getSpec(p, label) || '—'}</div>
                                   </td>
                                 ))}
                               </tr>

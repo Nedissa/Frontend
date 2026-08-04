@@ -86,7 +86,7 @@ export function BlogGrid({ posts }: { posts: Post[] }) {
               style={{
                 padding: '12px 24px',
                 fontSize: '0.8rem',
-                fontWeight: active === cat ? 700 : 500,
+                fontWeight: 700,
                 letterSpacing: '0.06em',
                 textTransform: 'uppercase',
                 border: 'none',
