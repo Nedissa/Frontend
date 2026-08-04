@@ -192,12 +192,12 @@ export function CompareBar() {
             {/* Modal header */}
             <div style={{ position: 'sticky', top: 0, background: '#fff', zIndex: 50, borderBottom: '1px solid #e5e7eb' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 16px', maxWidth: '1280px', margin: '0 auto', width: '100%' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: '#f3f4f6', borderRadius: '12px', padding: '6px 10px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   {/* Nollställ */}
                   <button
                     className="compare-header-btn"
                     onClick={() => { closeSheet(); setTimeout(() => { window.dispatchEvent(new CustomEvent('clearCompare')); clearCompare(); }, 280); }}
-                    style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'transparent', border: 'none', borderRadius: '8px', padding: '5px 10px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#444' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#f3f4f6', border: 'none', borderRadius: '8px', padding: '7px 14px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#444' }}
                   >
                     <svg width="14" height="14" fill="none" stroke="#111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
                     Nollställ
@@ -206,14 +206,14 @@ export function CompareBar() {
                   <button
                     className="compare-header-btn"
                     onClick={copyLink}
-                    style={{ display: 'flex', alignItems: 'center', gap: '6px', background: 'transparent', border: 'none', borderRadius: '8px', padding: '5px 10px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#444' }}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#f3f4f6', border: 'none', borderRadius: '8px', padding: '7px 14px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#444' }}
                   >
                     <svg width="14" height="14" fill="none" stroke="#111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                     {copied ? '✓ Kopierad' : 'Dela'}
                   </button>
                   <div style={{ width: '1px', height: '16px', background: '#d1d5db' }} />
                   {/* Visa bara skillnader */}
-                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '0.78rem', fontWeight: 600, color: '#444', padding: '5px 10px' }}>
+                  <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '0.78rem', fontWeight: 600, color: '#444', padding: '7px 14px' }}>
                     <div
                       onClick={() => setOnlyDiffs(v => !v)}
                       style={{ width: '36px', height: '20px', borderRadius: '999px', background: onlyDiffs ? '#000' : '#d1d5db', position: 'relative', transition: 'background 0.2s', cursor: 'pointer', flexShrink: 0 }}
