@@ -20,9 +20,17 @@ function Tooltip({ label, anchorRef }: { label: string; anchorRef: React.RefObje
       setPos({ x: r.left + r.width / 2, y: r.top - 8 });
     };
     const onLeave = () => setPos(null);
+    const onHide = () => { setPos(null); };
     el.addEventListener('mouseenter', onEnter);
     el.addEventListener('mouseleave', onLeave);
-    return () => { el.removeEventListener('mouseenter', onEnter); el.removeEventListener('mouseleave', onLeave); };
+    el.addEventListener('click', onHide);
+    window.addEventListener('scroll', onHide, { passive: true });
+    return () => {
+      el.removeEventListener('mouseenter', onEnter);
+      el.removeEventListener('mouseleave', onLeave);
+      el.removeEventListener('click', onHide);
+      window.removeEventListener('scroll', onHide);
+    };
   }, [anchorRef]);
 
   if (!mounted) return null;
