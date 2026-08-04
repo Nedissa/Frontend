@@ -6,7 +6,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { ImageZoomDialog } from './ImageZoomDialog';
 
-function Tooltip({ label, anchorRef }: { label: string; anchorRef: React.RefObject<HTMLElement> }) {
+function Tooltip({ label, anchorRef }: { label: string; anchorRef: React.RefObject<HTMLElement | null> }) {
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
   const [mounted, setMounted] = useState(false);
 
