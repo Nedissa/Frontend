@@ -191,9 +191,9 @@ export function HeroCarouselClient({ collections }: { collections: Collection[] 
             {/* Play/Pause with progress ring */}
             <button onClick={() => setIsPlaying(!isPlaying)} className="relative w-7 h-7 flex items-center justify-center text-gray-500 hover:text-black transition-colors">
               <svg className="absolute inset-0 w-7 h-7 -rotate-90" viewBox="0 0 28 28">
-                <circle cx="14" cy="14" r="12" fill="none" stroke="#e5e7eb" strokeWidth="2" />
+                <circle cx="14" cy="14" r="12" fill="none" stroke="#e5e7eb" strokeWidth="1.5" />
                 <circle
-                  cx="14" cy="14" r="12" fill="none" stroke="#1f2937" strokeWidth="2"
+                  cx="14" cy="14" r="12" fill="none" stroke="#1f2937" strokeWidth="1.5"
                   strokeDasharray={`${2 * Math.PI * 12}`}
                   strokeDashoffset={`${2 * Math.PI * 12 * (1 - (isPlaying ? progress : 0))}`}
                   strokeLinecap="round"

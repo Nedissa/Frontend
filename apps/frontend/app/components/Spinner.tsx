@@ -6,7 +6,7 @@ export function Spinner({ size = 20 }: { size?: number }) {
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth="1.5"
       strokeLinecap="round"
       style={{ animation: 'spin 0.7s linear infinite' }}
     >

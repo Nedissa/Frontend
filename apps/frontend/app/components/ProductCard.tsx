@@ -2,8 +2,38 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { ImageZoomDialog } from './ImageZoomDialog';
+
+function Tooltip({ label, anchorRef }: { label: string; anchorRef: React.RefObject<HTMLElement> }) {
+  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
+
+  useEffect(() => {
+    const el = anchorRef.current;
+    if (!el) return;
+    const onEnter = () => {
+      const r = el.getBoundingClientRect();
+      setPos({ x: r.left + r.width / 2, y: r.top - 8 });
+    };
+    const onLeave = () => setPos(null);
+    el.addEventListener('mouseenter', onEnter);
+    el.addEventListener('mouseleave', onLeave);
+    return () => { el.removeEventListener('mouseenter', onEnter); el.removeEventListener('mouseleave', onLeave); };
+  }, [anchorRef]);
+
+  if (!mounted) return null;
+  return createPortal(
+    <div style={{ position: 'fixed', left: pos?.x ?? 0, top: pos?.y ?? 0, transform: 'translate(-50%, -100%)', background: 'rgba(60,60,60,0.88)', color: '#fff', fontSize: '0.7rem', fontWeight: 500, padding: '4px 10px', borderRadius: '6px', whiteSpace: 'nowrap', pointerEvents: 'none', zIndex: 99999, letterSpacing: '0.01em', opacity: pos ? 1 : 0, transition: 'opacity 0.15s ease' }}>
+      {label}
+      <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)', border: '5px solid transparent', borderTopColor: 'rgba(20,20,20,0.92)' }} />
+    </div>,
+    document.body
+  );
+}
 
 export interface ProductData {
   id: string;
@@ -84,6 +114,9 @@ export function ProductCard({
 
   const [added, setAdded] = useState(false);
   const [inCompare, setInCompare] = useState(false);
+  const [isFav, setIsFav] = useState(false);
+  const compareRef = useRef<HTMLButtonElement>(null);
+  const favRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     try {
@@ -96,16 +129,29 @@ export function ProductCard({
       }
     } catch {}
 
+    try {
+      const favs = JSON.parse(localStorage.getItem('favoritesList') || '[]');
+      setIsFav(favs.some((item: any) => item.id === product.id));
+    } catch {}
+
     const handler = (e: Event) => {
       const p = (e as CustomEvent).detail;
       if (p.id === product.id) setInCompare(prev => !prev);
     };
     const clearHandler = () => setInCompare(false);
+    const favHandler = () => {
+      try {
+        const favs = JSON.parse(localStorage.getItem('favoritesList') || '[]');
+        setIsFav(favs.some((item: any) => item.id === product.id));
+      } catch {}
+    };
     window.addEventListener('toggleCompare', handler);
     window.addEventListener('clearCompare', clearHandler);
+    window.addEventListener('favoritesUpdated', favHandler);
     return () => {
       window.removeEventListener('toggleCompare', handler);
       window.removeEventListener('clearCompare', clearHandler);
+      window.removeEventListener('favoritesUpdated', favHandler);
     };
   }, [product.id]);
 
@@ -128,97 +174,77 @@ export function ProductCard({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Image Container with Badges */}
+      {/* Image + Ikoner */}
       <div
-        className="relative bg-[#f0f0f0] overflow-hidden aspect-[3/2] sm:aspect-square flex items-center justify-center w-full"
+        className="relative bg-[#f0f0f0] aspect-[3/2] sm:aspect-square w-full"
         onMouseMove={(e) => {
           if (!cardImages || cardImages.length === 0) return;
           const rect = e.currentTarget.getBoundingClientRect();
           const x = e.clientX - rect.left;
-          const thirdWidth = rect.width / 3;
-
-          let newIndex = 0;
-          if (x < thirdWidth) {
-            newIndex = 0;
-          } else if (x < thirdWidth * 2) {
-            newIndex = 1;
-          } else {
-            newIndex = 2;
-          }
-
-          setImageIndex(newIndex);
+          const third = rect.width / 3;
+          setImageIndex(x < third ? 0 : x < third * 2 ? 1 : 2);
         }}
       >
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
           {(() => {
             const tierRaw = product.features?.find(f => f.startsWith('tier:'))?.split(':')[1] || product.metadata?.tier;
-            const tierMap: Record<string, string> = {
-              standard: 'Standard', essential: 'Standard',
-              avancerad: 'Avancerad', advanced: 'Avancerad',
-              premium: 'Premium',
-            };
+            const tierMap: Record<string, string> = { standard: 'Standard', essential: 'Standard', avancerad: 'Avancerad', advanced: 'Avancerad', premium: 'Premium' };
             const tier = tierRaw ? tierMap[tierRaw.toLowerCase()] : null;
             return tier ? <span className="bg-black text-white text-[10px] font-bold px-3 py-1 w-fit">{tier}</span> : null;
           })()}
-          {product.isNew && (
-            <div className="bg-orange-600 text-white px-2.5 py-1 rounded text-xs font-bold w-fit">
-              Ny
-            </div>
-          )}
+          {product.isNew && <div className="bg-orange-600 text-white px-2.5 py-1 rounded text-xs font-bold w-fit">Ny</div>}
           {product.discountPercent ? (
-            <div className="bg-red-700 text-white px-2.5 py-1 rounded text-xs font-bold">
-              -{product.discountPercent}%
-            </div>
+            <div className="bg-red-700 text-white px-2.5 py-1 rounded text-xs font-bold">-{product.discountPercent}%</div>
           ) : product.discount ? (
-            <div className="bg-red-700 text-white px-2.5 py-1 rounded text-xs font-bold flex items-center gap-1">
-              <span>♥</span>
-              <span>{product.discount}</span>
-            </div>
+            <div className="bg-red-700 text-white px-2.5 py-1 rounded text-xs font-bold flex items-center gap-1"><span>♥</span><span>{product.discount}</span></div>
           ) : null}
         </div>
 
+        {/* Ikoner — horisontellt, övre högra hörnet */}
+        <div className="absolute top-2 right-2 flex flex-row gap-2" style={{ zIndex: 10 }}>
+          <button
+            ref={compareRef}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.dispatchEvent(new CustomEvent('toggleCompare', { detail: { ...product, categorySlug: categorySlug || product.sectionCategory } })); }}
+            className="w-9 h-9 flex items-center justify-center rounded-full transition-all duration-150"
+            style={{ border: 'none', padding: 0, cursor: 'pointer', background: inCompare ? '#0f2448' : 'transparent', boxShadow: inCompare ? '0 2px 8px rgba(0,0,0,0.18)' : 'none' }}
+            onMouseEnter={(e) => { if (!inCompare) { e.currentTarget.style.background = '#fff'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.18)'; } }}
+            onMouseLeave={(e) => { if (!inCompare) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.boxShadow = 'none'; } }}
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke={inCompare ? '#fff' : '#111'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M18 20V10M12 20V4M6 20v-6" />
+            </svg>
+          </button>
+          <Tooltip anchorRef={compareRef} label={inCompare ? 'Ta bort jämförelse' : 'Lägg till i jämförelse'} />
 
-
-        {/* Jämför + Zoom — grupperade uppe till höger, ögat längst höger */}
-        <div className={`absolute top-3 right-3 z-20 flex flex-row gap-3 md:transition-opacity md:duration-200 ${activeHover ? 'md:opacity-100' : 'md:opacity-0'}`}>
-          <div className="relative group/compare">
-            <button
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.dispatchEvent(new CustomEvent('toggleCompare', { detail: { ...product, categorySlug: categorySlug || product.sectionCategory } })); }}
-              className="w-11 h-11 md:w-8 md:h-8 rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
-              style={{ background: inCompare ? '#000' : '#fff', border: inCompare ? 'none' : '1px solid #ccc' }}
-            >
-              <svg className="w-6 h-6 md:w-4 md:h-4" viewBox="0 0 24 24" fill="none" stroke={inCompare ? '#fff' : '#000'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 20V10M12 20V4M6 20v-6" />
-              </svg>
-            </button>
-            <div className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-1 flex flex-col items-center opacity-0 group-hover/compare:opacity-100 transition-opacity duration-100 z-50">
-              <span className="border-4 border-transparent border-b-black" />
-              <span className="px-2 py-0.5 bg-black text-white text-[10px] font-medium whitespace-nowrap">{inCompare ? 'Ta bort' : 'Jämför'}</span>
-            </div>
-          </div>
-          <div className="relative group/zoom">
-            <button
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowZoom(true); }}
-              className="w-11 h-11 md:w-8 md:h-8 bg-white rounded-full flex items-center justify-center shadow-md transition-transform duration-200 hover:scale-110"
-            >
-              <svg className="w-6 h-6 md:w-4 md:h-4 text-gray-800" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5zm0 12.5c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-              </svg>
-            </button>
-            <div className="pointer-events-none absolute top-full left-1/2 -translate-x-1/2 mt-1 flex flex-col items-center opacity-0 group-hover/zoom:opacity-100 transition-opacity duration-100 z-50">
-              <span className="border-4 border-transparent border-b-black" />
-              <span className="px-2 py-0.5 bg-black text-white text-[10px] font-medium whitespace-nowrap">Zooma</span>
-            </div>
-          </div>
+          <button
+            ref={favRef}
+            onClick={(e) => {
+              e.preventDefault(); e.stopPropagation();
+              const list = JSON.parse(localStorage.getItem('favoritesList') || '[]');
+              const exists = list.some((item: any) => item.id === product.id);
+              const updated = exists ? list.filter((item: any) => item.id !== product.id) : [...list, { id: product.id, variantId: product.variantId, handle: product.handle, title: product.title, image: product.image, price: product.price, originalPrice: product.originalPrice, stock: product.stock }];
+              localStorage.setItem('favoritesList', JSON.stringify(updated));
+              window.dispatchEvent(new Event('favoritesUpdated'));
+            }}
+            className="w-9 h-9 flex items-center justify-center rounded-full transition-all duration-150"
+            style={{ border: 'none', padding: 0, cursor: 'pointer', background: isFav ? '#fff' : 'transparent', boxShadow: isFav ? '0 2px 8px rgba(0,0,0,0.18)' : 'none' }}
+            onMouseEnter={(e) => { if (!isFav) { e.currentTarget.style.background = '#fff'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.18)'; } }}
+            onMouseLeave={(e) => { if (!isFav) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.boxShadow = 'none'; } }}
+          >
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill={isFav ? '#e53e3e' : 'none'} stroke={isFav ? '#e53e3e' : '#111'} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
+          </button>
+          <Tooltip anchorRef={favRef} label={isFav ? 'Ta bort från önskelista' : 'Lägg till i önskelista'} />
         </div>
 
-        <Link href={productLink} scroll={false} className="absolute inset-0 flex items-center justify-center">
+        <Link href={productLink} scroll={false} className="absolute inset-0 flex items-center justify-center overflow-hidden">
           {(cardImages?.[imageIndex] || product.image) ? (
             <img
               src={getProxiedImageUrl(cardImages?.[imageIndex] || product.image)}
               alt={product.title}
-              className="w-full h-full object-contain p-4"
+              className="w-full h-full object-contain pt-12 pb-6 pl-6 pr-6"
               loading={priority ? 'eager' : 'lazy'}
               onError={(e) => { e.currentTarget.style.display = 'none'; }}
             />
@@ -332,7 +358,7 @@ export function ProductCard({
           <button
             onClick={handleClick}
             disabled={added}
-            className="absolute inset-0 w-full py-2.5 font-semibold text-sm flex items-center justify-center gap-2 z-10 text-white transition-all duration-300"
+            className="absolute inset-0 w-full py-2.5 font-semibold text-sm flex items-center justify-center gap-2 z-10 text-white transition-all duration-300 mobile-btn-visible"
             style={{ background: 'black', opacity: (activeHover || added) ? 1 : 0, transform: (activeHover || added) ? 'translateY(0)' : 'translateY(100%)' }}
           >
             <span className="absolute inset-0 bg-black" />

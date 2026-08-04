@@ -64,11 +64,11 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{title}</h2>
       </div>
       {/* Desktop */}
-      <div className="hidden md:block px-6" style={{ position: 'relative' }}>
+      <div className="hidden md:block px-6" style={{ position: 'relative', overflowY: 'visible' }}>
         <div
           ref={scrollRef}
           className="flex gap-4 py-4 -my-4 overflow-x-auto"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', overflowY: 'visible' }}
         >
           {[...products, ...products].map((product, idx) => (
             <div key={`${product.id}-${idx}`} style={{ flexShrink: 0, width: 'calc(25% - 12px)' }}>
@@ -82,7 +82,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
             className="hidden md:flex"
             style={{ position: 'absolute', left: '-16px', top: '50%', transform: 'translateY(-50%)', width: '32px', height: '32px', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '50%', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.10)', zIndex: 2 }}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -93,7 +93,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
             className="hidden md:flex"
             style={{ position: 'absolute', right: '-16px', top: '50%', transform: 'translateY(-50%)', width: '32px', height: '32px', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '50%', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.10)', zIndex: 2 }}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>

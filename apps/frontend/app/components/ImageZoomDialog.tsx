@@ -70,7 +70,7 @@ export function ImageZoomDialog({
       onClick={onClose}
     >
       <div
-        className="relative bg-white w-screen sm:w-[90vw] sm:h-[90vh] flex flex-col"
+        className="relative bg-white w-screen flex flex-col"
         style={{ height: '100dvh' }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
@@ -86,7 +86,7 @@ export function ImageZoomDialog({
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-8 h-8 flex items-center justify-center text-gray-600 hover:text-black transition-colors"
+          className="absolute top-4 right-4 z-10 w-9 h-9 flex items-center justify-center bg-black rounded-full text-white hover:bg-gray-800 transition-colors"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -110,6 +110,7 @@ export function ImageZoomDialog({
             src={images[currentIndex]?.url}
             alt={images[currentIndex]?.altText}
             className="max-w-full max-h-full object-contain"
+            style={{ minWidth: '60%', minHeight: '60%' }}
           />
 
           {/* Right Arrow */}
@@ -134,9 +135,10 @@ export function ImageZoomDialog({
                 onClick={() => goTo(idx)}
                 className="aspect-square flex items-center justify-center transition-all duration-200"
                 style={{
-                  opacity: currentIndex === idx ? 1 : 0.4,
-                  width: currentIndex === idx ? '88px' : '72px',
-                  transform: currentIndex === idx ? 'translateY(-4px)' : 'translateY(0)',
+                  opacity: currentIndex === idx ? 1 : 0.25,
+                  width: currentIndex === idx ? '130px' : '60px',
+                  transform: currentIndex === idx ? 'translateY(-10px) scale(1.06)' : 'translateY(0)',
+                  filter: currentIndex === idx ? 'drop-shadow(0 5px 10px rgba(0,0,0,0.25))' : 'none',
                 }}
               >
                 <img src={img.url} alt="" className="w-full h-full object-contain" />

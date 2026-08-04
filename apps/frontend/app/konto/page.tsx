@@ -105,11 +105,28 @@ export default function AccountPage() {
     } else {
     }
 
-    // Load favorites from localStorage if not already loaded from server
+    // Load favorites from localStorage, then enrich with live prices from Medusa
     if (favoriteProducts.length === 0) {
       const localFavorites = JSON.parse(localStorage.getItem('favoritesList') || '[]');
       if (localFavorites.length > 0) {
         setFavoriteProducts(localFavorites);
+        // Fetch live prices for favorites that lack price
+        const needsPrice = localFavorites.filter((f: any) => f.price == null && f.id);
+        if (needsPrice.length > 0) {
+          const ids = needsPrice.map((f: any) => f.id).join('&id[]=');
+          fetch(`/api/products?id[]=${ids}`)
+            .then(r => r.json())
+            .then(data => {
+              const products: any[] = data.products || [];
+              setFavoriteProducts((prev: any[]) => prev.map(fav => {
+                if (fav.price != null) return fav;
+                const found = products.find((p: any) => p.id === fav.id);
+                if (!found) return fav;
+                return { ...fav, price: found.price, originalPrice: found.originalPrice, stock: found.stock, image: found.image || fav.image };
+              }));
+            })
+            .catch(() => {});
+        }
       }
     }
   }, []);
@@ -332,7 +349,7 @@ export default function AccountPage() {
             onClick={handleLogout}
             className="inline-flex items-center gap-2 text-red-600 hover:text-red-800 font-semibold text-sm transition-colors"
           >
-            <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+            <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
               <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
             </svg>
             Logga ut
@@ -359,7 +376,7 @@ export default function AccountPage() {
                 : 'border-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
             Profil
           </button>
           <button
@@ -373,7 +390,7 @@ export default function AccountPage() {
                 : 'border-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
             Orderhistorik
           </button>
           <button
@@ -387,7 +404,7 @@ export default function AccountPage() {
                 : 'border-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
             Favoriter
           </button>
           <button
@@ -401,7 +418,7 @@ export default function AccountPage() {
                 : 'border-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             Kundklubb
           </button>
           <button
@@ -415,7 +432,7 @@ export default function AccountPage() {
                 : 'border-transparent text-gray-600 hover:text-gray-900'
             }`}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" /></svg>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" /></svg>
             Reklamation
           </button>
         </div>
@@ -430,10 +447,10 @@ export default function AccountPage() {
               className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
             >
               <span className={`flex items-center gap-2 ${activeTab === 'profil' ? 'text-black' : 'text-gray-600'}`}>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
                 Profil
               </span>
-              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'profil' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'profil' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
@@ -466,7 +483,7 @@ export default function AccountPage() {
                     className="text-sm font-semibold text-gray-600 flex items-center gap-1"
                   >
                     Byt lösenord
-                    <svg className={`w-4 h-4 transition-transform ${showPasswordForm ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                    <svg className={`w-4 h-4 transition-transform ${showPasswordForm ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </button>
                   {showPasswordForm && (
                     <div className="mt-3 space-y-3">
@@ -488,10 +505,10 @@ export default function AccountPage() {
               className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
             >
               <span className={`flex items-center gap-2 ${activeTab === 'orderhistorik' ? 'text-black' : 'text-gray-600'}`}>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
                 Orderhistorik
               </span>
-              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'orderhistorik' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'orderhistorik' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
@@ -524,7 +541,7 @@ export default function AccountPage() {
                             </div>
                             <div className="flex items-center gap-3">
                               <span className="text-xs text-gray-500">{order.items?.length || 0} artikel{(order.items?.length || 0) !== 1 ? 'ar' : ''}</span>
-                              <svg className={`w-4 h-4 text-gray-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                              <svg className={`w-4 h-4 text-gray-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                             </div>
                           </button>
 
@@ -599,10 +616,10 @@ export default function AccountPage() {
               className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
             >
               <span className={`flex items-center gap-2 ${activeTab === 'favoriter' ? 'text-black' : 'text-gray-600'}`}>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
                 Favoriter
               </span>
-              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'favoriter' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'favoriter' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
@@ -614,16 +631,27 @@ export default function AccountPage() {
                     <p className="text-sm text-gray-500 mb-3">{favoriteProducts.length} sparade favoriter</p>
                     {favoriteProducts.map((product, idx) => (
                       <div key={product.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', borderTop: idx === 0 ? '1px solid #e5e7eb' : 'none', borderBottom: '1px solid #e5e7eb' }}>
-                        <img src={product.image} alt={product.title} style={{ width: 64, height: 64, objectFit: 'contain', flexShrink: 0 }} />
+                        <Link href={`/produkter/${product.handle}`}>
+                          <img src={product.image} alt={product.title} style={{ width: 64, height: 64, objectFit: 'contain', flexShrink: 0, background: '#f5f5f5' }} />
+                        </Link>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <Link href={`/produkter/${product.handle}`} className="text-sm font-semibold hover:underline line-clamp-1">{product.title}</Link>
-                          <p style={{ fontSize: '0.875rem', fontWeight: 700, marginTop: 2 }}>{product.price.toLocaleString('sv-SE')} kr</p>
+                          <p style={{ fontSize: '0.875rem', fontWeight: 700, marginTop: 2 }}>{product.price != null ? product.price.toLocaleString('sv-SE') : '–'} kr</p>
+                          {product.stock && (
+                            <p style={{ fontSize: '0.72rem', marginTop: 2, color: product.stock === 'out_of_stock' ? '#dc2626' : '#16a34a', fontWeight: 600 }}>
+                              {product.stock === 'out_of_stock' ? 'Slutsåld' : 'I lager'}
+                            </p>
+                          )}
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-                          <button onClick={() => window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, variantId: product.variantId, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity: 1, image: product.image } }))} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#111' }}>
-                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+                          <button onClick={() => window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, variantId: product.variantId, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity: 1, image: product.image } }))} style={{ background: '#0f2448', color: '#fff', border: 'none', padding: '6px 12px', fontSize: '0.72rem', fontWeight: 600, cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                            Lägg i korg
                           </button>
-                          <button onClick={async () => { const updated = favoriteProducts.filter(p => p.id !== product.id); await fetch('/api/favorites', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ wishlist: updated }) }); setFavoriteProducts(updated); }} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.7rem', fontWeight: 600, color: '#9ca3af' }}>Ta bort</button>
+                          <button onClick={async () => { const updated = favoriteProducts.filter(p => p.id !== product.id); await fetch('/api/favorites', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ wishlist: updated }) }); setFavoriteProducts(updated); localStorage.setItem('favoritesList', JSON.stringify(updated)); window.dispatchEvent(new Event('favoritesUpdated')); }} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#e53e3e' }}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="#e53e3e" stroke="#e53e3e" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                            </svg>
+                          </button>
                         </div>
                       </div>
                     ))}
@@ -648,10 +676,10 @@ export default function AccountPage() {
               className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
             >
               <span className={`flex items-center gap-2 ${activeTab === 'kundklubb' ? 'text-black' : 'text-gray-600'}`}>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                 Kundklubb
               </span>
-              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'kundklubb' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'kundklubb' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
@@ -661,14 +689,14 @@ export default function AccountPage() {
                 {loyalty && loyalty.total_points !== undefined ? (() => {
                   const points = loyalty.total_points;
                   const tiers = [
-                    { name: 'Brons', threshold: 0, color: '#cd7f32', glow: 'rgba(205,127,50,0.3)', bg: 'rgba(205,127,50,0.08)', benefits: ['Fri frakt', '30 dagars öppet köp', 'Erbjudanden'] },
-                    { name: 'Silver', threshold: 500, color: '#a0a0a0', glow: 'rgba(160,160,160,0.3)', bg: 'rgba(160,160,160,0.08)', benefits: ['Fri frakt', '30 dagars öppet köp', 'Erbjudanden', '5% på fyndvaror'] },
-                    { name: 'Guld', threshold: 1500, color: '#d4a017', glow: 'rgba(212,160,23,0.3)', bg: 'rgba(212,160,23,0.08)', benefits: ['Fri frakt', '30 dagars öppet köp', 'Erbjudanden', '10% på fyndvaror'] },
-                    { name: 'Platinum', threshold: 3000, color: '#8b9eb0', glow: 'rgba(139,158,176,0.3)', bg: 'rgba(139,158,176,0.08)', benefits: ['Fri frakt', '30 dagars öppet köp', 'Erbjudanden', '15% på fyndvaror', 'Fri hemleverans', 'Prioriterad service'] },
+                    { name: 'Brons', threshold: 0, color: '#cd7f32', glow: 'rgba(205,127,50,0.3)', bg: 'rgba(205,127,50,0.08)', benefits: ['Fri frakt', '14 dagars ångerrätt', 'Erbjudanden'] },
+                    { name: 'Silver', threshold: 500, color: '#a0a0a0', glow: 'rgba(160,160,160,0.3)', bg: 'rgba(160,160,160,0.08)', benefits: ['Fri frakt', '14 dagars ångerrätt', 'Erbjudanden', '5% på fyndvaror'] },
+                    { name: 'Guld', threshold: 1500, color: '#d4a017', glow: 'rgba(212,160,23,0.3)', bg: 'rgba(212,160,23,0.08)', benefits: ['Fri frakt', '14 dagars ångerrätt', 'Erbjudanden', '10% på fyndvaror'] },
+                    { name: 'Platinum', threshold: 3000, color: '#8b9eb0', glow: 'rgba(139,158,176,0.3)', bg: 'rgba(139,158,176,0.08)', benefits: ['Fri frakt', '14 dagars ångerrätt', 'Erbjudanden', '15% på fyndvaror', 'Fri hemleverans', 'Prioriterad service'] },
                   ];
                   const benefitIcons: Record<string, React.ReactElement> = {
                     'Fri frakt': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 17H5a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v3m0 0h2l3 4v3h-5m0 0a2 2 0 11-4 0m4 0a2 2 0 10-4 0"/></svg>,
-                    '30 dagars öppet köp': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4h16v2H4zM4 8l1 12h14l1-12H4zm5 4v4m6-4v4"/></svg>,
+                    '14 dagars ångerrätt': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4h16v2H4zM4 8l1 12h14l1-12H4zm5 4v4m6-4v4"/></svg>,
                     'Erbjudanden': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M17 17h.01M3 12l9-9 9 9-9 9-9-9zm7-2a1 1 0 100 2 1 1 0 000-2z"/></svg>,
                     '5% på fyndvaror': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 14l6-6M9.5 9.5h.01M14.5 14.5h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>,
                     '10% på fyndvaror': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 14l6-6M9.5 9.5h.01M14.5 14.5h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>,
@@ -736,10 +764,10 @@ export default function AccountPage() {
               className="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left"
             >
               <span className={`flex items-center gap-2 ${activeTab === 'felanmalan' ? 'text-black' : 'text-gray-600'}`}>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" /></svg>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z" /></svg>
                 Reklamation
               </span>
-              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'felanmalan' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg className={`w-4 h-4 text-gray-400 transition-transform ${activeTab === 'felanmalan' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
@@ -907,7 +935,7 @@ export default function AccountPage() {
               className="text-sm font-semibold text-gray-600 hover:text-black flex items-center gap-1 transition-colors"
             >
               Byt lösenord
-              <svg className={`w-4 h-4 transition-transform ${showPasswordForm ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              <svg className={`w-4 h-4 transition-transform ${showPasswordForm ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
             </button>
             {showPasswordForm && (
               <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -960,7 +988,7 @@ export default function AccountPage() {
                   style={{ flex: 1, padding: '10px 14px', fontSize: '0.875rem', border: 'none', outline: 'none' }}
                 />
                 <div style={{ padding: '10px 14px', background: '#f3f4f6', borderLeft: '1px solid #e5e7eb' }}>
-                  <svg width="16" height="16" fill="none" stroke="#6b7280" strokeWidth="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <svg width="16" height="16" fill="none" stroke="#6b7280" strokeWidth="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
                 </div>
               </div>
               {orders.filter(o =>
@@ -985,7 +1013,7 @@ export default function AccountPage() {
                           {(order.items?.length || 0) > 1 && ` (+ ${order.items.length - 1} art)`}
                         </p>
                       </div>
-                      <svg className={`ml-4 w-5 h-5 text-gray-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                      <svg className={`ml-4 w-5 h-5 text-gray-400 transition-transform ${isExpanded ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                     </button>
 
                     <div style={{ display: 'grid', gridTemplateRows: isExpanded ? '1fr' : '0fr', transition: 'grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1)' }}>
@@ -1103,7 +1131,7 @@ export default function AccountPage() {
                           <span style={{ fontSize: '0.7rem', color: '#6b7280' }}>I lager</span>
                         </div>
                       </td>
-                      <td style={{ padding: '16px', fontSize: '0.875rem', fontWeight: 700, whiteSpace: 'nowrap' }}>{product.price.toLocaleString('sv-SE')} kr</td>
+                      <td style={{ padding: '16px', fontSize: '0.875rem', fontWeight: 700, whiteSpace: 'nowrap' }}>{product.price != null ? product.price.toLocaleString('sv-SE') : '–'} kr</td>
                       <td style={{ padding: '16px 0', whiteSpace: 'nowrap' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                           <button onClick={() => window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, variantId: product.variantId, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity: 1, image: product.image } }))} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#111' }} title="Lägg till i kundvagn">
@@ -1249,17 +1277,17 @@ export default function AccountPage() {
             const points = loyalty.total_points;
             const currentTier = points >= 3000 ? 'Platinum' : points >= 1500 ? 'Guld' : points >= 500 ? 'Silver' : 'Brons';
             const tiers = [
-              { name: 'Brons',    threshold: 0,    next: 500,  color: '#cd7f32', glow: 'rgba(205,127,50,0.3)',  bg: 'rgba(205,127,50,0.08)', benefits: ['Fri frakt','30 dagars öppet köp','Erbjudanden'] },
-              { name: 'Silver',   threshold: 500,  next: 1500, color: '#a0a0a0', glow: 'rgba(160,160,160,0.3)', bg: 'rgba(160,160,160,0.08)', benefits: ['Fri frakt','30 dagars öppet köp','Erbjudanden','5% på fyndvaror'] },
-              { name: 'Guld',     threshold: 1500, next: 3000, color: '#d4a017', glow: 'rgba(212,160,23,0.3)',  bg: 'rgba(212,160,23,0.08)', benefits: ['Fri frakt','30 dagars öppet köp','Erbjudanden','10% på fyndvaror'] },
-              { name: 'Platinum', threshold: 3000, next: 3000, color: '#8b9eb0', glow: 'rgba(139,158,176,0.3)', bg: 'rgba(139,158,176,0.08)', benefits: ['Fri frakt','30 dagars öppet köp','Erbjudanden','15% på fyndvaror','Fri hemleverans','Prioriterad service'] },
+              { name: 'Brons',    threshold: 0,    next: 500,  color: '#cd7f32', glow: 'rgba(205,127,50,0.3)',  bg: 'rgba(205,127,50,0.08)', benefits: ['Fri frakt','14 dagars ångerrätt','Erbjudanden'] },
+              { name: 'Silver',   threshold: 500,  next: 1500, color: '#a0a0a0', glow: 'rgba(160,160,160,0.3)', bg: 'rgba(160,160,160,0.08)', benefits: ['Fri frakt','14 dagars ångerrätt','Erbjudanden','5% på fyndvaror'] },
+              { name: 'Guld',     threshold: 1500, next: 3000, color: '#d4a017', glow: 'rgba(212,160,23,0.3)',  bg: 'rgba(212,160,23,0.08)', benefits: ['Fri frakt','14 dagars ångerrätt','Erbjudanden','10% på fyndvaror'] },
+              { name: 'Platinum', threshold: 3000, next: 3000, color: '#8b9eb0', glow: 'rgba(139,158,176,0.3)', bg: 'rgba(139,158,176,0.08)', benefits: ['Fri frakt','14 dagars ångerrätt','Erbjudanden','15% på fyndvaror','Fri hemleverans','Prioriterad service'] },
             ];
             const ct = tiers.find(t => t.name === currentTier)!;
             const nextTier = tiers.find(t => t.threshold > points);
             const progressPct = nextTier ? Math.min(100, ((points - ct.threshold) / (nextTier.threshold - ct.threshold)) * 100) : 100;
             const benefitIcons: Record<string, React.ReactElement> = {
               'Fri frakt': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 17H5a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v3m0 0h2l3 4v3h-5m0 0a2 2 0 11-4 0m4 0a2 2 0 10-4 0"/></svg>,
-              '30 dagars öppet köp': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4h16v2H4zM4 8l1 12h14l1-12H4zm5 4v4m6-4v4"/></svg>,
+              '14 dagars ångerrätt': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4h16v2H4zM4 8l1 12h14l1-12H4zm5 4v4m6-4v4"/></svg>,
               'Erbjudanden': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M17 17h.01M3 12l9-9 9 9-9 9-9-9zm7-2a1 1 0 100 2 1 1 0 000-2z"/></svg>,
               '5% på fyndvaror': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 14l6-6M9.5 9.5h.01M14.5 14.5h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>,
               '10% på fyndvaror': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 14l6-6M9.5 9.5h.01M14.5 14.5h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>,

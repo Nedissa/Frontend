@@ -723,7 +723,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Meny" className="inline-flex flex-col items-center gap-1 p-2 -m-2">
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               {mobileMenuOpen
-                ? <path strokeLinecap="round" strokeLinejoin="round" stroke="#111" strokeWidth="2" fill="none" d="M6 18L18 6M6 6l12 12" />
+                ? <path strokeLinecap="round" strokeLinejoin="round" stroke="#111" strokeWidth="1.5" fill="none" d="M6 18L18 6M6 6l12 12" />
                 : <path stroke="#111" strokeWidth="2.5" strokeLinecap="round" d="M3 6h18M3 12h18M3 18h18"/>}
             </svg>
             <span style={{ fontSize: '10px', color: '#111', fontWeight: 600 }}>Meny</span>
@@ -768,7 +768,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
         {/* Row 2: search */}
         <div className="bg-white px-4 py-2 relative border-b border-gray-200" ref={mobileSearchContainerRef}>
           <div className="flex items-center bg-gray-50 border border-gray-200 rounded px-3 py-2 gap-2">
-            <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+            <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
               <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/>
             </svg>
             <input
@@ -1042,7 +1042,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                 onClick={() => { setMobileMenuOpen(false); setMobileActiveLevel(0); setMobileExpandedCategory(null); setMobileActiveSubCategory(new Set()); }}
                 className="w-11 h-11 flex items-center justify-center text-gray-500 hover:text-black"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               </button>
@@ -1058,7 +1058,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                     {MOBILE_CATEGORY_ICONS[category.id]}
                   </span>
                   <span className="flex-1 text-sm font-semibold text-black">{category.title}</span>
-                  <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                     <path d="M9 18l6-6-6-6" />
                   </svg>
                 </button>
@@ -1070,12 +1070,12 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   onClick={() => setActiveMobileCategory(activeMobileCategory === 'erbjudanden' ? null : 'erbjudanden')}
                 >
                   <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-black">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-6 h-6">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
                       <path d="M9 14l6-6M10 9h.01M14 13h.01M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </span>
                   <span className="flex-1 text-sm font-semibold text-black text-left">Erbjudanden</span>
-                  <svg className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform ${activeMobileCategory === 'erbjudanden' ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <svg className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform ${activeMobileCategory === 'erbjudanden' ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                     <path d="M9 18l6-6-6-6" />
                   </svg>
                 </button>
@@ -1145,7 +1145,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Se alla produkter
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5"><path d="M9 18l6-6-6-6"/></svg>
                   </Link>
                   <div className="flex-1 overflow-y-auto">
                     {activeCat?.items?.map((section) => (
@@ -1161,7 +1161,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                               {MOBILE_SECTION_ICONS[section.id]}
                             </span>
                             <span className="flex-1 text-sm font-semibold text-black">{section.title}</span>
-                            <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                            <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
                               <path d="M9 18l6-6-6-6"/>
                             </svg>
                           </Link>
@@ -1181,7 +1181,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                           <svg
                             className="w-4 h-4 text-gray-400 flex-shrink-0 transition-transform duration-200"
                             style={{ transform: mobileActiveSubCategory.has(section.id) ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5"
                           >
                             <path d="M19 9l-7 7-7-7" />
                           </svg>
@@ -1197,7 +1197,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                             onClick={() => setMobileMenuOpen(false)}
                           >
                             Se alla produkter
-                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5"><path d="M9 18l6-6-6-6"/></svg>
                           </Link>
                           {section.items?.map((item) => (
                             <Link
@@ -1207,7 +1207,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                               onClick={() => setMobileMenuOpen(false)}
                             >
                               <span className="text-sm text-gray-700">{item.title}</span>
-                              <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+                              <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5"><path d="M9 18l6-6-6-6"/></svg>
                             </Link>
                           ))}
                         </div>}

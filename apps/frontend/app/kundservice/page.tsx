@@ -122,13 +122,13 @@ function Sidebar({ active, navigate }: { active: string; navigate: (id: string) 
 }
 
 const SUBTITLES: Record<string, string> = {
-  kontakt: 'Ring, maila eller fyll i formuläret — vi svarar inom 24 timmar.',
+  kontakt: 'Ring, maila eller fyll i formuläret. Vi svarar inom 24 timmar.',
   support: 'Teknisk hjälp och felsökning för dina produkter.',
   'vanliga-fragor': 'Svar på de vanligaste frågorna om beställning, leverans och retur.',
   produktinfo: 'Information om våra produkter, specifikationer och kompatibilitet.',
   leverans: 'Leveranstider, fraktkostnader och spårning av paket.',
   betalning: 'Betalningsalternativ, faktura och delbetalning.',
-  returer: 'Hur du returnerar eller byter en vara — 30 dagars öppet köp.',
+  returer: 'Hur du returnerar eller byter en vara. 14 dagars ångerrätt.',
   reklamation: 'Reklamation av felaktig vara eller garanti.',
   villkor: 'Våra försäljningsvillkor och köpeavtal.',
   integritet: 'Hur vi hanterar och skyddar dina personuppgifter.',
@@ -228,8 +228,8 @@ export default function KundservicePage() {
               {active === 'kontakt' && (
                 <div>
                   <h2>Kontakta oss</h2>
-                  <p><strong>Telefon:</strong> +46 10 880 09 81 — Mån-Fre 09:00–17:00</p>
-                  <p><strong>E-post:</strong> support@techpilots.se — Svar inom 24 timmar</p>
+                  <p><strong>Telefon:</strong> +46 10 880 09 81. Mån till Fre 09:00 till 17:00</p>
+                  <p><strong>E-post:</strong> support@techpilots.se. Svar inom 24 timmar</p>
                   <div style={{ minHeight: '52px', marginTop: '16px' }}>
                     {successMessage && <div style={{ padding: '12px 16px', background: '#14532d', border: '1px solid #166534', color: '#86efac', fontSize: '0.875rem', borderRadius: '4px', marginBottom: '20px' }}>{successMessage}</div>}
                     {errorMessage && <div style={{ padding: '12px 16px', background: '#450a0a', border: '1px solid #991b1b', color: '#fca5a5', fontSize: '0.875rem', borderRadius: '4px', marginBottom: '20px' }}>{errorMessage}</div>}
@@ -283,13 +283,13 @@ export default function KundservicePage() {
                   <h3>Måste jag ha ett konto för att beställa?</h3>
                   <p>Ja, du behöver registrera dig. Det tar bara några minuter och gör det enkelt att spåra dina beställningar.</p>
                   <h3>Hur lång tid tar leveransen?</h3>
-                  <p>Standardleverans tar 2–5 arbetsdagar. Express 1–2 arbetsdagar. Standardleverans är gratis, express kostar 99 kr.</p>
+                  <p>Fri frakt på beställningar över 499 kr. Leveranstid visas vid kassan baserat på produkt och lagerstatus.</p>
                   <h3>Hur spårar jag min beställning?</h3>
                   <p>Du får ett spårningsnummer via e-mail när din beställning skickas. Du kan även logga in på Mina sidor för att se status.</p>
                   <h3>Vilka betalningsmetoder accepterar ni?</h3>
                   <p>Vi accepterar kreditkort (Visa, Mastercard), Swish, PayPal och Klarna. Alla betalningar är SSL-krypterade.</p>
                   <h3>Kan jag returnera en produkt?</h3>
-                  <p>Ja, du har 30 dagars returrätt på alla köp. Produkten ska vara oanvänd och i originalskick. Återbetalning sker inom 14 dagar efter godkänd retur.</p>
+                  <p>Ja, du har 14 dagars ångerrätt på alla köp. Produkten ska vara oanvänd och i originalskick. Återbetalning sker inom 14 dagar efter godkänd retur.</p>
                   <h3>Har produkterna garanti?</h3>
                   <p>Ja, alla produkter har tillverkarens garanti (normalt 2 år). Du har även lagstadgad reklamationsrätt i 3 år.</p>
                 </div>
@@ -324,14 +324,12 @@ export default function KundservicePage() {
               {active === 'leverans' && (
                 <div>
                   <h2>Leverans & Frakt</h2>
-                  <h3>Standardleverans</h3>
-                  <p>Fri frakt inom hela Sverige. Leveranstid 2–5 arbetsdagar via PostNord.</p>
-                  <h3>Expressfrakt</h3>
-                  <p>Expressfrakt kostar 99 kr och levereras inom 1–2 arbetsdagar.</p>
+                  <h3>Frakt</h3>
+                  <p>Fri frakt på beställningar över 499 kr. Leveranstid visas vid kassan baserat på produkt och lagerstatus.</p>
                   <h3>Leveransområden</h3>
-                  <p>Vi skickar till hela Sverige utan extra kostnad. För leverans till övriga Norden kan vi erbjuda priser på förfrågan — kontakta oss på support@techpilots.se.</p>
+                  <p>Vi skickar till hela Sverige utan extra kostnad. För leverans till övriga Norden kan vi erbjuda priser på förfrågan. Kontakta oss på support@techpilots.se.</p>
                   <h3>Spåra din beställning</h3>
-                  <p>Du får ett spårningsnummer via e-mail när din beställning skickas. Du kan även logga in på Mina sidor för att följa paketet direkt via PostNord.</p>
+                  <p>Du får ett spårningsnummer via e-mail när din beställning skickas. Du kan även logga in på Mina sidor för att se status.</p>
                   <h3>Skadat paket?</h3>
                   <p>Inspektera omedelbart, dokumentera med bilder och kontakta oss på support@techpilots.se inom 48 timmar med ditt ordernummer.</p>
                 </div>
@@ -339,9 +337,13 @@ export default function KundservicePage() {
 
               {active === 'returer' && (
                 <div>
-                  <h2>Returer & Öppet köp</h2>
-                  <h3>Returvillkor</h3>
-                  <p>Du har 30 dagars returrätt på alla köp. Produkten ska vara oanvänd, i originalförpackning med allt tillbehör och utan synlig skada.</p>
+                  <h2>Returer & Ångerrätt</h2>
+                  <h3>Ångerrätt</h3>
+                  <p>Du har 14 dagars ångerrätt från det att du mottagit din order. Returfrakten bekostas av kunden.</p>
+                  <h3>Reklamation av defekt vara</h3>
+                  <p>För produkter från stora varumärken (Asus, HP, Samsung, Lenovo m.fl.) hänvisar vi dig direkt till tillverkarens support för snabbast möjlig hjälp. För övriga produkter kontaktar du oss på support@techpilots.se så hanterar vi ärendet åt dig.</p>
+                  <h3>Krav vid retur</h3>
+                  <p>Originalemballaget måste sparas. Tydlig beskrivning av felet krävs. Varan ska skickas in inom 14 dagar efter godkänd retur.</p>
                   <h3>Så gör du en retur</h3>
                   <p>Kontakta oss på support@techpilots.se med ordernummer och anledning. Vi skickar instruktioner inom 24 timmar. Återbetalning sker inom 5–7 arbetsdagar efter godkänd retur.</p>
                   <h3>Undantag från returrätt</h3>
@@ -353,17 +355,17 @@ export default function KundservicePage() {
                 <div>
                   <h2>Garanti & Reklamation</h2>
                   <h3>Reklamationsrätt</h3>
-                  <p>Du har lagstadgad reklamationsrätt i 3 år från köpdatum. Under de första 2 åren är det vi som måste bevisa att felet inte var ursprungligt.</p>
+                  <p>Du har lagstadgad reklamationsrätt i 3 år från köpdatum.</p>
                   <h3>Vad täcks?</h3>
-                  <p>Tillverkningsfel, materialfel, defekt batteri och komponenter som inte fungerar som utlovat.</p>
+                  <p>Tillverkningsfel, materialfel och komponenter som inte fungerar som utlovat.</p>
                   <h3>Vad täcks inte?</h3>
-                  <p>Fysisk skada, vattenskada, normalt slitage eller felaktig användning.</p>
+                  <p>Fysisk skada, vattenskada, normalt slitage och felaktig användning.</p>
                   <h3>Så gör du en felanmälan</h3>
-                  <p>Maila support@techpilots.se med ordernummer, produktnamn, beskrivning och bilder. Reklamation inom 2 månader från att felet upptäcktes anses alltid vara i rätt tid.</p>
+                  <p>Maila support@techpilots.se med ordernummer, produktnamn och beskrivning av felet. Bifoga gärna bilder. Vi återkommer inom 24 timmar.</p>
                   <h3>Vad händer sen?</h3>
-                  <p>Vi bekräftar inom 24 timmar. Bedömning inom 3 arbetsdagar. Vid godkänd reklamation — reparation, byte eller återbetalning. Vi betalar alltid frakten.</p>
+                  <p>Vi bedömer ärendet inom 3 arbetsdagar. Vid godkänd reklamation erbjuder vi reparation, byte eller återbetalning. Vi betalar alltid returfrakten.</p>
                   <h3>Tvist</h3>
-                  <p>Vända dig till ARN, Box 174, 101 23 Stockholm, arn.se eller via eu:s plattform: europa.eu/consumers/odr</p>
+                  <p>Vid tvist kan du vända dig till Allmänna reklamationsnämnden, Box 174, 101 23 Stockholm eller via arn.se.</p>
                 </div>
               )}
 
@@ -379,9 +381,9 @@ export default function KundservicePage() {
                   <h3>4. Betalning</h3>
                   <p>Vi accepterar Visa, Mastercard, Swish, PayPal och Klarna med PCI DSS-certifierade betalningslösningar.</p>
                   <h3>5. Frakt och leverans</h3>
-                  <p>Leverans via PostNord inom 2–5 arbetsdagar. Standardleverans gratis, expressfrakt 99 kr. Ej uthämtat paket debiteras 249 kr inkl. moms.</p>
+                  <p>Fri frakt på beställningar över 499 kr. Leveranstid visas vid kassan. Ej uthämtat paket debiteras 249 kr inkl. moms.</p>
                   <h3>6. Ångerrätt</h3>
-                  <p>30 dagars öppet köp. Gäller ej förbrukningsvaror, kroppsnära produkter, spel, digitala produkter eller presentkort. Återbetalning inom 14 dagar.</p>
+                  <p>14 dagars ångerrätt enligt distansavtalslagen. Gäller ej förbrukningsvaror, kroppsnära produkter, spel, digitala produkter eller presentkort. Återbetalning inom 14 dagar.</p>
                   <h3>7. Garanti och reklamation</h3>
                   <p>Reklamationsrätt i 3 år. Reklamation ska göras inom 2 månader från att felet upptäcktes.</p>
                   <h3>8. Dataskydd</h3>
@@ -417,7 +419,7 @@ export default function KundservicePage() {
                   <h3>Vad är cookies?</h3>
                   <p>Små textfiler som lagras i din webbläsare för att webbplatsen ska fungera och för att förstå hur besökare använder sajten.</p>
                   <h3>Nödvändiga cookies</h3>
-                  <p>Krävs för att webbplatsen ska fungera — varukorg och inloggning. Kan inte stängas av.</p>
+                  <p>Krävs för att webbplatsen ska fungera, inklusive varukorg och inloggning. Kan inte stängas av.</p>
                   <h3>Analyscookies</h3>
                   <p>Vi använder Google Analytics för statistik. Du kan tacka nej via vår cookiebanner.</p>
                   <h3>Hantera dina val</h3>
@@ -434,12 +436,12 @@ export default function KundservicePage() {
                   <h3>Därför Techpilots</h3>
                   <p>Techpilots drivs av personer med erfarenhet från både tillverkare och detaljhandelskedjor inom teknikbranschen. Vi har arbetslivserfarenhet från företag som Intel, LG Electronics, MSI, Dyson, MediaMarkt, Elgiganten och Netonnet.</p>
                   <p>Vi fokuserar inte på att erbjuda flest produkter, utan på att erbjuda produkter vi tror på och kan rekommendera med gott samvete.</p>
-                  <p>Till skillnad från många återförsäljare bygger och driftar vi själva webbplatser, servrar och e-handelslösningar. Teknik är inte bara produkterna vi säljer — det är vårt dagliga arbete.</p>
+                  <p>Till skillnad från många återförsäljare bygger och driftar vi själva webbplatser, servrar och e-handelslösningar. Teknik är inte bara produkterna vi säljer. Det är vårt dagliga arbete.</p>
                   <p>När du kontaktar oss möter du inte ett automatiserat supportsystem. Du får hjälp av personer med praktisk erfarenhet av produkterna vi säljer.</p>
                   <h3>Kvalitet</h3>
                   <p>Vi säljer bara produkter vi själva tror på, noggrant utvalda från etablerade varumärken med fullständig garanti.</p>
                   <h3>Snabb leverans</h3>
-                  <p>Leverans inom 2–5 arbetsdagar, var du än bor i Sverige.</p>
+                  <p>Fri frakt på beställningar över 499 kr. Leveranstid visas vid kassan.</p>
                   <h3>Vår ambition</h3>
                   <p>Vi vill göra det lika enkelt att köpa elektronik online som att gå in och prata med någon som verkligen kan sitt jobb. Tydlig information, ärliga priser och snabb hjälp när något krånglar.</p>
                 </div>

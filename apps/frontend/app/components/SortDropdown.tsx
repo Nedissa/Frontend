@@ -41,7 +41,7 @@ export function SortDropdown({ value, onChange, options }: SortDropdownProps) {
         className="flex items-center justify-between gap-4 px-3 py-1.5 border border-gray-200 bg-white text-gray-800 text-sm whitespace-nowrap w-full"
       >
         <span>{selected?.label}</span>
-        <svg className={`w-3 h-3 text-gray-500 flex-shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <svg className={`w-3 h-3 text-gray-500 flex-shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
         </svg>
       </button>

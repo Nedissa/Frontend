@@ -5,15 +5,15 @@ import { Logo } from './Logo';
 
 export function FooterWrapper() {
   return (
-    <footer className="w-full text-white" style={{ background: '#0f2448' }}>
+    <footer className="w-full text-white" style={{ background: '#1a3a6e' }}>
       <div className="py-12 md:py-24">
         <div className="max-w-[1280px] mx-auto px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-0 sm:gap-6 lg:gap-12 mb-0 sm:mb-12 sm:border-b sm:border-gray-800 sm:pb-12 text-white [&>div]:border-b [&>div]:border-gray-800 [&>div]:pb-6 [&>div]:pt-6 sm:[&>div]:border-b-0 sm:[&>div]:pt-0 [&>div:last-child]:border-b-0">
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-0 mb-0 sm:mb-12 sm:pb-12 text-white [&>div]:border-b [&>div]:border-white/20 [&>div]:pb-6 [&>div]:pt-6 sm:[&>div]:border-b-0 sm:[&>div]:pt-0 [&>div:last-child]:border-b-0 sm:[&>div:not(:first-child)]:border-l sm:[&>div:not(:first-child)]:border-white/20 sm:[&>div:not(:first-child)]:pl-8">
             {/* Logo section */}
             <div>
               <div className="flex items-center gap-1 mb-6">
                 <Logo />
-                <h2 className="text-lg font-bold">Techpilots</h2>
+                <h2 className="text-lg font-bold text-white">Techpilots</h2>
               </div>
               <ul className="space-y-3 text-sm">
                 <li className="flex items-center gap-2">
@@ -39,7 +39,7 @@ export function FooterWrapper() {
 
             {/* Information */}
             <div>
-              <h3 className="font-bold mb-3 text-sm">Information</h3>
+              <h3 className="font-bold mb-3 text-sm text-white">Information</h3>
               <ul className="space-y-1 text-sm">
                 <li><Link href="/kundservice/leverans">Leverans</Link></li>
                 <li><Link href="/kundservice/betalning">Betalning</Link></li>
@@ -51,7 +51,7 @@ export function FooterWrapper() {
 
             {/* Kundservice */}
             <div>
-              <h3 className="font-bold mb-3 text-sm">Kundservice</h3>
+              <h3 className="font-bold mb-3 text-sm text-white">Kundservice</h3>
               <ul className="space-y-1 text-sm">
                 <li><Link href="/kundservice/kontakt">Kontakta oss</Link></li>
                 <li><Link href="/kundservice/vanliga-fragor">Vanliga frågor</Link></li>
@@ -62,7 +62,7 @@ export function FooterWrapper() {
 
             {/* Om oss */}
             <div>
-              <h3 className="font-bold mb-3 text-sm">Om oss</h3>
+              <h3 className="font-bold mb-3 text-sm text-white">Om oss</h3>
               <ul className="space-y-1 text-sm">
                 <li><Link href="/kundservice/om-oss">Vår historia</Link></li>
                 <li><Link href="/pilotbloggen">Teknikskolan</Link></li>
@@ -71,7 +71,7 @@ export function FooterWrapper() {
 
             {/* Sociala medier - Längst till höger */}
             <div>
-              <h3 className="font-bold mb-4 text-sm">Följ oss</h3>
+              <h3 className="font-bold mb-4 text-sm text-white">Följ oss</h3>
               <div className="flex gap-4">
                 <a href="https://www.facebook.com/techpilots.se/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -79,7 +79,7 @@ export function FooterWrapper() {
                   </svg>
                 </a>
                 <a href="https://www.instagram.com/techpilots.se/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
                     <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/>
                     <circle cx="17.5" cy="6.5" r="1.5"/>
@@ -96,10 +96,10 @@ export function FooterWrapper() {
           </div>
 
           {/* Certifieringar + Betalningsmetoder — på desktop på samma rad */}
-          <div className="py-6 border-b border-gray-800 flex flex-col md:flex-row md:items-start md:justify-between gap-6">
+          <div className="py-6 border-b border-white/20 flex flex-col md:flex-row md:items-start md:justify-between gap-6">
             {/* Certifieringar */}
             <div>
-              <h3 className="font-bold mb-4 text-sm">Säkerhet & Certifieringar</h3>
+              <h3 className="font-bold mb-4 text-sm text-white">Säkerhet & Certifieringar</h3>
               <div className="flex gap-8">
                 <div className="flex flex-col items-center gap-1">
                   <svg className="w-6 h-6" style={{ color: '#f5c842' }} fill="currentColor" viewBox="0 0 24 24">

@@ -5,7 +5,7 @@ function parseMeta(val: any): any[] {
   return [];
 }
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
     const publishableKey = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY;
     const medusaUrl = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
@@ -18,9 +18,13 @@ export async function GET() {
       );
     }
 
+    const { searchParams } = new URL(request.url);
+    const ids = searchParams.getAll('id[]');
+    const idParam = ids.length > 0 ? '&' + ids.map(id => `id[]=${id}`).join('&') : '';
+
     // Fetch products with publishable API key
     const response = await fetch(
-      `${medusaUrl}/store/products?limit=100&region_id=${regionId}&fields=*variants.prices,*variants.inventory_quantity,*collection,+metadata,*options,*options.values`,
+      `${medusaUrl}/store/products?limit=100&region_id=${regionId}&fields=*variants.prices,*variants.inventory_quantity,*collection,+metadata,*options,*options.values${idParam}`,
       {
         method: 'GET',
         headers: {

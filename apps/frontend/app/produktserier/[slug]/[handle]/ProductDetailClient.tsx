@@ -74,17 +74,17 @@ function ExtraInfoColumn({ product }: { product: any }) {
     {
       key: 'oppet-kop',
       title: 'ÖPPET KÖP',
-      content: '30 dagars öppet köp. Ångerrätt gäller enligt distansavtalslagen.',
+      content: '14 dagars ångerrätt enligt distansavtalslagen.',
     },
     {
       key: 'frakt',
       title: 'FRAKT',
-      content: 'Gratis frakt på alla beställningar. Leverans inom 2–5 arbetsdagar.',
+      content: 'Fri frakt på beställningar över 499 kr. Leveranstid visas vid kassan baserat på produkt och lagerstatus.',
     },
     {
       key: 'retur',
       title: 'RETUR',
-      content: 'Enkel retur inom 30 dagar. Produkten ska vara i originalskick och oöppnad förpackning.',
+      content: 'Retur inom 14 dagar. Produkten ska vara i originalskick och oöppnad förpackning.',
     },
   ];
 
@@ -97,7 +97,7 @@ function ExtraInfoColumn({ product }: { product: any }) {
             className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50"
           >
             <span className="text-xs font-bold tracking-widest text-gray-800">{s.title}</span>
-            <svg className={`w-4 h-4 text-gray-400 transition-transform ${openSection === s.key ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className={`w-4 h-4 text-gray-400 transition-transform ${openSection === s.key ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
             </svg>
           </button>
@@ -387,7 +387,7 @@ export default function ProductDetailClient({
                   className="absolute left-2 z-10 w-9 h-9 hidden md:flex items-center justify-center bg-white rounded-full top-1/2 -translate-y-1/2"
                   style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
                 >
-                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
                 </button>
                 <div
                   className="relative flex-1 overflow-hidden"
@@ -423,7 +423,7 @@ export default function ProductDetailClient({
                   className="absolute right-2 z-10 w-9 h-9 hidden md:flex items-center justify-center bg-white rounded-full top-1/2 -translate-y-1/2"
                   style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
                 >
-                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
                 </button>
                 {productDetails.images.length > 1 && (
                   <div className="flex justify-center py-3 flex-shrink-0 relative z-10">
@@ -527,7 +527,7 @@ export default function ProductDetailClient({
                 style={{ background: '#3a3a3a' }}
               >
                 <span className="text-xs font-bold tracking-widest text-white">REKOMMENDERAT TILLBEHÖR</span>
-                <svg className={`w-4 h-4 text-white transition-transform ${activeTab === 'accessories' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg className={`w-4 h-4 text-white transition-transform ${activeTab === 'accessories' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
@@ -568,8 +568,8 @@ export default function ProductDetailClient({
               })()}
             </div>
             {(() => {
-              const brand = (product as any).brand || 'Brand';
-              return <p className="text-xs text-gray-500 mb-1">Av <span className="font-bold text-gray-700">{brand}</span></p>;
+              const brand = (product as any).brand;
+              return brand ? <p className="text-xs text-gray-500 mb-1">Av <span className="font-bold text-gray-700">{brand}</span></p> : null;
             })()}
             <h1 className="text-xl font-bold text-black leading-tight">{product.title}</h1>
             <p className="text-xs text-gray-400 mt-1">Varukod: {productDetails.sku}</p>
@@ -619,7 +619,7 @@ export default function ProductDetailClient({
             <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Färg</span>
             <div className="flex gap-3">
               {Object.entries(COLORS).map(([name, hex]) => (
-                <div key={name} className="relative group/swatch">
+                <div key={name} className="tp-tooltip-wrap">
                   <button
                     onClick={() => setSelectedColor(name)}
                     className="w-11 h-11 flex items-center justify-center flex-shrink-0"
@@ -631,10 +631,9 @@ export default function ProductDetailClient({
                       style={{ backgroundColor: hex, outline: selectedColor === name ? '2px solid #999999' : 'none', outlineOffset: '2px', boxShadow: hex === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
                     />
                   </button>
-                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-0 px-2 py-0.5 bg-black text-white text-[10px] font-medium whitespace-nowrap opacity-0 group-hover/swatch:opacity-100 transition-opacity pointer-events-none z-50">
+                  <span className="tp-tooltip">
                     {name}
-                    <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-black" />
-                  </div>
+                  </span>
                 </div>
               ))}
             </div>
@@ -668,7 +667,7 @@ export default function ProductDetailClient({
               className="w-full flex items-center justify-between text-xs uppercase tracking-widest text-gray-400 font-medium px-6 py-4 hover:bg-gray-50"
             >
               <span>Tillbehör</span>
-              <svg className={`w-4 h-4 transition-transform ${showAccessories ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg className={`w-4 h-4 transition-transform ${showAccessories ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
@@ -773,7 +772,7 @@ export default function ProductDetailClient({
             onClick={handleFavoriteToggle}
             className="w-full flex items-center justify-center gap-2 px-6 py-4 transition-colors hover:bg-gray-50 text-black"
           >
-            <span className="text-xs">Spara favorit</span>
+            <span className="text-xs">{isFavorite ? 'Sparad favorit' : 'Spara favorit'}</span>
             <svg className={`w-5 h-5 flex-shrink-0 ${isFavorite ? 'text-red-500' : ''}`} fill={isFavorite ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
@@ -810,7 +809,7 @@ export default function ProductDetailClient({
                 className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50"
               >
                 <span className="text-xs font-bold tracking-widest text-gray-800">{s.label}</span>
-                <svg className={`w-4 h-4 text-gray-400 transition-transform ${mobileActiveTab === s.key ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <svg className={`w-4 h-4 text-gray-400 transition-transform ${mobileActiveTab === s.key ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
@@ -830,7 +829,7 @@ export default function ProductDetailClient({
               style={{ background: '#3a3a3a' }}
             >
               <span className="text-xs font-bold tracking-widest text-white">REKOMMENDERAT TILLBEHÖR</span>
-              <svg className={`w-4 h-4 text-white transition-transform ${mobileActiveTab === 'accessories' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <svg className={`w-4 h-4 text-white transition-transform ${mobileActiveTab === 'accessories' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
@@ -852,7 +851,7 @@ export default function ProductDetailClient({
         {/* Handla tryggt */}
         <div className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', flex: 1 }}>
           <div className="flex items-center gap-2 px-6 py-4 border-b border-gray-100">
-            <svg className="w-4 h-4 text-black flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-black flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
             <span className="text-black text-sm font-bold">Handla tryggt</span>

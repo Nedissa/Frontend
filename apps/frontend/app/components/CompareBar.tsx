@@ -199,7 +199,7 @@ export function CompareBar() {
                     onClick={() => { closeSheet(); setTimeout(() => { window.dispatchEvent(new CustomEvent('clearCompare')); clearCompare(); }, 280); }}
                     style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#f3f4f6', border: 'none', borderRadius: '8px', padding: '7px 14px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#444' }}
                   >
-                    <svg width="14" height="14" fill="none" stroke="#111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+                    <svg width="14" height="14" fill="none" stroke="#111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
                     Nollställ
                   </button>
                   {/* Kopiera länk */}
@@ -208,7 +208,7 @@ export function CompareBar() {
                     onClick={copyLink}
                     style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#f3f4f6', border: 'none', borderRadius: '8px', padding: '7px 14px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#444' }}
                   >
-                    <svg width="14" height="14" fill="none" stroke="#111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    <svg width="14" height="14" fill="none" stroke="#111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                     {copied ? '✓ Kopierad' : 'Dela'}
                   </button>
                   <div style={{ width: '1px', height: '16px', background: '#d1d5db' }} />
