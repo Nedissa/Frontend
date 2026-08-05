@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, Fragment } from 'react';
 import { useCompare } from './CompareContext';
+import { useAside } from './Aside';
 
 const COLUMN_COLORS = ['#f9fafb', '#f9fafb', '#f9fafb', '#f9fafb'];
 
@@ -12,6 +13,7 @@ function getCategoryForKey(key: string, specs: { label: string; value: string; c
 
 export function CompareBar() {
   const { compareList, clearCompare, removeFromCompare } = useCompare();
+  const { type: asideType } = useAside();
   const [modalOpen, setModalOpen] = useState(false);
   const [closing, setClosing] = useState(false);
   const [barHeight, setBarHeight] = useState(64);
@@ -83,6 +85,7 @@ export function CompareBar() {
   }, [compareList.length]);
 
   if (compareList.length === 0) return null;
+  if (asideType !== 'closed' || modalOpen) return null;
 
   const allSpecKeys: string[] = [];
   compareList.forEach(p => {

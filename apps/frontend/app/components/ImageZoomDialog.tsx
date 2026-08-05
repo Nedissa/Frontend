@@ -157,7 +157,7 @@ export function ImageZoomDialog({
         <style>{`
           .zoom-thumb-row { padding: 16px 24px; display: flex; gap: 24px; justify-content: center; overflow-x: auto; height: 160px; scrollbar-width: none; align-items: flex-end; }
           @media (max-width: 767px) {
-            .zoom-thumb-row { justify-content: flex-start; height: 110px; gap: 10px; padding: 20px 16px 8px 48px; scroll-snap-type: x mandatory; }
+            .zoom-thumb-row { justify-content: flex-start; height: 130px; gap: 10px; padding: 28px 16px 12px 48px; scroll-snap-type: x mandatory; }
             .zoom-thumb-item { scroll-snap-align: start; flex-shrink: 0; width: calc((100vw - 48px) / 3.5); display: flex; align-items: center; justify-content: center; padding: 0 4px; }
           }
         `}</style>
@@ -169,8 +169,8 @@ export function ImageZoomDialog({
                 className="aspect-square flex items-center justify-center transition-all duration-200"
                 style={{
                   opacity: currentIndex === idx ? 1 : 0.25,
-                  width: isMobile ? '100%' : (currentIndex === idx ? '130px' : '60px'),
-                  transform: currentIndex === idx ? (isMobile ? 'scale(1.12)' : 'translateY(-10px) scale(1.06)') : 'scale(1)',
+                  width: isMobile ? (currentIndex === idx ? '110%' : '80%') : (currentIndex === idx ? '130px' : '60px'),
+                  transform: currentIndex === idx ? (isMobile ? 'none' : 'translateY(-10px) scale(1.06)') : 'none',
                   filter: currentIndex === idx ? 'drop-shadow(0 3px 8px rgba(0,0,0,0.2))' : 'none',
                 }}
               >
