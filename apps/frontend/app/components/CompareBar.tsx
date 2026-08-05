@@ -305,8 +305,12 @@ export function CompareBar() {
               {/* Mobil — EN scrollbar container med kort + specs */}
               <div className="md:hidden">
                 <div
-                  style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', scrollSnapType: 'x mandatory', display: 'block', fontSize: 0, width: '100vw' }}
+                  style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', scrollSnapType: 'x mandatory', display: 'block', fontSize: 0, width: '100vw', position: 'relative' }}
                 >
+                  {/* Vertikala kolumnlinjer som absoluta divs — sträcker sig hela tabellens höjd */}
+                  {compareList.slice(1).map((_, i) => (
+                    <div key={i} style={{ position: 'absolute', top: 0, bottom: 0, left: `${(i + 1) * (100 / compareList.length)}vw`, width: '1px', background: '#e5e7eb', zIndex: 1, pointerEvents: 'none' }} />
+                  ))}
                   <table style={{ width: '100vw', borderCollapse: 'collapse', tableLayout: 'fixed', fontSize: '1rem' }}>
                     <colgroup>
                       {compareList.map((_, i) => <col key={i} style={{ width: `${100 / compareList.length}vw` }} />)}
@@ -315,7 +319,7 @@ export function CompareBar() {
                       {/* Produktkort-rad */}
                       <tr>
                         {compareList.map((p, i) => (
-                            <td key={p.id} style={{ borderRight: i < compareList.length - 1 ? '1px solid #e5e7eb' : 'none', verticalAlign: 'top', padding: 0 }}>
+                            <td key={p.id} style={{ verticalAlign: 'top', padding: 0 }}>
                               <div style={{ position: 'relative', borderBottom: '2px solid #e5e7eb' }}>
                                 <button onClick={() => { window.dispatchEvent(new CustomEvent('toggleCompare', { detail: p })); removeFromCompare(p.id); }} style={{ position: 'absolute', top: 0, right: 0, background: '#f0f0f0', border: 'none', cursor: 'pointer', borderRadius: '0 4px 0 999px', padding: '5px 5px 7px 9px', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
                                   <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#111" strokeWidth="1.5" strokeLinecap="round"><line x1="2" y1="2" x2="8" y2="8" /><line x1="8" y1="2" x2="2" y2="8" /></svg>
@@ -364,7 +368,7 @@ export function CompareBar() {
                             {visibleKeys.map((label) => (
                               <tr key={label} style={{ borderBottom: '1px solid #e5e7eb' }}>
                                 {compareList.map((p, i) => (
-                                  <td key={i} style={{ padding: '10px 10px 10px 8px', borderRight: '1px solid #e5e7eb', verticalAlign: 'top' }}>
+                                  <td key={i} style={{ padding: '10px 10px 10px 8px', verticalAlign: 'top' }}>
                                     <div style={{ fontSize: '0.62rem', color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '3px' }}>{label}</div>
                                     <div style={{ fontSize: '0.78rem', fontWeight: 600, color: getSpec(p, label) ? '#111' : '#ccc' }}>{getSpec(p, label) || '—'}</div>
                                   </td>
