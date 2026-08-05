@@ -198,11 +198,11 @@ export default function ProductDetailClient({
 
   // Öppna recensionsflik om URL:en har #reviews
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.location.hash === '#reviews') {
+    const hash = window.location.hash;
+    if (hash === '#reviews') {
       setActiveTab('reviews');
-      setTimeout(() => {
-        document.getElementById('reviews')?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      const scroll = () => document.getElementById('product-tabs')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(scroll, 300);
     }
   }, []);
 
@@ -349,7 +349,7 @@ export default function ProductDetailClient({
             {productDetails.images.length > 1 && (
               <div className="hidden md:flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '508px', overflowY: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none', scrollBehavior: 'smooth' }}>
                 {productDetails.images.map((img, idx) => (
-                  <div key={idx} ref={el => { thumbnailRefs.current[idx] = el; }} className="flex flex-col flex-shrink-0" style={{ width: '110px' }}>
+                  <div key={idx} ref={el => { thumbnailRefs.current[idx] = el; }} className="flex-shrink-0" style={{ width: '110px' }}>
                     <button
                       onClick={() => goToImage(idx)}
                       className="relative flex items-center justify-center focus:outline-none"
@@ -358,20 +358,12 @@ export default function ProductDetailClient({
                       <img
                         src={img.url} alt=""
                         className="w-full h-full object-contain p-3 transition-all duration-300"
+                        style={{ transform: idx === selectedImage ? 'scale(1.12)' : 'scale(1)', transition: 'transform 0.25s ease' }}
                       />
+                      {idx === selectedImage && (
+                        <div style={{ position: 'absolute', bottom: 0, right: 0, width: 0, height: 0, borderLeft: '10px solid transparent', borderBottom: '10px solid #111' }} />
+                      )}
                     </button>
-                    <div className="flex items-center justify-center pb-2" style={{ height: '20px', backgroundColor: '#f5f5f5' }}>
-                      <div
-                        className="rounded-full bg-black"
-                        style={{
-                          width: '10px',
-                          height: '10px',
-                          opacity: idx === selectedImage ? 1 : 0,
-                          transform: idx === selectedImage ? 'scale(1)' : 'scale(0)',
-                          transition: 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                        }}
-                      />
-                    </div>
                   </div>
                 ))}
               </div>
@@ -456,7 +448,7 @@ export default function ProductDetailClient({
 
           {/* Tabs — inside left column, hidden on mobile */}
           <div className="hidden md:block p-8 pb-0 bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-            <div className="pt-0 w-full pb-8">
+            <div className="pt-0 w-full pb-8" id="product-tabs">
               <div className="flex gap-8 mb-8 border-b border-gray-200 w-full">
                 {[
                   { key: 'description', label: 'Beskrivning' },
