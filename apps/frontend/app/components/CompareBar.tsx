@@ -167,7 +167,7 @@ export function CompareBar() {
           )}
         </div>
         {/* Mobil */}
-        <div className="md:hidden" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '24px' }}>
+        <div className="flex md:hidden items-center justify-center gap-6" style={{ padding: '12px 16px' }}>
           <button onClick={() => { clearCompare(); window.dispatchEvent(new Event('clearCompare')); }} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: '#f4f4f5', border: 'none', cursor: 'pointer', padding: '6px 14px', borderRadius: '999px', fontSize: '0.78rem', fontWeight: 600, color: '#444' }}>
             <svg width="14" height="14" fill="none" stroke="#111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
             Nollställ
@@ -196,21 +196,12 @@ export function CompareBar() {
           {/* Sheet */}
           <div
             className={closing ? 'compare-sheet-out' : 'compare-sheet-in'}
-            style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 101, background: '#fff', height: '100dvh', paddingBottom: `${barHeight}px`, overflowY: 'auto', overflowX: 'hidden', overscrollBehavior: 'contain', scrollbarWidth: 'none' }}
+            style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 101, background: '#fff', height: '100dvh', paddingBottom: `${barHeight}px`, overflowY: 'auto', overscrollBehavior: 'contain', scrollbarWidth: 'none' }}
           >
             {/* Modal header */}
             <div style={{ position: 'sticky', top: 0, background: '#fff', zIndex: 50, borderBottom: '1px solid #e5e7eb' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 16px 20px', maxWidth: '1280px', margin: '0 auto', width: '100%' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  {/* Nollställ */}
-                  <button
-                    className="compare-header-btn"
-                    onClick={() => { closeSheet(); setTimeout(() => { window.dispatchEvent(new CustomEvent('clearCompare')); clearCompare(); }, 280); }}
-                    style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#f3f4f6', border: 'none', borderRadius: '8px', padding: '7px 14px', fontSize: '0.78rem', fontWeight: 600, cursor: 'pointer', color: '#444' }}
-                  >
-                    <svg width="14" height="14" fill="none" stroke="#111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
-                    Nollställ
-                  </button>
                   {/* Kopiera länk */}
                   <button
                     className="compare-header-btn"
@@ -314,11 +305,11 @@ export function CompareBar() {
               {/* Mobil — EN scrollbar container med kort + specs */}
               <div className="md:hidden">
                 <div
-                  style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', scrollSnapType: 'x mandatory', display: 'block', fontSize: 0 }}
+                  style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', scrollSnapType: 'x mandatory', display: 'block', fontSize: 0, width: '100vw' }}
                 >
-                  <table style={{ width: `${compareList.length * 50}vw`, minWidth: `${compareList.length * 50}vw`, borderCollapse: 'collapse', tableLayout: 'fixed', fontSize: '1rem' }}>
+                  <table style={{ width: '100vw', borderCollapse: 'collapse', tableLayout: 'fixed', fontSize: '1rem' }}>
                     <colgroup>
-                      {compareList.map((_, i) => <col key={i} style={{ width: '50vw' }} />)}
+                      {compareList.map((_, i) => <col key={i} style={{ width: `${100 / compareList.length}vw` }} />)}
                     </colgroup>
                     <tbody>
                       {/* Produktkort-rad */}
@@ -371,9 +362,9 @@ export function CompareBar() {
                               </tr>
                             )}
                             {visibleKeys.map((label) => (
-                              <tr key={label} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                              <tr key={label} style={{ borderBottom: '1px solid #e5e7eb' }}>
                                 {compareList.map((p, i) => (
-                                  <td key={i} style={{ padding: '10px 10px 10px 8px', borderRight: i < compareList.length - 1 ? '1px solid #e5e7eb' : 'none', verticalAlign: 'top' }}>
+                                  <td key={i} style={{ padding: '10px 10px 10px 8px', borderRight: '1px solid #e5e7eb', verticalAlign: 'top' }}>
                                     <div style={{ fontSize: '0.62rem', color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '3px' }}>{label}</div>
                                     <div style={{ fontSize: '0.78rem', fontWeight: 600, color: getSpec(p, label) ? '#111' : '#ccc' }}>{getSpec(p, label) || '—'}</div>
                                   </td>
