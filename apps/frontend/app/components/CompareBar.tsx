@@ -284,7 +284,7 @@ export function CompareBar() {
                         {keys.map((label) => {
                           const values = compareList.map(p => getSpec(p, label));
                           if (values.every(v => !v)) return null;
-                          if (onlyDiffs && (values.every(v => !!v) || values.every(v => !v))) return null;
+                          if (onlyDiffs && values.every(v => v === values[0])) return null;
                           return (
                             <tr key={label} className="compare-spec-row" style={{ borderBottom: '1px solid #f3f4f6' }}>
                               <td className="spec-label" style={{ padding: '8px', fontSize: '0.68rem', color: '#555', fontWeight: 700, wordBreak: 'break-word', lineHeight: 1.3, verticalAlign: 'top' }}>{label}</td>
@@ -354,7 +354,7 @@ export function CompareBar() {
                         const visibleKeys = keys.filter(label => {
                           const values = compareList.map(p => getSpec(p, label));
                           if (values.every(v => !v)) return false;
-                          if (onlyDiffs && (values.every(v => !!v) || values.every(v => !v))) return false;
+                          if (onlyDiffs && values.every(v => v === values[0])) return false;
                           return true;
                         });
                         if (visibleKeys.length === 0) return null;
