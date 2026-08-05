@@ -358,7 +358,6 @@ export default function ProductDetailClient({
                       <img
                         src={img.url} alt=""
                         className="w-full h-full object-contain p-3 transition-all duration-300"
-                        style={{ transform: idx === selectedImage ? 'scale(1.12)' : 'scale(1)', transition: 'transform 0.25s ease' }}
                       />
                       {idx === selectedImage && (
                         <div style={{ position: 'absolute', bottom: 0, right: 0, width: 0, height: 0, borderLeft: '10px solid transparent', borderBottom: '10px solid #111' }} />
