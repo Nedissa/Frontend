@@ -150,7 +150,6 @@ const SUBTITLES: Record<string, string> = {
   returer: 'Hur du returnerar en vara. 14 dagars ångerrätt.',
   byten: 'Hur du byter en vara mot en annan.',
   reklamation: 'Reklamation av felaktig vara eller garanti.',
-  support: 'Teknisk hjälp och serviceärenden för dina produkter.',
   villkor: 'Våra försäljningsvillkor och köpeavtal.',
   integritet: 'Hur vi hanterar och skyddar dina personuppgifter.',
   cookies: 'Information om cookies och hur vi använder dem.',
