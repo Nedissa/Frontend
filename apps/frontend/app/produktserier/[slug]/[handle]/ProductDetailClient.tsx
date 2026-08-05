@@ -196,6 +196,16 @@ export default function ProductDetailClient({
       .then(data => setAccessories(data.accessories || []));
   }, [categorySlug]);
 
+  // Öppna recensionsflik om URL:en har #reviews
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash === '#reviews') {
+      setActiveTab('reviews');
+      setTimeout(() => {
+        document.getElementById('reviews')?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  }, []);
+
   useEffect(() => {
     fetch(`/api/reviews?product_id=${product.id}`)
       .then(r => r.json())
@@ -514,7 +524,7 @@ export default function ProductDetailClient({
                   ) : <p className="text-sm text-gray-500">Inget produktinnehåll tillagt</p>}
                 </div>
               )}
-              {activeTab === 'reviews' && <ProductReviews productId={product.id} />}
+              {activeTab === 'reviews' && <div id="reviews"><ProductReviews productId={product.id} /></div>}
             </div>
           </div>
 
