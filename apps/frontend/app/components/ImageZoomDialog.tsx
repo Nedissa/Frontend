@@ -20,6 +20,8 @@ export function ImageZoomDialog({
   const [animIn, setAnimIn] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const touchStartX = useRef<number | null>(null);
+  const thumbRowRef = useRef<HTMLDivElement>(null);
+  const thumbItemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -29,6 +31,17 @@ export function ImageZoomDialog({
   }, []);
 
   const goTo = (idx: number) => setCurrentIndex(idx);
+
+  useEffect(() => {
+    if (!isMobile) return;
+    const item = thumbItemRefs.current[currentIndex];
+    const row = thumbRowRef.current;
+    if (!item || !row) return;
+    const itemLeft = item.offsetLeft;
+    const itemWidth = item.offsetWidth;
+    const rowWidth = row.offsetWidth;
+    row.scrollTo({ left: itemLeft - rowWidth / 2 + itemWidth / 2, behavior: 'smooth' });
+  }, [currentIndex, isMobile]);
 
   useEffect(() => {
     setCurrentIndex(initialIndex);
@@ -110,7 +123,7 @@ export function ImageZoomDialog({
         </button>
 
         {/* Image Container with Navigation */}
-        <div className="flex-1 flex items-center justify-center overflow-hidden relative" style={{ minHeight: 0, padding: '8px 56px' }}>
+        <div className="flex-1 flex items-center justify-center overflow-hidden relative" style={{ minHeight: 0, padding: isMobile ? '8px 8px' : '8px 56px' }}>
           {/* Left Arrow */}
           {!isMobile && <button
             onClick={() => goTo((currentIndex - 1 + images.length) % images.length)}
@@ -144,20 +157,20 @@ export function ImageZoomDialog({
         <style>{`
           .zoom-thumb-row { padding: 16px 24px; display: flex; gap: 24px; justify-content: center; overflow-x: auto; height: 160px; scrollbar-width: none; align-items: flex-end; }
           @media (max-width: 767px) {
-            .zoom-thumb-row { justify-content: flex-start; height: 90px; gap: 10px; padding: 10px 16px 8px; }
-            .zoom-thumb-btn-active { width: 72px !important; }
+            .zoom-thumb-row { justify-content: flex-start; height: 110px; gap: 10px; padding: 20px 16px 8px 48px; scroll-snap-type: x mandatory; }
+            .zoom-thumb-item { scroll-snap-align: start; flex-shrink: 0; width: calc((100vw - 48px) / 3.5); display: flex; align-items: center; justify-content: center; padding: 0 4px; }
           }
         `}</style>
-        <div className="zoom-thumb-row">
+        <div className="zoom-thumb-row" ref={thumbRowRef}>
           {images.map((img, idx) => (
-            <div key={idx} className="flex-shrink-0 flex items-center justify-center">
+            <div key={idx} ref={el => { thumbItemRefs.current[idx] = el; }} className={isMobile ? 'zoom-thumb-item' : 'flex-shrink-0 flex items-center justify-center'}>
               <button
                 onClick={() => goTo(idx)}
                 className="aspect-square flex items-center justify-center transition-all duration-200"
                 style={{
                   opacity: currentIndex === idx ? 1 : 0.25,
-                  width: currentIndex === idx ? (isMobile ? '72px' : '130px') : (isMobile ? '52px' : '60px'),
-                  transform: currentIndex === idx ? (isMobile ? 'translateY(-4px) scale(1.04)' : 'translateY(-10px) scale(1.06)') : 'translateY(0)',
+                  width: isMobile ? '100%' : (currentIndex === idx ? '130px' : '60px'),
+                  transform: currentIndex === idx ? (isMobile ? 'scale(1.12)' : 'translateY(-10px) scale(1.06)') : 'scale(1)',
                   filter: currentIndex === idx ? 'drop-shadow(0 3px 8px rgba(0,0,0,0.2))' : 'none',
                 }}
               >

@@ -447,6 +447,7 @@ export default function ProductDetailClient({
 
           {/* Tabs — inside left column, hidden on mobile */}
           <div className="hidden md:block p-8 pb-0 bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+            <style>{`@keyframes tab-fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }`}</style>
             <div className="pt-0 w-full pb-8" id="product-tabs">
               <div className="flex gap-8 mb-8 border-b border-gray-200 w-full">
                 {[
@@ -465,6 +466,7 @@ export default function ProductDetailClient({
                   </button>
                 ))}
               </div>
+              <div key={activeTab} style={{ animation: 'tab-fade-in 220ms ease both' }}>
               {activeTab === 'description' && (
                 <div className="pb-8">
                   {(() => {
@@ -516,6 +518,7 @@ export default function ProductDetailClient({
                 </div>
               )}
               {activeTab === 'reviews' && <div id="reviews"><ProductReviews productId={product.id} /></div>}
+              </div>
             </div>
           </div>
 
