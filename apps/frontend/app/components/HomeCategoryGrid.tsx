@@ -19,13 +19,13 @@ export function HomeCategoryGrid() {
   const handleScroll = () => {
     const el = scrollRef.current;
     if (!el) return;
-    const children = el.querySelectorAll('a');
+    const center = el.scrollLeft + el.clientWidth / 2;
+    const children = Array.from(el.querySelectorAll('a')) as HTMLElement[];
     let closest = 0;
     let minDist = Infinity;
-    const elLeft = el.getBoundingClientRect().left;
     children.forEach((child, i) => {
-      const rect = child.getBoundingClientRect();
-      const dist = Math.abs(rect.left - elLeft);
+      const childCenter = child.offsetLeft + child.offsetWidth / 2;
+      const dist = Math.abs(childCenter - center);
       if (dist < minDist) { minDist = dist; closest = i; }
     });
     setActiveIndex(closest);
@@ -43,14 +43,14 @@ export function HomeCategoryGrid() {
         ref={scrollRef}
         onScroll={handleScroll}
         className="sm:hidden flex overflow-x-auto pb-4"
-        style={{ scrollbarWidth: 'none', scrollSnapType: 'x mandatory', scrollPaddingLeft: '1rem' }}
+        style={{ scrollbarWidth: 'none', scrollSnapType: 'x mandatory' }}
       >
         {CATEGORIES.map((cat) => (
           <Link
             key={cat.url}
             href={cat.url}
             className="flex flex-col items-center text-center no-underline flex-shrink-0"
-            style={{ width: '27vw', scrollSnapAlign: 'start' }}
+            style={{ width: '27vw', scrollSnapAlign: 'center' }}
           >
             <div className="rounded-full flex items-center justify-center" style={{ background: '#152f5a', width: '24vw', height: '24vw', maxWidth: '96px', maxHeight: '96px' }}>
               <img src={cat.icon} alt={cat.title} style={{ width: '45%', height: '45%', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
