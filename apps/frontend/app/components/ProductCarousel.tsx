@@ -108,7 +108,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
       {/* Step slider */}
       <div className="flex items-center justify-center gap-1.5 mt-4 mb-6">
         <div className="md:hidden flex gap-1.5">
-          {products.map((_, idx) => (
+          {Array.from({ length: products.length + 1 }).map((_, idx) => (
             <div key={idx} style={{ height: '3px', width: activeIndex === idx ? '24px' : '12px', borderRadius: '999px', background: activeIndex === idx ? '#111' : '#d1d5db', transition: 'width 0.25s ease, background 0.25s ease' }} />
           ))}
         </div>
