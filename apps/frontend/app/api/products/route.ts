@@ -47,6 +47,28 @@ export async function GET(request: Request) {
     const data = JSON.parse(new TextDecoder('utf-8').decode(buffer));
     const products = data.products || [];
 
+    // Hämta alla reviews för att beräkna rating per produkt
+    let reviewsByProduct: Record<string, { avg: number; count: number }> = {};
+    try {
+      const reviewsRes = await fetch(`${medusaUrl}/store/reviews`, {
+        headers: { 'x-publishable-api-key': publishableKey },
+        cache: 'no-store',
+      });
+      if (reviewsRes.ok) {
+        const reviewsData = await reviewsRes.json();
+        const allReviews: any[] = reviewsData.reviews || [];
+        allReviews.forEach((r: any) => {
+          if (!r.product_id) return;
+          if (!reviewsByProduct[r.product_id]) reviewsByProduct[r.product_id] = { avg: 0, count: 0 };
+          reviewsByProduct[r.product_id].count++;
+          reviewsByProduct[r.product_id].avg += r.rating;
+        });
+        Object.keys(reviewsByProduct).forEach(id => {
+          reviewsByProduct[id].avg = reviewsByProduct[id].avg / reviewsByProduct[id].count;
+        });
+      }
+    } catch {}
+
     const transformedProducts = products.map((product: any) => {
       // Fix image URLs - replace localhost with api.techpilots.se
       let imageUrl = product.images?.[0]?.url || product.thumbnail || '';
@@ -117,8 +139,8 @@ export async function GET(request: Request) {
           const qty = product.variants?.reduce((sum: number, v: any) => sum + (v.inventory_quantity || 0), 0) || 0;
           return qty > 0 ? 'I lager' : 'Slut i lager';
         })(),
-        rating: product.rating || 0,
-        reviews: product.reviews || 0,
+        rating: reviewsByProduct[product.id]?.avg || 0,
+        reviews: reviewsByProduct[product.id]?.count || 0,
         features: (() => {
           const explicit = parseMeta(product.metadata?.features);
           if (explicit.length > 0) return explicit;
