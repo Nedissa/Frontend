@@ -254,7 +254,7 @@ export function CompareBar() {
                           <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: p.stock === 'Slut i lager' ? '#ef4444' : '#22c55e', flexShrink: 0 }} />
                           <span style={{ fontSize: '0.75rem', fontWeight: 600, color: p.stock === 'Slut i lager' ? '#ef4444' : '#16a34a' }}>{p.stock || 'I lager'}</span>
                         </div>
-                        <div style={{ padding: '5px 8px' }}>
+                        <div style={{ padding: '5px 8px', marginTop: 'auto' }}>
                           <button onClick={() => window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: p.id, variantId: p.variantId, title: p.title, price: p.price, quantity: 1, image: p.image } }))} style={{ width: '100%', background: '#000', color: '#fff', border: 'none', padding: '5px 0', fontSize: '0.75rem', fontWeight: 700, cursor: 'pointer' }}>
                             Lägg i varukorg
                           </button>
