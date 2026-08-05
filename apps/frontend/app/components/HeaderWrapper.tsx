@@ -37,7 +37,7 @@ interface MenuCategory {
 const MENU_DATA: MenuCategory[] = [
   {
     id: 'datorer-och-tillbehor',
-    title: 'Datorer & Tillbehör',
+    title: 'Datorer',
     url: '/kategori/datorer-tillbehor',
     items: [
       {
@@ -77,7 +77,7 @@ const MENU_DATA: MenuCategory[] = [
   },
   {
     id: 'komponenter',
-    title: 'Datorkomponenter',
+    title: 'Komponenter',
     url: '/kategori/datorkomponenter',
     items: [
       {

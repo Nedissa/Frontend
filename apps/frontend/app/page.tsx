@@ -7,6 +7,7 @@ import { NewsletterPopup } from './components/NewsletterPopup';
 import { HeroBanner } from './components/HeroBanner';
 import { LimitedTimeBanner } from './components/LimitedTimeBanner';
 import { BottomBanner } from './components/BottomBanner';
+import { HomeCategoryGrid } from './components/HomeCategoryGrid';
 
 export const revalidate = 60;
 
@@ -132,7 +133,8 @@ export default async function Home() {
     <div className="relative flex flex-col w-full">
       <HeroBanner collections={FEATURED_COLLECTIONS} />
       <MainLayout bordered={true} noPadding={true}>
-        <div className="flex flex-col gap-4 pt-4">
+        <div className="flex flex-col gap-4 pt-0">
+          <HomeCategoryGrid />
           {products.length > 0 && (
             <>
               <ProductCarousel title="Populära produkter" products={popularProducts} variant="popular" />

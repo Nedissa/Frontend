@@ -85,7 +85,7 @@ export function CompareBar() {
   }, [compareList.length]);
 
   if (compareList.length === 0) return null;
-  if (asideType !== 'closed' || modalOpen) return null;
+  if (asideType !== 'closed') return null;
 
   const allSpecKeys: string[] = [];
   compareList.forEach(p => {

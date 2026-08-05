@@ -105,17 +105,18 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
         </div>
       </div>
 
-      {/* Step slider */}
-      <div className="flex items-center justify-center gap-1.5 mt-4 mb-6">
-        <div className="md:hidden flex gap-1.5">
-          {Array.from({ length: products.length + 1 }).map((_, idx) => (
-            <div key={idx} style={{ height: '3px', width: activeIndex === idx ? '24px' : '12px', borderRadius: '999px', background: activeIndex === idx ? '#111' : '#d1d5db', transition: 'width 0.25s ease, background 0.25s ease' }} />
-          ))}
+      {/* Progress line with dot — mobile */}
+      <div className="md:hidden px-4 mt-4 mb-6">
+        <div className="relative h-[3px] w-full bg-gray-200 rounded-full">
+          <div className="absolute left-0 top-0 h-full bg-black rounded-full transition-all duration-300 ease-out" style={{ width: `${(activeIndex / products.length) * 100}%` }} />
+          <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3 h-3 bg-black rounded-full border-2 border-white transition-all duration-300 ease-out" style={{ left: `${(activeIndex / products.length) * 100}%`, boxShadow: '0 1px 4px rgba(0,0,0,0.2)' }} />
         </div>
-        <div className="hidden md:flex gap-1.5">
-          {Array.from({ length: products.length + 1 }).map((_, idx) => (
-            <div key={idx} style={{ height: '3px', width: desktopIndex === idx ? '24px' : '12px', borderRadius: '999px', background: desktopIndex === idx ? '#111' : '#d1d5db', transition: 'width 0.25s ease, background 0.25s ease' }} />
-          ))}
+      </div>
+      {/* Progress line with dot — desktop */}
+      <div className="hidden md:block px-6 mt-4 mb-6">
+        <div className="relative h-[3px] w-full bg-gray-200 rounded-full">
+          <div className="absolute left-0 top-0 h-full bg-black rounded-full transition-all duration-300 ease-out" style={{ width: `${(desktopIndex / products.length) * 100}%` }} />
+          <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3 h-3 bg-black rounded-full border-2 border-white transition-all duration-300 ease-out" style={{ left: `${(desktopIndex / products.length) * 100}%`, boxShadow: '0 1px 4px rgba(0,0,0,0.2)' }} />
         </div>
       </div>
     </div>
