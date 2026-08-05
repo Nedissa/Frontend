@@ -85,6 +85,7 @@ export function ProductReviews({ productId }: { productId: string }) {
       });
   }, [productId]);
 
+
   const avgRating = reviews.length > 0
     ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
     : 0;
@@ -170,8 +171,8 @@ export function ProductReviews({ productId }: { productId: string }) {
         </div>
         {(canReview === 'yes' || canReview === 'not_purchased') && !submitted && (
           <button
-            onClick={() => setShowForm(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 border border-black text-sm font-semibold hover:bg-black hover:text-white transition-colors w-fit"
+            onClick={() => setShowForm(v => !v)}
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold hover:bg-gray-50 transition-colors w-fit" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -184,11 +185,9 @@ export function ProductReviews({ productId }: { productId: string }) {
         )}
       </div>
 
-
-      {/* Review form */}
+      {/* Review form — inline */}
       {showForm && (
-        <form onSubmit={handleSubmit} className="border border-gray-200 rounded-lg p-4 space-y-4">
-          <h3 className="font-semibold">Skriv en recension</h3>
+        <form onSubmit={handleSubmit} className="border border-gray-200 p-4 space-y-4">
           <div>
             <p className="text-sm text-gray-600 mb-1">Betyg *</p>
             <Stars rating={form.rating} interactive onRate={(r) => setForm(f => ({ ...f, rating: r }))} />
@@ -200,7 +199,7 @@ export function ProductReviews({ productId }: { productId: string }) {
               onChange={e => setForm(f => ({ ...f, comment: e.target.value }))}
               placeholder="Berätta om din upplevelse..."
               rows={3}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-black"
+              className="w-full border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:border-black"
             />
           </div>
           {error && <p className="text-sm text-red-500">{error}</p>}
@@ -208,14 +207,14 @@ export function ProductReviews({ productId }: { productId: string }) {
             <button
               type="submit"
               disabled={submitting}
-              className="px-4 py-2 bg-black text-white text-sm font-semibold rounded-lg hover:bg-gray-800 disabled:opacity-50"
+              className="px-4 py-2 bg-black text-white text-sm font-semibold hover:bg-gray-800 disabled:opacity-50"
             >
-              {submitting ? 'Skickar...' : 'Skicka recension'}
+              {submitting ? 'Skickar...' : 'Skicka'}
             </button>
             <button
               type="button"
               onClick={() => setShowForm(false)}
-              className="px-4 py-2 border border-gray-300 text-sm font-semibold rounded-lg hover:bg-gray-50"
+              className="px-4 py-2 border border-gray-300 text-sm font-semibold hover:bg-gray-50"
             >
               Avbryt
             </button>

@@ -16,62 +16,70 @@ export function ImageZoomDialog({
   onClose,
 }: ImageZoomDialogProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [visible, setVisible] = useState(false);
+  const [animIn, setAnimIn] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
-  const goTo = (idx: number) => {
-    setCurrentIndex(idx);
-  };
+  const goTo = (idx: number) => setCurrentIndex(idx);
 
   useEffect(() => {
     setCurrentIndex(initialIndex);
   }, [initialIndex]);
 
   useEffect(() => {
+    if (isOpen) {
+      setVisible(true);
+      requestAnimationFrame(() => requestAnimationFrame(() => setAnimIn(true)));
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      setAnimIn(false);
+      const t = setTimeout(() => setVisible(false), 300);
+      document.body.style.overflow = 'unset';
+      document.documentElement.style.overflow = 'unset';
+      return () => clearTimeout(t);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
     if (!isOpen) return;
-
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      } else if (e.key === 'ArrowLeft') {
-        goTo((currentIndex - 1 + images.length) % images.length);
-      } else if (e.key === 'ArrowRight') {
-        goTo((currentIndex + 1) % images.length);
-      }
+      if (e.key === 'Escape') onClose();
+      else if (e.key === 'ArrowLeft') goTo((currentIndex - 1 + images.length) % images.length);
+      else if (e.key === 'ArrowRight') goTo((currentIndex + 1) % images.length);
     };
-
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
-      if (e.deltaY > 0) {
-        setCurrentIndex((prev) => (prev + 1) % images.length);
-      } else if (e.deltaY < 0) {
-        setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-      }
+      if (e.deltaY > 0) setCurrentIndex((prev) => (prev + 1) % images.length);
+      else setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
     };
-
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('wheel', handleWheel, { passive: false });
     return () => {
-      document.body.style.overflow = 'unset';
-      document.documentElement.style.overflow = 'unset';
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('wheel', handleWheel);
     };
-  }, [isOpen, images.length, onClose]);
+  }, [isOpen, images.length, onClose, currentIndex]);
 
-  if (!isOpen) return null;
-
-  const currentImage = images[currentIndex];
+  if (!visible) return null;
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+      className="fixed inset-0 z-50 flex items-end justify-center"
+      style={{ pointerEvents: animIn ? 'auto' : 'none' }}
       onClick={onClose}
     >
       <div
-        className="relative bg-white w-screen flex flex-col"
-        style={{ height: '100dvh' }}
+        className="absolute inset-0 bg-black transition-opacity duration-300"
+        style={{ opacity: animIn ? 0.5 : 0 }}
+      />
+      <div
+        className="relative bg-white w-screen flex flex-col z-10"
+        style={{
+          height: '100dvh',
+          transform: animIn ? 'translateY(0)' : 'translateY(100%)',
+          transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+        }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
         onTouchEnd={(e) => {

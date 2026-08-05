@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { InputWithCheck } from './InputWithCheck';
 
 export function NewsletterPopup() {
   const [isOpen, setIsOpen] = useState(false);
+  const [animIn, setAnimIn] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -21,6 +22,7 @@ export function NewsletterPopup() {
 
     const show = () => {
       setIsOpen(true);
+      requestAnimationFrame(() => requestAnimationFrame(() => setAnimIn(true)));
       cleanup();
     };
 
@@ -42,7 +44,8 @@ export function NewsletterPopup() {
   }, []);
 
   const handleClose = () => {
-    setIsOpen(false);
+    setAnimIn(false);
+    setTimeout(() => setIsOpen(false), 300);
     localStorage.setItem('newsletterPopupClosed', 'true');
   };
 
@@ -109,7 +112,22 @@ export function NewsletterPopup() {
   if (!isOpen) return null;
 
   return (
-    <div className="w-full max-w-3xl">
+    <div
+      className="fixed inset-0 z-[9998] flex items-center justify-center px-4"
+      style={{ pointerEvents: animIn ? 'auto' : 'none' }}
+    >
+      <div
+        className="absolute inset-0 bg-black transition-opacity duration-300"
+        style={{ opacity: animIn ? 0.4 : 0 }}
+        onClick={handleClose}
+      />
+      <div
+        className="relative w-full max-w-3xl transition-all duration-300"
+        style={{
+          opacity: animIn ? 1 : 0,
+          transform: animIn ? 'translateY(0) scale(1)' : 'translateY(16px) scale(0.97)',
+        }}
+      >
       <div className="bg-white overflow-hidden shadow-2xl">
         <div className="flex flex-col md:flex-row md:h-96">
           {/* Image Section — hidden on mobile */}
@@ -211,6 +229,7 @@ export function NewsletterPopup() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

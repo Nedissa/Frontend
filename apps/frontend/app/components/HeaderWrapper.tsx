@@ -789,6 +789,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
           {searchTerm.length > 0 && showSearchResults && (
             <div
               className="absolute left-0 right-0 bg-white border border-gray-200 shadow-lg z-[9999] mt-1 mx-4"
+              style={{ animation: 'searchFadeIn 120ms ease forwards' }}
               onMouseDown={(e) => e.preventDefault()}
             >
               {(() => {
@@ -889,6 +890,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
             {searchTerm.length > 0 && showSearchResults && (
               <div
                 className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 shadow-lg z-[9999]"
+                style={{ animation: 'searchFadeIn 120ms ease forwards' }}
                 onMouseDown={(e) => e.preventDefault()}
               >
                 {(() => {
@@ -966,6 +968,10 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
               }
               .vibrating {
                 animation: vibrate 0.15s ease-in-out infinite;
+              }
+              @keyframes searchFadeIn {
+                from { opacity: 0; transform: translateY(-4px); }
+                to { opacity: 1; transform: translateY(0); }
               }
             `}</style>
             {/* Language Switcher */}
@@ -1262,7 +1268,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
         </nav>
 
         {/* Mega Menu */}
-        <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white z-40 flex justify-center border-b border-l border-r border-gray-200" style={{ visibility: (showMegaMenu && activeMegaMenu) ? 'visible' : 'hidden', pointerEvents: (showMegaMenu && activeMegaMenu) ? 'auto' : 'none' }}>
+        <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white z-40 flex justify-center border-b border-l border-r border-gray-200" style={{ opacity: (showMegaMenu && activeMegaMenu) ? 1 : 0, transform: (showMegaMenu && activeMegaMenu) ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(-6px)', transition: 'opacity 150ms ease, transform 150ms ease', visibility: (showMegaMenu && activeMegaMenu) ? 'visible' : 'hidden', pointerEvents: (showMegaMenu && activeMegaMenu) ? 'auto' : 'none' }}>
             <div className="w-[1280px] px-6">
               <div className="py-8">
                 {/* Erbjudanden panel */}

@@ -6,10 +6,14 @@ import { Cookie } from '@phosphor-icons/react';
 
 export function CookieBanner() {
   const [visible, setVisible] = useState(false);
+  const [animIn, setAnimIn] = useState(false);
 
   useEffect(() => {
     const consent = localStorage.getItem('cookie_consent');
-    if (!consent) setVisible(true);
+    if (!consent) {
+      setVisible(true);
+      requestAnimationFrame(() => requestAnimationFrame(() => setAnimIn(true)));
+    }
     if (consent === 'accepted') loadTidio();
   }, []);
 
@@ -23,13 +27,15 @@ export function CookieBanner() {
 
   function accept() {
     localStorage.setItem('cookie_consent', 'accepted');
-    setVisible(false);
+    setAnimIn(false);
+    setTimeout(() => setVisible(false), 300);
     loadTidio();
   }
 
   function decline() {
     localStorage.setItem('cookie_consent', 'declined');
-    setVisible(false);
+    setAnimIn(false);
+    setTimeout(() => setVisible(false), 300);
   }
 
   if (!visible) return null;
@@ -41,6 +47,7 @@ export function CookieBanner() {
           position: fixed; bottom: 24px; right: 24px; z-index: 9999;
           background: #fff; border: 1px solid #e5e7eb;
           padding: 20px; width: 290px; box-shadow: 0 8px 32px rgba(0,0,0,0.14);
+          transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms ease;
         }
         @media (max-width: 640px) {
           .cookie-banner-desktop {
@@ -50,7 +57,7 @@ export function CookieBanner() {
           }
         }
       `}</style>
-      <div className="cookie-banner-desktop">
+      <div className="cookie-banner-desktop" style={{ transform: animIn ? 'translateY(0)' : 'translateY(24px)', opacity: animIn ? 1 : 0 }}>
       <div style={{ marginBottom: '10px' }}>
         <Cookie size={28} weight="fill" color="#111" style={{ marginBottom: '6px' }} />
         <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#111', display: 'block' }}>Vi använder cookies</span>
