@@ -38,6 +38,19 @@ async function fetchProductsFromAPI() {
     const data = JSON.parse(new TextDecoder('utf-8').decode(buffer));
     const products = data.products || [];
 
+    // Hämta ratings
+    let reviewsByProduct: Record<string, { avg: number; count: number }> = {};
+    try {
+      const ratingsRes = await fetch(`${medusaUrl}/store/reviews/summary`, {
+        headers: { 'x-publishable-api-key': publishableKey },
+        next: { revalidate: 60 },
+      });
+      if (ratingsRes.ok) {
+        const ratingsData = await ratingsRes.json();
+        reviewsByProduct = ratingsData.ratings || {};
+      }
+    } catch {}
+
     function parseMeta(val: any): any[] {
       if (!val) return [];
       if (Array.isArray(val)) return val;
@@ -73,8 +86,8 @@ async function fetchProductsFromAPI() {
         images: product.images?.map((img: any) => img.url.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se').replace(/^http:\/\//, 'https://')) || [],
         colors: product.options?.find((o: any) => o.title?.toLowerCase() === 'color' || o.title?.toLowerCase() === 'färg')?.values?.map((v: any) => v.value) || parseMeta(product.metadata?.colors),
         stock: (() => { const manages = product.variants?.some((v: any) => v.manage_inventory); if (!manages) return 'I lager'; const qty = product.variants?.reduce((s: number, v: any) => s + (v.inventory_quantity || 0), 0) || 0; return qty > 0 ? 'I lager' : 'Slut i lager'; })(),
-        rating: product.rating || 0,
-        reviews: product.reviews || 0,
+        rating: reviewsByProduct[product.id]?.avg || 0,
+        reviews: reviewsByProduct[product.id]?.count || 0,
         features: (() => {
           const explicit = parseMeta(product.metadata?.features);
           if (explicit.length > 0) return explicit;
