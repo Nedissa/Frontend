@@ -26,21 +26,31 @@ const NAV = [
     links: [
       { id: 'leverans', label: 'Frakt och leverans' },
       { id: 'betalning', label: 'Betalning' },
+      { id: 'spara-leverans', label: 'Spåra din leverans' },
+    ],
+  },
+  {
+    id: 'oppet-kop',
+    label: 'Öppet köp',
+    links: [
+      { id: 'returer', label: 'Returer' },
+      { id: 'byten', label: 'Byten' },
     ],
   },
   {
     id: 'retur',
-    label: 'Öppet köp och retur',
+    label: 'Felanmälan',
     links: [
-      { id: 'returer', label: 'Returer & byten' },
-      { id: 'reklamation', label: 'Reklamation & service' },
+      { id: 'reklamation', label: 'Reklamation' },
+      { id: 'support', label: 'Support' },
     ],
   },
   {
     id: 'villkor',
-    label: 'Villkor och tjänster',
+    label: 'Villkor',
     links: [
       { id: 'villkor', label: 'Försäljningsvillkor' },
+      { id: 'medlemsvillkor', label: 'Medlemsvillkor' },
       { id: 'integritet', label: 'Integritetspolicy' },
       { id: 'cookies', label: 'Cookiepolicy' },
     ],
@@ -50,13 +60,20 @@ const NAV = [
     label: 'Om oss',
     links: [
       { id: 'om-oss', label: 'Vår historia' },
+      { id: 'miljoansvar', label: 'Miljöansvar' },
+      { id: 'kryptering', label: 'Kryptering' },
+      { id: 'tillganglighet', label: 'Tillgänglighet' },
     ],
   },
 ];
 
 function Sidebar({ active, navigate }: { active: string; navigate: (id: string) => void }) {
-  const initialOpen = NAV.find(cat => cat.links.some(l => l.id === active))?.id ?? NAV[0].id;
-  const [open, setOpen] = useState<string | null>(initialOpen);
+  const [open, setOpen] = useState<string | null>(NAV[0].id);
+
+  useEffect(() => {
+    const parentCat = NAV.find(cat => cat.links.some(l => l.id === active))?.id;
+    if (parentCat) setOpen(parentCat);
+  }, [active]);
 
   const toggle = (id: string) => setOpen(prev => prev === id ? null : id);
 
@@ -128,22 +145,23 @@ const SUBTITLES: Record<string, string> = {
   produktinfo: 'Information om våra produkter, specifikationer och kompatibilitet.',
   leverans: 'Leveranstider, fraktkostnader och spårning av paket.',
   betalning: 'Betalningsalternativ, faktura och delbetalning.',
-  returer: 'Hur du returnerar eller byter en vara. 14 dagars ångerrätt.',
+  'spara-leverans': 'Spåra ditt paket i realtid.',
+  medlemsvillkor: 'Villkor för medlemskap hos Techpilots.',
+  returer: 'Hur du returnerar en vara. 14 dagars ångerrätt.',
+  byten: 'Hur du byter en vara mot en annan.',
   reklamation: 'Reklamation av felaktig vara eller garanti.',
+  support: 'Teknisk hjälp och serviceärenden för dina produkter.',
   villkor: 'Våra försäljningsvillkor och köpeavtal.',
   integritet: 'Hur vi hanterar och skyddar dina personuppgifter.',
   cookies: 'Information om cookies och hur vi använder dem.',
   'om-oss': 'Lär känna Techpilots och vår historia.',
+  miljoansvar: 'Hur vi tar ansvar för miljön.',
+  kryptering: 'Hur vi skyddar din data och dina betalningar.',
+  tillganglighet: 'Hur vi arbetar med digital tillgänglighet enligt WCAG.',
 };
 
 export default function KundservicePage() {
-  const [active, setActive] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const seg = window.location.pathname.split('/kundservice/')[1];
-      if (seg) return seg;
-    }
-    return 'kontakt';
-  });
+  const [active, setActive] = useState('kontakt');
   const [animKey, setAnimKey] = useState(0);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -156,7 +174,7 @@ export default function KundservicePage() {
 
   useEffect(() => {
     const seg = window.location.pathname.split('/kundservice/')[1];
-    if (seg) { setActive(seg); setAnimKey(k => k + 1); }
+    if (seg) setActive(seg);
   }, []);
 
   const navigate = (id: string) => {
@@ -321,6 +339,20 @@ export default function KundservicePage() {
                 </div>
               )}
 
+              {active === 'spara-leverans' && (
+                <div>
+                  <h2>Spåra din leverans</h2>
+                  <h3>Spårningsnummer</h3>
+                  <p>När din order skickas får du ett spårningsnummer via e-post. Använd det för att följa ditt paket i realtid hos respektive fraktbolag.</p>
+                  <h3>PostNord</h3>
+                  <p>Spåra ditt paket på postnord.se med ditt spårningsnummer.</p>
+                  <h3>DHL</h3>
+                  <p>Spåra ditt paket på dhl.se med ditt spårningsnummer.</p>
+                  <h3>Kontakta oss</h3>
+                  <p>Har du inte fått något spårningsnummer inom 2 arbetsdagar efter beställning? Kontakta oss på support@techpilots.se med ditt ordernummer.</p>
+                </div>
+              )}
+
               {active === 'leverans' && (
                 <div>
                   <h2>Leverans & Frakt</h2>
@@ -351,6 +383,20 @@ export default function KundservicePage() {
                 </div>
               )}
 
+              {active === 'byten' && (
+                <div>
+                  <h2>Byten</h2>
+                  <h3>Byta en vara</h3>
+                  <p>Du har rätt att byta en vara inom 14 dagar från att du mottagit din order, förutsatt att den är oanvänd och i originalskick.</p>
+                  <h3>Så gör du ett byte</h3>
+                  <p>Kontakta oss på support@techpilots.se med ordernummer och vilken produkt du vill byta till. Vi hjälper dig med resten.</p>
+                  <h3>Fraktkostnad vid byte</h3>
+                  <p>Returfrakten vid byte bekostas av kunden. Vi skickar den nya varan utan extra fraktkostnad.</p>
+                  <h3>Undantag</h3>
+                  <p>Gäller ej förbrukningsvaror, öppna produkter, kroppsnära produkter, spel och digitala produkter där licens aktiverats, specialbeställda varor eller presentkort.</p>
+                </div>
+              )}
+
               {active === 'reklamation' && (
                 <div>
                   <h2>Garanti & Reklamation</h2>
@@ -366,6 +412,20 @@ export default function KundservicePage() {
                   <p>Vi bedömer ärendet inom 3 arbetsdagar. Vid godkänd reklamation erbjuder vi reparation, byte eller återbetalning. Vi betalar alltid returfrakten.</p>
                   <h3>Tvist</h3>
                   <p>Vid tvist kan du vända dig till Allmänna reklamationsnämnden, Box 174, 101 23 Stockholm eller via arn.se.</p>
+                </div>
+              )}
+
+              {active === 'support' && (
+                <div>
+                  <h2>Support</h2>
+                  <h3>Serviceärenden</h3>
+                  <p>Har din produkt ett fel som kräver reparation? Vi hjälper dig att komma i kontakt med rätt serviceinstans.</p>
+                  <h3>Tillverkarservice</h3>
+                  <p>För produkter från stora varumärken (Asus, HP, Samsung, Lenovo m.fl.) hänvisar vi dig direkt till tillverkarens service för snabbast möjlig hjälp.</p>
+                  <h3>Kontakta oss</h3>
+                  <p>Maila support@techpilots.se med ordernummer och en beskrivning av felet. Vi återkommer inom 24 timmar med instruktioner.</p>
+                  <h3>Garantiservice</h3>
+                  <p>Om felet täcks av garanti eller reklamationsrätt betalar vi alltid frakten för serviceärendet.</p>
                 </div>
               )}
 
@@ -392,6 +452,20 @@ export default function KundservicePage() {
                   <p>Regleras av svensk lag. Tvist via ARN, Box 174, 101 23 Stockholm eller europa.eu/consumers/odr.</p>
                   <h3>10. Kontakt</h3>
                   <p>Techpilots AB · Skogshyddegatan 37, 506 31 Borås · +46 10 880 09 81 · support@techpilots.se</p>
+                </div>
+              )}
+
+              {active === 'medlemsvillkor' && (
+                <div>
+                  <h2>Medlemsvillkor</h2>
+                  <h3>Medlemskap</h3>
+                  <p>Medlemskap hos Techpilots är gratis och ger dig tillgång till orderhistorik, snabbare checkout och exklusiva erbjudanden.</p>
+                  <h3>Registrering</h3>
+                  <p>Du registrerar dig med din e-postadress och ett valfritt lösenord.</p>
+                  <h3>Dina uppgifter</h3>
+                  <p>Vi behandlar dina personuppgifter enligt vår integritetspolicy och GDPR. Du kan när som helst begära att ditt konto raderas via support@techpilots.se.</p>
+                  <h3>Avsluta medlemskap</h3>
+                  <p>Du kan när som helst avsluta ditt medlemskap genom att kontakta oss på support@techpilots.se.</p>
                 </div>
               )}
 
@@ -444,6 +518,48 @@ export default function KundservicePage() {
                   <p>Fri frakt på beställningar över 499 kr. Leveranstid visas vid kassan.</p>
                   <h3>Vår ambition</h3>
                   <p>Vi vill göra det lika enkelt att köpa elektronik online som att gå in och prata med någon som verkligen kan sitt jobb. Tydlig information, ärliga priser och snabb hjälp när något krånglar.</p>
+                </div>
+              )}
+
+              {active === 'miljoansvar' && (
+                <div>
+                  <h2>Miljöansvar</h2>
+                  <h3>Vår syn på miljö</h3>
+                  <p>Vi på Techpilots tar miljöansvar på allvar. Det handlar inte bara om vad vi säljer utan hur vi driver vår verksamhet.</p>
+                  <h3>Förpackningar</h3>
+                  <p>Vi minimerar onödigt förpackningsmaterial och använder i möjligaste mån återvinningsbart material vid frakt.</p>
+                  <h3>Produktlivslängd</h3>
+                  <p>Vi prioriterar produkter med lång livslängd och god garanti. En produkt som håller länge är alltid bättre för miljön än en som behöver bytas ut.</p>
+                  <h3>Elektronikåtervinning</h3>
+                  <p>Uttjänad elektronik ska alltid lämnas till en godkänd återvinningsstation. Kontakta din kommun för närmaste mottagning.</p>
+                </div>
+              )}
+
+              {active === 'kryptering' && (
+                <div>
+                  <h2>Kryptering och säkerhet</h2>
+                  <h3>SSL-kryptering</h3>
+                  <p>Vår webbplats använder SSL-kryptering (HTTPS) vilket innebär att all kommunikation mellan din webbläsare och vår server är krypterad och skyddad.</p>
+                  <h3>Säkra betalningar</h3>
+                  <p>Alla betalningar hanteras via certifierade betalningsleverantörer. Vi lagrar aldrig dina kortuppgifter på våra servrar.</p>
+                  <h3>PCI DSS</h3>
+                  <p>Vår betalningslösning är PCI DSS-certifierad, vilket är branschstandarden för säker kortbetalning. Vi lagrar aldrig dina kortuppgifter.</p>
+                  <h3>Dina uppgifter</h3>
+                  <p>Vi delar aldrig dina personuppgifter med tredje part utan ditt samtycke, förutom vad som krävs för leverans och betalning.</p>
+                </div>
+              )}
+
+              {active === 'tillganglighet' && (
+                <div>
+                  <h2>Tillgänglighet</h2>
+                  <h3>Vår ambition</h3>
+                  <p>Vi strävar efter att vår webbplats ska vara tillgänglig för alla, oavsett funktionsvariation. Vi arbetar mot WCAG 2.1 nivå AA, den internationella standarden för digital tillgänglighet.</p>
+                  <h3>Vad är WCAG?</h3>
+                  <p>WCAG (Web Content Accessibility Guidelines) är riktlinjer framtagna av W3C. De är indelade i tre nivåer: A (grundläggande), AA (standard) och AAA (högsta). Nivå AA är den nivå som rekommenderas för de flesta webbplatser och är lagkrav för offentliga aktörer inom EU.</p>
+                  <h3>Vad vi gör</h3>
+                  <p>Vi arbetar kontinuerligt med kontrast, tangentbordsnavigering, skärmläsarkompatibilitet och tydliga textalternativ för bilder.</p>
+                  <h3>Rapportera problem</h3>
+                  <p>Upplever du tillgänglighetsproblem på vår webbplats? Kontakta oss på support@techpilots.se så åtgärdar vi det så snart vi kan.</p>
                 </div>
               )}
 

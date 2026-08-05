@@ -1066,7 +1066,7 @@ export default function AccountPage() {
                           <div>
                             <p style={{ fontSize: '0.7rem', fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>Betalsätt</p>
                             <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>
-                              {order.payment_collections?.[0]?.payments?.[0]?.provider_id === 'pp_stripe_stripe' ? 'Kortbetalning (Stripe)' : order.payment_collections?.[0]?.payments?.[0]?.provider_id || '—'}
+                              {order.payment_collections?.[0]?.payments?.[0]?.provider_id === 'pp_stripe_stripe' ? 'Kortbetalning' : order.payment_collections?.[0]?.payments?.[0]?.provider_id || '—'}
                             </p>
                           </div>
                           <div>

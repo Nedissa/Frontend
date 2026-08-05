@@ -70,7 +70,7 @@ export default function PrivacyPolicyPage() {
             <p className="mb-3">Vi delar dina uppgifter endast med partners som är nödvändiga för att driva vår webbutik:</p>
             <ul>
               <li><strong>PostNord:</strong> Namn och leveransadress för att skicka din beställning</li>
-              <li><strong>Klarna / Stripe:</strong> Betalningsuppgifter för att genomföra betalningen</li>
+              <li><strong>Betalningsleverantörer:</strong> Betalningsuppgifter för att genomföra betalningen</li>
               <li><strong>Leverantörer:</strong> Vid direktleverans från tillverkare av elektronik</li>
               <li><strong>IT-leverantörer:</strong> Hosting och tekniska system för webbutiken</li>
             </ul>
