@@ -58,6 +58,7 @@ export function ProductReviews({ productId }: { productId: string }) {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
+  const [formAnim, setFormAnim] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
@@ -171,7 +172,15 @@ export function ProductReviews({ productId }: { productId: string }) {
         </div>
         {(canReview === 'yes' || canReview === 'not_purchased') && !submitted && (
           <button
-            onClick={() => setShowForm(v => !v)}
+            onClick={() => {
+              if (showForm) {
+                setFormAnim(false);
+                setTimeout(() => setShowForm(false), 250);
+              } else {
+                setShowForm(true);
+                requestAnimationFrame(() => requestAnimationFrame(() => setFormAnim(true)));
+              }
+            }}
             className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold hover:bg-gray-50 transition-colors w-fit" style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.15)' }}
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
@@ -187,7 +196,7 @@ export function ProductReviews({ productId }: { productId: string }) {
 
       {/* Review form — inline */}
       {showForm && (
-        <form onSubmit={handleSubmit} className="border border-gray-200 p-4 space-y-4">
+        <form onSubmit={handleSubmit} className="border border-gray-200 p-4 space-y-4" style={{ transition: 'opacity 250ms ease, transform 250ms ease', opacity: formAnim ? 1 : 0, transform: formAnim ? 'translateY(0)' : 'translateY(-8px)' }}>
           <div>
             <p className="text-sm text-gray-600 mb-1">Betyg *</p>
             <Stars rating={form.rating} interactive onRate={(r) => setForm(f => ({ ...f, rating: r }))} />
@@ -213,7 +222,7 @@ export function ProductReviews({ productId }: { productId: string }) {
             </button>
             <button
               type="button"
-              onClick={() => setShowForm(false)}
+              onClick={() => { setFormAnim(false); setTimeout(() => setShowForm(false), 250); }}
               className="px-4 py-2 border border-gray-300 text-sm font-semibold hover:bg-gray-50"
             >
               Avbryt

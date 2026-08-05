@@ -18,7 +18,15 @@ export function ImageZoomDialog({
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const [visible, setVisible] = useState(false);
   const [animIn, setAnimIn] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const touchStartX = useRef<number | null>(null);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const goTo = (idx: number) => setCurrentIndex(idx);
 
@@ -102,16 +110,16 @@ export function ImageZoomDialog({
         </button>
 
         {/* Image Container with Navigation */}
-        <div className="flex-1 flex items-center justify-center p-8 overflow-hidden relative" style={{ minHeight: 0 }}>
+        <div className="flex-1 flex items-center justify-center overflow-hidden relative" style={{ minHeight: 0, padding: '8px 56px' }}>
           {/* Left Arrow */}
-          <button
+          {!isMobile && <button
             onClick={() => goTo((currentIndex - 1 + images.length) % images.length)}
-            className="absolute left-4 p-2 hover:bg-gray-100 rounded transition-colors flex items-center justify-center z-10"
+            className="absolute left-2 p-3 hover:bg-gray-100 rounded transition-colors flex items-center justify-center z-10"
           >
-            <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-9 h-9 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-          </button>
+          </button>}
 
           <img
             key={currentIndex}
@@ -122,31 +130,35 @@ export function ImageZoomDialog({
           />
 
           {/* Right Arrow */}
-          <button
+          {!isMobile && <button
             onClick={() => goTo((currentIndex + 1) % images.length)}
-            className="absolute right-4 p-2 hover:bg-gray-100 rounded transition-colors flex items-center justify-center z-10"
+            className="absolute right-2 p-3 hover:bg-gray-100 rounded transition-colors flex items-center justify-center z-10"
           >
-            <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-9 h-9 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </button>
+          </button>}
         </div>
 
         {/* Thumbnails */}
-        <div className="px-6 py-4 flex gap-6 justify-center overflow-x-auto h-40" style={{ scrollbarWidth: 'none' }}>
+        <style>{`
+          .zoom-thumb-row { padding: 16px 24px; display: flex; gap: 24px; justify-content: center; overflow-x: auto; height: 160px; scrollbar-width: none; align-items: flex-end; }
+          @media (max-width: 767px) {
+            .zoom-thumb-row { justify-content: flex-start; height: 90px; gap: 10px; padding: 10px 16px 8px; }
+            .zoom-thumb-btn-active { width: 72px !important; }
+          }
+        `}</style>
+        <div className="zoom-thumb-row">
           {images.map((img, idx) => (
-            <div
-              key={idx}
-              className="flex-shrink-0 flex items-center justify-center"
-            >
+            <div key={idx} className="flex-shrink-0 flex items-center justify-center">
               <button
                 onClick={() => goTo(idx)}
                 className="aspect-square flex items-center justify-center transition-all duration-200"
                 style={{
                   opacity: currentIndex === idx ? 1 : 0.25,
-                  width: currentIndex === idx ? '130px' : '60px',
-                  transform: currentIndex === idx ? 'translateY(-10px) scale(1.06)' : 'translateY(0)',
-                  filter: currentIndex === idx ? 'drop-shadow(0 5px 10px rgba(0,0,0,0.25))' : 'none',
+                  width: currentIndex === idx ? (isMobile ? '72px' : '130px') : (isMobile ? '52px' : '60px'),
+                  transform: currentIndex === idx ? (isMobile ? 'translateY(-4px) scale(1.04)' : 'translateY(-10px) scale(1.06)') : 'translateY(0)',
+                  filter: currentIndex === idx ? 'drop-shadow(0 3px 8px rgba(0,0,0,0.2))' : 'none',
                 }}
               >
                 <img src={img.url} alt="" className="w-full h-full object-contain" />
