@@ -320,7 +320,7 @@ export function CompareBar() {
                       <tr>
                         {compareList.map((p, i) => (
                             <td key={p.id} style={{ verticalAlign: 'top', padding: 0 }}>
-                              <div style={{ position: 'relative', borderBottom: '2px solid #e5e7eb' }}>
+                              <div style={{ position: 'relative', borderBottom: '1px solid #e5e7eb' }}>
                                 <button onClick={() => { window.dispatchEvent(new CustomEvent('toggleCompare', { detail: p })); removeFromCompare(p.id); }} style={{ position: 'absolute', top: 0, right: 0, background: '#f0f0f0', border: 'none', cursor: 'pointer', borderRadius: '0 4px 0 999px', padding: '5px 5px 7px 9px', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
                                   <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#111" strokeWidth="1.5" strokeLinecap="round"><line x1="2" y1="2" x2="8" y2="8" /><line x1="8" y1="2" x2="2" y2="8" /></svg>
                                 </button>
