@@ -150,7 +150,7 @@ export function CompareBar() {
       {/* Floating bar */}
       <div ref={barRef} className="compare-bar fixed bottom-0 left-0 right-0 bg-white" style={{ zIndex: 102, paddingBottom: 'env(safe-area-inset-bottom)' }}>
         {/* Desktop */}
-        <div className="hidden md:flex" style={{ padding: '12px 16px', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
+        <div className="hidden md:flex" style={{ padding: '12px 16px', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
           <button onClick={() => { clearCompare(); window.dispatchEvent(new Event('clearCompare')); }} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: '#f4f4f5', border: 'none', cursor: 'pointer', padding: '6px 14px', borderRadius: '999px', fontSize: '0.78rem', fontWeight: 600, color: '#444' }}>
             <svg width="14" height="14" fill="none" stroke="#111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
             Nollställ
