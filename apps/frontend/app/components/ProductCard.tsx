@@ -43,6 +43,26 @@ function Tooltip({ label, anchorRef }: { label: string; anchorRef: React.RefObje
   );
 }
 
+function ColorSwatch({ color, bgColor, isSelected, onSelect }: { color: string; bgColor: string; isSelected: boolean; onSelect: () => void }) {
+  const ref = useRef<HTMLButtonElement>(null);
+  return (
+    <div className="relative">
+      <button
+        ref={ref}
+        onClick={(e) => { e.preventDefault(); e.stopPropagation(); onSelect(); }}
+        className="w-11 h-11 flex items-center justify-center flex-shrink-0"
+        style={{ background: 'none', border: 'none', padding: 0 }}
+      >
+        <span
+          className="w-8 h-3 rounded-full block"
+          style={{ backgroundColor: bgColor, outline: isSelected ? '2px solid #999999' : 'none', outlineOffset: '2px', boxShadow: bgColor === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
+        />
+      </button>
+      <Tooltip anchorRef={ref} label={color} />
+    </div>
+  );
+}
+
 export interface ProductData {
   id: string;
   variantId?: string;
@@ -336,24 +356,8 @@ export function ProductCard({
                 'gul': '#EAB308', 'yellow': '#EAB308',
               };
               const bgColor = colorMap[color.toLowerCase()] || color;
-              const isSelected = selectedColor === idx;
               return (
-                <div key={idx} className="relative group/swatch">
-                  <button
-                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); setSelectedColor(idx); }}
-                    className="w-11 h-11 flex items-center justify-center flex-shrink-0"
-                    style={{ background: 'none', border: 'none', padding: 0 }}
-                  >
-                    <span
-                      className="w-8 h-3 rounded-full block"
-                      style={{ backgroundColor: bgColor, outline: isSelected ? '2px solid #999999' : 'none', outlineOffset: '2px', boxShadow: bgColor === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
-                    />
-                  </button>
-                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-0 px-2 py-0.5 bg-black text-white text-[10px] font-medium whitespace-nowrap opacity-0 group-hover/swatch:opacity-100 transition-opacity pointer-events-none z-50">
-                    {color}
-                    <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-black" />
-                  </div>
-                </div>
+                <ColorSwatch key={idx} color={color} bgColor={bgColor} isSelected={selectedColor === idx} onSelect={() => setSelectedColor(idx)} />
               );
             })}
           </div>

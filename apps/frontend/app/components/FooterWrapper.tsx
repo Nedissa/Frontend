@@ -37,6 +37,16 @@ export function FooterWrapper() {
               </ul>
             </div>
 
+            {/* Om oss */}
+            <div>
+              <h3 className="font-bold mb-3 text-sm text-white">Om oss</h3>
+              <ul className="space-y-1 text-sm">
+                <li><Link href="/kundservice/om-oss">Vår historia</Link></li>
+                <li><Link href="/pilotbloggen">Teknikskolan</Link></li>
+                <li><Link href="#">Vår Webbstudio</Link></li>
+              </ul>
+            </div>
+
             {/* Information */}
             <div>
               <h3 className="font-bold mb-3 text-sm text-white">Information</h3>
@@ -57,15 +67,6 @@ export function FooterWrapper() {
                 <li><Link href="/kundservice/vanliga-fragor">Vanliga frågor</Link></li>
                 <li><Link href="/kundservice/returer">Returer & byten</Link></li>
                 <li><Link href="/kundservice/reklamation">Reklamation & service</Link></li>
-              </ul>
-            </div>
-
-            {/* Om oss */}
-            <div>
-              <h3 className="font-bold mb-3 text-sm text-white">Om oss</h3>
-              <ul className="space-y-1 text-sm">
-                <li><Link href="/kundservice/om-oss">Vår historia</Link></li>
-                <li><Link href="/pilotbloggen">Teknikskolan</Link></li>
               </ul>
             </div>
 

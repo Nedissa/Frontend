@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect, useCallback } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { ProductCard, type ProductData } from './ProductCard';
 
 interface ProductCarouselProps {
@@ -11,29 +11,9 @@ interface ProductCarouselProps {
 
 export function ProductCarousel({ title, products, variant = 'popular' }: ProductCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [desktopIndex, setDesktopIndex] = useState(0);
   const mobileItemRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-  const checkScroll = () => {
-    const el = scrollRef.current;
-    if (!el) return;
-    setCanScrollLeft(el.scrollLeft > 0);
-    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
-  };
-
-  useEffect(() => {
-    checkScroll();
-    const el = scrollRef.current;
-    if (!el) return;
-    el.addEventListener('scroll', checkScroll);
-    window.addEventListener('resize', checkScroll);
-    return () => {
-      el.removeEventListener('scroll', checkScroll);
-      window.removeEventListener('resize', checkScroll);
-    };
-  }, [products]);
 
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
@@ -52,8 +32,13 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
   const scroll = (dir: 'left' | 'right') => {
     const el = scrollRef.current;
     if (!el) return;
-    const cardWidth = el.clientWidth / 4;
-    el.scrollBy({ left: dir === 'left' ? -cardWidth : cardWidth, behavior: 'smooth' });
+    if (dir === 'right' && desktopIndex >= products.length) return;
+    if (dir === 'left' && desktopIndex <= 0) return;
+    const newIndex = dir === 'right' ? desktopIndex + 1 : desktopIndex - 1;
+    setDesktopIndex(newIndex);
+    const cardEl = el.firstElementChild as HTMLElement | null;
+    const cardWidth = cardEl ? cardEl.offsetWidth + 16 : 0;
+    el.scrollTo({ left: newIndex * cardWidth, behavior: 'smooth' });
   };
 
   if (!products.length) return null;
@@ -63,20 +48,25 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
       <div className="flex items-center mb-4 px-2 md:px-6">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900">{title}</h2>
       </div>
+
       {/* Desktop */}
-      <div className="hidden md:block px-6" style={{ position: 'relative', overflowY: 'visible' }}>
-        <div
-          ref={scrollRef}
-          className="flex gap-4 py-4 -my-4 overflow-x-auto"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', overflowY: 'visible' }}
-        >
-          {[...products, ...products].map((product, idx) => (
-            <div key={`${product.id}-${idx}`} style={{ flexShrink: 0, width: 'calc(25% - 12px)' }}>
-              <ProductCard product={product} variant={variant} priority={idx < 4} />
-            </div>
-          ))}
+      <div className="hidden md:block px-6" style={{ position: 'relative' }}>
+        {/* overflow:hidden klipper bort halvsynliga kort utan att stoppa scroll-funktionen */}
+        <div style={{ overflow: 'hidden', paddingTop: '16px', paddingBottom: '16px', marginTop: '-16px', marginBottom: '-16px' }}>
+          <div
+            ref={scrollRef}
+            className="flex gap-4"
+            style={{ overflowX: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {[...products, ...products].map((product, idx) => (
+              <div key={`${product.id}-${idx}`} style={{ flexShrink: 0, width: 'calc((100% - 48px) / 4)' }}>
+                <ProductCard product={product} variant={variant} priority={idx < 4} />
+              </div>
+            ))}
+          </div>
         </div>
-        {canScrollLeft && (
+
+        {desktopIndex > 0 && (
           <button
             onClick={() => scroll('left')}
             className="hidden md:flex"
@@ -87,7 +77,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
             </svg>
           </button>
         )}
-        {canScrollRight && (
+        {desktopIndex < products.length && (
           <button
             onClick={() => scroll('right')}
             className="hidden md:flex"
@@ -99,17 +89,32 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
           </button>
         )}
       </div>
+
       {/* Mobil */}
       <div className="md:hidden overflow-x-auto" style={{ scrollbarWidth: 'none', scrollSnapType: 'x mandatory' }}>
         <div className="flex gap-3" style={{ paddingRight: '12px' }}>
-          {products.slice(0, 4).map((product, idx) => (
+          {products.map((product, idx) => (
             <div
-              key={`${product.id}-${idx}`}
+              key={product.id}
               ref={el => { mobileItemRefs.current[idx] = el; }}
               style={{ flexShrink: 0, width: 'calc(75vw)', scrollSnapAlign: 'start' }}
             >
               <ProductCard product={product} variant={variant} priority={idx < 4} isActive={activeIndex === idx} />
             </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Step slider */}
+      <div className="flex items-center justify-center gap-1.5 mt-4 mb-6">
+        <div className="md:hidden flex gap-1.5">
+          {products.map((_, idx) => (
+            <div key={idx} style={{ height: '3px', width: activeIndex === idx ? '24px' : '12px', borderRadius: '999px', background: activeIndex === idx ? '#111' : '#d1d5db', transition: 'width 0.25s ease, background 0.25s ease' }} />
+          ))}
+        </div>
+        <div className="hidden md:flex gap-1.5">
+          {Array.from({ length: products.length + 1 }).map((_, idx) => (
+            <div key={idx} style={{ height: '3px', width: desktopIndex === idx ? '24px' : '12px', borderRadius: '999px', background: desktopIndex === idx ? '#111' : '#d1d5db', transition: 'width 0.25s ease, background 0.25s ease' }} />
           ))}
         </div>
       </div>
