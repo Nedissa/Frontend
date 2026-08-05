@@ -153,7 +153,7 @@ export function CompareBar() {
       `}</style>
 
       {/* Floating bar */}
-      <div ref={barRef} className="compare-bar fixed bottom-0 left-0 right-0 bg-white" style={{ zIndex: 102, paddingBottom: 'env(safe-area-inset-bottom)' }}>
+      <div ref={barRef} className="compare-bar fixed bottom-0 left-0 right-0 bg-white" style={{ zIndex: 102, paddingBottom: 'env(safe-area-inset-bottom)', borderTop: '1px solid #e5e7eb', boxShadow: '0 -2px 12px rgba(0,0,0,0.08)' }}>
         {/* Desktop */}
         <div className="hidden md:flex" style={{ padding: '12px 16px', alignItems: 'center', justifyContent: 'center', gap: '12px' }}>
           <button onClick={() => { clearCompare(); window.dispatchEvent(new Event('clearCompare')); }} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: '#f4f4f5', border: 'none', cursor: 'pointer', padding: '6px 14px', borderRadius: '999px', fontSize: '0.78rem', fontWeight: 600, color: '#444' }}>
@@ -242,7 +242,7 @@ export function CompareBar() {
             <div style={{ padding: '0', maxWidth: '1280px', margin: '0 auto' }}>
 
               {/* Desktop: produktkort + tabell */}
-              <div className="hidden md:block" style={{ padding: '16px 12px 16px 12px' }}>
+              <div className="hidden md:block" style={{ padding: '16px 16px 16px 16px' }}>
                 <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
                   <div style={{ flexShrink: 0, width: '35%' }} />
                   <div style={{ display: 'grid', gridTemplateColumns: `repeat(${compareList.length}, 1fr)`, gap: '8px', flex: 1 }}>
