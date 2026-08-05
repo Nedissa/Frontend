@@ -6,7 +6,8 @@ import { useCompare } from './CompareContext';
 const COLUMN_COLORS = ['#f9fafb', '#f9fafb', '#f9fafb', '#f9fafb'];
 
 function getCategoryForKey(key: string, specs: { label: string; value: string; category?: string }[]): string {
-  return specs.find(s => s.label === key)?.category || 'Övrigt';
+  const cat = specs.find(s => s.label === key)?.category;
+  return (cat && cat.trim()) ? cat.trim() : 'Övrigt';
 }
 
 export function CompareBar() {
@@ -110,6 +111,9 @@ export function CompareBar() {
       grouped.push({ category: cat, keys: [key] });
     }
   });
+  // Flytta "Övrigt"/tom kategori (Produktinfo) först
+  const ovrigtIdx = grouped.findIndex(g => !g.category || !g.category.trim() || g.category === 'Övrigt');
+  if (ovrigtIdx > 0) { const [item] = grouped.splice(ovrigtIdx, 1); grouped.unshift(item); }
 
   return (
     <>
@@ -134,6 +138,7 @@ export function CompareBar() {
         .compare-backdrop { animation: fadeIn 0.2s ease; }
         .compare-sheet-in { animation: sheetIn 0.3s ease; }
         .compare-sheet-out { animation: sheetOut 0.28s ease forwards; }
+        .compare-spec-row:hover td { background: #f3f4f6 !important; }
         .compare-spec-row:hover .spec-label { color: #000 !important; }
         .compare-sheet-in::-webkit-scrollbar { display: none; }
         .compare-sheet-out::-webkit-scrollbar { display: none; }
@@ -275,46 +280,58 @@ export function CompareBar() {
                     {compareList.map((_, i) => <col key={i} />)}
                   </colgroup>
                   <tbody>
-                    {/* Betyg-rad */}
-                    {(!onlyDiffs || compareList.some((p, _, arr) => p.rating !== arr[0].rating)) && (
-                      <tr className="compare-spec-row" style={{ borderBottom: '1px solid #f3f4f6' }}>
-                        <td className="spec-label" style={{ padding: '8px', fontSize: '0.68rem', color: '#555', fontWeight: 700, verticalAlign: 'top' }}>Betyg</td>
-                        {compareList.map((p, i) => (
-                          <td key={i} style={{ padding: '8px 8px 8px 12px', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none', background: COLUMN_COLORS[i], verticalAlign: 'top' }}>
-                            {p.rating ? (
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                <span style={{ display: 'flex', gap: '1px' }}>
-                                  {[...Array(5)].map((_, s) => (
-                                    <span key={s} style={{ color: s < Math.floor(p.rating || 0) ? '#111' : '#d1d5db', fontSize: '0.9rem' }}>★</span>
-                                  ))}
-                                </span>
-                                <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#555' }}>{p.rating.toFixed(1)}</span>
-                                {p.reviews ? <span style={{ fontSize: '0.72rem', color: '#aaa' }}>({p.reviews})</span> : null}
-                              </div>
-                            ) : <span style={{ fontSize: '0.82rem', color: '#ccc' }}>—</span>}
-                          </td>
-                        ))}
+                    {/* PRODUKTINFO + Betyg — alltid överst */}
+                    <Fragment key="produktinfo-header">
+                      <tr>
+                        <td style={{ padding: '16px 8px 6px 3px' }}>
+                          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontWeight: 800, textTransform: 'uppercase', color: '#111', letterSpacing: '0.12em', fontSize: '0.72rem' }}><span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#111', flexShrink: 0 }} />Produktinfo</span>
+                        </td>
+                        {compareList.map((_, i) => <td key={i} />)}
                       </tr>
-                    )}
+                      {(!onlyDiffs || compareList.some((p, _, arr) => p.rating !== arr[0].rating)) && (
+                        <tr className="compare-spec-row" style={{ borderBottom: '1px solid #f3f4f6' }}>
+                          <td className="spec-label" style={{ padding: '8px', fontSize: '0.68rem', color: '#555', fontWeight: 700, verticalAlign: 'top' }}>Betyg</td>
+                          {compareList.map((p, i) => (
+                            <td key={i} style={{ padding: '8px 8px 8px 12px', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none', background: COLUMN_COLORS[i], verticalAlign: 'top' }}>
+                              {p.rating ? (
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                  <span style={{ display: 'flex', gap: '1px' }}>
+                                    {[...Array(5)].map((_, s) => (
+                                      <span key={s} style={{ color: s < Math.floor(p.rating || 0) ? '#111' : '#d1d5db', fontSize: '0.9rem' }}>★</span>
+                                    ))}
+                                  </span>
+                                  <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#555' }}>{p.rating.toFixed(1)}</span>
+                                  {p.reviews ? <span style={{ fontSize: '0.72rem', color: '#aaa' }}>({p.reviews})</span> : null}
+                                </div>
+                              ) : <span style={{ fontSize: '0.82rem', color: '#ccc' }}>—</span>}
+                            </td>
+                          ))}
+                        </tr>
+                      )}
+                    </Fragment>
                     {allSpecKeys.length > 0 ? grouped.map(({ category, keys }, groupIdx) => (
                       <Fragment key={category ?? 'uncategorized'}>
-                        {category && category !== 'System' && category !== 'SYSTEM' && (
-                          <tr>
-                            <td style={{ padding: '24px 8px 6px 8px', borderTop: groupIdx === 0 ? 'none' : '2px solid #e5e7eb' }}>
-                              <span style={{ fontSize: '0.82rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#999' }}>{category === 'Övrigt' ? 'Allmänt' : category}</span>
-                            </td>
-                            {compareList.map((_, i) => <td key={i} style={{ borderTop: groupIdx === 0 ? 'none' : '2px solid #e5e7eb', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none' }} />)}
-                          </tr>
-                        )}
+                        {(() => {
+                          const isProdInfo = !category || !category.trim() || category === 'Övrigt' || category === 'System' || category === 'SYSTEM';
+                          if (isProdInfo) return null; // redan renderad ovan
+                          return (
+                            <tr>
+                              <td style={{ padding: '16px 8px 6px 3px', borderTop: '2px solid #e5e7eb' }}>
+                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontWeight: 800, textTransform: 'uppercase', color: '#111', letterSpacing: '0.12em', fontSize: '0.72rem' }}><span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#111', flexShrink: 0 }} />{category}</span>
+                              </td>
+                              {compareList.map((_, i) => <td key={i} style={{ borderTop: '2px solid #e5e7eb' }} />)}
+                            </tr>
+                          );
+                        })()}
                         {keys.map((label) => {
                           const values = compareList.map(p => getSpec(p, label));
                           if (values.every(v => !v)) return null;
                           if (onlyDiffs && values.every(v => v === values[0])) return null;
                           return (
                             <tr key={label} className="compare-spec-row" style={{ borderBottom: '1px solid #f3f4f6' }}>
-                              <td className="spec-label" style={{ padding: '8px', fontSize: '0.68rem', color: '#555', fontWeight: 700, wordBreak: 'break-word', lineHeight: 1.3, verticalAlign: 'top' }}>{label}</td>
+                              <td className="spec-label" style={{ padding: '8px', fontSize: '0.68rem', color: '#555', fontWeight: 700, wordBreak: 'break-word', lineHeight: 1.3, verticalAlign: 'top', overflow: 'hidden' }}>{label}</td>
                               {values.map((val, i) => (
-                                <td key={i} style={{ padding: '8px 8px 8px 12px', fontSize: '0.82rem', fontWeight: 500, color: val ? '#111' : '#ccc', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none', background: COLUMN_COLORS[i], textAlign: 'left', verticalAlign: 'top' }}>
+                                <td key={i} style={{ padding: '8px 8px 8px 12px', fontSize: '0.82rem', fontWeight: 500, color: val ? '#111' : '#ccc', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none', background: COLUMN_COLORS[i], textAlign: 'left', verticalAlign: 'top', wordBreak: 'break-word', overflow: 'hidden' }}>
                                   {val || '—'}
                                 </td>
                               ))}
@@ -334,13 +351,13 @@ export function CompareBar() {
                 <div
                   style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', scrollbarWidth: 'none', scrollSnapType: 'x mandatory', display: 'block', fontSize: 0, width: '100vw', position: 'relative' }}
                 >
-                  {/* Vertikala kolumnlinjer som absoluta divs — sträcker sig hela tabellens höjd */}
+                  {/* Vertikala kolumnlinjer */}
                   {compareList.slice(1).map((_, i) => (
-                    <div key={i} style={{ position: 'absolute', top: 0, bottom: 0, left: `${(i + 1) * (100 / compareList.length)}vw`, width: '1px', background: '#e5e7eb', zIndex: 1, pointerEvents: 'none' }} />
+                    <div key={i} style={{ position: 'absolute', top: 0, bottom: 0, left: `${(i + 1) * 50}vw`, width: '1px', background: '#e5e7eb', zIndex: 2, pointerEvents: 'none' }} />
                   ))}
-                  <table style={{ width: '100vw', borderCollapse: 'collapse', tableLayout: 'fixed', fontSize: '1rem' }}>
+                  <table style={{ width: `${compareList.length * 50}vw`, minWidth: '100%', borderCollapse: 'collapse', tableLayout: 'fixed', fontSize: '1rem' }}>
                     <colgroup>
-                      {compareList.map((_, i) => <col key={i} style={{ width: `${100 / compareList.length}vw` }} />)}
+                      {compareList.map((_, i) => <col key={i} style={{ width: '50vw' }} />)}
                     </colgroup>
                     <tbody>
                       {/* Produktkort-rad */}
@@ -374,27 +391,34 @@ export function CompareBar() {
                             </td>
                           ))}
                         </tr>
-                      {/* Betyg-rad mobil */}
-                      {(!onlyDiffs || compareList.some((p, _, arr) => p.rating !== arr[0].rating)) && (
-                        <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
-                          {compareList.map((p, i) => (
-                            <td key={i} style={{ padding: '8px', verticalAlign: 'top' }}>
-                              <div style={{ fontSize: '0.62rem', color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '3px' }}>Betyg</div>
-                              {p.rating ? (
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '3px', flexWrap: 'wrap' }}>
-                                  <span style={{ display: 'flex', gap: '1px' }}>
-                                    {[...Array(5)].map((_, s) => (
-                                      <span key={s} style={{ color: s < Math.floor(p.rating || 0) ? '#111' : '#d1d5db', fontSize: '0.8rem' }}>★</span>
-                                    ))}
-                                  </span>
-                                  <span style={{ fontSize: '0.72rem', fontWeight: 600, color: '#555' }}>{p.rating.toFixed(1)}</span>
-                                  {p.reviews ? <span style={{ fontSize: '0.68rem', color: '#aaa' }}>({p.reviews})</span> : null}
-                                </div>
-                              ) : <span style={{ fontSize: '0.78rem', color: '#ccc' }}>—</span>}
-                            </td>
-                          ))}
+                      {/* PRODUKTINFO + Betyg — alltid överst */}
+                      <Fragment key="produktinfo-header-mobile">
+                        <tr>
+                          <td colSpan={compareList.length} style={{ padding: '14px 8px 4px 11px' }}>
+                            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontWeight: 800, textTransform: 'uppercase', color: '#111', letterSpacing: '0.12em', fontSize: '0.72rem' }}><span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#111', flexShrink: 0 }} />Produktinfo</span>
+                          </td>
                         </tr>
-                      )}
+                        {(!onlyDiffs || compareList.some((p, _, arr) => p.rating !== arr[0].rating)) && (
+                          <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+                            {compareList.map((p, i) => (
+                              <td key={i} style={{ padding: '8px 8px 8px 16px', verticalAlign: 'top' }}>
+                                <div style={{ fontSize: '0.62rem', color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '3px' }}>Betyg</div>
+                                {p.rating ? (
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '3px', flexWrap: 'wrap' }}>
+                                    <span style={{ display: 'flex', gap: '1px' }}>
+                                      {[...Array(5)].map((_, s) => (
+                                        <span key={s} style={{ color: s < Math.floor(p.rating || 0) ? '#111' : '#d1d5db', fontSize: '0.8rem' }}>★</span>
+                                      ))}
+                                    </span>
+                                    <span style={{ fontSize: '0.72rem', fontWeight: 600, color: '#555' }}>{p.rating.toFixed(1)}</span>
+                                    {p.reviews ? <span style={{ fontSize: '0.68rem', color: '#aaa' }}>({p.reviews})</span> : null}
+                                  </div>
+                                ) : <span style={{ fontSize: '0.78rem', color: '#ccc' }}>—</span>}
+                              </td>
+                            ))}
+                          </tr>
+                        )}
+                      </Fragment>
                       {/* Specs-rader */}
                       {grouped.map(({ category, keys }) => {
                         const visibleKeys = keys.filter(label => {
@@ -403,22 +427,26 @@ export function CompareBar() {
                           if (onlyDiffs && values.every(v => v === values[0])) return false;
                           return true;
                         });
+                        const isProdInfo = !category || !category.trim() || category === 'Övrigt' || category === 'System' || category === 'SYSTEM';
                         if (visibleKeys.length === 0) return null;
                         return (
                           <Fragment key={category ?? 'uncategorized'}>
-                            {category && category !== 'System' && category !== 'SYSTEM' && (
-                              <tr>
-                                <td colSpan={compareList.length} style={{ padding: '14px 8px 4px 8px', borderTop: '2px solid #e5e7eb' }}>
-                                  <span style={{ fontSize: '0.78rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.08em', color: '#111' }}>{category === 'Övrigt' ? 'Allmänt' : category}</span>
-                                </td>
-                              </tr>
-                            )}
+                            {(() => {
+                              if (isProdInfo) return null; // redan renderad ovan
+                              return (
+                                <tr>
+                                  <td colSpan={compareList.length} style={{ padding: '14px 8px 4px 11px', borderTop: '2px solid #e5e7eb' }}>
+                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontWeight: 800, textTransform: 'uppercase', color: '#111', letterSpacing: '0.12em', fontSize: '0.72rem' }}><span style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#111', flexShrink: 0 }} />{category}</span>
+                                  </td>
+                                </tr>
+                              );
+                            })()}
                             {visibleKeys.map((label) => (
                               <tr key={label} style={{ borderBottom: '1px solid #e5e7eb' }}>
                                 {compareList.map((p, i) => (
-                                  <td key={i} style={{ padding: '10px 10px 10px 8px', verticalAlign: 'top' }}>
-                                    <div style={{ fontSize: '0.62rem', color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '3px' }}>{label}</div>
-                                    <div style={{ fontSize: '0.78rem', fontWeight: 600, color: getSpec(p, label) ? '#111' : '#ccc' }}>{getSpec(p, label) || '—'}</div>
+                                  <td key={i} style={{ padding: '8px 8px 8px 16px', verticalAlign: 'top', wordBreak: 'break-word', overflow: 'hidden', maxWidth: '50vw' }}>
+                                    <div style={{ fontSize: '0.58rem', color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{label}</div>
+                                    <div style={{ fontSize: '0.75rem', fontWeight: 600, color: getSpec(p, label) ? '#111' : '#ccc', lineHeight: 1.3, overflowWrap: 'break-word', wordBreak: 'break-word', hyphens: 'auto' }}>{getSpec(p, label) || '—'}</div>
                                   </td>
                                 ))}
                               </tr>
