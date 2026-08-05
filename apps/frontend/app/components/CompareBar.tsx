@@ -167,7 +167,7 @@ export function CompareBar() {
           )}
         </div>
         {/* Mobil */}
-        <div className="md:hidden" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div className="md:hidden" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '24px' }}>
           <button onClick={() => { clearCompare(); window.dispatchEvent(new Event('clearCompare')); }} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: '#f4f4f5', border: 'none', cursor: 'pointer', padding: '6px 14px', borderRadius: '999px', fontSize: '0.78rem', fontWeight: 600, color: '#444' }}>
             <svg width="14" height="14" fill="none" stroke="#111" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
             Nollställ
