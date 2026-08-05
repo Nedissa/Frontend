@@ -47,25 +47,16 @@ export async function GET(request: Request) {
     const data = JSON.parse(new TextDecoder('utf-8').decode(buffer));
     const products = data.products || [];
 
-    // Hämta alla reviews för att beräkna rating per produkt
+    // Hämta ratings från Medusa summary-endpoint
     let reviewsByProduct: Record<string, { avg: number; count: number }> = {};
     try {
-      const reviewsRes = await fetch(`${medusaUrl}/store/reviews`, {
+      const ratingsRes = await fetch(`${medusaUrl}/store/reviews/summary`, {
         headers: { 'x-publishable-api-key': publishableKey },
         cache: 'no-store',
       });
-      if (reviewsRes.ok) {
-        const reviewsData = await reviewsRes.json();
-        const allReviews: any[] = reviewsData.reviews || [];
-        allReviews.forEach((r: any) => {
-          if (!r.product_id) return;
-          if (!reviewsByProduct[r.product_id]) reviewsByProduct[r.product_id] = { avg: 0, count: 0 };
-          reviewsByProduct[r.product_id].count++;
-          reviewsByProduct[r.product_id].avg += r.rating;
-        });
-        Object.keys(reviewsByProduct).forEach(id => {
-          reviewsByProduct[id].avg = reviewsByProduct[id].avg / reviewsByProduct[id].count;
-        });
+      if (ratingsRes.ok) {
+        const ratingsData = await ratingsRes.json();
+        reviewsByProduct = ratingsData.ratings || {};
       }
     } catch {}
 
