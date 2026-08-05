@@ -271,6 +271,27 @@ export function CompareBar() {
                     {compareList.map((_, i) => <col key={i} />)}
                   </colgroup>
                   <tbody>
+                    {/* Betyg-rad */}
+                    {(!onlyDiffs || compareList.some((p, _, arr) => p.rating !== arr[0].rating)) && (
+                      <tr className="compare-spec-row" style={{ borderBottom: '1px solid #f3f4f6' }}>
+                        <td className="spec-label" style={{ padding: '8px', fontSize: '0.68rem', color: '#555', fontWeight: 700, verticalAlign: 'top' }}>Betyg</td>
+                        {compareList.map((p, i) => (
+                          <td key={i} style={{ padding: '8px 8px 8px 12px', borderLeft: i > 0 ? '1px solid #e5e7eb' : 'none', background: COLUMN_COLORS[i], verticalAlign: 'top' }}>
+                            {p.rating ? (
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <span style={{ display: 'flex', gap: '1px' }}>
+                                  {[...Array(5)].map((_, s) => (
+                                    <span key={s} style={{ color: s < Math.floor(p.rating || 0) ? '#111' : '#d1d5db', fontSize: '0.9rem' }}>★</span>
+                                  ))}
+                                </span>
+                                <span style={{ fontSize: '0.78rem', fontWeight: 600, color: '#555' }}>{p.rating.toFixed(1)}</span>
+                                {p.reviews ? <span style={{ fontSize: '0.72rem', color: '#aaa' }}>({p.reviews})</span> : null}
+                              </div>
+                            ) : <span style={{ fontSize: '0.82rem', color: '#ccc' }}>—</span>}
+                          </td>
+                        ))}
+                      </tr>
+                    )}
                     {allSpecKeys.length > 0 ? grouped.map(({ category, keys }, groupIdx) => (
                       <Fragment key={category ?? 'uncategorized'}>
                         {category && category !== 'System' && category !== 'SYSTEM' && (
@@ -349,6 +370,27 @@ export function CompareBar() {
                             </td>
                           ))}
                         </tr>
+                      {/* Betyg-rad mobil */}
+                      {(!onlyDiffs || compareList.some((p, _, arr) => p.rating !== arr[0].rating)) && (
+                        <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
+                          {compareList.map((p, i) => (
+                            <td key={i} style={{ padding: '8px', verticalAlign: 'top' }}>
+                              <div style={{ fontSize: '0.62rem', color: '#999', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '3px' }}>Betyg</div>
+                              {p.rating ? (
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '3px', flexWrap: 'wrap' }}>
+                                  <span style={{ display: 'flex', gap: '1px' }}>
+                                    {[...Array(5)].map((_, s) => (
+                                      <span key={s} style={{ color: s < Math.floor(p.rating || 0) ? '#111' : '#d1d5db', fontSize: '0.8rem' }}>★</span>
+                                    ))}
+                                  </span>
+                                  <span style={{ fontSize: '0.72rem', fontWeight: 600, color: '#555' }}>{p.rating.toFixed(1)}</span>
+                                  {p.reviews ? <span style={{ fontSize: '0.68rem', color: '#aaa' }}>({p.reviews})</span> : null}
+                                </div>
+                              ) : <span style={{ fontSize: '0.78rem', color: '#ccc' }}>—</span>}
+                            </td>
+                          ))}
+                        </tr>
+                      )}
                       {/* Specs-rader */}
                       {grouped.map(({ category, keys }) => {
                         const visibleKeys = keys.filter(label => {
