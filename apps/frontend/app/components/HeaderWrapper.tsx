@@ -740,21 +740,23 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
           {/* Right: logga in + kundvagn */}
           <div className="flex items-stretch gap-0 ml-auto self-stretch">
             {isLoggedIn ? (
-              <Link href="/konto" className="inline-flex items-center justify-center" style={{ background: 'white', width: '56px' }}>
-                <svg className="w-6 h-6" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
+              <Link href="/konto" className="inline-flex flex-col items-center justify-center gap-0.5" style={{ background: 'white', width: '56px' }}>
+                <svg className="w-5 h-5" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/>
                 </svg>
+                <span style={{ fontSize: '9px', color: '#111', fontWeight: 600 }}>Konto</span>
               </Link>
             ) : (
-              <button onClick={() => open('login')} className="inline-flex items-center justify-center" style={{ background: 'white', width: '56px' }}>
-                <svg className="w-6 h-6" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
+              <button onClick={() => open('login')} className="inline-flex flex-col items-center justify-center gap-0.5" style={{ background: 'white', width: '56px' }}>
+                <svg className="w-5 h-5" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/>
                 </svg>
+                <span style={{ fontSize: '9px', color: '#111', fontWeight: 600 }}>Logga in</span>
               </button>
             )}
-            <button onClick={() => open('cart')} className="inline-flex items-center justify-center relative" style={{ background: 'white', width: '56px' }}>
+            <button onClick={() => open('cart')} className="inline-flex flex-col items-center justify-center gap-0.5 relative" style={{ background: 'white', width: '56px' }}>
               <div className="relative">
-                <svg className="w-6 h-6" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
+                <svg className="w-5 h-5" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5H17"/>
                   <circle cx="9" cy="22" r="1" fill="#111" stroke="none"/>
                   <circle cx="16" cy="22" r="1" fill="#111" stroke="none"/>
@@ -763,6 +765,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   <span className="absolute bg-red-600 text-white font-bold rounded-full flex items-center justify-center" style={{ fontSize: '8px', minWidth: '14px', height: '14px', padding: '0 2px', top: '-6px', right: '-8px' }} suppressHydrationWarning>{cartCount}</span>
                 )}
               </div>
+              <span style={{ fontSize: '9px', color: '#111', fontWeight: 600 }}>Varukorg</span>
             </button>
           </div>
         </div>
@@ -838,8 +841,8 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
               <div className="relative flex-shrink-0 hidden sm:block" ref={categoryDropdownRef}>
                 <button
                   onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
-                  className="flex items-center gap-2 pl-4 pr-3 py-2.5 text-sm font-semibold text-black whitespace-nowrap border-r border-gray-200"
-                  style={{ backgroundColor: '#f5f5f5' }}
+                  className="flex items-center gap-2 pl-4 pr-3 py-2.5 text-sm font-medium text-gray-500 whitespace-nowrap border-r border-gray-200"
+                  style={{ backgroundColor: '#f5f5f5', width: '145px' }}
                 >
                   <span>{selectedCategory ? selectedCategory.title : 'Alla kategorier'}</span>
                   <svg className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${showCategoryDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
@@ -847,16 +850,24 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   </svg>
                 </button>
                 {showCategoryDropdown && (
-                  <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 shadow-lg z-[9999] min-w-[200px]">
-                    {MENU_DATA.map((cat) => (
+                  <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 shadow-lg z-[9999] w-full">
+                    {selectedCategory !== null && (
+                      <button
+                        onClick={() => { setSelectedCategory(null); setShowCategoryDropdown(false); }}
+                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:text-black border-b border-gray-100 font-semibold"
+                      >
+                        Alla kategorier
+                      </button>
+                    )}
+                    {MENU_DATA.filter(cat => cat.title !== selectedCategory?.title).map((cat) => (
                       <button
                         key={cat.id}
                         onClick={() => { setSelectedCategory({ title: cat.title, url: cat.url }); setShowCategoryDropdown(false); }}
-                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:text-black relative group"
+                        className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:text-black relative group border-b border-gray-100 last:border-b-0"
                       >
                         <span className="relative inline-block">
                           {cat.title}
-                          <span className="absolute bottom-0 left-0 bg-black w-0 group-hover:w-full transition-all duration-300 ease-out" style={{ height: '2px' }} />
+                          <span className="absolute bottom-0 left-0 w-full bg-black transition-transform duration-300 ease-out origin-left scale-x-0 group-hover:scale-x-100" style={{ height: '1px', willChange: 'transform' }} />
                         </span>
                       </button>
                     ))}
@@ -872,7 +883,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   autoComplete="off"
                   autoCorrect="off"
                   autoCapitalize="none"
-                  placeholder="Sök efter produkt, kategori eller artikel"
+                  placeholder="Sök efter produkt, kategori eller artikel..."
                   className="flex-1 bg-transparent text-sm placeholder-gray-400 focus:outline-none py-2"
                   value={searchTerm}
                   onChange={(e) => {
@@ -882,7 +893,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   onFocus={() => { fetchProductsForSearch(); if (searchTerm.length > 0) setShowSearchResults(true); }}
                 />
               </div>
-              <button id="header-search-btn" className="flex items-center justify-center w-10 h-10 flex-shrink-0" style={{ backgroundColor: '#1a3a6e' }}>
+              <button id="header-search-btn" className="flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#1a3a6e', width: '40px', alignSelf: 'stretch', position: 'relative', isolation: 'isolate' }}>
                 <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
                   <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/>
                 </svg>
@@ -981,37 +992,34 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
             </div>
             <div className="hidden md:block w-px h-6 bg-gray-300"></div>
             {(isHydrated ? isLoggedIn : initialIsLoggedIn) ? (
-              <Link href="/konto" className="hidden md:flex items-center gap-1 text-black hover:text-gray-600" style={{ minWidth: '90px' }}>
-                <span className="text-xs font-semibold">Mina sidor</span>
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <Link href="/konto" className="hidden md:flex flex-col items-center gap-0.5 text-black hover:text-gray-600">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
+                <span className="text-xs font-semibold">Mina sidor</span>
               </Link>
             ) : (
-              <button id="header-login-btn" onClick={() => open('login')} className="hidden md:flex items-center gap-1 text-black hover:text-gray-600" style={{ minWidth: '90px' }}>
-                <span className="text-xs font-semibold">Logga in</span>
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <button id="header-login-btn" onClick={() => open('login')} className="hidden md:flex flex-col items-center gap-0.5 text-black hover:text-gray-600">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
+                <span className="text-xs font-semibold">Logga in</span>
               </button>
             )}
             <div className="hidden md:block w-px h-6 bg-gray-300"></div>
             <button
               onClick={() => open('cart')}
-              className="flex items-center gap-6 text-black"
+              className="flex flex-col items-center gap-0.5 text-black"
             >
-              <div className={`relative flex items-center -mt-1 ${isVibrating ? 'vibrating' : ''}`}>
-                <svg className="w-5 h-5 fill-black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <div className={`relative flex items-center ${isVibrating ? 'vibrating' : ''}`}>
+                <svg className="w-5 h-5 fill-black" viewBox="0 0 24 24">
                   <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
                 </svg>
                 {isHydrated && cartCount > 0 && (
                   <span className="absolute -top-1.5 -right-2.5 bg-red-600 text-white font-bold rounded-full flex items-center justify-center shadow-lg" style={{ fontSize: '9px', minWidth: '16px', height: '16px', padding: '0 2px' }}>{cartCount}</span>
                 )}
               </div>
-              <div className="flex-col items-start gap-0.5 hidden md:flex" style={{ minWidth: '72px' }}>
-                <span className="text-sm font-bold text-black">{isHydrated ? cartTotal.toLocaleString('sv-SE') : '0'} kr</span>
-                <span className="text-xs font-semibold text-black">Varukorg</span>
-              </div>
+              <span className="text-xs font-semibold hidden md:block">Varukorg</span>
             </button>
           </div>
         </div>
@@ -1076,10 +1084,8 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   className="w-full flex items-center gap-4 px-5 py-4"
                   onClick={() => setActiveMobileCategory(activeMobileCategory === 'erbjudanden' ? null : 'erbjudanden')}
                 >
-                  <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-black">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="w-6 h-6">
-                      <path d="M9 14l6-6M10 9h.01M14 13h.01M19 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2z" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
+                  <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center">
+                    <img src="/icons/categories/erbjudanden.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
                   </span>
                   <span className="flex-1 text-sm font-semibold text-black text-left">Erbjudanden</span>
                   <svg className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform ${activeMobileCategory === 'erbjudanden' ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">

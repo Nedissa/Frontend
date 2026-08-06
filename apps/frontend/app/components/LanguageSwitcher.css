@@ -15,4 +15,7 @@
 
 .language-flip {
   animation: languageFlip 0.3s ease-in-out;
+  will-change: transform;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 }

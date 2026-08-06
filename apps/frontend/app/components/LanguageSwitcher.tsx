@@ -37,6 +37,7 @@ export function LanguageSwitcher() {
     <button
       onClick={switchLanguage}
       className={`flex items-center gap-1 text-xs font-medium text-gray-700 hover:text-black transition-colors ${isAnimating ? 'language-flip' : ''}`}
+      style={{ minWidth: '48px' }}
       aria-label="Byt språk"
       disabled={isAnimating}
     >
