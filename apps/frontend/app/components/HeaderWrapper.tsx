@@ -893,7 +893,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                   onFocus={() => { fetchProductsForSearch(); if (searchTerm.length > 0) setShowSearchResults(true); }}
                 />
               </div>
-              <button id="header-search-btn" className="flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#1a3a6e', width: '40px', alignSelf: 'stretch', position: 'relative', isolation: 'isolate' }}>
+              <button id="header-search-btn" className="flex items-center justify-center flex-shrink-0" style={{ backgroundColor: '#0a0a0a', width: '40px', alignSelf: 'stretch', position: 'relative', isolation: 'isolate' }}>
                 <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
                   <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/>
                 </svg>
@@ -1256,9 +1256,9 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                     className="px-6 py-2 text-sm font-semibold text-black whitespace-nowrap relative group inline-flex"
                   >
                     {category.title}
-                    <span className={`absolute bottom-0 left-6 h-0.5 bg-black transition-all duration-300 ease-out ${
+                    <span className={`absolute bottom-0 left-6 h-0.5 transition-all duration-300 ease-out ${
                       isActive ? 'w-[calc(100%-48px)]' : 'w-0 group-hover:w-[calc(100%-48px)]'
-                    }`}></span>
+                    }`} style={{ background: '#e8c547' }}></span>
                   </Link>
                 );
               })}
@@ -1268,7 +1268,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                 className="px-6 py-2 text-sm font-semibold text-black whitespace-nowrap relative group inline-flex items-center"
               >
                 Erbjudanden
-                <span className={`absolute bottom-0 left-6 h-0.5 bg-black transition-all duration-300 ${activeMegaMenu === 'erbjudanden' ? 'w-[calc(100%-48px)]' : 'w-0 group-hover:w-[calc(100%-48px)]'}`} />
+                <span className={`absolute bottom-0 left-6 h-0.5 transition-all duration-300 ${activeMegaMenu === 'erbjudanden' ? 'w-[calc(100%-48px)]' : 'w-0 group-hover:w-[calc(100%-48px)]'}`} style={{ background: '#e8c547' }} />
               </button>
             </div>
           </div>
@@ -1292,7 +1292,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                             <li key={item.label}>
                               <Link href={item.url} className="text-sm font-medium text-gray-700 hover:text-black transition-colors relative group inline-flex">
                                 {item.label}
-                                <span className={`absolute bottom-0 left-0 h-px bg-black transition-all duration-300 ease-out ${isPathActive(item.url) ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+                                <span className={`absolute bottom-0 left-0 h-px transition-all duration-300 ease-out ${isPathActive(item.url) ? 'w-full' : 'w-0 group-hover:w-full'}`} style={{ background: '#e8c547' }} />
                               </Link>
                             </li>
                           ))}
@@ -1345,7 +1345,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
                             <li key={item.id}>
                               <Link href={item.url} className="text-sm text-gray-700 hover:text-black transition-colors relative group inline-flex">
                                 {item.title}
-                                <span className={`absolute bottom-0 left-0 h-px bg-black transition-all duration-300 ease-out ${isPathActive(item.url) ? 'w-full' : 'w-0 group-hover:w-full'}`} />
+                                <span className={`absolute bottom-0 left-0 h-px transition-all duration-300 ease-out ${isPathActive(item.url) ? 'w-full' : 'w-0 group-hover:w-full'}`} style={{ background: '#e8c547' }} />
                               </Link>
                             </li>
                           ))}

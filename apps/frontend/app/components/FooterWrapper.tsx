@@ -5,7 +5,7 @@ import { Logo } from './Logo';
 
 export function FooterWrapper() {
   return (
-    <footer className="w-full text-white" style={{ background: '#152f5a' }}>
+    <footer className="w-full text-white" style={{ background: '#0a0a0a' }}>
       <div className="py-12 md:py-24">
         <div className="max-w-[1280px] mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr] gap-0 mb-0 sm:mb-12 sm:pb-12 text-white [&>div]:border-b [&>div]:border-white/20 [&>div]:pb-6 [&>div]:pt-6 sm:[&>div]:border-b-0 sm:[&>div]:pt-0 [&>div:last-child]:border-b-0 sm:[&>div:not(:first-child)]:border-l sm:[&>div:not(:first-child)]:border-white/20 sm:[&>div:not(:first-child)]:pl-8">

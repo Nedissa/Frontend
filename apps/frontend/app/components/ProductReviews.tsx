@@ -36,15 +36,15 @@ function Stars({ rating, interactive = false, onRate }: { rating: number; intera
               {half && (
                 <defs>
                   <linearGradient id={id}>
-                    <stop offset="50%" stopColor="#111827" />
+                    <stop offset="50%" stopColor="#e8c547" />
                     <stop offset="50%" stopColor="transparent" />
                   </linearGradient>
                 </defs>
               )}
               <polygon
                 points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"
-                fill={full ? '#111827' : half ? `url(#${id})` : 'none'}
-                stroke={full || half ? '#111827' : '#d1d5db'}
+                fill={full ? '#e8c547' : half ? `url(#${id})` : 'none'}
+                stroke={full || half ? '#e8c547' : '#d1d5db'}
               />
             </svg>
           </button>

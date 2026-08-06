@@ -13,7 +13,7 @@ const heroCarouselStyle = `
     100% { background-position: 0% 50%; }
   }
   .hero-animated-bg {
-    background: linear-gradient(135deg, #111827, #1e4d8c, #162236, #2563aa, #111827);
+    background: linear-gradient(135deg, #0a0a0a, #030303, #0a0a0a, #0a0a0a, #030303);
     background-size: 300% 300%;
     animation: heroGradientShift 8s ease infinite;
   }
@@ -146,6 +146,14 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
           );
         })}
         <div className="absolute inset-0 bg-black/30 z-10"></div>
+
+        {/* Guldbadge — övre högra hörnet */}
+        <div
+          className="absolute top-4 right-4 md:top-6 md:right-6 z-20 text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-full"
+          style={{ background: '#e8c547', color: '#0a0a0a' }}
+        >
+          Nyhet
+        </div>
 
         {/* Text overlay — centrerad på mobil, vänster på desktop */}
         <div className="absolute top-12 left-4 right-4 md:top-10 md:left-10 md:right-auto z-20 flex flex-col gap-3 items-center md:items-start" style={{ maxWidth: '440px' }} onClick={(e) => e.stopPropagation()}>

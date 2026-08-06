@@ -50,9 +50,7 @@ export function LimitedTimeBanner() {
         .speaker-badge { font-size: 9px; padding: 4px 8px; }
         @media (min-width: 640px) { .speaker-badge { font-size: 11px; padding: 6px 12px; } }
         .banner-animated-bg {
-          background: linear-gradient(135deg, #0a0f1a, #1a3a6e, #0d1b2e, #1e4d8c, #0a0f1a);
-          background-size: 300% 300%;
-          animation: gradientShiftBanner 8s ease infinite;
+          background: linear-gradient(135deg, #0a0a0a, #030303, #0a0a0a, #0a0a0a, #030303);
         }
       `}</style>
       <div className="w-full">
@@ -79,7 +77,7 @@ export function LimitedTimeBanner() {
                   Uppgradera ditt ljud. Exklusiva priser på utvalda högtalare just nu.
                 </p>
               </div>
-              <Link href="/erbjudanden" className="bg-white text-black font-semibold px-8 py-2.5 rounded-full hover:bg-gray-100 transition-colors text-sm">
+              <Link href="/erbjudanden" className="font-semibold px-8 py-2.5 rounded-full transition-colors text-sm" style={{ background: '#e8c547', color: '#0a0a0a' }}>
                 Shoppa rea ↗
               </Link>
             </div>

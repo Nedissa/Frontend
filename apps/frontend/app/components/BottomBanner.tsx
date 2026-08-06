@@ -10,9 +10,7 @@ export function BottomBanner() {
           100% { background-position: 0% 50%; }
         }
         .bottom-banner-bg {
-          background: linear-gradient(135deg, #0a0f1a, #1a3a6e, #0d1b2e, #1e4d8c, #0a0f1a);
-          background-size: 300% 300%;
-          animation: gradientShiftBottom 8s ease infinite;
+          background: linear-gradient(135deg, #0a0a0a, #030303, #0a0a0a, #0a0a0a, #030303);
         }
         .bottom-ribbon {
           position: absolute;
