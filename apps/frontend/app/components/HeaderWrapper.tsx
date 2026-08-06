@@ -718,15 +718,19 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       {/* ── MOBILE HEADER ── */}
       <div className="md:hidden" ref={mobileHeaderRef}>
         {/* Row 1: hamburger | logo | konto+kundvagn */}
-        <div className="relative flex items-center px-4 py-3 bg-white border-b border-gray-100">
+        <div className="relative flex items-center px-0 py-0 border-b border-gray-100" style={{ minHeight: '56px', background: 'white' }}>
           {/* Left: hamburger */}
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Meny" className="inline-flex flex-col items-center gap-1 p-2 -m-2">
-            <svg className="w-5 h-5" viewBox="0 0 24 24">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Meny"
+            className="inline-flex items-center justify-center flex-shrink-0 self-stretch"
+            style={{ background: 'white', width: '56px' }}
+          >
+            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
               {mobileMenuOpen
-                ? <path strokeLinecap="round" strokeLinejoin="round" stroke="#111" strokeWidth="1.5" fill="none" d="M6 18L18 6M6 6l12 12" />
+                ? <path strokeLinecap="round" strokeLinejoin="round" stroke="#111" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" />
                 : <path stroke="#111" strokeWidth="2.5" strokeLinecap="round" d="M3 6h18M3 12h18M3 18h18"/>}
             </svg>
-            <span style={{ fontSize: '10px', color: '#111', fontWeight: 600 }}>Meny</span>
           </button>
           {/* Center: logo — absolut centrerad */}
           <Link href="/" className="absolute left-1/2 -translate-x-1/2 inline-flex items-center gap-1">
@@ -734,39 +738,36 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
             <span className="font-bold text-black" style={{ fontSize: '17px', letterSpacing: '-0.3px' }}>Techpilots</span>
           </Link>
           {/* Right: logga in + kundvagn */}
-          <div className="flex items-center gap-3 ml-auto">
+          <div className="flex items-stretch gap-0 ml-auto self-stretch">
             {isLoggedIn ? (
-              <Link href="/konto" className="inline-flex flex-col items-center gap-1 p-2 -m-2">
-                <svg className="w-5 h-5" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
+              <Link href="/konto" className="inline-flex items-center justify-center" style={{ background: 'white', width: '56px' }}>
+                <svg className="w-6 h-6" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/>
                 </svg>
-                <span style={{ fontSize: '10px', color: '#111', fontWeight: 600 }}>Mina sidor</span>
               </Link>
             ) : (
-              <button onClick={() => open('login')} className="inline-flex flex-col items-center gap-1 p-2 -m-2">
-                <svg className="w-5 h-5" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
+              <button onClick={() => open('login')} className="inline-flex items-center justify-center" style={{ background: 'white', width: '56px' }}>
+                <svg className="w-6 h-6" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/>
                 </svg>
-                <span style={{ fontSize: '10px', color: '#111', fontWeight: 600 }}>Logga in</span>
               </button>
             )}
-            <button onClick={() => open('cart')} className="inline-flex flex-col items-center gap-1 relative p-2 -m-2">
+            <button onClick={() => open('cart')} className="inline-flex items-center justify-center relative" style={{ background: 'white', width: '56px' }}>
               <div className="relative">
-                <svg className="w-5 h-5" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
+                <svg className="w-6 h-6" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5H17"/>
-                  <circle cx="9" cy="22" r="1"/>
-                  <circle cx="16" cy="22" r="1"/>
+                  <circle cx="9" cy="22" r="1" fill="#111" stroke="none"/>
+                  <circle cx="16" cy="22" r="1" fill="#111" stroke="none"/>
                 </svg>
                 {cartCount > 0 && (
                   <span className="absolute bg-red-600 text-white font-bold rounded-full flex items-center justify-center" style={{ fontSize: '8px', minWidth: '14px', height: '14px', padding: '0 2px', top: '-6px', right: '-8px' }} suppressHydrationWarning>{cartCount}</span>
                 )}
               </div>
-              <span style={{ fontSize: '10px', color: '#111', fontWeight: 600 }}>Varukorg</span>
             </button>
           </div>
         </div>
         {/* Row 2: search */}
-        <div className="bg-white px-4 py-2 relative border-b border-gray-200" ref={mobileSearchContainerRef}>
+        <div className="px-4 py-2 relative bg-white border-b border-gray-200" ref={mobileSearchContainerRef}>
           <div className="flex items-center bg-gray-50 border border-gray-200 rounded px-3 py-2 gap-2">
             <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
               <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/>
