@@ -82,7 +82,8 @@ export function RootLayoutClient({ children, initialIsLoggedIn = false }: { chil
   const [resetToken, setResetToken] = useState<string | undefined>();
   const [resetEmail, setResetEmail] = useState<string | undefined>();
   const [loginInitialView, setLoginInitialView] = useState<View | undefined>();
-  const hideHeader = pathname === '/kassa' || pathname === '/order-bekraftelse';
+  const hideHeader = pathname === '/kassa' || pathname === '/order-bekraftelse' || pathname.startsWith('/webbstudio');
+  const hideFooter = pathname.startsWith('/webbstudio');
 
   const handleReset = (token: string, email: string) => {
     setResetToken(token);
@@ -106,10 +107,10 @@ export function RootLayoutClient({ children, initialIsLoggedIn = false }: { chil
           <ParamHandler onReset={handleReset} onOpenLogin={handleOpenLogin} />
         </Suspense>
         {!hideHeader && <HeaderWrapper initialIsLoggedIn={initialIsLoggedIn} />}
-        <main className={`${hideHeader ? '' : 'pt-[100px] sm:pt-[108px]'} pb-24 flex flex-col flex-1 min-h-screen overflow-x-hidden`}>
+        <main className={`${hideHeader ? '' : 'pt-[100px] sm:pt-[108px]'} ${hideFooter ? '' : 'pb-24'} flex flex-col flex-1 min-h-screen overflow-x-hidden`}>
           {children}
         </main>
-        <FooterWrapper />
+        {!hideFooter && <FooterWrapper />}
         <CartAside />
         <Aside type="login" heading={loginHeading} desktopHeading={loginDesktopHeading}>
           <LoginAside
