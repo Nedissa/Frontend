@@ -13,7 +13,7 @@ function PillButton() {
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        background: '#0a0a0a',
+        background: '#030303',
         borderRadius: '999px',
         padding: '10px 10px 10px 20px',
         gap: '40px',
@@ -24,12 +24,12 @@ function PillButton() {
         overflow: 'hidden',
       }}
     >
-      {/* Wipe från vänster till höger */}
+      {/* Wipe from left to right */}
       <div style={{
         position: 'absolute',
         top: 0, left: 0, bottom: 0,
         width: hovered ? '100%' : '0%',
-        background: '#0a0a0a',
+        background: '#030303',
         transition: 'width 0.4s cubic-bezier(0.76, 0, 0.24, 1)',
         zIndex: 0,
         borderRadius: '999px',
@@ -44,7 +44,7 @@ function PillButton() {
         position: 'relative',
         zIndex: 1,
       }}>
-        {/* Prickar — vänster krymper, höger växer från vänster */}
+        {/* Dots — left shrinks, right grows from the left */}
         <span style={{ display: 'flex', alignItems: 'center', gap: hovered ? '0px' : '4px', transition: 'gap 0.4s cubic-bezier(0.76, 0, 0.24, 1)' }}>
           <span style={{
             width: hovered ? '0px' : '10px',
@@ -59,7 +59,7 @@ function PillButton() {
             width: hovered ? '14px' : '10px',
             height: hovered ? '14px' : '10px',
             borderRadius: '50%',
-            background: hovered ? '#0a0a0a' : '#fff',
+            background: hovered ? '#030303' : '#e8c547',
             flexShrink: 0,
             transformOrigin: 'left center',
             transition: 'width 0.4s cubic-bezier(0.76, 0, 0.24, 1), height 0.4s cubic-bezier(0.76, 0, 0.24, 1), background 0.3s ease',
@@ -99,14 +99,14 @@ function AwardRow({ a }: { a: typeof AWARDS[0] }) {
         position: 'absolute',
         top: 0, left: 0, bottom: 0,
         width: hovered ? '100%' : '0%',
-        background: '#0a0a0a',
+        background: '#030303',
         transition: 'width 0.5s cubic-bezier(0.76, 0, 0.24, 1)',
         zIndex: 0,
       }} />
-      <span style={{ position: 'relative', zIndex: 1, fontSize: '20px', fontWeight: 500, letterSpacing: '0.04em', color: hovered ? '#fff' : '#0a0a0a', textTransform: 'uppercase', transition: 'color 0.3s' }}>{a.title}</span>
+      <span style={{ position: 'relative', zIndex: 1, fontSize: '20px', fontWeight: 500, letterSpacing: '0.04em', color: hovered ? '#e8c547' : '#030303', textTransform: 'uppercase', transition: 'color 0.3s' }}>{a.title}</span>
       <span style={{ position: 'relative', zIndex: 1, fontSize: '16px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(120,120,114)', lineHeight: 1.5, transition: 'color 0.3s' }}>{a.source}</span>
       <span style={{ position: 'relative', zIndex: 1, fontSize: '16px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(120,120,114)', lineHeight: 1.5, transition: 'color 0.3s' }}>{a.desc}</span>
-      <span style={{ position: 'relative', zIndex: 1, fontSize: '18px', fontWeight: 500, color: hovered ? '#fff' : '#0a0a0a', textAlign: 'right', transition: 'color 0.3s' }}>{a.year}</span>
+      <span style={{ position: 'relative', zIndex: 1, fontSize: '18px', fontWeight: 500, color: hovered ? '#fff' : '#030303', textAlign: 'right', transition: 'color 0.3s' }}>{a.year}</span>
     </div>
   );
 }
@@ -116,7 +116,7 @@ export function AwardsSection() {
     <section style={{ background: '#f5f5f3', padding: '140px 60px' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <FadeIn>
-          <h2 style={{ fontSize: 'clamp(40px,6vw,80px)', fontWeight: 700, letterSpacing: '-0.02em', color: '#0a0a0a', textTransform: 'uppercase', margin: '0 0 80px' }}>
+          <h2 style={{ fontSize: 'clamp(40px,6vw,80px)', fontWeight: 700, letterSpacing: '-0.02em', color: '#030303', textTransform: 'uppercase', margin: '0 0 80px' }}>
             ERBJUDANDEN
           </h2>
         </FadeIn>

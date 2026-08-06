@@ -24,7 +24,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
       >
         <span style={{ fontSize: '17px', fontWeight: 500, color: '#030303' }}>{q}</span>
         <span style={{
-          fontSize: '20px', fontWeight: 300, color: '#030303', flexShrink: 0, marginLeft: '20px',
+          fontSize: '20px', fontWeight: 300, color: '#e8c547', flexShrink: 0, marginLeft: '20px',
           transform: open ? 'rotate(45deg)' : 'none', transition: 'transform 0.25s ease',
         }}>+</span>
       </button>
@@ -38,7 +38,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 function ShowreelCard() {
   const [playing, setPlaying] = useState(false);
   return (
-    <div style={{ position: 'relative', borderRadius: '4px', overflow: 'hidden', background: '#000' }}>
+    <div style={{ position: 'relative', borderRadius: '4px', overflow: 'hidden', background: '#0a0a0a' }}>
       {playing ? (
         <video
           src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"

@@ -61,7 +61,7 @@ const columnHeadingStyle: React.CSSProperties = {
 
 export function Footer() {
   return (
-    <footer id="kontakt" style={{ background: 'linear-gradient(160deg, rgb(12,13,18) 0%, #1a3a6e 140%)', padding: '100px 60px 40px' }}>
+    <footer id="kontakt" style={{ background: 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)', padding: '100px 60px 40px' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ marginBottom: '56px' }}>
           <div
@@ -106,7 +106,7 @@ export function Footer() {
 
           <div style={{ display: 'flex', gap: '16px' }}>
             {SOCIAL_ICONS.map((s) => (
-              <Link key={s.label} href={s.href} target="_blank" aria-label={s.label} style={{ color: '#fff', display: 'flex' }}>
+              <Link key={s.label} href={s.href} target="_blank" aria-label={s.label} className="nav-link" style={{ display: 'flex' }}>
                 {s.icon}
               </Link>
             ))}
@@ -122,7 +122,7 @@ export function Footer() {
             marginBottom: '80px',
           }}
         >
-          {/* Kolumn 1: Kontakt */}
+          {/* Column 1: Contact */}
           <div>
             <div style={columnHeadingStyle}>Kontakt</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -142,19 +142,19 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Kolumn 2: Snabblänkar */}
+          {/* Column 2: Quick links */}
           <div>
             <div style={columnHeadingStyle}>Snabblänkar</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {QUICK_LINKS.map((l) => (
-                <Link key={l.href} href={l.href} style={{ fontSize: '15px', fontWeight: 500, color: '#fff', textDecoration: 'none' }}>
+                <Link key={l.href} href={l.href} className="nav-link" style={{ fontSize: '15px', fontWeight: 500, textDecoration: 'none' }}>
                   {l.label}
                 </Link>
               ))}
             </div>
           </div>
 
-          {/* Kolumn 3: Nyhetsbrev */}
+          {/* Column 3: Newsletter */}
           <div>
             <div style={columnHeadingStyle}>Nyhetsbrev</div>
             <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.6, margin: '0 0 16px' }}>
@@ -171,7 +171,7 @@ export function Footer() {
                   border: 'none',
                   borderRadius: '2px',
                   background: '#fff',
-                  color: '#0a0a0a',
+                  color: '#030303',
                   boxSizing: 'border-box',
                 }}
               />
@@ -183,8 +183,8 @@ export function Footer() {
                   fontWeight: 600,
                   border: 'none',
                   borderRadius: '2px',
-                  background: '#d4af37',
-                  color: '#0a0a0a',
+                  background: '#e8c547',
+                  color: '#030303',
                   cursor: 'pointer',
                 }}
               >

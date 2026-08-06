@@ -28,7 +28,7 @@ export function ProjectsSection() {
       const totalCardsHeight = cardHeight * numCards + cardGap * (numCards - 1);
       const panelHeight = left.offsetHeight;
 
-      // Hur långt panelen max får röra sig: total kort-höjd minus halva sista kortet minus panelens höjd
+      // How far the panel is allowed to move at most: total card height minus half the last card minus the panel height
       const maxOffset = totalCardsHeight - panelHeight;
 
       if (sectionRect.top > viewportTop) {
@@ -46,45 +46,45 @@ export function ProjectsSection() {
   return (
     <section ref={sectionRef} style={{ background: '#fff', paddingTop: '120px', paddingBottom: '120px', margin: '0 60px' }}>
 
-      {/* Övre nav-rad */}
+      {/* Top nav row */}
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         padding: '14px 0',
         borderTop: '1px solid rgb(210,210,210)',
-        fontSize: '12px', color: '#0a0a0a', letterSpacing: '0.04em',
+        fontSize: '12px', color: '#030303', letterSpacing: '0.04em',
       }}>
         <span>◆ (02)</span>
         <span>(Projekt)</span>
         <span>© 2026</span>
       </div>
 
-      {/* Huvud-layout */}
+      {/* Main layout */}
       <div style={{ display: 'grid', gridTemplateColumns: '26vw 44vw 30vw', paddingTop: '80px', alignItems: 'start' }}>
 
-        {/* Vänster panel — JS-driven sticky */}
+        {/* Left panel — JS-driven sticky */}
         <div ref={leftRef} style={{
           transform: `translateY(${offset}px)`,
           transition: 'transform 0.12s ease-out',
           display: 'flex', flexDirection: 'column', alignItems: 'flex-end', paddingRight: '40px',
         }}>
-          <h2 style={{ fontSize: '64px', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, color: '#0a0a0a', margin: '0 0 24px' }}>
+          <h2 style={{ fontSize: '64px', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, color: '#030303', margin: '0 0 24px' }}>
             TP-26'
           </h2>
           <a href="#" style={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             borderBottom: '1px solid rgb(180,180,180)', paddingBottom: '10px',
-            fontSize: '16px', fontWeight: 500, color: '#0a0a0a', textDecoration: 'none',
+            fontSize: '16px', fontWeight: 500, color: '#030303', textDecoration: 'none',
             width: 'fit-content', minWidth: '120px',
           }}>
             Projekt <span>↗</span>
           </a>
         </div>
 
-        {/* Mitten: projektkort */}
+        {/* Middle: project cards */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {PROJECTS.map((p) => (
             <div key={p.title} style={{
-              border: '3px solid #000', height: '480px',
+              border: '3px solid #030303', height: '480px',
               display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
               padding: '28px 32px', cursor: 'pointer', background: '#fff',
               width: '100%', boxSizing: 'border-box',
@@ -93,14 +93,14 @@ export function ProjectsSection() {
                 <span style={{ fontSize: '12px', letterSpacing: '0.08em', color: 'rgb(140,140,134)', textTransform: 'uppercase' }}>{p.category}</span>
                 <span style={{ fontSize: '12px', color: 'rgb(140,140,134)' }}>{p.year}</span>
               </div>
-              <div style={{ fontSize: '26px', fontWeight: 600, letterSpacing: '-0.03em', color: '#0a0a0a' }}>
+              <div style={{ fontSize: '26px', fontWeight: 600, letterSpacing: '-0.03em', color: '#030303' }}>
                 {p.title}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Höger: Se alla — JS-driven sticky */}
+        {/* Right: See all — JS-driven sticky */}
         <div ref={rightRef} style={{
           transform: `translateY(${offset}px)`,
           transition: 'transform 0.12s ease-out',
@@ -111,7 +111,7 @@ export function ProjectsSection() {
             background: 'rgb(240,240,238)', borderRadius: '6px', padding: '10px 14px', cursor: 'pointer',
           }}>
             <div style={{ width: '52px', height: '52px', borderRadius: '4px', background: 'rgb(160,140,130)', flexShrink: 0 }} />
-            <span style={{ fontSize: '15px', fontWeight: 500, color: '#0a0a0a', whiteSpace: 'nowrap' }}>Se alla (07)</span>
+            <span style={{ fontSize: '15px', fontWeight: 500, color: '#030303', whiteSpace: 'nowrap' }}>Se alla (07)</span>
           </div>
         </div>
 

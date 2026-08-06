@@ -80,16 +80,16 @@ export default function WebbstudioPage() {
         </div>
       </section>
 
-      {/* Erbjudanden / Awards */}
+      {/* Offers / Awards */}
       <AwardsSection />
 
-      {/* Funktioner */}
+      {/* Features */}
       <FeaturesSection />
 
-      {/* Projekt */}
+      {/* Projects */}
       <ProjectsSection />
 
-      {/* Priser */}
+      {/* Pricing */}
       <section id="priser" style={{ borderTop: '1px solid rgb(234,234,234)', padding: '140px 30px 200px' }}>
         <div style={{ maxWidth: '1320px', margin: '0 auto' }}>
           <SectionHeader num="04" label="Priser" extra="© 2026" />
@@ -97,7 +97,7 @@ export default function WebbstudioPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '16px', alignItems: 'start' }}>
             {PRICES.map((p, i) => (
               <FadeIn key={p.name} delay={i * 0.08}>
-                <div style={{ background: p.dark ? '#030303' : '#f5f5f5', borderRadius: '4px', padding: p.dark ? '48px 40px 24px' : '40px 32px 24px', display: 'flex', flexDirection: 'column', gap: '32px', boxSizing: 'border-box' }}>
+                <div style={{ background: p.dark ? 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)' : '#f5f5f5', borderRadius: '4px', padding: p.dark ? '48px 40px 24px' : '40px 32px 24px', display: 'flex', flexDirection: 'column', gap: '32px', boxSizing: 'border-box' }}>
                   <div>
                     <h3 style={{ fontSize: '22px', fontWeight: 600, color: p.dark ? '#fff' : '#030303', margin: '0 0 16px' }}>{p.name}</h3>
                     <p style={{ fontSize: '14px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)', lineHeight: 1.5, margin: 0 }}>{p.desc}</p>
@@ -116,15 +116,15 @@ export default function WebbstudioPage() {
                     style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                       fontSize: '16px', fontWeight: 600,
-                      color: p.dark ? '#fff' : '#030303',
+                      color: p.dark ? '#e8c547' : '#030303',
                       textDecoration: 'none',
                       paddingBottom: '12px',
-                      borderBottom: `1px solid ${p.dark ? 'rgba(255,255,255,0.3)' : 'rgb(104,105,99)'}`,
+                      borderBottom: `1px solid ${p.dark ? 'rgba(232,197,71,0.4)' : 'rgb(104,105,99)'}`,
                     }}
                   >
                     Börja nu
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
-                      <path d="M2 2L12 2L12 12L2 2Z" fill={p.dark ? '#fff' : '#030303'} />
+                      <path d="M2 2L12 2L12 12L2 2Z" fill={p.dark ? '#e8c547' : '#030303'} />
                     </svg>
                   </Link>
 
@@ -133,7 +133,7 @@ export default function WebbstudioPage() {
                     <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       {p.features.map(f => (
                         <li key={f} style={{ fontSize: '14px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)', display: 'flex', gap: '8px', alignItems: 'flex-start', fontWeight: 500 }}>
-                          <span style={{ color: p.dark ? 'rgba(255,255,255,0.4)' : 'rgb(104,105,99)', marginTop: '1px' }}>+</span> {f}
+                          <span style={{ color: p.dark ? '#e8c547' : '#e8c547', marginTop: '1px' }}>+</span> {f}
                         </li>
                       ))}
                     </ul>
@@ -145,7 +145,7 @@ export default function WebbstudioPage() {
         </div>
       </section>
 
-      {/* Kunder / Partners */}
+      {/* Customers / Partners */}
       <section id="kunder" style={{ borderTop: '1px solid rgb(234,234,234)', padding: '140px 30px 200px' }}>
         <div style={{ maxWidth: '1320px', margin: '0 auto' }}>
           <SectionHeader num="05" label="Kunder" />
@@ -159,22 +159,22 @@ export default function WebbstudioPage() {
           <div className="animate-blink" style={{ width: '32px', height: '2px', background: 'rgb(200,200,200)', marginBottom: '56px' }} />
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr 1fr', gap: '16px', alignItems: 'stretch' }}>
-            {/* Betyg */}
+            {/* Rating */}
             <FadeIn>
               <div style={{ background: '#f5f5f5', borderRadius: '4px', padding: '40px 32px', height: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ fontSize: '40px', fontWeight: 700, letterSpacing: '-0.02em', color: '#030303', marginBottom: '12px' }}>4.9/5</div>
                 <div style={{ fontSize: '20px', color: '#f5b700', letterSpacing: '2px', marginBottom: 'auto' }}>★★★★★</div>
                 <p style={{ fontSize: '15px', color: 'rgb(104,105,99)', lineHeight: 1.5, margin: '40px 0 0' }}>
-                  Våra kunder uppskattar det vi gör, vilket märks tydligt i deras positiva omdömen <span style={{ color: '#d4af37', fontWeight: 600 }}>2026.</span>
+                  Våra kunder uppskattar det vi gör, vilket märks tydligt i deras positiva omdömen <span style={{ color: '#e8c547', fontWeight: 600 }}>2026.</span>
                 </p>
               </div>
             </FadeIn>
 
-            {/* Kundbild med citat */}
+            {/* Customer image with quote */}
             <FadeIn delay={0.08}>
               <div style={{
                 position: 'relative', borderRadius: '4px', overflow: 'hidden', height: '100%', minHeight: '460px',
-                background: 'linear-gradient(160deg, #7a2e33 0%, #3a1418 100%)',
+                background: 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)',
                 display: 'flex', alignItems: 'flex-end', boxSizing: 'border-box',
               }}>
                 <div style={{ padding: '32px', color: '#fff' }}>
@@ -187,11 +187,11 @@ export default function WebbstudioPage() {
               </div>
             </FadeIn>
 
-            {/* Citat */}
+            {/* Quote */}
             <FadeIn delay={0.16}>
               <div style={{ position: 'relative', background: '#f5f5f5', borderRadius: '4px', padding: '40px 32px', height: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ position: 'absolute', top: '20px', right: '20px' }}>
-                  <path d="M2 2L12 2L12 12L2 2Z" fill="#030303" />
+                  <path d="M2 2L12 2L12 12L2 2Z" fill="#e8c547" />
                 </svg>
                 <div style={{ fontSize: '40px', fontWeight: 800, color: '#030303', lineHeight: 1, marginBottom: '16px' }}>&ldquo;</div>
                 <p style={{ fontSize: '16px', color: '#030303', lineHeight: 1.6, margin: '0 0 32px' }}>
@@ -214,13 +214,13 @@ export default function WebbstudioPage() {
         </div>
       </section>
 
-      {/* Teknologier */}
+      {/* Technologies */}
       <section id="teknologier" style={{ borderTop: '1px solid rgb(234,234,234)', padding: '140px 30px 200px', background: '#f7f7f6' }}>
         <div style={{ maxWidth: '1320px', margin: '0 auto' }}>
           <SectionHeader num="06" label="Teknologier" />
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '64px', marginBottom: '16px' }}>
-            {/* Teknologier - donut */}
+            {/* Technologies - donut */}
             <FadeIn>
               <div style={{ height: '100%', boxSizing: 'border-box' }}>
                 <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#030303', margin: '0 0 12px' }}>Teknologier</h3>
@@ -231,7 +231,7 @@ export default function WebbstudioPage() {
                     {(() => {
                       const data = [
                         { label: 'Frontend', value: 40, color: '#030303' },
-                        { label: 'Backend', value: 25, color: '#6b6b6b' },
+                        { label: 'Backend', value: 25, color: '#e8c547' },
                         { label: 'E-handel', value: 20, color: '#a8a8a8' },
                         { label: 'Server drift', value: 15, color: '#e2e2e2' },
                       ];
@@ -268,7 +268,7 @@ export default function WebbstudioPage() {
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '8px' }}>
                     {[
                       { label: 'Frontend', value: 40, color: '#030303' },
-                      { label: 'Backend', value: 25, color: '#6b6b6b' },
+                      { label: 'Backend', value: 25, color: '#e8c547' },
                       { label: 'E-handel', value: 20, color: '#a8a8a8' },
                       { label: 'Server drift', value: 15, color: '#e2e2e2' },
                     ].map((d) => (
@@ -282,7 +282,7 @@ export default function WebbstudioPage() {
               </div>
             </FadeIn>
 
-            {/* Våra verktyg - bars */}
+            {/* Our tools - bars */}
             <FadeIn delay={0.06}>
               <div style={{ height: '100%', boxSizing: 'border-box' }}>
                 <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#030303', margin: '0 0 12px' }}>Våra verktyg</h3>
@@ -292,7 +292,7 @@ export default function WebbstudioPage() {
                   max={35}
                   bars={[
                     { label: 'Next.js', value: 15, color: '#030303' },
-                    { label: 'Typescript', value: 25, color: '#5a5a5a' },
+                    { label: 'Typescript', value: 25, color: '#e8c547' },
                     { label: 'React', value: 35, color: '#9a9a9a' },
                     { label: 'Node.js', value: 28, color: '#b8b8b8' },
                   ]}
@@ -305,7 +305,7 @@ export default function WebbstudioPage() {
               </div>
             </FadeIn>
 
-            {/* Tjänster per projekt - dot grid */}
+            {/* Services per project - dot grid */}
             <FadeIn delay={0.12}>
               <div style={{ height: '100%', boxSizing: 'border-box' }}>
                 <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#030303', margin: '0 0 12px' }}>Tjänster per projekt</h3>

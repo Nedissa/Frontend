@@ -16,7 +16,7 @@ export function StatsSection() {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
 
-          {/* Rad 1: Lanserade projekt + Kundnöjdhet */}
+          {/* Row 1: Launched projects + Customer satisfaction */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px' }}>
 
             <FadeIn delay={0.05}>
@@ -48,7 +48,7 @@ export function StatsSection() {
             </FadeIn>
           </div>
 
-          {/* Rad 2: Grundningsår — hela blocket i höger kolumn */}
+          {/* Row 2: Founding year — entire block in the right column */}
           <FadeIn delay={0.15}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px' }}>
               <div>

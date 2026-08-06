@@ -25,7 +25,7 @@ export function OrbitParticles() {
         zIndex: 0,
       }}
     >
-      {/* Två tydliga ringar runt hjälmen */}
+      {/* Two distinct rings around the helmet */}
       {RINGS.map((r) => (
         <div
           key={r}
@@ -38,12 +38,12 @@ export function OrbitParticles() {
             marginLeft: -r,
             marginTop: -r,
             borderRadius: '50%',
-            border: '1.5px solid rgba(212,175,55,0.85)',
+            border: '1.5px solid rgba(232,197,71,0.85)',
           }}
         />
       ))}
 
-      {/* Orbiterande partiklar längs ringarna */}
+      {/* Orbiting particles along the rings */}
       {ORBITS.map((o, i) => (
         <motion.div
           key={i}
@@ -68,7 +68,7 @@ export function OrbitParticles() {
               height: o.size,
               marginLeft: -o.size / 2,
               borderRadius: '50%',
-              background: '#d4af37',
+              background: '#e8c547',
               opacity: o.opacity,
             }}
           />

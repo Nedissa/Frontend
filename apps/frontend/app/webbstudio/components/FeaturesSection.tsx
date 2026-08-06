@@ -18,7 +18,7 @@ function FeatureCard({ icon, title, desc, tall }: { icon: React.ReactNode; title
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: hovered ? '#0a0a0a' : '#ebebea',
+        background: hovered ? '#030303' : '#ebebea',
         padding: '40px 36px',
         minHeight: '220px',
         height: tall ? '100%' : undefined,
@@ -31,9 +31,9 @@ function FeatureCard({ icon, title, desc, tall }: { icon: React.ReactNode; title
         boxSizing: 'border-box',
       }}
     >
-      <span style={{ color: hovered ? '#fff' : '#0a0a0a', display: 'block', transition: 'color 0.35s' }}>{icon}</span>
+      <span style={{ color: hovered ? '#e8c547' : '#030303', display: 'block', transition: 'color 0.35s' }}>{icon}</span>
       <div>
-        <h4 style={{ fontSize: '19px', fontWeight: 600, color: hovered ? '#fff' : '#0a0a0a', margin: '0 0 12px', letterSpacing: '-0.02em', transition: 'color 0.35s' }}>{title}</h4>
+        <h4 style={{ fontSize: '19px', fontWeight: 600, color: hovered ? '#fff' : '#030303', margin: '0 0 12px', letterSpacing: '-0.02em', transition: 'color 0.35s' }}>{title}</h4>
         <p style={{ fontSize: '15px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(120,120,114)', lineHeight: 1.6, margin: 0, transition: 'color 0.35s' }}>{desc}</p>
       </div>
     </div>
@@ -53,7 +53,7 @@ function IconOnlyCard({ icon }: { icon: React.ReactNode }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: hovered ? '#0a0a0a' : '#ebebea',
+        background: hovered ? '#030303' : '#ebebea',
         padding: '28px 24px',
         display: 'flex',
         flexDirection: 'column',
@@ -63,7 +63,7 @@ function IconOnlyCard({ icon }: { icon: React.ReactNode }) {
         cursor: 'default',
       }}
     >
-      <span style={{ color: hovered ? '#fff' : '#0a0a0a', display: 'block', transition: 'color 0.35s' }}>{icon}</span>
+      <span style={{ color: hovered ? '#e8c547' : '#030303', display: 'block', transition: 'color 0.35s' }}>{icon}</span>
     </div>
   );
 }
@@ -75,10 +75,10 @@ export function FeaturesSection() {
         <FadeIn>
           <div style={{ marginBottom: '48px' }}>
             <p style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgb(140,140,134)', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ width: '7px', height: '7px', background: '#0a0a0a', display: 'inline-block' }} />
+              <span style={{ width: '7px', height: '7px', background: '#e8c547', display: 'inline-block' }} />
               FUNKTIONER
             </p>
-            <h2 style={{ fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 700, letterSpacing: '-0.03em', color: '#0a0a0a', margin: 0 }}>
+            <h2 style={{ fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 700, letterSpacing: '-0.03em', color: '#030303', margin: 0 }}>
               Designa. Utveckla. <span style={{ color: 'rgb(160,160,154)' }}>Leverera</span>
             </h2>
           </div>

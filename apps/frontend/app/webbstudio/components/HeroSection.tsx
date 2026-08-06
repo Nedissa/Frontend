@@ -9,7 +9,7 @@ export function HeroSection() {
   const mouseY = useMotionValue(42);
   const flareX = useSpring(mouseX, { stiffness: 40, damping: 20 });
   const flareY = useSpring(mouseY, { stiffness: 40, damping: 20 });
-  const flareBackground = useMotionTemplate`radial-gradient(circle at ${flareX}% ${flareY}%, rgba(26,58,110,0.55) 0%, rgba(26,58,110,0.25) 25%, rgba(26,58,110,0) 60%)`;
+  const flareBackground = useMotionTemplate`radial-gradient(circle at ${flareX}% ${flareY}%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.25) 25%, rgba(255,255,255,0) 60%)`;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const rect = sectionRef.current?.getBoundingClientRect();
@@ -31,7 +31,7 @@ export function HeroSection() {
         overflow: 'hidden',
       }}
     >
-      {/* Flare som följer muspekaren */}
+      {/* Flare that follows the mouse pointer */}
       <motion.div
         style={{
           position: 'absolute',
@@ -52,7 +52,7 @@ export function HeroSection() {
         style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '7px', background: '#fff', zIndex: 10 }}
       />
 
-      {/* Hero image — 55% från vänster, full höjd */}
+      {/* Hero image — 55% from left, full height */}
       <motion.div
         initial={{ opacity: 0.2, scale: 1.15 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -73,7 +73,7 @@ export function HeroSection() {
         />
       </motion.div>
 
-      {/* Bottom gradient — transparent → svart */}
+      {/* Bottom gradient — transparent → black */}
       <div style={{
         position: 'absolute',
         inset: 0,
@@ -81,7 +81,7 @@ export function HeroSection() {
         pointerEvents: 'none',
       }} />
 
-      {/* Text — vänster, vertikalt centrerat */}
+      {/* Text — left, vertically centered */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -122,7 +122,7 @@ export function HeroSection() {
           fontSize: 'clamp(32px, 4vw, 56px)',
           fontWeight: 700,
           letterSpacing: '-0.02em',
-          color: '#d4af37',
+          color: '#e8c547',
           lineHeight: 1,
         }}>
           2.0

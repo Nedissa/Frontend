@@ -25,12 +25,12 @@ export function CtaSection() {
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px',
                 fontSize: '18px', fontWeight: 600, color: '#030303',
                 textDecoration: 'none', paddingBottom: '12px',
-                borderBottom: '1px solid rgb(104,105,99)', minWidth: '260px',
+                borderBottom: '1px solid #e8c547', minWidth: '260px',
               }}
             >
               Boka ett möte
               <svg width="16" height="16" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
-                <path d="M2 2L12 2L12 12L2 2Z" fill="#030303" />
+                <path d="M2 2L12 2L12 12L2 2Z" fill="#e8c547" />
               </svg>
             </Link>
           </FadeIn>
