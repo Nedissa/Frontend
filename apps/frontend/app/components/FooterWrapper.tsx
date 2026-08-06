@@ -44,7 +44,6 @@ export function FooterWrapper() {
                 <li><Link href="/kundservice/kontakt" className="whitespace-nowrap block">Kontakta oss</Link></li>
                 <li><Link href="/kundservice/vanliga-fragor" className="whitespace-nowrap block">Vanliga frågor</Link></li>
                 <li><Link href="/kundservice/returer" className="whitespace-nowrap block">Returer</Link></li>
-                <li><Link href="/kundservice/byten" className="whitespace-nowrap block">Byten</Link></li>
                 <li><Link href="/kundservice/reklamation" className="whitespace-nowrap block">Reklamation</Link></li>
               </ul>
             </div>

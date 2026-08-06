@@ -34,7 +34,6 @@ const NAV = [
     label: 'Öppet köp',
     links: [
       { id: 'returer', label: 'Returer' },
-      { id: 'byten', label: 'Byten' },
     ],
   },
   {
@@ -173,7 +172,14 @@ export default function KundservicePage() {
 
   useEffect(() => {
     const seg = window.location.pathname.split('/kundservice/')[1];
-    if (seg) setActive(seg);
+    if (seg) {
+      setActive(seg);
+      if (window.innerWidth < 768) {
+        setTimeout(() => {
+          document.getElementById('ks-content')?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
   }, []);
 
   const navigate = (id: string) => {
@@ -234,7 +240,7 @@ export default function KundservicePage() {
 
           <Sidebar active={active} navigate={navigate} />
 
-          <div style={{ flex: 1, minWidth: 0 }}>
+          <div id="ks-content" style={{ flex: 1, minWidth: 0 }}>
             <h1 style={{ fontSize: '2rem', fontWeight: 800, color: '#000', marginBottom: '6px' }}>
               {NAV.flatMap(c => c.links).find(l => l.id === active)?.label ?? 'Kundservice'}
             </h1>
@@ -371,13 +377,15 @@ export default function KundservicePage() {
                   <h2>Returer & Ångerrätt</h2>
                   <h3>Ångerrätt</h3>
                   <p>Du har 14 dagars ångerrätt från det att du mottagit din order. Returfrakten bekostas av kunden.</p>
-                  <h3>Reklamation av defekt vara</h3>
-                  <p>För produkter från stora varumärken (Asus, HP, Samsung, Lenovo m.fl.) hänvisar vi dig direkt till tillverkarens support för snabbast möjlig hjälp. För övriga produkter kontaktar du oss på support@techpilots.se så hanterar vi ärendet åt dig.</p>
                   <h3>Krav vid retur</h3>
                   <p>Originalemballaget måste sparas. Tydlig beskrivning av felet krävs. Varan ska skickas in inom 14 dagar efter godkänd retur.</p>
                   <h3>Så gör du en retur</h3>
                   <p>Kontakta oss på support@techpilots.se med ordernummer och anledning. Vi skickar instruktioner inom 24 timmar. Återbetalning sker inom 5–7 arbetsdagar efter godkänd retur.</p>
-                  <h3>Undantag från returrätt</h3>
+                  <h3>Byten</h3>
+                  <p>Du har rätt att byta en vara inom 14 dagar från att du mottagit din order, förutsatt att den är oanvänd och i originalskick. Kontakta oss på support@techpilots.se med ordernummer och vilken produkt du vill byta till.</p>
+                  <h3>Fraktkostnad vid byte</h3>
+                  <p>Returfrakten vid byte bekostas av kunden. Vi skickar den nya varan utan extra fraktkostnad.</p>
+                  <h3>Undantag</h3>
                   <p>Gäller ej förbrukningsvaror, öppna produkter, kroppsnära produkter (t.ex. in-ear hörlurar), spel och digitala produkter där licens aktiverats, specialbeställda varor eller presentkort.</p>
                 </div>
               )}
