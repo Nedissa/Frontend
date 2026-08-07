@@ -190,8 +190,9 @@
   }
 
   .hero-image {
-    transform: scale(1.05) !important;
+    transform: scale(0.95) !important;
     transform-origin: bottom center !important;
+    height: 85% !important;
   }
 
   .hero-text-block {
