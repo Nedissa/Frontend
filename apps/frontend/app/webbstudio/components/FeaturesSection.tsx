@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { FadeIn } from './FadeIn';
+import { SectionHeader } from './SectionHeader';
 
 const FEATURES = [
   { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20 3H4a2 2 0 00-2 2v11a2 2 0 002 2h7v2H8v2h8v-2h-3v-2h7a2 2 0 002-2V5a2 2 0 00-2-2zm0 13H4V5h16v11z"/></svg>, title: 'Fullt Responsiv', desc: 'Ser perfekt ut på alla skärmstorlekar — från mobil till desktop, varje layout anpassas sömlöst.' },
@@ -18,7 +19,9 @@ function FeatureCard({ icon, title, desc, tall }: { icon: React.ReactNode; title
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        background: hovered ? '#030303' : '#ebebea',
+        position: 'relative',
+        overflow: 'hidden',
+        background: '#ebebea',
         padding: '40px 36px',
         minHeight: '220px',
         height: tall ? '100%' : undefined,
@@ -26,15 +29,24 @@ function FeatureCard({ icon, title, desc, tall }: { icon: React.ReactNode; title
         flexDirection: 'column',
         justifyContent: 'space-between',
         borderRadius: '4px',
-        transition: 'background 0.35s cubic-bezier(0.76, 0, 0.24, 1)',
         cursor: 'default',
         boxSizing: 'border-box',
       }}
     >
-      <span style={{ color: hovered ? '#e8c547' : '#030303', display: 'block', transition: 'color 0.35s' }}>{icon}</span>
-      <div>
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: '#030303',
+          transform: hovered ? 'scale(1)' : 'scale(0)',
+          transformOrigin: 'top left',
+          transition: 'transform 0.55s cubic-bezier(0.76, 0, 0.24, 1)',
+        }}
+      />
+      <span style={{ position: 'relative', color: hovered ? '#e8c547' : '#030303', display: 'block', transition: 'color 0.35s' }}>{icon}</span>
+      <div style={{ position: 'relative' }}>
         <h4 style={{ fontSize: '19px', fontWeight: 600, color: hovered ? '#fff' : '#030303', margin: '0 0 12px', letterSpacing: '-0.02em', transition: 'color 0.35s' }}>{title}</h4>
-        <p style={{ fontSize: '15px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(120,120,114)', lineHeight: 1.6, margin: 0, transition: 'color 0.35s' }}>{desc}</p>
+        <p style={{ fontSize: '15px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(104,105,99)', lineHeight: 1.6, margin: 0, transition: 'color 0.35s' }}>{desc}</p>
       </div>
     </div>
   );
@@ -70,21 +82,22 @@ function IconOnlyCard({ icon }: { icon: React.ReactNode }) {
 
 export function FeaturesSection() {
   return (
-    <section style={{ background: '#f5f5f3', padding: '100px 60px' }}>
+    <section className="section-padding" style={{ background: '#f5f5f3', padding: '140px 30px', minHeight: '100vh', boxSizing: 'border-box' }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+        <SectionHeader num="03" label="Funktioner" extra="© 2026" />
         <FadeIn>
           <div style={{ marginBottom: '48px' }}>
-            <p style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgb(140,140,134)', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <p style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgb(104,105,99)', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ width: '7px', height: '7px', background: '#e8c547', display: 'inline-block' }} />
               FUNKTIONER
             </p>
-            <h2 style={{ fontSize: 'clamp(28px,3.5vw,44px)', fontWeight: 700, letterSpacing: '-0.03em', color: '#030303', margin: 0 }}>
-              Designa. Utveckla. <span style={{ color: 'rgb(160,160,154)' }}>Leverera</span>
+            <h2 style={{ fontSize: 'clamp(36px,5vw,64px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 0.95, color: '#030303', textTransform: 'uppercase', margin: 0 }}>
+              Designa. Utveckla. <span style={{ color: 'rgb(104,105,99)' }}>Leverera</span>
             </h2>
           </div>
         </FadeIn>
 
-        <div style={{
+        <div className="grid-features" style={{
           display: 'grid',
           gridTemplateColumns: '1fr 1fr 1fr',
           gridTemplateRows: '1fr 1fr',

@@ -22,7 +22,7 @@ export function AnimatedBars({ bars, max }: { bars: Bar[]; max: number }) {
             transition={{ duration: 0.9, delay: i * 0.1, ease: [0.25, 0.1, 0.25, 1] }}
             style={{
               width: '100%',
-              maxWidth: '88px',
+              maxWidth: '180px',
               background: d.color,
               borderRadius: '3px 3px 0 0',
               display: 'flex',

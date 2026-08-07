@@ -3,7 +3,8 @@
   100% { transform: translateX(-50%); }
 }
 .animate-marquee {
-  animation: marquee 30s linear infinite;
+  width: max-content;
+  animation: marquee 45s linear infinite;
   will-change: transform;
 }
 
@@ -21,4 +22,119 @@
 }
 .nav-link:hover {
   color: #e8c547 !important;
+}
+
+/* QHD and larger — content already caps at maxWidth:1440px on each section, nothing extra needed here */
+
+/* HD/laptop — trim outer section padding, no layout changes yet */
+@media (max-width: 1440px) {
+  .section-padding {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+
+/* Responsive grid overrides — stack to a single column below tablet width */
+@media (max-width: 900px) {
+  .grid-responsive-3,
+  .grid-responsive-2,
+  .grid-stats,
+  .grid-awards-row,
+  .grid-projects,
+  .grid-contact {
+    grid-template-columns: 1fr !important;
+  }
+
+  .grid-platforms {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .grid-cta {
+    grid-template-columns: 1fr !important;
+    align-items: start !important;
+  }
+
+  .contact-hero {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow: visible !important;
+  }
+
+  .grid-footer {
+    grid-template-columns: 1fr !important;
+    row-gap: 48px !important;
+  }
+
+  .section-projects {
+    margin-left: 24px !important;
+    margin-right: 24px !important;
+  }
+
+  .grid-features {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: none !important;
+    grid-template-areas: none !important;
+    min-height: 0 !important;
+  }
+
+  .grid-projects {
+    row-gap: 40px !important;
+  }
+
+  .grid-projects > div:nth-child(1) {
+    align-items: flex-start !important;
+    padding-right: 0 !important;
+  }
+
+  .grid-projects > div:nth-child(3) {
+    padding-left: 0 !important;
+  }
+
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .nav-links-desktop,
+  .nav-profile-desktop {
+    display: none !important;
+  }
+
+  .nav-burger {
+    display: flex !important;
+  }
+
+  .site-nav {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    padding-top: 22px !important;
+    padding-bottom: 14px !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    background: transparent !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .grid-awards-row {
+    gap: 12px !important;
+  }
+}
+
+/* Mobile — tighter section padding so content breathes on small phones */
+@media (max-width: 480px) {
+  .section-padding {
+    padding-top: 80px !important;
+    padding-bottom: 80px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+
+  .section-projects {
+    margin-left: 16px !important;
+    margin-right: 16px !important;
+    padding-top: 80px !important;
+    padding-bottom: 80px !important;
+  }
 }

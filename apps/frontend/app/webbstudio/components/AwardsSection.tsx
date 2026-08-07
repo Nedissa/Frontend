@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { FadeIn } from './FadeIn';
+import { SectionHeader } from './SectionHeader';
 
 function PillButton() {
   const [hovered, setHovered] = useState(false);
@@ -74,13 +75,14 @@ const AWARDS = [
   { title: 'BÄSTA UI/UX DESIGN', source: 'Utmärkt Digital Designexcellens · 2024 SaaS', desc: 'Uppmärksammad för att skapa en ren, intuitiv användarupplevelse som förbättrade resultaten.', year: '2024' },
   { title: 'MÅNADENS WEBBPLATS', source: 'Web Creators Collective · 2024 Webbdesign', desc: 'Tilldelad för visuell kvalitet, prestanda och berättande i en modern webbplats.', year: '2023' },
   { title: 'BÄSTA VARUMÄRKESIDENTITET', source: 'Creative Industry Network · 2023 Varumärkesdesign', desc: 'Erkänd för ett sammanhängande och skalbart varumärkesidentitetssystem.', year: '2022' },
-  { title: 'UTVALD STUDIO', source: 'Design Inspiration Hub · 2023 Kvalitet framför troféer', desc: 'Lyfts fram som en studio att bevaka för konsekvent kvalitetstänkande.', year: '2021' },
+  { title: 'UTVALD LEVERANTÖR', source: 'Design Inspiration Hub · 2023 Kvalitet framför troféer', desc: 'Lyfts fram som ett team att bevaka för konsekvent kvalitetstänkande.', year: '2021' },
 ];
 
 function AwardRow({ a }: { a: typeof AWARDS[0] }) {
   const [hovered, setHovered] = useState(false);
   return (
     <div
+      className="grid-awards-row"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -104,8 +106,8 @@ function AwardRow({ a }: { a: typeof AWARDS[0] }) {
         zIndex: 0,
       }} />
       <span style={{ position: 'relative', zIndex: 1, fontSize: '20px', fontWeight: 500, letterSpacing: '0.04em', color: hovered ? '#e8c547' : '#030303', textTransform: 'uppercase', transition: 'color 0.3s' }}>{a.title}</span>
-      <span style={{ position: 'relative', zIndex: 1, fontSize: '16px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(120,120,114)', lineHeight: 1.5, transition: 'color 0.3s' }}>{a.source}</span>
-      <span style={{ position: 'relative', zIndex: 1, fontSize: '16px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(120,120,114)', lineHeight: 1.5, transition: 'color 0.3s' }}>{a.desc}</span>
+      <span style={{ position: 'relative', zIndex: 1, fontSize: '16px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(104,105,99)', lineHeight: 1.5, transition: 'color 0.3s' }}>{a.source}</span>
+      <span style={{ position: 'relative', zIndex: 1, fontSize: '16px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(104,105,99)', lineHeight: 1.5, transition: 'color 0.3s' }}>{a.desc}</span>
       <span style={{ position: 'relative', zIndex: 1, fontSize: '18px', fontWeight: 500, color: hovered ? '#fff' : '#030303', textAlign: 'right', transition: 'color 0.3s' }}>{a.year}</span>
     </div>
   );
@@ -113,10 +115,11 @@ function AwardRow({ a }: { a: typeof AWARDS[0] }) {
 
 export function AwardsSection() {
   return (
-    <section style={{ background: '#f5f5f3', padding: '140px 60px' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <section className="section-padding" style={{ background: '#f5f5f3', padding: '140px 30px', minHeight: '100vh', boxSizing: 'border-box' }}>
+      <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+        <SectionHeader num="02" label="Erbjudanden" extra="© 2026" />
         <FadeIn>
-          <h2 style={{ fontSize: 'clamp(40px,6vw,80px)', fontWeight: 700, letterSpacing: '-0.02em', color: '#030303', textTransform: 'uppercase', margin: '0 0 80px' }}>
+          <h2 style={{ fontSize: 'clamp(36px,5vw,64px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 0.95, color: '#030303', textTransform: 'uppercase', margin: '0 0 80px' }}>
             ERBJUDANDEN
           </h2>
         </FadeIn>

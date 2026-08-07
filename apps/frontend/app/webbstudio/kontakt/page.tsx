@@ -23,11 +23,11 @@ export default function KontaktPage() {
 
   return (
     <main style={{ position: 'relative', color: '#fff', fontFamily: 'Inter, system-ui, sans-serif' }}>
-      <div style={{ position: 'relative', height: '100vh', boxSizing: 'border-box', background: 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)', overflow: 'hidden' }}>
-      <div style={{ position: 'relative', maxWidth: '1320px', margin: '0 auto', padding: '140px 32px 60px', height: '100%', boxSizing: 'border-box', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'stretch' }}>
+      <div className="contact-hero" style={{ position: 'relative', height: '100vh', boxSizing: 'border-box', background: 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)', overflow: 'hidden' }}>
+      <div className="grid-responsive-2" style={{ position: 'relative', maxWidth: '1320px', margin: '0 auto', padding: '140px 32px 60px', height: '100%', boxSizing: 'border-box', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'stretch' }}>
         <div style={{
           width: '100%', height: '100%', borderRadius: '4px',
-          background: 'linear-gradient(160deg, #0a0a0a 0%, rgb(10,10,10) 140%)',
+          background: 'radial-gradient(circle at 30% 20%, #1a1a1a 0%, #0a0a0a 55%, #030303 100%)',
           display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
           padding: '48px', boxSizing: 'border-box',
         }}>
@@ -59,21 +59,21 @@ export default function KontaktPage() {
             onSubmit={(e) => { e.preventDefault(); setSubmitting(true); }}
             style={{ display: 'flex', flexDirection: 'column', gap: '36px' }}
           >
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+            <div className="grid-contact" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '10px' }}>Förnamn*</label>
-                <input required placeholder="Jim" style={inputStyle} />
+                <label htmlFor="firstName" style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '10px' }}>Förnamn*</label>
+                <input id="firstName" required placeholder="Jim" style={inputStyle} />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '10px' }}>Efternamn*</label>
-                <input required placeholder="Hopper" style={inputStyle} />
+                <label htmlFor="lastName" style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '10px' }}>Efternamn*</label>
+                <input id="lastName" required placeholder="Hopper" style={inputStyle} />
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+            <div className="grid-contact" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '10px' }}>Kategori</label>
-                <select style={{ ...inputStyle, appearance: 'none' as const }}>
+                <label htmlFor="category" style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '10px' }}>Kategori</label>
+                <select id="category" style={{ ...inputStyle, appearance: 'none' as const }}>
                   <option style={{ color: '#030303' }} value="">Välj kategori</option>
                   <option style={{ color: '#030303' }} value="webbplats">Webbplats</option>
                   <option style={{ color: '#030303' }} value="e-handel">E-handel</option>
@@ -81,14 +81,14 @@ export default function KontaktPage() {
                 </select>
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '10px' }}>E-post</label>
-                <input type="email" required placeholder="namn@techpilots.se" style={inputStyle} />
+                <label htmlFor="email" style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '10px' }}>E-post</label>
+                <input id="email" type="email" required placeholder="namn@techpilots.se" style={inputStyle} />
               </div>
             </div>
 
             <div>
-              <label style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '10px' }}>Meddelande</label>
-              <textarea rows={3} placeholder="Skriv ditt meddelande..." style={{ ...inputStyle, resize: 'vertical' }} />
+              <label htmlFor="message" style={{ display: 'block', fontSize: '14px', fontWeight: 600, marginBottom: '10px' }}>Meddelande</label>
+              <textarea id="message" rows={3} placeholder="Skriv ditt meddelande..." style={{ ...inputStyle, resize: 'vertical' }} />
             </div>
 
             <button

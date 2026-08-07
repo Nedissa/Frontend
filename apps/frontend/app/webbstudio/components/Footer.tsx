@@ -62,7 +62,7 @@ const columnHeadingStyle: React.CSSProperties = {
 export function Footer() {
   return (
     <footer id="kontakt" style={{ background: 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)', padding: '100px 60px 40px' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
         <div style={{ marginBottom: '56px' }}>
           <div
             style={{
@@ -97,7 +97,7 @@ export function Footer() {
               lineHeight: 1.05,
             }}
           >
-            TECHPILOTS STUDIO
+            TECHPILOTS
           </h2>
 
           <p style={{ fontSize: '15px', color: 'rgba(255,255,255,0.7)', lineHeight: 1.6, margin: '0 0 24px', maxWidth: '500px' }}>
@@ -114,6 +114,7 @@ export function Footer() {
         </div>
 
         <div
+          className="grid-footer"
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr 1.4fr',

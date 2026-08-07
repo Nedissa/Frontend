@@ -1,27 +1,13 @@
 'use client';
 import { useRef } from 'react';
-import { motion, useMotionValue, useSpring, useMotionTemplate } from 'framer-motion';
-import { OrbitParticles } from './OrbitParticles';
+import { motion } from 'framer-motion';
+import { FloatingParticles } from './FloatingParticles';
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const mouseX = useMotionValue(50);
-  const mouseY = useMotionValue(42);
-  const flareX = useSpring(mouseX, { stiffness: 40, damping: 20 });
-  const flareY = useSpring(mouseY, { stiffness: 40, damping: 20 });
-  const flareBackground = useMotionTemplate`radial-gradient(circle at ${flareX}% ${flareY}%, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.25) 25%, rgba(255,255,255,0) 60%)`;
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = sectionRef.current?.getBoundingClientRect();
-    if (!rect) return;
-    mouseX.set(((e.clientX - rect.left) / rect.width) * 100);
-    mouseY.set(((e.clientY - rect.top) / rect.height) * 100);
-  };
-
   return (
     <section
       ref={sectionRef}
-      onMouseMove={handleMouseMove}
       style={{
         position: 'relative',
         width: '100%',
@@ -31,18 +17,7 @@ export function HeroSection() {
         overflow: 'hidden',
       }}
     >
-      {/* Flare that follows the mouse pointer */}
-      <motion.div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: flareBackground,
-          zIndex: 0,
-          pointerEvents: 'none',
-        }}
-      />
-
-      <OrbitParticles />
+      <FloatingParticles sectionRef={sectionRef} />
 
       {/* Loader bar */}
       <motion.div
@@ -69,7 +44,7 @@ export function HeroSection() {
         <img
           src="/webbstudio/hero.webp"
           alt=""
-          style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '85%', display: 'block', objectFit: 'contain', objectPosition: 'center bottom', mixBlendMode: 'screen' }}
+          style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '95%', display: 'block', objectFit: 'contain', objectPosition: 'center bottom', mixBlendMode: 'screen' }}
         />
       </motion.div>
 
@@ -82,52 +57,38 @@ export function HeroSection() {
       }} />
 
       {/* Text — left, vertically centered */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.7 }}
+      <div
         style={{
           position: 'absolute',
-          left: '34px',
-          top: '28%',
+          left: '80px',
+          top: '50%',
+          transform: 'translateY(-50%)',
           zIndex: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-start',
-          gap: '32px',
         }}
       >
-        <div style={{
-          fontFamily: '"Geist", system-ui, sans-serif',
-          fontSize: 'clamp(56px, 8vw, 120px)',
-          fontWeight: 700,
-          lineHeight: 1.0,
-          letterSpacing: '-0.04em',
-          color: '#fff',
-        }}>
-          Techpilots
-        </div>
-        <div style={{
-          fontFamily: '"Geist", system-ui, sans-serif',
-          fontSize: 'clamp(56px, 8vw, 120px)',
-          fontWeight: 700,
-          lineHeight: 1.0,
-          letterSpacing: '-0.04em',
-          color: '#fff',
-        }}>
-          Studio
-        </div>
-        <div style={{
-          fontFamily: '"Geist", system-ui, sans-serif',
-          fontSize: 'clamp(32px, 4vw, 56px)',
-          fontWeight: 700,
-          letterSpacing: '-0.02em',
-          color: '#e8c547',
-          lineHeight: 1,
-        }}>
-          2.0
-        </div>
-      </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.7 }}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            gap: '32px',
+          }}
+        >
+          <div style={{
+            fontFamily: '"Geist", system-ui, sans-serif',
+            fontSize: 'clamp(56px, 8vw, 120px)',
+            fontWeight: 700,
+            lineHeight: 1.0,
+            letterSpacing: '-0.04em',
+            color: '#fff',
+          }}>
+            Techpilots
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import { SectionHeader } from './SectionHeader';
 
 const PROJECTS = [
   { title: 'Sagateatern', category: 'Webb & Varumärke', year: '2025' },
@@ -44,22 +45,12 @@ export function ProjectsSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} style={{ background: '#fff', paddingTop: '120px', paddingBottom: '120px', margin: '0 60px' }}>
+    <section id="projekt" ref={sectionRef} className="section-projects" style={{ background: '#fff', paddingTop: '140px', paddingBottom: '140px', margin: '0 60px', boxSizing: 'border-box' }}>
 
-      {/* Top nav row */}
-      <div style={{
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        padding: '14px 0',
-        borderTop: '1px solid rgb(210,210,210)',
-        fontSize: '12px', color: '#030303', letterSpacing: '0.04em',
-      }}>
-        <span>◆ (02)</span>
-        <span>(Projekt)</span>
-        <span>© 2026</span>
-      </div>
+      <SectionHeader num="04" label="Projekt" extra="© 2026" />
 
       {/* Main layout */}
-      <div style={{ display: 'grid', gridTemplateColumns: '26vw 44vw 30vw', paddingTop: '80px', alignItems: 'start' }}>
+      <div className="grid-projects" style={{ display: 'grid', gridTemplateColumns: '26vw 44vw 30vw', paddingTop: '80px', alignItems: 'start' }}>
 
         {/* Left panel — JS-driven sticky */}
         <div ref={leftRef} style={{
@@ -67,7 +58,7 @@ export function ProjectsSection() {
           transition: 'transform 0.12s ease-out',
           display: 'flex', flexDirection: 'column', alignItems: 'flex-end', paddingRight: '40px',
         }}>
-          <h2 style={{ fontSize: '64px', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, color: '#030303', margin: '0 0 24px' }}>
+          <h2 style={{ fontSize: 'clamp(40px,6vw,64px)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, color: '#030303', margin: '0 0 24px' }}>
             TP-26'
           </h2>
           <a href="#" style={{
@@ -90,8 +81,8 @@ export function ProjectsSection() {
               width: '100%', boxSizing: 'border-box',
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '12px', letterSpacing: '0.08em', color: 'rgb(140,140,134)', textTransform: 'uppercase' }}>{p.category}</span>
-                <span style={{ fontSize: '12px', color: 'rgb(140,140,134)' }}>{p.year}</span>
+                <span style={{ fontSize: '12px', letterSpacing: '0.08em', color: 'rgb(104,105,99)', textTransform: 'uppercase' }}>{p.category}</span>
+                <span style={{ fontSize: '12px', color: 'rgb(104,105,99)' }}>{p.year}</span>
               </div>
               <div style={{ fontSize: '26px', fontWeight: 600, letterSpacing: '-0.03em', color: '#030303' }}>
                 {p.title}
@@ -111,7 +102,7 @@ export function ProjectsSection() {
             background: 'rgb(240,240,238)', borderRadius: '6px', padding: '10px 14px', cursor: 'pointer',
           }}>
             <div style={{ width: '52px', height: '52px', borderRadius: '4px', background: 'rgb(160,140,130)', flexShrink: 0 }} />
-            <span style={{ fontSize: '15px', fontWeight: 500, color: '#030303', whiteSpace: 'nowrap' }}>Se alla (07)</span>
+            <span style={{ fontSize: '15px', fontWeight: 500, color: '#030303', whiteSpace: 'nowrap' }}>Se alla (08)</span>
           </div>
         </div>
 

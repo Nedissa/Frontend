@@ -1,14 +1,18 @@
 'use client';
 import { FadeIn } from './FadeIn';
 import { CountUp } from './CountUp';
+import { SectionHeader } from './SectionHeader';
 
 export function StatsSection() {
   return (
-    <section style={{ background: '#fff', padding: '160px 60px 160px' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: '280px 1fr', alignItems: 'start' }}>
+    <section id="om" className="section-padding" style={{ background: '#fff', padding: '140px 30px' }}>
+      <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+        <SectionHeader num="01" label="Om oss" extra="© 2026" />
+      </div>
+      <div className="grid-stats" style={{ maxWidth: '1440px', margin: '0 auto', display: 'grid', gridTemplateColumns: '280px 1fr', alignItems: 'start' }}>
 
         <FadeIn>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '260px' }}>
+          <div className="hide-mobile" style={{ display: 'flex', flexDirection: 'column', gap: '260px' }}>
             <div style={{ color: '#030303', fontSize: '20px', fontWeight: 300, letterSpacing: '0.14em' }}>+ +</div>
             <div className="animate-blink" style={{ width: '32px', height: '2px', background: 'rgb(200,200,200)' }} />
           </div>
@@ -17,7 +21,7 @@ export function StatsSection() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
 
           {/* Row 1: Launched projects + Customer satisfaction */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px' }}>
+          <div className="grid-responsive-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px' }}>
 
             <FadeIn delay={0.05}>
               <div>
@@ -26,7 +30,7 @@ export function StatsSection() {
                   <div style={{ fontSize: '72px', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, color: '#030303', flexShrink: 0 }}>
                     <CountUp value="11+" />
                   </div>
-                  <div style={{ color: 'rgb(140,140,134)', fontSize: '13px', lineHeight: 1.5 }}>
+                  <div style={{ color: 'rgb(104,105,99)', fontSize: '13px', lineHeight: 1.5 }}>
                     Projekt har lanserats framgångsrikt sedan 2024
                   </div>
                 </div>
@@ -40,7 +44,7 @@ export function StatsSection() {
                   <div style={{ fontSize: '72px', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, color: '#030303', flexShrink: 0 }}>
                     <CountUp value="98%" />
                   </div>
-                  <div style={{ color: 'rgb(140,140,134)', fontSize: '13px', lineHeight: 1.5 }}>
+                  <div style={{ color: 'rgb(104,105,99)', fontSize: '13px', lineHeight: 1.5 }}>
                     Andel av våra fullt nöjda kunder.
                   </div>
                 </div>
@@ -50,12 +54,12 @@ export function StatsSection() {
 
           {/* Row 2: Founding year — entire block in the right column */}
           <FadeIn delay={0.15}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px' }}>
+            <div className="grid-responsive-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px' }}>
               <div>
                 <div style={{ fontSize: '22px', fontWeight: 700, color: '#030303', marginBottom: '10px' }}>Techpilots</div>
                 <div style={{ borderTop: '3px solid rgb(210,210,210)', paddingTop: '20px' }}>
-                  <p style={{ fontSize: 'clamp(14px,1.2vw,17px)', color: 'rgb(120,120,114)', lineHeight: 1.65, margin: 0 }}>
-                    Vi är en Webbstudio driven av strategi, design och teknologi. Från varumärkesfundament till fullt utvecklade digitala produkter skapar vi arbete som inte bara ser bra ut: det presterar, förenar och består.
+                  <p style={{ fontSize: 'clamp(14px,1.2vw,17px)', color: 'rgb(104,105,99)', lineHeight: 1.65, margin: 0 }}>
+                    Vi är drivna av strategi, design och teknologi. Från varumärkesfundament till fullt utvecklade digitala produkter skapar vi arbete som inte bara ser bra ut: det presterar, förenar och består.
                   </p>
                 </div>
               </div>
@@ -65,7 +69,7 @@ export function StatsSection() {
                   <div style={{ fontSize: '72px', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, color: '#030303', marginBottom: '12px' }}>
                     <CountUp value="2024" />
                   </div>
-                  <div style={{ color: 'rgb(140,140,134)', fontSize: '13px', lineHeight: 1.5, marginBottom: '16px' }}>
+                  <div style={{ color: 'rgb(104,105,99)', fontSize: '13px', lineHeight: 1.5, marginBottom: '16px' }}>
                     Året grundarna lanserade sitt första projekt.
                   </div>
                   <div style={{ display: 'flex' }}>

@@ -4,7 +4,7 @@ import { SiteNav } from './components/SiteNav';
 import './studio.css';
 
 export const metadata: Metadata = {
-  title: 'Techpilots Studio — Webbyrå i Borås',
+  title: 'Techpilots — Webbutveckling i Borås',
   description: 'Vi designar, utvecklar och levererar moderna webbplatser och digitala upplevelser.',
 };
 

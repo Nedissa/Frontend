@@ -7,11 +7,22 @@ import { ProjectsSection } from './components/ProjectsSection';
 import { CountUp } from './components/CountUp';
 import { AnimatedBars } from './components/AnimatedBars';
 import { AnimatedDots } from './components/AnimatedDots';
+import { PlatformsSection } from './components/PlatformsSection';
 import { FaqSection } from './components/FaqSection';
 import { CtaSection } from './components/CtaSection';
 import { SectionHeader } from './components/SectionHeader';
 import Link from 'next/link';
 import './studio.css';
+
+const LOGO_NAMES = ['Stripe', 'Klarna', 'Medusa', 'Payload', 'Brevo', 'Vercel', 'Hetzner', 'GitHub'];
+const LOGOS = [...LOGO_NAMES, ...LOGO_NAMES];
+
+const PROJECT_TYPES = [
+  { label: 'Webbutveckling', value: 40, color: '#030303' },
+  { label: 'E-handel', value: 30, color: '#e8c547' },
+  { label: 'CMS', value: 20, color: '#a8a8a8' },
+  { label: 'Optimering & SEO', value: 10, color: '#e2e2e2' },
+];
 
 const PRICES = [
   {
@@ -65,13 +76,13 @@ export default function WebbstudioPage() {
       {/* Logo ticker */}
       <section style={{ borderTop: '1px solid rgb(220,220,220)', borderBottom: '1px solid rgb(220,220,220)', padding: '40px 0', overflow: 'hidden', background: '#fff' }}>
         <div className="animate-marquee" style={{ display: 'flex', alignItems: 'center', gap: '0', whiteSpace: 'nowrap' }}>
-          {['SAVANNAH', 'Basel', 'Cactus', 'Manila.', 'oslo.', 'SAVANNAH', 'Basel', 'Cactus', 'Manila.', 'oslo.', 'SAVANNAH', 'Basel', 'Cactus', 'Manila.', 'oslo.', 'SAVANNAH', 'Basel', 'Cactus', 'Manila.', 'oslo.'].map((logo, i) => (
+          {LOGOS.map((logo, i) => (
             <span key={i} style={{ display: 'inline-flex', alignItems: 'center' }}>
               <span style={{
-                fontSize: '26px',
-                fontWeight: logo === logo.toUpperCase() ? 800 : 600,
+                fontSize: '34px',
+                fontWeight: 700,
                 color: '#1a1a1a',
-                letterSpacing: logo === logo.toUpperCase() ? '0.06em' : '0',
+                letterSpacing: '0',
                 padding: '0 36px',
               }}>{logo}</span>
               <span style={{ width: '1px', height: '52px', background: 'rgb(210,210,210)', display: 'inline-block' }} />
@@ -90,11 +101,11 @@ export default function WebbstudioPage() {
       <ProjectsSection />
 
       {/* Pricing */}
-      <section id="priser" style={{ borderTop: '1px solid rgb(234,234,234)', padding: '140px 30px 200px' }}>
-        <div style={{ maxWidth: '1320px', margin: '0 auto' }}>
-          <SectionHeader num="04" label="Priser" extra="© 2026" />
+      <section id="priser" className="section-padding" style={{ padding: '140px 30px', minHeight: '100vh', boxSizing: 'border-box' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+          <SectionHeader num="05" label="Priser" extra="© 2026" />
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '16px', alignItems: 'start' }}>
+          <div className="grid-responsive-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '16px', alignItems: 'start' }}>
             {PRICES.map((p, i) => (
               <FadeIn key={p.name} delay={i * 0.08}>
                 <div style={{ background: p.dark ? 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)' : '#f5f5f5', borderRadius: '4px', padding: p.dark ? '48px 40px 24px' : '40px 32px 24px', display: 'flex', flexDirection: 'column', gap: '32px', boxSizing: 'border-box' }}>
@@ -133,7 +144,7 @@ export default function WebbstudioPage() {
                     <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       {p.features.map(f => (
                         <li key={f} style={{ fontSize: '14px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)', display: 'flex', gap: '8px', alignItems: 'flex-start', fontWeight: 500 }}>
-                          <span style={{ color: p.dark ? '#e8c547' : '#e8c547', marginTop: '1px' }}>+</span> {f}
+                          <span style={{ color: '#e8c547', marginTop: '1px' }}>+</span> {f}
                         </li>
                       ))}
                     </ul>
@@ -146,9 +157,9 @@ export default function WebbstudioPage() {
       </section>
 
       {/* Customers / Partners */}
-      <section id="kunder" style={{ borderTop: '1px solid rgb(234,234,234)', padding: '140px 30px 200px' }}>
-        <div style={{ maxWidth: '1320px', margin: '0 auto' }}>
-          <SectionHeader num="05" label="Kunder" />
+      <section id="kunder" className="section-padding" style={{ padding: '140px 30px', minHeight: '100vh', boxSizing: 'border-box' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+          <SectionHeader num="06" label="Kunder" extra="© 2026" />
 
           <FadeIn>
             <h2 style={{ fontSize: 'clamp(36px,5vw,64px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 0.95, color: '#030303', textTransform: 'uppercase', margin: '0 0 24px' }}>
@@ -158,7 +169,7 @@ export default function WebbstudioPage() {
 
           <div className="animate-blink" style={{ width: '32px', height: '2px', background: 'rgb(200,200,200)', marginBottom: '56px' }} />
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr 1fr', gap: '16px', alignItems: 'stretch' }}>
+          <div className="grid-responsive-3" style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr 1fr', gap: '16px', alignItems: 'stretch' }}>
             {/* Rating */}
             <FadeIn>
               <div style={{ background: '#f5f5f5', borderRadius: '4px', padding: '40px 32px', height: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column' }}>
@@ -173,11 +184,16 @@ export default function WebbstudioPage() {
             {/* Customer image with quote */}
             <FadeIn delay={0.08}>
               <div style={{
-                position: 'relative', borderRadius: '4px', overflow: 'hidden', height: '100%', minHeight: '460px',
-                background: 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)',
+                position: 'relative', borderRadius: '4px', overflow: 'hidden', height: '100%', minHeight: '600px',
                 display: 'flex', alignItems: 'flex-end', boxSizing: 'border-box',
               }}>
-                <div style={{ padding: '32px', color: '#fff' }}>
+                <img
+                  src="/webbstudio/kunder-partners.webp"
+                  alt=""
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)' }} />
+                <div style={{ position: 'relative', padding: '32px', color: '#fff' }}>
                   <p style={{ fontSize: '17px', fontWeight: 700, lineHeight: 1.4, margin: '0 0 16px' }}>
                     {TESTIMONIALS[0].quote}
                   </p>
@@ -215,26 +231,21 @@ export default function WebbstudioPage() {
       </section>
 
       {/* Technologies */}
-      <section id="teknologier" style={{ borderTop: '1px solid rgb(234,234,234)', padding: '140px 30px 200px', background: '#f7f7f6' }}>
-        <div style={{ maxWidth: '1320px', margin: '0 auto' }}>
-          <SectionHeader num="06" label="Teknologier" />
+      <section id="teknologier" className="section-padding" style={{ padding: '140px 30px', background: '#f5f5f3', minHeight: '100vh', boxSizing: 'border-box' }}>
+        <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+          <SectionHeader num="07" label="Vår process" extra="© 2026" />
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '64px', marginBottom: '16px' }}>
-            {/* Technologies - donut */}
+          <div className="grid-responsive-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '64px', marginBottom: '16px' }}>
+            {/* Project types - donut */}
             <FadeIn>
               <div style={{ height: '100%', boxSizing: 'border-box' }}>
-                <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#030303', margin: '0 0 12px' }}>Teknologier</h3>
+                <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#030303', margin: '0 0 12px' }}>Projekttyper</h3>
                 <div className="animate-blink" style={{ width: '32px', height: '2px', background: 'rgb(200,200,200)', marginBottom: '32px' }} />
 
                 <div style={{ display: 'flex', alignItems: 'flex-end', gap: '32px', height: '200px' }}>
                   <svg width="180" height="180" viewBox="0 0 140 140">
                     {(() => {
-                      const data = [
-                        { label: 'Frontend', value: 40, color: '#030303' },
-                        { label: 'Backend', value: 25, color: '#e8c547' },
-                        { label: 'E-handel', value: 20, color: '#a8a8a8' },
-                        { label: 'Server drift', value: 15, color: '#e2e2e2' },
-                      ];
+                      const data = PROJECT_TYPES;
                       const total = data.reduce((s, d) => s + d.value, 0);
                       const r = 45;
                       const cx = 70, cy = 70;
@@ -266,15 +277,10 @@ export default function WebbstudioPage() {
                   </svg>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '8px' }}>
-                    {[
-                      { label: 'Frontend', value: 40, color: '#030303' },
-                      { label: 'Backend', value: 25, color: '#e8c547' },
-                      { label: 'E-handel', value: 20, color: '#a8a8a8' },
-                      { label: 'Server drift', value: 15, color: '#e2e2e2' },
-                    ].map((d) => (
+                    {PROJECT_TYPES.map((d) => (
                       <div key={d.label} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', color: '#030303' }}>
                         <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: d.color, border: d.color === '#e2e2e2' ? '1px solid rgb(200,200,200)' : 'none', flexShrink: 0 }} />
-                        {d.label} <span style={{ color: 'rgb(140,140,140)' }}>{d.value}</span>
+                        {d.label} <span style={{ color: 'rgb(104,105,99)' }}>{d.value}</span>
                       </div>
                     ))}
                   </div>
@@ -282,23 +288,23 @@ export default function WebbstudioPage() {
               </div>
             </FadeIn>
 
-            {/* Our tools - bars */}
+            {/* Where the work goes - bars */}
             <FadeIn delay={0.06}>
               <div style={{ height: '100%', boxSizing: 'border-box' }}>
-                <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#030303', margin: '0 0 12px' }}>Våra verktyg</h3>
+                <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#030303', margin: '0 0 12px' }}>Var arbetet läggs</h3>
                 <div style={{ width: '32px', height: '2px', background: 'rgb(200,200,200)', marginBottom: '32px' }} />
 
                 <AnimatedBars
-                  max={35}
+                  max={45}
                   bars={[
-                    { label: 'Next.js', value: 15, color: '#030303' },
-                    { label: 'Typescript', value: 25, color: '#e8c547' },
-                    { label: 'React', value: 35, color: '#9a9a9a' },
-                    { label: 'Node.js', value: 28, color: '#b8b8b8' },
+                    { label: 'Test & QA', value: 15, color: '#9a9a9a' },
+                    { label: 'Design', value: 25, color: '#030303' },
+                    { label: 'Utveckling', value: 45, color: '#e8c547' },
+                    { label: 'Lansering', value: 35, color: '#b8b8b8' },
                   ]}
                 />
                 <div style={{ display: 'flex', gap: '20px', marginTop: '12px' }}>
-                  {['Next.js', 'Typescript', 'React', 'Node.js'].map((l) => (
+                  {['Test', 'Design', 'Utveckling', 'Lansering'].map((l) => (
                     <div key={l} style={{ flex: 1, textAlign: 'center', fontSize: '13px', fontWeight: 600, color: '#030303' }}>{l}</div>
                   ))}
                 </div>
@@ -329,17 +335,17 @@ export default function WebbstudioPage() {
             </FadeIn>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '64px', marginBottom: '200px' }}>
+          <div className="grid-responsive-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '64px', marginBottom: '64px' }}>
             {[
-              'Fördelning av vår kompetens per tjänsteområde.',
-              'Verktygen vi använder dagligen i våra projekt.',
+              'Fördelning av de projekttyper vi tar oss an.',
+              'Timmarna i ett projekt, uppdelade efter arbetsmoment.',
               'Så mycket ingår som standard i varje projekt.',
             ].map((desc) => (
-              <p key={desc} style={{ borderTop: '1px solid rgb(225,225,225)', paddingTop: '28px', fontSize: '14px', color: 'rgb(104,105,99)', lineHeight: 1.5, margin: 0, textAlign: 'left' }}>{desc}</p>
+              <p key={desc} style={{ borderTop: '1px solid rgb(230,230,230)', paddingTop: '28px', fontSize: '14px', color: 'rgb(104,105,99)', lineHeight: 1.5, margin: 0, textAlign: 'left' }}>{desc}</p>
             ))}
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '64px' }}>
+          <div className="grid-responsive-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '64px' }}>
             {[
               { value: '20', suffix: '+', desc: 'Nöjda kunder som rekommenderar oss vidare.' },
               { value: '100', suffix: '%', desc: 'Mobiloptimerat. Varje hemsida byggs helt responsivt för att ge en perfekt upplevelse på mobilen.' },
@@ -357,6 +363,8 @@ export default function WebbstudioPage() {
           </div>
         </div>
       </section>
+
+      <PlatformsSection />
 
       <FaqSection />
 

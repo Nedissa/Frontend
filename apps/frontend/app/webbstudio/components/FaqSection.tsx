@@ -4,11 +4,11 @@ import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
 
 const FAQS = [
-  { q: 'Vad skiljer oss från andra byråer?', a: 'Vi kombinerar strategi, design och utveckling i ett och samma team, vilket gör processen snabbare och mer sammanhållen.' },
-  { q: 'Varför inte anställa en intern designer eller frilansare?', a: 'Med oss får ni ett helt team av specialister till en lägre kostnad än en anställning, utan bindningstid.' },
-  { q: 'Är kreativa förfrågningar verkligen obegränsade?', a: 'Ja, inom ramen för ert paket kan ni skicka in så många förfrågningar ni vill, vi arbetar med dem en i taget.' },
-  { q: 'Hur snabbt får jag mitt arbete?', a: 'De flesta ärenden levereras inom 2–5 arbetsdagar beroende på omfattning.' },
-  { q: 'Vad händer om jag bara har ett enskilt projekt?', a: 'Inga problem, vi tar även enstaka projekt utan löpande avtal.' },
+  { q: 'Ett lokalt team, inte en anonym byrå', a: 'Vi sitter i Borås och jobbar nära våra kunder, med kort startsträcka och raka besked. Ni pratar alltid med samma team, inte en ny konsult för varje fråga.' },
+  { q: 'Ett helt team, till kostnaden av en anställning', a: 'Med oss får ni tillgång till specialister inom design, utveckling och drift, utan rekryteringskostnad eller bindningstid. Ni betalar för resultatet, inte för en anställd.' },
+  { q: 'Obegränsat med förfrågningar, ett i taget', a: 'Inom ramen för ert paket kan ni skicka in så många förfrågningar ni vill. Vi arbetar igenom dem löpande, ett ärende i taget, så att kvaliteten alltid håller samma nivå.' },
+  { q: 'Snabb leverans utan att tumma på kvalitet', a: 'De flesta ärenden levereras inom 2–5 arbetsdagar beroende på omfattning. Vi håller en tät dialog under tiden så ni alltid vet var i processen ärendet befinner sig.' },
+  { q: 'Enskilda projekt utan löpande avtal', a: 'Ni behöver inget abonnemang för att jobba med oss. Vi tar även enstaka projekt, från en mindre uppdatering till en helt ny webbplats.' },
 ];
 
 function FaqItem({ q, a }: { q: string; a: string }) {
@@ -24,7 +24,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
       >
         <span style={{ fontSize: '17px', fontWeight: 500, color: '#030303' }}>{q}</span>
         <span style={{
-          fontSize: '20px', fontWeight: 300, color: '#e8c547', flexShrink: 0, marginLeft: '20px',
+          fontSize: '20px', fontWeight: 300, color: '#030303', flexShrink: 0, marginLeft: '20px',
           transform: open ? 'rotate(45deg)' : 'none', transition: 'transform 0.25s ease',
         }}>+</span>
       </button>
@@ -56,7 +56,7 @@ function ShowreelCard() {
         >
           ▶ Play
         </button>
-        <span style={{ fontSize: '13px', color: 'rgb(140,140,140)' }}>Showreel</span>
+        <span style={{ fontSize: '13px', color: 'rgb(104,105,99)' }}>Showreel</span>
       </div>
     </div>
   );
@@ -64,11 +64,11 @@ function ShowreelCard() {
 
 export function FaqSection() {
   return (
-    <section id="faq" style={{ borderTop: '1px solid rgb(234,234,234)', padding: '100px 30px', background: '#fff', color: '#030303' }}>
-      <div style={{ maxWidth: '1320px', margin: '0 auto' }}>
-        <SectionHeader num="07" label="Vanliga frågor" />
+    <section id="faq" className="section-padding" style={{ padding: '140px 30px', background: '#fff', color: '#030303', boxSizing: 'border-box' }}>
+      <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+        <SectionHeader num="09" label="Vanliga frågor" extra="© 2026" />
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '64px', alignItems: 'start' }}>
+        <div className="grid-responsive-2" style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '64px', alignItems: 'start' }}>
           <FadeIn>
             <ShowreelCard />
           </FadeIn>
