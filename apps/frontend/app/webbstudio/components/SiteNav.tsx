@@ -10,20 +10,48 @@ const links = [
   { label: 'Kontakt', num: '04', href: '/webbstudio/kontakt' },
 ];
 
+// Scroll-progress ring drawn around the mobile burger button.
+const BURGER_RING_RADIUS = 18.5;
+const BURGER_RING_CIRCUMFERENCE = 2 * Math.PI * BURGER_RING_RADIUS;
+
+const BURGER_BAR_STYLE: React.CSSProperties = {
+  position: 'absolute',
+  width: '18px',
+  height: '2px',
+  background: '#fff',
+  borderRadius: '1px',
+  transition: 'transform 0.3s cubic-bezier(0.76, 0, 0.24, 1)',
+};
+
+const LOGO_CIRCLE_STYLE: React.CSSProperties = {
+  width: '40px',
+  height: '40px',
+  borderRadius: '50%',
+  border: '1.5px solid #fff',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+};
+
+const LOGO_IMG_STYLE: React.CSSProperties = {
+  width: '18px',
+  height: '18px',
+  filter: 'brightness(0) invert(1)',
+};
+
 export function SiteNav() {
   const [open, setOpen] = useState(false);
   const [hash, setHash] = useState('');
   const [scrollProgress, setScrollProgress] = useState(0);
   const pathname = usePathname();
 
+  // Re-read the hash on navigation, when the menu toggles, and on hashchange.
   useEffect(() => {
-    const onHashChange = () => setHash(window.location.hash);
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
-  }, []);
-
-  useEffect(() => {
-    setHash(window.location.hash);
+    const syncHash = () => setHash(window.location.hash);
+    syncHash();
+    window.addEventListener('hashchange', syncHash);
+    return () => window.removeEventListener('hashchange', syncHash);
   }, [pathname, open]);
 
   useEffect(() => {
@@ -36,7 +64,7 @@ export function SiteNav() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const isLinkActive = (href: string) => {
+  const isLinkActive = (href: string): boolean => {
     const [linkPath, linkAnchor] = href.split('#');
     return pathname === linkPath && (linkAnchor ? hash === `#${linkAnchor}` : hash === '');
   };
@@ -51,25 +79,32 @@ export function SiteNav() {
         boxSizing: 'border-box',
       }}
     >
-      <Link href="/webbstudio" className="site-nav-logo" style={{ width: '40px', height: '40px', borderRadius: '50%', border: '1.5px solid #fff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, position: 'relative', zIndex: 110 }}>
-        <img src="/logo.png" alt="Techpilots" style={{ width: '18px', height: '18px', filter: 'brightness(0) invert(1)' }} />
+      <Link href="/webbstudio" className="site-nav-logo nav-logo-mobile" style={{ ...LOGO_CIRCLE_STYLE, position: 'relative', zIndex: 110 }}>
+        <img src="/logo.png" alt="Techpilots" style={LOGO_IMG_STYLE} />
       </Link>
 
-      <div className="nav-links-desktop" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '72px' }}>
-        {links.map((l) => {
-          const isActive = isLinkActive(l.href);
-          return (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="nav-link"
-              style={{ fontSize: '13px', fontWeight: 600, textDecoration: 'none', color: isActive ? '#e8c547' : '#fff' }}
-            >
-              {l.label}
-              <sup style={{ fontSize: '9px', color: isActive ? 'rgba(232,197,71,0.6)' : 'rgba(255,255,255,0.4)', marginLeft: '3px', verticalAlign: 'super' }}>{l.num}</sup>
-            </Link>
-          );
-        })}
+      <div className="hide-mobile" aria-hidden="true" style={{ width: '40px', height: '40px', flexShrink: 0 }} />
+
+      <div className="nav-links-desktop" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '32px' }}>
+        <Link href="/webbstudio" className="site-nav-logo" style={LOGO_CIRCLE_STYLE}>
+          <img src="/logo.png" alt="" aria-hidden="true" style={LOGO_IMG_STYLE} />
+        </Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
+          {links.map((l) => {
+            const isActive = isLinkActive(l.href);
+            return (
+              <Link
+                key={l.href}
+                href={l.href}
+                className="nav-link"
+                style={{ fontSize: '13px', fontWeight: 600, textDecoration: 'none', color: isActive ? '#e8c547' : '#fff' }}
+              >
+                {l.label}
+                <sup style={{ fontSize: '9px', color: isActive ? 'rgba(232,197,71,0.6)' : 'rgba(255,255,255,0.4)', marginLeft: '3px', verticalAlign: 'super' }}>{l.num}</sup>
+              </Link>
+            );
+          })}
+        </div>
       </div>
 
       <div className="nav-profile-desktop" style={{ display: 'flex', alignItems: 'center', gap: '12px', background: 'rgba(255,255,255,0.06)', borderRadius: '28px', padding: '8px 20px 8px 8px' }}>
@@ -89,18 +124,10 @@ export function SiteNav() {
         }}
       >
         <svg width="40" height="40" viewBox="0 0 40 40" style={{ position: 'absolute', top: 0, left: 0, transform: 'rotate(-90deg)' }}>
-          <circle cx="20" cy="20" r="18.5" fill="none" stroke="rgba(232,197,71,0.9)" strokeWidth="1.5" strokeDasharray={2 * Math.PI * 18.5} strokeDashoffset={2 * Math.PI * 18.5 * (1 - scrollProgress)} strokeLinecap="round" style={{ transition: 'stroke-dashoffset 0.15s linear' }} />
+          <circle cx="20" cy="20" r={BURGER_RING_RADIUS} fill="none" stroke="rgba(232,197,71,0.9)" strokeWidth="1.5" strokeDasharray={BURGER_RING_CIRCUMFERENCE} strokeDashoffset={BURGER_RING_CIRCUMFERENCE * (1 - scrollProgress)} strokeLinecap="round" style={{ transition: 'stroke-dashoffset 0.15s linear' }} />
         </svg>
-        <span style={{
-          position: 'absolute', width: '18px', height: '2px', background: '#fff', borderRadius: '1px',
-          transform: open ? 'rotate(45deg)' : 'rotate(0deg)',
-          transition: 'transform 0.3s cubic-bezier(0.76, 0, 0.24, 1)',
-        }} />
-        <span style={{
-          position: 'absolute', width: '18px', height: '2px', background: '#fff', borderRadius: '1px',
-          transform: open ? 'rotate(-45deg)' : 'rotate(90deg)',
-          transition: 'transform 0.3s cubic-bezier(0.76, 0, 0.24, 1)',
-        }} />
+        <span style={{ ...BURGER_BAR_STYLE, transform: open ? 'rotate(45deg)' : 'rotate(0deg)' }} />
+        <span style={{ ...BURGER_BAR_STYLE, transform: open ? 'rotate(-45deg)' : 'rotate(90deg)' }} />
       </button>
 
       <div

@@ -1,7 +1,8 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
+import { useScrollActiveIndex } from './useScrollActiveIndex';
 
 const FEATURES = [
   { icon: <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20 3H4a2 2 0 00-2 2v11a2 2 0 002 2h7v2H8v2h8v-2h-3v-2h7a2 2 0 002-2V5a2 2 0 00-2-2zm0 13H4V5h16v11z"/></svg>, title: 'Fullt Responsiv', desc: 'Ser perfekt ut på alla skärmstorlekar — från mobil till desktop, varje layout anpassas sömlöst.' },
@@ -55,67 +56,11 @@ function FeatureCard({ icon, title, desc, tall, forceHovered, onRef }: { icon: R
   );
 }
 
-const GRID_ICON = (
-  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/>
-  </svg>
-);
-
-function IconOnlyCard({ icon }: { icon: React.ReactNode }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        background: hovered ? '#030303' : '#ebebea',
-        padding: '28px 24px',
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '220px',
-        borderRadius: '4px',
-        transition: 'background 0.35s cubic-bezier(0.76, 0, 0.24, 1)',
-        cursor: 'default',
-      }}
-    >
-      <span style={{ color: hovered ? '#e8c547' : '#030303', display: 'block', transition: 'color 0.35s' }}>{icon}</span>
-    </div>
-  );
-}
+// Grid placement for the five rendered feature cards, in render order.
+const GRID_AREAS = ['a', 'd', 'b', 'c', 'e'];
 
 export function FeaturesSection() {
-  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  useEffect(() => {
-    const onScroll = () => {
-      if (window.innerWidth > 900) {
-        setActiveIndex(null);
-        return;
-      }
-      const viewportCenter = window.innerHeight / 2;
-      let closestIndex: number | null = null;
-      let closestDistance = Infinity;
-
-      cardRefs.current.forEach((el, i) => {
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-        const cardCenter = rect.top + rect.height / 2;
-        const distance = Math.abs(cardCenter - viewportCenter);
-        if (distance < closestDistance && distance < rect.height / 2) {
-          closestDistance = distance;
-          closestIndex = i;
-        }
-      });
-
-      setActiveIndex(closestIndex);
-    };
-
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  const { activeIndex, setItemRef } = useScrollActiveIndex();
 
   return (
     <section className="section-padding" style={{ background: '#f5f5f3', padding: '140px 30px', minHeight: '100vh', boxSizing: 'border-box' }}>
@@ -141,11 +86,11 @@ export function FeaturesSection() {
           gap: '20px',
           minHeight: '480px',
         }}>
-          <FadeIn delay={0.05} className="feature-grid-item" style={{ gridArea: 'a' }}><FeatureCard {...FEATURES[0]} tall forceHovered={activeIndex === 0} onRef={(el) => { cardRefs.current[0] = el; }} /></FadeIn>
-          <FadeIn delay={0.1} className="feature-grid-item" style={{ gridArea: 'd' }}><FeatureCard {...FEATURES[1]} tall forceHovered={activeIndex === 1} onRef={(el) => { cardRefs.current[1] = el; }} /></FadeIn>
-          <FadeIn delay={0.15} className="feature-grid-item" style={{ gridArea: 'b' }}><FeatureCard {...FEATURES[2]} tall forceHovered={activeIndex === 2} onRef={(el) => { cardRefs.current[2] = el; }} /></FadeIn>
-          <FadeIn delay={0.2} className="feature-grid-item" style={{ gridArea: 'c' }}><FeatureCard {...FEATURES[3]} tall forceHovered={activeIndex === 3} onRef={(el) => { cardRefs.current[3] = el; }} /></FadeIn>
-          <FadeIn delay={0.25} className="feature-grid-item" style={{ gridArea: 'e' }}><FeatureCard {...FEATURES[4]} tall forceHovered={activeIndex === 4} onRef={(el) => { cardRefs.current[4] = el; }} /></FadeIn>
+          {GRID_AREAS.map((gridArea, i) => (
+            <FadeIn key={FEATURES[i].title} delay={(i + 1) * 0.05} className="feature-grid-item" style={{ gridArea }}>
+              <FeatureCard {...FEATURES[i]} tall forceHovered={activeIndex === i} onRef={setItemRef(i)} />
+            </FadeIn>
+          ))}
         </div>
       </div>
     </section>

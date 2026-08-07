@@ -1,7 +1,40 @@
 'use client';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FloatingParticles } from './FloatingParticles';
+
+function HeroCta() {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <motion.a
+      href="/webbstudio/kontakt"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay: 1.55 }}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '10px',
+        marginTop: '10px',
+        width: 'fit-content',
+        padding: '11px 25px',
+        background: hovered ? '#030303' : '#e8c547',
+        color: hovered ? '#e8c547' : '#0c0d12',
+        border: hovered ? '2px solid #e8c547' : '2px solid transparent',
+        fontSize: '15px',
+        fontWeight: 600,
+        borderRadius: '999px',
+        textDecoration: 'none',
+        transition: 'background 0.3s ease, color 0.3s ease, border-color 0.3s ease',
+      }}
+    >
+      Kontakt
+      <span>↗</span>
+    </motion.a>
+  );
+}
 
 export function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -69,28 +102,57 @@ export function HeroSection() {
           zIndex: 2,
         }}
       >
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.7 }}
+        <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'flex-start',
-            gap: '32px',
+            alignItems: 'stretch',
+            gap: '15px',
           }}
         >
-          <div className="hero-text" style={{
-            fontFamily: '"Geist", system-ui, sans-serif',
-            fontSize: 'clamp(56px, 8vw, 120px)',
-            fontWeight: 700,
-            lineHeight: 1.0,
-            letterSpacing: '-0.04em',
-            color: '#fff',
-          }}>
-            Techpilots
-          </div>
-        </motion.div>
+          <motion.div
+            className="hero-text"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.5 }}
+            style={{
+              fontFamily: '"Geist", system-ui, sans-serif',
+              fontSize: 'clamp(60px, 8vw, 120px)',
+              fontWeight: 700,
+              lineHeight: 1.0,
+              letterSpacing: '-0.04em',
+              color: '#fff',
+              whiteSpace: 'nowrap',
+              marginBottom: '-0.24em',
+            }}
+          >
+            Tech<span style={{ color: '#e8c547' }}>pilots</span>
+          </motion.div>
+
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay: 1.0 }}
+            style={{ width: '100%', height: '3px', background: '#e8c547', transformOrigin: 'left' }}
+          />
+
+          <motion.div
+            className="hero-tagline"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay: 1.3 }}
+            style={{
+              fontSize: 'clamp(14px, 1.4vw, 18px)',
+              fontWeight: 500,
+              letterSpacing: '0.02em',
+              color: 'rgba(255,255,255,0.7)',
+            }}
+          >
+            Vi bygger webbplatser som håller.
+          </motion.div>
+
+          <HeroCta />
+        </div>
       </div>
     </section>
   );

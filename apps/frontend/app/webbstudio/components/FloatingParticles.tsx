@@ -8,6 +8,9 @@ function seededRandom(seed: number) {
   return x - Math.floor(x);
 }
 
+const MOBILE_BREAKPOINT = 900;
+const SPRING_CONFIG = { stiffness: 40, damping: 20, mass: 0.6 };
+
 const PARTICLES = Array.from({ length: 100 }, (_, i) => ({
   left: Math.round(seededRandom(i * 12.9898) * 10000) / 100,
   top: Math.round(seededRandom(i * 78.233) * 10000) / 100,
@@ -66,8 +69,17 @@ function Particle({
 export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
-  const mouseX = useSpring(rawX, { stiffness: 40, damping: 20, mass: 0.6 });
-  const mouseY = useSpring(rawY, { stiffness: 40, damping: 20, mass: 0.6 });
+  const mouseX = useSpring(rawX, SPRING_CONFIG);
+  const mouseY = useSpring(rawY, SPRING_CONFIG);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Mobile has no pointer to follow, so particles drift on their own instead.
+  useEffect(() => {
+    const syncIsMobile = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
+    syncIsMobile();
+    window.addEventListener('resize', syncIsMobile);
+    return () => window.removeEventListener('resize', syncIsMobile);
+  }, []);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -80,14 +92,6 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
     el.addEventListener('mousemove', handleMouseMove);
     return () => el.removeEventListener('mousemove', handleMouseMove);
   }, [sectionRef, rawX, rawY]);
-
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    setIsMobile(window.innerWidth <= 900);
-    const onResize = () => setIsMobile(window.innerWidth <= 900);
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, []);
 
   return (
     <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden' }}>

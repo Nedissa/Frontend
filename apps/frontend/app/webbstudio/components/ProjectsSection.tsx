@@ -9,15 +9,19 @@ const PROJECTS = [
   { title: 'Techpilots.se', category: 'Webb & SEO', year: '2024' },
 ];
 
+const MOBILE_BREAKPOINT = 900;
+const STICKY_TOP = 100;
+const CARD_HEIGHT = 480;
+const CARD_GAP = 12;
+
 export function ProjectsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const leftRef = useRef<HTMLDivElement>(null);
-  const rightRef = useRef<HTMLDivElement>(null);
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.innerWidth <= 900) {
+      if (window.innerWidth <= MOBILE_BREAKPOINT) {
         setOffset(0);
         return;
       }
@@ -27,22 +31,16 @@ export function ProjectsSection() {
       if (!section || !left) return;
 
       const sectionRect = section.getBoundingClientRect();
-      const viewportTop = 100;
-      const cardHeight = 480;
-      const cardGap = 12;
-      const numCards = 4;
-      const totalCardsHeight = cardHeight * numCards + cardGap * (numCards - 1);
-      const panelHeight = left.offsetHeight;
-
-      // How far the panel is allowed to move at most: total card height minus half the last card minus the panel height
-      const maxOffset = totalCardsHeight - panelHeight;
-
-      if (sectionRect.top > viewportTop) {
+      if (sectionRect.top > STICKY_TOP) {
         setOffset(0);
-      } else {
-        const move = Math.abs(sectionRect.top - viewportTop);
-        setOffset(Math.min(move, Math.max(maxOffset, 0)));
+        return;
       }
+
+      // Stop the panel once it reaches the bottom of the card column.
+      const totalCardsHeight = CARD_HEIGHT * PROJECTS.length + CARD_GAP * (PROJECTS.length - 1);
+      const maxOffset = Math.max(totalCardsHeight - left.offsetHeight, 0);
+      const scrolledPast = Math.abs(sectionRect.top - STICKY_TOP);
+      setOffset(Math.min(scrolledPast, maxOffset));
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -77,10 +75,10 @@ export function ProjectsSection() {
         </div>
 
         {/* Middle: project cards */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: `${CARD_GAP}px` }}>
           {PROJECTS.map((p) => (
             <div key={p.title} style={{
-              border: '3px solid #030303', height: '480px',
+              border: '3px solid #030303', height: `${CARD_HEIGHT}px`,
               display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
               padding: '28px 32px', cursor: 'pointer', background: '#fff',
               width: '100%', boxSizing: 'border-box',
@@ -97,7 +95,7 @@ export function ProjectsSection() {
         </div>
 
         {/* Right: See all — JS-driven sticky */}
-        <div ref={rightRef} className="projects-right-panel" style={{
+        <div className="projects-right-panel" style={{
           transform: `translateY(${offset}px)`,
           transition: 'transform 0.12s ease-out',
           paddingLeft: '40px',

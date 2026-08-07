@@ -13,7 +13,7 @@ export function StatsSection() {
 
         <FadeIn>
           <div className="hide-mobile" style={{ display: 'flex', flexDirection: 'column', gap: '260px' }}>
-            <div style={{ color: '#030303', fontSize: '20px', fontWeight: 300, letterSpacing: '0.14em' }}>+ +</div>
+            <div style={{ height: '20px' }} />
             <div className="animate-blink" style={{ width: '32px', height: '2px', background: 'rgb(200,200,200)' }} />
           </div>
         </FadeIn>
@@ -59,7 +59,7 @@ export function StatsSection() {
                 <div style={{ fontSize: '22px', fontWeight: 700, color: '#030303', marginBottom: '10px' }}>Techpilots</div>
                 <div style={{ borderTop: '3px solid rgb(210,210,210)', paddingTop: '20px' }}>
                   <p style={{ fontSize: 'clamp(14px,1.2vw,17px)', color: 'rgb(104,105,99)', lineHeight: 1.65, margin: 0 }}>
-                    Vi är drivna av strategi, design och teknologi. Från varumärkesfundament till fullt utvecklade digitala produkter skapar vi arbete som inte bara ser bra ut: det presterar, förenar och består.
+                    Webbyrå, digitalpartner, utvecklingsteam. Oavsett vad vi kallas använder vi vår kompetens inom strategi, design och utveckling för att skapa och vårda digitala lösningar på och omkring webben. Byggda från grunden, med behovsstyrda tekniska val, är resultaten gjorda för att växa i takt med er verksamhet.
                   </p>
                 </div>
               </div>
