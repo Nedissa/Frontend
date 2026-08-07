@@ -17,6 +17,11 @@ export function ProjectsSection() {
 
   useEffect(() => {
     const handleScroll = () => {
+      if (window.innerWidth <= 900) {
+        setOffset(0);
+        return;
+      }
+
       const section = sectionRef.current;
       const left = leftRef.current;
       if (!section || !left) return;
@@ -53,7 +58,7 @@ export function ProjectsSection() {
       <div className="grid-projects" style={{ display: 'grid', gridTemplateColumns: '26vw 44vw 30vw', paddingTop: '80px', alignItems: 'start' }}>
 
         {/* Left panel — JS-driven sticky */}
-        <div ref={leftRef} style={{
+        <div ref={leftRef} className="projects-left-panel" style={{
           transform: `translateY(${offset}px)`,
           transition: 'transform 0.12s ease-out',
           display: 'flex', flexDirection: 'column', alignItems: 'flex-end', paddingRight: '40px',
@@ -92,7 +97,7 @@ export function ProjectsSection() {
         </div>
 
         {/* Right: See all — JS-driven sticky */}
-        <div ref={rightRef} style={{
+        <div ref={rightRef} className="projects-right-panel" style={{
           transform: `translateY(${offset}px)`,
           transition: 'transform 0.12s ease-out',
           paddingLeft: '40px',

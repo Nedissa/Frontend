@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
 
@@ -78,13 +78,15 @@ const AWARDS = [
   { title: 'UTVALD LEVERANTÖR', source: 'Design Inspiration Hub · 2023 Kvalitet framför troféer', desc: 'Lyfts fram som ett team att bevaka för konsekvent kvalitetstänkande.', year: '2021' },
 ];
 
-function AwardRow({ a }: { a: typeof AWARDS[0] }) {
-  const [hovered, setHovered] = useState(false);
+function AwardRow({ a, forceHovered, onRef }: { a: typeof AWARDS[0]; forceHovered?: boolean; onRef?: (el: HTMLDivElement | null) => void }) {
+  const [mouseHovered, setMouseHovered] = useState(false);
+  const hovered = forceHovered ?? mouseHovered;
   return (
     <div
+      ref={onRef}
       className="grid-awards-row"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onMouseEnter={() => setMouseHovered(true)}
+      onMouseLeave={() => setMouseHovered(false)}
       style={{
         position: 'relative',
         display: 'grid',
@@ -105,28 +107,61 @@ function AwardRow({ a }: { a: typeof AWARDS[0] }) {
         transition: 'width 0.5s cubic-bezier(0.76, 0, 0.24, 1)',
         zIndex: 0,
       }} />
-      <span style={{ position: 'relative', zIndex: 1, fontSize: '20px', fontWeight: 500, letterSpacing: '0.04em', color: hovered ? '#e8c547' : '#030303', textTransform: 'uppercase', transition: 'color 0.3s' }}>{a.title}</span>
-      <span style={{ position: 'relative', zIndex: 1, fontSize: '16px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(104,105,99)', lineHeight: 1.5, transition: 'color 0.3s' }}>{a.source}</span>
-      <span style={{ position: 'relative', zIndex: 1, fontSize: '16px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(104,105,99)', lineHeight: 1.5, transition: 'color 0.3s' }}>{a.desc}</span>
+      <span className="award-title" style={{ position: 'relative', zIndex: 1, fontSize: '20px', fontWeight: 500, letterSpacing: '0.04em', color: hovered ? '#e8c547' : '#030303', textTransform: 'uppercase', transition: 'color 0.3s' }}>{a.title}</span>
+      <span className="award-text" style={{ position: 'relative', zIndex: 1, fontSize: '16px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(104,105,99)', lineHeight: 1.5, transition: 'color 0.3s' }}>{a.source}</span>
+      <span className="award-text" style={{ position: 'relative', zIndex: 1, fontSize: '16px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(104,105,99)', lineHeight: 1.5, transition: 'color 0.3s' }}>{a.desc}</span>
       <span style={{ position: 'relative', zIndex: 1, fontSize: '18px', fontWeight: 500, color: hovered ? '#fff' : '#030303', textAlign: 'right', transition: 'color 0.3s' }}>{a.year}</span>
     </div>
   );
 }
 
 export function AwardsSection() {
+  const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.innerWidth > 900) {
+        setActiveIndex(null);
+        return;
+      }
+      const viewportCenter = window.innerHeight / 2;
+      let closestIndex: number | null = null;
+      let closestDistance = Infinity;
+
+      rowRefs.current.forEach((el, i) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+        const rowCenter = rect.top + rect.height / 2;
+        const distance = Math.abs(rowCenter - viewportCenter);
+        if (distance < closestDistance && distance < rect.height / 2) {
+          closestDistance = distance;
+          closestIndex = i;
+        }
+      });
+
+      setActiveIndex(closestIndex);
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <section className="section-padding" style={{ background: '#f5f5f3', padding: '140px 30px', minHeight: '100vh', boxSizing: 'border-box' }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
         <SectionHeader num="02" label="Erbjudanden" extra="© 2026" />
         <FadeIn>
-          <h2 style={{ fontSize: 'clamp(36px,5vw,64px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 0.95, color: '#030303', textTransform: 'uppercase', margin: '0 0 80px' }}>
+          <h2 className="hide-mobile" style={{ fontSize: 'clamp(36px,5vw,64px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 0.95, color: '#030303', textTransform: 'uppercase', margin: '0 0 80px' }}>
             ERBJUDANDEN
           </h2>
         </FadeIn>
         <div style={{ borderBottom: '1px solid rgb(220,220,220)' }}>
           {AWARDS.map((a, i) => (
             <FadeIn key={a.title} delay={i * 0.07}>
-              <AwardRow a={a} />
+              <AwardRow a={a} forceHovered={activeIndex === i} onRef={(el) => { rowRefs.current[i] = el; }} />
             </FadeIn>
           ))}
         </div>

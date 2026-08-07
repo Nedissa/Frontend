@@ -67,6 +67,38 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
     return () => el.removeEventListener('mousemove', handleMouseMove);
   }, [sectionRef, rawX, rawY]);
 
+  // Mobile fallback: map device tilt (gamma/beta) to the same offset the mouse drives on desktop
+  useEffect(() => {
+    if (typeof window === 'undefined' || window.innerWidth > 900) return;
+
+    const handleOrientation = (e: DeviceOrientationEvent) => {
+      if (e.gamma == null || e.beta == null) return;
+      const clampedGamma = Math.max(-30, Math.min(30, e.gamma));
+      const clampedBeta = Math.max(-30, Math.min(30, e.beta - 45));
+      rawX.set((clampedGamma / 30) * 120);
+      rawY.set((clampedBeta / 30) * 120);
+    };
+
+    type DeviceOrientationEventWithPermission = typeof DeviceOrientationEvent & {
+      requestPermission?: () => Promise<'granted' | 'denied'>;
+    };
+    const DOE = DeviceOrientationEvent as DeviceOrientationEventWithPermission;
+
+    if (typeof DOE.requestPermission === 'function') {
+      const grantOnTap = () => {
+        DOE.requestPermission?.().then((state) => {
+          if (state === 'granted') window.addEventListener('deviceorientation', handleOrientation);
+        });
+        window.removeEventListener('touchstart', grantOnTap);
+      };
+      window.addEventListener('touchstart', grantOnTap, { once: true });
+      return () => window.removeEventListener('touchstart', grantOnTap);
+    }
+
+    window.addEventListener('deviceorientation', handleOrientation);
+    return () => window.removeEventListener('deviceorientation', handleOrientation);
+  }, [rawX, rawY]);
+
   return (
     <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden' }}>
       {PARTICLES.map((p, i) => (

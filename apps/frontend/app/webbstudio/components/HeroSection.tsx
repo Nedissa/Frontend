@@ -8,6 +8,7 @@ export function HeroSection() {
   return (
     <section
       ref={sectionRef}
+      className="hero-section"
       style={{
         position: 'relative',
         width: '100%',
@@ -44,6 +45,7 @@ export function HeroSection() {
         <img
           src="/webbstudio/hero.webp"
           alt=""
+          className="hero-image"
           style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '95%', display: 'block', objectFit: 'contain', objectPosition: 'center bottom', mixBlendMode: 'screen' }}
         />
       </motion.div>
@@ -58,6 +60,7 @@ export function HeroSection() {
 
       {/* Text — left, vertically centered */}
       <div
+        className="hero-text-block"
         style={{
           position: 'absolute',
           left: '80px',
@@ -77,7 +80,7 @@ export function HeroSection() {
             gap: '32px',
           }}
         >
-          <div style={{
+          <div className="hero-text" style={{
             fontFamily: '"Geist", system-ui, sans-serif',
             fontSize: 'clamp(56px, 8vw, 120px)',
             fontWeight: 700,

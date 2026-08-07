@@ -66,19 +66,16 @@ const TESTIMONIALS = [
 
 export default function WebbstudioPage() {
   return (
-    <main style={{ background: '#fff', color: '#030303', minHeight: '100vh', fontFamily: 'Inter, system-ui, sans-serif' }}>
+    <main className="main-mobile-order" style={{ background: '#fff', color: '#030303', minHeight: '100vh', fontFamily: 'Inter, system-ui, sans-serif' }}>
       {/* Hero */}
       <HeroSection />
 
-      <StatsSection />
-
-
-      {/* Logo ticker */}
-      <section style={{ borderTop: '1px solid rgb(220,220,220)', borderBottom: '1px solid rgb(220,220,220)', padding: '40px 0', overflow: 'hidden', background: '#fff' }}>
+      {/* Logo ticker — shown here on mobile only (order-1 within a flex column) */}
+      <section className="logo-ticker-mobile-first" style={{ borderTop: '1px solid rgb(220,220,220)', borderBottom: '1px solid rgb(220,220,220)', padding: '40px 0', overflow: 'hidden', background: '#fff' }}>
         <div className="animate-marquee" style={{ display: 'flex', alignItems: 'center', gap: '0', whiteSpace: 'nowrap' }}>
           {LOGOS.map((logo, i) => (
             <span key={i} style={{ display: 'inline-flex', alignItems: 'center' }}>
-              <span style={{
+              <span className="logo-ticker-text" style={{
                 fontSize: '34px',
                 fontWeight: 700,
                 color: '#1a1a1a',
@@ -90,6 +87,8 @@ export default function WebbstudioPage() {
           ))}
         </div>
       </section>
+
+      <StatsSection />
 
       {/* Offers / Awards */}
       <AwardsSection />
@@ -183,7 +182,7 @@ export default function WebbstudioPage() {
 
             {/* Customer image with quote */}
             <FadeIn delay={0.08}>
-              <div style={{
+              <div className="customer-image-card" style={{
                 position: 'relative', borderRadius: '4px', overflow: 'hidden', height: '100%', minHeight: '600px',
                 display: 'flex', alignItems: 'flex-end', boxSizing: 'border-box',
               }}>
@@ -340,8 +339,8 @@ export default function WebbstudioPage() {
               'Fördelning av de projekttyper vi tar oss an.',
               'Timmarna i ett projekt, uppdelade efter arbetsmoment.',
               'Så mycket ingår som standard i varje projekt.',
-            ].map((desc) => (
-              <p key={desc} style={{ borderTop: '1px solid rgb(230,230,230)', paddingTop: '28px', fontSize: '14px', color: 'rgb(104,105,99)', lineHeight: 1.5, margin: 0, textAlign: 'left' }}>{desc}</p>
+            ].map((desc, i) => (
+              <p key={desc} className={i === 1 ? 'hide-mobile' : undefined} style={{ borderTop: '1px solid rgb(230,230,230)', paddingTop: '28px', fontSize: '14px', color: 'rgb(104,105,99)', lineHeight: 1.5, margin: 0, textAlign: 'left' }}>{desc}</p>
             ))}
           </div>
 
