@@ -67,36 +67,20 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
     return () => el.removeEventListener('mousemove', handleMouseMove);
   }, [sectionRef, rawX, rawY]);
 
-  // Mobile fallback: map device tilt (gamma/beta) to the same offset the mouse drives on desktop
+  // Mobile fallback: no mouse available, so drive the same offset with a slow autonomous drift
   useEffect(() => {
     if (typeof window === 'undefined' || window.innerWidth > 900) return;
 
-    const handleOrientation = (e: DeviceOrientationEvent) => {
-      if (e.gamma == null || e.beta == null) return;
-      const clampedGamma = Math.max(-30, Math.min(30, e.gamma));
-      const clampedBeta = Math.max(-30, Math.min(30, e.beta - 45));
-      rawX.set((clampedGamma / 30) * 120);
-      rawY.set((clampedBeta / 30) * 120);
+    let frame: number;
+    const start = performance.now();
+    const animate = (now: number) => {
+      const t = (now - start) / 1000;
+      rawX.set(Math.sin(t * 0.3) * 80);
+      rawY.set(Math.cos(t * 0.22) * 60);
+      frame = requestAnimationFrame(animate);
     };
-
-    type DeviceOrientationEventWithPermission = typeof DeviceOrientationEvent & {
-      requestPermission?: () => Promise<'granted' | 'denied'>;
-    };
-    const DOE = DeviceOrientationEvent as DeviceOrientationEventWithPermission;
-
-    if (typeof DOE.requestPermission === 'function') {
-      const grantOnTap = () => {
-        DOE.requestPermission?.().then((state) => {
-          if (state === 'granted') window.addEventListener('deviceorientation', handleOrientation);
-        });
-        window.removeEventListener('touchstart', grantOnTap);
-      };
-      window.addEventListener('touchstart', grantOnTap, { once: true });
-      return () => window.removeEventListener('touchstart', grantOnTap);
-    }
-
-    window.addEventListener('deviceorientation', handleOrientation);
-    return () => window.removeEventListener('deviceorientation', handleOrientation);
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
   }, [rawX, rawY]);
 
   return (

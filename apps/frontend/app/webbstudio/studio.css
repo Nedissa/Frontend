@@ -165,8 +165,8 @@
   }
 
   .hero-section {
-    height: 70svh !important;
-    min-height: 480px !important;
+    height: 85svh !important;
+    min-height: 0 !important;
   }
 
   .hero-image {
