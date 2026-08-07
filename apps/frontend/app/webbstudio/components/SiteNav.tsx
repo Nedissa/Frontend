@@ -89,7 +89,7 @@ export function SiteNav() {
         <Link href="/webbstudio" className="site-nav-logo" style={LOGO_CIRCLE_STYLE}>
           <img src="/logo.png" alt="" aria-hidden="true" style={LOGO_IMG_STYLE} />
         </Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '40px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '96px' }}>
           {links.map((l) => {
             const isActive = isLinkActive(l.href);
             return (

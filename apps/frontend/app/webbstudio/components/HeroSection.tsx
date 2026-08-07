@@ -47,7 +47,7 @@ export function HeroSection() {
         width: '100%',
         height: '100vh',
         minHeight: '800px',
-        background: 'rgb(12, 13, 18)',
+        background: 'radial-gradient(circle at left center, rgba(255, 210, 60, 0.6) 0%, rgb(12, 13, 18) 65%)',
         overflow: 'hidden',
       }}
     >
@@ -124,6 +124,7 @@ export function HeroSection() {
               color: '#fff',
               whiteSpace: 'nowrap',
               marginBottom: '-0.24em',
+              textShadow: '0 4px 24px rgba(0,0,0,0.5)',
             }}
           >
             Tech<span style={{ color: '#e8c547' }}>pilots</span>
