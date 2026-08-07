@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, type MotionValue } from 'framer-motion';
 
 // Seeded pseudo-random so left/top stay non-repeating but identical on server and client (avoids hydration mismatch)
@@ -22,10 +22,12 @@ function Particle({
   p,
   mouseXOffset,
   mouseYOffset,
+  randomDrift,
 }: {
   p: (typeof PARTICLES)[number];
   mouseXOffset: MotionValue<number>;
   mouseYOffset: MotionValue<number>;
+  randomDrift?: boolean;
 }) {
   const x = useTransform(mouseXOffset, (v) => v * p.pull);
   const y = useTransform(mouseYOffset, (v) => v * p.pull);
@@ -35,9 +37,21 @@ function Particle({
       style={{ position: 'absolute', left: `${p.left}%`, top: `${p.top}%`, x, y, pointerEvents: 'none' }}
     >
       <motion.div
-        initial={{ opacity: p.opacity }}
-        animate={{ opacity: [p.opacity, p.opacity * 0.3, p.opacity] }}
-        transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: 'easeInOut' }}
+        initial={{ opacity: p.opacity, x: 0, y: 0 }}
+        animate={
+          randomDrift
+            ? {
+                opacity: [p.opacity, p.opacity * 0.3, p.opacity],
+                x: [0, (seededRandom(p.left * 3.1) - 0.5) * 60, (seededRandom(p.top * 5.7) - 0.5) * 60, 0],
+                y: [0, (seededRandom(p.top * 2.3) - 0.5) * 60, (seededRandom(p.left * 7.9) - 0.5) * 60, 0],
+              }
+            : { opacity: [p.opacity, p.opacity * 0.3, p.opacity] }
+        }
+        transition={{
+          opacity: { duration: p.duration, delay: p.delay, repeat: Infinity, ease: 'easeInOut' },
+          x: { duration: p.duration * 1.5, delay: p.delay, repeat: Infinity, ease: 'easeInOut' },
+          y: { duration: p.duration * 1.8, delay: p.delay, repeat: Infinity, ease: 'easeInOut' },
+        }}
         style={{
           width: p.size,
           height: p.size,
@@ -67,26 +81,18 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
     return () => el.removeEventListener('mousemove', handleMouseMove);
   }, [sectionRef, rawX, rawY]);
 
-  // Mobile fallback: no mouse available, so drive the same offset with a slow autonomous drift
+  const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
-    if (typeof window === 'undefined' || window.innerWidth > 900) return;
-
-    let frame: number;
-    const start = performance.now();
-    const animate = (now: number) => {
-      const t = (now - start) / 1000;
-      rawX.set(Math.sin(t * 0.3) * 80);
-      rawY.set(Math.cos(t * 0.22) * 60);
-      frame = requestAnimationFrame(animate);
-    };
-    frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
-  }, [rawX, rawY]);
+    setIsMobile(window.innerWidth <= 900);
+    const onResize = () => setIsMobile(window.innerWidth <= 900);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   return (
     <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden' }}>
       {PARTICLES.map((p, i) => (
-        <Particle key={i} p={p} mouseXOffset={mouseX} mouseYOffset={mouseY} />
+        <Particle key={i} p={p} mouseXOffset={mouseX} mouseYOffset={mouseY} randomDrift={isMobile} />
       ))}
     </div>
   );
