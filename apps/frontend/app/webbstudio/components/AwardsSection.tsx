@@ -73,15 +73,16 @@ function PillButton() {
 }
 
 const AWARDS = [
-  { title: 'BÄSTA UI/UX DESIGN', source: 'Utmärkt Digital Designexcellens · 2024 SaaS', desc: 'Uppmärksammad för att skapa en ren, intuitiv användarupplevelse som förbättrade resultaten.', year: '2024' },
-  { title: 'MÅNADENS WEBBPLATS', source: 'Web Creators Collective · 2024 Webbdesign', desc: 'Tilldelad för visuell kvalitet, prestanda och berättande i en modern webbplats.', year: '2023' },
-  { title: 'BÄSTA VARUMÄRKESIDENTITET', source: 'Creative Industry Network · 2023 Varumärkesdesign', desc: 'Erkänd för ett sammanhängande och skalbart varumärkesidentitetssystem.', year: '2022' },
-  { title: 'UTVALD LEVERANTÖR', source: 'Design Inspiration Hub · 2023 Kvalitet framför troféer', desc: 'Lyfts fram som ett team att bevaka för konsekvent kvalitetstänkande.', year: '2021' },
+  { title: 'DESIGN & VARUMÄRKE', source: 'Visuell identitet och UX · Skräddarsytt för er verksamhet', desc: 'Vi tar fram design och varumärkesidentitet som håller ihop, från första skiss till färdig produkt. Genomtänkt användarupplevelse, inte bara fina bilder.', year: '' },
+  { title: 'WEBBUTVECKLING', source: 'Next.js och React · Byggt från grunden, inte mallverktyg', desc: 'Vi bygger snabba, skalbara digitala lösningar med modern kod. Från arkitektur till lansering levererar vi något som håller och växer med er verksamhet.', year: '' },
+  { title: 'E-HANDEL', source: 'Medusa, Shopify, Stripe och Klarna · Rätt plattform för varje projekt', desc: 'Vi bygger e-handelslösningar med Medusa eller Shopify som motor, kopplat mot rätt betallösningar. Full kontroll över köpupplevelsen, anpassad efter era behov.', year: '' },
+  { title: 'SÖKOPTIMERING', source: 'Teknisk SEO · Från struktur till mätbara resultat', desc: 'Vi bygger med sökmotorer i åtanke redan från start, med snabb laddning, ren kod och rätt struktur. Vi hjälper er synas, oavsett om målet är lokalt eller nationellt.', year: '' },
+  { title: 'SPÅRNING & ANALYS', source: 'Google Analytics och Tag Manager · Data ni faktiskt kan använda', desc: 'Vi kopplar upp rätt analysverktyg så ni ser hur besökare faktiskt använder er produkt. Ingen gissning, bara underlag för att fatta bättre beslut.', year: '' },
 ];
 
 function AwardRow({ a, forceHovered, onRef }: { a: typeof AWARDS[0]; forceHovered?: boolean; onRef?: (el: HTMLDivElement | null) => void }) {
   const [mouseHovered, setMouseHovered] = useState(false);
-  const hovered = forceHovered ?? mouseHovered;
+  const hovered = forceHovered || mouseHovered;
   return (
     <div
       ref={onRef}
@@ -108,6 +109,15 @@ function AwardRow({ a, forceHovered, onRef }: { a: typeof AWARDS[0]; forceHovere
         transition: 'width 0.5s cubic-bezier(0.76, 0, 0.24, 1)',
         zIndex: 0,
       }} />
+      <span style={{
+        position: 'absolute', bottom: '8px', right: '8px', zIndex: 2,
+        width: 0, height: 0,
+        borderStyle: 'solid',
+        borderWidth: '0 0 18px 18px',
+        borderColor: `transparent transparent ${'#e8c547'} transparent`,
+        opacity: hovered ? 1 : 0,
+        transition: 'opacity 0.3s ease',
+      }} />
       <span className="award-title" style={{ position: 'relative', zIndex: 1, fontSize: '20px', fontWeight: 500, letterSpacing: '0.04em', color: hovered ? '#e8c547' : '#030303', textTransform: 'uppercase', transition: 'color 0.3s' }}>{a.title}</span>
       <span className="award-text" style={{ position: 'relative', zIndex: 1, fontSize: '16px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(104,105,99)', lineHeight: 1.5, transition: 'color 0.3s' }}>{a.source}</span>
       <span className="award-text" style={{ position: 'relative', zIndex: 1, fontSize: '16px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(104,105,99)', lineHeight: 1.5, transition: 'color 0.3s' }}>{a.desc}</span>
@@ -122,10 +132,10 @@ export function AwardsSection() {
   return (
     <section className="section-padding" style={{ background: '#f5f5f3', padding: '140px 30px', minHeight: '100vh', boxSizing: 'border-box' }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
-        <SectionHeader num="02" label="Erbjudanden" extra="© 2026" />
+        <SectionHeader num="02" label="Expertis" extra="© 2026" />
         <FadeIn>
           <h2 className="hide-mobile" style={{ fontSize: 'clamp(36px,5vw,64px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 0.95, color: '#030303', textTransform: 'uppercase', margin: '0 0 80px' }}>
-            ERBJUDANDEN
+            BRED <span style={{ color: 'rgb(104,105,99)' }}>EXPERTIS.</span>
           </h2>
         </FadeIn>
         <div style={{ borderBottom: '1px solid rgb(220,220,220)' }}>

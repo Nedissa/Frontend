@@ -24,6 +24,19 @@
   color: #e8c547 !important;
 }
 
+.hero-mobile-only {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .hero-desktop-only {
+    display: none !important;
+  }
+  .hero-mobile-only {
+    display: block !important;
+  }
+}
+
 @media (min-width: 901px) {
   .nav-logo-mobile {
     display: none !important;
@@ -114,12 +127,12 @@
     order: 1 !important;
   }
 
-  .main-mobile-order > *:not(.logo-ticker-mobile-first) {
+  .main-mobile-order > *:not(.logo-ticker-mobile-first):not(.hero-order-first) {
     order: 2;
   }
 
-  .main-mobile-order > *:first-child {
-    order: 0;
+  .hero-order-first {
+    order: 0 !important;
   }
 
   .nav-links-desktop,
@@ -176,25 +189,14 @@
   }
 
   .hero-image {
-    height: 100% !important;
-    object-fit: contain !important;
-    object-position: center bottom !important;
+    transform: scale(1.05) !important;
+    transform-origin: bottom center !important;
   }
 
   .hero-text-block {
-    left: 50% !important;
-    top: 100px !important;
+    top: 90px !important;
     bottom: auto !important;
-    transform: translateX(-50%) !important;
-    text-align: center !important;
-  }
-
-  .hero-text-block > div {
-    align-items: center !important;
-  }
-
-  .hero-text {
-    font-size: clamp(40px, 12vw, 56px) !important;
+    transform: none !important;
   }
 
   .logo-ticker-text {

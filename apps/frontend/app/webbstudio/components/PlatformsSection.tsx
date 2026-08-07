@@ -1,37 +1,43 @@
 'use client';
 import { useState } from 'react';
+import type { IconType } from 'react-icons';
+import {
+  SiPayloadcms, SiSanity, SiContentful, SiMedusa, SiShopify, SiStripe, SiKlarna,
+  SiHetzner, SiDigitalocean, SiSupabase, SiBrevo, SiNextdotjs, SiReact, SiTypescript,
+  SiVercel, SiGoogleanalytics, SiGoogletagmanager, SiFramer, SiWebflow, SiWordpress,
+} from 'react-icons/si';
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
 
 const CATEGORIES = ['Utvalda', 'Frontend', 'CMS', 'E-handel', 'Backend & VPS', 'Webbplattformar', 'Marknadsföring', 'GDPR'] as const;
 
 type Category = (typeof CATEGORIES)[number];
-type Tool = { name: string; category: Exclude<Category, 'Utvalda'>; featured?: boolean; mono: string; desc: string };
+type Tool = { name: string; category: Exclude<Category, 'Utvalda'>; featured?: boolean; icon: IconType | null; mono: string; desc: string };
 
 const TOOLS: Tool[] = [
-  { name: 'Payload', category: 'CMS', featured: true, mono: 'P', desc: 'Innehållshantering' },
-  { name: 'Sanity', category: 'CMS', mono: 'SA', desc: 'Headless CMS' },
-  { name: 'Contentful', category: 'CMS', mono: 'CF', desc: 'Headless CMS' },
-  { name: 'Medusa', category: 'E-handel', featured: true, mono: 'M', desc: 'E-handelsplattform' },
-  { name: 'Shopify', category: 'E-handel', featured: true, mono: 'SH', desc: 'E-handelsplattform' },
-  { name: 'Stripe', category: 'E-handel', featured: true, mono: 'ST', desc: 'Betallösning' },
-  { name: 'Klarna', category: 'E-handel', mono: 'K', desc: 'Betallösning' },
-  { name: 'Hetzner', category: 'Backend & VPS', featured: true, mono: 'H', desc: 'Serverdrift' },
-  { name: 'Inleed', category: 'Backend & VPS', featured: true, mono: 'I', desc: 'Serverdrift' },
-  { name: 'DigitalOcean', category: 'Backend & VPS', mono: 'DO', desc: 'Serverdrift' },
-  { name: 'Supabase', category: 'Backend & VPS', featured: true, mono: 'SB', desc: 'Databas & backend' },
-  { name: 'Brevo', category: 'Marknadsföring', featured: true, mono: 'B', desc: 'E-postutskick' },
-  { name: 'Next.js', category: 'Frontend', featured: true, mono: 'N', desc: 'Ramverk' },
-  { name: 'React', category: 'Frontend', featured: true, mono: 'R', desc: 'Ramverk' },
-  { name: 'TypeScript', category: 'Frontend', mono: 'TS', desc: 'Programspråk' },
-  { name: 'Vercel', category: 'Frontend', featured: true, mono: 'V', desc: 'Driftsättning' },
-  { name: 'Google Analytics', category: 'Marknadsföring', featured: true, mono: 'GA', desc: 'Webbanalys' },
-  { name: 'Google Tag Manager', category: 'Marknadsföring', mono: 'GT', desc: 'Taggning & spårning' },
-  { name: 'Cookiebot', category: 'GDPR', featured: true, mono: 'C', desc: 'Cookiesamtycke' },
-  { name: 'Framer', category: 'Webbplattformar', featured: true, mono: 'F', desc: 'No-code-byggare' },
-  { name: 'Webflow', category: 'Webbplattformar', featured: true, mono: 'W', desc: 'No-code-byggare' },
-  { name: 'WordPress', category: 'Webbplattformar', mono: 'WP', desc: 'För kundens räkning' },
-  { name: 'Shopify (Headless)', category: 'Webbplattformar', featured: true, mono: 'SH', desc: 'Headless e-handel' },
+  { name: 'Payload', category: 'CMS', featured: true, icon: SiPayloadcms, mono: 'P', desc: 'Innehållshantering' },
+  { name: 'Sanity', category: 'CMS', icon: SiSanity, mono: 'SA', desc: 'Headless CMS' },
+  { name: 'Contentful', category: 'CMS', icon: SiContentful, mono: 'CF', desc: 'Headless CMS' },
+  { name: 'Medusa', category: 'E-handel', featured: true, icon: SiMedusa, mono: 'M', desc: 'E-handelsplattform' },
+  { name: 'Shopify', category: 'E-handel', featured: true, icon: SiShopify, mono: 'SH', desc: 'E-handelsplattform' },
+  { name: 'Stripe', category: 'E-handel', featured: true, icon: SiStripe, mono: 'ST', desc: 'Betallösning' },
+  { name: 'Klarna', category: 'E-handel', icon: SiKlarna, mono: 'K', desc: 'Betallösning' },
+  { name: 'Hetzner', category: 'Backend & VPS', featured: true, icon: SiHetzner, mono: 'H', desc: 'Serverdrift' },
+  { name: 'Inleed', category: 'Backend & VPS', featured: true, icon: null, mono: 'I', desc: 'Serverdrift' },
+  { name: 'DigitalOcean', category: 'Backend & VPS', icon: SiDigitalocean, mono: 'DO', desc: 'Serverdrift' },
+  { name: 'Supabase', category: 'Backend & VPS', featured: true, icon: SiSupabase, mono: 'SB', desc: 'Databas & backend' },
+  { name: 'Brevo', category: 'Marknadsföring', featured: true, icon: SiBrevo, mono: 'B', desc: 'E-postutskick' },
+  { name: 'Next.js', category: 'Frontend', featured: true, icon: SiNextdotjs, mono: 'N', desc: 'Ramverk' },
+  { name: 'React', category: 'Frontend', featured: true, icon: SiReact, mono: 'R', desc: 'Ramverk' },
+  { name: 'TypeScript', category: 'Frontend', icon: SiTypescript, mono: 'TS', desc: 'Programspråk' },
+  { name: 'Vercel', category: 'Frontend', featured: true, icon: SiVercel, mono: 'V', desc: 'Driftsättning' },
+  { name: 'Google Analytics', category: 'Marknadsföring', featured: true, icon: SiGoogleanalytics, mono: 'GA', desc: 'Webbanalys' },
+  { name: 'Google Tag Manager', category: 'Marknadsföring', icon: SiGoogletagmanager, mono: 'GT', desc: 'Taggning & spårning' },
+  { name: 'Cookiebot', category: 'GDPR', featured: true, icon: null, mono: 'C', desc: 'Cookiesamtycke' },
+  { name: 'Framer', category: 'Webbplattformar', featured: true, icon: SiFramer, mono: 'F', desc: 'No-code-byggare' },
+  { name: 'Webflow', category: 'Webbplattformar', featured: true, icon: SiWebflow, mono: 'W', desc: 'No-code-byggare' },
+  { name: 'WordPress', category: 'Webbplattformar', icon: SiWordpress, mono: 'WP', desc: 'För kundens räkning' },
+  { name: 'Shopify (Headless)', category: 'Webbplattformar', featured: true, icon: SiShopify, mono: 'SH', desc: 'Headless e-handel' },
 ];
 
 export function PlatformsSection() {
@@ -108,7 +114,7 @@ export function PlatformsSection() {
                     letterSpacing: '-0.02em',
                   }}
                 >
-                  {tool.mono}
+                  {tool.icon ? <tool.icon size={22} color="#e8c547" /> : tool.mono}
                 </div>
                 <div>
                   <div style={{ fontSize: '20px', fontWeight: 700, color: '#030303', letterSpacing: '-0.01em' }}>{tool.name}</div>

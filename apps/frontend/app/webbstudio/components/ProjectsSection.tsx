@@ -1,13 +1,8 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { SectionHeader } from './SectionHeader';
-
-const PROJECTS = [
-  { title: 'Sagateatern', category: 'Webb & Varumärke', year: '2025' },
-  { title: 'Pistolero Studio', category: 'Design & UX', year: '2025' },
-  { title: 'Nordisk Handel', category: 'E-handel', year: '2024' },
-  { title: 'Techpilots.se', category: 'Webb & SEO', year: '2024' },
-];
+import { PROJECTS } from '../projekt-data';
 
 const MOBILE_BREAKPOINT = 900;
 const STICKY_TOP = 100;
@@ -77,11 +72,11 @@ export function ProjectsSection() {
         {/* Middle: project cards */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: `${CARD_GAP}px` }}>
           {PROJECTS.map((p) => (
-            <div key={p.title} style={{
+            <Link key={p.slug} href={`/webbstudio/projekt/${p.slug}`} style={{
               border: '3px solid #030303', height: `${CARD_HEIGHT}px`,
               display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
               padding: '28px 32px', cursor: 'pointer', background: '#fff',
-              width: '100%', boxSizing: 'border-box',
+              width: '100%', boxSizing: 'border-box', textDecoration: 'none',
             }}>
               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span style={{ fontSize: '12px', letterSpacing: '0.08em', color: 'rgb(104,105,99)', textTransform: 'uppercase' }}>{p.category}</span>
@@ -90,7 +85,7 @@ export function ProjectsSection() {
               <div style={{ fontSize: '26px', fontWeight: 600, letterSpacing: '-0.03em', color: '#030303' }}>
                 {p.title}
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 

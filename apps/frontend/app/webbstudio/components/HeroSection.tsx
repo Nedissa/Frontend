@@ -41,7 +41,7 @@ export function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="hero-section"
+      className="hero-section hero-order-first"
       style={{
         position: 'relative',
         width: '100%',

@@ -22,30 +22,13 @@ export default function KontaktPage() {
   const wedgeY = useSpring(wedgeYRaw, { stiffness: 200, damping: 40, mass: 0.6 });
 
   return (
-    <main style={{ position: 'relative', color: '#fff', fontFamily: 'Inter, system-ui, sans-serif' }}>
+    <main style={{ position: 'relative', color: '#fff', fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <div className="contact-hero" style={{ position: 'relative', height: '100vh', boxSizing: 'border-box', background: 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)', overflow: 'hidden' }}>
       <div className="grid-responsive-2" style={{ position: 'relative', maxWidth: '1320px', margin: '0 auto', padding: '140px 32px 60px', height: '100%', boxSizing: 'border-box', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'stretch' }}>
         <div style={{
           width: '100%', height: '100%', borderRadius: '4px',
           background: 'radial-gradient(circle at 30% 20%, #1a1a1a 0%, #0a0a0a 55%, #030303 100%)',
-          display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
-          padding: '48px', boxSizing: 'border-box',
-        }}>
-          <div style={{ fontSize: '13px', fontWeight: 600, color: '#e8c547', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '24px' }}>
-            Direktkontakt
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <a href="tel:+0108800981" style={{ color: '#fff', fontSize: '17px', fontWeight: 500, textDecoration: 'none' }}>
-              +010-880 09 81
-            </a>
-            <a href="mailto:info@techpilots.se" style={{ color: '#fff', fontSize: '17px', fontWeight: 500, textDecoration: 'none' }}>
-              info@techpilots.se
-            </a>
-            <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '15px' }}>
-              506 31 Borås
-            </span>
-          </div>
-        </div>
+        }} />
 
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', boxSizing: 'border-box' }}>
           <h1 style={{ fontSize: 'clamp(36px,4.5vw,56px)', fontWeight: 800, letterSpacing: '-0.03em', color: '#fff', margin: '0 0 24px' }}>

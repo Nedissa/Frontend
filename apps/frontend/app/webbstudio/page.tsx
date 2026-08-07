@@ -66,7 +66,7 @@ const TESTIMONIALS = [
 
 export default function WebbstudioPage() {
   return (
-    <main className="main-mobile-order" style={{ background: '#fff', color: '#030303', minHeight: '100vh', fontFamily: 'Inter, system-ui, sans-serif' }}>
+    <main className="main-mobile-order" style={{ background: '#fff', color: '#030303', minHeight: '100vh', fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       {/* Hero */}
       <HeroSection />
 
@@ -107,18 +107,27 @@ export default function WebbstudioPage() {
           <div className="grid-responsive-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '16px', alignItems: 'start' }}>
             {PRICES.map((p, i) => (
               <FadeIn key={p.name} delay={i * 0.08}>
-                <div style={{ background: p.dark ? 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)' : '#f5f5f5', borderRadius: '4px', padding: p.dark ? '48px 40px 24px' : '40px 32px 24px', display: 'flex', flexDirection: 'column', gap: '32px', boxSizing: 'border-box' }}>
+                <div style={{
+                  background: p.dark ? 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)' : 'linear-gradient(160deg, #f7f7f6 0%, #efeeec 140%)',
+                  borderTop: '2px solid #e8c547',
+                  borderRadius: '4px',
+                  padding: p.dark ? '48px 40px 24px' : '38px 32px 24px',
+                  display: 'flex', flexDirection: 'column', gap: '32px', boxSizing: 'border-box',
+                }}>
                   <div>
                     <h3 style={{ fontSize: '22px', fontWeight: 600, color: p.dark ? '#fff' : '#030303', margin: '0 0 16px' }}>{p.name}</h3>
                     <p style={{ fontSize: '14px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)', lineHeight: 1.5, margin: 0 }}>{p.desc}</p>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
-                    <span style={{ fontSize: '16px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}>kr</span>
-                    <span style={{ fontSize: 'clamp(32px,4vw,56px)', fontWeight: 700, letterSpacing: '-0.03em', color: p.dark ? '#fff' : '#030303', lineHeight: 1 }}>
-                      {p.price}
-                    </span>
-                    <span style={{ fontSize: '15px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}>{p.suffix}</span>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
+                      <span style={{ fontSize: '16px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}>kr</span>
+                      <span style={{ fontSize: 'clamp(32px,4vw,56px)', fontWeight: 700, letterSpacing: '-0.03em', color: p.dark ? '#fff' : '#030303', lineHeight: 1 }}>
+                        {p.price}
+                      </span>
+                      <span style={{ fontSize: '15px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}>{p.suffix}</span>
+                    </div>
+                    <div style={{ fontSize: '13px', color: p.dark ? 'rgba(255,255,255,0.4)' : 'rgb(140,140,134)', marginTop: '4px' }}>Exkl. moms</div>
                   </div>
 
                   <Link
@@ -143,7 +152,7 @@ export default function WebbstudioPage() {
                     <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       {p.features.map(f => (
                         <li key={f} style={{ fontSize: '14px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)', display: 'flex', gap: '8px', alignItems: 'flex-start', fontWeight: 500 }}>
-                          <span style={{ color: '#e8c547', marginTop: '1px' }}>+</span> {f}
+                          <span style={{ color: p.dark ? '#e8c547' : '#030303', marginTop: '1px' }}>+</span> {f}
                         </li>
                       ))}
                     </ul>
@@ -162,7 +171,7 @@ export default function WebbstudioPage() {
 
           <FadeIn>
             <h2 style={{ fontSize: 'clamp(36px,5vw,64px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 0.95, color: '#030303', textTransform: 'uppercase', margin: '0 0 24px' }}>
-              Kunder<br />Partners
+              Kunder<br /><span style={{ color: 'rgb(104,105,99)' }}>Partners</span>
             </h2>
           </FadeIn>
 
