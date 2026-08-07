@@ -47,10 +47,24 @@ export function HeroSection() {
         width: '100%',
         height: '100vh',
         minHeight: '800px',
-        background: 'radial-gradient(circle at left center, rgba(255, 210, 60, 0.6) 0%, rgb(12, 13, 18) 65%)',
+        background: 'rgb(12, 13, 18)',
         overflow: 'hidden',
       }}
     >
+      {/* Glow — fades in on load */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 }}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: 'radial-gradient(circle at left center, rgba(255, 210, 60, 0.6) 0%, rgb(12, 13, 18) 65%)',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      />
+
       <FloatingParticles sectionRef={sectionRef} />
 
       {/* Loader bar */}
@@ -63,7 +77,7 @@ export function HeroSection() {
 
       {/* Hero image — 55% from left, full height */}
       <motion.div
-        initial={{ opacity: 0.2, scale: 1.15 }}
+        initial={{ opacity: 0.2, scale: 1.05 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 }}
         style={{
