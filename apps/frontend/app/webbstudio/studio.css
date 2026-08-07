@@ -177,8 +177,8 @@
 
   .hero-text-block {
     left: 24px !important;
-    top: auto !important;
-    bottom: 40px !important;
+    top: 100px !important;
+    bottom: auto !important;
     transform: none !important;
   }
 
