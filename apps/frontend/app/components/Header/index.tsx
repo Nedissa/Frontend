@@ -8,7 +8,7 @@ import { MobileHeader } from './MobileHeader';
 import { MobileMenu } from './MobileMenu';
 import { DesktopHeader } from './DesktopHeader';
 import { MegaMenu } from './MegaMenu';
-import { ERBJUDANDEN_DATA, MENU_DATA, SearchProduct } from './menuData';
+import { OFFERS_DATA, MENU_DATA, SearchProduct } from './menuData';
 
 // Header: äger allt delat state (cart, sök, mobilmeny, scroll) och
 // sätter ihop mobil/desktop-underkomponenterna. Se menuData.tsx för innehåll.
@@ -371,7 +371,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
           onClose={closeMobileMenu}
           onOpenCategory={openMobileCategory}
           onBackToLevel0={backToMobileLevel0}
-          onToggleErbjudanden={() => setActiveMobileCategory(activeMobileCategory === 'erbjudanden' ? null : 'erbjudanden')}
+          onToggleOffers={() => setActiveMobileCategory(activeMobileCategory === 'erbjudanden' ? null : 'erbjudanden')}
           onToggleSubCategory={toggleMobileSubCategory}
         />,
         document.body
@@ -381,7 +381,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
         showMegaMenu={showMegaMenu}
         activeMegaMenu={activeMegaMenu}
         onMouseEnterCategory={(categoryId) => { setShowMegaMenu(true); setActiveMegaMenu(categoryId); }}
-        onMouseEnterErbjudanden={() => { setShowMegaMenu(true); setActiveMegaMenu('erbjudanden'); }}
+        onMouseEnterOffers={() => { setShowMegaMenu(true); setActiveMegaMenu('erbjudanden'); }}
         onMouseLeave={() => { setShowMegaMenu(false); setActiveMegaMenu(null); }}
         isPathActive={isPathActive}
       />

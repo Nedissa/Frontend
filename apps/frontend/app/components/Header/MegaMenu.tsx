@@ -1,18 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import { MENU_DATA, SECTION_IMAGES, ERBJUDANDEN_CAMPAIGNS } from './menuData';
+import { MENU_DATA, SECTION_IMAGES, OFFERS_CAMPAIGNS } from './menuData';
 
 interface MegaMenuProps {
   showMegaMenu: boolean;
   activeMegaMenu: string | null;
   onMouseEnterCategory: (categoryId: string) => void;
-  onMouseEnterErbjudanden: () => void;
+  onMouseEnterOffers: () => void;
   onMouseLeave: () => void;
   isPathActive: (url: string) => boolean;
 }
 
-const ERBJUDANDEN_LINKS = [
+const OFFERS_LINKS = [
   { label: 'Veckans deals', url: '/erbjudanden/veckans-deals' },
   { label: 'Rea', url: '/erbjudanden/rea' },
   { label: 'Paketpris', url: '/erbjudanden/paketpris' },
@@ -24,7 +24,7 @@ export function MegaMenu({
   showMegaMenu,
   activeMegaMenu,
   onMouseEnterCategory,
-  onMouseEnterErbjudanden,
+  onMouseEnterOffers,
   onMouseLeave,
   isPathActive,
 }: MegaMenuProps) {
@@ -56,7 +56,7 @@ export function MegaMenu({
             })}
             <div className="flex-1" />
             <button
-              onMouseEnter={onMouseEnterErbjudanden}
+              onMouseEnter={onMouseEnterOffers}
               className="px-6 py-2 text-sm font-semibold text-black whitespace-nowrap relative group inline-flex items-center"
             >
               Erbjudanden
@@ -75,7 +75,7 @@ export function MegaMenu({
                 <div className="flex flex-col justify-between" style={{ minWidth: '180px' }}>
                   <div>
                     <ul className="space-y-3">
-                      {ERBJUDANDEN_LINKS.map((item) => (
+                      {OFFERS_LINKS.map((item) => (
                         <li key={item.label}>
                           <Link href={item.url} className="text-sm font-medium text-gray-700 hover:text-black transition-colors relative group inline-flex">
                             {item.label}
@@ -94,7 +94,7 @@ export function MegaMenu({
                 <div className="flex-1">
                   <p className="text-xs text-gray-400 uppercase tracking-widest mb-4">Erbjudanden</p>
                   <div className="flex gap-3">
-                    {ERBJUDANDEN_CAMPAIGNS.map((b) => (
+                    {OFFERS_CAMPAIGNS.map((b) => (
                       <Link key={b.id} href={b.url} className="group relative overflow-hidden rounded flex-1 flex items-end p-3 hover:opacity-90 transition-opacity" style={{ aspectRatio: '1/1', backgroundColor: '#111' }}>
                         <img src={b.image} alt={b.title} className="absolute inset-0 w-full h-full object-cover" />
                         <div className="relative z-10" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)', position: 'absolute', inset: 0, display: 'flex', alignItems: 'flex-end', padding: '12px' }}>

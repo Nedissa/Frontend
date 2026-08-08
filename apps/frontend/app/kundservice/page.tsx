@@ -158,7 +158,7 @@ const SUBTITLES: Record<string, string> = {
   tillganglighet: 'Hur vi arbetar med digital tillgänglighet enligt WCAG.',
 };
 
-export default function KundservicePage() {
+export default function CustomerServicePage() {
   const [active, setActive] = useState('kontakt');
   const [animKey, setAnimKey] = useState(0);
   const [name, setName] = useState('');

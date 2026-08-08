@@ -6,7 +6,7 @@ import { MainLayout } from '@/app/components/layout/MainLayout';
 import { ProductCard } from '@/app/components/product/ProductCard';
 import { fetchProductsFromMedusa } from '@/app/lib/medusa-client';
 
-const ERBJUDANDEN: Record<string, { title: string; description: string; filter: (p: any) => boolean }> = {
+const OFFERS: Record<string, { title: string; description: string; filter: (p: any) => boolean }> = {
   'veckans-deals': {
     title: 'Veckans deals',
     description: 'Upp till 40% rabatt på utvalda produkter den här veckan.',
@@ -29,24 +29,24 @@ const ERBJUDANDEN: Record<string, { title: string; description: string; filter: 
   },
 };
 
-export default function ErbjudandenPage() {
+export default function OffersPage() {
   const params = useParams();
   const slug = params?.slug as string;
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const erbjudande = ERBJUDANDEN[slug];
+  const offer = OFFERS[slug];
 
   useEffect(() => {
-    if (!erbjudande) return;
+    if (!offer) return;
     fetchProductsFromMedusa()
       .then(all => {
-        setProducts(all.filter(erbjudande.filter));
+        setProducts(all.filter(offer.filter));
       })
       .finally(() => setLoading(false));
   }, [slug]);
 
-  if (!erbjudande) {
+  if (!offer) {
     return (
       <MainLayout>
         <div className="py-12 text-center">
@@ -59,8 +59,8 @@ export default function ErbjudandenPage() {
   return (
     <MainLayout>
       <div className="w-full max-w-7xl mx-auto px-6 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">{erbjudande.title}</h1>
-        <p className="text-gray-500 mb-8">{erbjudande.description}</p>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">{offer.title}</h1>
+        <p className="text-gray-500 mb-8">{offer.description}</p>
 
         {loading ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

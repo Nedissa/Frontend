@@ -14,7 +14,7 @@ const inputStyle: React.CSSProperties = {
   outline: 'none',
 };
 
-export default function KontaktPage() {
+export default function ContactPage() {
   const [submitting, setSubmitting] = useState(false);
   const wedgeRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: wedgeRef, offset: ['start end', 'end start'] });

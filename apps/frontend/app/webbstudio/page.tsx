@@ -64,7 +64,7 @@ const TESTIMONIALS = [
   },
 ];
 
-export default function WebbstudioPage() {
+export default function WebStudioPage() {
   return (
     <main
       className="main-mobile-order bg-white text-[#030303] min-h-screen"

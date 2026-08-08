@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function WebbstudioLayout({ children }: { children: React.ReactNode }) {
+export default function WebStudioLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />

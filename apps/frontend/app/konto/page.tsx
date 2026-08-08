@@ -5,7 +5,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { MainLayout } from '../components/layout/MainLayout';
 import { ProductCard, type ProductData } from '@/app/components/product/ProductCard';
-import { useKontoData } from './konto-context';
+import { useAccountData } from './account-context';
 
 const orderStatusColors: Record<string, { bg: string; text: string; label: string }> = {
   pending: { bg: 'bg-yellow-50', text: 'text-yellow-700', label: 'Bearbetas' },
@@ -31,14 +31,14 @@ function getOrderTrackingNumber(order: any): string | null {
 
 export default function AccountPage() {
   const router = useRouter();
-  const kontoData = useKontoData();
+  const accountData = useAccountData();
 
-  const firstAddress = kontoData?.addresses?.[0];
+  const firstAddress = accountData?.addresses?.[0];
 
-  const [firstName, setFirstName] = useState(kontoData?.profile?.firstName || '');
-  const [lastName, setLastName] = useState(kontoData?.profile?.lastName || '');
-  const [registerEmail, setRegisterEmail] = useState(kontoData?.profile?.email || '');
-  const [phone, setPhone] = useState(kontoData?.profile?.phone || '');
+  const [firstName, setFirstName] = useState(accountData?.profile?.firstName || '');
+  const [lastName, setLastName] = useState(accountData?.profile?.lastName || '');
+  const [registerEmail, setRegisterEmail] = useState(accountData?.profile?.email || '');
+  const [phone, setPhone] = useState(accountData?.profile?.phone || '');
   const [address, setAddress] = useState(firstAddress?.address_1 || '');
   const [postalCode, setPostalCode] = useState(firstAddress?.postal_code || '');
   const [city, setCity] = useState(firstAddress?.city || '');
@@ -46,23 +46,23 @@ export default function AccountPage() {
   const [activeTab, setActiveTab] = useState('');
   const [isHydrated, setIsHydrated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [editFirstName, setEditFirstName] = useState(kontoData?.profile?.firstName || '');
-  const [editLastName, setEditLastName] = useState(kontoData?.profile?.lastName || '');
-  const [editEmail, setEditEmail] = useState(kontoData?.profile?.email || '');
-  const [editPhone, setEditPhone] = useState(kontoData?.profile?.phone || '');
+  const [editFirstName, setEditFirstName] = useState(accountData?.profile?.firstName || '');
+  const [editLastName, setEditLastName] = useState(accountData?.profile?.lastName || '');
+  const [editEmail, setEditEmail] = useState(accountData?.profile?.email || '');
+  const [editPhone, setEditPhone] = useState(accountData?.profile?.phone || '');
   const [editAddress, setEditAddress] = useState(firstAddress?.address_1 || '');
   const [editPostalCode, setEditPostalCode] = useState(firstAddress?.postal_code || '');
   const [editCity, setEditCity] = useState(firstAddress?.city || '');
   const [editAddressPhone, setEditAddressPhone] = useState(firstAddress?.phone || '');
   const [currentAddressId, setCurrentAddressId] = useState<string | null>(firstAddress?.id || null);
-  const [addresses, setAddresses] = useState<any[]>(kontoData?.addresses || []);
+  const [addresses, setAddresses] = useState<any[]>(accountData?.addresses || []);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [editingAddressId, setEditingAddressId] = useState<string | null>(null);
-  const [favoriteProducts, setFavoriteProducts] = useState<ProductData[]>(kontoData?.favoriteProducts || []);
-  const [complaints, setComplaints] = useState<any[]>(kontoData?.complaints || []);
+  const [favoriteProducts, setFavoriteProducts] = useState<ProductData[]>(accountData?.favoriteProducts || []);
+  const [complaints, setComplaints] = useState<any[]>(accountData?.complaints || []);
   const [loadingComplaints, setLoadingComplaints] = useState(false);
-  const [loyalty, setLoyalty] = useState<any>(kontoData?.loyalty || null);
-  const [orders, setOrders] = useState<any[]>(kontoData?.orders || []);
+  const [loyalty, setLoyalty] = useState<any>(accountData?.loyalty || null);
+  const [orders, setOrders] = useState<any[]>(accountData?.orders || []);
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   const [orderSearch, setOrderSearch] = useState('');
   const [loadingComplaintsError, setLoadingComplaintsError] = useState('');
@@ -132,7 +132,7 @@ export default function AccountPage() {
   }, []);
 
   useEffect(() => {
-    const customerId = kontoData?.profile?.id;
+    const customerId = accountData?.profile?.id;
     if (!customerId) return;
 
     const poll = async () => {
@@ -147,7 +147,7 @@ export default function AccountPage() {
 
     const interval = setInterval(poll, 30000);
     return () => clearInterval(interval);
-  }, [kontoData?.profile?.id]);
+  }, [accountData?.profile?.id]);
 
   const handleLogout = async () => {
     try {

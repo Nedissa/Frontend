@@ -18,7 +18,7 @@ function LoginRedirect() {
   return null;
 }
 
-export default function InloggPage() {
+export default function LoginRedirectPage() {
   return (
     <Suspense>
       <LoginRedirect />

@@ -324,14 +324,14 @@ export const SECTION_IMAGES: Record<string, string> = {
   'tillbehor-tv': '/assets/mega-tv-tillbehor.svg',
 };
 
-export const ERBJUDANDEN_CAMPAIGNS = [
+export const OFFERS_CAMPAIGNS = [
   { id: 'veckans-deals', title: 'Veckans deals', bg: 'bg-gray-900', url: '/erbjudanden/veckans-deals', image: '/assets/erbjudanden-1.png' },
   { id: 'rea', title: 'Rea upp till 50%', bg: 'bg-red-700', url: '/erbjudanden/rea', image: '/assets/erbjudanden-2.png' },
   { id: 'paketpris', title: 'Paketpris', bg: 'bg-blue-900', url: '/erbjudanden/paketpris', image: '/assets/erbjudanden-3.png' },
   { id: 'lagertomning', title: 'Lagertömning', bg: 'bg-gray-800', url: '/erbjudanden/lagertomning', image: '/assets/erbjudanden-4.png' },
 ];
 
-export const ERBJUDANDEN_DATA: MenuCategory = {
+export const OFFERS_DATA: MenuCategory = {
   id: 'erbjudanden',
   title: 'Erbjudanden',
   url: '/erbjudanden',

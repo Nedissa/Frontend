@@ -13,11 +13,11 @@ interface MobileMenuProps {
   onClose: () => void;
   onOpenCategory: (categoryId: string) => void;
   onBackToLevel0: () => void;
-  onToggleErbjudanden: () => void;
+  onToggleOffers: () => void;
   onToggleSubCategory: (sectionId: string) => void;
 }
 
-const ERBJUDANDEN_LINKS = [
+const OFFERS_LINKS = [
   { label: 'Veckans deals', url: '/erbjudanden/veckans-deals' },
   { label: 'Rea', url: '/erbjudanden/rea' },
   { label: 'Paketpris', url: '/erbjudanden/paketpris' },
@@ -35,7 +35,7 @@ export function MobileMenu({
   onClose,
   onOpenCategory,
   onBackToLevel0,
-  onToggleErbjudanden,
+  onToggleOffers,
   onToggleSubCategory,
 }: MobileMenuProps) {
   const activeCat = MENU_DATA.find(c => c.id === mobileExpandedCategory);
@@ -94,7 +94,7 @@ export function MobileMenu({
             <div className="border-b border-gray-100">
               <button
                 className="w-full flex items-center gap-4 px-5 py-4"
-                onClick={onToggleErbjudanden}
+                onClick={onToggleOffers}
               >
                 <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center">
                   <img src="/icons/categories/erbjudanden.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
@@ -106,7 +106,7 @@ export function MobileMenu({
               </button>
               {activeMobileCategory === 'erbjudanden' && (
                 <div className="bg-gray-50 border-t border-gray-100">
-                  {ERBJUDANDEN_LINKS.map(item => (
+                  {OFFERS_LINKS.map(item => (
                     <Link
                       key={item.url}
                       href={item.url}

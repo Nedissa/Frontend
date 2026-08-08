@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from 'react';
 
-export interface KontoData {
+export interface AccountData {
   profile: {
     id: string;
     firstName: string;
@@ -17,22 +17,22 @@ export interface KontoData {
   favoriteProducts: any[];
 }
 
-const KontoContext = createContext<KontoData | null>(null);
+const AccountContext = createContext<AccountData | null>(null);
 
-export function KontoProvider({
+export function AccountProvider({
   children,
   initialData,
 }: {
   children: React.ReactNode;
-  initialData: KontoData;
+  initialData: AccountData;
 }) {
   return (
-    <KontoContext.Provider value={initialData}>
+    <AccountContext.Provider value={initialData}>
       {children}
-    </KontoContext.Provider>
+    </AccountContext.Provider>
   );
 }
 
-export function useKontoData() {
-  return useContext(KontoContext);
+export function useAccountData() {
+  return useContext(AccountContext);
 }

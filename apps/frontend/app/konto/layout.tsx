@@ -7,12 +7,12 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 import { redirect } from 'next/navigation';
-import { KontoProvider, type KontoData } from './konto-context';
+import { AccountProvider, type AccountData } from './account-context';
 
 const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
 const PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '';
 
-async function fetchKontoData(token: string): Promise<KontoData | null> {
+async function fetchAccountData(token: string): Promise<AccountData | null> {
   const storeHeaders = {
     'Authorization': `Bearer ${token}`,
     'x-publishable-api-key': PUBLISHABLE_KEY,
@@ -38,7 +38,7 @@ async function fetchKontoData(token: string): Promise<KontoData | null> {
     { headers: storeHeaders }
   );
 
-  const data: KontoData = {
+  const data: AccountData = {
     profile: {
       id: customerId,
       firstName: customer.first_name || '',
@@ -76,7 +76,7 @@ async function fetchKontoData(token: string): Promise<KontoData | null> {
   return data;
 }
 
-export default async function KontoLayout({
+export default async function AccountLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -88,15 +88,15 @@ export default async function KontoLayout({
     redirect('/inlogg');
   }
 
-  const kontoData = await fetchKontoData(token);
+  const accountData = await fetchAccountData(token);
 
-  if (!kontoData) {
+  if (!accountData) {
     redirect('/inlogg');
   }
 
   return (
-    <KontoProvider initialData={kontoData}>
+    <AccountProvider initialData={accountData}>
       {children}
-    </KontoProvider>
+    </AccountProvider>
   );
 }
