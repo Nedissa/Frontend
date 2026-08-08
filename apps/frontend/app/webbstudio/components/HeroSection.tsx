@@ -8,6 +8,7 @@ function HeroCta() {
   return (
     <motion.a
       href="/webbstudio/kontakt"
+      className="hero-cta"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       initial={{ opacity: 0, y: 12 }}
