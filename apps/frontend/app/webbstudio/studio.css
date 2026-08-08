@@ -184,7 +184,7 @@
   }
 
   .hero-section {
-    height: 100svh !important;
+    height: 100dvh !important;
     min-height: 0 !important;
     background: radial-gradient(circle at left 65%, rgba(255, 210, 60, 0.6) 0%, rgb(12, 13, 18) 58%) !important;
   }
