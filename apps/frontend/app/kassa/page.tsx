@@ -3,11 +3,11 @@
 import { useState, useEffect, useRef, useCallback, useLayoutEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { MainLayout } from '../components/MainLayout';
-import { InputWithCheck } from '../components/InputWithCheck';
+import { MainLayout } from '../components/layout/MainLayout';
+import { InputWithCheck } from '../components/auth/InputWithCheck';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { Spinner } from '../components/Spinner';
+import { Spinner } from '../components/shared/Spinner';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 

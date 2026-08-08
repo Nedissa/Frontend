@@ -1,7 +1,7 @@
 'use client';
 
-import { MainLayout } from '@/app/components/MainLayout';
-import { InfoPageLayout } from '@/app/components/PageHero';
+import { MainLayout } from '@/app/components/layout/MainLayout';
+import { InfoPageLayout } from '@/app/components/home/PageHero';
 
 export default function PrivacyPolicyPage() {
   return (

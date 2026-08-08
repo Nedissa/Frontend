@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { MainLayout } from '@/app/components/MainLayout';
+import { MainLayout } from '@/app/components/layout/MainLayout';
 
 const PAYLOAD_URL = process.env.PAYLOAD_URL || 'https://cms.techpilots.se';
 

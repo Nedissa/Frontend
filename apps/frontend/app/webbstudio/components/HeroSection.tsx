@@ -8,26 +8,16 @@ function HeroCta() {
   return (
     <motion.a
       href="/webbstudio/kontakt"
-      className="hero-cta"
+      className="hero-cta inline-flex items-center gap-[10px] mt-[10px] w-fit px-[25px] py-[11px] text-[15px] font-semibold rounded-full no-underline"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay: 1.55 }}
       style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '10px',
-        marginTop: '10px',
-        width: 'fit-content',
-        padding: '11px 25px',
         background: hovered ? '#030303' : '#e8c547',
         color: hovered ? '#e8c547' : '#0c0d12',
         border: hovered ? '2px solid #e8c547' : '2px solid transparent',
-        fontSize: '15px',
-        fontWeight: 600,
-        borderRadius: '999px',
-        textDecoration: 'none',
         transition: 'background 0.3s ease, color 0.3s ease, border-color 0.3s ease',
       }}
     >
@@ -42,27 +32,17 @@ export function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="hero-section hero-order-first"
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '100vh',
-        minHeight: '800px',
-        background: 'rgb(12, 13, 18)',
-        overflow: 'hidden',
-      }}
+      className="hero-section hero-order-first relative w-full h-screen min-h-[800px] overflow-hidden"
+      style={{ background: 'rgb(12, 13, 18)' }}
     >
       {/* Glow — fades in on load */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 }}
+        className="absolute inset-0 pointer-events-none z-0"
         style={{
-          position: 'absolute',
-          inset: 0,
           background: 'radial-gradient(circle at left center, rgba(255, 210, 60, 0.6) 0%, rgb(12, 13, 18) 65%)',
-          zIndex: 0,
-          pointerEvents: 'none',
         }}
       />
 
@@ -73,7 +53,7 @@ export function HeroSection() {
         initial={{ x: '-100%' }}
         animate={{ x: '0%' }}
         transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
-        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '7px', background: '#fff', zIndex: 10 }}
+        className="absolute top-0 left-0 w-full h-[7px] bg-white z-10"
       />
 
       {/* Hero image — 55% from left, full height */}
@@ -81,50 +61,27 @@ export function HeroSection() {
         initial={{ opacity: 0.2, scale: 1.05 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 }}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          zIndex: 1,
-        }}
+        className="absolute top-0 left-0 w-full h-full z-[1]"
       >
         <img
           src="/webbstudio/hero.webp"
           alt=""
-          className="hero-image"
-          style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '95%', display: 'block', objectFit: 'contain', objectPosition: 'center bottom', mixBlendMode: 'screen' }}
+          className="hero-image absolute bottom-0 left-0 w-full block"
+          style={{ height: '95%', objectFit: 'contain', objectPosition: 'center bottom', mixBlendMode: 'screen' }}
         />
       </motion.div>
 
       {/* Bottom gradient — transparent → black */}
-      <div style={{
-        position: 'absolute',
-        inset: 0,
-        background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.4) 70%, #000 100%)',
-        pointerEvents: 'none',
-      }} />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.4) 70%, #000 100%)' }}
+      />
 
       {/* Text — left, vertically centered */}
       <div
-        className="hero-text-block"
-        style={{
-          position: 'absolute',
-          left: '80px',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          zIndex: 2,
-        }}
+        className="hero-text-block absolute left-[80px] top-1/2 -translate-y-1/2 z-[2]"
       >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'stretch',
-            gap: '15px',
-          }}
-        >
+        <div className="flex flex-col items-stretch gap-[15px]">
           <motion.div
             className="hero-text"
             initial={{ opacity: 0, y: 24 }}
@@ -149,7 +106,8 @@ export function HeroSection() {
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1], delay: 1.0 }}
-            style={{ width: '100%', height: '3px', background: '#e8c547', transformOrigin: 'left' }}
+            className="w-full h-[3px] origin-left"
+            style={{ background: '#e8c547' }}
           />
 
           <motion.div

@@ -1,13 +1,13 @@
 import Link from 'next/link';
-import { ProductCarousel } from './components/ProductCarousel';
-import { AboutBanner } from './components/AboutBanner';
-import { FeaturedProductSection } from './components/FeaturedProductSection';
-import { MainLayout } from './components/MainLayout';
-import { NewsletterPopup } from './components/NewsletterPopup';
-import { HeroBanner } from './components/HeroBanner';
-import { LimitedTimeBanner } from './components/LimitedTimeBanner';
-import { BottomBanner } from './components/BottomBanner';
-import { HomeCategoryGrid } from './components/HomeCategoryGrid';
+import { ProductCarousel } from './components/product/ProductCarousel';
+import { AboutBanner } from './components/home/AboutBanner';
+import { FeaturedProductSection } from './components/home/FeaturedProductSection';
+import { MainLayout } from './components/layout/MainLayout';
+import { NewsletterPopup } from './components/home/NewsletterPopup';
+import { HeroBanner } from './components/home/HeroBanner';
+import { LimitedTimeBanner } from './components/home/LimitedTimeBanner';
+import { BottomBanner } from './components/home/BottomBanner';
+import { HomeCategoryGrid } from './components/home/HomeCategoryGrid';
 
 export const revalidate = 60;
 

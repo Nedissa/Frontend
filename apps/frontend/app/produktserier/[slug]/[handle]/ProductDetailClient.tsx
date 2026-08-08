@@ -5,10 +5,10 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import { Product } from '@/app/lib/products';
-import { Breadcrumb } from '@/app/components/Breadcrumb';
-import { ImageZoomDialog } from '@/app/components/ImageZoomDialog';
-import { ProductCard, type ProductData } from '@/app/components/ProductCard';
-import { ProductReviews } from '@/app/components/ProductReviews';
+import { Breadcrumb } from '@/app/components/layout/Breadcrumb';
+import { ImageZoomDialog } from '@/app/components/shared/ImageZoomDialog';
+import { ProductCard, type ProductData } from '@/app/components/product/ProductCard';
+import { ProductReviews } from '@/app/components/product/ProductReviews';
 import { fetchProductsFromMedusa } from '@/app/lib/medusa-client';
 
 const COUNTDOWN_DURATION = 60000;

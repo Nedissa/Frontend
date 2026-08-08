@@ -1,4 +1,4 @@
-import { MainLayout } from '@/app/components/MainLayout';
+import { MainLayout } from '@/app/components/layout/MainLayout';
 import { ProductSeriesContent } from './ProductSeriesContent';
 import { getCategoryTitle, getBreadcrumbTrail, MAIN_CATEGORIES } from '@/app/lib/products';
 

@@ -4,8 +4,27 @@ import { SiteNav } from './components/SiteNav';
 import './studio.css';
 
 export const metadata: Metadata = {
-  title: 'Techpilots — Webbutveckling i Borås',
-  description: 'Vi designar, utvecklar och levererar moderna webbplatser och digitala upplevelser.',
+  title: {
+    default: 'Techpilots Webbstudio — Webbutveckling i Borås',
+    template: '%s | Techpilots Webbstudio',
+  },
+  description: 'Vi designar, utvecklar och levererar moderna webbplatser och e-handelslösningar. Baserade i Borås — vi arbetar med hela Sverige.',
+  openGraph: {
+    siteName: 'Techpilots Webbstudio',
+    locale: 'sv_SE',
+    type: 'website',
+    url: 'https://techpilots.se/webbstudio',
+    title: 'Techpilots Webbstudio — Webbutveckling i Borås',
+    description: 'Vi designar, utvecklar och levererar moderna webbplatser och e-handelslösningar. Baserade i Borås — vi arbetar med hela Sverige.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Techpilots Webbstudio — Webbutveckling i Borås',
+    description: 'Vi designar, utvecklar och levererar moderna webbplatser och e-handelslösningar.',
+  },
+  alternates: {
+    canonical: 'https://techpilots.se/webbstudio',
+  },
 };
 
 export default function WebbstudioLayout({ children }: { children: React.ReactNode }) {

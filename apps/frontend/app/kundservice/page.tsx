@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { MainLayout } from '@/app/components/MainLayout';
+import { MainLayout } from '@/app/components/layout/MainLayout';
 
 const NAV = [
   {

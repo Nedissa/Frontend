@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { MainLayout } from '@/app/components/MainLayout';
-import { Breadcrumb } from '@/app/components/Breadcrumb';
+import { MainLayout } from '@/app/components/layout/MainLayout';
+import { Breadcrumb } from '@/app/components/layout/Breadcrumb';
 import { MAIN_CATEGORIES } from '@/app/lib/products';
 import CategoryClient from './CategoryClient';
 

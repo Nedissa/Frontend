@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { fetchProductsFromMedusa } from '@/app/lib/medusa-client';
-import { ProductCard } from '@/app/components/ProductCard';
-import { ProductFilter } from '@/app/components/ProductFilter';
-import { SortDropdown } from '@/app/components/SortDropdown';
-import { CategoryGrid } from '@/app/components/CategoryGrid';
+import { ProductCard } from '@/app/components/product/ProductCard';
+import { ProductFilter } from '@/app/components/product/ProductFilter';
+import { SortDropdown } from '@/app/components/product/SortDropdown';
+import { CategoryGrid } from '@/app/components/home/CategoryGrid';
 
 interface FilterOptions {
   priceRange: [number, number];

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { RootLayoutClient } from './components/RootLayoutClient';
+import { RootLayoutClient } from './components/layout/RootLayoutClient';
 import { CookieBanner } from './components/CookieBanner';
 import { cookies } from 'next/headers';
 

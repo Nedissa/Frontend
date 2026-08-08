@@ -21,35 +21,47 @@ function FeatureCard({ step, title, desc, tall, forceHovered, onRef }: { step: s
       ref={onRef}
       onMouseEnter={() => setMouseHovered(true)}
       onMouseLeave={() => setMouseHovered(false)}
-      style={{
-        position: 'relative',
-        overflow: 'hidden',
-        background: '#ebebea',
-        padding: '40px 36px',
-        minHeight: '220px',
-        height: tall ? '100%' : undefined,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        borderRadius: '4px',
-        cursor: 'default',
-        boxSizing: 'border-box',
-      }}
+      className="relative overflow-hidden bg-[#ebebea] px-[36px] py-[40px] min-h-[220px] flex flex-col justify-between rounded-[4px] cursor-default box-border"
+      style={{ height: tall ? '100%' : undefined }}
     >
       <div
+        className="absolute inset-0 bg-[#030303]"
         style={{
-          position: 'absolute',
-          inset: 0,
-          background: '#030303',
           transform: hovered ? 'scale(1)' : 'scale(0)',
           transformOrigin: 'top left',
           transition: 'transform 0.55s cubic-bezier(0.76, 0, 0.24, 1)',
         }}
       />
-      <span style={{ position: 'relative', fontSize: '32px', fontWeight: 800, letterSpacing: '-0.02em', color: hovered ? '#e8c547' : '#030303', display: 'block', transition: 'color 0.35s' }}>{step}</span>
-      <div style={{ position: 'relative' }}>
-        <h4 style={{ fontSize: '19px', fontWeight: 600, color: hovered ? '#fff' : '#030303', margin: '0 0 12px', letterSpacing: '-0.02em', transition: 'color 0.35s' }}>{title}</h4>
-        <p style={{ fontSize: '15px', color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(104,105,99)', lineHeight: 1.6, margin: 0, transition: 'color 0.35s' }}>{desc}</p>
+      <span
+        className="relative text-[32px] font-extrabold block"
+        style={{
+          letterSpacing: '-0.02em',
+          color: hovered ? '#e8c547' : '#030303',
+          transition: 'color 0.35s',
+        }}
+      >
+        {step}
+      </span>
+      <div className="relative">
+        <h4
+          className="text-[19px] font-semibold m-0 mb-[12px]"
+          style={{
+            letterSpacing: '-0.02em',
+            color: hovered ? '#fff' : '#030303',
+            transition: 'color 0.35s',
+          }}
+        >
+          {title}
+        </h4>
+        <p
+          className="text-[15px] leading-[1.6] m-0"
+          style={{
+            color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(104,105,99)',
+            transition: 'color 0.35s',
+          }}
+        >
+          {desc}
+        </p>
       </div>
     </div>
   );
@@ -62,29 +74,40 @@ export function FeaturesSection() {
   const { activeIndex, setItemRef } = useScrollActiveIndex();
 
   return (
-    <section className="section-padding" style={{ background: '#f5f5f3', padding: '140px 30px', minHeight: '100vh', boxSizing: 'border-box' }}>
-      <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+    <section
+      className="section-padding py-[140px] px-[30px] min-h-screen box-border"
+      style={{ background: '#f5f5f3' }}
+    >
+      <div className="max-w-[1440px] mx-auto">
         <SectionHeader num="03" label="Processen" extra="© 2026" />
         <FadeIn>
-          <div style={{ marginBottom: '48px' }}>
-            <p style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgb(104,105,99)', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ width: '7px', height: '7px', background: '#e8c547', display: 'inline-block' }} />
+          <div className="mb-[48px]">
+            <p className="text-[12px] font-semibold uppercase m-0 mb-[10px] flex items-center gap-[8px]" style={{ letterSpacing: '0.12em', color: 'rgb(104,105,99)' }}>
+              <span className="w-[7px] h-[7px] bg-[#e8c547] inline-block" />
               PROCESSEN
             </p>
-            <h2 style={{ fontSize: 'clamp(36px,5vw,64px)', fontWeight: 800, letterSpacing: '-0.03em', lineHeight: 0.95, color: '#030303', textTransform: 'uppercase', margin: 0 }}>
+            <h2
+              className="font-extrabold uppercase m-0"
+              style={{
+                fontSize: 'clamp(36px,5vw,64px)',
+                letterSpacing: '-0.03em',
+                lineHeight: 0.95,
+                color: '#030303',
+              }}
+            >
               Vi Designar. <span style={{ color: 'rgb(104,105,99)' }}>Utvecklar.</span> <span style={{ color: 'rgb(180,180,175)' }}>Levererar</span>
             </h2>
           </div>
         </FadeIn>
 
-        <div className="grid-features" style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr 1fr',
-          gridTemplateRows: '1fr 1fr',
-          gridTemplateAreas: '"a b c" "d b e"',
-          gap: '20px',
-          minHeight: '480px',
-        }}>
+        <div
+          className="grid-features grid gap-[20px] min-h-[480px]"
+          style={{
+            gridTemplateColumns: '1fr 1fr 1fr',
+            gridTemplateRows: '1fr 1fr',
+            gridTemplateAreas: '"a b c" "d b e"',
+          }}
+        >
           {GRID_AREAS.map((gridArea, i) => (
             <FadeIn key={PROCESS[i].title} delay={(i + 1) * 0.05} className="feature-grid-item" style={{ gridArea }}>
               <FeatureCard {...PROCESS[i]} tall forceHovered={activeIndex === i} onRef={setItemRef(i)} />

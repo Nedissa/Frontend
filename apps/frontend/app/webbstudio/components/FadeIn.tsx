@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 export function FadeIn({ children, delay = 0, className = '', style }: { children: React.ReactNode; delay?: number; className?: string; style?: React.CSSProperties }) {
   return (
     <motion.div
-      className={className}
-      style={{ width: '100%', height: '100%', ...style }}
+      className={`w-full h-full${className ? ` ${className}` : ''}`}
+      style={style}
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}

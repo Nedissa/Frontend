@@ -43,46 +43,80 @@ export function ProjectsSection() {
   }, []);
 
   return (
-    <section id="projekt" ref={sectionRef} className="section-projects" style={{ background: '#fff', paddingTop: '140px', paddingBottom: '140px', margin: '0 60px', boxSizing: 'border-box' }}>
-
+    <section
+      id="projekt"
+      ref={sectionRef}
+      className="section-projects bg-white pt-[140px] pb-[140px] mx-[60px] box-border"
+    >
       <SectionHeader num="04" label="Projekt" extra="© 2026" />
 
       {/* Main layout */}
-      <div className="grid-projects" style={{ display: 'grid', gridTemplateColumns: '26vw 44vw 30vw', paddingTop: '80px', alignItems: 'start' }}>
-
+      <div
+        className="grid-projects grid items-start pt-[80px]"
+        style={{ gridTemplateColumns: '26vw 44vw 30vw' }}
+      >
         {/* Left panel — JS-driven sticky */}
-        <div ref={leftRef} className="projects-left-panel" style={{
-          transform: `translateY(${offset}px)`,
-          transition: 'transform 0.12s ease-out',
-          display: 'flex', flexDirection: 'column', alignItems: 'flex-end', paddingRight: '40px',
-        }}>
-          <h2 style={{ fontSize: 'clamp(40px,6vw,64px)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, color: '#030303', margin: '0 0 24px' }}>
+        <div
+          ref={leftRef}
+          className="projects-left-panel flex flex-col items-end pr-[40px]"
+          style={{
+            transform: `translateY(${offset}px)`,
+            transition: 'transform 0.12s ease-out',
+          }}
+        >
+          <h2
+            className="font-bold leading-none text-[#030303] m-0 mb-[24px]"
+            style={{ fontSize: 'clamp(40px,6vw,64px)', letterSpacing: '-0.04em' }}
+          >
             TP-26'
           </h2>
-          <a href="#" style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            borderBottom: '1px solid rgb(180,180,180)', paddingBottom: '10px',
-            fontSize: '16px', fontWeight: 500, color: '#030303', textDecoration: 'none',
-            width: 'fit-content', minWidth: '120px',
-          }}>
+          <a
+            href="#"
+            className="flex items-center justify-between pb-[10px] text-[16px] font-medium text-[#030303] no-underline w-fit min-w-[120px]"
+            style={{ borderBottom: '1px solid rgb(180,180,180)' }}
+          >
             Projekt <span>↗</span>
           </a>
         </div>
 
         {/* Middle: project cards */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: `${CARD_GAP}px` }}>
+        <div className="flex flex-col" style={{ gap: `${CARD_GAP}px` }}>
           {PROJECTS.map((p) => (
-            <Link key={p.slug} href={`/webbstudio/projekt/${p.slug}`} style={{
-              border: '3px solid #030303', height: `${CARD_HEIGHT}px`,
-              display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-              padding: '28px 32px', cursor: 'pointer', background: '#fff',
-              width: '100%', boxSizing: 'border-box', textDecoration: 'none',
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ fontSize: '12px', letterSpacing: '0.08em', color: 'rgb(104,105,99)', textTransform: 'uppercase' }}>{p.category}</span>
-                <span style={{ fontSize: '12px', color: 'rgb(104,105,99)' }}>{p.year}</span>
+            <Link
+              key={p.slug}
+              href={`/webbstudio/projekt/${p.slug}`}
+              className="relative overflow-hidden flex flex-col justify-between px-[32px] py-[28px] cursor-pointer w-full box-border no-underline"
+              style={{
+                border: '3px solid #030303',
+                height: `${CARD_HEIGHT}px`,
+                background: p.image ? `url(${p.image}) center/cover no-repeat` : '#fff',
+              }}
+            >
+              {p.image && <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.25)' }} />}
+              <div className="flex justify-between relative z-[1]">
+                <span
+                  className="text-[12px] uppercase"
+                  style={{
+                    letterSpacing: '0.08em',
+                    color: p.image ? 'rgba(255,255,255,0.7)' : 'rgb(104,105,99)',
+                  }}
+                >
+                  {p.category}
+                </span>
+                <span
+                  className="text-[12px]"
+                  style={{ color: p.image ? 'rgba(255,255,255,0.7)' : 'rgb(104,105,99)' }}
+                >
+                  {p.year}
+                </span>
               </div>
-              <div style={{ fontSize: '26px', fontWeight: 600, letterSpacing: '-0.03em', color: '#030303' }}>
+              <div
+                className="text-[26px] font-semibold relative z-[1]"
+                style={{
+                  letterSpacing: '-0.03em',
+                  color: p.image ? '#fff' : '#030303',
+                }}
+              >
                 {p.title}
               </div>
             </Link>
@@ -90,17 +124,22 @@ export function ProjectsSection() {
         </div>
 
         {/* Right: See all — JS-driven sticky */}
-        <div className="projects-right-panel" style={{
-          transform: `translateY(${offset}px)`,
-          transition: 'transform 0.12s ease-out',
-          paddingLeft: '40px',
-        }}>
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: '12px',
-            background: 'rgb(240,240,238)', borderRadius: '6px', padding: '10px 14px', cursor: 'pointer',
-          }}>
-            <div style={{ width: '52px', height: '52px', borderRadius: '4px', background: 'rgb(160,140,130)', flexShrink: 0 }} />
-            <span style={{ fontSize: '15px', fontWeight: 500, color: '#030303', whiteSpace: 'nowrap' }}>Se alla (08)</span>
+        <div
+          className="projects-right-panel pl-[40px]"
+          style={{
+            transform: `translateY(${offset}px)`,
+            transition: 'transform 0.12s ease-out',
+          }}
+        >
+          <div
+            className="inline-flex items-center gap-[12px] rounded-[6px] px-[14px] py-[10px] cursor-pointer"
+            style={{ background: 'rgb(240,240,238)' }}
+          >
+            <div
+              className="w-[52px] h-[52px] rounded-[4px] shrink-0"
+              style={{ background: 'rgb(160,140,130)' }}
+            />
+            <span className="text-[15px] font-medium text-[#030303] whitespace-nowrap">Se alla (08)</span>
           </div>
         </div>
 

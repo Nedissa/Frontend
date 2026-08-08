@@ -1,4 +1,4 @@
-import { MainLayout } from '@/app/components/MainLayout';
+import { MainLayout } from '@/app/components/layout/MainLayout';
 import { BlogGrid } from './BlogGrid';
 import './blog.css';
 

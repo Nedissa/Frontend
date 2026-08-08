@@ -1,11 +1,11 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { MainLayout } from '@/app/components/MainLayout';
-import { ProductCard } from '@/app/components/ProductCard';
-import { ProductFilter } from '@/app/components/ProductFilter';
+import { MainLayout } from '@/app/components/layout/MainLayout';
+import { ProductCard } from '@/app/components/product/ProductCard';
+import { ProductFilter } from '@/app/components/product/ProductFilter';
 import { fetchProductsFromMedusa, type Product } from '@/app/lib/medusa-client';
-import { SortDropdown } from '@/app/components/SortDropdown';
+import { SortDropdown } from '@/app/components/product/SortDropdown';
 
 interface FilterOptions {
   priceRange: [number, number];

@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { ProductFilter } from '@/app/components/ProductFilter';
-import { ProductGridWithSorting } from '@/app/components/ProductGridWithSorting';
-import { Breadcrumb } from '@/app/components/Breadcrumb';
-import { ProductData } from '@/app/components/ProductCard';
+import { ProductFilter } from '@/app/components/product/ProductFilter';
+import { ProductGridWithSorting } from '@/app/components/product/ProductGridWithSorting';
+import { Breadcrumb } from '@/app/components/layout/Breadcrumb';
+import { ProductData } from '@/app/components/product/ProductCard';
 
 type SortOption = 'recommended' | 'latest' | 'rating' | 'popularity' | 'price-asc' | 'price-desc';
 

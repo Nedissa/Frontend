@@ -3,8 +3,8 @@
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { MainLayout } from '../components/MainLayout';
-import { ProductCard, type ProductData } from '@/app/components/ProductCard';
+import { MainLayout } from '../components/layout/MainLayout';
+import { ProductCard, type ProductData } from '@/app/components/product/ProductCard';
 import { useKontoData } from './konto-context';
 
 const orderStatusColors: Record<string, { bg: string; text: string; label: string }> = {

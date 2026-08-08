@@ -20,6 +20,7 @@ export type Project = {
   steps?: ProjectStep[];
   mobileImage?: string;
   tabletImage?: string;
+  conclusionImage?: string;
 };
 
 export const PROJECTS: Project[] = [
@@ -52,12 +53,14 @@ export const PROJECTS: Project[] = [
     solution: 'En modern, lättnavigerad webbplats med tydlig struktur som speglar varumärket CrownMatch och underlättar kommunikationen mellan kandidater och arbetsgivare.',
     result: 'En plattform som gör det enklare för arbetssökande att ta del av tjänsterna och komma i kontakt, med ett engagerande och professionellt uttryck.',
     technologies: ['Next.js', 'Payload CMS'],
+    image: '/webbstudio/crownmatch-desktop.png',
+    mobileImage: '/webbstudio/crownmatch-mobile-1.png',
+    conclusionImage: '/webbstudio/crownmatch-desktop.png',
     steps: [
-      { title: 'Översikt', description: 'Startsidan sätter tonen — tydlig identitet och en snabb väg till det besökaren letar efter.' },
-      { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.' },
-      { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.' },
+      { title: 'Översikt', description: 'Startsidan sätter tonen — tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/webbstudio/crownmatch-desktop.png' },
+      { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', image: '/webbstudio/crownmatch-mobile-1.png' },
+      { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.', image: '/webbstudio/crownmatch-mobile-1.png' },
     ],
-    mobileImage: '/webbstudio/projekt/crownmatch/hero.webp',
   },
   {
     slug: 'wastgota-bil',

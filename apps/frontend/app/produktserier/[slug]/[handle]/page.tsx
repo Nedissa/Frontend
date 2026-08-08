@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { MainLayout } from '@/app/components/MainLayout';
+import { MainLayout } from '@/app/components/layout/MainLayout';
 import { getProductByHandle, getCategoryTitle, getBreadcrumbTrail } from '@/app/lib/products';
 import ProductDetailClient from './ProductDetailClient';
 

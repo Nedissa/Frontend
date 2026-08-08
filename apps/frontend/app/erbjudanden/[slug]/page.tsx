@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { MainLayout } from '@/app/components/MainLayout';
-import { ProductCard } from '@/app/components/ProductCard';
+import { MainLayout } from '@/app/components/layout/MainLayout';
+import { ProductCard } from '@/app/components/product/ProductCard';
 import { fetchProductsFromMedusa } from '@/app/lib/medusa-client';
 
 const ERBJUDANDEN: Record<string, { title: string; description: string; filter: (p: any) => boolean }> = {
