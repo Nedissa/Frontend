@@ -44,9 +44,7 @@ export default async function CategoryPage({ params }: PageProps) {
   return (
     <MainLayout>
       <Breadcrumb items={breadcrumbItems} />
-      <div className="ml-container mx-auto">
-        <CategoryClient slug={slug} categoryTitle={categoryTitle} />
-      </div>
+      <CategoryClient slug={slug} categoryTitle={categoryTitle} />
     </MainLayout>
   );
 }
