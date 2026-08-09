@@ -183,18 +183,18 @@
     position: absolute !important;
     left: 20px !important;
     right: 20px !important;
-    bottom: 80px !important;
+    bottom: 32px !important;
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 2px;
   }
 
   .hero-split-text-left .hero-text,
   .hero-split-text-right .hero-text {
-    font-size: 42px !important;
+    font-size: 32px !important;
     line-height: 1.05 !important;
-    white-space: normal !important;
+    white-space: nowrap !important;
   }
 
   .hero-promo-panel {
@@ -204,7 +204,17 @@
     bottom: auto !important;
     transform: none !important;
     max-width: none !important;
+    padding: 20px !important;
     background: rgba(0,0,0,0.16) !important;
+  }
+
+  .hero-promo-panel h2 {
+    font-size: 22px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .hero-promo-panel > div {
+    margin-bottom: 10px !important;
   }
 
   .hero-promo-text {
@@ -212,6 +222,13 @@
     -webkit-line-clamp: 2 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
+    font-size: 13px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .hero-promo-panel a {
+    padding: 9px 18px !important;
+    font-size: 13px !important;
   }
 
   /* Only one CTA needed on mobile — keep the primary gold button. */
