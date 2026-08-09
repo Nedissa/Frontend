@@ -72,9 +72,9 @@ export function FooterWrapper() {
             <div>
               <h3 className="font-bold mb-3 text-sm text-white">Order</h3>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/kundservice/leverans">Leverans</Link></li>
-                <li><Link href="/kundservice/betalning">Betalning</Link></li>
-                <li><Link href="/kundservice/spara-leverans">Spåra din leverans</Link></li>
+                <li><Link href="/kundservice/leverans" className="whitespace-nowrap block">Leverans</Link></li>
+                <li><Link href="/kundservice/betalning" className="whitespace-nowrap block">Betalning</Link></li>
+                <li><Link href="/kundservice/spara-leverans" className="whitespace-nowrap block">Spåra din leverans</Link></li>
               </ul>
             </div>
 
@@ -82,10 +82,10 @@ export function FooterWrapper() {
             <div>
               <h3 className="font-bold mb-3 text-sm text-white">Villkor</h3>
               <ul className="space-y-2 text-sm">
-                <li><Link href="/kundservice/villkor">Försäljningsvillkor</Link></li>
-                <li><Link href="/kundservice/medlemsvillkor">Medlemsvillkor</Link></li>
-                <li><Link href="/kundservice/integritet">Integritetspolicy</Link></li>
-                <li><Link href="/kundservice/cookies">Cookiepolicy</Link></li>
+                <li><Link href="/kundservice/villkor" className="whitespace-nowrap block">Försäljningsvillkor</Link></li>
+                <li><Link href="/kundservice/medlemsvillkor" className="whitespace-nowrap block">Medlemsvillkor</Link></li>
+                <li><Link href="/kundservice/integritet" className="whitespace-nowrap block">Integritetspolicy</Link></li>
+                <li><Link href="/kundservice/cookies" className="whitespace-nowrap block">Cookiepolicy</Link></li>
               </ul>
             </div>
 
