@@ -11,14 +11,18 @@ function seededRandom(seed: number) {
 const MOBILE_BREAKPOINT = 900;
 const SPRING_CONFIG = { stiffness: 40, damping: 20, mass: 0.6 };
 
+const PARTICLE_COLOR = '#fff';
+const PARTICLE_GOLD = '#e8c547';
+
 const PARTICLES = Array.from({ length: 100 }, (_, i) => ({
   left: Math.round(seededRandom(i * 12.9898) * 10000) / 100,
   top: Math.round(seededRandom(i * 78.233) * 10000) / 100,
-  size: 3 + (i % 4),
+  size: 1.5 + (i % 4) * 0.6,
   duration: 8 + (i % 6) * 2,
   delay: (i % 10) * 0.15,
   opacity: 0.5 + (i % 4) * 0.15,
   pull: 0.15 + (i % 5) * 0.06,
+  color: i % 4 === 0 ? PARTICLE_GOLD : PARTICLE_COLOR,
 }));
 
 function Particle({
@@ -59,7 +63,8 @@ function Particle({
           width: p.size,
           height: p.size,
           borderRadius: '50%',
-          background: '#fff',
+          background: p.color,
+          boxShadow: `0 0 ${p.size * 0.9}px ${p.color}`,
         }}
       />
     </motion.div>

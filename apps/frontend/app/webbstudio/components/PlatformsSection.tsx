@@ -5,11 +5,12 @@ import {
   SiPayloadcms, SiSanity, SiContentful, SiMedusa, SiShopify, SiStripe, SiKlarna,
   SiHetzner, SiDigitalocean, SiSupabase, SiBrevo, SiNextdotjs, SiReact, SiTypescript,
   SiVercel, SiGoogleanalytics, SiGoogletagmanager, SiFramer, SiWebflow, SiWordpress,
+  SiGit, SiClaude,
 } from 'react-icons/si';
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
 
-const CATEGORIES = ['Utvalda', 'Frontend', 'CMS', 'E-handel', 'Backend & VPS', 'Webbplattformar', 'Marknadsföring', 'GDPR'] as const;
+const CATEGORIES = ['Utvalda', 'Frontend', 'CMS', 'E-handel', 'Backend & VPS', 'Webbplattformar', 'Marknadsföring', 'GDPR', 'Verktyg'] as const;
 
 type Category = (typeof CATEGORIES)[number];
 type Tool = { name: string; category: Exclude<Category, 'Utvalda'>; featured?: boolean; icon: IconType | null; mono: string; desc: string };
@@ -18,6 +19,9 @@ const TOOLS: Tool[] = [
   { name: 'Payload', category: 'CMS', featured: true, icon: SiPayloadcms, mono: 'P', desc: 'Innehållshantering' },
   { name: 'Sanity', category: 'CMS', icon: SiSanity, mono: 'SA', desc: 'Headless CMS' },
   { name: 'Contentful', category: 'CMS', icon: SiContentful, mono: 'CF', desc: 'Headless CMS' },
+  { name: 'Framer CMS', category: 'CMS', icon: SiFramer, mono: 'FR', desc: 'Headless CMS' },
+  { name: 'Webflow CMS', category: 'CMS', icon: SiWebflow, mono: 'WF', desc: 'Headless CMS' },
+  { name: 'Shopify CMS', category: 'CMS', icon: SiShopify, mono: 'SH', desc: 'E-handels-CMS' },
   { name: 'Medusa', category: 'E-handel', featured: true, icon: SiMedusa, mono: 'M', desc: 'E-handelsplattform' },
   { name: 'Shopify', category: 'E-handel', featured: true, icon: SiShopify, mono: 'SH', desc: 'E-handelsplattform' },
   { name: 'Stripe', category: 'E-handel', featured: true, icon: SiStripe, mono: 'ST', desc: 'Betallösning' },
@@ -31,6 +35,9 @@ const TOOLS: Tool[] = [
   { name: 'React', category: 'Frontend', featured: true, icon: SiReact, mono: 'R', desc: 'Ramverk' },
   { name: 'TypeScript', category: 'Frontend', icon: SiTypescript, mono: 'TS', desc: 'Programspråk' },
   { name: 'Vercel', category: 'Frontend', featured: true, icon: SiVercel, mono: 'V', desc: 'Driftsättning' },
+  { name: 'Git', category: 'Verktyg', icon: SiGit, mono: 'G', desc: 'Versionshantering' },
+  { name: 'VS Code', category: 'Verktyg', icon: null, mono: 'VS', desc: 'Kodredigerare' },
+  { name: 'Claude AI', category: 'Verktyg', icon: SiClaude, mono: 'C', desc: 'AI-utveckling' },
   { name: 'Google Analytics', category: 'Marknadsföring', featured: true, icon: SiGoogleanalytics, mono: 'GA', desc: 'Webbanalys' },
   { name: 'Google Tag Manager', category: 'Marknadsföring', icon: SiGoogletagmanager, mono: 'GT', desc: 'Taggning & spårning' },
   { name: 'Cookiebot', category: 'GDPR', featured: true, icon: null, mono: 'C', desc: 'Cookiesamtycke' },

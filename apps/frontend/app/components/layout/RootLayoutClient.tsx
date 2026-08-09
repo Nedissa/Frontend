@@ -82,8 +82,8 @@ export function RootLayoutClient({ children, initialIsLoggedIn = false }: { chil
   const [resetToken, setResetToken] = useState<string | undefined>();
   const [resetEmail, setResetEmail] = useState<string | undefined>();
   const [loginInitialView, setLoginInitialView] = useState<View | undefined>();
-  const hideHeader = pathname === '/kassa' || pathname === '/order-bekraftelse' || pathname.startsWith('/webbstudio');
-  const hideFooter = pathname.startsWith('/webbstudio');
+  const hideHeader = pathname === '/kassa' || pathname === '/order-bekraftelse' || pathname.startsWith('/webbstudio') || pathname.startsWith('/design');
+  const hideFooter = pathname.startsWith('/webbstudio') || pathname.startsWith('/design');
 
   const handleReset = (token: string, email: string) => {
     setResetToken(token);
