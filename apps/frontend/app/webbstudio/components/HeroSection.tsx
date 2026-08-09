@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { FloatingParticles } from './FloatingParticles';
+import { ShootingStars } from './ShootingStars';
 
 const MOUSE_SPRING_CONFIG = { stiffness: 40, damping: 20, mass: 0.6 };
 
@@ -9,8 +10,17 @@ function HeroPromo() {
   const [hovered, setHovered] = useState(false);
   return (
     <motion.div
-      className="absolute left-8 top-[38%] -translate-y-1/2 z-[2]"
-      style={{ maxWidth: '380px' }}
+      className="hero-promo-panel absolute left-8 top-[26%] -translate-y-1/2 z-[2]"
+      style={{
+        maxWidth: '380px',
+        background: 'rgba(0,0,0,0.32)',
+        backdropFilter: 'blur(14px)',
+        WebkitBackdropFilter: 'blur(14px)',
+        border: '1px solid rgba(255,255,255,0.16)',
+        borderRadius: '20px',
+        padding: '32px',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+      }}
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.9 }}
@@ -29,7 +39,9 @@ function HeroPromo() {
       >
         Din vision förtjänar ett digitalt hem
       </h2>
+      <div style={{ width: '100%', height: '2px', background: 'rgba(255,255,255,0.35)', margin: '0 0 16px' }} />
       <p
+        className="hero-promo-text"
         style={{
           fontSize: '15px',
           fontWeight: 500,
@@ -38,12 +50,12 @@ function HeroPromo() {
           margin: '0 0 28px',
         }}
       >
-        Vi bygger snabba, sökmotoroptimerade webbplatser som omvandlar besökare till kunder, skräddarsydda för ditt varumärke från grund till lansering.
+        Vi bygger digitala lösningar, från idé till lansering.
       </p>
-      <div className="flex items-center gap-[12px]">
+      <div className="flex items-center gap-[12px] flex-nowrap">
         <motion.a
           href="/webbstudio/kontakt"
-          className="inline-flex items-center gap-[10px] w-fit px-[25px] py-[11px] text-[15px] font-semibold rounded-full no-underline"
+          className="inline-flex items-center gap-[10px] w-fit px-[25px] py-[11px] text-[15px] font-semibold rounded-full no-underline whitespace-nowrap"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           style={{
@@ -53,12 +65,12 @@ function HeroPromo() {
             transition: 'background 0.3s ease, color 0.3s ease, border-color 0.3s ease',
           }}
         >
-          Kontakt
+          Boka samtal
           <span>↗</span>
         </motion.a>
         <a
           href="/webbstudio#projekt"
-          className="inline-flex items-center w-fit px-[25px] py-[11px] text-[15px] font-semibold rounded-full no-underline"
+          className="inline-flex items-center w-fit px-[25px] py-[11px] text-[15px] font-semibold rounded-full no-underline whitespace-nowrap"
           style={{
             color: '#fff',
             border: '2px solid rgba(255,255,255,0.3)',
@@ -107,12 +119,27 @@ export function HeroSection() {
         transition={{ duration: 1.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 }}
         className="absolute inset-0 pointer-events-none z-0"
         style={{
-          background: 'radial-gradient(circle at left center, rgba(255, 210, 60, 0.8) 0%, rgb(12, 13, 18) 65%)',
+          background: 'radial-gradient(ellipse 55% 100% at 0% 50%, rgba(255, 210, 60, 0.9) 0%, rgba(255, 210, 60, 0.5) 55%, rgb(12, 13, 18) 85%)',
+        }}
+      />
+
+      {/* God rays — faint light beams radiating from the glow source */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.7 }}
+        transition={{ duration: 2.2, ease: [0.25, 0.1, 0.25, 1], delay: 0.4 }}
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          background:
+            'conic-gradient(from -90deg at 0% 100%, transparent 0deg, rgba(255,230,150,0.9) 8deg, transparent 20deg, transparent 32deg, rgba(255,230,150,0.7) 42deg, transparent 54deg, transparent 62deg, rgba(255,230,150,0.9) 72deg, transparent 84deg, transparent 90deg)',
+          maskImage: 'radial-gradient(ellipse 70% 90% at 0% 100%, black 0%, transparent 80%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 70% 90% at 0% 100%, black 0%, transparent 80%)',
         }}
       />
 
 
       <FloatingParticles sectionRef={sectionRef} />
+      <ShootingStars />
       {/* Hero image — 55% from left, full height */}
       <motion.div
         initial={{ opacity: 0.2, scale: 1.05 }}
@@ -135,8 +162,8 @@ export function HeroSection() {
         style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.4) 70%, #000 100%)' }}
       />
 
-      {/* Text — left and right of the woman, bottom */}
-      <div className="absolute left-8 bottom-[80px] z-[2]">
+      {/* Text — left and right of the woman on desktop, stacked on mobile */}
+      <div className="hero-split-text-left absolute left-8 bottom-[80px] z-[2]">
         <motion.div
           className="hero-text"
           initial={{ opacity: 0, x: -24 }}
@@ -158,7 +185,7 @@ export function HeroSection() {
         </motion.div>
       </div>
 
-      <div className="absolute right-8 bottom-[80px] z-[2] text-right">
+      <div className="hero-split-text-right absolute right-8 bottom-[80px] z-[2] text-right">
         <motion.div
           className="hero-text"
           initial={{ opacity: 0, x: 24 }}

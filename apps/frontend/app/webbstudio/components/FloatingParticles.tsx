@@ -10,6 +10,7 @@ function seededRandom(seed: number) {
 
 const MOBILE_BREAKPOINT = 900;
 const SPRING_CONFIG = { stiffness: 40, damping: 20, mass: 0.6 };
+const IDLE_TIMEOUT_MS = 2000;
 
 const PARTICLE_COLOR = '#fff';
 const PARTICLE_GOLD = '#e8c547';
@@ -77,6 +78,8 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
   const mouseX = useSpring(rawX, SPRING_CONFIG);
   const mouseY = useSpring(rawY, SPRING_CONFIG);
   const [isMobile, setIsMobile] = useState(false);
+  const [mouseInside, setMouseInside] = useState(false);
+  const [mouseIdle, setMouseIdle] = useState(false);
 
   // Mobile has no pointer to follow, so particles drift on their own instead.
   useEffect(() => {
@@ -89,19 +92,44 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
+    let idleTimer: ReturnType<typeof setTimeout>;
+    const resetIdleTimer = () => {
+      setMouseIdle(false);
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => setMouseIdle(true), IDLE_TIMEOUT_MS);
+    };
     const handleMouseMove = (e: MouseEvent) => {
       const rect = el.getBoundingClientRect();
       rawX.set(e.clientX - rect.left - rect.width / 2);
       rawY.set(e.clientY - rect.top - rect.height / 2);
+      resetIdleTimer();
+    };
+    const handleMouseEnter = () => setMouseInside(true);
+    // Musen kan lämna föstret helt (t.ex. till en annan app) utan att passera sektionens
+    // kant, så mouseleave på document räcker inte alltid — men täcker de vanliga fallen.
+    const handleMouseLeave = () => {
+      setMouseInside(false);
+      clearTimeout(idleTimer);
     };
     el.addEventListener('mousemove', handleMouseMove);
-    return () => el.removeEventListener('mousemove', handleMouseMove);
+    el.addEventListener('mouseenter', handleMouseEnter);
+    el.addEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener('mouseleave', handleMouseLeave);
+    return () => {
+      clearTimeout(idleTimer);
+      el.removeEventListener('mousemove', handleMouseMove);
+      el.removeEventListener('mouseenter', handleMouseEnter);
+      el.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+    };
   }, [sectionRef, rawX, rawY]);
+
+  const randomDrift = isMobile || !mouseInside || mouseIdle;
 
   return (
     <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden' }}>
       {PARTICLES.map((p, i) => (
-        <Particle key={i} p={p} mouseXOffset={mouseX} mouseYOffset={mouseY} randomDrift={isMobile} />
+        <Particle key={i} p={p} mouseXOffset={mouseX} mouseYOffset={mouseY} randomDrift={randomDrift} />
       ))}
     </div>
   );

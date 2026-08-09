@@ -165,6 +165,40 @@
   .grid-awards-row {
     gap: 12px !important;
   }
+
+  /* Hero split text overlaps at desktop corner positions on narrow screens — stack vertically instead. */
+  .hero-split-text-left,
+  .hero-split-text-right {
+    left: 20px !important;
+    right: auto !important;
+    text-align: left !important;
+    max-width: calc(100% - 40px);
+  }
+
+  .hero-split-text-left {
+    bottom: 170px !important;
+  }
+
+  .hero-split-text-right {
+    bottom: 80px !important;
+  }
+
+  .hero-split-text-left .hero-text,
+  .hero-split-text-right .hero-text {
+    font-size: 42px !important;
+    white-space: normal !important;
+  }
+
+  .hero-promo-panel {
+    background: rgba(0,0,0,0.16) !important;
+  }
+
+  .hero-promo-text {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
 }
 
 /* Mobile — tighter section padding so content breathes on small phones */

@@ -88,7 +88,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
             <p className="text-base text-[#555] mb-6 font-semibold text-center">Techpilots teknikstack:</p>
             <div className="flex justify-center">
               <div className="animate-marquee flex items-center gap-0 whitespace-nowrap opacity-45">
-                {Array.from({ length: 8 }, () => project.technologies).flat().map((tech, i) => {
+                {Array.from({ length: 8 * project.technologies.length }, (_, i) => project.technologies![i % project.technologies!.length]).map((tech, i) => {
                   const Icon = TECH_ICONS[tech];
                   return (
                     <span key={i} className="inline-flex items-center gap-3 text-2xl font-semibold text-[#030303] px-10">
