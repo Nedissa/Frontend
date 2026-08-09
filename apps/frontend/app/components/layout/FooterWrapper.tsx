@@ -7,7 +7,7 @@ export function FooterWrapper() {
   return (
     <footer className="w-full text-white" style={{ background: '#0a0a0a' }}>
       <div className="py-16 md:py-28">
-        <div className="max-w-[1080px] qhd:max-w-[1440px] mx-auto px-6">
+        <div className="max-w-[1080px] qhd:max-w-[1600px] mx-auto px-6">
           <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr] gap-0 sm:gap-x-12 sm:gap-y-10 mb-0 sm:mb-16 sm:pb-16 text-white [&>div]:border-b [&>div]:border-white/20 [&>div]:pb-8 [&>div]:pt-8 sm:[&>div]:border-b-0 sm:[&>div]:pt-0 [&>div:last-child]:border-b-0 sm:[&>div:not(:first-child)]:border-l sm:[&>div:not(:first-child)]:border-white/20 sm:[&>div:not(:first-child)]:pl-12">
             {/* Logo section */}
             <div>
