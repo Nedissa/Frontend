@@ -161,10 +161,21 @@
   }
 }
 
+.hero-promo-heading-mobile { display: none; }
+
 @media (max-width: 600px) {
   .grid-awards-row {
     gap: 12px !important;
   }
+
+  /* Consolidate the bottom "Lyft din / Digitala Närvaro" text into the promo panel's heading
+     on mobile, instead of two separate text elements overlapping the woman in the image. */
+  .hero-split-text-stack {
+    display: none !important;
+  }
+
+  .hero-promo-heading-desktop { display: none; }
+  .hero-promo-heading-mobile { display: inline; }
 
   /* Hero split text overlaps at desktop corner positions on narrow screens — stack in normal
      document flow instead of two independently-positioned absolute blocks, so a second line

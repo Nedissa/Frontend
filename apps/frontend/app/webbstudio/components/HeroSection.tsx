@@ -26,6 +26,7 @@ function HeroPromo() {
       transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.9 }}
     >
       <h2
+        className="hero-promo-heading"
         style={{
           fontFamily: '"Geist", system-ui, sans-serif',
           fontSize: 'clamp(28px, 2.6vw, 38px)',
@@ -37,7 +38,10 @@ function HeroPromo() {
           textShadow: '0 4px 24px rgba(0,0,0,0.5)',
         }}
       >
-        Din vision förtjänar ett digitalt hem
+        <span className="hero-promo-heading-desktop">Din vision förtjänar ett digitalt hem</span>
+        <span className="hero-promo-heading-mobile">
+          Lyft din <span style={{ color: '#e8c547' }}>digitala närvaro</span>
+        </span>
       </h2>
       <div style={{ width: '100%', height: '2px', background: 'rgba(255,255,255,0.35)', margin: '0 0 16px' }} />
       <p
