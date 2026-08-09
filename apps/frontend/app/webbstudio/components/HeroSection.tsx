@@ -162,49 +162,51 @@ export function HeroSection() {
         style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.4) 70%, #000 100%)' }}
       />
 
-      {/* Text — left and right of the woman on desktop, stacked on mobile */}
-      <div className="hero-split-text-left absolute left-8 bottom-[80px] z-[2]">
-        <motion.div
-          className="hero-text"
-          initial={{ opacity: 0, x: -24 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.5 }}
-          style={{
-            fontFamily: '"Geist", system-ui, sans-serif',
-            fontSize: 'clamp(38px, 5vw, 88px)',
-            fontWeight: 700,
-            lineHeight: 1.0,
-            letterSpacing: '0.01em',
-            textTransform: 'uppercase',
-            color: '#fff',
-            whiteSpace: 'nowrap',
-            textShadow: '0 4px 24px rgba(0,0,0,0.5)',
-          }}
-        >
-          Lyft din
-        </motion.div>
-      </div>
+      {/* Text — left and right of the woman on desktop, stacked in normal flow on mobile */}
+      <div className="hero-split-text-stack">
+        <div className="hero-split-text-left absolute left-8 bottom-[80px] z-[2]">
+          <motion.div
+            className="hero-text"
+            initial={{ opacity: 0, x: -24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.5 }}
+            style={{
+              fontFamily: '"Geist", system-ui, sans-serif',
+              fontSize: 'clamp(38px, 5vw, 88px)',
+              fontWeight: 700,
+              lineHeight: 1.0,
+              letterSpacing: '0.01em',
+              textTransform: 'uppercase',
+              color: '#fff',
+              whiteSpace: 'nowrap',
+              textShadow: '0 4px 24px rgba(0,0,0,0.5)',
+            }}
+          >
+            Lyft din
+          </motion.div>
+        </div>
 
-      <div className="hero-split-text-right absolute right-8 bottom-[80px] z-[2] text-right">
-        <motion.div
-          className="hero-text"
-          initial={{ opacity: 0, x: 24 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.65 }}
-          style={{
-            fontFamily: '"Geist", system-ui, sans-serif',
-            fontSize: 'clamp(38px, 5vw, 88px)',
-            fontWeight: 700,
-            lineHeight: 1.0,
-            letterSpacing: '0.01em',
-            textTransform: 'uppercase',
-            color: '#e8c547',
-            whiteSpace: 'nowrap',
-            textShadow: '0 4px 24px rgba(0,0,0,0.5)',
-          }}
-        >
-          Digitala Närvaro
-        </motion.div>
+        <div className="hero-split-text-right absolute right-8 bottom-[80px] z-[2] text-right">
+          <motion.div
+            className="hero-text"
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.65 }}
+            style={{
+              fontFamily: '"Geist", system-ui, sans-serif',
+              fontSize: 'clamp(38px, 5vw, 88px)',
+              fontWeight: 700,
+              lineHeight: 1.0,
+              letterSpacing: '0.01em',
+              textTransform: 'uppercase',
+              color: '#e8c547',
+              whiteSpace: 'nowrap',
+              textShadow: '0 4px 24px rgba(0,0,0,0.5)',
+            }}
+          >
+            Digitala Närvaro
+          </motion.div>
+        </div>
       </div>
 
       <HeroPromo />
