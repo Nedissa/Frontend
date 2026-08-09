@@ -100,7 +100,7 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
     <style>{heroCarouselStyle}</style>
     <div className="relative z-0 flex justify-center w-full">
       <div
-        className="relative max-w-[1280px] w-full overflow-hidden flex items-center justify-center cursor-pointer bg-gray-200 hero-mobile-height"
+        className="relative max-w-[1080px] qhd:max-w-[1440px] w-full overflow-hidden flex items-center justify-center cursor-pointer bg-gray-200 hero-mobile-height"
         style={{ aspectRatio: '1280/640' }}
         onClick={() => next(true)}
         onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}

@@ -65,7 +65,7 @@ export default async function BloggPostPage({ params }: { params: Promise<{ slug
 
   return (
     <MainLayout>
-      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '64px 24px' }}>
+      <div className="content-container" style={{ padding: '64px 24px' }}>
         <Link href="/pilotbloggen" style={{ fontSize: '0.85rem', color: '#666', textDecoration: 'none', display: 'inline-block', marginBottom: '32px' }}>
           ← Tillbaka till bloggen
         </Link>

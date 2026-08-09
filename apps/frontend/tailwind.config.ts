@@ -9,6 +9,10 @@ const config: Config = {
       fontFamily: {
         sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'sans-serif'],
       },
+      screens: {
+        hd: '1920px',
+        qhd: '2560px',
+      },
     },
   },
   plugins: [],
