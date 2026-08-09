@@ -200,8 +200,8 @@
   .hero-promo-panel {
     left: 20px !important;
     right: 20px !important;
-    top: auto !important;
-    bottom: 480px !important;
+    top: 96px !important;
+    bottom: auto !important;
     transform: none !important;
     max-width: none !important;
     background: rgba(0,0,0,0.16) !important;
