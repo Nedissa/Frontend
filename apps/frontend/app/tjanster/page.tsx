@@ -116,7 +116,7 @@ export default function WebStudioPage() {
             {PRICES.map((p, i) => (
               <FadeIn key={p.name} delay={i * 0.08}>
                 <div
-                  className="rounded-[4px] flex flex-col gap-[32px] box-border"
+                  className="pricing-card rounded-[4px] flex flex-col gap-[32px] box-border"
                   style={{
                     background: p.dark
                       ? 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)'
@@ -133,7 +133,7 @@ export default function WebStudioPage() {
                       {p.name}
                     </h3>
                     <p
-                      className="text-[14px] leading-[1.5] m-0"
+                      className="pricing-desc text-[14px] leading-[1.5] m-0"
                       style={{ color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}
                     >
                       {p.desc}
@@ -174,7 +174,7 @@ export default function WebStudioPage() {
                   </div>
 
                   <Link
-                    href="/webbstudio#kontakt"
+                    href="/tjanster#kontakt"
                     className="flex items-center justify-between text-[16px] font-semibold pb-[12px] no-underline"
                     style={{
                       color: p.dark ? '#e8c547' : '#030303',
@@ -194,7 +194,7 @@ export default function WebStudioPage() {
                     >
                       Inkluderat
                     </div>
-                    <ul className="list-none m-0 p-0 flex flex-col gap-[12px]">
+                    <ul className="pricing-features list-none m-0 p-0 flex flex-col gap-[12px]">
                       {p.features.map(f => (
                         <li
                           key={f}
@@ -261,7 +261,7 @@ export default function WebStudioPage() {
             <FadeIn delay={0.08}>
               <div className="customer-image-card relative rounded-[4px] overflow-hidden h-full min-h-[600px] flex items-end box-border">
                 <img
-                  src="/webbstudio/kunder-partners.webp"
+                  src="/tjanster/kunder-partners.webp"
                   alt=""
                   className="absolute inset-0 w-full h-full object-cover"
                 />
@@ -442,7 +442,7 @@ export default function WebStudioPage() {
             ].map((desc, i) => (
               <p
                 key={desc}
-                className={`${i === 1 ? 'hide-mobile' : ''} pt-[28px] text-[14px] leading-[1.5] m-0 text-left`}
+                className={`${i === 1 ? 'hide-mobile' : ''} ${i === 0 ? 'process-desc-clamp' : ''} ${i === 2 ? 'hide-mobile-standard-text' : ''} pt-[28px] text-[14px] leading-[1.5] m-0 text-left`}
                 style={{
                   borderTop: '1px solid rgb(230,230,230)',
                   color: 'rgb(104,105,99)',

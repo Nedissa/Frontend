@@ -5,11 +5,11 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
 const links = [
-  { label: 'Hem', num: '01', href: '/webbstudio' },
-  { label: 'Om', num: '02', href: '/webbstudio#om' },
-  { label: 'Projekt', num: '03', href: '/webbstudio#projekt' },
-  { label: 'Priser', num: '04', href: '/webbstudio#priser' },
-  { label: 'Kontakt', num: '05', href: '/webbstudio/kontakt' },
+  { label: 'Hem', num: '01', href: '/tjanster' },
+  { label: 'Om', num: '02', href: '/tjanster#om' },
+  { label: 'Projekt', num: '03', href: '/tjanster#projekt' },
+  { label: 'Priser', num: '04', href: '/tjanster#priser' },
+  { label: 'Kontakt', num: '05', href: '/tjanster/kontakt' },
 ];
 
 // Scroll-progress ring drawn around the mobile burger button.
@@ -51,16 +51,41 @@ export function SiteNav() {
   // Portalen till document.body får bara renderas efter mount, annars skiljer sig
   // server-renderad HTML (ingen portal) från första client-render (portal finns direkt).
   useEffect(() => { setMounted(true); }, []);
-  // Endast /webbstudio har en hero-sektion. Initialt state baseras på pathname (känt redan
+
+  // Lås bakgrundsscroll medan mobilmenyn är öppen. overflow:hidden på body räcker
+  // inte på iOS Safari — touch-swipe kan ändå scrolla bakgrunden. Att låsa body till
+  // position:fixed på sitt nuvarande scrollY är den enda pålitliga tekniken där, och vi
+  // återställer scrollY manuellt vid stängning eftersom fixed positionering annars hoppar
+  // sidan till toppen.
+  useEffect(() => {
+    if (!open) return;
+    const scrollY = window.scrollY;
+    const body = document.body.style;
+    const original = { position: body.position, top: body.top, left: body.left, right: body.right, width: body.width };
+    body.position = 'fixed';
+    body.top = `-${scrollY}px`;
+    body.left = '0';
+    body.right = '0';
+    body.width = '100%';
+    return () => {
+      body.position = original.position;
+      body.top = original.top;
+      body.left = original.left;
+      body.right = original.right;
+      body.width = original.width;
+      window.scrollTo(0, scrollY);
+    };
+  }, [open]);
+  // Endast /tjanster har en hero-sektion. Initialt state baseras på pathname (känt redan
   // under SSR) istället för document.querySelector, annars blir server-renderad HTML alltid
   // "vit" (document finns inte på servern) vilket ger en vit flash innan hydrering på startsidan.
-  const [pastHero, setPastHero] = useState(() => pathname !== '/webbstudio');
+  const [pastHero, setPastHero] = useState(() => pathname !== '/tjanster');
 
   // Vid pathname-byte (t.ex. via client-side navigation, komponenten remountas inte) måste
   // pastHero sättas synkront INNAN webbläsaren målar nästa frame — annars hinner navbaren
   // rendera med förra sidans färg ett ögonblick (synlig "flash"/hopp vid fram- och bakåtnavigering).
   useLayoutEffect(() => {
-    setPastHero(pathname !== '/webbstudio');
+    setPastHero(pathname !== '/tjanster');
   }, [pathname]);
 
   // Vit navbar efter hero-sektionen (transparent/mörk medan hero syns).
@@ -91,7 +116,7 @@ export function SiteNav() {
 
   // Om ProjectNav sparade ett mål-ankare innan navigering hit (annan route), scrolla dit nu.
   useEffect(() => {
-    if (pathname !== '/webbstudio') return;
+    if (pathname !== '/tjanster') return;
     const target = sessionStorage.getItem('webbstudio-scroll-to');
     if (!target) return;
     sessionStorage.removeItem('webbstudio-scroll-to');
@@ -127,19 +152,19 @@ export function SiteNav() {
     return pathname === linkPath && (linkAnchor ? hash === `#${linkAnchor}` : hash === '');
   };
 
-  // Ankarlänkar på samma sida (/webbstudio) hanteras med native <a> + scrollIntoView istället
+  // Ankarlänkar på samma sida (/tjanster) hanteras med native <a> + scrollIntoView istället
   // för next/link, eftersom Next.js Link inte tillförlitligt scrollar till hash-ankare vid
-  // klick på samma route. Från andra sidor (t.ex. /webbstudio/kontakt) finns elementet inte
+  // klick på samma route. Från andra sidor (t.ex. /tjanster/kontakt) finns elementet inte
   // i DOM än, så vi navigerar dit på riktigt och sparar målankaret i sessionStorage — samma
   // mönster som ProjectNav använder.
   const handleAnchorClick = (anchor: string) => (e: React.MouseEvent) => {
     e.preventDefault();
-    if (pathname !== '/webbstudio') {
+    if (pathname !== '/tjanster') {
       sessionStorage.setItem('webbstudio-scroll-to', anchor);
-      router.push('/webbstudio');
+      router.push('/tjanster');
       return;
     }
-    window.history.pushState(null, '', `/webbstudio#${anchor}`);
+    window.history.pushState(null, '', `/tjanster#${anchor}`);
     setHash(`#${anchor}`);
     // setTimeout skjuter scrollen till nästa tick, efter att webbläsarens egen
     // native hash-navigering (som annars återställer scrollY till 0) hunnit köra klart.
@@ -149,7 +174,7 @@ export function SiteNav() {
   };
 
   // Projektsidorna renderar sin egen inverterade nav (ProjectNav) i page.tsx.
-  if (pathname.startsWith('/webbstudio/projekt/')) return null;
+  if (pathname.startsWith('/tjanster/projekt/')) return null;
 
   return (
     <nav
@@ -164,11 +189,11 @@ export function SiteNav() {
         transition: 'transform 0.3s ease, background 0.3s ease, border-color 0.3s ease',
       }}
     >
-      <Link href="/webbstudio" className="site-nav-logo nav-logo-mobile" style={{ ...LOGO_CIRCLE_STYLE, position: 'relative', zIndex: 110 }}>
+      <Link href="/tjanster" className="site-nav-logo nav-logo-mobile" style={{ ...LOGO_CIRCLE_STYLE, position: 'relative', zIndex: 110 }}>
         <img src="/logo.png" alt="Techpilots" style={LOGO_IMG_STYLE} />
       </Link>
 
-      <Link href="/webbstudio" className="site-nav-logo hide-mobile" style={LOGO_CIRCLE_STYLE}>
+      <Link href="/tjanster" className="site-nav-logo hide-mobile" style={LOGO_CIRCLE_STYLE}>
         <img src="/logo.png" alt="Techpilots" style={LOGO_IMG_STYLE} />
       </Link>
 

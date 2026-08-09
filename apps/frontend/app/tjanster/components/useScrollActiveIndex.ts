@@ -18,7 +18,11 @@ export function useScrollActiveIndex(): ScrollActiveIndex {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    const onScroll = () => {
+    let rafId: number | null = null;
+
+    const measure = () => {
+      rafId = null;
+
       if (window.innerWidth > MOBILE_BREAKPOINT) {
         setActiveIndex(null);
         return;
@@ -44,9 +48,20 @@ export function useScrollActiveIndex(): ScrollActiveIndex {
       setActiveIndex(closestIndex);
     };
 
-    onScroll();
+    // Coalesce scroll events to one measurement per animation frame, so the
+    // active card updates in step with the browser's paint cycle instead of
+    // firing (and re-rendering) on every raw scroll tick.
+    const onScroll = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(measure);
+    };
+
+    measure();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const setItemRef = (index: number) => (el: HTMLDivElement | null) => {

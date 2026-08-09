@@ -58,7 +58,7 @@ function HeroPromo() {
       </p>
       <div className="flex items-center gap-[12px] flex-nowrap">
         <motion.a
-          href="/webbstudio/kontakt"
+          href="/tjanster/kontakt"
           className="inline-flex items-center gap-[10px] w-fit px-[25px] py-[11px] text-[15px] font-semibold rounded-full no-underline whitespace-nowrap"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
@@ -73,7 +73,7 @@ function HeroPromo() {
           <span>↗</span>
         </motion.a>
         <a
-          href="/webbstudio#projekt"
+          href="/tjanster#projekt"
           className="inline-flex items-center w-fit px-[25px] py-[11px] text-[15px] font-semibold rounded-full no-underline whitespace-nowrap"
           style={{
             color: '#fff',
@@ -153,7 +153,7 @@ export function HeroSection() {
         style={{ x: imageX, y: imageY }}
       >
         <img
-          src="/webbstudio/hero.webp"
+          src="/tjanster/hero.webp"
           alt=""
           className="hero-image absolute bottom-0 left-0 w-full block"
           style={{ height: '95%', objectFit: 'contain', objectPosition: '35% bottom', mixBlendMode: 'screen' }}

@@ -108,14 +108,14 @@ export default function WebstudioCustomerServicePage() {
   const [animKey, setAnimKey] = useState(0);
 
   useEffect(() => {
-    const seg = window.location.pathname.split('/webbstudio/villkor/')[1];
+    const seg = window.location.pathname.split('/tjanster/villkor/')[1];
     if (seg) setActive(seg);
   }, []);
 
   const navigate = (id: string) => {
     setActive(id);
     setAnimKey(k => k + 1);
-    window.history.pushState(null, '', `/webbstudio/villkor/${id}`);
+    window.history.pushState(null, '', `/tjanster/villkor/${id}`);
   };
 
   return (
@@ -279,7 +279,7 @@ export default function WebstudioCustomerServicePage() {
                 <p>Aktiva produkter och avtal: produkter och tjänster som du använder, samt historik om tidigare användning</p>
                 <p>Kundaktivitet: läs- och handlingshistorik från appen, webbplatser eller elektronisk kommunikation vi skickar ut</p>
                 <p>Teknisk information: om enheter du använder</p>
-                <p>Cookies: se vår <a href="/webbstudio/villkor/cookies" style={{ color: '#000', textDecoration: 'underline' }}>cookiepolicy</a>.</p>
+                <p>Cookies: se vår <a href="/tjanster/villkor/cookies" style={{ color: '#000', textDecoration: 'underline' }}>cookiepolicy</a>.</p>
 
                 <h3>Hur vi använder personuppgifter</h3>
 

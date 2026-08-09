@@ -27,7 +27,7 @@ export function StatsSection() {
               <div>
                 <div className="text-[22px] font-bold text-[#030303] mb-[10px]">Lanserade projekt</div>
                 <div className="flex items-center gap-[24px] pt-[20px]" style={{ borderTop: '3px solid rgb(210,210,210)' }}>
-                  <div className="text-[72px] font-bold leading-none text-[#030303] shrink-0" style={{ letterSpacing: '-0.04em' }}>
+                  <div className="stat-number text-[72px] font-bold leading-none text-[#030303] shrink-0" style={{ letterSpacing: '-0.04em' }}>
                     <CountUp value="11+" />
                   </div>
                   <div className="text-[13px] leading-[1.5]" style={{ color: 'rgb(104,105,99)' }}>
@@ -41,7 +41,7 @@ export function StatsSection() {
               <div>
                 <div className="text-[22px] font-bold text-[#030303] mb-[10px]">Kundnöjdhet</div>
                 <div className="flex items-center gap-[24px] pt-[20px]" style={{ borderTop: '3px solid rgb(210,210,210)' }}>
-                  <div className="text-[72px] font-bold leading-none text-[#030303] shrink-0" style={{ letterSpacing: '-0.04em' }}>
+                  <div className="stat-number text-[72px] font-bold leading-none text-[#030303] shrink-0" style={{ letterSpacing: '-0.04em' }}>
                     <CountUp value="98%" />
                   </div>
                   <div className="text-[13px] leading-[1.5]" style={{ color: 'rgb(104,105,99)' }}>
@@ -72,9 +72,9 @@ export function StatsSection() {
                   <div className="text-[13px] leading-[1.5] mb-[16px]" style={{ color: 'rgb(104,105,99)' }}>
                     Året grundarna lanserade sitt första projekt.
                   </div>
-                  <div className="flex">
-                    <div className="w-[30px] h-[30px] rounded-full border-2 border-white -mr-[8px] z-[2] relative" style={{ background: 'rgb(100,80,70)' }} />
-                    <div className="w-[30px] h-[30px] rounded-full border-2 border-white z-[1] relative" style={{ background: 'rgb(70,65,85)' }} />
+                  <div className="flex founder-dots">
+                    <div className="w-[30px] h-[30px] rounded-full border-2 border-white -mr-[8px] z-[2] relative" style={{ background: '#030303' }} />
+                    <div className="w-[30px] h-[30px] rounded-full border-2 border-white z-[1] relative" style={{ background: '#e8c547' }} />
                   </div>
                 </div>
               </div>

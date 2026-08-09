@@ -4,11 +4,11 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const links = [
-  { label: 'Hem', num: '01', href: '/webbstudio' },
-  { label: 'Om', num: '02', href: '/webbstudio#om' },
-  { label: 'Projekt', num: '03', href: '/webbstudio#projekt' },
-  { label: 'Priser', num: '04', href: '/webbstudio#priser' },
-  { label: 'Kontakt', num: '05', href: '/webbstudio/kontakt' },
+  { label: 'Hem', num: '01', href: '/tjanster' },
+  { label: 'Om', num: '02', href: '/tjanster#om' },
+  { label: 'Projekt', num: '03', href: '/tjanster#projekt' },
+  { label: 'Priser', num: '04', href: '/tjanster#priser' },
+  { label: 'Kontakt', num: '05', href: '/tjanster/kontakt' },
 ];
 
 // Scroll-progress ring drawn around the mobile burger button.
@@ -100,11 +100,11 @@ export function ProjectNav() {
         transition: 'transform 0.3s ease',
       }}
     >
-      <Link href="/webbstudio" className="site-nav-logo nav-logo-mobile" style={{ ...LOGO_CIRCLE_STYLE, position: 'relative', zIndex: 110 }}>
+      <Link href="/tjanster" className="site-nav-logo nav-logo-mobile" style={{ ...LOGO_CIRCLE_STYLE, position: 'relative', zIndex: 110 }}>
         <img src="/logo.png" alt="Techpilots" style={LOGO_IMG_STYLE} />
       </Link>
 
-      <Link href="/webbstudio" className="site-nav-logo hide-mobile" style={LOGO_CIRCLE_STYLE}>
+      <Link href="/tjanster" className="site-nav-logo hide-mobile" style={LOGO_CIRCLE_STYLE}>
         <img src="/logo.png" alt="Techpilots" style={LOGO_IMG_STYLE} />
       </Link>
 

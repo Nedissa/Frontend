@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { IconType } from 'react-icons';
 import {
   SiPayloadcms, SiSanity, SiContentful, SiMedusa, SiShopify, SiStripe, SiKlarna,
@@ -47,8 +47,21 @@ const TOOLS: Tool[] = [
   { name: 'Shopify (Headless)', category: 'Webbplattformar', featured: true, icon: SiShopify, mono: 'SH', desc: 'Headless e-handel' },
 ];
 
+const MOBILE_HIDDEN_CATEGORIES: readonly Category[] = ['Utvalda', 'GDPR'];
+
+const MOBILE_BREAKPOINT = 900;
+
 export function PlatformsSection() {
   const [active, setActive] = useState<Category>('Utvalda');
+
+  // "Utvalda" and "GDPR" tabs are hidden on mobile — if either would be active
+  // there, fall back to the first visible tab so the shown items match the
+  // highlighted tab instead of silently displaying "Utvalda" with none active.
+  useEffect(() => {
+    if (window.innerWidth <= MOBILE_BREAKPOINT && MOBILE_HIDDEN_CATEGORIES.includes(active)) {
+      setActive('Frontend');
+    }
+  }, []);
 
   const visible = active === 'Utvalda' ? TOOLS.filter((t) => t.featured) : TOOLS.filter((t) => t.category === active);
 
@@ -77,11 +90,12 @@ export function PlatformsSection() {
         </FadeIn>
 
         <FadeIn delay={0.05}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '32px', marginBottom: '56px', borderBottom: '1px solid rgb(230,230,230)', paddingBottom: '20px' }}>
+          <div className="platform-tabs" style={{ display: 'flex', flexWrap: 'wrap', gap: '32px', marginBottom: '56px', borderBottom: '1px solid rgb(230,230,230)', paddingBottom: '20px' }}>
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActive(cat)}
+                className={MOBILE_HIDDEN_CATEGORIES.includes(cat) ? 'platform-tab-hide-mobile' : undefined}
                 style={{
                   background: 'none',
                   border: 'none',
@@ -90,7 +104,7 @@ export function PlatformsSection() {
                   fontWeight: 600,
                   cursor: 'pointer',
                   color: active === cat ? '#030303' : 'rgb(104,105,99)',
-                  borderBottom: active === cat ? '2px solid #e8c547' : '2px solid transparent',
+                  borderBottom: active === cat ? '2px solid #030303' : '2px solid transparent',
                   paddingBottom: '8px',
                   transition: 'color 0.2s ease, border-color 0.2s ease',
                 }}

@@ -4,23 +4,23 @@ import Link from 'next/link';
 import { FacebookLogo, InstagramLogo, LinkedinLogo, ClockIcon, PhoneIcon, EnvelopeSimpleIcon, MapPinIcon } from '@phosphor-icons/react';
 
 const QUICK_LINKS = [
-  { label: 'Hem', href: '/webbstudio' },
-  { label: 'Om', href: '/webbstudio#om' },
-  { label: 'Projekt', href: '/webbstudio#projekt' },
-  { label: 'Priser', href: '/webbstudio#priser' },
-  { label: 'Kontakt', href: '/webbstudio/kontakt' },
+  { label: 'Hem', href: '/tjanster' },
+  { label: 'Om', href: '/tjanster#om' },
+  { label: 'Projekt', href: '/tjanster#projekt' },
+  { label: 'Priser', href: '/tjanster#priser' },
+  { label: 'Kontakt', href: '/tjanster/kontakt' },
 ];
 
 const TERMS_LINKS = [
-  { label: 'Affärsvillkor', href: '/webbstudio/villkor/affarsvillkor' },
-  { label: 'Integritetspolicy', href: '/webbstudio/villkor/integritet' },
-  { label: 'Cookiepolicy', href: '/webbstudio/villkor/cookies' },
+  { label: 'Affärsvillkor', href: '/tjanster/villkor/affarsvillkor' },
+  { label: 'Integritetspolicy', href: '/tjanster/villkor/integritet' },
+  { label: 'Cookiepolicy', href: '/tjanster/villkor/cookies' },
 ];
 
 const RESPONSIBILITY_LINKS = [
-  { label: 'Miljöansvar', href: '/webbstudio/villkor/miljoansvar' },
-  { label: 'Kryptering', href: '/webbstudio/villkor/kryptering' },
-  { label: 'Tillgänglighet', href: '/webbstudio/villkor/tillganglighet' },
+  { label: 'Miljöansvar', href: '/tjanster/villkor/miljoansvar' },
+  { label: 'Kryptering', href: '/tjanster/villkor/kryptering' },
+  { label: 'Tillgänglighet', href: '/tjanster/villkor/tillganglighet' },
 ];
 
 const CONTACT_ROWS = [
@@ -73,7 +73,7 @@ const columnHeadingStyle: React.CSSProperties = {
 
 export function Footer() {
   return (
-    <footer id="kontakt" style={{ background: 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)', padding: '120px 60px 80px' }}>
+    <footer id="kontakt" className="site-footer" style={{ background: 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)', padding: '120px 60px 80px' }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
         <div
           className="grid-footer"
@@ -148,7 +148,7 @@ export function Footer() {
           </div>
 
           {/* Column 2: Quick links */}
-          <div style={{ marginTop: '60px' }}>
+          <div className="footer-col" style={{ marginTop: '60px' }}>
             <div style={columnHeadingStyle}>Snabblänkar</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {QUICK_LINKS.map((l) => (
@@ -160,7 +160,7 @@ export function Footer() {
           </div>
 
           {/* Column 3: Terms */}
-          <div style={{ marginTop: '60px' }}>
+          <div className="footer-col" style={{ marginTop: '60px' }}>
             <div style={columnHeadingStyle}>Juridiskt</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {TERMS_LINKS.map((l) => (
@@ -172,7 +172,7 @@ export function Footer() {
           </div>
 
           {/* Column 4: Responsibility */}
-          <div style={{ marginTop: '60px' }}>
+          <div className="footer-col" style={{ marginTop: '60px' }}>
             <div style={columnHeadingStyle}>Ansvar &amp; säkerhet</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {RESPONSIBILITY_LINKS.map((l) => (
@@ -196,7 +196,6 @@ export function Footer() {
           }}
         >
           <span style={{ fontSize: '13px', color: '#fff' }}>Techpilots AB. Alla rättigheter förbehållna.</span>
-          <span style={{ fontSize: '13px', color: '#fff' }}>Registrerad för F-skatt</span>
         </div>
       </div>
     </footer>

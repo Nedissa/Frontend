@@ -8,7 +8,7 @@ function PillButton() {
   const [hovered, setHovered] = useState(false);
   return (
     <a
-      href="/webbstudio#kontakt"
+      href="/tjanster#kontakt"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className="inline-flex items-center justify-between rounded-full gap-[40px] no-underline cursor-pointer relative overflow-hidden min-w-[220px]"
@@ -75,11 +75,11 @@ function PillButton() {
 }
 
 const AWARDS = [
-  { title: 'DESIGN & VARUMÄRKE', source: 'Visuell identitet och UX · Skräddarsytt för er verksamhet', desc: 'Vi tar fram design och varumärkesidentitet som håller ihop, från första skiss till färdig produkt. Genomtänkt användarupplevelse, inte bara fina bilder.', year: '' },
-  { title: 'WEBBUTVECKLING', source: 'Next.js och React · Byggt från grunden, inte mallverktyg', desc: 'Vi bygger snabba, skalbara digitala lösningar med modern kod. Från arkitektur till lansering levererar vi något som håller och växer med er verksamhet.', year: '' },
-  { title: 'E-HANDEL', source: 'Medusa, Shopify, Stripe och Klarna · Rätt plattform för varje projekt', desc: 'Vi bygger e-handelslösningar med Medusa eller Shopify som motor, kopplat mot rätt betallösningar. Full kontroll över köpupplevelsen, anpassad efter era behov.', year: '' },
-  { title: 'SÖKOPTIMERING', source: 'Teknisk SEO · Från struktur till mätbara resultat', desc: 'Vi bygger med sökmotorer i åtanke redan från start, med snabb laddning, ren kod och rätt struktur. Vi hjälper er synas, oavsett om målet är lokalt eller nationellt.', year: '' },
-  { title: 'SPÅRNING & ANALYS', source: 'Google Analytics och Tag Manager · Data ni faktiskt kan använda', desc: 'Vi kopplar upp rätt analysverktyg så ni ser hur besökare faktiskt använder er produkt. Ingen gissning, bara underlag för att fatta bättre beslut.', year: '' },
+  { title: 'DESIGN & VARUMÄRKE', source: 'Visuell identitet och UX', desc: 'Design och varumärke som håller ihop, från skiss till färdig produkt.', year: '' },
+  { title: 'WEBBUTVECKLING', source: 'Next.js och React', desc: 'Snabba, skalbara lösningar med modern kod, byggda från grunden.', year: '' },
+  { title: 'E-HANDEL', source: 'Medusa, Shopify, Stripe och Klarna', desc: 'E-handelslösningar med rätt plattform och betallösning för era behov.', year: '' },
+  { title: 'SÖKOPTIMERING', source: 'Teknisk SEO', desc: 'Snabb laddning, ren kod och rätt struktur för att synas i sökresultat.', year: '' },
+  { title: 'SPÅRNING & ANALYS', source: 'Google Analytics och Tag Manager', desc: 'Rätt analysverktyg så ni ser hur besökare faktiskt använder produkten.', year: '' },
 ];
 
 function AwardRow({ a, forceHovered, onRef }: { a: typeof AWARDS[0]; forceHovered?: boolean; onRef?: (el: HTMLDivElement | null) => void }) {
@@ -136,7 +136,7 @@ function AwardRow({ a, forceHovered, onRef }: { a: typeof AWARDS[0]; forceHovere
         {a.source}
       </span>
       <span
-        className="award-text relative z-[1] text-[16px] leading-[1.5]"
+        className="award-text award-desc relative z-[1] text-[16px] leading-[1.5]"
         style={{
           color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(104,105,99)',
           transition: 'color 0.3s',

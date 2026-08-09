@@ -75,7 +75,7 @@ export function ProjectsSection() {
             className="flex items-center justify-between pb-[10px] text-[16px] font-medium text-[#030303] no-underline w-fit min-w-[120px]"
             style={{ borderBottom: '1px solid rgb(180,180,180)' }}
           >
-            Projekt <span>↗</span>
+            Alla projekt <span>↗</span>
           </a>
         </div>
 
@@ -84,12 +84,14 @@ export function ProjectsSection() {
           {PROJECTS.map((p) => (
             <Link
               key={p.slug}
-              href={`/webbstudio/projekt/${p.slug}`}
+              href={`/tjanster/projekt/${p.slug}`}
               className="relative overflow-hidden flex flex-col justify-between px-[32px] py-[28px] cursor-pointer w-full box-border no-underline"
               style={{
                 border: '3px solid #030303',
                 height: `${CARD_HEIGHT}px`,
-                background: p.image ? `url(${p.image}) center/cover no-repeat` : '#fff',
+                background: p.image
+                  ? `url(${p.image}) center/cover no-repeat`
+                  : 'repeating-linear-gradient(45deg, #f0f0ee 0px, #f0f0ee 1px, #fff 1px, #fff 24px)',
               }}
             >
               {p.image && <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.25)' }} />}
@@ -123,9 +125,9 @@ export function ProjectsSection() {
           ))}
         </div>
 
-        {/* Right: See all — JS-driven sticky */}
+        {/* Right: See all — JS-driven sticky. Desktop only. */}
         <div
-          className="projects-right-panel pl-[40px]"
+          className="projects-right-panel hide-mobile pl-[40px]"
           style={{
             transform: `translateY(${offset}px)`,
             transition: 'transform 0.12s ease-out',

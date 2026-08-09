@@ -95,7 +95,7 @@ export function FooterWrapper() {
               <ul className="space-y-2 text-sm">
                 <li><Link href="/kundservice/om-oss">Vår historia</Link></li>
                 <li><Link href="/pilotbloggen">Teknikskolan</Link></li>
-                <li><Link href="/webbstudio" className="whitespace-nowrap block">Digitala tjänster</Link></li>
+                <li><Link href="/tjanster" className="whitespace-nowrap block">Digitala tjänster</Link></li>
               </ul>
             </div>
 

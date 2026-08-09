@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     siteName: 'Techpilots',
     locale: 'sv_SE',
     type: 'website',
-    url: 'https://techpilots.se/webbstudio',
+    url: 'https://techpilots.se/tjanster',
     title: 'Techpilots — Webbutveckling i Borås',
     description: 'Vi designar, utvecklar och levererar moderna webbplatser och e-handelslösningar. Baserade i Borås — vi arbetar med hela Sverige.',
   },
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     description: 'Vi designar, utvecklar och levererar moderna webbplatser och e-handelslösningar.',
   },
   alternates: {
-    canonical: 'https://techpilots.se/webbstudio',
+    canonical: 'https://techpilots.se/tjanster',
   },
 };
 

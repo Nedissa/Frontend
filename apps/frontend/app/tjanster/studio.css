@@ -85,7 +85,17 @@
 
   .grid-footer {
     grid-template-columns: 1fr !important;
-    row-gap: 48px !important;
+    row-gap: 32px !important;
+  }
+
+  /* Quick links / Juridiskt / Ansvar-kolumnerna har margin-top för desktop-radjustering —
+     nollställ på mobil där de staplas, annars blir gapen mellan grupperna onaturligt stora. */
+  .footer-col {
+    margin-top: 0 !important;
+  }
+
+  .site-footer {
+    padding: 56px 24px 40px !important;
   }
 
   .section-projects {
@@ -97,11 +107,25 @@
     display: flex !important;
     flex-direction: column !important;
     min-height: 0 !important;
+    gap: 32px !important;
   }
 
   .feature-grid-item {
     grid-area: auto !important;
     height: auto !important;
+  }
+
+  /* Equal card heights on mobile — sized for the longest process description */
+  .feature-card {
+    min-height: 220px !important;
+  }
+
+  /* Process card descriptions — clamp to 3 lines so cards don't grow too tall */
+  .feature-card-desc {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
   }
 
   .grid-projects {
@@ -111,11 +135,6 @@
   .projects-left-panel {
     align-items: flex-start !important;
     padding-right: 0 !important;
-  }
-
-  .projects-right-panel {
-    padding-left: 0 !important;
-    margin-top: 24px !important;
   }
 
   .hide-mobile {
@@ -244,7 +263,7 @@
   }
 
   /* Only one CTA needed on mobile — keep the primary gold button. */
-  .hero-promo-panel a[href="/webbstudio#projekt"] {
+  .hero-promo-panel a[href="/tjanster#projekt"] {
     display: none !important;
   }
 }
@@ -313,7 +332,82 @@
     font-size: 14px !important;
   }
 
+  /* Expertis-kort (Design, Webbutveckling, E-handel osv) — klipp den långa beskrivningen till 2 rader så korten inte blir för höga */
+  .award-desc {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  .grid-awards-row {
+    row-gap: 6px !important;
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+  }
+
   .customer-image-card {
     min-height: 320px !important;
+  }
+
+  /* Stat numbers (11+, 98%, 2024) — shrink so they don't dominate mobile width */
+  .stat-number {
+    font-size: 52px !important;
+  }
+
+  /* Pricing cards — tighter padding + gaps so cards read shorter on mobile */
+  .pricing-card {
+    gap: 20px !important;
+    padding: 28px 24px 20px !important;
+  }
+
+  .pricing-desc {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  .pricing-features {
+    gap: 8px !important;
+  }
+
+  /* Cards with long feature lists (e.g. E-handel's 7 items) — show only the first 4 on mobile */
+  .pricing-features li:nth-child(n+5) {
+    display: none !important;
+  }
+
+  /* "Vi Designar. Utvecklar. Levererar" heading — smaller, tighter so line gaps read evenly */
+  .features-heading {
+    font-size: 34px !important;
+    line-height: 1.15 !important;
+  }
+
+  /* Projekttyper description — clamp to a single line */
+  .process-desc-clamp {
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+  }
+
+  /* "Så mycket ingår som standard i varje projekt." — redundant on mobile, hide it */
+  .hide-mobile-standard-text {
+    display: none !important;
+  }
+
+  /* Tjänster per projekt dot grid — remove the last row (7 dots) so it feels less crowded */
+  .animated-dots-grid .animated-dot:nth-child(n+29) {
+    display: none !important;
+  }
+
+  /* Platforms tab bar — hide "Utvalda" and "GDPR", keep the remaining tabs to two rows max */
+  .platform-tab-hide-mobile {
+    display: none !important;
+  }
+
+  .platform-tabs {
+    row-gap: 14px !important;
+    column-gap: 20px !important;
   }
 }

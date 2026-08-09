@@ -21,7 +21,7 @@ function FeatureCard({ step, title, desc, tall, forceHovered, onRef }: { step: s
       ref={onRef}
       onMouseEnter={() => setMouseHovered(true)}
       onMouseLeave={() => setMouseHovered(false)}
-      className="relative overflow-hidden bg-[#ebebea] px-[36px] py-[40px] min-h-[220px] flex flex-col justify-between rounded-[4px] cursor-default box-border"
+      className="feature-card relative overflow-hidden bg-[#ebebea] px-[36px] py-[40px] min-h-[220px] flex flex-col justify-between rounded-[4px] cursor-default box-border"
       style={{ height: tall ? '100%' : undefined }}
     >
       <div
@@ -54,7 +54,7 @@ function FeatureCard({ step, title, desc, tall, forceHovered, onRef }: { step: s
           {title}
         </h4>
         <p
-          className="text-[15px] leading-[1.6] m-0"
+          className="feature-card-desc text-[15px] leading-[1.6] m-0"
           style={{
             color: hovered ? 'rgba(255,255,255,0.6)' : 'rgb(104,105,99)',
             transition: 'color 0.35s',
@@ -87,7 +87,7 @@ export function FeaturesSection() {
               PROCESSEN
             </p>
             <h2
-              className="font-extrabold uppercase m-0"
+              className="features-heading font-extrabold uppercase m-0"
               style={{
                 fontSize: 'clamp(36px,5vw,64px)',
                 letterSpacing: '-0.03em',
@@ -95,7 +95,9 @@ export function FeaturesSection() {
                 color: '#030303',
               }}
             >
-              Vi Designar. <span style={{ color: 'rgb(104,105,99)' }}>Utvecklar.</span> <span style={{ color: 'rgb(180,180,175)' }}>Levererar</span>
+              <span className="features-heading-line" style={{ display: 'block' }}>Vi Designar.</span>
+              <span className="features-heading-line" style={{ display: 'block', color: 'rgb(104,105,99)' }}>Utvecklar.</span>
+              <span className="features-heading-line" style={{ display: 'block', color: 'rgb(180,180,175)' }}>Levererar</span>
             </h2>
           </div>
         </FadeIn>

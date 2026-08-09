@@ -20,7 +20,7 @@ export function CtaSection() {
 
           <FadeIn delay={0.08}>
             <Link
-              href="mailto:info@techpilots.se"
+              href="/tjanster/kontakt"
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px',
                 fontSize: '18px', fontWeight: 600, color: '#030303',

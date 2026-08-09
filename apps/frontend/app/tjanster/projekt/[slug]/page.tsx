@@ -31,9 +31,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title,
     description,
-    openGraph: { title, description, url: `https://techpilots.se/webbstudio/projekt/${slug}`, ...(project.image ? { images: [{ url: project.image }] } : {}) },
+    openGraph: { title, description, url: `https://techpilots.se/tjanster/projekt/${slug}`, ...(project.image ? { images: [{ url: project.image }] } : {}) },
     twitter: { card: 'summary_large_image', title, description },
-    alternates: { canonical: `https://techpilots.se/webbstudio/projekt/${slug}` },
+    alternates: { canonical: `https://techpilots.se/tjanster/projekt/${slug}` },
   };
 }
 
@@ -182,10 +182,10 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {/* ══ NAV ══ */}
       <section className="border-t border-[#ddd]">
         <div className="max-w-[1440px] mx-auto w-full px-12 box-border pt-10 pb-24 flex justify-between">
-          <Link href={`/webbstudio/projekt/${prevProject.slug}`} className="px-7 py-3 bg-[#030303] text-white text-sm font-semibold no-underline rounded-full">
+          <Link href={`/tjanster/projekt/${prevProject.slug}`} className="px-7 py-3 bg-[#030303] text-white text-sm font-semibold no-underline rounded-full">
             ← Föregående
           </Link>
-          <Link href={`/webbstudio/projekt/${nextProject.slug}`} className="px-7 py-3 bg-[#030303] text-white text-sm font-semibold no-underline rounded-full">
+          <Link href={`/tjanster/projekt/${nextProject.slug}`} className="px-7 py-3 bg-[#030303] text-white text-sm font-semibold no-underline rounded-full">
             Nästa →
           </Link>
         </div>
