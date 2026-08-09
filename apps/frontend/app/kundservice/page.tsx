@@ -186,6 +186,17 @@ export default function CustomerServicePage() {
     setActive(id);
     setAnimKey(k => k + 1);
     window.history.pushState(null, '', `/kundservice/${id}`);
+    // På mobil är sidomenyn ovanför innehållet — glid ner till texten direkt
+    // vid val, annars ser det ut som att inget hände förrän man scrollar själv.
+    // Väntar två rAF-cykler så React hinner rendera det nya innehållet innan
+    // vi mäter var elementet faktiskt hamnar — annars scrollar vi mot gammal layout.
+    if (window.innerWidth < 768) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.getElementById('ks-content')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -116,6 +116,18 @@ export default function WebstudioCustomerServicePage() {
     setActive(id);
     setAnimKey(k => k + 1);
     window.history.pushState(null, '', `/tjanster/villkor/${id}`);
+    // På mobil är sidomenyn ovanför innehållet — glid ner till texten direkt
+    // vid val, annars ser det ut som att inget hände förrän man scrollar själv.
+    // Väntar två rAF-cykler så React hinner rendera det nya innehållet (och
+    // Sidebar hunnit expandera/kollapsa sina kategorier) innan vi mäter var
+    // elementet faktiskt hamnar — annars scrollar vi mot gammal layout.
+    if (window.innerWidth < 768) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.getElementById('villkor-content')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
   };
 
   return (
@@ -131,11 +143,11 @@ export default function WebstudioCustomerServicePage() {
         .ks-content p  { font-size: 0.9rem; line-height: 1.75; margin-bottom: 0.5rem; color: #000; }
       `}</style>
 
-      <div className="flex flex-col md:flex-row px-4 md:px-6" style={{ maxWidth: '1100px', margin: '0 auto', padding: '160px 0 100px', gap: '48px', alignItems: 'flex-start' }}>
+      <div className="flex flex-col md:flex-row" style={{ maxWidth: '1100px', margin: '0 auto', padding: '160px 24px 100px', gap: '48px', alignItems: 'flex-start' }}>
 
         <Sidebar active={active} navigate={navigate} />
 
-        <div style={{ flex: 1, minWidth: 0 }}>
+        <div id="villkor-content" style={{ flex: 1, minWidth: 0 }}>
           <h1 style={{ fontSize: '2rem', fontWeight: 800, color: '#000', marginBottom: '6px' }}>
             {NAV.flatMap(c => c.links).find(l => l.id === active)?.label ?? 'Villkor'}
           </h1>
