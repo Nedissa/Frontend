@@ -12,7 +12,8 @@ function HeroPromo() {
     <motion.div
       className="hero-promo-panel absolute left-8 top-[26%] -translate-y-1/2 z-[2]"
       style={{
-        maxWidth: '380px',
+        maxWidth: '460px',
+        width: 'calc(100% - 64px)',
         background: 'rgba(0,0,0,0.32)',
         backdropFilter: 'blur(14px)',
         WebkitBackdropFilter: 'blur(14px)',
@@ -29,7 +30,7 @@ function HeroPromo() {
         className="hero-promo-heading"
         style={{
           fontFamily: '"Geist", system-ui, sans-serif',
-          fontSize: 'clamp(30px, 3vw, 44px)',
+          fontSize: 'clamp(26px, 2.4vw, 38px)',
           fontWeight: 700,
           lineHeight: 1.05,
           letterSpacing: '-0.01em',
@@ -53,10 +54,10 @@ function HeroPromo() {
       >
         Vi bygger digitala lösningar, från idé till lansering.
       </p>
-      <div className="flex items-center gap-[12px] flex-nowrap">
+      <div className="flex items-center gap-[10px] flex-wrap">
         <motion.a
           href="/tjanster/kontakt"
-          className="inline-flex items-center gap-[10px] w-fit px-[25px] py-[11px] text-[15px] font-semibold rounded-full no-underline whitespace-nowrap"
+          className="inline-flex items-center gap-[8px] w-fit px-[18px] py-[10px] text-[14px] font-semibold rounded-full no-underline whitespace-nowrap"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           style={{
@@ -71,7 +72,7 @@ function HeroPromo() {
         </motion.a>
         <a
           href="/tjanster#projekt"
-          className="inline-flex items-center w-fit px-[25px] py-[11px] text-[15px] font-semibold rounded-full no-underline whitespace-nowrap"
+          className="inline-flex items-center w-fit px-[18px] py-[10px] text-[14px] font-semibold rounded-full no-underline whitespace-nowrap"
           style={{
             color: '#fff',
             border: '2px solid rgba(255,255,255,0.3)',

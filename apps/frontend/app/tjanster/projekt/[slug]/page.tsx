@@ -30,7 +30,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   if (!project) notFound();
 
   return (
-    <main className="bg-[#f0efed] text-[#030303] relative">
+    <main className="bg-white text-[#030303] relative">
       <ProjectNav />
 
       <StyledHero project={project} />

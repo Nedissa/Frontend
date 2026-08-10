@@ -42,3 +42,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# auto-genereras av `next dev` vid varje start, skrivs alltid över
+apps/frontend/AGENTS.md

@@ -7,7 +7,7 @@ import { PROJECTS } from '../projekt-data';
 const MOBILE_BREAKPOINT = 900;
 const STICKY_TOP = 100;
 const CARD_HEIGHT = 480;
-const CARD_GAP = 12;
+const CARD_GAP = 24;
 
 export function ProjectsSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -101,38 +101,49 @@ export function ProjectsSection() {
             <Link
               key={p.slug}
               href={`/tjanster/projekt/${p.slug}`}
-              className="relative overflow-hidden flex flex-col justify-between px-[32px] py-[28px] cursor-pointer w-full box-border no-underline"
+              className="relative overflow-hidden flex flex-col justify-between px-[40px] py-[36px] cursor-pointer w-full box-border no-underline"
               style={{
-                border: '3px solid #030303',
                 height: `${CARD_HEIGHT}px`,
                 background: p.image
                   ? `url(${p.image}) center/cover no-repeat`
                   : 'repeating-linear-gradient(45deg, #f0f0ee 0px, #f0f0ee 1px, #fff 1px, #fff 24px)',
               }}
             >
-              {p.image && <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.25)' }} />}
-              <div className="flex justify-between relative z-[1]">
+              <div
+                className="flex justify-between relative z-[1] w-fit"
+                style={p.image ? {
+                  background: '#fff',
+                  borderRadius: '4px',
+                  padding: '6px 12px',
+                  gap: '24px',
+                } : undefined}
+              >
                 <span
                   className="text-[12px] uppercase"
                   style={{
                     letterSpacing: '0.08em',
-                    color: p.image ? 'rgba(255,255,255,0.7)' : 'rgb(104,105,99)',
+                    color: 'rgb(104,105,99)',
                   }}
                 >
                   {p.category}
                 </span>
                 <span
                   className="text-[12px]"
-                  style={{ color: p.image ? 'rgba(255,255,255,0.7)' : 'rgb(104,105,99)' }}
+                  style={{ color: 'rgb(104,105,99)' }}
                 >
                   {p.year}
                 </span>
               </div>
               <div
-                className="text-[26px] font-semibold relative z-[1]"
+                className="text-[26px] font-semibold relative z-[1] w-fit"
                 style={{
                   letterSpacing: '-0.03em',
-                  color: p.image ? '#fff' : '#030303',
+                  color: '#030303',
+                  ...(p.image && {
+                    background: '#fff',
+                    borderRadius: '4px',
+                    padding: '6px 16px',
+                  }),
                 }}
               >
                 {p.title}

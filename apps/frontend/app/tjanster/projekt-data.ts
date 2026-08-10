@@ -48,7 +48,7 @@ export const PROJECTS: Project[] = [
     category: 'Webb & Varumärke',
     year: '2025',
     status: 'Lanserad',
-    image: '/tjanster/projekt/crownmatch/laptop-mockup.png',
+    image: '/tjanster/projekt/crownmatch/desktop-mockup.png',
     description: 'Vi har fått i uppdrag att utveckla en webbplats för CrownMatch, leverantör av Arbetsförmedlingens tjänst Rusta & Matcha. Efter att ha träffat teamet för att förstå deras vision och behov skapar vi en modern, lättnavigerad plattform som gör det enkelt för arbetssökande att hitta information, ta del av tjänsterna samt komma i kontakt. Webbplatsen speglar varumärket CrownMatch och underlättar kommunikationen mellan kandidater och arbetsgivare på ett engagerande sätt.',
     challenge: 'CrownMatch behövde en digital plattform som gör det enkelt för arbetssökande att hitta information om Rusta & Matcha-tjänsten och komma i kontakt med rätt person.',
     solution: 'En modern, lättnavigerad webbplats med tydlig struktur som speglar varumärket CrownMatch och underlättar kommunikationen mellan kandidater och arbetsgivare.',

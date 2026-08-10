@@ -1,7 +1,9 @@
 'use client';
 
+import { useRef } from 'react';
 import Link from 'next/link';
 import { FacebookLogo, InstagramLogo, LinkedinLogo, ClockIcon, PhoneIcon, EnvelopeSimpleIcon, MapPinIcon } from '@phosphor-icons/react';
+import { FloatingParticles } from './FloatingParticles';
 
 const QUICK_LINKS = [
   { label: 'Hem', href: '/tjanster' },
@@ -72,9 +74,17 @@ const columnHeadingStyle: React.CSSProperties = {
 };
 
 export function Footer() {
+  const footerRef = useRef<HTMLElement>(null);
+
   return (
-    <footer id="kontakt" className="site-footer" style={{ background: 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)', padding: '120px 60px 80px' }}>
-      <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
+    <footer
+      id="kontakt"
+      ref={footerRef}
+      className="site-footer"
+      style={{ position: 'relative', background: 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)', padding: '120px 60px 80px', overflow: 'hidden' }}
+    >
+      <FloatingParticles sectionRef={footerRef} />
+      <div style={{ maxWidth: '1440px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <div
           className="grid-footer"
           style={{
