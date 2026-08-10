@@ -2,8 +2,9 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PROJECTS } from '../../projekt-data';
 import { ProjectNav } from '../../components/ProjectNav';
-import { SplitScreenStory } from '../../components/wireframe/SplitScreenStory';
-import { GalleryWireframe } from '../../components/wireframe/GalleryWireframe';
+import { CenteredHeroWireframe } from '../../components/wireframe/CenteredHeroWireframe';
+import { TimelineWireframe } from '../../components/wireframe/TimelineWireframe';
+import { TestimonialWireframe } from '../../components/wireframe/TestimonialWireframe';
 import { CtaNavWireframe } from '../../components/wireframe/CtaNavWireframe';
 
 export function generateStaticParams() {
@@ -38,9 +39,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     <main className="bg-neutral-50 text-neutral-900 relative">
       <ProjectNav />
 
-      <SplitScreenStory project={project} />
+      <CenteredHeroWireframe project={project} />
 
-      <GalleryWireframe steps={project.steps} />
+      <TimelineWireframe projectTitle={project.title} steps={project.steps} />
+
+      {project.solution && (
+        <TestimonialWireframe quote={project.solution} projectTitle={project.title} category={project.category} />
+      )}
 
       <CtaNavWireframe prevSlug={prevProject.slug} nextSlug={nextProject.slug} />
     </main>
