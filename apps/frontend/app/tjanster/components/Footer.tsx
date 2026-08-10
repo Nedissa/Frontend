@@ -25,7 +25,7 @@ const RESPONSIBILITY_LINKS = [
 
 const CONTACT_ROWS = [
   {
-    label: 'Alltid tillgängliga',
+    label: 'Mån-fre 09:00-17:00',
     icon: <ClockIcon size={18} weight="fill" />,
   },
   {

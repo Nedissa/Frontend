@@ -162,11 +162,11 @@ export function AwardsSection() {
 
   return (
     <section
-      className="section-padding py-[140px] px-[30px] min-h-screen box-border"
+      className="section-padding section-full-desktop py-[140px] px-[30px] min-h-screen box-border"
       style={{ background: '#f5f5f3' }}
     >
       <div className="max-w-[1440px] mx-auto">
-        <SectionHeader num="02" label="Expertis" extra="© 2026" />
+        <SectionHeader num="02" label="Expertis" extra="© 2026" hasVisibleHeading />
         <FadeIn>
           <h2
             className="hide-mobile font-extrabold uppercase m-0 mb-[80px]"

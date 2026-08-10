@@ -1,6 +1,11 @@
-export function SectionHeader({ num, label, extra }: { num: string; label: string; extra?: string }) {
+export function SectionHeader({ num, label, extra, hasVisibleHeading }: { num: string; label: string; extra?: string; hasVisibleHeading?: boolean }) {
   return (
     <>
+      {/* Visuellt dold h2 för sektioner som saknar en egen synlig rubrik längre
+          ner (ProcessStatsSection, PlatformsSection, FaqSection) — annars hoppar
+          DOM-hierarkin rakt till h3/h4 utan en föregående h2. Sektioner som redan
+          har en synlig <h2> skickar hasVisibleHeading för att undvika dubblett. */}
+      {!hasVisibleHeading && <h2 className="sr-only">{label}</h2>}
       <div style={{ borderBottom: '1px solid rgb(230,230,230)' }} />
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '24px', marginBottom: '60px', fontSize: '14px', color: 'rgb(104,105,99)' }}>
         <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

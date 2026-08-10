@@ -6,7 +6,7 @@ export function CtaSection() {
   return (
     <section className="section-padding" style={{ padding: '140px 30px', boxSizing: 'border-box' }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
-        <SectionHeader num="10" label="Kontakt" extra="© 2026" />
+        <SectionHeader num="10" label="Kontakt" extra="© 2026" hasVisibleHeading />
 
         <div className="grid-cta" style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '80px', alignItems: 'end' }}>
           <FadeIn>
@@ -28,8 +28,8 @@ export function CtaSection() {
                 borderBottom: '1px solid #030303', minWidth: '260px',
               }}
             >
-              Boka samtal
-              <svg width="16" height="16" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }}>
+              Hör av er till oss
+              <svg width="16" height="16" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }} aria-hidden="true">
                 <path d="M2 2L12 2L12 12L2 2Z" fill="#030303" />
               </svg>
             </Link>

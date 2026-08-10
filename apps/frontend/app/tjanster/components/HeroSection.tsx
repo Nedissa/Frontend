@@ -25,24 +25,21 @@ function HeroPromo() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.9 }}
     >
-      <h2
+      <h1
         className="hero-promo-heading"
         style={{
           fontFamily: '"Geist", system-ui, sans-serif',
-          fontSize: 'clamp(28px, 2.6vw, 38px)',
+          fontSize: 'clamp(30px, 3vw, 44px)',
           fontWeight: 700,
-          lineHeight: 1.1,
+          lineHeight: 1.05,
           letterSpacing: '-0.01em',
           color: '#fff',
           margin: '0 0 16px',
           textShadow: '0 4px 24px rgba(0,0,0,0.5)',
         }}
       >
-        <span className="hero-promo-heading-desktop">Din vision förtjänar ett digitalt hem</span>
-        <span className="hero-promo-heading-mobile">
-          Lyft din <span style={{ color: '#e8c547' }}>digitala närvaro</span>
-        </span>
-      </h2>
+        Lyft din <span style={{ color: '#e8c547' }}>digitala närvaro</span>
+      </h1>
       <div style={{ width: '100%', height: '2px', background: 'rgba(255,255,255,0.35)', margin: '0 0 16px' }} />
       <p
         className="hero-promo-text"
@@ -69,7 +66,7 @@ function HeroPromo() {
             transition: 'background 0.3s ease, color 0.3s ease, border-color 0.3s ease',
           }}
         >
-          Boka samtal
+          Boka kostnadsfritt samtal
           <span>↗</span>
         </motion.a>
         <a
@@ -80,7 +77,7 @@ function HeroPromo() {
             border: '2px solid rgba(255,255,255,0.3)',
           }}
         >
-          Se projekt
+          Se vad vi byggt
         </a>
       </div>
     </motion.div>
@@ -165,53 +162,6 @@ export function HeroSection() {
         className="absolute inset-0 pointer-events-none"
         style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.4) 70%, #000 100%)' }}
       />
-
-      {/* Text — left and right of the woman on desktop, stacked in normal flow on mobile */}
-      <div className="hero-split-text-stack">
-        <div className="hero-split-text-left absolute left-8 bottom-[80px] z-[2]">
-          <motion.div
-            className="hero-text"
-            initial={{ opacity: 0, x: -24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.5 }}
-            style={{
-              fontFamily: '"Geist", system-ui, sans-serif',
-              fontSize: 'clamp(38px, 5vw, 88px)',
-              fontWeight: 700,
-              lineHeight: 1.0,
-              letterSpacing: '0.01em',
-              textTransform: 'uppercase',
-              color: '#fff',
-              whiteSpace: 'nowrap',
-              textShadow: '0 4px 24px rgba(0,0,0,0.5)',
-            }}
-          >
-            Lyft din
-          </motion.div>
-        </div>
-
-        <div className="hero-split-text-right absolute right-8 bottom-[80px] z-[2] text-right">
-          <motion.div
-            className="hero-text"
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.65 }}
-            style={{
-              fontFamily: '"Geist", system-ui, sans-serif',
-              fontSize: 'clamp(38px, 5vw, 88px)',
-              fontWeight: 700,
-              lineHeight: 1.0,
-              letterSpacing: '0.01em',
-              textTransform: 'uppercase',
-              color: '#e8c547',
-              whiteSpace: 'nowrap',
-              textShadow: '0 4px 24px rgba(0,0,0,0.5)',
-            }}
-          >
-            Digitala Närvaro
-          </motion.div>
-        </div>
-      </div>
 
       <HeroPromo />
     </section>

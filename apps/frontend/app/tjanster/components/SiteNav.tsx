@@ -18,10 +18,11 @@ const BURGER_RING_CIRCUMFERENCE = 2 * Math.PI * BURGER_RING_RADIUS;
 
 const BURGER_BAR_STYLE_BASE: React.CSSProperties = {
   position: 'absolute',
-  width: '18px',
+  left: '50%',
+  width: '20px',
   height: '2px',
   borderRadius: '1px',
-  transition: 'transform 0.3s cubic-bezier(0.76, 0, 0.24, 1), background 0.3s ease',
+  transition: 'transform 0.3s cubic-bezier(0.76, 0, 0.24, 1), top 0.3s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.2s ease, background 0.3s ease',
 };
 
 const LOGO_CIRCLE_STYLE: React.CSSProperties = {
@@ -224,19 +225,21 @@ export function SiteNav() {
         className="nav-burger"
         style={{
           display: 'none',
-          width: '40px', height: '40px', alignItems: 'center', justifyContent: 'center',
-          background: open || isDark ? 'rgba(255,255,255,0.1)' : 'rgba(10,10,10,0.06)',
-          border: open || isDark ? '1px solid rgba(255,255,255,0.2)' : '1px solid rgba(10,10,10,0.15)',
+          width: '44px', height: '44px', alignItems: 'center', justifyContent: 'center',
+          background: open || isDark ? 'rgba(255,255,255,0.12)' : 'rgba(10,10,10,0.08)',
+          border: open || isDark ? '1.5px solid rgba(255,255,255,0.35)' : '1.5px solid rgba(10,10,10,0.25)',
           borderRadius: '50%', cursor: 'pointer', flexShrink: 0,
           position: 'relative', zIndex: 110,
           transition: 'background 0.3s ease, border-color 0.3s ease',
         }}
       >
-        <svg width="40" height="40" viewBox="0 0 40 40" style={{ position: 'absolute', top: 0, left: 0, transform: 'rotate(-90deg)' }}>
-          <circle cx="20" cy="20" r={BURGER_RING_RADIUS} fill="none" stroke="rgba(232,197,71,0.9)" strokeWidth="1.5" strokeDasharray={BURGER_RING_CIRCUMFERENCE} strokeDashoffset={BURGER_RING_CIRCUMFERENCE * (1 - scrollProgress)} strokeLinecap="round" style={{ transition: 'stroke-dashoffset 0.15s linear' }} />
+        <svg width="44" height="44" viewBox="0 0 44 44" style={{ position: 'absolute', top: 0, left: 0, transform: 'rotate(-90deg)' }}>
+          <circle cx="22" cy="22" r={BURGER_RING_RADIUS} fill="none" stroke="rgba(232,197,71,0.9)" strokeWidth="1.5" strokeDasharray={BURGER_RING_CIRCUMFERENCE} strokeDashoffset={BURGER_RING_CIRCUMFERENCE * (1 - scrollProgress)} strokeLinecap="round" style={{ transition: 'stroke-dashoffset 0.15s linear' }} />
         </svg>
-        <span style={{ ...BURGER_BAR_STYLE_BASE, background: burgerBarColor, transform: open ? 'rotate(45deg)' : 'rotate(0deg)' }} />
-        <span style={{ ...BURGER_BAR_STYLE_BASE, background: burgerBarColor, transform: open ? 'rotate(-45deg)' : 'rotate(90deg)' }} />
+        {/* Tre streck (≡) i vila, som fälls ihop till ett X när menyn är öppen. */}
+        <span style={{ ...BURGER_BAR_STYLE_BASE, top: open ? '50%' : 'calc(50% - 6px)', transform: `translateX(-50%) ${open ? 'rotate(45deg)' : 'rotate(0deg)'}`, background: burgerBarColor }} />
+        <span style={{ ...BURGER_BAR_STYLE_BASE, top: '50%', transform: 'translateX(-50%)', opacity: open ? 0 : 1, background: burgerBarColor }} />
+        <span style={{ ...BURGER_BAR_STYLE_BASE, top: open ? '50%' : 'calc(50% + 6px)', transform: `translateX(-50%) ${open ? 'rotate(-45deg)' : 'rotate(0deg)'}`, background: burgerBarColor }} />
       </button>
 
       {mounted && createPortal(

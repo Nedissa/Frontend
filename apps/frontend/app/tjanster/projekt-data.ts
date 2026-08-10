@@ -37,7 +37,7 @@ export const PROJECTS: Project[] = [
     result: 'En webbplats som speglar vad Sagateatern faktiskt är idag och som gör det enklare för besökare att hitta rätt, boka bord och delta i evenemang.',
     technologies: ['Next.js', 'Payload CMS', 'Stripe'],
     steps: [
-      { title: 'Översikt', description: 'Startsidan sätter tonen — tydlig identitet och en snabb väg till det besökaren letar efter.' },
+      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.' },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.' },
       { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.' },
     ],
@@ -54,7 +54,7 @@ export const PROJECTS: Project[] = [
     result: 'En plattform som gör det enklare för arbetssökande att ta del av tjänsterna och komma i kontakt, med ett engagerande och professionellt uttryck.',
     technologies: ['Next.js', 'Payload CMS'],
     steps: [
-      { title: 'Översikt', description: 'Startsidan sätter tonen — tydlig identitet och en snabb väg till det besökaren letar efter.' },
+      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.' },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.' },
       { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.' },
     ],
@@ -71,7 +71,7 @@ export const PROJECTS: Project[] = [
     result: 'En webbplats som gör det enkelt för kunder att hitta sin nästa bil och som stärker förtroendet för varumärket.',
     technologies: ['Next.js', 'Payload CMS'],
     steps: [
-      { title: 'Översikt', description: 'Startsidan sätter tonen — tydlig identitet och en snabb väg till det besökaren letar efter.' },
+      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.' },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.' },
       { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.' },
     ],
@@ -88,7 +88,7 @@ export const PROJECTS: Project[] = [
     result: 'En webbplats som matchar studion, med en personlig känsla och helhet som kunden är supernöjd med.',
     technologies: ['Next.js', 'Payload CMS'],
     steps: [
-      { title: 'Översikt', description: 'Startsidan sätter tonen — tydlig identitet och en snabb väg till det besökaren letar efter.' },
+      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.' },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.' },
       { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.' },
     ],
@@ -105,7 +105,7 @@ export const PROJECTS: Project[] = [
     result: 'En webbplats som stärker förtroendet för varumärket och gör det enkelt för kunder att hitta och boka rätt tjänst.',
     technologies: ['Next.js', 'Payload CMS'],
     steps: [
-      { title: 'Översikt', description: 'Startsidan sätter tonen — tydlig identitet och en snabb väg till det besökaren letar efter.' },
+      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.' },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.' },
       { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.' },
     ],

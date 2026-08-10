@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import type { IconType } from 'react-icons';
 import {
   SiPayloadcms, SiSanity, SiContentful, SiMedusa, SiShopify, SiStripe, SiKlarna,
@@ -10,7 +10,7 @@ import {
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
 
-const CATEGORIES = ['Utvalda', 'Frontend', 'CMS', 'E-handel', 'Backend & VPS', 'Webbplattformar', 'Marknadsföring', 'GDPR', 'Verktyg'] as const;
+const CATEGORIES = ['Utvalda', 'Frontend', 'CMS', 'E-handel', 'Backend & VPS', 'Webbplattformar', 'Marknadsföring', 'Dataskydd', 'Verktyg'] as const;
 
 type Category = (typeof CATEGORIES)[number];
 type Tool = { name: string; category: Exclude<Category, 'Utvalda'>; featured?: boolean; icon: IconType | null; mono: string; desc: string };
@@ -40,30 +40,44 @@ const TOOLS: Tool[] = [
   { name: 'Claude AI', category: 'Verktyg', icon: SiClaude, mono: 'C', desc: 'AI-utveckling' },
   { name: 'Google Analytics', category: 'Marknadsföring', featured: true, icon: SiGoogleanalytics, mono: 'GA', desc: 'Webbanalys' },
   { name: 'Google Tag Manager', category: 'Marknadsföring', icon: SiGoogletagmanager, mono: 'GT', desc: 'Taggning & spårning' },
-  { name: 'Cookiebot', category: 'GDPR', featured: true, icon: null, mono: 'C', desc: 'Cookiesamtycke' },
+  { name: 'Cookiebot', category: 'Dataskydd', featured: true, icon: null, mono: 'C', desc: 'Cookiesamtycke' },
   { name: 'Framer', category: 'Webbplattformar', featured: true, icon: SiFramer, mono: 'F', desc: 'No-code-byggare' },
   { name: 'Webflow', category: 'Webbplattformar', featured: true, icon: SiWebflow, mono: 'W', desc: 'No-code-byggare' },
   { name: 'WordPress', category: 'Webbplattformar', icon: SiWordpress, mono: 'WP', desc: 'För kundens räkning' },
   { name: 'Shopify (Headless)', category: 'Webbplattformar', featured: true, icon: SiShopify, mono: 'SH', desc: 'Headless e-handel' },
 ];
 
-const MOBILE_HIDDEN_CATEGORIES: readonly Category[] = ['Utvalda', 'GDPR'];
+const MOBILE_HIDDEN_CATEGORIES: readonly Category[] = ['Utvalda', 'Dataskydd'];
 
 const MOBILE_BREAKPOINT = 900;
 
 export function PlatformsSection() {
+  // Serverrendering vet inte skärmbredden, så starta alltid med "Utvalda" (matchar
+  // desktop-defaulten) för att undvika hydration-mismatch. "Utvalda" och "GDPR" är
+  // dolda på mobil — useLayoutEffect körs synkront innan webbläsaren målar första
+  // framen, så bytet till "Frontend" på mobil sker utan synlig blink.
   const [active, setActive] = useState<Category>('Utvalda');
 
-  // "Utvalda" and "GDPR" tabs are hidden on mobile — if either would be active
-  // there, fall back to the first visible tab so the shown items match the
-  // highlighted tab instead of silently displaying "Utvalda" with none active.
-  useEffect(() => {
-    if (window.innerWidth <= MOBILE_BREAKPOINT && MOBILE_HIDDEN_CATEGORIES.includes(active)) {
+  useLayoutEffect(() => {
+    if (window.innerWidth <= MOBILE_BREAKPOINT) {
       setActive('Frontend');
     }
   }, []);
 
   const visible = active === 'Utvalda' ? TOOLS.filter((t) => t.featured) : TOOLS.filter((t) => t.category === active);
+
+  const selectCategory = (cat: Category) => {
+    setActive(cat);
+    // På mobil ligger flikarna ovanför ikonlistan — glid ner till ikonerna direkt
+    // vid byte, annars ser det ut som att inget hände förrän man scrollar själv.
+    if (window.innerWidth <= MOBILE_BREAKPOINT) {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          document.getElementById('plattformar-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    }
+  };
 
   return (
     <section id="plattformar" className="section-padding" style={{ padding: '140px 30px', minHeight: '100vh', boxSizing: 'border-box' }}>
@@ -94,7 +108,7 @@ export function PlatformsSection() {
             {CATEGORIES.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setActive(cat)}
+                onClick={() => selectCategory(cat)}
                 className={MOBILE_HIDDEN_CATEGORIES.includes(cat) ? 'platform-tab-hide-mobile' : undefined}
                 style={{
                   background: 'none',
@@ -115,7 +129,7 @@ export function PlatformsSection() {
           </div>
         </FadeIn>
 
-        <div className="grid-platforms" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '48px 32px' }}>
+        <div id="plattformar-grid" className="grid-platforms" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '48px 32px' }}>
           {visible.map((tool, i) => (
             <FadeIn key={tool.name} delay={i * 0.04}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>

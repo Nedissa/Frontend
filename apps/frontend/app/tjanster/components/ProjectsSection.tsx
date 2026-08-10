@@ -15,7 +15,11 @@ export function ProjectsSection() {
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
+    let rafId: number | null = null;
+
+    const measure = () => {
+      rafId = null;
+
       if (window.innerWidth <= MOBILE_BREAKPOINT) {
         setOffset(0);
         return;
@@ -38,8 +42,20 @@ export function ProjectsSection() {
       setOffset(Math.min(scrolledPast, maxOffset));
     };
 
+    // Coalesce scroll events till en mätning per animationsframe, annars hinner
+    // CSS-transitionen aldrig köra klart innan nästa scroll-event skriver ett nytt
+    // värde — det gör att panelen känns hackig istället för att glida mjukt.
+    const handleScroll = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(measure);
+    };
+
+    measure();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
@@ -48,7 +64,7 @@ export function ProjectsSection() {
       ref={sectionRef}
       className="section-projects bg-white pt-[140px] pb-[140px] mx-[60px] box-border"
     >
-      <SectionHeader num="04" label="Projekt" extra="© 2026" />
+      <SectionHeader num="06" label="Projekt" extra="© 2026" hasVisibleHeading />
 
       {/* Main layout */}
       <div
@@ -61,7 +77,7 @@ export function ProjectsSection() {
           className="projects-left-panel flex flex-col items-end pr-[40px]"
           style={{
             transform: `translateY(${offset}px)`,
-            transition: 'transform 0.12s ease-out',
+            transition: 'transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
           <h2
@@ -130,7 +146,7 @@ export function ProjectsSection() {
           className="projects-right-panel hide-mobile pl-[40px]"
           style={{
             transform: `translateY(${offset}px)`,
-            transition: 'transform 0.12s ease-out',
+            transition: 'transform 0.9s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
           <div

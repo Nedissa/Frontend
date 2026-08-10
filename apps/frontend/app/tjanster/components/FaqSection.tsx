@@ -2,35 +2,42 @@
 import { useState } from 'react';
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
-
-const FAQS = [
-  { q: 'Ett lokalt team, inte en anonym byrå', a: 'Vi sitter i Borås och jobbar nära våra kunder, med kort startsträcka och raka besked. Ni pratar alltid med samma team, inte en ny konsult för varje fråga.' },
-  { q: 'Ett helt team, till kostnaden av en anställning', a: 'Med oss får ni tillgång till specialister inom design, utveckling och drift, utan rekryteringskostnad eller bindningstid. Ni betalar för resultatet, inte för en anställd.' },
-  { q: 'Obegränsat med förfrågningar, ett i taget', a: 'Inom ramen för ert paket kan ni skicka in så många förfrågningar ni vill. Vi arbetar igenom dem löpande, ett ärende i taget, så att kvaliteten alltid håller samma nivå.' },
-  { q: 'Snabb leverans utan att tumma på kvalitet', a: 'De flesta ärenden levereras inom 2–5 arbetsdagar beroende på omfattning. Vi håller en tät dialog under tiden så ni alltid vet var i processen ärendet befinner sig.' },
-  { q: 'Enskilda projekt utan löpande avtal', a: 'Ni behöver inget abonnemang för att jobba med oss. Vi tar även enstaka projekt, från en mindre uppdatering till en helt ny webbplats.' },
-];
+import { FAQS } from '../faq-data';
 
 function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
   return (
     <div style={{ borderTop: '1px solid rgb(230,230,230)' }}>
       <button
         onClick={() => setOpen(!open)}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        aria-expanded={open}
         style={{
           width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '24px 0', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
+          padding: '24px 12px', margin: '0 -12px', background: hovered ? 'rgba(0,0,0,0.03)' : 'none',
+          border: 'none', cursor: 'pointer', textAlign: 'left', borderRadius: '4px',
+          transition: 'background 0.2s ease',
         }}
       >
         <span style={{ fontSize: '17px', fontWeight: 500, color: '#030303' }}>{q}</span>
         <span style={{
           fontSize: '20px', fontWeight: 300, color: '#030303', flexShrink: 0, marginLeft: '20px',
           transform: open ? 'rotate(45deg)' : 'none', transition: 'transform 0.25s ease',
-        }}>+</span>
+        }} aria-hidden="true">+</span>
       </button>
-      {open && (
-        <p style={{ fontSize: '15px', color: 'rgb(104,105,99)', lineHeight: 1.6, margin: '0 0 24px', maxWidth: '520px' }}>{a}</p>
-      )}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateRows: open ? '1fr' : '0fr',
+          transition: 'grid-template-rows 0.35s cubic-bezier(0.65, 0, 0.35, 1)',
+        }}
+      >
+        <div style={{ overflow: 'hidden' }}>
+          <p style={{ fontSize: '15px', color: 'rgb(104,105,99)', lineHeight: 1.6, margin: '0 0 24px', maxWidth: '520px' }}>{a}</p>
+        </div>
+      </div>
     </div>
   );
 }

@@ -75,11 +75,11 @@ export function FeaturesSection() {
 
   return (
     <section
-      className="section-padding py-[140px] px-[30px] min-h-screen box-border"
+      className="section-padding section-full-desktop py-[140px] px-[30px] min-h-screen box-border"
       style={{ background: '#f5f5f3' }}
     >
       <div className="max-w-[1440px] mx-auto">
-        <SectionHeader num="03" label="Processen" extra="© 2026" />
+        <SectionHeader num="05" label="Processen" extra="© 2026" hasVisibleHeading />
         <FadeIn>
           <div className="mb-[48px]">
             <p className="text-[12px] font-semibold uppercase m-0 mb-[10px] flex items-center gap-[8px]" style={{ letterSpacing: '0.12em', color: 'rgb(104,105,99)' }}>
