@@ -3,11 +3,9 @@ import { notFound } from 'next/navigation';
 import { PROJECTS } from '../../projekt-data';
 import { ProjectNav } from '../../components/ProjectNav';
 import { HeroWireframe } from '../../components/wireframe/HeroWireframe';
-import { MetricsWireframe } from '../../components/wireframe/MetricsWireframe';
-import { AlternatingSection } from '../../components/wireframe/AlternatingSection';
-import { TechStackWireframe } from '../../components/wireframe/TechStackWireframe';
+import { BentoWireframe } from '../../components/wireframe/BentoWireframe';
+import { CompactStorySection } from '../../components/wireframe/CompactStorySection';
 import { GalleryWireframe } from '../../components/wireframe/GalleryWireframe';
-import { QuoteWireframe } from '../../components/wireframe/QuoteWireframe';
 import { CtaNavWireframe } from '../../components/wireframe/CtaNavWireframe';
 
 export function generateStaticParams() {
@@ -44,45 +42,17 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
       <HeroWireframe project={project} />
 
-      <MetricsWireframe />
+      <BentoWireframe project={project} />
 
-      {project.challenge && (
-        <AlternatingSection
-          eyebrow="Utmaningen"
-          heading={`Utmaningen med ${project.title}.`}
-          text={project.challenge}
-          imageLabel={`${project.title} - Utmaningen - 4:3`}
-          imageFirst
-        />
-      )}
-
-      {project.solution && (
-        <AlternatingSection
-          eyebrow="Lösningen"
-          heading="Lösningen vi byggde."
-          text={project.solution}
-          imageLabel={`${project.title} - Lösningen - 4:3`}
-          imageFirst={false}
-        />
-      )}
-
-      {project.result && (
-        <AlternatingSection
-          eyebrow="Resultatet"
-          heading="Resultatet för kunden."
-          text={project.result}
-          imageLabel={`${project.title} - Resultatet - 4:3`}
-          imageFirst
-        />
-      )}
-
-      {project.technologies && <TechStackWireframe technologies={project.technologies} />}
+      <CompactStorySection
+        cards={[
+          project.challenge ? { eyebrow: 'Utmaningen', heading: 'Vad kunden stod inför.', text: project.challenge } : null,
+          project.solution ? { eyebrow: 'Lösningen', heading: 'Vad vi byggde.', text: project.solution } : null,
+          project.result ? { eyebrow: 'Resultatet', heading: 'Vad kunden fick.', text: project.result } : null,
+        ].filter((c): c is { eyebrow: string; heading: string; text: string } => c !== null)}
+      />
 
       <GalleryWireframe steps={project.steps} />
-
-      {project.solution && (
-        <QuoteWireframe quote={project.solution} projectTitle={project.title} category={project.category} />
-      )}
 
       <CtaNavWireframe prevSlug={prevProject.slug} nextSlug={nextProject.slug} />
     </main>
