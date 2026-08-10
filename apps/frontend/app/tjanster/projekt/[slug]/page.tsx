@@ -5,7 +5,6 @@ import { ProjectNav } from '../../components/ProjectNav';
 import { StyledHero } from '../../components/styled/StyledHero';
 import { StyledTimeline } from '../../components/styled/StyledTimeline';
 import { StyledTestimonial } from '../../components/styled/StyledTestimonial';
-import { StyledCtaNav } from '../../components/styled/StyledCtaNav';
 
 export function generateStaticParams() {
   return PROJECTS.map((p) => ({ slug: p.slug }));
@@ -31,10 +30,6 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const project = PROJECTS.find((p) => p.slug === slug);
   if (!project) notFound();
 
-  const index = PROJECTS.findIndex((p) => p.slug === slug);
-  const prevProject = PROJECTS[(index - 1 + PROJECTS.length) % PROJECTS.length];
-  const nextProject = PROJECTS[(index + 1) % PROJECTS.length];
-
   return (
     <main className="bg-[#f0efed] text-[#030303] relative">
       <ProjectNav />
@@ -46,8 +41,6 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {project.solution && (
         <StyledTestimonial quote={project.solution} projectTitle={project.title} category={project.category} />
       )}
-
-      <StyledCtaNav prevSlug={prevProject.slug} nextSlug={nextProject.slug} />
     </main>
   );
 }
