@@ -37,7 +37,7 @@ export function TimelineWireframe({ projectTitle, steps }: { projectTitle: strin
               <SecondaryButton href="#">Visa steg ↗</SecondaryButton>
               <div className="mt-6">
                 {step.image ? (
-                  <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-neutral-200">
+                  <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden border border-neutral-300 bg-gradient-to-br from-neutral-100 via-neutral-200 to-neutral-300">
                     <Image
                       src={step.image}
                       alt={`${projectTitle} — ${step.title}`}

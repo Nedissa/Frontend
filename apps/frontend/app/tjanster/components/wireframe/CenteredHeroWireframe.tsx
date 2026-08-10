@@ -23,7 +23,7 @@ export function CenteredHeroWireframe({ project }: { project: Project }) {
 
         <div className="w-full pt-10">
           {project.image ? (
-            <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-neutral-200">
+            <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-neutral-300 bg-gradient-to-br from-neutral-100 via-neutral-200 to-neutral-300">
               <Image
                 src={project.image}
                 alt={`${project.title} — skärmdump`}

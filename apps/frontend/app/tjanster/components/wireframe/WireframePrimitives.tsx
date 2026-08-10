@@ -27,7 +27,7 @@ export function ImagePlaceholder({
 }) {
   return (
     <div
-      className={`${aspect} bg-neutral-200 rounded-lg flex items-center justify-center text-neutral-500 font-mono text-sm text-center px-4 ${className}`}
+      className={`${aspect} border border-neutral-300 bg-gradient-to-br from-neutral-100 via-neutral-200 to-neutral-300 rounded-lg flex items-center justify-center text-neutral-500 font-mono text-sm text-center px-4 ${className}`}
     >
       [{label}]
     </div>
