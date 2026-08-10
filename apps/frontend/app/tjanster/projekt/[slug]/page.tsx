@@ -2,9 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PROJECTS } from '../../projekt-data';
 import { ProjectNav } from '../../components/ProjectNav';
-import { HeroWireframe } from '../../components/wireframe/HeroWireframe';
-import { BentoWireframe } from '../../components/wireframe/BentoWireframe';
-import { CompactStorySection } from '../../components/wireframe/CompactStorySection';
+import { SplitScreenStory } from '../../components/wireframe/SplitScreenStory';
 import { GalleryWireframe } from '../../components/wireframe/GalleryWireframe';
 import { CtaNavWireframe } from '../../components/wireframe/CtaNavWireframe';
 
@@ -40,17 +38,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     <main className="bg-neutral-50 text-neutral-900 relative">
       <ProjectNav />
 
-      <HeroWireframe project={project} />
-
-      <BentoWireframe project={project} />
-
-      <CompactStorySection
-        cards={[
-          project.challenge ? { eyebrow: 'Utmaningen', heading: 'Vad kunden stod inför.', text: project.challenge } : null,
-          project.solution ? { eyebrow: 'Lösningen', heading: 'Vad vi byggde.', text: project.solution } : null,
-          project.result ? { eyebrow: 'Resultatet', heading: 'Vad kunden fick.', text: project.result } : null,
-        ].filter((c): c is { eyebrow: string; heading: string; text: string } => c !== null)}
-      />
+      <SplitScreenStory project={project} />
 
       <GalleryWireframe steps={project.steps} />
 
