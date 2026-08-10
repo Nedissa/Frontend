@@ -55,7 +55,7 @@ export const PROJECTS: Project[] = [
     result: 'En plattform som gör det enklare för arbetssökande att ta del av tjänsterna och komma i kontakt, med ett engagerande och professionellt uttryck.',
     technologies: ['Next.js', 'Payload CMS'],
     steps: [
-      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.' },
+      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/tjanster/projekt/crownmatch/mobile-mockup.png' },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.' },
       { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.' },
     ],

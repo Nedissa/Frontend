@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import type { ProjectStep } from '../../projekt-data';
 import { Eyebrow, ImagePlaceholder, SecondaryButton, WireframeSection } from './WireframePrimitives';
 
@@ -35,7 +36,18 @@ export function TimelineWireframe({ projectTitle, steps }: { projectTitle: strin
               <p className="text-sm leading-[1.7] text-neutral-600 mb-4">{step.description}</p>
               <SecondaryButton href="#">Visa steg ↗</SecondaryButton>
               <div className="mt-6">
-                <ImagePlaceholder label={`${projectTitle} - ${step.title} - 4:3`} aspect="aspect-[4/3]" />
+                {step.image ? (
+                  <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-neutral-200">
+                    <Image
+                      src={step.image}
+                      alt={`${projectTitle} — ${step.title}`}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                ) : (
+                  <ImagePlaceholder label={`${projectTitle} - ${step.title} - 4:3`} aspect="aspect-[4/3]" />
+                )}
               </div>
             </div>
           ))}
