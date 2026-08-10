@@ -2,10 +2,10 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PROJECTS } from '../../projekt-data';
 import { ProjectNav } from '../../components/ProjectNav';
-import { CenteredHeroWireframe } from '../../components/wireframe/CenteredHeroWireframe';
-import { TimelineWireframe } from '../../components/wireframe/TimelineWireframe';
-import { TestimonialWireframe } from '../../components/wireframe/TestimonialWireframe';
-import { CtaNavWireframe } from '../../components/wireframe/CtaNavWireframe';
+import { StyledHero } from '../../components/styled/StyledHero';
+import { StyledTimeline } from '../../components/styled/StyledTimeline';
+import { StyledTestimonial } from '../../components/styled/StyledTestimonial';
+import { StyledCtaNav } from '../../components/styled/StyledCtaNav';
 
 export function generateStaticParams() {
   return PROJECTS.map((p) => ({ slug: p.slug }));
@@ -36,18 +36,18 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const nextProject = PROJECTS[(index + 1) % PROJECTS.length];
 
   return (
-    <main className="bg-neutral-50 text-neutral-900 relative">
+    <main className="bg-[#f0efed] text-[#030303] relative">
       <ProjectNav />
 
-      <CenteredHeroWireframe project={project} />
+      <StyledHero project={project} />
 
-      <TimelineWireframe projectTitle={project.title} steps={project.steps} />
+      <StyledTimeline projectTitle={project.title} steps={project.steps} />
 
       {project.solution && (
-        <TestimonialWireframe quote={project.solution} projectTitle={project.title} category={project.category} />
+        <StyledTestimonial quote={project.solution} projectTitle={project.title} category={project.category} />
       )}
 
-      <CtaNavWireframe prevSlug={prevProject.slug} nextSlug={nextProject.slug} />
+      <StyledCtaNav prevSlug={prevProject.slug} nextSlug={nextProject.slug} />
     </main>
   );
 }
