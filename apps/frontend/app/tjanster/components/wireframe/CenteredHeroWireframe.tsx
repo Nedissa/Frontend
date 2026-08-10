@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import type { Project } from '../../projekt-data';
 import { ImagePlaceholder, PrimaryButton, SecondaryButton, WireframeSection } from './WireframePrimitives';
 
@@ -21,7 +22,19 @@ export function CenteredHeroWireframe({ project }: { project: Project }) {
         </div>
 
         <div className="w-full pt-10">
-          <ImagePlaceholder label={`${project.title} - Hero Showcase - 16:9`} aspect="aspect-video" />
+          {project.image ? (
+            <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-neutral-200">
+              <Image
+                src={project.image}
+                alt={`${project.title} — skärmdump`}
+                fill
+                className="object-cover"
+                priority
+              />
+            </div>
+          ) : (
+            <ImagePlaceholder label={`${project.title} - Hero Showcase - 16:9`} aspect="aspect-video" />
+          )}
         </div>
       </div>
     </WireframeSection>
