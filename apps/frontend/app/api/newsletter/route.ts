@@ -1,13 +1,3 @@
-const BREVO_CONTACTS_URL = 'https://api.brevo.com/v3/contacts';
-
-async function addBrevoContact(email: string, listId = 2) {
-  await fetch(BREVO_CONTACTS_URL, {
-    method: 'POST',
-    headers: { 'api-key': process.env.BREVO_API_KEY!, 'content-type': 'application/json' },
-    body: JSON.stringify({ email, listIds: [listId], updateEnabled: true }),
-  }).catch(() => {});
-}
-
 export async function POST(request: Request) {
   try {
     const { email } = await request.json();
@@ -16,17 +6,24 @@ export async function POST(request: Request) {
       return Response.json({ error: 'E-postadress krävs' }, { status: 400 });
     }
 
-    await fetch('https://api.brevo.com/v3/smtp/email', {
+    await fetch('https://a.klaviyo.com/api/events', {
       method: 'POST',
-      headers: { 'api-key': process.env.BREVO_API_KEY!, 'content-type': 'application/json' },
+      headers: {
+        Authorization: `Klaviyo-API-Key ${process.env.KLAVIYO_API_KEY!}`,
+        'content-type': 'application/json',
+        revision: '2024-10-15',
+      },
       body: JSON.stringify({
-        to: [{ email }],
-        templateId: 5,
-        params: { discountCode: 'WELCOME10', unsubscribeUrl: 'https://techpilots.vercel.app/avprenumerera' },
+        data: {
+          type: 'event',
+          attributes: {
+            properties: { discountCode: 'WELCOME10', unsubscribeUrl: 'https://techpilots.vercel.app/avprenumerera' },
+            metric: { data: { type: 'metric', attributes: { name: 'Newsletter Signup' } } },
+            profile: { data: { type: 'profile', attributes: { email } } },
+          },
+        },
       }),
     });
-
-    await addBrevoContact(email);
 
     return Response.json({ success: true });
   } catch {

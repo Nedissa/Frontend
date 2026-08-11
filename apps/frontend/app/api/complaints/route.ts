@@ -8,27 +8,43 @@ async function sendComplaintEmails(customerName: string, customerEmail: string, 
   const firstName = customerName.split(' ')[0];
   const submittedDate = new Date().toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' });
 
+  const klaviyoHeaders = {
+    Authorization: `Klaviyo-API-Key ${process.env.KLAVIYO_API_KEY!}`,
+    'content-type': 'application/json',
+    revision: '2024-10-15',
+  };
+
   await Promise.all([
-    fetch('https://api.brevo.com/v3/smtp/email', {
+    fetch('https://a.klaviyo.com/api/events', {
       method: 'POST',
-      headers: { 'api-key': process.env.BREVO_API_KEY!, 'content-type': 'application/json' },
+      headers: klaviyoHeaders,
       body: JSON.stringify({
-        to: [{ email: customerEmail }],
-        templateId: 3,
-        params: { firstName, caseNumber, orderNumber: orderId, submittedDate },
+        data: {
+          type: 'event',
+          attributes: {
+            properties: { firstName, caseNumber, orderNumber: orderId, submittedDate },
+            metric: { data: { type: 'metric', attributes: { name: 'Claim Received' } } },
+            profile: { data: { type: 'profile', attributes: { email: customerEmail } } },
+          },
+        },
       }),
     }),
-    fetch('https://api.brevo.com/v3/smtp/email', {
+    fetch('https://a.klaviyo.com/api/events', {
       method: 'POST',
-      headers: { 'api-key': process.env.BREVO_API_KEY!, 'content-type': 'application/json' },
+      headers: klaviyoHeaders,
       body: JSON.stringify({
-        to: [{ email: 'info@techpilots.se' }],
-        templateId: 6,
-        params: {
-          senderName: customerName,
-          senderEmail: customerEmail,
-          subject: `Ny reklamation ${caseNumber}`,
-          message: `Order: ${orderId}\nReklamationsnummer: ${caseNumber}`,
+        data: {
+          type: 'event',
+          attributes: {
+            properties: {
+              senderName: customerName,
+              senderEmail: customerEmail,
+              subject: `Ny reklamation ${caseNumber}`,
+              message: `Order: ${orderId}\nReklamationsnummer: ${caseNumber}`,
+            },
+            metric: { data: { type: 'metric', attributes: { name: 'Claim Received Internal' } } },
+            profile: { data: { type: 'profile', attributes: { email: 'info@techpilots.se' } } },
+          },
         },
       }),
     }),

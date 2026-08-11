@@ -6,17 +6,22 @@ export async function POST(request: Request) {
       return Response.json({ error: 'Alla fält krävs' }, { status: 400 });
     }
 
-    await fetch('https://api.brevo.com/v3/smtp/email', {
+    await fetch('https://a.klaviyo.com/api/events', {
       method: 'POST',
       headers: {
-        'api-key': process.env.BREVO_API_KEY!,
+        Authorization: `Klaviyo-API-Key ${process.env.KLAVIYO_API_KEY!}`,
         'content-type': 'application/json',
+        revision: '2024-10-15',
       },
       body: JSON.stringify({
-        to: [{ email: 'info@techpilots.se' }],
-        replyTo: { email, name },
-        templateId: 6,
-        params: { senderName: name, senderEmail: email, subject, message },
+        data: {
+          type: 'event',
+          attributes: {
+            properties: { senderName: name, senderEmail: email, subject, message },
+            metric: { data: { type: 'metric', attributes: { name: 'Contact Form Submitted' } } },
+            profile: { data: { type: 'profile', attributes: { email: 'info@techpilots.se' } } },
+          },
+        },
       }),
     });
 
