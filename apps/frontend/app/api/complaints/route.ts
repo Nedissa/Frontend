@@ -15,6 +15,29 @@ async function sendComplaintEmails(customerName: string, customerEmail: string, 
   };
 
   await Promise.all([
+    fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': process.env.BREVO_API_KEY!, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        to: [{ email: customerEmail }],
+        templateId: 3,
+        params: { firstName, caseNumber, orderNumber: orderId, submittedDate },
+      }),
+    }),
+    fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': process.env.BREVO_API_KEY!, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        to: [{ email: 'info@techpilots.se' }],
+        templateId: 6,
+        params: {
+          senderName: customerName,
+          senderEmail: customerEmail,
+          subject: `Ny reklamation ${caseNumber}`,
+          message: `Order: ${orderId}\nReklamationsnummer: ${caseNumber}`,
+        },
+      }),
+    }),
     fetch('https://a.klaviyo.com/api/events', {
       method: 'POST',
       headers: klaviyoHeaders,
