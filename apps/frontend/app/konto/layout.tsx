@@ -18,10 +18,13 @@ async function fetchAccountData(token: string): Promise<AccountData | null> {
     'x-publishable-api-key': PUBLISHABLE_KEY,
   };
 
-  // Fetch customer + orders in parallel
-  const [meRes, ordersRes] = await Promise.allSettled([
+  // Fetch customer, orders and complaints in parallel. /store/complaints
+  // identifies the customer via auth_context, so it no longer needs to
+  // wait for the /customers/me response to resolve customerId first.
+  const [meRes, ordersRes, complaintsRes] = await Promise.allSettled([
     fetch(`${MEDUSA_URL}/store/customers/me?fields=+metadata`, { headers: storeHeaders }),
     fetch(`${MEDUSA_URL}/store/orders?limit=5&fields=*items,*items.variant,*items.variant.product,*items.variant.product.images,*shipping_methods,*payment_collections,*payment_collections.payments`, { headers: storeHeaders }),
+    fetch(`${MEDUSA_URL}/store/complaints`, { headers: storeHeaders }),
   ]);
 
   if (meRes.status !== 'fulfilled' || !meRes.value.ok) return null;
@@ -31,12 +34,6 @@ async function fetchAccountData(token: string): Promise<AccountData | null> {
   const customerId = customer.id;
 
   const metadata = customer.metadata || {};
-
-  // Fetch complaints from store endpoint (stored in customer metadata via backend)
-  const complaintsRes = await fetch(
-    `${MEDUSA_URL}/store/complaints?customer_id=${customerId}`,
-    { headers: storeHeaders }
-  );
 
   const data: AccountData = {
     profile: {
@@ -68,8 +65,8 @@ async function fetchAccountData(token: string): Promise<AccountData | null> {
     data.orders = d.orders || [];
   }
 
-  if (complaintsRes.ok) {
-    const d = await complaintsRes.json();
+  if (complaintsRes.status === 'fulfilled' && complaintsRes.value.ok) {
+    const d = await complaintsRes.value.json();
     data.complaints = d.complaints || [];
   }
 
