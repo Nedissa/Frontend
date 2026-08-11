@@ -149,6 +149,27 @@ export function LoginAside({
         setConfirmError('Länken är ogiltig. Begär en ny återställningslänk.');
         return;
       }
+
+      // Logga in kunden automatiskt med det nya lösenordet direkt
+      const loginEmail = initialResetEmail || resetEmail;
+      if (loginEmail) {
+        const loginResponse = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: loginEmail, password: newPassword }),
+        });
+        if (loginResponse.ok) {
+          window.dispatchEvent(new Event('userLogin'));
+          const dest = sessionStorage.getItem('preLoginPath') || '/konto';
+          sessionStorage.removeItem('preLoginPath');
+          sessionStorage.removeItem('preLoginScrollY');
+          close();
+          router.push(dest);
+          router.refresh();
+          return;
+        }
+      }
+
       setConfirmSuccess(true);
     } catch {
       setConfirmError('Ett fel uppstod. Försök igen.');
