@@ -189,7 +189,7 @@ export function NewsletterPopup() {
                     )}
                   </button>
                 </div>
-                <div style={{ minHeight: '24px' }}>
+                <div style={{ minHeight: '44px' }}>
                   {error === 'already_exists' ? (
                     <p className="text-sm text-red-500">
                       Det finns redan ett konto med den adressen.{' '}
