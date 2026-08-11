@@ -277,7 +277,7 @@ export function LoginAside({
                 <p className="text-sm invisible">.</p>
               </div>
               <p className="text-sm text-gray-600 mb-4">Ditt lösenord har uppdaterats. Du kan nu logga in med ditt nya lösenord.</p>
-              <button onClick={() => { close(); router.replace('/'); }} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800">
+              <button onClick={() => { setEmail(initialResetEmail || ''); setPassword(''); changeView('login'); }} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800">
                 Logga in
               </button>
             </>
