@@ -5,10 +5,8 @@ import {
   SiPayloadcms, SiSanity, SiContentful, SiMedusa, SiShopify, SiStripe, SiKlarna,
   SiHetzner, SiDigitalocean, SiSupabase, SiBrevo, SiNextdotjs, SiReact, SiTypescript,
   SiVercel, SiGoogleanalytics, SiGoogletagmanager, SiFramer, SiWebflow, SiWordpress,
-  SiGit, SiClaude,
+  SiGit, SiClaude, SiHubspot,
 } from 'react-icons/si';
-import SiHubspot from 'react-icons/si/SiHubspot';
-import SiKlaviyo from 'react-icons/si/SiKlaviyo';
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
 
