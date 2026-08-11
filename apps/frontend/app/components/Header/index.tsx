@@ -127,9 +127,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
         const total = items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
         setCartCount(count);
         setCartTotal(total);
-      } catch (e) {
-        console.error('Failed to load cart from localStorage', e);
-      }
+      } catch {}
     }
 
     const checkLoginStatus = () => {
@@ -149,9 +147,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
           const total = items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
           setCartCount(count);
           setCartTotal(total);
-        } catch (e) {
-          console.error('Failed to update cart from localStorage', e);
-        }
+        } catch {}
       } else {
         setCartCount(0);
         setCartTotal(0);
@@ -220,9 +216,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
           const total = items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
           setCartCount(count);
           setCartTotal(total);
-        } catch (e) {
-          console.error('Failed to update cart from event', e);
-        }
+        } catch {}
       }
     };
 

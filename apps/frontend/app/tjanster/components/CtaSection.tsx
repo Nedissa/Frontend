@@ -1,8 +1,11 @@
+'use client';
+import React from 'react';
 import Link from 'next/link';
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
 
 export function CtaSection() {
+  const [hovered, setHovered] = React.useState(false);
   return (
     <section className="section-padding" style={{ padding: '140px 30px', boxSizing: 'border-box' }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
@@ -21,16 +24,20 @@ export function CtaSection() {
           <FadeIn delay={0.08}>
             <Link
               href="/tjanster/kontakt"
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
               style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px',
-                fontSize: '18px', fontWeight: 600, color: '#030303',
-                textDecoration: 'none', paddingBottom: '12px',
-                borderBottom: '1px solid #030303', minWidth: '260px',
+                display: 'inline-flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px',
+                fontSize: '16px', fontWeight: 700, color: hovered ? '#e8c547' : '#030303',
+                textDecoration: 'none', paddingLeft: '24px', paddingRight: '24px', paddingTop: '16px', paddingBottom: '16px',
+                background: hovered ? '#030303' : '#e8c547', borderRadius: '4px', minWidth: 'fit-content', border: '2px solid #030303',
+                transition: 'background 0.3s ease, color 0.3s ease',
+                cursor: 'pointer',
               }}
             >
-              Hör av er till oss
+              Starta ditt projekt idag
               <svg width="16" height="16" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }} aria-hidden="true">
-                <path d="M2 2L12 2L12 12L2 2Z" fill="#030303" />
+                <path d="M2 2L12 2L12 12L2 2Z" fill={hovered ? '#e8c547' : '#030303'} />
               </svg>
             </Link>
           </FadeIn>

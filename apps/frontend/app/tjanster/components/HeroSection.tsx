@@ -12,25 +12,29 @@ function HeroPromo() {
     <motion.div
       className="hero-promo-panel absolute left-8 top-[26%] -translate-y-1/2 z-[2]"
       style={{
-        maxWidth: '460px',
+        maxWidth: '520px',
         width: 'calc(100% - 64px)',
-        background: 'rgba(0,0,0,0.32)',
-        backdropFilter: 'blur(14px)',
-        WebkitBackdropFilter: 'blur(14px)',
+        background: 'rgba(0, 0, 0, 0.2)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         border: '1px solid rgba(255,255,255,0.16)',
-        borderRadius: '20px',
-        padding: '32px',
+        borderRadius: '15px',
+        padding: '40px',
         boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
       }}
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.9 }}
     >
+      <div style={{ fontSize: '14px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <span style={{ fontSize: '16px', letterSpacing: '2px', color: '#fff' }} aria-hidden="true">★★★★★</span>
+        <span style={{ color: '#fff' }}>4.9/5</span>
+      </div>
       <h1
         className="hero-promo-heading"
         style={{
           fontFamily: '"Geist", system-ui, sans-serif',
-          fontSize: 'clamp(26px, 2.4vw, 38px)',
+          fontSize: 'clamp(26px, 2.4vw, 42px)',
           fontWeight: 700,
           lineHeight: 1.05,
           letterSpacing: '-0.01em',
@@ -39,7 +43,8 @@ function HeroPromo() {
           textShadow: '0 4px 24px rgba(0,0,0,0.5)',
         }}
       >
-        Lyft din <span style={{ color: '#e8c547' }}>digitala närvaro</span>
+        Lyft din <br />
+  <span style={{ color: '#e8c547' }}>digitala närvaro</span>
       </h1>
       <div style={{ width: '100%', height: '2px', background: 'rgba(255,255,255,0.35)', margin: '0 0 16px' }} />
       <p
@@ -52,34 +57,38 @@ function HeroPromo() {
           margin: '0 0 28px',
         }}
       >
-        Vi bygger digitala lösningar, från idé till lansering.
+        Webbplatser som säljer. Från startup till e-commerce. <br /> Optimerad för prestanda, konvertering och tillväxt.
       </p>
-      <div className="flex items-center gap-[10px] flex-wrap">
-        <motion.a
-          href="/tjanster/kontakt"
-          className="inline-flex items-center gap-[8px] w-fit px-[18px] py-[10px] text-[14px] font-semibold rounded-full no-underline whitespace-nowrap"
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-          style={{
-            background: hovered ? '#030303' : '#e8c547',
-            color: hovered ? '#e8c547' : '#0c0d12',
-            border: hovered ? '2px solid #e8c547' : '2px solid transparent',
-            transition: 'background 0.3s ease, color 0.3s ease, border-color 0.3s ease',
-          }}
-        >
-          Boka kostnadsfritt samtal
-          <span>↗</span>
-        </motion.a>
-        <a
-          href="/tjanster#projekt"
-          className="inline-flex items-center w-fit px-[18px] py-[10px] text-[14px] font-semibold rounded-full no-underline whitespace-nowrap"
-          style={{
-            color: '#fff',
-            border: '2px solid rgba(255,255,255,0.3)',
-          }}
-        >
-          Se vad vi byggt
-        </a>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        <div className="flex items-center gap-[16px]" style={{ flexWrap: 'nowrap' }}>
+          <motion.a
+            href="/tjanster/kontakt"
+            className="inline-flex items-center gap-[8px] w-fit px-[28px] py-[16px] text-[15px] font-semibold rounded-full no-underline whitespace-nowrap"
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            style={{
+              background: hovered ? '#030303' : '#e8c547',
+              color: hovered ? '#e8c547' : '#0c0d12',
+              border: hovered ? '2px solid #e8c547' : '2px solid #030303',
+              transition: 'background 0.3s ease, color 0.3s ease, border-color 0.3s ease',
+            }}
+          >
+            Boka konsultation
+            <span>↗</span>
+          </motion.a>
+          <a
+            href="/tjanster#projekt"
+            className="inline-flex items-center w-fit px-[28px] py-[16px] text-[15px] font-semibold rounded-full no-underline whitespace-nowrap"
+            style={{
+              color: '#fff',
+              border: '2px solid rgba(255,255,255,0.4)',
+            }}
+          >
+            Se vad vi byggt
+          </a>
+        </div>
+        <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.65)' }}>30 min helt kostnadsfritt — utan bindning</div>
+        <div style={{ fontSize: '20px', color: 'rgba(255,255,255,0.4)', textAlign: 'center', margin: '16px 0' }} aria-hidden="true">●</div>
       </div>
     </motion.div>
   );
@@ -154,7 +163,7 @@ export function HeroSection() {
           src="/tjanster/hero.webp"
           alt=""
           className="hero-image absolute bottom-0 left-0 w-full block"
-          style={{ height: '95%', objectFit: 'contain', objectPosition: '35% bottom', mixBlendMode: 'screen' }}
+          style={{ height: '90%', objectFit: 'contain', objectPosition: 'center', mixBlendMode: 'screen' }}
         />
       </motion.div>
 

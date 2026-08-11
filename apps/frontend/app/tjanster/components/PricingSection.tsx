@@ -79,19 +79,22 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
           </div>
         </div>
 
-        <Link
-          href="/tjanster/kontakt"
-          className="flex items-center justify-between text-[16px] font-semibold pb-[12px] no-underline"
-          style={{
-            color: p.dark ? '#e8c547' : '#030303',
-            borderBottom: `1px solid ${p.dark ? 'rgba(232,197,71,0.4)' : 'rgb(104,105,99)'}`,
-          }}
-        >
-          Börja nu
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0" aria-hidden="true">
-            <path d="M2 2L12 2L12 12L2 2Z" fill={p.dark ? '#e8c547' : '#030303'} />
-          </svg>
-        </Link>
+        <div>
+          <Link
+            href="/tjanster/kontakt"
+            className="flex items-center justify-between text-[16px] font-semibold pb-[12px] no-underline"
+            style={{
+              color: p.dark ? '#e8c547' : '#030303',
+              borderBottom: `1px solid ${p.dark ? 'rgba(232,197,71,0.4)' : 'rgb(104,105,99)'}`,
+            }}
+          >
+            Boka konsultation
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0" aria-hidden="true">
+              <path d="M2 2L12 2L12 12L2 2Z" fill={p.dark ? '#e8c547' : '#030303'} />
+            </svg>
+          </Link>
+          <div style={{ fontSize: '12px', marginTop: '8px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}>Gratis · samma dag offert</div>
+        </div>
 
         <div>
           <div

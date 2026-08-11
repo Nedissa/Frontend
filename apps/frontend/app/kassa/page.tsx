@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback, useLayoutEffect, Suspense } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { MainLayout } from '../components/layout/MainLayout';
 import { InputWithCheck } from '../components/auth/InputWithCheck';
@@ -477,7 +478,9 @@ function CheckoutContent() {
                   <div className="flex gap-4 sm:gap-6 items-center min-w-0">
                     <div className="flex-shrink-0">
                       {item.image ? (
-                        <img src={item.image} alt={item.title} className="w-10 h-10 sm:w-24 sm:h-24 object-contain" />
+                        <div className="relative w-10 h-10 sm:w-24 sm:h-24">
+                          <Image src={item.image} alt={item.title} fill sizes="(max-width: 640px) 40px, 96px" className="object-contain" />
+                        </div>
                       ) : (
                         <div className="w-[52px] h-[52px] sm:w-24 sm:h-24" />
                       )}

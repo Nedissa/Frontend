@@ -7,10 +7,12 @@ import {
   SiVercel, SiGoogleanalytics, SiGoogletagmanager, SiFramer, SiWebflow, SiWordpress,
   SiGit, SiClaude,
 } from 'react-icons/si';
+import SiHubspot from 'react-icons/si/SiHubspot';
+import SiKlaviyo from 'react-icons/si/SiKlaviyo';
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
 
-const CATEGORIES = ['Utvalda', 'Frontend', 'CMS', 'E-handel', 'Backend & VPS', 'Webbplattformar', 'Marknadsföring', 'Dataskydd', 'Verktyg'] as const;
+const CATEGORIES = ['Utvalda', 'Frontend', 'CMS', 'E-handel', 'Infrastruktur', 'Webbplattformar', 'CRM', 'Säkerhet', 'Verktyg'] as const;
 
 type Category = (typeof CATEGORIES)[number];
 type Tool = { name: string; category: Exclude<Category, 'Utvalda'>; featured?: boolean; icon: IconType | null; mono: string; desc: string };
@@ -26,11 +28,13 @@ const TOOLS: Tool[] = [
   { name: 'Shopify', category: 'E-handel', featured: true, icon: SiShopify, mono: 'SH', desc: 'E-handelsplattform' },
   { name: 'Stripe', category: 'E-handel', featured: true, icon: SiStripe, mono: 'ST', desc: 'Betallösning' },
   { name: 'Klarna', category: 'E-handel', icon: SiKlarna, mono: 'K', desc: 'Betallösning' },
-  { name: 'Hetzner', category: 'Backend & VPS', featured: true, icon: SiHetzner, mono: 'H', desc: 'Serverdrift' },
-  { name: 'Inleed', category: 'Backend & VPS', featured: true, icon: null, mono: 'I', desc: 'Serverdrift' },
-  { name: 'DigitalOcean', category: 'Backend & VPS', icon: SiDigitalocean, mono: 'DO', desc: 'Serverdrift' },
-  { name: 'Supabase', category: 'Backend & VPS', featured: true, icon: SiSupabase, mono: 'SB', desc: 'Databas & backend' },
-  { name: 'Brevo', category: 'Marknadsföring', featured: true, icon: SiBrevo, mono: 'B', desc: 'E-postutskick' },
+  { name: 'Hetzner', category: 'Infrastruktur', featured: false, icon: SiHetzner, mono: 'H', desc: 'Serverdrift' },
+  { name: 'Inleed', category: 'Infrastruktur', featured: false, icon: null, mono: 'I', desc: 'Serverdrift' },
+  { name: 'DigitalOcean', category: 'Infrastruktur', icon: SiDigitalocean, mono: 'DO', desc: 'Serverdrift' },
+  { name: 'Supabase', category: 'Infrastruktur', featured: false, icon: SiSupabase, mono: 'SB', desc: 'Databas & backend' },
+  { name: 'HubSpot', category: 'CRM', featured: true, icon: null, mono: 'HS', desc: 'CRM & email' },
+  { name: 'Klaviyo', category: 'CRM', featured: true, icon: null, mono: 'K', desc: 'E-commerce CRM' },
+  { name: 'Brevo', category: 'CRM', featured: false, icon: SiBrevo, mono: 'B', desc: 'E-postutskick' },
   { name: 'Next.js', category: 'Frontend', featured: true, icon: SiNextdotjs, mono: 'N', desc: 'Ramverk' },
   { name: 'React', category: 'Frontend', featured: true, icon: SiReact, mono: 'R', desc: 'Ramverk' },
   { name: 'TypeScript', category: 'Frontend', icon: SiTypescript, mono: 'TS', desc: 'Programspråk' },
@@ -38,16 +42,18 @@ const TOOLS: Tool[] = [
   { name: 'Git', category: 'Verktyg', icon: SiGit, mono: 'G', desc: 'Versionshantering' },
   { name: 'VS Code', category: 'Verktyg', icon: null, mono: 'VS', desc: 'Kodredigerare' },
   { name: 'Claude AI', category: 'Verktyg', icon: SiClaude, mono: 'C', desc: 'AI-utveckling' },
-  { name: 'Google Analytics', category: 'Marknadsföring', featured: true, icon: SiGoogleanalytics, mono: 'GA', desc: 'Webbanalys' },
-  { name: 'Google Tag Manager', category: 'Marknadsföring', icon: SiGoogletagmanager, mono: 'GT', desc: 'Taggning & spårning' },
-  { name: 'Cookiebot', category: 'Dataskydd', featured: true, icon: null, mono: 'C', desc: 'Cookiesamtycke' },
-  { name: 'Framer', category: 'Webbplattformar', featured: true, icon: SiFramer, mono: 'F', desc: 'No-code-byggare' },
-  { name: 'Webflow', category: 'Webbplattformar', featured: true, icon: SiWebflow, mono: 'W', desc: 'No-code-byggare' },
+  { name: 'Google Analytics', category: 'CRM', featured: false, icon: SiGoogleanalytics, mono: 'GA', desc: 'Webbanalys' },
+  { name: 'Google Tag Manager', category: 'CRM', featured: false, icon: SiGoogletagmanager, mono: 'GT', desc: 'Taggning & spårning' },
+  { name: 'Cookiebot', category: 'Säkerhet', featured: false, icon: null, mono: 'C', desc: 'GDPR & cookie-hantering' },
+  { name: 'SSL/TLS', category: 'Säkerhet', featured: false, icon: null, mono: 'SSL', desc: 'Datakryptering' },
+  { name: 'Hetzner Security', category: 'Säkerhet', featured: false, icon: null, mono: 'HS', desc: 'Firewall & DDoS-skydd' },
+  { name: 'Framer', category: 'Webbplattformar', featured: false, icon: SiFramer, mono: 'F', desc: 'No-code-byggare' },
+  { name: 'Webflow', category: 'Webbplattformar', featured: false, icon: SiWebflow, mono: 'W', desc: 'No-code-byggare' },
   { name: 'WordPress', category: 'Webbplattformar', icon: SiWordpress, mono: 'WP', desc: 'För kundens räkning' },
-  { name: 'Shopify (Headless)', category: 'Webbplattformar', featured: true, icon: SiShopify, mono: 'SH', desc: 'Headless e-handel' },
+  { name: 'Shopify (Headless)', category: 'Webbplattformar', featured: false, icon: SiShopify, mono: 'SH', desc: 'Headless e-handel' },
 ];
 
-const MOBILE_HIDDEN_CATEGORIES: readonly Category[] = ['Utvalda', 'Dataskydd'];
+const MOBILE_HIDDEN_CATEGORIES: readonly Category[] = ['Utvalda'];
 
 const MOBILE_BREAKPOINT = 900;
 
@@ -82,7 +88,7 @@ export function PlatformsSection() {
   return (
     <section id="plattformar" className="section-padding" style={{ padding: '140px 30px', minHeight: '100vh', boxSizing: 'border-box' }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
-        <SectionHeader num="08" label="Plattformar" extra="© 2026" />
+        <SectionHeader num="08" label="Tech stack" extra="© 2026" />
 
         <FadeIn>
           <div

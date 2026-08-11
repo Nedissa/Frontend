@@ -41,7 +41,8 @@ const NAV = [
     label: 'Felanmälan',
     links: [
       { id: 'reklamation', label: 'Reklamation' },
-      { id: 'support', label: 'Support' },
+      { id: 'byten', label: 'Byten' },
+      { id: 'felanmalan-support', label: 'Serviceärenden' },
     ],
   },
   {
@@ -149,6 +150,7 @@ const SUBTITLES: Record<string, string> = {
   returer: 'Hur du returnerar en vara. 14 dagars ångerrätt.',
   byten: 'Hur du byter en vara mot en annan.',
   reklamation: 'Reklamation av felaktig vara eller garanti.',
+  'felanmalan-support': 'Serviceärenden och kontakt med tillverkarens support.',
   villkor: 'Våra försäljningsvillkor och köpeavtal.',
   integritet: 'Hur vi hanterar och skyddar dina personuppgifter.',
   cookies: 'Information om cookies och hur vi använder dem.',
@@ -321,7 +323,7 @@ export default function CustomerServicePage() {
                   <h3>Hur spårar jag min beställning?</h3>
                   <p>Du får ett spårningsnummer via e-mail när din beställning skickas. Du kan även logga in på Mina sidor för att se status.</p>
                   <h3>Vilka betalningsmetoder accepterar ni?</h3>
-                  <p>Vi accepterar kreditkort (Visa, Mastercard), Swish, PayPal och Klarna. Alla betalningar är SSL-krypterade.</p>
+                  <p>Vi accepterar kreditkort (Visa, Mastercard), Apple Pay och Klarna. Alla betalningar är SSL-krypterade.</p>
                   <h3>Kan jag returnera en produkt?</h3>
                   <p>Ja, du har 14 dagars ångerrätt på alla köp. Produkten ska vara oanvänd och i originalskick. Återbetalning sker inom 14 dagar efter godkänd retur.</p>
                   <h3>Har produkterna garanti?</h3>
@@ -347,7 +349,7 @@ export default function CustomerServicePage() {
                 <div>
                   <h2>Betalning</h2>
                   <h3>Betalningsmetoder</h3>
-                  <p>Vi accepterar kreditkort (Visa, Mastercard), Swish, PayPal och Klarna.</p>
+                  <p>Vi accepterar kreditkort (Visa, Mastercard), Apple Pay och Klarna.</p>
                   <h3>Säker betalning</h3>
                   <p>Vi använder SSL-kryptering och är PCI DSS-certifierade. Vi lagrar aldrig dina fullständiga betalningsuppgifter.</p>
                   <h3>Varför blev min betalning nekad?</h3>
@@ -433,9 +435,9 @@ export default function CustomerServicePage() {
                 </div>
               )}
 
-              {active === 'support' && (
+              {active === 'felanmalan-support' && (
                 <div>
-                  <h2>Support</h2>
+                  <h2>Serviceärenden</h2>
                   <h3>Serviceärenden</h3>
                   <p>Har din produkt ett fel som kräver reparation? Vi hjälper dig att komma i kontakt med rätt serviceinstans.</p>
                   <h3>Tillverkarservice</h3>
@@ -457,7 +459,7 @@ export default function CustomerServicePage() {
                   <h3>3. Beställning</h3>
                   <p>Beställning genomförs via webbplatsen med godkänd betalning. Orderbekräftelse skickas per e-post.</p>
                   <h3>4. Betalning</h3>
-                  <p>Vi accepterar Visa, Mastercard, Swish, PayPal och Klarna med PCI DSS-certifierade betalningslösningar.</p>
+                  <p>Vi accepterar Visa, Mastercard, Apple Pay och Klarna med PCI DSS-certifierade betalningslösningar.</p>
                   <h3>5. Frakt och leverans</h3>
                   <p>Fri frakt på beställningar över 499 kr. Leveranstid visas vid kassan. Ej uthämtat paket debiteras 249 kr inkl. moms.</p>
                   <h3>6. Ångerrätt</h3>

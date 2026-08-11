@@ -4,7 +4,7 @@ import { MainLayout } from '@/app/components/layout/MainLayout';
 import { getProductByHandle, getBreadcrumbTrail } from '@/app/lib/products';
 import ProductDetailClient from '@/app/produktserier/[slug]/[handle]/ProductDetailClient';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 interface PageProps {
   params: Promise<{
