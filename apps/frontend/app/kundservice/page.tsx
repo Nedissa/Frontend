@@ -286,7 +286,7 @@ export default function CustomerServicePage() {
                     <div><label style={labelStyle}>Rubrik *</label><input type="text" value={subject} onChange={e => setSubject(e.target.value)} required style={inputStyle} /></div>
                     <div><label style={labelStyle}>Ditt meddelande *</label><textarea rows={5} value={message} onChange={e => setMessage(e.target.value)} required style={{ ...inputStyle, resize: 'vertical' }} /></div>
                     <button type="submit" disabled={isLoading || isSuccess} style={{ background: '#000', color: '#fff', border: 'none', padding: '12px 32px', fontSize: '0.9rem', fontWeight: 700, borderRadius: '4px', cursor: isLoading || isSuccess ? 'not-allowed' : 'pointer', opacity: isLoading || isSuccess ? 0.6 : 1, alignSelf: 'flex-start' }}>
-                      {isSuccess ? 'Tackar!' : isLoading ? 'Skickar...' : 'Skicka meddelande'}
+                      {isSuccess ? 'Tackar!' : isLoading ? 'Skickar...' : 'Skicka meddelandet'}
                     </button>
                   </form>
                 </div>
