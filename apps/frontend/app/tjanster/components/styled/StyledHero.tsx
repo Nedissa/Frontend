@@ -40,16 +40,12 @@ export function StyledHero({ project }: { project: Project }) {
         {project.image && (
           <FadeIn delay={0.15}>
             <div className="relative max-w-[1100px] mx-auto mt-4 md:mt-6">
-              <div
-                className="absolute -inset-x-40 -inset-y-24 pointer-events-none"
-                style={{ background: 'radial-gradient(ellipse 45% 65% at 50% 55%, rgba(255,241,191,1) 0%, rgba(250,220,110,1) 12%, rgba(232,197,71,0.9) 26%, rgba(232,197,71,0.65) 40%, rgba(232,197,71,0.4) 52%, rgba(232,197,71,0.2) 64%, rgba(232,197,71,0.08) 75%, rgba(255,255,255,0) 88%)' }}
-              />
               <div className="relative w-full aspect-[4/3]">
                 <Image
                   src={project.image}
                   alt={`${project.title} — skärmdump`}
                   fill
-                  className="object-contain"
+                  className="object-contain mockup-frame"
                   priority
                 />
               </div>

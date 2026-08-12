@@ -11,20 +11,10 @@ const FALLBACK_BENEFITS: ProjectStep[] = [
 
 
 function BenefitCard({ item, index }: { item: ProjectStep; index: number; isActive?: boolean }) {
-  const gradients = [
-    'from-[#fef3c7] via-[#fde047] to-[#facc15]',
-    'from-[#dbeafe] via-[#93c5fd] to-[#60a5fa]',
-    'from-[#fbcfe8] via-[#f472b6] to-[#ec4899]',
-  ];
-
-  const gradient = gradients[index % gradients.length];
 
   return (
-    <div className="w-full max-w-[280px] mx-auto relative bg-transparent">
-      {/* Gradient background behind mockup */}
-      <div className={`absolute -inset-12 rounded-full bg-gradient-to-b ${gradient} opacity-50 blur-3xl -z-10`} />
-
-      <div className="relative w-full aspect-[9/16] rounded-[24px] overflow-hidden shadow-lg">
+    <div className="w-full max-w-[280px] mx-auto relative">
+      <div className="relative w-full aspect-[9/16] rounded-[24px] overflow-hidden shadow-lg mockup-frame">
         <img
           src={item.image}
           alt={item.title}
