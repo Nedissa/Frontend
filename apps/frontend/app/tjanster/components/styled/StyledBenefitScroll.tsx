@@ -13,8 +13,8 @@ const FALLBACK_BENEFITS: ProjectStep[] = [
 function BenefitCard({ item, index }: { item: ProjectStep; index: number; isActive?: boolean }) {
 
   return (
-    <div className="w-full max-w-[280px] mx-auto relative">
-      <div className="relative w-full aspect-[9/16] rounded-[24px] overflow-hidden shadow-lg mockup-frame">
+    <div className="w-full max-w-[280px] mx-auto relative shadow-none">
+      <div className="relative w-full aspect-[9/16] rounded-[24px] overflow-hidden mockup-frame shadow-none">
         <img
           src={item.image}
           alt={item.title}
@@ -54,7 +54,7 @@ export function StyledBenefitScroll({ projectTitle, benefits }: { projectTitle: 
       </div>
 
       {/* Cards grid - show first 3 cards */}
-      <div className="grid grid-cols-3 gap-8 w-full px-4 bg-transparent">
+      <div className="grid grid-cols-3 gap-8 w-full px-4 bg-transparent shadow-none">
         {items.slice(0, 3).map((item, index) => (
           <BenefitCard
             key={item.title}

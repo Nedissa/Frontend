@@ -88,10 +88,10 @@ export function StyledTimeline({ projectTitle, steps }: { projectTitle: string; 
 
       <div ref={trackRef} className="relative max-w-[1100px] mx-auto">
         {/* Bakgrundslinje */}
-        <div className="absolute left-1/2 -translate-x-1/2 top-2 bottom-2 w-px bg-black/10" />
+        <div className="absolute left-1/2 -translate-x-1/2 top-2 bottom-2 w-px bg-gray-300" />
         {/* Scroll-driven progress-linje, signatur-elementet */}
         <motion.div
-          className="absolute left-1/2 -translate-x-1/2 top-2 w-px bg-[#e8c547] origin-top"
+          className="absolute left-1/2 -translate-x-1/2 top-2 w-px bg-black origin-top"
           style={{ scaleY: progressHeight, height: 'calc(100% - 16px)' }}
         />
 
@@ -105,7 +105,7 @@ export function StyledTimeline({ projectTitle, steps }: { projectTitle: string; 
               return (
                 <FadeIn key={step.title} delay={i * 0.08}>
                   <div className="relative bg-transparent">
-                    <div className="absolute left-1/2 -translate-x-1/2 top-1.5 w-4 h-4 rounded-full bg-white border-4 border-[#e8c547] shadow-[0_0_0_4px_rgba(215,94,21,0.1)] z-10" />
+                    <div className="absolute left-1/2 -translate-x-1/2 top-1 w-6 h-6 rounded-full bg-[#fbbf24] border-[6px] border-black z-10" />
 
                     <div className="flex flex-col items-center text-center gap-6 max-w-[560px] mx-auto">
                       {step.image && (
@@ -122,10 +122,9 @@ export function StyledTimeline({ projectTitle, steps }: { projectTitle: string; 
                         <span className="text-xs uppercase tracking-widest text-[#8a8a86] font-medium">Fördel</span>
                         <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-[#030303] mt-2 mb-3">{step.title}</h3>
                         <p className="text-sm leading-[1.7] text-[#5c5c58] mb-4">{step.description}</p>
-                        <ul className="flex flex-col items-center gap-2">
+                        <ul className="flex flex-col items-center gap-0 w-full divide-y divide-black/10">
                           {(step.bullets ?? FALLBACK_BULLETS).map((bullet) => (
-                            <li key={bullet} className="flex items-start gap-2 text-sm text-[#5c5c58]">
-                              <span className="mt-1.5 w-1 h-1 rounded-full bg-[#030303] shrink-0" />
+                            <li key={bullet} className="text-sm text-[#5c5c58] py-4 w-full text-center">
                               {bullet}
                             </li>
                           ))}
@@ -140,7 +139,7 @@ export function StyledTimeline({ projectTitle, steps }: { projectTitle: string; 
             return (
               <FadeIn key={step.title} delay={i * 0.08}>
                 <div className="relative">
-                  <div className="absolute left-1/2 -translate-x-1/2 top-1.5 w-4 h-4 rounded-full bg-white border-4 border-[#e8c547] shadow-[0_0_0_4px_rgba(215,94,21,0.1)] z-10" />
+                  <div className="absolute left-1/2 -translate-x-1/2 top-1 w-6 h-6 rounded-full bg-[#fbbf24] border-[3px] border-black z-10" />
 
                   <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center ${offsetClass} bg-transparent`}>
                     {step.image && imageFirst && (
@@ -157,10 +156,9 @@ export function StyledTimeline({ projectTitle, steps }: { projectTitle: string; 
                       <span className="text-xs uppercase tracking-widest text-[#8a8a86] font-medium">Fördel</span>
                       <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-[#030303] mt-2 mb-3">{step.title}</h3>
                       <p className="text-sm leading-[1.7] text-[#5c5c58] mb-4">{step.description}</p>
-                      <ul className="flex flex-col gap-2 mb-6">
-                        {(step.bullets ?? FALLBACK_BULLETS).map((bullet) => (
-                          <li key={bullet} className="flex items-start gap-2 text-sm text-[#5c5c58]">
-                            <span className="mt-1.5 w-1 h-1 rounded-full bg-[#030303] shrink-0" />
+                      <ul className="flex flex-col gap-0 mb-6 w-full divide-y divide-black/10">
+                        {(step.bullets ?? FALLBACK_BULLETS).map((bullet, idx) => (
+                          <li key={bullet} className="text-sm text-[#5c5c58] py-4">
                             {bullet}
                           </li>
                         ))}
