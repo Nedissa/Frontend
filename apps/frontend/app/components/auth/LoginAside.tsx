@@ -264,9 +264,11 @@ export function LoginAside({
                   <label className="block text-sm font-semibold mb-2">E-postadress</label>
                   <InputWithCheck type="email" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} className="border-0" required />
                 </div>
-                <div>
-                  <p className="text-sm text-gray-400">Ange din e-post så skickar vi en återställningslänk.</p>
+                <div aria-hidden className="invisible">
+                  <label className="block text-sm font-semibold mb-2">‎</label>
+                  <InputWithCheck type="email" value="" onChange={() => {}} />
                 </div>
+                <p className="text-sm text-gray-400">Ange din e-post så skickar vi en återställningslänk.</p>
                 <p className="text-sm text-red-600 invisible">.</p>
               </div>
               <div className="mt-auto">
