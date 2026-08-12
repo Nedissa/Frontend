@@ -1,6 +1,18 @@
 import { sendWelcomeEmail } from '@/app/lib/mailer';
+import { resolveMx } from 'node:dns/promises';
 
 const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
+
+async function hasValidMx(email: string): Promise<boolean> {
+  const domain = email.split('@')[1];
+  if (!domain) return false;
+  try {
+    const records = await resolveMx(domain);
+    return records.length > 0;
+  } catch {
+    return false;
+  }
+}
 
 export async function POST(request: Request) {
   try {
@@ -9,6 +21,13 @@ export async function POST(request: Request) {
     if (!email || !password) {
       return Response.json(
         { error: 'E-post och lösenord måste fyllas i' },
+        { status: 400 }
+      );
+    }
+
+    if (!(await hasValidMx(email))) {
+      return Response.json(
+        { error: 'E-postadressen verkar inte vara giltig. Kontrollera stavningen.' },
         { status: 400 }
       );
     }
