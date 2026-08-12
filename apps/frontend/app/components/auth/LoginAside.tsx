@@ -178,17 +178,12 @@ export function LoginAside({
     }
   };
 
-  // Knapp-sektionen är alltid exakt 108px hög (knapp 48px + padding + länkraden)
-  // Innehålls-sektionen fyller resten
-  const wrap: React.CSSProperties = { padding: '24px', display: view === 'login' ? 'block' : 'none' };
-
   return (
-    <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', height: '100%', opacity: visible ? 1 : 0, transition: 'opacity 150ms ease' }}>
-
+    <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', height: '100%', opacity: visible ? 1 : 0, transition: 'opacity 150ms ease' }}>
       {/* Panel 1: Login */}
       {view === 'login' && (
-        <form onSubmit={handleLogin}>
-          <div className="space-y-4 mb-4">
+        <form onSubmit={handleLogin} className="flex flex-col h-full">
+          <div className="space-y-4 mb-4 flex-1">
             <div>
               <label className="block text-sm font-semibold mb-2">E-postadress</label>
               <InputWithCheck type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="border-0" required />
@@ -199,24 +194,26 @@ export function LoginAside({
             </div>
             <p className={`text-sm text-red-600 ${loginError ? 'visible' : 'invisible'}`}>{loginError || '.'}</p>
           </div>
-          <button type="submit" disabled={isLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
-            {isLoading ? 'Loggar in...' : 'Logga in'}
-          </button>
-          <div className="flex flex-col items-center gap-0 pt-2">
-            <button type="button" onClick={() => { setResetSent(false); setResetEmail(''); changeView('reset'); }} className="w-full text-xs text-gray-500 hover:text-black py-2">
-              Glömt lösenord?
+          <div className="mt-auto">
+            <button type="submit" disabled={isLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
+              {isLoading ? 'Loggar in...' : 'Logga in'}
             </button>
-            <button type="button" onClick={() => changeView('register')} className="w-full text-xs text-gray-500 hover:text-black py-2 border-t border-gray-200">
-              Skapa konto
-            </button>
+            <div className="flex flex-col items-center gap-0 pt-2">
+              <button type="button" onClick={() => { setResetSent(false); setResetEmail(''); changeView('reset'); }} className="w-full text-xs text-gray-500 hover:text-black py-2">
+                Glömt lösenord?
+              </button>
+              <button type="button" onClick={() => changeView('register')} className="w-full text-xs text-gray-500 hover:text-black py-2 border-t border-gray-200">
+                Skapa konto
+              </button>
+            </div>
           </div>
         </form>
       )}
 
       {/* Panel 2: Register */}
       {view === 'register' && (
-        <form onSubmit={handleRegister}>
-          <div className="space-y-4 mb-4">
+        <form onSubmit={handleRegister} className="flex flex-col h-full">
+          <div className="space-y-4 mb-4 flex-1">
             <div>
               <label className="block text-sm font-semibold mb-2">E-postadress</label>
               <InputWithCheck type="email" value={registerEmail} onChange={(e) => setRegisterEmail(e.target.value)} className="border-0" required />
@@ -227,12 +224,14 @@ export function LoginAside({
             </div>
             <p className={`text-sm text-red-600 ${loginError ? 'visible' : 'invisible'}`}>{loginError || '.'}</p>
           </div>
-          <button type="submit" disabled={isLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
-            {isLoading ? 'Registrerar...' : 'Registrera'}
-          </button>
-          <div className="flex flex-col items-center gap-0 pt-2">
-            <button type="button" onClick={() => changeView('login')} className="w-full text-xs text-gray-500 hover:text-black py-2">Avbryt</button>
-            <button type="button" aria-hidden tabIndex={-1} className="w-full text-xs py-2 border-t border-gray-200 invisible">‎</button>
+          <div className="mt-auto">
+            <button type="submit" disabled={isLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
+              {isLoading ? 'Registrerar...' : 'Registrera'}
+            </button>
+            <div className="flex flex-col items-center gap-0 pt-2">
+              <button type="button" onClick={() => changeView('login')} className="w-full text-xs text-gray-500 hover:text-black py-2">Avbryt</button>
+              <button type="button" aria-hidden tabIndex={-1} className="w-full text-xs py-2 border-t border-gray-200 invisible">‎</button>
+            </div>
           </div>
         </form>
       )}
@@ -241,25 +240,26 @@ export function LoginAside({
       {view === 'reset' && (
         <>
           {resetSent ? (
-            <>
-              {/* Samma höjd som de andra vyerna — osynliga fält för spacing */}
-              <div aria-hidden className="invisible space-y-4 mb-4">
-                <div>
+            <div className="flex flex-col h-full">
+              <div className="space-y-4 mb-4 flex-1">
+                <div aria-hidden className="invisible">
                   <label className="block text-sm font-semibold mb-2">‎</label>
                   <InputWithCheck type="email" value="" onChange={() => {}} />
                 </div>
-                <div>
+                <div aria-hidden className="invisible">
                   <label className="block text-sm font-semibold mb-2">‎</label>
                   <InputWithCheck type="password" value="" onChange={() => {}} />
                 </div>
                 <p className="text-sm invisible">.</p>
               </div>
-              <p className="text-sm text-gray-600 mb-4">Om e-postadressen finns i vårt system skickar vi instruktioner för att återställa lösenordet.</p>
-              <button onClick={close} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800">Stäng</button>
-            </>
+              <div className="mt-auto">
+                <p className="text-sm text-gray-600 mb-4">Om e-postadressen finns i vårt system skickar vi instruktioner för att återställa lösenordet.</p>
+                <button onClick={close} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800">Stäng</button>
+              </div>
+            </div>
           ) : (
-            <form onSubmit={handleResetPassword}>
-              <div className="space-y-4 mb-4" style={{ minHeight: '187px' }}>
+            <form onSubmit={handleResetPassword} className="flex flex-col h-full">
+              <div className="space-y-4 mb-4 flex-1">
                 <div>
                   <label className="block text-sm font-semibold mb-2">E-postadress</label>
                   <InputWithCheck type="email" value={resetEmail} onChange={(e) => setResetEmail(e.target.value)} className="border-0" required />
@@ -269,12 +269,14 @@ export function LoginAside({
                 </div>
                 <p className="text-sm text-red-600 invisible">.</p>
               </div>
-              <button type="submit" disabled={resetLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
-                {resetLoading ? 'Skickar...' : 'Skicka'}
-              </button>
-              <div className="flex flex-col items-center gap-0 pt-2">
-                <button type="button" onClick={() => changeView('login')} className="w-full text-xs text-gray-500 hover:text-black py-2">Avbryt</button>
-                <button type="button" aria-hidden tabIndex={-1} className="w-full text-xs py-2 border-t border-gray-200 invisible">‎</button>
+              <div className="mt-auto">
+                <button type="submit" disabled={resetLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
+                  {resetLoading ? 'Skickar...' : 'Skicka'}
+                </button>
+                <div className="flex flex-col items-center gap-0 pt-2">
+                  <button type="button" onClick={() => changeView('login')} className="w-full text-xs text-gray-500 hover:text-black py-2">Avbryt</button>
+                  <button type="button" aria-hidden tabIndex={-1} className="w-full text-xs py-2 border-t border-gray-200 invisible">‎</button>
+                </div>
               </div>
             </form>
           )}
@@ -285,26 +287,28 @@ export function LoginAside({
       {view === 'reset-confirm' && (
         <>
           {confirmSuccess ? (
-            <>
-              <div aria-hidden className="invisible space-y-4 mb-4">
-                <div>
+            <div className="flex flex-col h-full">
+              <div className="space-y-4 mb-4 flex-1">
+                <div aria-hidden className="invisible">
                   <label className="block text-sm font-semibold mb-2">‎</label>
                   <InputWithCheck type="password" value="" onChange={() => {}} />
                 </div>
-                <div>
+                <div aria-hidden className="invisible">
                   <label className="block text-sm font-semibold mb-2">‎</label>
                   <InputWithCheck type="password" value="" onChange={() => {}} />
                 </div>
                 <p className="text-sm invisible">.</p>
               </div>
-              <p className="text-sm text-gray-600 mb-4">Ditt lösenord har uppdaterats. Du kan nu logga in med ditt nya lösenord.</p>
-              <button onClick={() => { setEmail(initialResetEmail || ''); setPassword(''); changeView('login'); }} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800">
-                Logga in
-              </button>
-            </>
+              <div className="mt-auto">
+                <p className="text-sm text-gray-600 mb-4">Ditt lösenord har uppdaterats. Du kan nu logga in med ditt nya lösenord.</p>
+                <button onClick={() => { setEmail(initialResetEmail || ''); setPassword(''); changeView('login'); }} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800">
+                  Logga in
+                </button>
+              </div>
+            </div>
           ) : (
-            <form onSubmit={handleConfirmReset}>
-              <div className="space-y-4 mb-4">
+            <form onSubmit={handleConfirmReset} className="flex flex-col h-full">
+              <div className="space-y-4 mb-4 flex-1">
                 <div>
                   <label className="block text-sm font-semibold mb-2">Nytt lösenord</label>
                   <InputWithCheck type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required />
@@ -315,9 +319,11 @@ export function LoginAside({
                 </div>
                 <p className={`text-sm text-red-600 ${confirmError ? 'visible' : 'invisible'}`}>{confirmError || '.'}</p>
               </div>
-              <button type="submit" disabled={confirmLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
-                {confirmLoading ? 'Sparar...' : 'Spara'}
-              </button>
+              <div className="mt-auto">
+                <button type="submit" disabled={confirmLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
+                  {confirmLoading ? 'Sparar...' : 'Spara'}
+                </button>
+              </div>
             </form>
           )}
         </>
