@@ -255,7 +255,7 @@ export function LoginAside({
                 <p className="text-sm invisible">.</p>
               </div>
               <p className="text-sm text-gray-600 mb-4">Om e-postadressen finns i vårt system skickar vi instruktioner för att återställa lösenordet.</p>
-              <button onClick={() => changeView('login')} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800">Stäng</button>
+              <button onClick={close} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800">Stäng</button>
             </>
           ) : (
             <form onSubmit={handleResetPassword}>
