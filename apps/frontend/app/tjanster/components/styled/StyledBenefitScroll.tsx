@@ -1,7 +1,5 @@
 'use client';
-import { useRef, useState, useEffect, type ReactNode } from 'react';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { type ReactNode } from 'react';
 import type { ProjectStep } from '../../projekt-data';
 import { FadeIn } from '../FadeIn';
 import { Eyebrow, ITALIC, StyledSection } from './StyledPrimitives';
@@ -14,7 +12,7 @@ const FALLBACK_BENEFITS: ProjectStep[] = [
 
 function MobileFrame({ children }: { children: ReactNode }) {
   return (
-    <div className="relative w-full max-w-[240px] mx-auto">
+    <div className="relative w-full max-w-[280px] mx-auto">
       {/* iPhone-ram */}
       <div className="relative aspect-[9/19.5] bg-black rounded-[32px] shadow-2xl border-[8px] border-black overflow-hidden">
         {/* Notch */}
@@ -34,12 +32,8 @@ function MobileFrame({ children }: { children: ReactNode }) {
 
 function BenefitCard({ item, isActive }: { item: ProjectStep; isActive: boolean }) {
   return (
-    <motion.div
-      className={`flex-shrink-0 w-[240px] transition-all duration-300 ${isActive ? 'scale-100' : 'scale-85 opacity-50'}`}
-      style={{
-        transformOrigin: 'center',
-      }}
-    >
+    <div className="w-full max-w-[280px] mx-auto">
+
       <MobileFrame>
         <div className="w-full h-full flex flex-col items-center justify-between p-4 text-center bg-gradient-to-b from-[#030303] to-[#1a1a1a]">
           {/* Gul prick på toppen */}
@@ -66,57 +60,12 @@ function BenefitCard({ item, isActive }: { item: ProjectStep; isActive: boolean 
           </button>
         </div>
       </MobileFrame>
-    </motion.div>
+    </div>
   );
 }
 
 export function StyledBenefitScroll({ projectTitle, benefits }: { projectTitle: string; benefits?: ProjectStep[] }) {
   const items = benefits && benefits.length > 0 ? benefits : FALLBACK_BENEFITS;
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
-
-    const handleScroll = () => {
-      const scrollLeft = scrollContainer.scrollLeft;
-      const itemWidth = 240 + 16; // width + gap
-      const containerWidth = scrollContainer.clientWidth;
-      const centerX = containerWidth / 2;
-
-      let closestIndex = 0;
-      let closestDistance = Infinity;
-
-      items.forEach((_, i) => {
-        // Calculate item center position
-        const itemCenter = scrollLeft + (i * itemWidth) + 120; // itemLeft + half card width
-        const distance = Math.abs(itemCenter - centerX);
-
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestIndex = i;
-        }
-      });
-
-      setActiveIndex(closestIndex);
-    };
-
-    scrollContainer.addEventListener('scroll', handleScroll);
-    handleScroll(); // Call once on mount
-
-    // Scroll to center first item
-    setTimeout(() => {
-      if (scrollContainer) {
-        const containerWidth = scrollContainer.clientWidth;
-        const itemWidth = 240 + 16;
-        const padding = (containerWidth - 240) / 2;
-        scrollContainer.scrollLeft = -padding;
-      }
-    }, 100);
-
-    return () => scrollContainer.removeEventListener('scroll', handleScroll);
-  }, [items.length]);
 
   return (
     <StyledSection className="border-t border-black/5">
@@ -137,45 +86,15 @@ export function StyledBenefitScroll({ projectTitle, benefits }: { projectTitle: 
         </FadeIn>
       </div>
 
-      {/* Scrollbar container */}
-      <div className="relative w-full">
-        <div
-          ref={scrollRef}
-          className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide"
-          style={{
-            scrollBehavior: 'smooth',
-            WebkitOverflowScrolling: 'touch',
-          }}
-        >
-          {/* Benefit cards */}
-          {items.map((item, index) => (
-            <div key={item.title} className="snap-center flex-shrink-0">
-              <BenefitCard item={item} isActive={index === activeIndex} />
-            </div>
-          ))}
-        </div>
-
-        {/* Scroll indicators */}
-        <div className="flex justify-center gap-2 mt-8">
-          {items.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                if (scrollRef.current) {
-                  const itemWidth = 240 + 16;
-                  const scrollTarget = index * itemWidth;
-                  scrollRef.current.scrollTo({
-                    left: scrollTarget,
-                    behavior: 'smooth',
-                  });
-                }
-              }}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
-                index === activeIndex ? 'bg-[#030303] w-8' : 'bg-black/20 w-1.5'
-              }`}
-            />
-          ))}
-        </div>
+      {/* Cards grid - show all cards */}
+      <div className="grid grid-cols-4 gap-8 w-full px-4">
+        {items.map((item, index) => (
+          <BenefitCard
+            key={item.title}
+            item={item}
+            isActive={true}
+          />
+        ))}
       </div>
     </StyledSection>
   );
