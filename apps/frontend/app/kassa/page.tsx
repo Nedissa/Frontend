@@ -9,6 +9,7 @@ import { InputWithCheck } from '../components/auth/InputWithCheck';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { Spinner } from '../components/shared/Spinner';
+import { klaviyoTrack } from '@/app/lib/klaviyoTrack';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
@@ -298,6 +299,25 @@ function CheckoutContent() {
     }, 100);
     return () => clearTimeout(t);
   }, [cartItems, formData, shippingMethod]);
+
+  // Klaviyo: Checkout Started (skickas en gång när kassan laddas med varor)
+  const hasTrackedCheckoutRef = useRef(false);
+  useEffect(() => {
+    if (hasTrackedCheckoutRef.current || cartItems.length === 0) return;
+    hasTrackedCheckoutRef.current = true;
+    klaviyoTrack('Started Checkout', {
+      $value: cartTotal,
+      ItemNames: cartItems.map(i => i.title),
+      Items: cartItems.map(i => ({
+        ProductID: i.id,
+        VariantID: i.variantId,
+        ProductName: i.title,
+        Price: i.price,
+        Quantity: i.quantity,
+        ImageURL: i.image,
+      })),
+    });
+  }, [cartItems, cartTotal]);
 
   // Load customer data
   useEffect(() => {

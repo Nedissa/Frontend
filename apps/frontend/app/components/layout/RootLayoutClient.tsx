@@ -12,6 +12,38 @@ import { CompareBar } from '../product/CompareBar';
 import { NavigationProgress } from './NavigationProgress';
 import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import { useAside } from '../shared/Aside';
+import { klaviyoTrack } from '@/app/lib/klaviyoTrack';
+
+interface AddToCartDetail {
+  id: string;
+  variantId?: string;
+  title: string;
+  price: number;
+  originalPrice?: number;
+  quantity: number;
+  image?: string;
+}
+
+function KlaviyoCartTracker() {
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<AddToCartDetail>).detail;
+      if (!detail) return;
+      klaviyoTrack('Added to Cart', {
+        ProductID: detail.id,
+        VariantID: detail.variantId,
+        ProductName: detail.title,
+        Price: detail.price,
+        Quantity: detail.quantity,
+        ImageURL: detail.image,
+      });
+    };
+    window.addEventListener('addToCart', handler);
+    return () => window.removeEventListener('addToCart', handler);
+  }, []);
+
+  return null;
+}
 
 function ParamHandler({
   onReset,
@@ -102,6 +134,7 @@ export function RootLayoutClient({ children, initialIsLoggedIn = false }: { chil
   return (
     <CompareProvider>
       <Aside.Provider>
+        <KlaviyoCartTracker />
         <Suspense fallback={null}><NavigationProgress /></Suspense>
         <Suspense fallback={null}>
           <ParamHandler onReset={handleReset} onOpenLogin={handleOpenLogin} />

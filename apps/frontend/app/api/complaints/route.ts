@@ -52,25 +52,6 @@ async function sendComplaintEmails(customerName: string, customerEmail: string, 
         },
       }),
     }),
-    fetch('https://a.klaviyo.com/api/events', {
-      method: 'POST',
-      headers: klaviyoHeaders,
-      body: JSON.stringify({
-        data: {
-          type: 'event',
-          attributes: {
-            properties: {
-              senderName: customerName,
-              senderEmail: customerEmail,
-              subject: `Ny reklamation ${caseNumber}`,
-              message: `Order: ${orderId}\nReklamationsnummer: ${caseNumber}`,
-            },
-            metric: { data: { type: 'metric', attributes: { name: 'Claim Received Internal' } } },
-            profile: { data: { type: 'profile', attributes: { email: 'info@techpilots.se' } } },
-          },
-        },
-      }),
-    }),
   ]);
 }
 

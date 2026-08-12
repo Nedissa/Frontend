@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import './globals.css';
 import { RootLayoutClient } from './components/layout/RootLayoutClient';
 import { CookieBanner } from './components/CookieBanner';
@@ -62,6 +63,10 @@ export default async function RootLayout({
         <style>{`:root{--content-max-width:960px;}@media(min-width:1920px){:root{--content-max-width:1080px;}}@media(min-width:2560px){:root{--content-max-width:1600px;}}.ml-container{max-width:var(--content-max-width);width:100%;padding-left:12px;padding-right:12px;}@media(min-width:768px){.ml-container{padding-left:0;padding-right:0;}}.content-container{max-width:var(--content-max-width);margin-left:auto;margin-right:auto;}`}</style>
       </head>
       <body className="bg-white flex flex-col min-h-screen">
+        <Script
+          src="https://static.klaviyo.com/onsite/js/XrJ4Rq/klaviyo.js"
+          strategy="afterInteractive"
+        />
         <RootLayoutClient initialIsLoggedIn={isLoggedIn}>
           {children}
         </RootLayoutClient>

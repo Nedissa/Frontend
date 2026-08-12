@@ -10,6 +10,7 @@ import { ImageZoomDialog } from '@/app/components/shared/ImageZoomDialog';
 import { ProductCard, type ProductData } from '@/app/components/product/ProductCard';
 import { ProductReviews } from '@/app/components/product/ProductReviews';
 import { fetchProductsFromMedusa } from '@/app/lib/medusa-client';
+import { klaviyoTrack } from '@/app/lib/klaviyoTrack';
 
 const COUNTDOWN_DURATION = 60000;
 const saleEndTime = Date.now() + COUNTDOWN_DURATION;
@@ -177,6 +178,16 @@ export default function ProductDetailClient({
   const [isFavorite, setIsFavorite] = useState(false);
   const [reviewStats, setReviewStats] = useState<{ avg: number; count: number } | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    klaviyoTrack('Viewed Product', {
+      ProductID: product.id,
+      ProductName: product.title,
+      Price: product.price,
+      ImageURL: product.image,
+      Categories: categorySlug ? [categorySlug] : undefined,
+    });
+  }, [product.id]);
 
   useEffect(() => {
     const updateHeight = () => {
