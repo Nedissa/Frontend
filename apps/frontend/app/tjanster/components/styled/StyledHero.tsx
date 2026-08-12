@@ -1,48 +1,62 @@
 import Image from 'next/image';
 import type { Project } from '../../projekt-data';
 import { FadeIn } from '../FadeIn';
-import { ITALIC, PrimaryButton, SecondaryButton, StyledSection } from './StyledPrimitives';
+
+function MetaItem({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex flex-col gap-1">
+      <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]">{label}</span>
+      <span className="text-sm font-bold uppercase text-[#030303]">{value}</span>
+    </div>
+  );
+}
 
 export function StyledHero({ project }: { project: Project }) {
   const bodyText = project.challenge ?? project.description.slice(0, 180);
 
   return (
-    <StyledSection className="pt-40">
-      <div className="flex flex-col items-center text-center gap-5">
+    <section className="bg-white">
+      <div className="max-w-[1440px] mx-auto w-full px-6 md:px-12 box-border pt-32 md:pt-44">
         <FadeIn>
-          <div className="flex flex-col items-center gap-5">
-            <h1
-              className="text-[clamp(32px,4.5vw,56px)] font-normal tracking-[-0.02em] leading-[1.05] text-[#030303] m-0 max-w-[820px]"
-              style={ITALIC}
-            >
-              {project.title} — en resa värd att berätta.
-            </h1>
+          <div className="max-w-[900px] mx-auto flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+            <div className="flex flex-col gap-5">
+              <h1
+                className="text-[clamp(36px,6vw,72px)] font-bold uppercase tracking-tight leading-[0.95] text-[#030303] m-0"
+                style={{ textShadow: '0 2px 12px rgba(3,3,3,0.15)' }}
+              >
+                {project.title}
+              </h1>
+              <p className="text-base leading-relaxed text-[#5c5c58] max-w-[45ch] m-0">{bodyText}</p>
+            </div>
 
-            <p className="text-base leading-relaxed text-[#5c5c58] max-w-[60ch] m-0">{bodyText}</p>
-
-            <div className="flex flex-wrap justify-center gap-3 pt-2">
-              {project.website && (
-                <PrimaryButton href={`https://${project.website}`}>Besök live-sida ↗</PrimaryButton>
-              )}
-              <SecondaryButton href="/tjanster#projekt">Se alla projekt</SecondaryButton>
+            <div className="flex gap-8 shrink-0 mt-6">
+              <MetaItem label="Client" value={project.title} />
+              <MetaItem label="Service" value={project.category} />
+              <MetaItem label="Date" value={project.year} />
             </div>
           </div>
         </FadeIn>
 
         {project.image && (
-          <FadeIn delay={0.15} className="w-full pt-8">
-            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-[0_24px_64px_rgba(3,3,3,0.12)] border border-black/5 bg-white transition-transform duration-500 hover:scale-[1.005]">
-              <Image
-                src={project.image}
-                alt={`${project.title} — skärmdump`}
-                fill
-                className="object-cover"
-                priority
+          <FadeIn delay={0.15}>
+            <div className="relative max-w-[1100px] mx-auto mt-4 md:mt-6">
+              <div
+                className="absolute -inset-x-40 -inset-y-24 pointer-events-none"
+                style={{ background: 'radial-gradient(ellipse 45% 65% at 50% 55%, rgba(255,241,191,1) 0%, rgba(250,220,110,1) 12%, rgba(232,197,71,0.9) 26%, rgba(232,197,71,0.65) 40%, rgba(232,197,71,0.4) 52%, rgba(232,197,71,0.2) 64%, rgba(232,197,71,0.08) 75%, rgba(255,255,255,0) 88%)' }}
               />
+              <div className="relative w-full aspect-[4/3]">
+                <Image
+                  src={project.image}
+                  alt={`${project.title} — skärmdump`}
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
             </div>
           </FadeIn>
         )}
       </div>
-    </StyledSection>
+    </section>
   );
 }

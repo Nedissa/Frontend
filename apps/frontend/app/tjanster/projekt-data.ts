@@ -2,6 +2,7 @@ export type ProjectStep = {
   title: string;
   description: string;
   image?: string;
+  bullets?: string[];
 };
 
 export type Project = {
@@ -48,7 +49,7 @@ export const PROJECTS: Project[] = [
     category: 'Webb & Varumärke',
     year: '2025',
     status: 'Lanserad',
-    image: '/tjanster/projekt/crownmatch/desktop-mockup.png',
+    image: '/tjanster/projekt/crownmatch/apple-screen-mockup.png',
     description: 'Vi har fått i uppdrag att utveckla en webbplats för CrownMatch, leverantör av Arbetsförmedlingens tjänst Rusta & Matcha. Efter att ha träffat teamet för att förstå deras vision och behov skapar vi en modern, lättnavigerad plattform som gör det enkelt för arbetssökande att hitta information, ta del av tjänsterna samt komma i kontakt. Webbplatsen speglar varumärket CrownMatch och underlättar kommunikationen mellan kandidater och arbetsgivare på ett engagerande sätt.',
     challenge: 'CrownMatch behövde en digital plattform som gör det enkelt för arbetssökande att hitta information om Rusta & Matcha-tjänsten och komma i kontakt med rätt person.',
     solution: 'En modern, lättnavigerad webbplats med tydlig struktur som speglar varumärket CrownMatch och underlättar kommunikationen mellan kandidater och arbetsgivare.',
@@ -57,7 +58,8 @@ export const PROJECTS: Project[] = [
     steps: [
       { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/tjanster/projekt/crownmatch/mobile-mockup.png' },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', image: '/tjanster/projekt/crownmatch/blogg-mockup.png' },
-      { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.', image: '/tjanster/projekt/crownmatch/mobile-mockup.png' },
+      { title: 'Matchningar', description: 'Statistik och matchningsdata presenteras tydligt så användaren ser sin utveckling.', image: '/tjanster/projekt/crownmatch/matchningar-mockup.png' },
+      { title: 'Kontakt', description: 'Ett enkelt kontaktformulär gör det tydligt hur man tar nästa steg.', image: '/tjanster/projekt/crownmatch/footer-mockup.png' },
     ],
   },
   {

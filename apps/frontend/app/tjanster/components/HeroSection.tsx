@@ -19,14 +19,14 @@ function HeroPromo() {
         WebkitBackdropFilter: 'blur(20px)',
         border: '1px solid rgba(255,255,255,0.16)',
         borderRadius: '15px',
-        padding: '40px',
+        padding: '28px 40px',
         boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
       }}
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1], delay: 0.9 }}
     >
-      <div style={{ fontSize: '14px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div style={{ fontSize: '14px', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
         <span style={{ fontSize: '16px', letterSpacing: '2px', color: '#fff' }} aria-hidden="true">★★★★★</span>
         <span style={{ color: '#fff' }}>4.9/5</span>
       </div>
@@ -43,7 +43,7 @@ function HeroPromo() {
           textShadow: '0 4px 24px rgba(0,0,0,0.5)',
         }}
       >
-        Lyft din <br />
+        Lyft din <br className="hero-promo-heading-break" />
   <span style={{ color: '#e8c547' }}>digitala närvaro</span>
       </h1>
       <div style={{ width: '100%', height: '2px', background: 'rgba(255,255,255,0.35)', margin: '0 0 16px' }} />
@@ -57,9 +57,9 @@ function HeroPromo() {
           margin: '0 0 28px',
         }}
       >
-        Webbplatser som säljer. Från startup till e-commerce. <br /> Optimerad för prestanda, konvertering och tillväxt.
+        Webbplatser som säljer. Från startup till e-commerce. <br className="hero-promo-text-break" /> Optimerad för prestanda, konvertering och tillväxt.
       </p>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         <div className="flex items-center gap-[16px]" style={{ flexWrap: 'nowrap' }}>
           <motion.a
             href="/tjanster/kontakt"
@@ -88,7 +88,7 @@ function HeroPromo() {
           </a>
         </div>
         <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.65)' }}>30 min helt kostnadsfritt — utan bindning</div>
-        <div style={{ fontSize: '20px', color: 'rgba(255,255,255,0.4)', textAlign: 'center', margin: '16px 0' }} aria-hidden="true">●</div>
+        <div style={{ fontSize: '20px', color: 'rgba(255,255,255,0.4)', textAlign: 'center', margin: '6px 0 0' }} aria-hidden="true">●</div>
       </div>
     </motion.div>
   );

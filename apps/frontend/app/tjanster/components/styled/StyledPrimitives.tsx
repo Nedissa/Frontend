@@ -12,7 +12,7 @@ export function StyledSection({ children, className = '' }: { children: ReactNod
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-block px-3.5 py-1 bg-white border border-black/5 rounded-full text-xs font-medium text-[#8a8a86] uppercase tracking-widest w-fit">
+    <span className="inline-block px-3.5 py-1 bg-[#e8c547] border border-[#e8c547] rounded-full text-xs font-bold text-[#030303] uppercase tracking-widest w-fit">
       {children}
     </span>
   );

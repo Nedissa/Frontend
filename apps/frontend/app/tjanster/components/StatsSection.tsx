@@ -59,7 +59,7 @@ export function StatsSection() {
                 <div className="text-[22px] font-bold text-[#030303] mb-[10px]">Techpilots</div>
                 <div className="pt-[20px]" style={{ borderTop: '3px solid rgb(210,210,210)' }}>
                   <p className="m-0 leading-[1.65]" style={{ fontSize: 'clamp(14px,1.2vw,17px)', color: 'rgb(104,105,99)' }}>
-                    Webbyrå, digitalpartner, utvecklingsteam. Oavsett vad vi kallas använder vi vår kompetens inom strategi, design och utveckling för att skapa och vårda digitala lösningar på och omkring webben. Byggda från grunden, med behovsstyrda tekniska val, är resultaten gjorda för att växa i takt med er verksamhet.
+                    Vi bygger, designar och skalar allt från webbplatser till komplexa digitala applikationer åt nöjda kunder. Med Next.js, React och skräddarsydd UI/UX tar vi dig hela vägen från idé till en färdig produkt, byggd för att växa i takt med din verksamhet.
                   </p>
                 </div>
               </div>

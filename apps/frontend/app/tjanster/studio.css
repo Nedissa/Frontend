@@ -227,17 +227,26 @@ button:focus-visible {
     bottom: auto !important;
     transform: none !important;
     max-width: none !important;
-    padding: 20px !important;
-    background: rgba(0,0,0,0.16) !important;
+    padding: 14px 20px !important;
+    background: rgba(0,0,0,0.45) !important;
+  }
+
+  .hero-promo-panel > div:first-child {
+    display: none !important;
   }
 
   .hero-promo-panel h1 {
-    font-size: 24px !important;
-    margin-bottom: 10px !important;
+    font-size: 20px !important;
+    margin-bottom: 8px !important;
+    white-space: nowrap !important;
+  }
+
+  .hero-promo-heading-break {
+    display: none !important;
   }
 
   .hero-promo-panel > div {
-    margin-bottom: 10px !important;
+    margin-bottom: 8px !important;
   }
 
   .hero-promo-text {
@@ -246,12 +255,25 @@ button:focus-visible {
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
     font-size: 13px !important;
-    margin-bottom: 16px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .hero-promo-text-break {
+    display: none !important;
   }
 
   .hero-promo-panel a {
     padding: 9px 18px !important;
     font-size: 13px !important;
+  }
+
+  .hero-promo-panel > div:last-child {
+    gap: 6px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .hero-promo-panel > div:last-child > div:last-child {
+    display: none !important;
   }
 
   /* Only one CTA needed on mobile — keep the primary gold button. */
@@ -296,9 +318,9 @@ button:focus-visible {
   }
 
   .hero-image {
-    transform: scale(0.85) !important;
-    transform-origin: bottom center !important;
-    height: 72% !important;
+    transform: none !important;
+    height: 55% !important;
+    object-position: bottom !important;
   }
 
   .hero-text-block {

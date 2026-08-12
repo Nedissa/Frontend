@@ -95,6 +95,7 @@ export function ProjectNav() {
         position: 'fixed', top: 0, left: 0, right: 0, width: '100%', height: '72px', zIndex: 50,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 32px',
         background: '#fff',
+        boxShadow: '0 1px 0 rgba(3,3,3,0.08)',
         boxSizing: 'border-box',
         transform: navHidden ? 'translateY(-100%)' : 'translateY(0)',
         transition: 'transform 0.3s ease',

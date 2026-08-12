@@ -4,6 +4,7 @@ import { PROJECTS } from '../../projekt-data';
 import { ProjectNav } from '../../components/ProjectNav';
 import { StyledHero } from '../../components/styled/StyledHero';
 import { StyledTimeline } from '../../components/styled/StyledTimeline';
+import { StyledBenefitScroll } from '../../components/styled/StyledBenefitScroll';
 
 export function generateStaticParams() {
   return PROJECTS.map((p) => ({ slug: p.slug }));
@@ -34,6 +35,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       <ProjectNav />
 
       <StyledHero project={project} />
+
+      <StyledBenefitScroll projectTitle={project.title} benefits={project.steps} />
 
       <StyledTimeline projectTitle={project.title} steps={project.steps} />
     </main>
