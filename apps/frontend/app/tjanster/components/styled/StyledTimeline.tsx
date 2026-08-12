@@ -110,6 +110,10 @@ export function StyledTimeline({ projectTitle, steps }: { projectTitle: string; 
                     <div className="flex flex-col items-center text-center gap-6 max-w-[560px] mx-auto">
                       {step.image && (
                         <div className="relative w-full max-w-[340px] aspect-[5/4]">
+                          <div
+                            className="absolute -inset-x-10 -inset-y-16 pointer-events-none"
+                            style={{ background: 'radial-gradient(circle at 50% 50%, rgba(255,241,191,1) 0%, rgba(250,220,110,0.95) 8%, rgba(232,197,71,0.85) 20%, rgba(232,197,71,0.55) 35%, rgba(232,197,71,0.28) 48%, rgba(232,197,71,0.1) 58%, rgba(232,197,71,0.03) 65%, rgba(255,255,255,0) 72%)' }}
+                          />
                           <TiltImage src={step.image} alt={`${projectTitle} — ${step.title}`} />
                         </div>
                       )}
@@ -141,6 +145,10 @@ export function StyledTimeline({ projectTitle, steps }: { projectTitle: string; 
                   <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center ${offsetClass} bg-transparent`}>
                     {step.image && imageFirst && (
                       <div className="relative w-full aspect-[5/4] order-1">
+                        <div
+                          className="absolute -inset-x-10 -inset-y-16 pointer-events-none"
+                          style={{ background: 'radial-gradient(circle at 50% 50%, rgba(255,241,191,1) 0%, rgba(250,220,110,0.95) 8%, rgba(232,197,71,0.85) 20%, rgba(232,197,71,0.55) 35%, rgba(232,197,71,0.28) 48%, rgba(232,197,71,0.1) 58%, rgba(232,197,71,0.03) 65%, rgba(255,255,255,0) 72%)' }}
+                        />
                         <TiltImage src={step.image} alt={`${projectTitle} — ${step.title}`} />
                       </div>
                     )}
@@ -161,6 +169,10 @@ export function StyledTimeline({ projectTitle, steps }: { projectTitle: string; 
 
                     {step.image && !imageFirst && (
                       <div className="relative w-full aspect-[5/4] order-2 md:order-2">
+                        <div
+                          className="absolute -inset-x-10 -inset-y-16 pointer-events-none"
+                          style={{ background: 'radial-gradient(circle at 50% 50%, rgba(255,241,191,1) 0%, rgba(250,220,110,0.95) 8%, rgba(232,197,71,0.85) 20%, rgba(232,197,71,0.55) 35%, rgba(232,197,71,0.28) 48%, rgba(232,197,71,0.1) 58%, rgba(232,197,71,0.03) 65%, rgba(255,255,255,0) 72%)' }}
+                        />
                         <TiltImage src={step.image} alt={`${projectTitle} — ${step.title}`} />
                       </div>
                     )}

@@ -115,7 +115,7 @@ img {
 
 /* Mockup Frame Styling */
 .mockup-frame {
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  box-shadow: none;
 }
 
 /* On mobile: always show add-to-cart button and hover-only elements */
