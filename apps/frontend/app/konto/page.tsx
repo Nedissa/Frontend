@@ -1192,7 +1192,7 @@ export default function AccountPage() {
               <div className="pt-2">
                 {!showComplaintForm ? (
                   <button onClick={() => setShowComplaintForm(true)} className="px-6 py-2 bg-black text-white hover:bg-gray-800 font-semibold text-sm">
-                    Starta en reklamation
+                    Ny reklamation
                   </button>
                 ) : (
                   <div className="p-4 space-y-4" style={{ border: '1px solid #e5e7eb' }}>
@@ -1219,7 +1219,7 @@ export default function AccountPage() {
                 <button
                   onClick={() => setShowComplaintForm(true)}
                   className="w-full px-6 py-2 bg-black text-white hover:bg-gray-800 font-semibold">
-                  Starta en reklamation
+                  Ny reklamation
                 </button>
               ) : (
                 <div className="p-4 space-y-4" style={{ border: '1px solid #e5e7eb' }}>
