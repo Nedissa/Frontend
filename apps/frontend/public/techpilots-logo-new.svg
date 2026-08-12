@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 182 182" width="350" height="350" style="display: block; margin: 50px auto;">
+  <!-- Perfect smooth black circle background -->
+  <circle cx="91" cy="91" r="91" fill="#000000"/>
+
+  <!-- White icon shape - main body (original design, dot removed) -->
+  <path d="M93.87 38.12C81.46 39.27 91.77 61.13 84.42 68.25C75.84 76.56 53.24 62.55 48.12 77.92C47.41 80.05 47.89 82.94 47.89 85.17C47.89 89.06 47.89 92.94 47.89 96.83C47.89 102.48 46.97 109.79 53.1 112.73C56.92 114.57 62.72 113.6 66.83 113.6C70.5 113.6 74.17 113.6 77.83 113.6C80.44 113.6 83.98 113.94 86.43 112.92C97.59 108.33 87.51 86 93.51 77.67C100.39 68.13 119.73 79.42 122.62 67.81C123.19 65.53 122.83 62.84 122.83 60.5C122.83 54.65 125.53 41.43 118.66 38.52C115.2 37.06 98.26 37.72 93.87 38.12Z" fill="#ffffff" fill-rule="evenodd"/>
+
+  <!-- Bottom dot - now a mathematically perfect circle -->
+  <circle cx="108.7" cy="128" r="15.5" fill="#ffffff"/>
+</svg>
