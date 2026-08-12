@@ -4,6 +4,10 @@ import './globals.css';
 import { RootLayoutClient } from './components/layout/RootLayoutClient';
 import { CookieBanner } from './components/CookieBanner';
 import { cookies } from 'next/headers';
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: {
@@ -33,7 +37,7 @@ export default async function RootLayout({
   const isLoggedIn = !!token;
 
   return (
-    <html lang="sv" style={{ scrollbarGutter: 'stable', overflowY: 'scroll' }}>
+    <html lang="sv" style={{ scrollbarGutter: 'stable', overflowY: 'scroll' }} className={cn("font-sans", geist.variable)}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

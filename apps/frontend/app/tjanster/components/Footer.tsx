@@ -11,6 +11,7 @@ const QUICK_LINKS = [
   { label: 'Projekt', href: '/tjanster#projekt' },
   { label: 'Priser', href: '/tjanster#priser' },
   { label: 'Kontakt', href: '/tjanster/kontakt' },
+  { label: 'Webshop', href: '/' },
 ];
 
 const TERMS_LINKS = [
@@ -97,7 +98,7 @@ export function Footer() {
         >
           {/* Column 1: Logo + description */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
               <div
                 style={{
                   width: '40px',
@@ -118,7 +119,7 @@ export function Footer() {
                 style={{
                   fontSize: 'clamp(24px,2.5vw,32px)',
                   fontWeight: 800,
-                  letterSpacing: '-0.03em',
+                  letterSpacing: '0.05em',
                   color: '#fff',
                   margin: 0,
                   lineHeight: 1.05,

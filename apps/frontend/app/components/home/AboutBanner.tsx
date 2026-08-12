@@ -26,7 +26,7 @@ export function AboutBanner() {
               <path id="circle" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
             </defs>
             <circle cx="50" cy="50" r="46" fill="#f0c040" />
-            <text fontSize="9.5" fontWeight="600" fill="#111" letterSpacing="2">
+            <text fontSize="9.5" fontWeight="600" fill="#111" letterSpacing="3.5">
               <textPath href="#circle">TECHPILOTS ● DÄR ● TEKNIK ● MÖTER ● ENKELHET ●</textPath>
             </text>
           </svg>

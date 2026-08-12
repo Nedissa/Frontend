@@ -46,7 +46,7 @@ export function StyledTimeline({ projectTitle, steps }: { projectTitle: string; 
         <div className="absolute left-[7px] md:left-[9px] top-2 bottom-2 w-px bg-black/10" />
         {/* Scroll-driven progress-linje, signatur-elementet */}
         <motion.div
-          className="absolute left-[7px] md:left-[9px] top-2 w-px bg-[#D75E15] origin-top"
+          className="absolute left-[7px] md:left-[9px] top-2 w-px bg-[#e8c547] origin-top"
           style={{ scaleY: progressHeight, height: 'calc(100% - 16px)' }}
         />
 
@@ -56,13 +56,13 @@ export function StyledTimeline({ projectTitle, steps }: { projectTitle: string; 
             return (
               <FadeIn key={step.title} delay={i * 0.08}>
                 <div className="relative">
-                  <div className="absolute -left-10 md:-left-12 top-1.5 w-4 h-4 rounded-full bg-white border-4 border-[#D75E15] shadow-[0_0_0_4px_rgba(215,94,21,0.1)]" />
+                  <div className="absolute -left-10 md:-left-12 top-1.5 w-4 h-4 rounded-full bg-white border-4 border-[#e8c547] shadow-[0_0_0_4px_rgba(215,94,21,0.1)]" />
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
                     {step.image && imageFirst && (
                       <div
                         className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-[0_16px_40px_rgba(3,3,3,0.1)] border border-black/5 transition-transform duration-500 hover:scale-[1.01] order-1"
-                        style={{ background: 'linear-gradient(135deg, #dbe4ff 0%, #e7d6f7 45%, #fbd9e8 100%)' }}
+                        style={{ background: '#030303' }}
                       >
                         <Image
                           src={step.image}
@@ -74,7 +74,7 @@ export function StyledTimeline({ projectTitle, steps }: { projectTitle: string; 
                     )}
 
                     <div className={step.image ? `order-2 ${imageFirst ? '' : 'md:order-1'}` : ''}>
-                      <span className="text-xs uppercase tracking-widest text-[#D75E15] font-semibold">{step.title}</span>
+                      <span className="text-xs uppercase tracking-widest text-[#e8c547] font-semibold">{step.title}</span>
                       <h3 className="text-xl font-semibold tracking-tight text-[#030303] mt-1 mb-3">{step.title}</h3>
                       <p className="text-sm leading-[1.7] text-[#5c5c58] mb-4">{step.description}</p>
                       <SecondaryButton href="#">Visa steg ↗</SecondaryButton>
@@ -83,7 +83,7 @@ export function StyledTimeline({ projectTitle, steps }: { projectTitle: string; 
                     {step.image && !imageFirst && (
                       <div
                         className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-[0_16px_40px_rgba(3,3,3,0.1)] border border-black/5 transition-transform duration-500 hover:scale-[1.01] order-2 md:order-2"
-                        style={{ background: 'linear-gradient(135deg, #dbe4ff 0%, #e7d6f7 45%, #fbd9e8 100%)' }}
+                        style={{ background: '#030303' }}
                       >
                         <Image
                           src={step.image}
