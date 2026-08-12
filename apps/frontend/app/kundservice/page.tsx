@@ -169,7 +169,7 @@ export default function CustomerServicePage() {
   const [subject, setSubject] = useState('');
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
@@ -204,7 +204,7 @@ export default function CustomerServicePage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setSuccessMessage('');
+    setIsSuccess(false);
     setErrorMessage('');
     try {
       const res = await fetch('/api/contact', {
@@ -213,7 +213,7 @@ export default function CustomerServicePage() {
         body: JSON.stringify({ name, email, subject: `[${topic}] ${subject}`, message, recipientEmail: 'info@techpilots.se' }),
       });
       if (res.ok) {
-        setSuccessMessage('Tack! Vi svarar inom 24 timmar.');
+        setIsSuccess(true);
         setName(''); setEmail(''); setSubject(''); setTopic(''); setMessage('');
       } else {
         setErrorMessage('Ett fel uppstod. Försök igen senare.');
@@ -266,10 +266,7 @@ export default function CustomerServicePage() {
                   <h2>Kontakta oss</h2>
                   <p><strong>Telefon:</strong> +46 10 880 09 81. Mån till Fre 09:00 till 17:00</p>
                   <p><strong>E-post:</strong> support@techpilots.se. Svar inom 24 timmar</p>
-                  <div style={{ minHeight: '52px', marginTop: '16px' }}>
-                    {successMessage && <div style={{ padding: '12px 16px', background: '#14532d', border: '1px solid #166534', color: '#86efac', fontSize: '0.875rem', borderRadius: '4px', marginBottom: '20px' }}>{successMessage}</div>}
-                    {errorMessage && <div style={{ padding: '12px 16px', background: '#450a0a', border: '1px solid #991b1b', color: '#fca5a5', fontSize: '0.875rem', borderRadius: '4px', marginBottom: '20px' }}>{errorMessage}</div>}
-                  </div>
+                  {errorMessage && <div style={{ padding: '12px 16px', background: '#450a0a', border: '1px solid #991b1b', color: '#fca5a5', fontSize: '0.875rem', borderRadius: '4px', marginBottom: '20px' }}>{errorMessage}</div>}
                   <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '14px', maxWidth: '560px', marginTop: '24px' }}>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
                       <div><label style={labelStyle}>Ditt namn</label><input type="text" value={name} onChange={e => setName(e.target.value)} required style={inputStyle} /></div>
@@ -288,8 +285,8 @@ export default function CustomerServicePage() {
                     </div>
                     <div><label style={labelStyle}>Rubrik *</label><input type="text" value={subject} onChange={e => setSubject(e.target.value)} required style={inputStyle} /></div>
                     <div><label style={labelStyle}>Ditt meddelande *</label><textarea rows={5} value={message} onChange={e => setMessage(e.target.value)} required style={{ ...inputStyle, resize: 'vertical' }} /></div>
-                    <button type="submit" disabled={isLoading} style={{ background: '#000', color: '#fff', border: 'none', padding: '12px 32px', fontSize: '0.9rem', fontWeight: 700, borderRadius: '4px', cursor: isLoading ? 'not-allowed' : 'pointer', opacity: isLoading ? 0.6 : 1, alignSelf: 'flex-start' }}>
-                      {isLoading ? 'Skickar...' : 'Skicka meddelande'}
+                    <button type="submit" disabled={isLoading || isSuccess} style={{ background: '#000', color: '#fff', border: 'none', padding: '12px 32px', fontSize: '0.9rem', fontWeight: 700, borderRadius: '4px', cursor: isLoading || isSuccess ? 'not-allowed' : 'pointer', opacity: isLoading || isSuccess ? 0.6 : 1, alignSelf: 'flex-start' }}>
+                      {isSuccess ? 'Tackar!' : isLoading ? 'Skickar...' : 'Skicka meddelande'}
                     </button>
                   </form>
                 </div>
