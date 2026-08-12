@@ -28,33 +28,20 @@ const PARTICLES = Array.from({ length: 100 }, (_, i) => ({
 
 function Particle({
   p,
-  mouseXOffset,
-  mouseYOffset,
-  randomDrift,
 }: {
   p: (typeof PARTICLES)[number];
-  mouseXOffset: MotionValue<number>;
-  mouseYOffset: MotionValue<number>;
-  randomDrift?: boolean;
 }) {
-  const x = useTransform(mouseXOffset, (v) => v * p.pull);
-  const y = useTransform(mouseYOffset, (v) => v * p.pull);
-
   return (
     <motion.div
-      style={{ position: 'absolute', left: `${p.left}%`, top: `${p.top}%`, x, y, pointerEvents: 'none' }}
+      style={{ position: 'absolute', left: `${p.left}%`, top: `${p.top}%`, pointerEvents: 'none' }}
     >
       <motion.div
         initial={{ opacity: p.opacity, x: 0, y: 0 }}
-        animate={
-          randomDrift
-            ? {
-                opacity: [p.opacity, p.opacity * 0.3, p.opacity],
-                x: [0, (seededRandom(p.left * 3.1) - 0.5) * 60, (seededRandom(p.top * 5.7) - 0.5) * 60, 0],
-                y: [0, (seededRandom(p.top * 2.3) - 0.5) * 60, (seededRandom(p.left * 7.9) - 0.5) * 60, 0],
-              }
-            : { opacity: [p.opacity, p.opacity * 0.3, p.opacity] }
-        }
+        animate={{
+          opacity: [p.opacity, p.opacity * 0.3, p.opacity],
+          x: [0, (seededRandom(p.left * 3.1) - 0.5) * 150, (seededRandom(p.top * 5.7) - 0.5) * 150, 0],
+          y: [0, (seededRandom(p.top * 2.3) - 0.5) * 150, (seededRandom(p.left * 7.9) - 0.5) * 150, 0],
+        }}
         transition={{
           opacity: { duration: p.duration, delay: p.delay, repeat: Infinity, ease: 'easeInOut' },
           x: { duration: p.duration * 1.5, delay: p.delay, repeat: Infinity, ease: 'easeInOut' },
@@ -124,12 +111,12 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
     };
   }, [sectionRef, rawX, rawY]);
 
-  const randomDrift = isMobile || !mouseInside || mouseIdle;
+  const randomDrift = true;
 
   return (
     <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden' }}>
       {PARTICLES.map((p, i) => (
-        <Particle key={i} p={p} mouseXOffset={mouseX} mouseYOffset={mouseY} randomDrift={randomDrift} />
+        <Particle key={i} p={p} />
       ))}
     </div>
   );

@@ -38,6 +38,7 @@ const LOGO_IMG_STYLE: React.CSSProperties = {
   width: '40px',
   height: '40px',
   filter: 'none',
+  transition: 'opacity 0.3s ease',
 };
 
 export function SiteNav() {
@@ -191,11 +192,11 @@ export function SiteNav() {
       }}
     >
       <Link href="/tjanster" className="site-nav-logo nav-logo-mobile" style={{ ...LOGO_CIRCLE_STYLE, position: 'relative', zIndex: 110 }}>
-        <img src="/logo.png" alt="Techpilots" style={LOGO_IMG_STYLE} />
+        <img src="/techpilots-logo-new.svg" alt="Techpilots" style={LOGO_IMG_STYLE} />
       </Link>
 
       <Link href="/tjanster" className="site-nav-logo hide-mobile" style={LOGO_CIRCLE_STYLE}>
-        <img src="/logo.png" alt="Techpilots" style={LOGO_IMG_STYLE} />
+        <img src="/techpilots-logo-new.svg" alt="Techpilots" style={LOGO_IMG_STYLE} />
       </Link>
 
       <div className="nav-links-desktop" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '96px', zIndex: 60 }}>
@@ -203,7 +204,7 @@ export function SiteNav() {
           const isActive = isLinkActive(l.href);
           const [linkPath, linkAnchor] = l.href.split('#');
           const activeColor = isDark ? '#e8c547' : '#a67c1e';
-          const linkStyle: React.CSSProperties = { fontSize: '13px', fontWeight: 600, textDecoration: 'none', textTransform: 'uppercase', letterSpacing: '0.03em', color: isActive ? activeColor : (isDark ? '#fff' : '#0a0a0a'), transition: 'color 0.3s ease' };
+          const linkStyle: React.CSSProperties = { fontSize: '13px', fontWeight: 600, textDecoration: 'none', letterSpacing: '0.03em', color: isActive ? activeColor : (isDark ? '#fff' : '#0a0a0a'), transition: 'color 0.3s ease' };
           const supColor = isActive ? (isDark ? 'rgba(232,197,71,0.6)' : 'rgba(166,124,30,0.6)') : (isDark ? 'rgba(255,255,255,0.4)' : 'rgba(10,10,10,0.4)');
           return linkAnchor ? (
             <a key={l.href} href={l.href} onClick={handleAnchorClick(linkAnchor)} className="nav-link" style={linkStyle}>

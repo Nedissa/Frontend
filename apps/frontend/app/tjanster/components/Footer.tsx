@@ -111,7 +111,7 @@ export function Footer() {
                   flexShrink: 0,
                 }}
               >
-                <img src="/logo.png" alt="Techpilots" style={{ width: '40px', height: '40px', objectFit: 'cover' }} />
+                <img src="/techpilots-logo-new.svg" alt="Techpilots" style={{ width: '40px', height: '40px', objectFit: 'cover' }} />
               </div>
 
               <h2
