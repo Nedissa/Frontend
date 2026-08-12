@@ -340,10 +340,13 @@ export const OFFERS_DATA: MenuCategory = {
 
 export const MOBILE_CATEGORY_ICONS: Record<string, React.ReactNode> = {
   'datorer-och-tillbehor': <img src="/icons/categories/datorer.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'datorer-tillbehor':     <img src="/icons/categories/datorer.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
   'komponenter':           <img src="/icons/categories/datorkomponenter.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'datorkomponenter':      <img src="/icons/categories/datorkomponenter.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
   'gaming':                <img src="/icons/categories/gaming.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
   'mobiltelefoner':        <img src="/icons/categories/mobiltelefoner.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
   'natverk':               <img src="/icons/categories/natverk.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'natwerk':               <img src="/icons/categories/natverk.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
   'tv-hifi':               <img src="/icons/categories/tv-hifi.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
 };
 
