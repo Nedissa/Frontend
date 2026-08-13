@@ -7,7 +7,7 @@ const GOLD = '#E8C547';
 const CYCLE_INTERVAL_MS = 2200;
 
 const rgb = hexToRgb(GOLD);
-const GRADIENT = `radial-gradient(circle at 50% 50%, rgba(${rgb},1) 0%, rgba(${rgb},0.95) 12%, rgba(${rgb},0.8) 25%, rgba(${rgb},0.55) 40%, rgba(${rgb},0.3) 55%, rgba(${rgb},0.12) 70%, rgba(${rgb},0) 88%)`;
+const GRADIENT = `radial-gradient(circle at center, rgba(${rgb},1) 0%, rgba(${rgb},0.85) 35%, rgba(${rgb},0.4) 65%, rgba(${rgb},0) 100%)`;
 
 type Rect = { top: number; left: number; width: number; height: number };
 
@@ -89,7 +89,7 @@ export function PageTravelingGlow() {
 
   if (!rect) return null;
 
-  const size = Math.max(rect.width, rect.height) * 1.3;
+  const size = Math.max(rect.width, rect.height) * 0.9;
 
   return (
     <motion.div
@@ -99,9 +99,16 @@ export function PageTravelingGlow() {
         left: rect.left + rect.width / 2 - size / 2,
         width: size,
         height: size,
+        scale: [0.92, 1.06, 0.92],
       }}
-      transition={{ type: 'spring', stiffness: 100, damping: 22 }}
-      style={{ background: GRADIENT }}
+      transition={{
+        top: { type: 'spring', stiffness: 100, damping: 22 },
+        left: { type: 'spring', stiffness: 100, damping: 22 },
+        width: { type: 'spring', stiffness: 100, damping: 22 },
+        height: { type: 'spring', stiffness: 100, damping: 22 },
+        scale: { duration: 3.2, repeat: Infinity, ease: 'easeInOut' },
+      }}
+      style={{ background: GRADIENT, filter: 'blur(6px)' }}
     />
   );
 }
