@@ -140,7 +140,7 @@ export function RootLayoutClient({ children, initialIsLoggedIn = false }: { chil
           <ParamHandler onReset={handleReset} onOpenLogin={handleOpenLogin} />
         </Suspense>
         {!hideHeader && <HeaderWrapper initialIsLoggedIn={initialIsLoggedIn} />}
-        <main className={`${hideHeader ? '' : 'pt-[100px] sm:pt-[108px]'} ${hideFooter ? '' : 'pb-24'} flex flex-col flex-1 min-h-screen overflow-x-hidden`}>
+        <main className={`${hideHeader ? '' : 'pt-[100px] sm:pt-[108px]'} ${hideFooter ? '' : 'pb-24'} flex flex-col flex-1 min-h-screen`}>
           {children}
         </main>
         {!hideFooter && <FooterWrapper />}
