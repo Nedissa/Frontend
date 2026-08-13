@@ -16,7 +16,7 @@ export function StyledTimeline({ projectTitle, steps, projectAccentColor }: { pr
 
   return (
     <StyledSection className="border-t border-black/5">
-      <div className="relative z-10 bg-white flex flex-col items-center text-center gap-4 mb-16">
+      <div className="relative z-10 flex flex-col items-center text-center gap-4 mb-16">
         <FadeIn>
           <div className="flex flex-col items-center gap-4">
             <Eyebrow>Processen</Eyebrow>
