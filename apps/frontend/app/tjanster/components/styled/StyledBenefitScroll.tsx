@@ -15,7 +15,7 @@ const STEP_OFFSET_CLASSES = ['md:translate-y-0', 'md:translate-y-14', 'md:transl
 function BenefitCard({ item, index, accentColor }: { item: ProjectStep; index: number; isActive?: boolean; accentColor?: string }) {
   return (
     <div
-      className={`mx-auto relative shadow-none w-[300px] ${STEP_OFFSET_CLASSES[index % STEP_OFFSET_CLASSES.length]}`}
+      className={`mx-auto relative w-[300px] ${STEP_OFFSET_CLASSES[index % STEP_OFFSET_CLASSES.length]}`}
       data-mockup
       data-mockup-color={item.accentColor ?? accentColor}
       {...(index === 1 ? { 'data-line-start': true } : {})}

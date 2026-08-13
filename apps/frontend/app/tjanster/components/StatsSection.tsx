@@ -5,7 +5,7 @@ import { SectionHeader } from './SectionHeader';
 
 export function StatsSection() {
   return (
-    <section id="om" className="section-padding bg-white py-[140px] px-[30px]">
+    <section id="om" className="section-padding bg-white pt-[60px] pb-[140px] px-[30px]">
       <div className="max-w-[1440px] mx-auto">
         <SectionHeader num="01" label="Om oss" extra="© 2026" />
       </div>
@@ -27,8 +27,13 @@ export function StatsSection() {
               <div>
                 <div className="text-[22px] font-bold text-[#030303] mb-[10px]">Lanserade projekt</div>
                 <div className="flex items-center gap-[24px] pt-[20px]" style={{ borderTop: '3px solid rgb(210,210,210)' }}>
-                  <div className="stat-number text-[72px] font-bold leading-none text-[#030303] shrink-0" style={{ letterSpacing: '-0.04em' }}>
-                    <CountUp value="11+" />
+                  <div
+                    className="flex items-center justify-center w-[110px] h-[110px] rounded-full shrink-0"
+                    style={{ background: '#e8c547' }}
+                  >
+                    <div className="stat-number text-[32px] font-bold leading-none text-[#030303]" style={{ letterSpacing: '-0.04em' }}>
+                      <CountUp value="11+" />
+                    </div>
                   </div>
                   <div className="text-[13px] leading-[1.5]" style={{ color: 'rgb(104,105,99)' }}>
                     Projekt har lanserats framgångsrikt sedan 2024
@@ -41,8 +46,13 @@ export function StatsSection() {
               <div>
                 <div className="text-[22px] font-bold text-[#030303] mb-[10px]">Kundnöjdhet</div>
                 <div className="flex items-center gap-[24px] pt-[20px]" style={{ borderTop: '3px solid rgb(210,210,210)' }}>
-                  <div className="stat-number text-[72px] font-bold leading-none text-[#030303] shrink-0" style={{ letterSpacing: '-0.04em' }}>
-                    <CountUp value="98%" />
+                  <div
+                    className="flex items-center justify-center w-[110px] h-[110px] rounded-full shrink-0"
+                    style={{ background: '#030303' }}
+                  >
+                    <div className="stat-number text-[32px] font-bold leading-none text-white" style={{ letterSpacing: '-0.04em' }}>
+                      <CountUp value="98%" />
+                    </div>
                   </div>
                   <div className="text-[13px] leading-[1.5]" style={{ color: 'rgb(104,105,99)' }}>
                     Andel av våra fullt nöjda kunder.

@@ -3,10 +3,9 @@ import { notFound } from 'next/navigation';
 import { PROJECTS } from '../../projekt-data';
 import { ProjectNav } from '../../components/ProjectNav';
 import { StyledHero } from '../../components/styled/StyledHero';
-import { StyledTimeline } from '../../components/styled/StyledTimeline';
 import { StyledBenefitScroll } from '../../components/styled/StyledBenefitScroll';
-import { SectionConnectorLine } from '../../components/styled/SectionConnectorLine';
-import { PageTravelingGlow } from '../../components/styled/PageTravelingGlow';
+import { StyledTabletShowcase } from '../../components/styled/StyledTabletShowcase';
+import { CtaSection } from '../../components/CtaSection';
 
 export function generateStaticParams() {
   return PROJECTS.map((p) => ({ slug: p.slug }));
@@ -36,15 +35,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     <main className="bg-white text-[#030303] relative">
       <ProjectNav />
 
-      <PageTravelingGlow />
-
       <StyledHero project={project} />
-
-      <SectionConnectorLine />
 
       <StyledBenefitScroll projectTitle={project.title} benefits={project.steps} projectAccentColor={project.accentColor} />
 
-      <StyledTimeline projectTitle={project.title} steps={project.steps} projectAccentColor={project.accentColor} />
+      <StyledTabletShowcase project={project} />
+
+      <CtaSection />
     </main>
   );
 }

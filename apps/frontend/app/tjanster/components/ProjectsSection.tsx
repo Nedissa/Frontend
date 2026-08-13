@@ -101,52 +101,74 @@ export function ProjectsSection() {
             <Link
               key={p.slug}
               href={`/tjanster/projekt/${p.slug}`}
-              className="relative overflow-hidden flex flex-col justify-between px-[40px] py-[36px] cursor-pointer w-full box-border no-underline"
+              className="group flex flex-col cursor-pointer w-full box-border no-underline p-[20px]"
               style={{
                 height: `${CARD_HEIGHT}px`,
-                background: p.image
-                  ? `url(${p.image}) center/cover no-repeat`
-                  : 'repeating-linear-gradient(45deg, #f0f0ee 0px, #f0f0ee 1px, #fff 1px, #fff 24px)',
+                background: 'rgb(240,240,238)',
+                borderRadius: '16px',
               }}
             >
               <div
-                className="flex justify-between relative z-[1] w-fit"
-                style={p.image ? {
-                  background: '#fff',
-                  borderRadius: '4px',
-                  padding: '6px 12px',
-                  gap: '24px',
-                } : undefined}
-              >
-                <span
-                  className="text-[12px] uppercase"
-                  style={{
-                    letterSpacing: '0.08em',
-                    color: 'rgb(104,105,99)',
-                  }}
-                >
-                  {p.category}
-                </span>
-                <span
-                  className="text-[12px]"
-                  style={{ color: 'rgb(104,105,99)' }}
-                >
-                  {p.year}
-                </span>
-              </div>
-              <div
-                className="text-[26px] font-semibold relative z-[1] w-fit"
+                className="relative flex-1 min-h-0 p-[20px]"
                 style={{
-                  letterSpacing: '-0.03em',
-                  color: '#030303',
-                  ...(p.image && {
-                    background: '#fff',
-                    borderRadius: '4px',
-                    padding: '6px 16px',
-                  }),
+                  background: '#f5f5f3',
+                  borderRadius: '10px',
                 }}
               >
-                {p.title}
+                {p.cardImage && p.accentColor && (
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      background: `radial-gradient(circle at 50% 50%, ${p.accentColor}80 0%, transparent 70%)`,
+                    }}
+                  />
+                )}
+                <div className="absolute inset-0 flex items-end justify-center">
+                  {p.cardImage && (
+                    <img
+                      src={p.cardImage}
+                      alt={p.title}
+                      className="max-w-[100%] max-h-[100%] object-contain"
+                    />
+                  )}
+                </div>
+                <div className="absolute left-[20px] right-[20px] top-[20px] flex flex-col gap-[8px]">
+                  <div
+                    className="text-[26px] font-semibold"
+                    style={{ letterSpacing: '-0.03em', color: '#030303' }}
+                  >
+                    {p.title}
+                  </div>
+                  <span
+                    className="text-[12px] uppercase"
+                    style={{ letterSpacing: '0.08em', color: 'rgb(104,105,99)' }}
+                  >
+                    {p.category}
+                  </span>
+                  <span
+                    className="inline-flex w-fit text-[11px] font-bold uppercase mt-[8px]"
+                    style={{
+                      letterSpacing: '0.06em',
+                      color: '#030303',
+                      background: '#e8c547',
+                      borderRadius: '999px',
+                      padding: '6px 14px',
+                    }}
+                  >
+                    Projekt
+                  </span>
+                </div>
+                <span
+                  className="absolute right-[20px] bottom-[20px] flex items-center justify-center w-[36px] h-[36px] rounded-full shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-[6px]"
+                  style={{ background: '#030303' }}
+                >
+                  <svg
+                    className="transition-transform duration-300 ease-out group-hover:translate-x-[3px]"
+                    width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                  >
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </span>
               </div>
             </Link>
           ))}

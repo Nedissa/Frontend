@@ -123,14 +123,14 @@ export function HeroSection() {
       className="hero-section hero-order-first relative w-full h-screen min-h-[800px] overflow-hidden"
       style={{ background: 'rgb(6, 7, 10)' }}
     >
-      {/* Glow — fades in on load */}
+      {/* Eclipse glow — dark center with golden corona ring */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 }}
         className="absolute inset-0 pointer-events-none z-0"
         style={{
-          background: 'radial-gradient(ellipse 55% 100% at 0% 50%, rgba(255, 210, 60, 0.9) 0%, rgba(255, 210, 60, 0.5) 55%, rgb(12, 13, 18) 85%)',
+          background: 'radial-gradient(ellipse 55% 100% at 0% 50%, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.8) 40%, rgba(255, 210, 60, 0.8) 47%, rgba(255, 210, 60, 0.6) 54%, rgba(255, 180, 40, 0.4) 62%, rgb(12, 13, 18) 75%)',
         }}
       />
 

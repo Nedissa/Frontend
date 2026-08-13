@@ -1,12 +1,12 @@
 'use client';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { motion } from 'framer-motion';
 
 export const ITALIC = { fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', fontStyle: 'italic' } as const;
 
-export function StyledSection({ children, className = '' }: { children: ReactNode; className?: string }) {
+export function StyledSection({ children, className = '', style }: { children: ReactNode; className?: string; style?: CSSProperties }) {
   return (
-    <section className={`relative py-16 md:py-24 lg:py-32 ${className}`}>
+    <section className={`relative py-16 md:py-24 lg:py-32 ${className}`} style={style}>
       <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 md:px-12 box-border">{children}</div>
     </section>
   );

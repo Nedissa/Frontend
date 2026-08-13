@@ -27,7 +27,7 @@ export default function WebStudioPage() {
           Shown here on mobile only (order-1 within a flex column) */}
       <section
         className="logo-ticker-mobile-first overflow-hidden bg-white py-[40px]"
-        style={{ borderTop: '1px solid rgb(220,220,220)', borderBottom: '1px solid rgb(220,220,220)' }}
+        style={{ borderTop: '1px solid rgb(220,220,220)' }}
         aria-label="Verktyg och plattformar vi arbetar med"
       >
         <div className="animate-marquee flex items-center gap-0 whitespace-nowrap" aria-hidden="true">
