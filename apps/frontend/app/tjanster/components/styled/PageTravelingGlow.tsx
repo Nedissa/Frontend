@@ -7,7 +7,12 @@ const GOLD = '#E8C547';
 const CYCLE_INTERVAL_MS = 2200;
 
 const rgb = hexToRgb(GOLD);
-const GRADIENT = `radial-gradient(circle at center, rgba(${rgb},1) 0%, rgba(${rgb},0.85) 35%, rgba(${rgb},0.4) 65%, rgba(${rgb},0) 100%)`;
+const GRADIENT = [
+  `radial-gradient(ellipse 55% 40% at 38% 32%, rgba(${rgb},0.95) 0%, rgba(${rgb},0.5) 45%, rgba(${rgb},0) 75%)`,
+  `radial-gradient(ellipse 40% 60% at 68% 55%, rgba(${rgb},0.9) 0%, rgba(${rgb},0.45) 50%, rgba(${rgb},0) 78%)`,
+  `radial-gradient(ellipse 48% 35% at 45% 72%, rgba(${rgb},0.85) 0%, rgba(${rgb},0.4) 50%, rgba(${rgb},0) 80%)`,
+  `radial-gradient(ellipse 35% 50% at 25% 60%, rgba(${rgb},0.8) 0%, rgba(${rgb},0.35) 50%, rgba(${rgb},0) 80%)`,
+].join(', ');
 
 type Rect = { top: number; left: number; width: number; height: number };
 
@@ -89,7 +94,7 @@ export function PageTravelingGlow() {
 
   if (!rect) return null;
 
-  const size = Math.max(rect.width, rect.height) * 0.9;
+  const size = Math.max(rect.width, rect.height) * 1.15;
 
   return (
     <motion.div
@@ -99,18 +104,18 @@ export function PageTravelingGlow() {
         left: rect.left + rect.width / 2 - size / 2,
         width: size,
         height: size,
-        scale: [0.92, 1.06, 0.92],
-        borderRadius: ['62% 38% 55% 45% / 48% 60% 40% 52%', '45% 55% 42% 58% / 58% 42% 58% 42%', '62% 38% 55% 45% / 48% 60% 40% 52%'],
+        scale: [0.95, 1.08, 0.97, 1.04, 0.95],
+        rotate: [0, 12, -8, 5, 0],
       }}
       transition={{
         top: { type: 'spring', stiffness: 100, damping: 22 },
         left: { type: 'spring', stiffness: 100, damping: 22 },
         width: { type: 'spring', stiffness: 100, damping: 22 },
         height: { type: 'spring', stiffness: 100, damping: 22 },
-        scale: { duration: 3.2, repeat: Infinity, ease: 'easeInOut' },
-        borderRadius: { duration: 6.4, repeat: Infinity, ease: 'easeInOut' },
+        scale: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
+        rotate: { duration: 7, repeat: Infinity, ease: 'easeInOut' },
       }}
-      style={{ background: GRADIENT, filter: 'blur(6px)' }}
+      style={{ background: GRADIENT, filter: 'blur(4px)' }}
     />
   );
 }
