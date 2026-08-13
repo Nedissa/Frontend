@@ -10,28 +10,24 @@ const FALLBACK_BENEFITS: ProjectStep[] = [
 ];
 
 
-function BenefitCard({ item, index }: { item: ProjectStep; index: number; isActive?: boolean }) {
-
+function BenefitCard({ item, index, accentColor }: { item: ProjectStep; index: number; isActive?: boolean; accentColor?: string }) {
   return (
-    <div className="w-full max-w-[280px] mx-auto relative shadow-none">
-      <div className="relative w-full aspect-[9/16] rounded-[24px] overflow-hidden mockup-frame shadow-none">
-        <img
-          src={item.image}
-          alt={item.title}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-        <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-          <span className="text-xs uppercase tracking-widest font-medium text-[#e8c547]">Fördel</span>
-          <h3 className="text-xl font-bold mt-2 mb-2">{item.title}</h3>
-          <p className="text-sm leading-relaxed line-clamp-2">{item.description}</p>
-        </div>
-      </div>
+    <div
+      className="mx-auto relative shadow-none w-[300px]"
+      data-mockup
+      data-mockup-color={item.accentColor ?? accentColor}
+      {...(index === 1 ? { 'data-line-start': true } : {})}
+    >
+      <img
+        src={item.image}
+        alt={item.title}
+        className="relative w-full h-[420px] object-cover rounded-[24px]"
+      />
     </div>
   );
 }
 
-export function StyledBenefitScroll({ projectTitle, benefits }: { projectTitle: string; benefits?: ProjectStep[] }) {
+export function StyledBenefitScroll({ projectTitle, benefits, projectAccentColor }: { projectTitle: string; benefits?: ProjectStep[]; projectAccentColor?: string }) {
   const items = benefits && benefits.length > 0 ? benefits : FALLBACK_BENEFITS;
 
   return (
@@ -54,12 +50,13 @@ export function StyledBenefitScroll({ projectTitle, benefits }: { projectTitle: 
       </div>
 
       {/* Cards grid - show first 3 cards */}
-      <div className="grid grid-cols-3 gap-8 w-full px-4 bg-transparent shadow-none">
+      <div className="flex flex-wrap justify-center items-center gap-8 w-full bg-transparent shadow-none">
         {items.slice(0, 3).map((item, index) => (
           <BenefitCard
             key={item.title}
             item={item}
             index={index}
+            accentColor={projectAccentColor}
           />
         ))}
       </div>

@@ -1,9 +1,7 @@
 'use client';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import type { Project, ProjectStep } from '../../projekt-data';
+import type { ProjectStep } from '../../projekt-data';
 import { FadeIn } from '../FadeIn';
 import { Eyebrow, ITALIC, StyledSection } from './StyledPrimitives';
-import { TravelingGlow, type GlowRect } from './TravelingGlow';
 
 const FALLBACK_BULLETS = ['Långsiktig support och underhåll', 'Transparent rapportering varje månad', 'Proaktiv övervakning av system'];
 
@@ -13,90 +11,8 @@ const FALLBACK_STEPS: ProjectStep[] = [
   { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.' },
 ];
 
-const DEFAULT_ACCENT = '#E8C547';
-
-export function StyledTimeline({ projectTitle, steps, projectAccentColor }: { projectTitle: string; steps?: ProjectStep[]; projectAccentColor?: Project['accentColor'] }) {
+export function StyledTimeline({ projectTitle, steps, projectAccentColor }: { projectTitle: string; steps?: ProjectStep[]; projectAccentColor?: string }) {
   const items = steps && steps.length > 0 ? steps : FALLBACK_STEPS;
-  const containerRef = useRef<HTMLDivElement>(null);
-  const imageRefs = useRef<Map<number, HTMLDivElement>>(new Map());
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const [activeRect, setActiveRect] = useState<GlowRect | null>(null);
-  const activeIndexRef = useRef<number | null>(null);
-  activeIndexRef.current = activeIndex;
-
-  const indexesWithImage = useMemo(
-    () =>
-      items.reduce<number[]>((acc, step, i) => {
-        if (step.image) acc.push(i);
-        return acc;
-      }, []),
-    [items]
-  );
-
-  useEffect(() => {
-    if (indexesWithImage.length === 0) return;
-
-    function measure(index: number) {
-      const container = containerRef.current;
-      const el = imageRefs.current.get(index);
-      if (!container || !el) return;
-      const containerBox = container.getBoundingClientRect();
-      const elBox = el.getBoundingClientRect();
-      setActiveIndex(index);
-      setActiveRect({
-        top: elBox.top - containerBox.top,
-        left: elBox.left - containerBox.left,
-        width: elBox.width,
-        height: elBox.height,
-      });
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        let best: { index: number; ratio: number } | null = null;
-        for (const entry of entries) {
-          const indexAttr = entry.target.getAttribute('data-step-index');
-          if (indexAttr === null) continue;
-          const index = Number(indexAttr);
-          if (entry.intersectionRatio > 0.5 && (!best || entry.intersectionRatio > best.ratio)) {
-            best = { index, ratio: entry.intersectionRatio };
-          }
-        }
-        if (best) measure(best.index);
-      },
-      { threshold: [0, 0.25, 0.5, 0.75, 1] }
-    );
-
-    for (const index of indexesWithImage) {
-      const el = imageRefs.current.get(index);
-      if (el) observer.observe(el);
-    }
-
-    measure(indexesWithImage[0]);
-
-    let ticking = false;
-    const remeasure = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        if (activeIndexRef.current !== null) measure(activeIndexRef.current);
-        ticking = false;
-      });
-    };
-    window.addEventListener('resize', remeasure);
-    window.addEventListener('scroll', remeasure, { passive: true });
-    window.addEventListener('load', remeasure);
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener('resize', remeasure);
-      window.removeEventListener('scroll', remeasure);
-      window.removeEventListener('load', remeasure);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [indexesWithImage.length]);
-
-  const activeColor = (activeIndex !== null ? items[activeIndex]?.accentColor : undefined) ?? projectAccentColor ?? DEFAULT_ACCENT;
 
   return (
     <StyledSection className="border-t border-black/5">
@@ -117,18 +33,12 @@ export function StyledTimeline({ projectTitle, steps, projectAccentColor }: { pr
         </FadeIn>
       </div>
 
-      <div ref={containerRef} className="relative w-full mx-auto">
-        <TravelingGlow rect={activeRect} color={activeColor} />
-
+      <div className="relative w-full mx-auto">
         <div className="flex flex-col gap-20 pb-20">
           {items.map((step, i) => {
             const imageFirst = i % 2 === 0;
             const isLast = i === items.length - 1;
-
-            const registerImageRef = (el: HTMLDivElement | null) => {
-              if (el) imageRefs.current.set(i, el);
-              else imageRefs.current.delete(i);
-            };
+            const mockupColor = step.accentColor ?? projectAccentColor;
 
             if (isLast) {
               return (
@@ -138,7 +48,7 @@ export function StyledTimeline({ projectTitle, steps, projectAccentColor }: { pr
 
                     <div className="flex flex-col items-center text-center gap-6 max-w-[720px] mx-auto px-2 md:px-0">
                       {step.image && (
-                        <div ref={registerImageRef} data-step-index={i} className="relative mx-auto mt-4 w-[300px]">
+                        <div data-mockup data-mockup-color={mockupColor} className="relative mx-auto mt-4 w-[300px]">
                           <img src={step.image} alt={`${projectTitle} — ${step.title}`} className="relative w-full h-[420px] object-cover rounded-[24px]" />
                         </div>
                       )}
@@ -169,8 +79,8 @@ export function StyledTimeline({ projectTitle, steps, projectAccentColor }: { pr
                   <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center bg-transparent`}>
                     {step.image && (
                       <div
-                        ref={registerImageRef}
-                        data-step-index={i}
+                        data-mockup
+                        data-mockup-color={mockupColor}
                         className={`relative mx-auto w-[300px] ${imageFirst ? 'md:order-1 md:ml-auto md:mr-8' : 'md:order-2 md:mr-auto md:ml-8'}`}
                       >
                         <img src={step.image} alt={`${projectTitle} — ${step.title}`} className="relative w-full h-[420px] object-cover rounded-[24px]" />

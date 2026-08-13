@@ -6,6 +6,7 @@ import { StyledHero } from '../../components/styled/StyledHero';
 import { StyledTimeline } from '../../components/styled/StyledTimeline';
 import { StyledBenefitScroll } from '../../components/styled/StyledBenefitScroll';
 import { SectionConnectorLine } from '../../components/styled/SectionConnectorLine';
+import { PageTravelingGlow } from '../../components/styled/PageTravelingGlow';
 
 export function generateStaticParams() {
   return PROJECTS.map((p) => ({ slug: p.slug }));
@@ -35,11 +36,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     <main className="bg-white text-[#030303] relative">
       <ProjectNav />
 
+      <PageTravelingGlow />
+
       <StyledHero project={project} />
 
       <SectionConnectorLine />
 
-      <StyledBenefitScroll projectTitle={project.title} benefits={project.steps} />
+      <StyledBenefitScroll projectTitle={project.title} benefits={project.steps} projectAccentColor={project.accentColor} />
 
       <StyledTimeline projectTitle={project.title} steps={project.steps} projectAccentColor={project.accentColor} />
     </main>

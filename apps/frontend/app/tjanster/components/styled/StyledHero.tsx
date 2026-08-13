@@ -1,9 +1,7 @@
 'use client';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
 import type { Project } from '../../projekt-data';
 import { FadeIn } from '../FadeIn';
-import { GlowBackground } from './StyledPrimitives';
 
 function MetaItem({ label, value }: { label: string; value: string }) {
   return (
@@ -43,13 +41,7 @@ export function StyledHero({ project }: { project: Project }) {
         {project.image && (
           <FadeIn delay={0.15}>
             <div className="relative max-w-[1000px] mx-auto -mt-12 md:-mt-20">
-              <motion.div
-                className="relative w-full aspect-[4/3]"
-                initial="hidden"
-                animate="visible"
-                transition={{ delay: 0.3 }}
-              >
-                <GlowBackground strong color={project.accentColor} />
+              <div className="relative w-full aspect-[4/3]" data-mockup data-mockup-color={project.accentColor}>
                 <Image
                   src={project.image}
                   alt={`${project.title} — skärmdump`}
@@ -57,7 +49,7 @@ export function StyledHero({ project }: { project: Project }) {
                   className="object-cover mockup-frame"
                   priority
                 />
-              </motion.div>
+              </div>
             </div>
           </FadeIn>
         )}
