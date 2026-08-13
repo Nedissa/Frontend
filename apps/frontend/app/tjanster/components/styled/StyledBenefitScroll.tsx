@@ -10,10 +10,12 @@ const FALLBACK_BENEFITS: ProjectStep[] = [
 ];
 
 
+const STEP_OFFSET_CLASSES = ['md:translate-y-0', 'md:translate-y-14', 'md:translate-y-28'];
+
 function BenefitCard({ item, index, accentColor }: { item: ProjectStep; index: number; isActive?: boolean; accentColor?: string }) {
   return (
     <div
-      className="mx-auto relative shadow-none w-[300px]"
+      className={`mx-auto relative shadow-none w-[300px] ${STEP_OFFSET_CLASSES[index % STEP_OFFSET_CLASSES.length]}`}
       data-mockup
       data-mockup-color={item.accentColor ?? accentColor}
       {...(index === 1 ? { 'data-line-start': true } : {})}
@@ -52,12 +54,13 @@ export function StyledBenefitScroll({ projectTitle, benefits, projectAccentColor
       {/* Cards grid - show first 3 cards */}
       <div className="flex flex-wrap justify-center items-center gap-8 w-full bg-transparent shadow-none">
         {items.slice(0, 3).map((item, index) => (
-          <BenefitCard
-            key={item.title}
-            item={item}
-            index={index}
-            accentColor={projectAccentColor}
-          />
+          <FadeIn key={item.title} delay={index * 0.15} className="!w-auto">
+            <BenefitCard
+              item={item}
+              index={index}
+              accentColor={projectAccentColor}
+            />
+          </FadeIn>
         ))}
       </div>
     </StyledSection>
