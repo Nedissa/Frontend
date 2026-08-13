@@ -93,13 +93,14 @@ export function PageTravelingGlow() {
 
   return (
     <motion.div
-      className="absolute pointer-events-none z-0 rounded-full"
+      className="absolute pointer-events-none z-0"
       animate={{
         top: rect.top + rect.height / 2 - size / 2,
         left: rect.left + rect.width / 2 - size / 2,
         width: size,
         height: size,
         scale: [0.92, 1.06, 0.92],
+        borderRadius: ['62% 38% 55% 45% / 48% 60% 40% 52%', '45% 55% 42% 58% / 58% 42% 58% 42%', '62% 38% 55% 45% / 48% 60% 40% 52%'],
       }}
       transition={{
         top: { type: 'spring', stiffness: 100, damping: 22 },
@@ -107,6 +108,7 @@ export function PageTravelingGlow() {
         width: { type: 'spring', stiffness: 100, damping: 22 },
         height: { type: 'spring', stiffness: 100, damping: 22 },
         scale: { duration: 3.2, repeat: Infinity, ease: 'easeInOut' },
+        borderRadius: { duration: 6.4, repeat: Infinity, ease: 'easeInOut' },
       }}
       style={{ background: GRADIENT, filter: 'blur(6px)' }}
     />

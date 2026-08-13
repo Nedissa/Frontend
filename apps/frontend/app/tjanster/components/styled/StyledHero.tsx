@@ -16,8 +16,8 @@ export function StyledHero({ project }: { project: Project }) {
   const bodyText = project.challenge ?? project.description.slice(0, 180);
 
   return (
-    <section className="bg-white">
-      <div className="max-w-[1440px] mx-auto w-full px-6 md:px-12 box-border pt-24 md:pt-32">
+    <section className="relative">
+      <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 md:px-12 box-border pt-24 md:pt-32">
         <FadeIn>
           <div className="max-w-[780px] mx-auto flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
             <div className="flex flex-col gap-5">
