@@ -1,6 +1,9 @@
+'use client';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 import type { Project } from '../../projekt-data';
 import { FadeIn } from '../FadeIn';
+import { GlowBackground } from './StyledPrimitives';
 
 function MetaItem({ label, value }: { label: string; value: string }) {
   return (
@@ -16,12 +19,12 @@ export function StyledHero({ project }: { project: Project }) {
 
   return (
     <section className="bg-white">
-      <div className="max-w-[1440px] mx-auto w-full px-6 md:px-12 box-border pt-32 md:pt-44">
+      <div className="max-w-[1440px] mx-auto w-full px-6 md:px-12 box-border pt-24 md:pt-32">
         <FadeIn>
-          <div className="max-w-[900px] mx-auto flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+          <div className="max-w-[780px] mx-auto flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
             <div className="flex flex-col gap-5">
               <h1
-                className="text-[clamp(36px,6vw,72px)] font-bold uppercase tracking-tight leading-[0.95] text-[#030303] m-0"
+                className="text-[clamp(36px,6vw,52px)] font-bold uppercase tracking-tight leading-[0.95] text-[#030303] m-0"
                 style={{ textShadow: '0 2px 12px rgba(3,3,3,0.15)' }}
               >
                 {project.title}
@@ -39,16 +42,22 @@ export function StyledHero({ project }: { project: Project }) {
 
         {project.image && (
           <FadeIn delay={0.15}>
-            <div className="relative max-w-[1100px] mx-auto mt-4 md:mt-6">
-              <div className="relative w-full aspect-[4/3]">
+            <div className="relative max-w-[1000px] mx-auto -mt-12 md:-mt-20">
+              <motion.div
+                className="relative w-full aspect-[4/3]"
+                initial="hidden"
+                animate="visible"
+                transition={{ delay: 0.3 }}
+              >
+                <GlowBackground strong color={project.accentColor} />
                 <Image
                   src={project.image}
                   alt={`${project.title} — skärmdump`}
                   fill
-                  className="object-contain mockup-frame"
+                  className="object-cover mockup-frame"
                   priority
                 />
-              </div>
+              </motion.div>
             </div>
           </FadeIn>
         )}
