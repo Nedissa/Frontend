@@ -95,13 +95,17 @@ export function PageTravelingGlow() {
   if (!rect) return null;
 
   const size = Math.max(rect.width, rect.height) * 1.15;
+  const pageWidth = typeof document !== 'undefined' ? document.documentElement.clientWidth : Infinity;
+  const rotationMargin = size * 0.15;
+  const idealLeft = rect.left + rect.width / 2 - size / 2;
+  const clampedLeft = Math.min(Math.max(idealLeft, rotationMargin), Math.max(pageWidth - size - rotationMargin, rotationMargin));
 
   return (
     <motion.div
       className="absolute pointer-events-none z-0"
       animate={{
         top: rect.top + rect.height / 2 - size / 2,
-        left: rect.left + rect.width / 2 - size / 2,
+        left: clampedLeft,
         width: size,
         height: size,
         scale: [0.95, 1.08, 0.97, 1.04, 0.95],
