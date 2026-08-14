@@ -114,7 +114,7 @@ export function MegaMenu({
                     <div className="mb-4 pb-4 border-b border-gray-200 w-full">
                       <div style={{ marginBottom: '8px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
                         <img
-                          src={SECTION_IMAGES[section.id] || '/assets/cat-electronics.png'}
+                          src={SECTION_IMAGES[section.id] || '/assets/cat-electronics.webp'}
                           alt={section.title}
                           style={{ display: 'block', height: '80px', width: 'auto' }}
                         />

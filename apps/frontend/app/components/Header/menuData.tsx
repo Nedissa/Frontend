@@ -325,10 +325,10 @@ export const SECTION_IMAGES: Record<string, string> = {
 };
 
 export const OFFERS_CAMPAIGNS = [
-  { id: 'veckans-deals', title: 'Veckans deals', bg: 'bg-gray-900', url: '/erbjudanden/veckans-deals', image: '/assets/erbjudanden-1.png' },
-  { id: 'rea', title: 'Rea upp till 50%', bg: 'bg-red-700', url: '/erbjudanden/rea', image: '/assets/erbjudanden-2.png' },
-  { id: 'paketpris', title: 'Paketpris', bg: 'bg-blue-900', url: '/erbjudanden/paketpris', image: '/assets/erbjudanden-3.png' },
-  { id: 'lagertomning', title: 'Lagertömning', bg: 'bg-gray-800', url: '/erbjudanden/lagertomning', image: '/assets/erbjudanden-4.png' },
+  { id: 'veckans-deals', title: 'Veckans deals', bg: 'bg-gray-900', url: '/erbjudanden/veckans-deals', image: '/assets/erbjudanden-1.webp' },
+  { id: 'rea', title: 'Rea upp till 50%', bg: 'bg-red-700', url: '/erbjudanden/rea', image: '/assets/erbjudanden-2.webp' },
+  { id: 'paketpris', title: 'Paketpris', bg: 'bg-blue-900', url: '/erbjudanden/paketpris', image: '/assets/erbjudanden-3.webp' },
+  { id: 'lagertomning', title: 'Lagertömning', bg: 'bg-gray-800', url: '/erbjudanden/lagertomning', image: '/assets/erbjudanden-4.webp' },
 ];
 
 export const OFFERS_DATA: MenuCategory = {
@@ -351,25 +351,25 @@ export const MOBILE_CATEGORY_ICONS: Record<string, React.ReactNode> = {
 };
 
 export const MOBILE_SECTION_ICONS: Record<string, React.ReactNode> = {
-  'barbara':              <img src="/assets/mega-barbara.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'stationara':           <img src="/assets/mega-stationara.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'datortillbehor':       <img src="/assets/mega-datortillbehor.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'processorer':          <img src="/assets/mega-processorer.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'moderkort':            <img src="/assets/mega-moderkort.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'grafikkort':           <img src="/assets/mega-grafikkort.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'ram':                  <img src="/assets/mega-ram.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'lagringsenhet':        <img src="/assets/mega-lagring.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'natlagring':           <img src="/assets/mega-natlaggregat.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'gaming-laptops':       <img src="/assets/mega-gaming-laptop.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'gaming-pc':            <img src="/assets/mega-gaming-pc.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'gaming-peripherals':   <img src="/assets/mega-gaming-tillbehor.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'smartphones':          <img src="/assets/mega-smartphones.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'mobil-tillbehor':      <img src="/assets/mega-mobil-tillbehor.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'accesspunkter':        <img src="/assets/mega-accesspunkter.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'natsverksforlangarе':  <img src="/assets/mega-natverksforlangare.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'routrar':              <img src="/assets/mega-routrar.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'mesh':                 <img src="/assets/mega-mesh.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'tv':                   <img src="/assets/mega-tv.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'ljud':                 <img src="/assets/mega-ljud.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
-  'tillbehor-tv':         <img src="/assets/mega-tv-tillbehor.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'barbara':              <img src="/assets/mega-barbara.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'stationara':           <img src="/assets/mega-stationara.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'datortillbehor':       <img src="/assets/mega-datortillbehor.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'processorer':          <img src="/assets/mega-processorer.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'moderkort':            <img src="/assets/mega-moderkort.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'grafikkort':           <img src="/assets/mega-grafikkort.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'ram':                  <img src="/assets/mega-ram.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'lagringsenhet':        <img src="/assets/mega-lagring.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'natlagring':           <img src="/assets/mega-natlaggregat.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'gaming-laptops':       <img src="/assets/mega-gaming-laptop.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'gaming-pc':            <img src="/assets/mega-gaming-pc.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'gaming-peripherals':   <img src="/assets/mega-gaming-tillbehor.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'smartphones':          <img src="/assets/mega-smartphones.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'mobil-tillbehor':      <img src="/assets/mega-mobil-tillbehor.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'accesspunkter':        <img src="/assets/mega-accesspunkter.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'natsverksforlangarе':  <img src="/assets/mega-natverksforlangare.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'routrar':              <img src="/assets/mega-routrar.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'mesh':                 <img src="/assets/mega-mesh.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'tv':                   <img src="/assets/mega-tv.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'ljud':                 <img src="/assets/mega-ljud.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
+  'tillbehor-tv':         <img src="/assets/mega-tv-tillbehor.webp" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />,
 };

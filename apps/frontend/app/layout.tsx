@@ -42,7 +42,7 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-        <link rel="preload" as="image" href="/assets/hero-1.jpg" fetchPriority="high" />
+        <link rel="preload" as="image" href="/assets/hero-1.webp" fetchPriority="high" />
         <link rel="preload" as="image" href="/icons/barbara-datorer.png" />
         <link rel="preload" as="image" href="/icons/stationara-datorer.png" />
         <link rel="preload" as="image" href="/icons/datortillbehor.png" />

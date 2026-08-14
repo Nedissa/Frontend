@@ -1,11 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 export function LimitedTimeBanner() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const bannerRef = useRef<HTMLDivElement>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     fetch('/api/promotions')
@@ -20,7 +23,20 @@ export function LimitedTimeBanner() {
   }, []);
 
   useEffect(() => {
-    if (!endDate) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    if (bannerRef.current) observer.observe(bannerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!endDate || !isVisible) {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      return;
+    }
+
     const calc = () => {
       const diff = endDate.getTime() - Date.now();
       if (diff <= 0) {
@@ -34,25 +50,16 @@ export function LimitedTimeBanner() {
         seconds: Math.floor((diff % 60000) / 1000),
       });
     };
+
     calc();
-    const id = setInterval(calc, 1000);
-    return () => clearInterval(id);
-  }, [endDate]);
+    intervalRef.current = setInterval(calc, 1000);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [endDate, isVisible]);
 
   return (
-    <div className="w-full">
-      <style>{`
-        @keyframes gradientShiftBanner {
-          0%   { background-position: 0% 50%; }
-          50%  { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        .speaker-badge { font-size: 9px; padding: 4px 8px; }
-        @media (min-width: 640px) { .speaker-badge { font-size: 11px; padding: 6px 12px; } }
-        .banner-animated-bg {
-          background: linear-gradient(135deg, #0a0a0a, #030303, #0a0a0a, #0a0a0a, #030303);
-        }
-      `}</style>
+    <div className="w-full" ref={bannerRef}>
       <div className="w-full">
         <div className="banner-animated-bg flex flex-col-reverse sm:flex-row sm:h-[400px]">
           {/* Left */}
