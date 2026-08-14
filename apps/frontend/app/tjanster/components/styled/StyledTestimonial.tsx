@@ -17,7 +17,7 @@ export function StyledTestimonial({ quote, projectTitle, category }: { quote: st
             <span className="text-sm text-[#f5b700] tracking-widest">★★★★★</span>
             <p className="text-sm leading-relaxed text-[#3a3a37] m-0">&ldquo;{quote}&rdquo;</p>
             <div className="flex items-center gap-3 mt-1">
-              <div className="w-9 h-9 rounded-full bg-[#D75E15] flex items-center justify-center text-white text-xs font-bold">
+              <div className="w-9 h-9 rounded-full bg-[#e8c547] flex items-center justify-center text-[#030303] text-xs font-bold">
                 {projectTitle[0]}
               </div>
               <div>

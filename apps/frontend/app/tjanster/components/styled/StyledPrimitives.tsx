@@ -24,7 +24,7 @@ export function PrimaryButton({ href, children }: { href: string; children: Reac
   return (
     <a
       href={href}
-      className="group inline-flex items-center gap-2 px-6 py-3 bg-[#D75E15] text-white text-sm font-semibold rounded-full no-underline shadow-[0_8px_24px_rgba(215,94,21,0.25)] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(215,94,21,0.35)] hover:scale-[1.02]"
+      className="group inline-flex items-center gap-2 px-6 py-3 bg-[#e8c547] text-[#030303] text-sm font-semibold rounded-full no-underline shadow-[0_8px_24px_rgba(232,197,71,0.35)] transition-all duration-300 hover:bg-[#030303] hover:text-[#e8c547] hover:shadow-[0_12px_32px_rgba(3,3,3,0.25)] hover:scale-[1.02]"
     >
       {children}
     </a>

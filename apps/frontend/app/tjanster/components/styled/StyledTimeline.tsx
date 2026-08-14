@@ -44,7 +44,7 @@ export function StyledTimeline({ projectTitle, steps, projectAccentColor }: { pr
               return (
                 <FadeIn key={step.title} delay={i * 0.08}>
                   <div className="relative">
-                    <div data-line-end className="absolute left-1/2 -translate-x-1/2 top-1 w-6 h-6 rounded-full bg-[#fbbf24] border-[3px] border-black z-10" />
+                    <div data-line-end className="absolute left-1/2 -translate-x-1/2 top-1 w-6 h-6 rounded-full bg-[#e8c547] border-[3px] border-black z-10" />
 
                     <div className="flex flex-col items-center text-center gap-6 max-w-[720px] mx-auto px-2 md:px-0">
                       {step.image && (
@@ -74,7 +74,7 @@ export function StyledTimeline({ projectTitle, steps, projectAccentColor }: { pr
             return (
               <FadeIn key={step.title} delay={i * 0.08}>
                 <div className="relative">
-                  <div className="absolute left-1/2 -translate-x-1/2 top-1 w-6 h-6 rounded-full bg-[#fbbf24] border-[3px] border-black z-10" />
+                  <div className="absolute left-1/2 -translate-x-1/2 top-1 w-6 h-6 rounded-full bg-[#e8c547] border-[3px] border-black z-10" />
 
                   <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center bg-transparent`}>
                     {step.image && (
