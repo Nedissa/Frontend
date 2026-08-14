@@ -2,9 +2,9 @@ import Link from 'next/link';
 
 const SUBCATEGORIES: Record<string, { title: string; url: string; icon: string }[]> = {
   'datorer-tillbehor': [
-    { title: 'Bärbara', url: '/kategori/barbara', icon: '/assets/mega-barbara.svg' },
-    { title: 'Stationära', url: '/kategori/stationara', icon: '/assets/mega-stationara.svg' },
-    { title: 'Tillbehör', url: '/kategori/datortillbehor', icon: '/assets/mega-datortillbehor.svg' },
+    { title: 'Bärbara', url: '/kategori/barbara', icon: '/assets/mega-barbara.webp' },
+    { title: 'Stationära', url: '/kategori/stationara', icon: '/assets/mega-stationara.webp' },
+    { title: 'Tillbehör', url: '/kategori/datortillbehor', icon: '/assets/mega-datortillbehor.webp' },
   ],
   'datorkomponenter': [
     { title: 'Processorer', url: '/kategori/processorer', icon: '/assets/mega-processorer.svg' },
