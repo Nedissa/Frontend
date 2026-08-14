@@ -11,7 +11,7 @@ export function StyledTabletShowcase({ project }: { project: Project }) {
       <div className="flex flex-col items-center text-center gap-4 mb-16">
         <FadeIn>
           <div className="flex flex-col items-center gap-4">
-            <Eyebrow>Surfplatta</Eyebrow>
+            <Eyebrow>Resultat</Eyebrow>
             <h2
               className="text-[clamp(28px,3.5vw,44px)] font-normal tracking-[-0.02em] leading-[1.1] text-[#030303] m-0 max-w-[800px]"
               style={ITALIC}

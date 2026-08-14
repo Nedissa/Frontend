@@ -45,7 +45,7 @@ export function CustomersSection() {
       >
         {/* Rating */}
         <FadeIn>
-          <div className="bg-[#f5f5f5] rounded-[4px] px-[32px] py-[40px] h-full box-border flex flex-col">
+          <div className="bg-[#f5f5f5] rounded-[8px] px-[32px] py-[40px] h-full box-border flex flex-col">
             <div
               className="text-[40px] font-bold text-[#030303] mb-[12px]"
               style={{ letterSpacing: '-0.02em' }}
@@ -61,7 +61,7 @@ export function CustomersSection() {
 
         {/* Customer image with quote */}
         <FadeIn delay={0.08}>
-          <div className="customer-image-card relative rounded-[4px] overflow-hidden h-full min-h-[600px] flex items-end box-border">
+          <div className="customer-image-card relative rounded-[8px] overflow-hidden h-full min-h-[600px] flex items-end box-border">
             <img
               src="/tjanster/kunder-partners.webp"
               alt=""
@@ -83,7 +83,7 @@ export function CustomersSection() {
 
         {/* Quote */}
         <FadeIn delay={0.16}>
-          <div className="relative bg-[#f5f5f5] rounded-[4px] px-[32px] py-[40px] h-full box-border flex flex-col">
+          <div className="relative bg-[#f5f5f5] rounded-[8px] px-[32px] py-[40px] h-full box-border flex flex-col">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="absolute top-[20px] right-[20px]" aria-hidden="true">
               <path d="M2 2L12 2L12 12L2 2Z" fill="#e8c547" />
             </svg>

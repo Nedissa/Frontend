@@ -10,7 +10,7 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
   return (
     <FadeIn delay={delay}>
       <motion.div
-        className="pricing-card relative rounded-[4px] flex flex-col gap-[32px] box-border"
+        className="pricing-card relative rounded-[8px] flex flex-col gap-[32px] box-border"
         whileHover={{ y: -8, boxShadow: '0 24px 48px rgba(0,0,0,0.14)' }}
         transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
         style={{

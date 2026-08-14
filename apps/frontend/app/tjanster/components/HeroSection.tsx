@@ -18,7 +18,7 @@ function HeroPromo() {
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         border: '1px solid rgba(255,255,255,0.16)',
-        borderRadius: '15px',
+        borderRadius: '8px',
         padding: '28px 40px',
         boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
       }}

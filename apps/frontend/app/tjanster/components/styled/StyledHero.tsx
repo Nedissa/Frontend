@@ -13,13 +13,11 @@ function MetaItem({ label, value }: { label: string; value: string }) {
 }
 
 export function StyledHero({ project }: { project: Project }) {
-  const bodyText = project.challenge ?? project.description.slice(0, 180);
-
   return (
     <section className="relative">
       <div className="relative z-10 max-w-[1440px] mx-auto w-full px-6 md:px-12 box-border pt-24 md:pt-32">
         <FadeIn>
-          <div className="max-w-[780px] mx-auto flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+          <div className="max-w-[900px] mx-auto flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
             <div className="flex flex-col gap-5">
               <h1
                 className="text-[clamp(36px,6vw,52px)] font-bold uppercase tracking-tight leading-[0.95] text-[#030303] m-0"
@@ -27,7 +25,6 @@ export function StyledHero({ project }: { project: Project }) {
               >
                 {project.title}
               </h1>
-              <p className="text-base leading-relaxed text-[#5c5c58] max-w-[45ch] m-0">{bodyText}</p>
             </div>
 
             <div className="flex gap-8 shrink-0 mt-6">

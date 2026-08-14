@@ -15,7 +15,7 @@ const STEP_OFFSET_CLASSES = ['md:translate-y-0', 'md:translate-y-14', 'md:transl
 function BenefitCard({ item, index, accentColor }: { item: ProjectStep; index: number; isActive?: boolean; accentColor?: string }) {
   return (
     <div
-      className={`mx-auto relative w-[300px] ${STEP_OFFSET_CLASSES[index % STEP_OFFSET_CLASSES.length]}`}
+      className={`mx-auto relative w-full max-w-[380px] ${STEP_OFFSET_CLASSES[index % STEP_OFFSET_CLASSES.length]}`}
       data-mockup
       data-mockup-color={item.accentColor ?? accentColor}
       {...(index === 1 ? { 'data-line-start': true } : {})}
@@ -23,7 +23,7 @@ function BenefitCard({ item, index, accentColor }: { item: ProjectStep; index: n
       <img
         src={item.image}
         alt={item.title}
-        className="relative w-full h-[420px] object-cover rounded-[24px]"
+        className="relative w-full h-auto object-cover rounded-[24px]"
       />
     </div>
   );
@@ -37,7 +37,7 @@ export function StyledBenefitScroll({ projectTitle, benefits, projectAccentColor
       <div className="flex flex-col items-center text-center gap-4 mb-16">
         <FadeIn>
           <div className="flex flex-col items-center gap-4">
-            <Eyebrow>Fördelar</Eyebrow>
+            <Eyebrow>Lösning</Eyebrow>
             <h2
               className="text-[clamp(28px,3.5vw,44px)] font-normal tracking-[-0.02em] leading-[1.1] text-[#030303] m-0 max-w-[600px]"
               style={ITALIC}

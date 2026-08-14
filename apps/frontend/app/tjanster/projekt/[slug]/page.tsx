@@ -5,6 +5,7 @@ import { ProjectNav } from '../../components/ProjectNav';
 import { StyledHero } from '../../components/styled/StyledHero';
 import { StyledBenefitScroll } from '../../components/styled/StyledBenefitScroll';
 import { StyledTabletShowcase } from '../../components/styled/StyledTabletShowcase';
+import { StyledCaseScroll } from '../../components/styled/StyledCaseScroll';
 import { CtaSection } from '../../components/CtaSection';
 
 export function generateStaticParams() {
@@ -40,6 +41,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       <StyledBenefitScroll projectTitle={project.title} benefits={project.steps} projectAccentColor={project.accentColor} />
 
       <StyledTabletShowcase project={project} />
+
+      <StyledCaseScroll project={project} />
 
       <CtaSection />
     </main>

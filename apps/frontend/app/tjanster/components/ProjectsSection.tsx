@@ -4,7 +4,7 @@ import { SectionHeader } from './SectionHeader';
 import { PROJECTS } from '../projekt-data';
 
 const CARD_HEIGHT = 480;
-const CARD_GAP = 24;
+const CARD_GAP = 56;
 
 export function ProjectsSection() {
   return (
@@ -46,24 +46,36 @@ export function ProjectsSection() {
                 style={{
                   height: `${CARD_HEIGHT}px`,
                   background: 'rgb(240,240,238)',
-                  borderRadius: '16px',
+                  borderRadius: '8px',
                 }}
               >
                 <div
-                  className="relative flex-1 min-h-0 p-[20px]"
+                  className="relative flex-1 min-h-0 p-[20px] overflow-hidden"
                   style={{
                     background: '#f5f5f3',
-                    borderRadius: '10px',
+                    borderRadius: '8px',
                   }}
                 >
-                  {p.cardImage && p.accentColor && (
-                    <div
-                      className="absolute inset-0 pointer-events-none"
-                      style={{
-                        background: `radial-gradient(circle at 50% 50%, ${p.accentColor}80 0%, transparent 70%)`,
-                      }}
-                    />
-                  )}
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      background: 'linear-gradient(135deg, transparent 50%, #030303 50%)',
+                      opacity: 0.08,
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{
+                      background: 'linear-gradient(135deg, #e8c547 50%, transparent 50%)',
+                      opacity: 0.08,
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0 pointer-events-none transition-[clip-path] duration-500 ease-out [clip-path:inset(100%_0_0_0)] group-hover:[clip-path:inset(0_0_0_0)]"
+                    style={{
+                      background: 'linear-gradient(135deg, rgb(104,105,99) 50%, transparent 50%)',
+                    }}
+                  />
                   <div className="absolute inset-0 flex items-end justify-center">
                     {p.cardImage && (
                       <img
@@ -73,38 +85,37 @@ export function ProjectsSection() {
                       />
                     )}
                   </div>
-                  <div className="absolute left-[20px] right-[20px] top-[20px] flex flex-col gap-[8px]">
-                    <div
-                      className="text-[26px] font-semibold"
-                      style={{ letterSpacing: '-0.03em', color: '#030303' }}
-                    >
-                      {p.title}
-                    </div>
+                  <div className="absolute left-[20px] top-[20px] w-[19%] flex flex-col gap-[12px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out">
                     <span
-                      className="text-[12px] uppercase"
-                      style={{ letterSpacing: '0.08em', color: 'rgb(104,105,99)' }}
-                    >
-                      {p.category}
-                    </span>
-                    <span
-                      className="inline-flex w-fit text-[11px] font-bold uppercase mt-[8px]"
+                      className="inline-flex w-fit text-[11px] font-bold uppercase"
                       style={{
                         letterSpacing: '0.06em',
-                        color: '#030303',
-                        background: '#e8c547',
+                        color: '#fff',
+                        background: '#030303',
                         borderRadius: '999px',
                         padding: '6px 14px',
                       }}
                     >
                       Projekt
                     </span>
+                    <div
+                      className="text-[24px] font-semibold w-fit"
+                      style={{ letterSpacing: '-0.03em', color: '#fff', borderBottom: '1px solid rgba(255,255,255,0.4)', paddingBottom: '12px' }}
+                    >
+                      {p.title}
+                    </div>
+                    <span
+                      className="text-[16px]"
+                      style={{ color: '#fff' }}
+                    >
+                      {p.tagline}
+                    </span>
                   </div>
                   <span
-                    className="absolute right-[20px] bottom-[20px] flex items-center justify-center w-[36px] h-[36px] rounded-full shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-[6px]"
+                    className="absolute right-[20px] bottom-[20px] flex items-center justify-center w-[36px] h-[36px] rounded-full shrink-0"
                     style={{ background: '#030303' }}
                   >
                     <svg
-                      className="transition-transform duration-300 ease-out group-hover:translate-x-[3px]"
                       width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                     >
                       <path d="M5 12h14M13 6l6 6-6 6" />
@@ -123,7 +134,7 @@ export function ProjectsSection() {
                   className="text-[12px] uppercase"
                   style={{ letterSpacing: '0.08em', color: 'rgb(104,105,99)' }}
                 >
-                  {p.category}
+                  {p.technologies?.join(' · ')}
                 </span>
                 <span
                   className="text-[12px]"

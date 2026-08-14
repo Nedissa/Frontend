@@ -45,7 +45,7 @@ function FaqItem({ q, a }: { q: string; a: string }) {
 function ShowreelCard() {
   const [playing, setPlaying] = useState(false);
   return (
-    <div style={{ position: 'relative', borderRadius: '4px', overflow: 'hidden', background: '#0a0a0a' }}>
+    <div style={{ position: 'relative', borderRadius: '8px', overflow: 'hidden', background: '#0a0a0a' }}>
       {playing ? (
         <video
           src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"

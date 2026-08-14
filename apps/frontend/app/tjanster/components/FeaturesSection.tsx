@@ -21,7 +21,7 @@ function FeatureCard({ step, title, desc, tall, forceHovered, onRef }: { step: s
       ref={onRef}
       onMouseEnter={() => setMouseHovered(true)}
       onMouseLeave={() => setMouseHovered(false)}
-      className="feature-card relative overflow-hidden bg-[#ebebea] px-[36px] py-[40px] min-h-[220px] flex flex-col justify-between rounded-[4px] cursor-default box-border"
+      className="feature-card relative overflow-hidden bg-[#ebebea] px-[36px] py-[40px] min-h-[220px] flex flex-col justify-between rounded-[8px] cursor-default box-border"
       style={{ height: tall ? '100%' : undefined }}
     >
       <div
