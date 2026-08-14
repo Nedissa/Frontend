@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 interface Collection {
   title: string;
@@ -15,9 +16,11 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
   const [sliding, setSliding] = useState(false);
   const [isPlaying, setIsPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
   const touchStartX = useRef<number | null>(null);
   const startTimeRef = useRef<number>(Date.now());
   const rafRef = useRef<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const goTo = (index: number, pause = false) => {
     if (index === currentIndex) return;
@@ -34,7 +37,16 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
   const prev = (pause = false) => goTo((currentIndex - 1 + collections.length) % collections.length, pause);
 
   useEffect(() => {
-    if (!isPlaying) {
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { threshold: 0.1 }
+    );
+    if (containerRef.current) observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isPlaying || !isVisible) {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       return;
     }
@@ -64,7 +76,7 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
 
     rafRef.current = requestAnimationFrame(tick);
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
-  }, [isPlaying]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isPlaying, isVisible]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const heroImages = [
     '/assets/hero-thumb-1.webp',
@@ -73,7 +85,7 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
   ];
 
   return (
-    <div className="relative z-0 flex justify-center w-full">
+    <div className="relative z-0 flex justify-center w-full" ref={containerRef}>
       <div
         className="relative max-w-[960px] hd:max-w-[1080px] qhd:max-w-[1600px] w-full overflow-hidden flex items-center justify-center cursor-pointer bg-gray-200 hero-mobile-height"
         style={{ aspectRatio: '1280/640' }}
@@ -106,16 +118,15 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
                 zIndex: isCurrent ? 2 : isPrev ? 1 : 0,
               }}
             >
-              <img
+              <Image
                 src={src}
                 alt={collections[i]?.title || ''}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1080px) 100vw, 1600px"
                 className="w-full h-full"
-                style={{ objectFit: isHeroThumb ? 'contain' : 'cover', objectPosition: isHeroThumb ? 'center 98%' : 'center', position: 'relative', zIndex: 2, width: '100%', height: '100%' }}
-                width={1280}
-                height={640}
-                fetchPriority={i === 0 ? 'high' : 'low'}
-                loading={i === 0 ? 'eager' : 'lazy'}
-                decoding={i === 0 ? 'sync' : 'async'}
+                style={{ objectFit: isHeroThumb ? 'contain' : 'cover', objectPosition: isHeroThumb ? 'center 98%' : 'center' }}
+                priority={i === 0}
+                quality={85}
               />
             </div>
           );

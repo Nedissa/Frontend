@@ -236,12 +236,14 @@ export function ProductCard({
 
         <Link href={productLink} scroll={false} className="absolute inset-0 flex items-center justify-center overflow-hidden">
           {(cardImages?.[imageIndex] || product.image) ? (
-            <img
+            <Image
               src={getProxiedImageUrl(cardImages?.[imageIndex] || product.image)}
               alt={product.title}
-              className="w-full h-full object-contain pt-12 pb-6 pl-6 pr-6"
-              loading={priority ? 'eager' : 'lazy'}
-              onError={(e) => { e.currentTarget.style.display = 'none'; }}
+              fill
+              sizes="(max-width: 640px) 75vw, (max-width: 1024px) 50vw, 25vw"
+              className="object-contain pt-12 pb-6 pl-6 pr-6"
+              priority={priority}
+              quality={80}
             />
           ) : (
             <div className="w-full h-full bg-gray-200 flex items-center justify-center">
