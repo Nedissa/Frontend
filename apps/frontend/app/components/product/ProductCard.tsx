@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { ImageZoomDialog } from '../shared/ImageZoomDialog';
+import { useFavoritesAndCompare } from '../../hooks/useFavoritesAndCompare';
 
 function Tooltip({ label, anchorRef }: { label: string; anchorRef: React.RefObject<HTMLElement | null> }) {
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
@@ -141,47 +142,9 @@ export function ProductCard({
   }, [product, onAddToCart]);
 
   const [added, setAdded] = useState(false);
-  const [inCompare, setInCompare] = useState(false);
-  const [isFav, setIsFav] = useState(false);
   const compareRef = useRef<HTMLButtonElement>(null);
   const favRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem('techpilots_compare');
-      if (stored) {
-        const list = JSON.parse(stored);
-        if (Array.isArray(list) && list.some((p: any) => p.id === product.id)) {
-          setInCompare(true);
-        }
-      }
-    } catch {}
-
-    try {
-      const favs = JSON.parse(localStorage.getItem('favoritesList') || '[]');
-      setIsFav(favs.some((item: any) => item.id === product.id));
-    } catch {}
-
-    const handler = (e: Event) => {
-      const p = (e as CustomEvent).detail;
-      if (p.id === product.id) setInCompare(prev => !prev);
-    };
-    const clearHandler = () => setInCompare(false);
-    const favHandler = () => {
-      try {
-        const favs = JSON.parse(localStorage.getItem('favoritesList') || '[]');
-        setIsFav(favs.some((item: any) => item.id === product.id));
-      } catch {}
-    };
-    window.addEventListener('toggleCompare', handler);
-    window.addEventListener('clearCompare', clearHandler);
-    window.addEventListener('favoritesUpdated', favHandler);
-    return () => {
-      window.removeEventListener('toggleCompare', handler);
-      window.removeEventListener('clearCompare', clearHandler);
-      window.removeEventListener('favoritesUpdated', favHandler);
-    };
-  }, [product.id]);
+  const { isFav, inCompare, toggleFavorite } = useFavoritesAndCompare(product.id);
 
   const handleClick = () => {
     handleAddToCart();
@@ -248,12 +211,9 @@ export function ProductCard({
           <button
             ref={favRef}
             onClick={(e) => {
-              e.preventDefault(); e.stopPropagation();
-              const list = JSON.parse(localStorage.getItem('favoritesList') || '[]');
-              const exists = list.some((item: any) => item.id === product.id);
-              const updated = exists ? list.filter((item: any) => item.id !== product.id) : [...list, { id: product.id, variantId: product.variantId, handle: product.handle, title: product.title, image: product.image, price: product.price, originalPrice: product.originalPrice, stock: product.stock }];
-              localStorage.setItem('favoritesList', JSON.stringify(updated));
-              window.dispatchEvent(new Event('favoritesUpdated'));
+              e.preventDefault();
+              e.stopPropagation();
+              toggleFavorite();
             }}
             className="w-9 h-9 flex items-center justify-center rounded-full transition-all duration-150"
             style={{ border: 'none', padding: 0, cursor: 'pointer', background: isFav ? '#fff' : 'transparent', boxShadow: isFav ? '0 2px 8px rgba(0,0,0,0.18)' : 'none' }}

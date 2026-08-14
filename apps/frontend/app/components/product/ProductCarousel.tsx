@@ -16,17 +16,23 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
   const mobileItemRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const observers: IntersectionObserver[] = [];
-    mobileItemRefs.current.forEach((el, idx) => {
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveIndex(idx); },
-        { threshold: 0.6 }
-      );
-      obs.observe(el);
-      observers.push(obs);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = mobileItemRefs.current.indexOf(entry.target as HTMLDivElement);
+            if (idx !== -1) setActiveIndex(idx);
+          }
+        });
+      },
+      { threshold: 0.6, root: null }
+    );
+
+    mobileItemRefs.current.forEach((el) => {
+      if (el) observer.observe(el);
     });
-    return () => observers.forEach(o => o.disconnect());
+
+    return () => observer.disconnect();
   }, [products]);
 
   const scroll = (dir: 'left' | 'right') => {
@@ -58,8 +64,8 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
             className="flex gap-4"
             style={{ overflowX: 'scroll', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {[...products, ...products].map((product, idx) => (
-              <div key={`${product.id}-${idx}`} style={{ flexShrink: 0, width: 'calc((100% - 48px) / 4)' }}>
+            {products.map((product, idx) => (
+              <div key={product.id} style={{ flexShrink: 0, width: 'calc((100% - 48px) / 4)' }}>
                 <ProductCard product={product} variant={variant} priority={idx < 4} />
               </div>
             ))}

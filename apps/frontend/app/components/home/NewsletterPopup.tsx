@@ -16,31 +16,30 @@ export function NewsletterPopup() {
   useEffect(() => {
     setIsHydrated(true);
     const closed = localStorage.getItem('newsletterPopupClosed');
-    if (closed) return;
+    const shown = localStorage.getItem('newsletterPopupShown');
+    if (closed || shown) return;
     const isLoggedIn = document.cookie.includes('is_logged_in=1');
     if (isLoggedIn) return;
 
     const show = () => {
       setIsOpen(true);
+      localStorage.setItem('newsletterPopupShown', 'true');
       requestAnimationFrame(() => requestAnimationFrame(() => setAnimIn(true)));
-      cleanup();
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      clearTimeout(timerRef.current!);
     };
 
-    // Exit intent: mouse moves toward top of browser (desktop)
     const handleMouseLeave = (e: MouseEvent) => {
       if (e.clientY <= 20) show();
     };
 
-    // Fallback: 60 seconds (covers mobile where exit intent doesn't work)
-    const timer = setTimeout(show, 60000);
-
-    const cleanup = () => {
-      document.removeEventListener('mouseleave', handleMouseLeave);
-      clearTimeout(timer);
-    };
-
+    const timerRef = { current: setTimeout(show, 60000) };
     document.addEventListener('mouseleave', handleMouseLeave);
-    return cleanup;
+
+    return () => {
+      document.removeEventListener('mouseleave', handleMouseLeave);
+      clearTimeout(timerRef.current);
+    };
   }, []);
 
   const handleClose = () => {
@@ -96,20 +95,7 @@ export function NewsletterPopup() {
     setTimeout(handleClose, 5000);
   };
 
-  if (!isHydrated) return null;
-
-  if (!isOpen && process.env.NODE_ENV === 'development') {
-    return (
-      <button
-        onClick={() => setIsOpen(true)}
-        style={{ position: 'fixed', bottom: 80, right: 16, zIndex: 9999, background: '#111', color: '#fff', fontSize: '11px', padding: '6px 10px', border: 'none', cursor: 'pointer' }}
-      >
-        Visa popup
-      </button>
-    );
-  }
-
-  if (!isOpen) return null;
+  if (!isHydrated || !isOpen) return null;
 
   return (
     <div
