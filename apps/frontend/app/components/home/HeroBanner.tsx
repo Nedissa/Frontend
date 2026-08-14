@@ -2,29 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react';
 
-
-const heroCarouselStyle = `
-  .hero-divider {
-    background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.9), rgba(255,255,255,0.1));
-  }
-  @keyframes heroGradientShift {
-    0%   { background-position: 0% 50%; }
-    50%  { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  .hero-animated-bg {
-    background: linear-gradient(135deg, #0a0a0a, #030303, #0a0a0a, #0a0a0a, #030303);
-    background-size: 300% 300%;
-    animation: heroGradientShift 8s ease infinite;
-  }
-  @media (max-width: 767px) {
-    .hero-mobile-height {
-      aspect-ratio: unset !important;
-      height: 60vh !important;
-    }
-  }
-`;
-
 interface Collection {
   title: string;
   handle: string;
@@ -96,8 +73,6 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
   ];
 
   return (
-    <>
-    <style>{heroCarouselStyle}</style>
     <div className="relative z-0 flex justify-center w-full">
       <div
         className="relative max-w-[960px] hd:max-w-[1080px] qhd:max-w-[1600px] w-full overflow-hidden flex items-center justify-center cursor-pointer bg-gray-200 hero-mobile-height"
@@ -135,7 +110,7 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
                 src={src}
                 alt={collections[i]?.title || ''}
                 className="w-full h-full"
-                style={{ objectFit: isHeroThumb ? 'contain' : 'cover', position: 'relative', zIndex: 2 }}
+                style={{ objectFit: isHeroThumb ? 'contain' : 'cover', objectPosition: isHeroThumb ? 'center 98%' : 'center', position: 'relative', zIndex: 2, width: '100%', height: '100%' }}
                 width={1280}
                 height={640}
                 fetchPriority={i === 0 ? 'high' : 'low'}
@@ -217,6 +192,5 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
         </div>
       </div>
     </div>
-    </>
   );
 }

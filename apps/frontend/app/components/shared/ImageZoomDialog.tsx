@@ -70,12 +70,11 @@ export function ImageZoomDialog({
       else if (e.key === 'ArrowRight') goTo((currentIndex + 1) % images.length);
     };
     const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
       if (e.deltaY > 0) setCurrentIndex((prev) => (prev + 1) % images.length);
       else setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
     };
     window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('wheel', handleWheel, { passive: true });
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('wheel', handleWheel);

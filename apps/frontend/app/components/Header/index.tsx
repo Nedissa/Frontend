@@ -113,8 +113,16 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       }
     }
     updatePositions();
-    window.addEventListener('resize', updatePositions);
-    return () => window.removeEventListener('resize', updatePositions);
+    let resizeTimeoutRef: NodeJS.Timeout | null = null;
+    const throttledUpdatePositions = () => {
+      if (resizeTimeoutRef) clearTimeout(resizeTimeoutRef);
+      resizeTimeoutRef = setTimeout(updatePositions, 150);
+    };
+    window.addEventListener('resize', throttledUpdatePositions);
+    return () => {
+      window.removeEventListener('resize', throttledUpdatePositions);
+      if (resizeTimeoutRef) clearTimeout(resizeTimeoutRef);
+    };
   }, []);
 
   useEffect(() => {
