@@ -7,21 +7,15 @@ export function AboutBanner() {
       <div className="relative flex-shrink-0 w-full sm:w-[52%] h-[220px] sm:h-full" style={{
         background: 'linear-gradient(135deg, #0a0a0a, #030303, #0a0a0a, #0a0a0a, #030303)',
       }}>
-        <style>{`
-          @keyframes gradientShiftAbout {
-            0%   { background-position: 0% 50%; }
-            50%  { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-        `}</style>
         <img
           src="/assets/svg-hand.webp"
           alt="Techpilots"
           className="absolute bottom-[-25%] left-0 h-[160%] w-auto"
+          loading="lazy"
         />
         {/* Rotating badge */}
         <div className="absolute" style={{ top: '16px', right: '16px', width: '80px', height: '80px' }}>
-          <svg viewBox="0 0 100 100" className="w-full h-full animate-spin" style={{ animationDuration: '12s' }}>
+          <svg viewBox="0 0 100 100" className="w-full h-full animate-spin" style={{ animationDuration: '20s', willChange: 'transform' }}>
             <defs>
               <path id="circle" d="M 50,50 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0" />
             </defs>

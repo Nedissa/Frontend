@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, memo } from 'react';
 import { createPortal } from 'react-dom';
 import { ImageZoomDialog } from '../shared/ImageZoomDialog';
 import { useFavoritesAndCompare } from '../../hooks/useFavoritesAndCompare';
@@ -44,7 +44,7 @@ function Tooltip({ label, anchorRef }: { label: string; anchorRef: React.RefObje
   );
 }
 
-function ColorSwatch({ color, bgColor, isSelected, onSelect }: { color: string; bgColor: string; isSelected: boolean; onSelect: () => void }) {
+const ColorSwatch = memo(function ColorSwatch({ color, bgColor, isSelected, onSelect }: { color: string; bgColor: string; isSelected: boolean; onSelect: () => void }) {
   const ref = useRef<HTMLButtonElement>(null);
   return (
     <div className="relative">
@@ -62,7 +62,7 @@ function ColorSwatch({ color, bgColor, isSelected, onSelect }: { color: string; 
       <Tooltip anchorRef={ref} label={color} />
     </div>
   );
-}
+});
 
 export interface ProductData {
   id: string;
