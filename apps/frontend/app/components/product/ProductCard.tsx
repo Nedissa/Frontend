@@ -145,6 +145,7 @@ export function ProductCard({
   const compareRef = useRef<HTMLButtonElement>(null);
   const favRef = useRef<HTMLButtonElement>(null);
   const { isFav, inCompare, toggleFavorite } = useFavoritesAndCompare(product.id);
+  const mouseMoveFrameRef = useRef<number | null>(null);
 
   const handleClick = () => {
     handleAddToCart();
@@ -170,10 +171,16 @@ export function ProductCard({
         className="relative bg-[#f0f0f0] aspect-[3/2] sm:aspect-square w-full"
         onMouseMove={(e) => {
           if (!cardImages || cardImages.length === 0) return;
-          const rect = e.currentTarget.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const third = rect.width / 3;
-          setImageIndex(x < third ? 0 : x < third * 2 ? 1 : 2);
+          if (mouseMoveFrameRef.current) return;
+          mouseMoveFrameRef.current = requestAnimationFrame(() => {
+            const rect = e.currentTarget?.getBoundingClientRect();
+            if (rect) {
+              const x = e.clientX - rect.left;
+              const third = rect.width / 3;
+              setImageIndex(x < third ? 0 : x < third * 2 ? 1 : 2);
+            }
+            mouseMoveFrameRef.current = null;
+          });
         }}
       >
         {/* Badges */}

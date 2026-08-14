@@ -70,6 +70,7 @@ body {
   transition: opacity 0.15s ease;
   z-index: 99999;
   letter-spacing: 0.01em;
+  will-change: opacity;
 }
 
 .tp-tooltip::after {

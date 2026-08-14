@@ -11,9 +11,17 @@ export function LimitedTimeBanner() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    const cached = typeof window !== 'undefined' ? sessionStorage.getItem('promotions_cache') : null;
+    if (cached) {
+      const data = JSON.parse(cached);
+      const campaign = (data.campaigns || []).find((c: any) => c.ends_at);
+      if (campaign?.ends_at) setEndDate(new Date(campaign.ends_at));
+      return;
+    }
     fetch('/api/promotions')
       .then((r) => r.json())
       .then((data) => {
+        sessionStorage.setItem('promotions_cache', JSON.stringify(data));
         const campaign = (data.campaigns || []).find((c: any) => c.ends_at);
         if (campaign?.ends_at) {
           setEndDate(new Date(campaign.ends_at));
