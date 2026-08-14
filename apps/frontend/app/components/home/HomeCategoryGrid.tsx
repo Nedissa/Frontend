@@ -53,7 +53,7 @@ export function HomeCategoryGrid() {
             style={{ width: '27vw', scrollSnapAlign: 'center' }}
           >
             <div className="rounded-full flex items-center justify-center" style={{ background: '#0a0a0a', width: '24vw', height: '24vw', maxWidth: '96px', maxHeight: '96px' }}>
-              <img src={cat.icon} alt={cat.title} style={{ width: '45%', height: '45%', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+              <img src={cat.icon} alt={cat.title} className="category-icon" style={{ width: '45%', height: '45%', objectFit: 'contain' }} />
             </div>
             <span className="text-xs font-bold text-gray-900 text-center mt-2 leading-tight w-full">{cat.title}</span>
             <span className="text-[10px] text-gray-500 mt-0.5">Visa kategori</span>
@@ -80,7 +80,7 @@ export function HomeCategoryGrid() {
         {CATEGORIES.map((cat) => (
           <Link key={cat.url} href={cat.url} className="group flex flex-col items-center no-underline">
             <div className="w-32 h-32 rounded-full flex flex-col items-center justify-center gap-1" style={{ background: '#0a0a0a' }}>
-              <img src={cat.icon} alt={cat.title} className="w-10 h-10 object-contain" style={{ filter: 'brightness(0) invert(1)' }} />
+              <img src={cat.icon} alt={cat.title} className="w-10 h-10 object-contain category-icon" />
               <span className="text-xs font-semibold text-white text-center leading-tight w-fit relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-300 group-hover:after:w-full">
                 {cat.title}
               </span>

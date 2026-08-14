@@ -7,7 +7,7 @@ import { cookies } from 'next/headers';
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({subsets:['latin'],variable:'--font-sans',display:'swap'});
 
 export const metadata: Metadata = {
   title: {
