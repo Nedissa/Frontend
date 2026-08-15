@@ -56,11 +56,11 @@ function StickyStepBar({ steps, step, stepComplete, onStepClick }: { steps: { la
               type="button"
               onClick={() => isClickable && onStepClick(i)}
               disabled={!isClickable}
-              className={`relative flex items-center justify-center gap-1.5 py-4 h-full w-full transition-colors duration-300 [&_svg]:w-5 [&_svg]:h-5 ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}
+              className={`relative flex flex-col items-center justify-center gap-1 py-2.5 h-full w-full transition-colors duration-300 [&_svg]:w-5 [&_svg]:h-5 ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}
               style={{ background: bg, color: fg, clipPath, margin: '1px' }}
             >
               {s.icon}
-              <span className="text-xs font-bold whitespace-nowrap">{s.label}</span>
+              <span className="text-[10px] font-bold whitespace-nowrap leading-none">{s.label}</span>
             </button>
           </div>
         );
@@ -563,7 +563,7 @@ function CheckoutContent() {
       {/* Steg-indikator — endast mobil */}
       {(() => {
         const steps = [
-          { label: 'Orderöversikt', icon: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M10.5 3A1.5 1.5 0 009 4.5v.75H6.75a2.25 2.25 0 00-2.25 2.25v11.25a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V7.5a2.25 2.25 0 00-2.25-2.25H15V4.5A1.5 1.5 0 0013.5 3h-3zm3 6a.75.75 0 010 1.5h-6a.75.75 0 010-1.5h6zm0 3.75a.75.75 0 010 1.5h-6a.75.75 0 010-1.5h6zm0 3.75a.75.75 0 010 1.5h-6a.75.75 0 010-1.5h6z" clipRule="evenodd" /></svg> },
+          { label: 'Order', icon: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M10.5 3A1.5 1.5 0 009 4.5v.75H6.75a2.25 2.25 0 00-2.25 2.25v11.25a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V7.5a2.25 2.25 0 00-2.25-2.25H15V4.5A1.5 1.5 0 0013.5 3h-3zm3 6a.75.75 0 010 1.5h-6a.75.75 0 010-1.5h6zm0 3.75a.75.75 0 010 1.5h-6a.75.75 0 010-1.5h6zm0 3.75a.75.75 0 010 1.5h-6a.75.75 0 010-1.5h6z" clipRule="evenodd" /></svg> },
           { label: 'Uppgifter', icon: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clipRule="evenodd" /></svg> },
           { label: 'Frakt', icon: <svg className="w-5 h-5" viewBox="0 0 24 24"><path d="M12 2.5l9 4.9v9.2l-9 4.9-9-4.9V7.4l9-4.9z" fill="currentColor" fillOpacity="0.35" /><path d="M12 2.5l9 4.9-9 4.9-9-4.9 9-4.9z" fill="currentColor" fillOpacity="0.9" /><path d="M12 12.3v9.2l-9-4.9V7.4l9 4.9z" fill="currentColor" fillOpacity="0.6" /></svg> },
           { label: 'Betalning', icon: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M4.5 3.75a3 3 0 00-3 3v.75h21v-.75a3 3 0 00-3-3h-15zm17.25 6.75h-21v6.75a3 3 0 003 3h15a3 3 0 003-3v-6.75zm-16.5 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75z" clipRule="evenodd" /></svg> },
