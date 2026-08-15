@@ -31,15 +31,17 @@ const countryCodeMap: Record<string, string> = {
 };
 
 // --- Sticky step bar (mobil) ---
-function StickyStepBar({ steps, step, stepComplete }: { steps: { label: string; icon: React.ReactNode }[]; step: number; stepComplete: boolean }) {
+function StickyStepBar({ steps, step, stepComplete, onStepClick }: { steps: { label: string; icon: React.ReactNode }[]; step: number; stepComplete: boolean; onStepClick: (i: number) => void }) {
   return (
     <div
+      data-step-bar
       className="sm:hidden fixed top-0 left-0 right-0 z-50 flex bg-white"
       style={{ paddingTop: 'env(safe-area-inset-top)', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
     >
       {steps.map((s, i) => {
         const isFirst = i === 0;
         const isLast = i === steps.length - 1;
+        const isClickable = i <= step;
         const bg = i === step ? (isLast && stepComplete ? '#16a34a' : '#FF6600') : i < step ? '#000' : '#f3f4f6';
         const fg = i <= step ? '#fff' : '#9ca3af';
         const clipPath = isFirst
@@ -50,13 +52,16 @@ function StickyStepBar({ steps, step, stepComplete }: { steps: { label: string; 
         return (
           <div key={i} className="relative flex-1" style={{ marginLeft: isFirst ? 0 : '-8px' }}>
             <div className="absolute inset-0" style={{ background: '#fff', clipPath }} />
-            <div
-              className="relative flex items-center justify-center gap-1 py-2.5 h-full transition-colors duration-300 [&_svg]:w-4 [&_svg]:h-4"
+            <button
+              type="button"
+              onClick={() => isClickable && onStepClick(i)}
+              disabled={!isClickable}
+              className={`relative flex items-center justify-center gap-1 py-2.5 h-full w-full transition-colors duration-300 [&_svg]:w-4 [&_svg]:h-4 ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}
               style={{ background: bg, color: fg, clipPath, margin: '1px' }}
             >
               {s.icon}
               <span className="text-[9px] font-semibold whitespace-nowrap">{s.label}</span>
-            </div>
+            </button>
           </div>
         );
       })}
@@ -65,9 +70,10 @@ function StickyStepBar({ steps, step, stepComplete }: { steps: { label: string; 
 }
 
 // --- Steg-indikator (samma design som mobil) — jämförelseversion för desktop ---
-function DesktopStepBar({ steps, step, stepComplete }: { steps: { label: string; icon: React.ReactNode }[]; step: number; stepComplete: boolean }) {
+function DesktopStepBar({ steps, step, stepComplete, onStepClick }: { steps: { label: string; icon: React.ReactNode }[]; step: number; stepComplete: boolean; onStepClick: (i: number) => void }) {
   return (
     <div
+      data-step-bar
       className="hidden sm:flex fixed top-0 left-0 right-0 z-50 justify-center bg-white border-b border-gray-100"
       style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
     >
@@ -75,6 +81,7 @@ function DesktopStepBar({ steps, step, stepComplete }: { steps: { label: string;
         {steps.map((s, i) => {
           const isFirst = i === 0;
           const isLast = i === steps.length - 1;
+          const isClickable = i <= step;
           const bg = i === step ? (isLast && stepComplete ? '#16a34a' : '#FF6600') : i < step ? '#000' : '#f3f4f6';
           const fg = i <= step ? '#fff' : '#9ca3af';
           const clipPath = isFirst
@@ -89,8 +96,11 @@ function DesktopStepBar({ steps, step, stepComplete }: { steps: { label: string;
               style={{ marginLeft: isFirst ? 0 : '-14px' }}
             >
               <div className="absolute inset-0" style={{ background: '#fff', clipPath }} />
-              <div
-                className="relative flex items-center justify-center gap-2 py-4 h-full transition-colors duration-300 [&_svg]:w-5 [&_svg]:h-5"
+              <button
+                type="button"
+                onClick={() => isClickable && onStepClick(i)}
+                disabled={!isClickable}
+                className={`relative flex items-center justify-center gap-2 py-4 h-full w-full transition-colors duration-300 [&_svg]:w-5 [&_svg]:h-5 ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}
                 style={{
                   background: bg,
                   color: fg,
@@ -100,7 +110,7 @@ function DesktopStepBar({ steps, step, stepComplete }: { steps: { label: string;
               >
                 {s.icon}
                 <span className="text-sm font-semibold whitespace-nowrap">{s.label}</span>
-              </div>
+              </button>
             </div>
           );
         })}
@@ -233,7 +243,7 @@ function CheckoutContent() {
   const hasRestoredRef = useRef(false);
   const formDataRef = useRef(formData);
   const hasInitPaymentRef = useRef(false);
-  const sectionRefs = useRef<(HTMLElement | null)[]>([null, null, null]);
+  const sectionRefs = useRef<(HTMLElement | null)[]>([null, null, null, null]);
 
 
   // Håll formDataRef synkad med formData
@@ -501,6 +511,19 @@ function CheckoutContent() {
     }
     prevStepRef.current = step;
   }, [step]);
+
+  // Steg 0=Orderöversikt (ref-index 3), 1=Uppgifter (0), 2=Frakt (1), 3=Betalning (2)
+  const stepRefIndex = [3, 0, 1, 2];
+  const scrollToStep = (stepIndex: number) => {
+    if (stepIndex > step) return;
+    const el = sectionRefs.current[stepRefIndex[stepIndex]];
+    if (!el) return;
+    const stepBars = document.querySelectorAll<HTMLElement>('[data-step-bar]');
+    const visibleBar = Array.from(stepBars).find(bar => bar.getBoundingClientRect().height > 0);
+    const headerOffset = visibleBar ? visibleBar.getBoundingClientRect().height + 8 : 88;
+    const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+    window.scrollTo({ top, behavior: 'smooth' });
+  };
   const shippingCost = selectedShippingOption?.amount || 0;
   const totalDiscount = cartItems.reduce((s, i) => i.originalPrice ? s + (i.originalPrice - i.price) * i.quantity : s, 0);
   const finalTotal = cartTotal + shippingCost - medusaDiscountTotal;
@@ -547,8 +570,8 @@ function CheckoutContent() {
         ];
         return (
           <>
-            <StickyStepBar steps={steps} step={step} stepComplete={isStepComplete} />
-            <DesktopStepBar steps={steps} step={step} stepComplete={isStepComplete} />
+            <StickyStepBar steps={steps} step={step} stepComplete={isStepComplete} onStepClick={scrollToStep} />
+            <DesktopStepBar steps={steps} step={step} stepComplete={isStepComplete} onStepClick={scrollToStep} />
           </>
         );
       })()}
@@ -557,7 +580,10 @@ function CheckoutContent() {
           <div className="flex-1 max-w-[800px] flex flex-col gap-8 relative">
 
           {/* Orderöversikt */}
-          <section className="bg-white relative" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <section ref={el => { sectionRefs.current[3] = el; }} className="bg-white relative" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+            <div className="px-2 sm:px-6 pt-6">
+              <h2 className="text-2xl font-bold mb-4"><span className="text-black">Orderöversikt</span></h2>
+            </div>
             <div className="grid grid-cols-[1fr_80px_64px] sm:grid-cols-[1fr_160px_120px] px-2 sm:px-6 py-3 border-b border-gray-200 gap-3">
               <div className="flex items-center">
                 <span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-500">Produkter</span>
@@ -648,7 +674,7 @@ function CheckoutContent() {
             </div>
           </section>
 
-          <div className="w-full">
+          <div className="w-full" ref={el => { sectionRefs.current[0] = el; }}>
               <div className="flex gap-0 mb-4 border-b border-gray-200">
                 <button
                   onClick={() => setCustomerType('private')}
@@ -667,7 +693,7 @@ function CheckoutContent() {
               </div>
 
               <div className="bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-                <section ref={el => { sectionRefs.current[0] = el; }} className="relative p-6 border-b border-gray-100">
+                <section className="relative p-6 border-b border-gray-100">
                   <h2 className="text-2xl font-bold mb-6"><span className="text-black">Leveransadress</span></h2>
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
