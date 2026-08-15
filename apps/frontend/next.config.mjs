@@ -25,6 +25,8 @@ const nextConfig = {
     return [
       { source: '/blogg', destination: '/pilotbloggen', permanent: true },
       { source: '/blogg/:slug', destination: '/pilotbloggen/:slug', permanent: true },
+      { source: '/tjanster', destination: '/digital', permanent: true },
+      { source: '/tjanster/:path*', destination: '/digital/:path*', permanent: true },
     ];
   },
   images: {

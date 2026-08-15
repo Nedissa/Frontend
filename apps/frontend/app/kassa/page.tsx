@@ -56,11 +56,11 @@ function StickyStepBar({ steps, step, stepComplete, onStepClick }: { steps: { la
               type="button"
               onClick={() => isClickable && onStepClick(i)}
               disabled={!isClickable}
-              className={`relative flex items-center justify-center gap-1 py-2.5 h-full w-full transition-colors duration-300 [&_svg]:w-4 [&_svg]:h-4 ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}
+              className={`relative flex items-center justify-center gap-1.5 py-4 h-full w-full transition-colors duration-300 [&_svg]:w-5 [&_svg]:h-5 ${isClickable ? 'cursor-pointer' : 'cursor-default'}`}
               style={{ background: bg, color: fg, clipPath, margin: '1px' }}
             >
               {s.icon}
-              <span className="text-[9px] font-semibold whitespace-nowrap">{s.label}</span>
+              <span className="text-xs font-bold whitespace-nowrap">{s.label}</span>
             </button>
           </div>
         );
@@ -575,7 +575,7 @@ function CheckoutContent() {
           </>
         );
       })()}
-      <div className="flex pt-[88px] sm:pt-[132px] lg:pt-[148px] pb-16 gap-0 relative justify-center">
+      <div className="flex pt-[108px] sm:pt-[132px] lg:pt-[148px] pb-16 gap-0 relative justify-center">
 
           <div className="flex-1 max-w-[800px] flex flex-col gap-8 relative">
 
