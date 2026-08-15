@@ -131,7 +131,7 @@ export function MobileHeader({
                     className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50"
                     onClick={onSearchResultClick}
                   >
-                    <img src={product.image} alt={product.title} className="w-10 h-10 object-contain flex-shrink-0" />
+                    <img src={product.image} alt={product.title} className="w-14 h-14 object-contain flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <div className="text-sm font-semibold truncate">{product.title}</div>
                       <div className="text-xs text-red-600 font-bold">{product.price.toLocaleString('sv-SE')} kr</div>

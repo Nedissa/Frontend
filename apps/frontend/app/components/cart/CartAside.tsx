@@ -259,21 +259,21 @@ export function CartAside() {
           <>
             {/* Cart Items */}
             <div className="flex-1 overflow-y-auto px-4 flex flex-col" style={{ display: cartItems.length === 0 ? 'none' : 'flex' }}>
-              <ul className="space-y-0 py-4 flex-1">
+              <ul className="space-y-0 py-2 flex-1">
                 {cartItems.map(item => (
-                  <li key={item.id} className="border-b border-gray-200 last:border-b-0 py-4">
-                    <div className="grid items-center" style={{ gridTemplateColumns: '56px 1fr auto auto', columnGap: '12px' }}>
+                  <li key={item.id} className="border-b border-gray-200 last:border-b-0 py-3">
+                    <div className="grid items-center" style={{ gridTemplateColumns: '72px 1fr auto auto', columnGap: '12px', minHeight: '72px' }}>
                       {/* Bild */}
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="w-14 h-14 object-contain"
+                        className="w-[72px] h-[72px] object-contain"
                         onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                       />
 
                       {/* Titel + (I lager + räknare på samma rad) */}
-                      <div className="min-w-0">
-                        <Link href={`/produkter/${item.id}`} className="text-gray-900 font-semibold text-sm hover:text-gray-700 block truncate" style={{ textTransform: 'capitalize', lineHeight: '1.2', marginBottom: '-4px' }} title={item.title}>
+                      <div className="min-w-0 flex flex-col gap-1">
+                        <Link href={`/produkter/${item.id}`} className="text-gray-900 font-semibold text-sm hover:text-gray-700 block truncate" style={{ textTransform: 'capitalize', lineHeight: '1.2' }} title={item.title}>
                           {item.title.toLowerCase()}
                         </Link>
                         <div className="flex items-center justify-between flex-nowrap gap-2">
@@ -281,20 +281,20 @@ export function CartAside() {
                             <svg className="w-2 h-2 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" /></svg>
                             <span className="text-xs text-gray-500 whitespace-nowrap">I lager</span>
                           </div>
-                          <div className="flex items-center flex-shrink-0">
-                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="text-gray-700 disabled:text-gray-300 font-bold w-11 h-11 flex items-center justify-center text-lg">−</button>
+                          <div className="flex items-center flex-shrink-0 -my-3">
+                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="text-gray-700 disabled:text-gray-300 font-bold w-8 h-8 flex items-center justify-center text-lg">−</button>
                             <span className="text-sm font-semibold tabular-nums w-5 text-center">{item.quantity}</span>
-                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="text-gray-700 font-bold w-11 h-11 flex items-center justify-center text-lg">+</button>
+                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="text-gray-700 font-bold w-8 h-8 flex items-center justify-center text-lg">+</button>
                           </div>
                         </div>
                       </div>
 
                       {/* Pris + ta bort */}
                       <div className="flex flex-col items-end gap-1" style={{ width: '72px' }}>
-                        <span className="text-sm font-bold text-gray-900 tabular-nums whitespace-nowrap">
+                        <span className="text-sm font-bold text-gray-900 tabular-nums whitespace-nowrap" style={{ lineHeight: '1.2' }}>
                           {(item.price * item.quantity).toLocaleString('sv-SE')} kr
                         </span>
-                        <button onClick={() => handleRemoveItem(item.id)} className="w-11 h-11 flex items-center justify-center text-black hover:text-red-500 transition-colors" style={{ marginRight: '-8px' }}>
+                        <button onClick={() => handleRemoveItem(item.id)} className="w-8 h-8 -my-2 -mr-2 flex items-center justify-center text-black hover:text-red-500 transition-colors">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" />
                           </svg>

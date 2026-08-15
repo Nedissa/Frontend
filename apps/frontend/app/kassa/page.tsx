@@ -31,26 +31,79 @@ const countryCodeMap: Record<string, string> = {
 };
 
 // --- Sticky step bar (mobil) ---
-function StickyStepBar({ steps, step }: { steps: { label: string; icon: React.ReactNode }[]; step: number }) {
+function StickyStepBar({ steps, step, stepComplete }: { steps: { label: string; icon: React.ReactNode }[]; step: number; stepComplete: boolean }) {
   return (
     <div
-      className="sm:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100"
+      className="sm:hidden fixed top-0 left-0 right-0 z-50 flex bg-white"
       style={{ paddingTop: 'env(safe-area-inset-top)', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
     >
-      <div className="flex items-center justify-center py-3 px-2">
-        {steps.map((s, i) => (
-          <div key={i} className="flex items-center">
-            <div className={`flex flex-col items-center gap-1 ${i <= step ? 'text-black' : 'text-gray-300'}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${i === step ? 'text-white' : i < step ? 'bg-black text-white' : 'bg-gray-100 text-gray-400'}`} style={i === step ? { background: '#ea580c' } : {}}>
-                {s.icon}
-              </div>
-              <span className="text-[10px] font-semibold">{s.label}</span>
+      {steps.map((s, i) => {
+        const isFirst = i === 0;
+        const isLast = i === steps.length - 1;
+        const bg = i === step ? (isLast && stepComplete ? '#16a34a' : '#FF6600') : i < step ? '#000' : '#f3f4f6';
+        const fg = i <= step ? '#fff' : '#9ca3af';
+        const clipPath = isFirst
+          ? 'polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%)'
+          : isLast
+          ? 'polygon(0 0, 100% 0, 100% 100%, 0 100%, 8px 50%)'
+          : 'polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%, 8px 50%)';
+        return (
+          <div key={i} className="relative flex-1" style={{ marginLeft: isFirst ? 0 : '-8px' }}>
+            <div className="absolute inset-0" style={{ background: '#fff', clipPath }} />
+            <div
+              className="relative flex items-center justify-center gap-1 py-2.5 h-full transition-colors duration-300 [&_svg]:w-4 [&_svg]:h-4"
+              style={{ background: bg, color: fg, clipPath, margin: '1px' }}
+            >
+              {s.icon}
+              <span className="text-[9px] font-semibold whitespace-nowrap">{s.label}</span>
             </div>
-            {i < steps.length - 1 && (
-              <div className={`w-8 h-0.5 mb-4 mx-1 ${i < step ? 'bg-black' : 'bg-gray-200'}`} />
-            )}
           </div>
-        ))}
+        );
+      })}
+    </div>
+  );
+}
+
+// --- Steg-indikator (samma design som mobil) — jämförelseversion för desktop ---
+function DesktopStepBar({ steps, step, stepComplete }: { steps: { label: string; icon: React.ReactNode }[]; step: number; stepComplete: boolean }) {
+  return (
+    <div
+      className="hidden sm:flex fixed top-0 left-0 right-0 z-50 justify-center bg-white border-b border-gray-100"
+      style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}
+    >
+      <div className="flex items-stretch justify-center w-full max-w-[800px]">
+        {steps.map((s, i) => {
+          const isFirst = i === 0;
+          const isLast = i === steps.length - 1;
+          const bg = i === step ? (isLast && stepComplete ? '#16a34a' : '#FF6600') : i < step ? '#000' : '#f3f4f6';
+          const fg = i <= step ? '#fff' : '#9ca3af';
+          const clipPath = isFirst
+            ? 'polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%)'
+            : isLast
+            ? 'polygon(0 0, 100% 0, 100% 100%, 0 100%, 14px 50%)'
+            : 'polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%, 14px 50%)';
+          return (
+            <div
+              key={i}
+              className="relative flex-1"
+              style={{ marginLeft: isFirst ? 0 : '-14px' }}
+            >
+              <div className="absolute inset-0" style={{ background: '#fff', clipPath }} />
+              <div
+                className="relative flex items-center justify-center gap-2 py-4 h-full transition-colors duration-300 [&_svg]:w-5 [&_svg]:h-5"
+                style={{
+                  background: bg,
+                  color: fg,
+                  clipPath,
+                  margin: '1.5px',
+                }}
+              >
+                {s.icon}
+                <span className="text-sm font-semibold whitespace-nowrap">{s.label}</span>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -63,12 +116,14 @@ function PaymentForm({
   finalTotal,
   onSuccess,
   onError,
+  onPaymentComplete,
 }: {
   cartId: string;
   formData: any;
   finalTotal: number;
   onSuccess: (order: any) => void;
   onError: (msg: string) => void;
+  onPaymentComplete: (complete: boolean) => void;
 }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -119,7 +174,10 @@ function PaymentForm({
 
   return (
     <form onSubmit={handlePay} className="space-y-4">
-      <PaymentElement options={{ fields: { billingDetails: { address: { country: 'never' } } } }} />
+      <PaymentElement
+        options={{ fields: { billingDetails: { address: { country: 'never' } } } }}
+        onChange={(event) => onPaymentComplete(event.complete)}
+      />
       <div className="flex gap-3 mt-4">
         <button type="button" onClick={() => window.history.back()} className="flex-1 py-3 border border-gray-300 text-sm font-semibold text-gray-600 hover:text-black hover:border-black transition-colors">
           Avbryt köp
@@ -163,6 +221,7 @@ function CheckoutContent() {
   const [loadingShipping, setLoadingShipping] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentError, setPaymentError] = useState('');
+  const [paymentComplete, setPaymentComplete] = useState(false);
 
   // Stripe Elements state
   const [clientSecret, setClientSecret] = useState('');
@@ -409,9 +468,22 @@ function CheckoutContent() {
   }, [fetchShippingOptions]);
 
   const selectedShippingOption = shippingOptions.find(o => o.id === shippingMethod);
-  const hasContactInfo = !!(formData.email && formData.firstName && formData.lastName && formData.address && formData.postalCode && formData.city);
+  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
+  const isValidPhone = /^[\d\s+()-]{7,}$/.test(formData.phone);
+  const isValidPostalCode = /^\d{3}\s?\d{2}$/.test(formData.postalCode);
+  const hasContactInfo = !!(
+    isValidEmail &&
+    isValidPhone &&
+    formData.firstName.trim().length >= 2 &&
+    formData.lastName.trim().length >= 2 &&
+    formData.address.trim().length >= 5 &&
+    isValidPostalCode &&
+    formData.city.trim().length >= 2 &&
+    (customerType !== 'business' || formData.companyName.trim().length >= 2)
+  );
   const hasPayment = showPayment && hasContactInfo && !!shippingMethod;
   const step = !hasContactInfo ? 1 : !shippingMethod ? 2 : hasPayment ? 3 : 2;
+  const isStepComplete = step < 3 ? true : paymentComplete;
   const [desktopStep, setDesktopStep] = useState(-1);
   const prevStepRef = useRef(-1);
   useEffect(() => {
@@ -468,23 +540,24 @@ function CheckoutContent() {
       {/* Steg-indikator — endast mobil */}
       {(() => {
         const steps = [
-          { label: 'Orderöversikt', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2M9 12h6M9 16h4"/></svg> },
-          { label: 'Uppgifter', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg> },
-          { label: 'Frakt', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="18.5" cy="18.5" r="1.5"/></svg> },
-          { label: 'Betalning', icon: <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path strokeLinecap="square" d="M2 10h20"/></svg> },
+          { label: 'Orderöversikt', icon: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M10.5 3A1.5 1.5 0 009 4.5v.75H6.75a2.25 2.25 0 00-2.25 2.25v11.25a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V7.5a2.25 2.25 0 00-2.25-2.25H15V4.5A1.5 1.5 0 0013.5 3h-3zm3 6a.75.75 0 010 1.5h-6a.75.75 0 010-1.5h6zm0 3.75a.75.75 0 010 1.5h-6a.75.75 0 010-1.5h6zm0 3.75a.75.75 0 010 1.5h-6a.75.75 0 010-1.5h6z" clipRule="evenodd" /></svg> },
+          { label: 'Uppgifter', icon: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clipRule="evenodd" /></svg> },
+          { label: 'Frakt', icon: <svg className="w-5 h-5" viewBox="0 0 24 24"><path d="M12 2.5l9 4.9v9.2l-9 4.9-9-4.9V7.4l9-4.9z" fill="currentColor" fillOpacity="0.35" /><path d="M12 2.5l9 4.9-9 4.9-9-4.9 9-4.9z" fill="currentColor" fillOpacity="0.9" /><path d="M12 12.3v9.2l-9-4.9V7.4l9 4.9z" fill="currentColor" fillOpacity="0.6" /></svg> },
+          { label: 'Betalning', icon: <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M4.5 3.75a3 3 0 00-3 3v.75h21v-.75a3 3 0 00-3-3h-15zm17.25 6.75h-21v6.75a3 3 0 003 3h15a3 3 0 003-3v-6.75zm-16.5 3.75a.75.75 0 01.75-.75h6a.75.75 0 010 1.5h-6a.75.75 0 01-.75-.75z" clipRule="evenodd" /></svg> },
         ];
         return (
-          <StickyStepBar steps={steps} step={step} />
+          <>
+            <StickyStepBar steps={steps} step={step} stepComplete={isStepComplete} />
+            <DesktopStepBar steps={steps} step={step} stepComplete={isStepComplete} />
+          </>
         );
       })()}
-      <div className="flex pt-[88px] sm:pt-4 lg:pt-12 pb-16 gap-0 relative justify-center">
+      <div className="flex pt-[88px] sm:pt-[132px] lg:pt-[148px] pb-16 gap-0 relative justify-center">
 
           <div className="flex-1 max-w-[800px] flex flex-col gap-8 relative">
 
           {/* Orderöversikt */}
           <section className="bg-white relative" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider p-2 block" style={{ background: '#000', color: '#fff', boxShadow: '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)', transition: 'background 300ms ease' }}>Orderöversikt</span></span>
-            <span className="hidden lg:block absolute w-0.5 bg-black pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-100px' }} />
             <div className="grid grid-cols-[1fr_80px_64px] sm:grid-cols-[1fr_160px_120px] px-2 sm:px-6 py-3 border-b border-gray-200 gap-3">
               <div className="flex items-center">
                 <span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-gray-500">Produkter</span>
@@ -498,11 +571,11 @@ function CheckoutContent() {
                   <div className="flex gap-4 sm:gap-6 items-center min-w-0">
                     <div className="flex-shrink-0">
                       {item.image ? (
-                        <div className="relative w-10 h-10 sm:w-24 sm:h-24">
-                          <Image src={item.image} alt={item.title} fill sizes="(max-width: 640px) 40px, 96px" className="object-contain" />
+                        <div className="relative w-[72px] h-[72px]">
+                          <Image src={item.image} alt={item.title} fill sizes="72px" className="object-contain" />
                         </div>
                       ) : (
-                        <div className="w-[52px] h-[52px] sm:w-24 sm:h-24" />
+                        <div className="w-[72px] h-[72px]" />
                       )}
                     </div>
                     <div className="min-w-0">
@@ -595,8 +668,6 @@ function CheckoutContent() {
 
               <div className="bg-white" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
                 <section ref={el => { sectionRefs.current[0] = el; }} className="relative p-6 border-b border-gray-100">
-                  <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider p-2 block" style={{ background: step === 1 ? '#ea580c' : step > 1 ? '#000' : '#d1d5db', color: '#fff', transition: 'background 300ms ease', boxShadow: step >= 1 ? '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' : 'none' }}>Dina uppgifter</span></span>
-                  <span className="hidden lg:block absolute w-0.5 pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-14px', background: desktopStep >= 2 ? '#000' : '#d1d5db', transition: 'background 600ms ease' }} />
                   <h2 className="text-2xl font-bold mb-6"><span className="text-black">Leveransadress</span></h2>
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -647,8 +718,6 @@ function CheckoutContent() {
                 </section>
 
                 <section ref={el => { sectionRefs.current[1] = el; }} className="relative p-6 border-b border-gray-100">
-                  <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider p-2 block" style={{ background: step === 2 ? '#ea580c' : step > 2 ? '#000' : '#d1d5db', color: '#fff', transition: 'background 300ms ease', boxShadow: step >= 2 ? '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' : 'none' }}>Fraktsätt</span></span>
-                  <span className="hidden lg:block absolute w-0.5 pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '-14px', background: desktopStep >= 3 ? '#000' : '#d1d5db', transition: 'background 600ms ease' }} />
                   <h2 className="text-2xl font-bold mb-6"><span className="text-black">Frakt</span></h2>
                   <div className="space-y-3">
                     {loadingShipping ? (
@@ -671,8 +740,6 @@ function CheckoutContent() {
                 </section>
 
                 <section ref={el => { sectionRefs.current[2] = el; }} className="relative p-6">
-                  <span className="hidden lg:block absolute top-0 whitespace-nowrap" style={{ right: 'calc(100% + 24px)', boxShadow: '0 14px 0 white, 0 -14px 0 white', zIndex: 1 }}><span className="text-xs font-semibold uppercase tracking-wider p-2 block" style={{ background: step === 3 ? '#ea580c' : step > 3 ? '#000' : '#d1d5db', color: '#fff', transition: 'background 300ms ease', boxShadow: step >= 3 ? '0 0 0 2px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.2)' : 'none' }}>Betalsätt</span></span>
-                  <span className="hidden lg:block absolute w-0.5 pointer-events-none" style={{ right: 'calc(100% + 24px)', top: '32px', bottom: '0', background: desktopStep >= 3 ? '#000' : '#d1d5db', transition: 'background 600ms ease' }} />
                   <h2 className="text-2xl font-bold mb-4"><span className="text-black">Betalning</span></h2>
                   {!clientSecret && !isProcessing && (
                     <p className="text-sm text-gray-400 mb-4">Fyll i dina kontaktuppgifter ovan så visas betalningsalternativen här.</p>
@@ -683,7 +750,7 @@ function CheckoutContent() {
                   )}
                   {showPayment && clientSecret && (
                     <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe', variables: { colorPrimary: '#000000' } } }}>
-                      <PaymentForm cartId={cartId} formData={formData} finalTotal={finalTotal} onSuccess={handlePaymentSuccess} onError={handlePaymentError} />
+                      <PaymentForm cartId={cartId} formData={formData} finalTotal={finalTotal} onSuccess={handlePaymentSuccess} onError={handlePaymentError} onPaymentComplete={setPaymentComplete} />
                     </Elements>
                   )}
                   {!showPayment && (

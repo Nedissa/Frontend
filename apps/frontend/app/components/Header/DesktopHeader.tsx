@@ -136,8 +136,8 @@ export function DesktopHeader({
                   {results.map((product) => (
                     <div key={product.id} className="px-4 py-3 hover:bg-gray-50 flex items-center gap-4 group">
                       <Link href={`/produkter/${product.handle || product.id}`} className="flex-1 flex items-center gap-4 cursor-pointer min-w-0">
-                        <div className="flex-shrink-0 w-12 h-12">
-                          <Image src={product.image} alt={product.title} width={48} height={48} className="w-full h-full object-contain" />
+                        <div className="flex-shrink-0 w-14 h-14">
+                          <Image src={product.image} alt={product.title} width={56} height={56} className="w-full h-full object-contain" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="font-semibold text-sm text-black">{product.title}</div>
