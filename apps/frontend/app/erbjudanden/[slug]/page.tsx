@@ -58,7 +58,7 @@ export default function OffersPage() {
 
   return (
     <MainLayout>
-      <div className="w-full max-w-[960px] hd:max-w-[1080px] qhd:max-w-[1600px] mx-auto px-6 py-8">
+      <div className="w-full max-w-[960px] hd:max-w-[1250px] qhd:max-w-[1600px] mx-auto px-6 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">{offer.title}</h1>
         <p className="text-gray-500 mb-8">{offer.description}</p>
 

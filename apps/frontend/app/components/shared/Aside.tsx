@@ -82,7 +82,7 @@ export function Aside({
             maxHeight: 'calc(100vh - 56px)',
             transition: 'opacity 200ms ease, transform 200ms ease',
             left: type === 'cart' ? 'calc(var(--search-left, 209px) - 60px)' : 'var(--search-left, 209px)',
-            right: 'max(0px, calc((100vw - var(--content-max-width, 1080px)) / 2))',
+            right: 'max(0px, calc((100vw - var(--content-max-width, 1250px)) / 2))',
             ...(type === 'login' ? { height: '436px' } : {}),
           }}
         >

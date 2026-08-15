@@ -20,12 +20,6 @@ const WORK_BARS = [
   { label: 'Lansering', value: 35, color: '#b8b8b8' },
 ];
 
-const CHART_DESCRIPTIONS = [
-  'Fördelning av de projekttyper vi tar oss an.',
-  'Timmarna i ett projekt, uppdelade efter arbetsmoment.',
-  'Så mycket ingår som standard i varje projekt.',
-];
-
 const HEADLINE_STATS = [
   { value: '20', suffix: '+', desc: 'Nöjda kunder som rekommenderar oss vidare.' },
   { value: '100', suffix: '%', desc: 'Mobiloptimerat. Varje hemsida byggs helt responsivt för att ge en perfekt upplevelse på mobilen.' },
@@ -39,7 +33,7 @@ export function ProcessStatsSection() {
 
       <div
         className="grid-responsive-3 grid gap-[64px] mb-[16px]"
-        style={{ gridTemplateColumns: 'repeat(3,1fr)' }}
+        style={{ gridTemplateColumns: 'repeat(3,1fr)', marginTop: '100px' }}
       >
         <FadeIn>
           <div className="h-full box-border">
@@ -106,23 +100,8 @@ export function ProcessStatsSection() {
       </div>
 
       <div
-        className="grid-responsive-3 grid gap-[64px] mb-[64px]"
-        style={{ gridTemplateColumns: 'repeat(3,1fr)' }}
-      >
-        {CHART_DESCRIPTIONS.map((desc, i) => (
-          <p
-            key={desc}
-            className={`${i === 1 ? 'hide-mobile' : ''} ${i === 0 ? 'process-desc-clamp' : ''} ${i === 2 ? 'hide-mobile-standard-text' : ''} pt-[28px] text-[14px] leading-[1.5] m-0 text-left`}
-            style={{ borderTop: '1px solid rgb(230,230,230)', color: 'rgb(104,105,99)' }}
-          >
-            {desc}
-          </p>
-        ))}
-      </div>
-
-      <div
         className="grid-responsive-3 grid gap-[64px]"
-        style={{ gridTemplateColumns: 'repeat(3,1fr)' }}
+        style={{ gridTemplateColumns: 'repeat(3,1fr)', marginBottom: '48px' }}
       >
         {HEADLINE_STATS.map((stat) => (
           <FadeIn key={stat.desc}>

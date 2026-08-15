@@ -42,7 +42,7 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-        <style>{`:root{--content-max-width:960px;}@media(min-width:1920px){:root{--content-max-width:1080px;}}@media(min-width:2560px){:root{--content-max-width:1600px;}}.ml-container{max-width:var(--content-max-width);width:100%;padding-left:12px;padding-right:12px;}@media(min-width:768px){.ml-container{padding-left:0;padding-right:0;}}.content-container{max-width:var(--content-max-width);margin-left:auto;margin-right:auto;}`}</style>
+        <style>{`:root{--content-max-width:960px;}@media(min-width:1920px){:root{--content-max-width:1250px;}}@media(min-width:2560px){:root{--content-max-width:1600px;}}.ml-container{max-width:var(--content-max-width);width:100%;padding-left:12px;padding-right:12px;}@media(min-width:768px){.ml-container{padding-left:0;padding-right:0;}}.content-container{max-width:var(--content-max-width);margin-left:auto;margin-right:auto;}`}</style>
       </head>
       <body className="bg-white flex flex-col min-h-screen">
         <Script

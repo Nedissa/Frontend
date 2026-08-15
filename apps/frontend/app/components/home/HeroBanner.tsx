@@ -87,7 +87,7 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
   return (
     <div className="relative z-0 flex justify-center w-full" ref={containerRef}>
       <div
-        className="relative max-w-[960px] hd:max-w-[1080px] qhd:max-w-[1600px] w-full overflow-hidden flex items-center justify-center cursor-pointer bg-gray-200 hero-mobile-height"
+        className="relative max-w-[960px] hd:max-w-[1250px] qhd:max-w-[1600px] w-full overflow-hidden flex items-center justify-center cursor-pointer bg-gray-200 hero-mobile-height"
         style={{ aspectRatio: '1280/640' }}
         onClick={() => next(true)}
         onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}

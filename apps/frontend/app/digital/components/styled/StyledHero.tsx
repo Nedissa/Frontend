@@ -28,9 +28,9 @@ export function StyledHero({ project }: { project: Project }) {
             </div>
 
             <div className="flex gap-8 shrink-0 mt-6">
-              <MetaItem label="Client" value={project.title} />
-              <MetaItem label="Service" value={project.category} />
-              <MetaItem label="Date" value={project.year} />
+              <MetaItem label="Kund" value={project.title} />
+              <MetaItem label="Tjänst" value={project.category} />
+              <MetaItem label="Datum" value={project.year} />
             </div>
           </div>
         </FadeIn>
