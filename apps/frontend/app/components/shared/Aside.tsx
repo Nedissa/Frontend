@@ -83,7 +83,7 @@ export function Aside({
             transition: 'opacity 200ms ease, transform 200ms ease',
             left: type === 'cart' ? 'calc(var(--search-left, 209px) - 60px)' : 'var(--search-left, 209px)',
             right: 'max(0px, calc((100vw - var(--content-max-width, 1080px)) / 2))',
-            ...(type === 'login' ? { height: '420px' } : {}),
+            ...(type === 'login' ? { height: '436px' } : {}),
           }}
         >
           <header className="border-b border-gray-200 px-4 py-3 flex items-center justify-between">

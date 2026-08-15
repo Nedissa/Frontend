@@ -101,7 +101,7 @@ export function LimitedTimeBanner() {
           {/* Right — image */}
           <div className="relative w-full sm:w-[55%] h-[200px] sm:h-full overflow-hidden">
             <img
-              src="/assets/bluetooth-speaker.webp"
+              src="/assets/bluetooth-speaker.svg"
               alt="Kampanj"
               className="w-full h-full object-cover"
             />

@@ -192,7 +192,7 @@ export function LoginAside({
               <label className="block text-sm font-semibold mb-2">Lösenord</label>
               <InputWithCheck type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="border-0" required />
             </div>
-            <p className={`text-sm text-red-600 ${loginError ? 'visible' : 'invisible'}`}>{loginError || '.'}</p>
+            <p className={`text-sm text-red-600 min-h-[2.5rem] ${loginError ? 'visible' : 'invisible'}`}>{loginError || '.'}</p>
           </div>
           <div className="mt-auto">
             <button type="submit" disabled={isLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
@@ -222,7 +222,7 @@ export function LoginAside({
               <label className="block text-sm font-semibold mb-2">Lösenord</label>
               <InputWithCheck type="password" value={registerPassword} onChange={(e) => setRegisterPassword(e.target.value)} className="border-0" required />
             </div>
-            <p className={`text-sm text-red-600 ${loginError ? 'visible' : 'invisible'}`}>{loginError || '.'}</p>
+            <p className={`text-sm text-red-600 min-h-[2.5rem] ${loginError ? 'visible' : 'invisible'}`}>{loginError || '.'}</p>
           </div>
           <div className="mt-auto">
             <button type="submit" disabled={isLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
@@ -250,7 +250,7 @@ export function LoginAside({
                   <label className="block text-sm font-semibold mb-2">‎</label>
                   <InputWithCheck type="password" value="" onChange={() => {}} />
                 </div>
-                <p className="text-sm invisible">.</p>
+                <p className="text-sm invisible min-h-[2.5rem]">.</p>
               </div>
               <div className="mt-auto">
                 <p className="text-sm text-gray-600 mb-4">Om e-postadressen finns i vårt system skickar vi instruktioner för att återställa lösenordet.</p>
@@ -268,8 +268,7 @@ export function LoginAside({
                   <label className="block text-sm font-semibold mb-2">‎</label>
                   <InputWithCheck type="email" value="" onChange={() => {}} />
                 </div>
-                <p className="text-sm text-gray-400">Ange din e-post så skickar vi en återställningslänk.</p>
-                <p className="text-sm text-red-600 invisible">.</p>
+                <p className="text-sm text-red-600 min-h-[2.5rem] invisible">.</p>
               </div>
               <div className="mt-auto">
                 <button type="submit" disabled={resetLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
@@ -299,7 +298,7 @@ export function LoginAside({
                   <label className="block text-sm font-semibold mb-2">‎</label>
                   <InputWithCheck type="password" value="" onChange={() => {}} />
                 </div>
-                <p className="text-sm invisible">.</p>
+                <p className="text-sm invisible min-h-[2.5rem]">.</p>
               </div>
               <div className="mt-auto">
                 <p className="text-sm text-gray-600 mb-4">Ditt lösenord har uppdaterats. Du kan nu logga in med ditt nya lösenord.</p>
@@ -319,7 +318,7 @@ export function LoginAside({
                   <label className="block text-sm font-semibold mb-2">Bekräfta lösenord</label>
                   <InputWithCheck type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
                 </div>
-                <p className={`text-sm text-red-600 ${confirmError ? 'visible' : 'invisible'}`}>{confirmError || '.'}</p>
+                <p className={`text-sm text-red-600 min-h-[2.5rem] ${confirmError ? 'visible' : 'invisible'}`}>{confirmError || '.'}</p>
               </div>
               <div className="mt-auto">
                 <button type="submit" disabled={confirmLoading} className="w-full bg-black text-white py-3 font-bold hover:bg-gray-800 disabled:cursor-not-allowed">
