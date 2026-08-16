@@ -14,13 +14,13 @@ const CATEGORIES = [
 export function HomeCategoryGrid() {
   return (
     <div className="w-full pt-6 pb-4">
-      <div className="px-2 sm:px-6 mb-4 sm:mb-6">
+      <div className="mb-4 sm:mb-6">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Handla efter kategori</h2>
         <p className="text-sm text-gray-500 mt-1">Utforska våra mest populära produktkategorier.</p>
       </div>
 
       {/* Mobil: 2-kolumnsgrid */}
-      <div className="sm:hidden grid grid-cols-2 gap-3 px-4">
+      <div className="sm:hidden grid grid-cols-2 gap-3">
         {CATEGORIES.map((cat) => (
           <Link
             key={cat.url}
@@ -39,7 +39,7 @@ export function HomeCategoryGrid() {
       </div>
 
       {/* Desktop: en rad */}
-      <div className="hidden sm:flex justify-center gap-10 px-6">
+      <div className="hidden sm:flex justify-center gap-10">
         {CATEGORIES.map((cat) => (
           <Link key={cat.url} href={cat.url} className="group flex flex-col items-center no-underline">
             <div className="w-32 h-32 rounded-full flex flex-col items-center justify-center gap-1" style={{ background: '#0a0a0a' }}>
