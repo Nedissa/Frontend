@@ -36,7 +36,11 @@ export default async function CategoryPage({ params }: PageProps) {
   const categoryTitle = MAIN_CATEGORIES[slug];
 
   if (!categoryTitle) {
-    return <div>Kategorin hittades inte</div>;
+    return (
+      <MainLayout>
+        <div className="py-16 text-center text-gray-600">Kategorin hittades inte</div>
+      </MainLayout>
+    );
   }
 
   const breadcrumbItems = [{ label: categoryTitle }];
