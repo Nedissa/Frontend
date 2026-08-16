@@ -1,18 +1,13 @@
 'use client';
 import type { ReactNode } from 'react';
 import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import type { Project } from '../../projekt-data';
 import { FadeIn } from '../FadeIn';
 import { Eyebrow } from './StyledPrimitives';
 
 function CaseBlock({ label, text, showLine }: { label: string; text: string; showLine?: boolean }) {
   const lineRef = useRef<HTMLSpanElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: lineRef,
-    offset: ['start 1', 'end 0.6'],
-  });
-  const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1], { clamp: true });
 
   return (
     <div className="relative flex gap-5">
@@ -20,12 +15,15 @@ function CaseBlock({ label, text, showLine }: { label: string; text: string; sho
         <span className="w-2.5 h-2.5 rounded-full bg-[#030303] shrink-0" />
         <span
           ref={lineRef}
-          className={`absolute top-2.5 w-1 bg-black/10 overflow-hidden ${showLine ? '' : 'hidden'}`}
-          style={{ height: 'calc(100% + 4rem - 0.625rem)' }}
+          className={`absolute top-2.5 w-px bg-black/10 overflow-hidden ${showLine ? '' : 'hidden'}`}
+          style={{ height: 'calc(100% + 4rem)' }}
         >
           <motion.span
-            className="block w-full bg-[#030303] origin-top"
-            style={{ height: '100%', scaleY }}
+            className="block w-full bg-[#030303]/70 origin-top"
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: 1 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            style={{ height: '100%' }}
           />
         </span>
       </div>

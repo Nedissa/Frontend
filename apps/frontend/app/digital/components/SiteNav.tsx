@@ -12,16 +12,12 @@ const links = [
   { label: 'Kontakt', num: '05', href: '/digital/kontakt' },
 ];
 
-// Scroll-progress ring drawn around the mobile burger button.
-const BURGER_RING_RADIUS = 18.5;
-const BURGER_RING_CIRCUMFERENCE = 2 * Math.PI * BURGER_RING_RADIUS;
-
 const BURGER_BAR_STYLE_BASE: React.CSSProperties = {
   position: 'absolute',
   left: '50%',
-  width: '20px',
-  height: '2px',
-  borderRadius: '1px',
+  width: '22px',
+  height: '2.5px',
+  borderRadius: '2px',
   transition: 'transform 0.3s cubic-bezier(0.76, 0, 0.24, 1), top 0.3s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.2s ease, background 0.3s ease',
 };
 
@@ -32,19 +28,20 @@ const LOGO_CIRCLE_STYLE: React.CSSProperties = {
   alignItems: 'center',
   justifyContent: 'center',
   flexShrink: 0,
+  borderRadius: '50%',
 };
 
 const LOGO_IMG_STYLE: React.CSSProperties = {
-  width: '40px',
-  height: '40px',
+  width: '48px',
+  height: '48px',
   filter: 'none',
   transition: 'opacity 0.3s ease',
 };
 
 export function SiteNav() {
   const [open, setOpen] = useState(false);
+  const [closing, setClosing] = useState(false);
   const [hash, setHash] = useState('');
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [navHidden, setNavHidden] = useState(false);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
@@ -53,6 +50,14 @@ export function SiteNav() {
   // Portalen till document.body får bara renderas efter mount, annars skiljer sig
   // server-renderad HTML (ingen portal) från första client-render (portal finns direkt).
   useEffect(() => { setMounted(true); }, []);
+
+  // Håll navbar-raden mörk under overlayns stängnings-animation (0.5s clip-path-transition),
+  // annars hinner den byta till vit innan overlayn hunnit gå bort — en vit blink.
+  const closeMenu = () => {
+    setOpen(false);
+    setClosing(true);
+    setTimeout(() => setClosing(false), 500);
+  };
 
   // Lås bakgrundsscroll medan mobilmenyn är öppen. overflow:hidden på body räcker
   // inte på iOS Safari — touch-swipe kan ändå scrolla bakgrunden. Att låsa body till
@@ -106,8 +111,8 @@ export function SiteNav() {
   }, [pathname]);
 
   const isDark = !pastHero && !open;
-  // Burger-strecken är alltid vita när menyn är öppen (mörk overlay), annars enligt isDark.
-  const burgerBarColor = open || isDark ? '#fff' : '#0a0a0a';
+  // Burger-strecken är vita när menyn är öppen eller navbaren är mörk, annars svarta.
+  const burgerBarColor = '#fff';
 
   // Re-read the hash on navigation, when the menu toggles, and on hashchange.
   useEffect(() => {
@@ -131,9 +136,6 @@ export function SiteNav() {
   useEffect(() => {
     let lastY = window.scrollY;
     const onScroll = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      setScrollProgress(max > 0 ? Math.min(window.scrollY / max, 1) : 0);
-
       const y = window.scrollY;
       const delta = y - lastY;
       if (y < 80) {
@@ -182,8 +184,8 @@ export function SiteNav() {
       style={{
         position: 'fixed', top: 0, left: 0, right: 0, width: '100%', height: '72px', zIndex: 150,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 32px',
-        background: isDark ? 'rgba(0,0,0,0.5)' : '#fff',
-        borderBottom: isDark ? '1px solid transparent' : '1px solid rgba(10,10,10,0.1)',
+        background: open || closing ? 'rgb(12,13,18)' : isDark ? 'rgba(0,0,0,0.2)' : '#fff',
+        borderBottom: open || closing || isDark ? '1px solid transparent' : '1px solid rgba(10,10,10,0.1)',
         boxSizing: 'border-box',
         transform: navHidden ? 'translateY(-100%)' : 'translateY(0)',
         transition: 'transform 0.3s ease, background 0.3s ease, border-color 0.3s ease',
@@ -219,22 +221,19 @@ export function SiteNav() {
       </div>
 
       <button
-        onClick={() => setOpen(!open)}
+        onClick={() => (open ? closeMenu() : setOpen(true))}
         aria-label={open ? 'Stäng meny' : 'Öppna meny'}
         className="nav-burger"
         style={{
           display: 'none',
-          width: '44px', height: '44px', alignItems: 'center', justifyContent: 'center',
-          background: open || isDark ? 'rgba(255,255,255,0.12)' : 'rgba(10,10,10,0.08)',
-          border: open || isDark ? '1.5px solid rgba(255,255,255,0.35)' : '1.5px solid rgba(10,10,10,0.25)',
-          borderRadius: '50%', cursor: 'pointer', flexShrink: 0,
+          width: '40px', height: '40px', alignItems: 'center', justifyContent: 'center',
+          background: 'rgba(20,20,22,0.85)',
+          border: 'none',
+          borderRadius: '10px', cursor: 'pointer', flexShrink: 0,
           position: 'relative', zIndex: 110,
           transition: 'background 0.3s ease, border-color 0.3s ease',
         }}
       >
-        <svg width="44" height="44" viewBox="0 0 44 44" style={{ position: 'absolute', top: 0, left: 0, transform: 'rotate(-90deg)' }}>
-          <circle cx="22" cy="22" r={BURGER_RING_RADIUS} fill="none" stroke="rgba(232,197,71,0.9)" strokeWidth="1.5" strokeDasharray={BURGER_RING_CIRCUMFERENCE} strokeDashoffset={BURGER_RING_CIRCUMFERENCE * (1 - scrollProgress)} strokeLinecap="round" style={{ transition: 'stroke-dashoffset 0.15s linear' }} />
-        </svg>
         {/* Tre streck (≡) i vila, som fälls ihop till ett X när menyn är öppen. */}
         <span style={{ ...BURGER_BAR_STYLE_BASE, top: open ? '50%' : 'calc(50% - 6px)', transform: `translateX(-50%) ${open ? 'rotate(45deg)' : 'rotate(0deg)'}`, background: burgerBarColor }} />
         <span style={{ ...BURGER_BAR_STYLE_BASE, top: '50%', transform: 'translateX(-50%)', opacity: open ? 0 : 1, background: burgerBarColor }} />
@@ -265,12 +264,12 @@ export function SiteNav() {
                 transition: `opacity 0.3s ease ${open ? '0.25s' : '0s'}`,
               };
               return linkAnchor ? (
-                <a key={l.href} href={l.href} onClick={(e) => { setOpen(false); handleAnchorClick(linkAnchor)(e); }} className="nav-link" style={mobileLinkStyle}>
+                <a key={l.href} href={l.href} onClick={(e) => { closeMenu(); handleAnchorClick(linkAnchor)(e); }} className="nav-link" style={mobileLinkStyle}>
                   {l.label}
                   <sup style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginLeft: '8px', verticalAlign: 'super' }}>{l.num}</sup>
                 </a>
               ) : (
-                <Link key={l.href} href={linkPath} onClick={() => setOpen(false)} className="nav-link" style={mobileLinkStyle}>
+                <Link key={l.href} href={linkPath} onClick={closeMenu} className="nav-link" style={mobileLinkStyle}>
                   {l.label}
                   <sup style={{ fontSize: '13px', color: 'rgba(255,255,255,0.4)', marginLeft: '8px', verticalAlign: 'super' }}>{l.num}</sup>
                 </Link>
