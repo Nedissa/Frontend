@@ -182,7 +182,7 @@ export function SiteNav() {
       style={{
         position: 'fixed', top: 0, left: 0, right: 0, width: '100%', height: '72px', zIndex: 150,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 32px',
-        background: isDark ? 'rgba(3,4,8,0.75)' : '#fff',
+        background: isDark ? 'rgba(0,0,0,0.5)' : '#fff',
         borderBottom: isDark ? '1px solid transparent' : '1px solid rgba(10,10,10,0.1)',
         boxSizing: 'border-box',
         transform: navHidden ? 'translateY(-100%)' : 'translateY(0)',
