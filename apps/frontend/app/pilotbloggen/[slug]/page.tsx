@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { MainLayout } from '@/app/components/layout/MainLayout';
+import { GuideQuestions } from '@/app/components/guide/GuideQuestions';
 
 const PAYLOAD_URL = process.env.PAYLOAD_URL || 'https://cms.techpilots.se';
 
@@ -86,6 +87,11 @@ export default async function BloggPostPage({ params }: { params: Promise<{ slug
         <h1 style={{ fontSize: '2rem', fontWeight: 800, lineHeight: 1.2, marginBottom: '32px' }}>{post.title}</h1>
         <div style={{ fontSize: '1.05rem', color: '#333', lineHeight: 1.9, maxWidth: '720px' }}>
           {post.content?.root?.children?.map((node, i) => renderNode(node, i))}
+        </div>
+
+        <div style={{ maxWidth: '720px', marginTop: '48px' }}>
+          <h2 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '24px' }}>Frågor & svar</h2>
+          <GuideQuestions guideSlug={post.slug} />
         </div>
       </div>
     </MainLayout>
