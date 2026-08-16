@@ -14,7 +14,7 @@ const CATEGORIES = [
 export function HomeCategoryGrid() {
   return (
     <div className="w-full pt-6 pb-4">
-      <div className="px-4 sm:px-6 mb-4 sm:mb-6">
+      <div className="px-2 sm:px-6 mb-4 sm:mb-6">
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Handla efter kategori</h2>
         <p className="text-sm text-gray-500 mt-1">Utforska våra mest populära produktkategorier.</p>
       </div>
