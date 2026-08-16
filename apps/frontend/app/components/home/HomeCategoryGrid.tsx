@@ -9,7 +9,6 @@ const CATEGORIES = [
   { title: 'Mobiltelefoner', url: '/kategori/mobiltelefoner', icon: '/icons/categories/mobiltelefoner.png' },
   { title: 'Nätverk', url: '/kategori/natverk', icon: '/icons/categories/natverk.png' },
   { title: 'TV & HiFi', url: '/kategori/tv-hifi', icon: '/icons/categories/tv-hifi.png' },
-  { title: 'Datortillbehör', url: '/kategori/datortillbehor', icon: '/icons/datortillbehor.png' },
 ];
 
 export function HomeCategoryGrid() {
@@ -31,8 +30,8 @@ export function HomeCategoryGrid() {
             <div className="rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#0a0a0a', width: '48px', height: '48px' }}>
               <img src={cat.icon} alt={cat.title} className="category-icon" style={{ width: '45%', height: '45%', objectFit: 'contain' }} />
             </div>
-            <div className="flex flex-col min-w-0">
-              <span className="text-xs font-bold text-gray-900 leading-tight truncate">{cat.title}</span>
+            <div className="flex flex-col">
+              <span className="text-xs font-bold text-gray-900 leading-tight">{cat.title}</span>
               <span className="text-[10px] text-gray-500 mt-0.5">Visa kategori</span>
             </div>
           </Link>
