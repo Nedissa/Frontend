@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { useRef, useState } from 'react';
 
 const CATEGORIES = [
   { title: 'Datorer', url: '/kategori/datorer-tillbehor', icon: '/icons/categories/datorer.png' },
@@ -10,27 +9,10 @@ const CATEGORIES = [
   { title: 'Mobiltelefoner', url: '/kategori/mobiltelefoner', icon: '/icons/categories/mobiltelefoner.png' },
   { title: 'Nätverk', url: '/kategori/natverk', icon: '/icons/categories/natverk.png' },
   { title: 'TV & HiFi', url: '/kategori/tv-hifi', icon: '/icons/categories/tv-hifi.png' },
+  { title: 'Datortillbehör', url: '/kategori/datortillbehor', icon: '/icons/datortillbehor.png' },
 ];
 
 export function HomeCategoryGrid() {
-  const scrollRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const handleScroll = () => {
-    const el = scrollRef.current;
-    if (!el) return;
-    const center = el.scrollLeft + el.clientWidth / 2;
-    const children = Array.from(el.querySelectorAll('a')) as HTMLElement[];
-    let closest = 0;
-    let minDist = Infinity;
-    children.forEach((child, i) => {
-      const childCenter = child.offsetLeft + child.offsetWidth / 2;
-      const dist = Math.abs(childCenter - center);
-      if (dist < minDist) { minDist = dist; closest = i; }
-    });
-    setActiveIndex(closest);
-  };
-
   return (
     <div className="w-full pt-6 pb-4">
       <div className="px-4 sm:px-6 mb-4 sm:mb-6">
@@ -38,45 +20,27 @@ export function HomeCategoryGrid() {
         <p className="text-sm text-gray-500 mt-1">Utforska våra mest populära produktkategorier.</p>
       </div>
 
-      {/* Mobil: horisontell scroll */}
-      <div
-        ref={scrollRef}
-        onScroll={handleScroll}
-        className="sm:hidden flex overflow-x-auto pb-4"
-        style={{ scrollbarWidth: 'none', scrollSnapType: 'x mandatory' }}
-      >
+      {/* Mobil: 2-kolumnsgrid */}
+      <div className="sm:hidden grid grid-cols-2 gap-3 px-4">
         {CATEGORIES.map((cat) => (
           <Link
             key={cat.url}
             href={cat.url}
-            className="flex flex-col items-center text-center no-underline flex-shrink-0"
-            style={{ width: '27vw', scrollSnapAlign: 'center' }}
+            className="flex items-center gap-3 no-underline bg-gray-100 p-3"
           >
-            <div className="rounded-full flex items-center justify-center" style={{ background: '#0a0a0a', width: '24vw', height: '24vw', maxWidth: '96px', maxHeight: '96px' }}>
+            <div className="rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#0a0a0a', width: '48px', height: '48px' }}>
               <img src={cat.icon} alt={cat.title} className="category-icon" style={{ width: '45%', height: '45%', objectFit: 'contain' }} />
             </div>
-            <span className="text-xs font-bold text-gray-900 text-center mt-2 leading-tight w-full">{cat.title}</span>
-            <span className="text-[10px] text-gray-500 mt-0.5">Visa kategori</span>
+            <div className="flex flex-col min-w-0">
+              <span className="text-xs font-bold text-gray-900 leading-tight truncate">{cat.title}</span>
+              <span className="text-[10px] text-gray-500 mt-0.5">Visa kategori</span>
+            </div>
           </Link>
         ))}
       </div>
 
-      {/* Scroll-indikator mobil */}
-      <div className="sm:hidden flex items-center justify-center gap-1 px-6 mt-1">
-        {CATEGORIES.map((_, i) => (
-          <div
-            key={i}
-            className="h-[3px] rounded-full transition-all duration-300"
-            style={{
-              backgroundColor: i === activeIndex ? '#152f5a' : '#d1d5db',
-              flex: i === activeIndex ? 2 : 1,
-            }}
-          />
-        ))}
-      </div>
-
       {/* Desktop: en rad */}
-      <div className="hidden sm:flex justify-center gap-6 px-6">
+      <div className="hidden sm:flex justify-center gap-10 px-6">
         {CATEGORIES.map((cat) => (
           <Link key={cat.url} href={cat.url} className="group flex flex-col items-center no-underline">
             <div className="w-32 h-32 rounded-full flex flex-col items-center justify-center gap-1" style={{ background: '#0a0a0a' }}>

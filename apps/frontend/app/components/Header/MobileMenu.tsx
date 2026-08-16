@@ -81,7 +81,7 @@ export function MobileMenu({
                 className="w-full flex items-center gap-4 px-5 py-4 border-b border-gray-100 text-left active:bg-gray-50"
                 onClick={() => onOpenCategory(category.id)}
               >
-                <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-black">
+                <span className="flex-shrink-0 w-12 h-12 flex items-center justify-center text-black">
                   {MOBILE_CATEGORY_ICONS[category.id]}
                 </span>
                 <span className="flex-1 text-sm font-semibold text-black">{category.title}</span>
@@ -96,8 +96,8 @@ export function MobileMenu({
                 className="w-full flex items-center gap-4 px-5 py-4"
                 onClick={onToggleOffers}
               >
-                <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center">
-                  <img src="/icons/categories/erbjudanden.png" alt="" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />
+                <span className="flex-shrink-0 w-12 h-12 flex items-center justify-center">
+                  <img src="/icons/categories/erbjudanden.png" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
                 </span>
                 <span className="flex-1 text-sm font-semibold text-black text-left">Erbjudanden</span>
                 <svg className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform ${activeMobileCategory === 'erbjudanden' ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
@@ -128,8 +128,8 @@ export function MobileMenu({
                 className="w-full flex items-center gap-4 px-5 py-4 border-b border-gray-100"
                 onClick={onClose}
               >
-                <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center text-black">
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                <span className="flex-shrink-0 w-12 h-12 flex items-center justify-center text-black">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8">
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                   </svg>
                 </span>
@@ -173,7 +173,7 @@ export function MobileMenu({
                     className="w-full flex items-center gap-4 px-5 py-4 active:bg-gray-50"
                     onClick={onClose}
                   >
-                    <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center">
+                    <span className="flex-shrink-0 w-12 h-12 flex items-center justify-center">
                       {MOBILE_SECTION_ICONS[section.id]}
                     </span>
                     <span className="flex-1 text-sm font-semibold text-black">{section.title}</span>
@@ -186,7 +186,7 @@ export function MobileMenu({
                   className="w-full flex items-center gap-4 px-5 py-4 text-left active:bg-gray-50"
                   onClick={() => onToggleSubCategory(section.id)}
                 >
-                  <span className="flex-shrink-0 w-7 h-7 flex items-center justify-center">
+                  <span className="flex-shrink-0 w-12 h-12 flex items-center justify-center">
                     {MOBILE_SECTION_ICONS[section.id]}
                   </span>
                   <span className="flex-1 text-sm font-semibold text-black">{section.title}</span>

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import './LanguageSwitcher.css';
 
 const SwedenFlag = () => (
-  <svg className="w-5 h-4" viewBox="0 0 24 16" xmlns="http://www.w3.org/2000/svg">
+  <svg className="w-6 h-[18px]" viewBox="0 0 24 16" xmlns="http://www.w3.org/2000/svg">
     <rect width="24" height="16" fill="#006AA7"/>
     <rect width="24" height="4" y="6" fill="#FFCD00"/>
     <rect width="4" height="16" x="5" fill="#FFCD00"/>
@@ -13,7 +13,7 @@ const SwedenFlag = () => (
 );
 
 const UKFlag = () => (
-  <svg className="w-5 h-4" viewBox="0 0 24 16" xmlns="http://www.w3.org/2000/svg">
+  <svg className="w-6 h-[18px]" viewBox="0 0 24 16" xmlns="http://www.w3.org/2000/svg">
     <rect width="24" height="16" fill="#FFFFFF"/>
     <rect width="24" height="4" y="6" fill="#CE1126"/>
     <rect width="4" height="16" x="10" fill="#CE1126"/>

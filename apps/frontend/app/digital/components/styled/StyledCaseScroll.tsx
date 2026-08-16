@@ -1,14 +1,38 @@
 'use client';
 import type { ReactNode } from 'react';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import type { Project } from '../../projekt-data';
 import { FadeIn } from '../FadeIn';
 import { Eyebrow } from './StyledPrimitives';
 
-function CaseBlock({ label, text }: { label: string; text: string }) {
+function CaseBlock({ label, text, showLine }: { label: string; text: string; showLine?: boolean }) {
+  const lineRef = useRef<HTMLSpanElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: lineRef,
+    offset: ['start 0.75', 'end 0.6'],
+  });
+  const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
   return (
-    <div className="flex flex-col gap-3">
-      <Eyebrow>{label}</Eyebrow>
-      <p className="text-base leading-relaxed text-[#5c5c58] max-w-[40ch] m-0">{text}</p>
+    <div className="relative flex gap-5">
+      <div className="relative flex flex-col items-center shrink-0 pt-1.5">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#030303] shrink-0" />
+        <span
+          ref={lineRef}
+          className={`absolute top-2.5 w-1 bg-black/10 overflow-hidden ${showLine ? '' : 'hidden'}`}
+          style={{ height: 'calc(100% + 4rem - 0.625rem)' }}
+        >
+          <motion.span
+            className="block w-full bg-[#030303] origin-top"
+            style={{ height: '100%', scaleY }}
+          />
+        </span>
+      </div>
+      <div className="flex flex-col gap-3">
+        <Eyebrow>{label}</Eyebrow>
+        <p className="text-base leading-relaxed text-[#5c5c58] max-w-[40ch] m-0">{text}</p>
+      </div>
     </div>
   );
 }
@@ -88,9 +112,9 @@ export function StyledCaseScroll({ project }: { project: Project }) {
           <div className="lg:sticky lg:top-32 lg:self-start flex flex-col gap-16">
             <FadeIn>
               <div className="flex flex-col gap-16">
-                {project.challenge && <CaseBlock label="Utmaning" text={project.challenge} />}
-                {project.solution && <CaseBlock label="Lösning" text={project.solution} />}
-                {project.result && <CaseBlock label="Resultat" text={project.result} />}
+                {project.challenge && <CaseBlock label="Utmaning" text={project.challenge} showLine={!!(project.solution || project.result)} />}
+                {project.solution && <CaseBlock label="Lösning" text={project.solution} showLine={!!project.result} />}
+                {project.result && <CaseBlock label="Resultat" text={project.result} lineDelay={0.3} />}
                 {project.technologies && project.technologies.length > 0 && (
                   <TechStack technologies={project.technologies} />
                 )}
@@ -140,7 +164,7 @@ export function StyledCaseScroll({ project }: { project: Project }) {
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="3" width="13" height="13" rx="2" /><rect x="8" y="8" width="13" height="13" rx="2" /></svg>
                     </div>
                   </div>
-                  <div className="h-[520px] overflow-y-auto overflow-x-hidden">
+                  <div className="h-[820px] overflow-y-auto overflow-x-hidden">
                     <img
                       src={project.conclusionImage}
                       alt={project.title}

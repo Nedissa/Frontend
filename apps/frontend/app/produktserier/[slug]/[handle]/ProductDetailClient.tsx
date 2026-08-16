@@ -9,6 +9,7 @@ import { Breadcrumb } from '@/app/components/layout/Breadcrumb';
 import { ImageZoomDialog } from '@/app/components/shared/ImageZoomDialog';
 import { ProductCard, type ProductData } from '@/app/components/product/ProductCard';
 import { ProductReviews } from '@/app/components/product/ProductReviews';
+import { ProductQuestions } from '@/app/components/product/ProductQuestions';
 import { fetchProductsFromMedusa } from '@/app/lib/medusa-client';
 import { klaviyoTrack } from '@/app/lib/klaviyoTrack';
 
@@ -173,6 +174,7 @@ export default function ProductDetailClient({
   const [showZoom, setShowZoom] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const [alsoLikeProducts, setAlsoLikeProducts] = useState<ProductData[]>([]);
+  const [questionCount, setQuestionCount] = useState(0);
   const [recentlyViewed, setRecentlyViewed] = useState<ProductData[]>([]);
   const [accessories, setAccessories] = useState<ProductData[]>([]);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -229,6 +231,12 @@ export default function ProductDetailClient({
           setReviewStats({ avg: 0, count: 0 });
         }
       });
+  }, [product.id]);
+
+  useEffect(() => {
+    fetch(`/api/questions?product_id=${product.id}`)
+      .then(r => r.json())
+      .then(data => setQuestionCount((data.questions || []).length));
   }, [product.id]);
 
   useEffect(() => {
@@ -470,6 +478,7 @@ export default function ProductDetailClient({
                   { key: 'specifications', label: 'Specifikationer' },
                   { key: 'contents', label: 'Produktinnehåll' },
                   { key: 'reviews', label: 'Recensioner' },
+                  { key: 'questions', label: 'Frågor och Svar' },
                 ].map(({ key, label }) => (
                   <button key={key} onClick={() => setActiveTab(key)}
                     className={`pb-4 font-medium text-sm transition-colors whitespace-nowrap flex items-center gap-2 border-b-2 ${activeTab === key ? 'text-black border-black' : 'text-gray-500 hover:text-gray-700 border-transparent'}`}>
@@ -477,6 +486,16 @@ export default function ProductDetailClient({
                     {key === 'specifications' && <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-2.12-2.59-1.84 2.25h9.5L13.96 9.29z" /></svg>}
                     {key === 'contents' && <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>}
                     {key === 'reviews' && <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" /></svg>}
+                    {key === 'questions' && (
+                      <span className="relative inline-flex">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round"><path d="M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path><path d="M20 9a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1"></path></svg>
+                        {questionCount > 0 && (
+                          <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                            {questionCount}
+                          </span>
+                        )}
+                      </span>
+                    )}
                     {label}
                   </button>
                 ))}
@@ -533,6 +552,7 @@ export default function ProductDetailClient({
                 </div>
               )}
               {activeTab === 'reviews' && <div id="reviews"><ProductReviews productId={product.id} /></div>}
+              {activeTab === 'questions' && <div id="questions"><ProductQuestions productId={product.id} /></div>}
               </div>
             </div>
           </div>
@@ -817,14 +837,22 @@ export default function ProductDetailClient({
             { key: 'specifications', label: 'SPECIFIKATIONER', content: <div className="px-5 pb-4 space-y-2">{productDetails.specifications.length > 0 ? productDetails.specifications.map((spec: { label: string; value: string }, idx: number) => (<div key={idx} className="border-b border-gray-100 pb-2"><p className="text-xs font-semibold text-gray-900">{spec.label}</p><p className="text-xs text-gray-600">{spec.value}</p></div>)) : <p className="text-xs text-gray-400">Inga specifikationer</p>}</div> },
             { key: 'contents', label: 'INNEHÅLL', content: <div className="px-5 pb-4">{productDetails.contents.length > 0 ? <ul className="text-xs text-gray-600 space-y-1 list-disc list-inside">{productDetails.contents.map((item: string, idx: number) => <li key={idx}>{item}</li>)}</ul> : <p className="text-xs text-gray-400">Inget innehåll tillagt</p>}</div> },
             { key: 'reviews', label: 'RECENSIONER', content: <div className="px-5 pb-4"><ProductReviews productId={product.id} /></div> },
+            { key: 'questions', label: 'FRÅGOR OCH SVAR', content: <div className="px-5 pb-4"><ProductQuestions productId={product.id} /></div> },
           ].map((s, i) => (
             <div key={s.key} className={i > 0 ? 'border-t border-gray-200' : ''}>
               <button
                 onClick={() => setMobileActiveTab(mobileActiveTab === s.key ? '' : s.key)}
                 className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50"
               >
-                <span className="text-xs font-bold tracking-widest text-gray-800">{s.label}</span>
-                <svg className={`w-4 h-4 text-gray-400 transition-transform ${mobileActiveTab === s.key ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                <span className="flex items-center gap-2">
+                  <span className="text-xs font-bold tracking-widest text-gray-800">{s.label}</span>
+                  {s.key === 'questions' && questionCount > 0 && (
+                    <span className="bg-red-600 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center flex-shrink-0">
+                      {questionCount}
+                    </span>
+                  )}
+                </span>
+                <svg className={`w-4 h-4 text-gray-400 transition-transform flex-shrink-0 ${mobileActiveTab === s.key ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
@@ -860,14 +888,15 @@ export default function ProductDetailClient({
           </div>
         )}
 
-        {/* Frakt, Retur, Öppet köp + Dela — desktop only */}
+        {/* Frakt, Retur, Öppet köp — desktop only */}
         <div className="hidden md:block"><ExtraInfoColumn product={product} /></div>
 
         {/* Handla tryggt */}
         <div className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', flex: 1 }}>
           <div className="flex items-center gap-2 px-6 py-4 border-b border-gray-100">
-            <svg className="w-4 h-4 text-black flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24">
+              <path fill="#16a34a" d="M12 2.944a11.955 11.955 0 008.618 3.04A12.02 12.02 0 0121 9c0 5.591-3.824 10.29-9 11.622C6.824 19.29 3 14.591 3 9c0-1.042.133-2.052.382-3.016A11.955 11.955 0 0012 2.944z" />
+              <path stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" d="M9 12l2 2 4-4" />
             </svg>
             <span className="text-black text-sm font-bold">Handla tryggt</span>
           </div>

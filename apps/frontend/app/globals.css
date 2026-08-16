@@ -564,7 +564,7 @@ footer a {
 @media (max-width: 767px) {
   .hero-mobile-height {
     aspect-ratio: unset !important;
-    height: 60vh !important;
+    height: 40vh !important;
   }
 }
 

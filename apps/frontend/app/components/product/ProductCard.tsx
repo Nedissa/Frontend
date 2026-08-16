@@ -304,7 +304,7 @@ export function ProductCard({
           <Link href={`${productLink}#reviews`} className="flex items-center gap-1 hover:opacity-70 transition-opacity">
             <div className="flex gap-0.5">
               {[...Array(5)].map((_, i) => (
-                <span key={i} style={{ color: i < Math.floor(product.rating || 0) ? '#e8c547' : '#d1d5db' }}>★</span>
+                <span key={i} style={{ color: i < Math.floor(product.rating || 0) ? '#000000' : '#d1d5db' }}>★</span>
               ))}
             </div>
             <span className="text-xs text-gray-600">({product.reviews || 0})</span>

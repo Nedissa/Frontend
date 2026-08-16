@@ -59,11 +59,7 @@ export const CATEGORY_TITLES: Record<string, string> = {
   'ultrabooks': 'Ultrabooks',
 };
 
-let cachedProducts: Product[] | null = null;
-
 async function fetchProductsFromMedusa(): Promise<Product[]> {
-  if (cachedProducts) return cachedProducts;
-
   try {
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://techpilots.vercel.app';
     const response = await fetch(`${baseUrl}/api/products`, {
@@ -76,8 +72,7 @@ async function fetchProductsFromMedusa(): Promise<Product[]> {
     }
 
     const data = await response.json();
-    cachedProducts = data.products || [];
-    return cachedProducts as Product[];
+    return (data.products || []) as Product[];
   } catch (error) {
     console.error('Error fetching products:', error);
   }

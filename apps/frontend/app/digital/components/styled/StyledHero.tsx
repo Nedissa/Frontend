@@ -38,7 +38,7 @@ export function StyledHero({ project }: { project: Project }) {
         {project.image && (
           <FadeIn delay={0.15}>
             <div className="relative max-w-[1000px] mx-auto -mt-12 md:-mt-20">
-              <div className="relative w-full aspect-[4/3]" data-mockup data-mockup-color={project.accentColor}>
+              <div className="relative w-full aspect-square" data-mockup data-mockup-color={project.accentColor}>
                 <Image
                   src={project.image}
                   alt={`${project.title} — skärmdump`}
