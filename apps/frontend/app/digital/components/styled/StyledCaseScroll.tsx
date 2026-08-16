@@ -10,9 +10,9 @@ function CaseBlock({ label, text, showLine }: { label: string; text: string; sho
   const lineRef = useRef<HTMLSpanElement>(null);
   const { scrollYProgress } = useScroll({
     target: lineRef,
-    offset: ['start 0.75', 'end 0.6'],
+    offset: ['start 1', 'end 0.6'],
   });
-  const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1], { clamp: true });
 
   return (
     <div className="relative flex gap-5">

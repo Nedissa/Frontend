@@ -135,7 +135,7 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
 
         {/* Guldbadge — övre högra hörnet */}
         <div
-          className="absolute top-4 right-4 md:top-6 md:right-6 z-20 text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-full"
+          className="absolute top-8 right-4 md:top-6 md:right-6 z-20 text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-full"
           style={{ background: '#e8c547', color: '#0a0a0a' }}
         >
           Nyhet

@@ -95,13 +95,14 @@ export function SiteNav() {
   useEffect(() => {
     const darkEl = document.querySelector('.hero-section');
     if (!darkEl) { setPastHero(true); return; }
-    setPastHero(false);
-    const observer = new IntersectionObserver(
-      ([entry]) => setPastHero(!entry.isIntersecting),
-      { rootMargin: '-72px 0px 0px 0px', threshold: 0 }
-    );
-    observer.observe(darkEl);
-    return () => observer.disconnect();
+
+    const checkScroll = () => {
+      const bottom = darkEl.getBoundingClientRect().bottom;
+      setPastHero(bottom <= 72);
+    };
+    checkScroll();
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    return () => window.removeEventListener('scroll', checkScroll);
   }, [pathname]);
 
   const isDark = !pastHero && !open;
@@ -175,16 +176,13 @@ export function SiteNav() {
     }, 0);
   };
 
-  // Projektsidorna renderar sin egen inverterade nav (ProjectNav) i page.tsx.
-  if (pathname.startsWith('/digital/projekt/')) return null;
-
   return (
     <nav
       className="site-nav"
       style={{
         position: 'fixed', top: 0, left: 0, right: 0, width: '100%', height: '72px', zIndex: 150,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 32px',
-        background: isDark ? 'rgba(3,4,8,0.3)' : '#fff',
+        background: isDark ? 'rgba(3,4,8,0.75)' : '#fff',
         borderBottom: isDark ? '1px solid transparent' : '1px solid rgba(10,10,10,0.1)',
         boxSizing: 'border-box',
         transform: navHidden ? 'translateY(-100%)' : 'translateY(0)',

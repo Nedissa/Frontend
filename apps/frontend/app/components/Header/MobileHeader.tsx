@@ -84,8 +84,8 @@ export function MobileHeader({
             <div className="relative">
               <svg className="w-5 h-5" fill="none" stroke="#111" strokeWidth="1.8" viewBox="0 0 24 24">
                 <path strokeLinecap="square" strokeLinejoin="miter" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5H17"/>
-                <circle cx="9" cy="22" r="1" fill="#111" stroke="none"/>
-                <circle cx="16" cy="22" r="1" fill="#111" stroke="none"/>
+                <circle cx="9" cy="22" r="1.6" fill="#111" stroke="none"/>
+                <circle cx="16" cy="22" r="1.6" fill="#111" stroke="none"/>
               </svg>
               {cartCount > 0 && (
                 <span className="absolute bg-red-600 text-white font-bold rounded-full flex items-center justify-center" style={{ fontSize: '8px', minWidth: '14px', height: '14px', padding: '0 2px', top: '-6px', right: '-8px' }} suppressHydrationWarning>{cartCount}</span>

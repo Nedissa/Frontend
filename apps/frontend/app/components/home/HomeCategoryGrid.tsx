@@ -11,6 +11,11 @@ const CATEGORIES = [
   { title: 'TV & HiFi', url: '/kategori/tv-hifi', icon: '/icons/categories/tv-hifi.png' },
 ];
 
+const DESKTOP_CATEGORIES = [
+  ...CATEGORIES,
+  { title: 'Datortillbehör', url: '/kategori/datortillbehor', icon: '/icons/datortillbehor.png' },
+];
+
 export function HomeCategoryGrid() {
   return (
     <div className="w-full pt-6 pb-4">
@@ -40,7 +45,7 @@ export function HomeCategoryGrid() {
 
       {/* Desktop: en rad */}
       <div className="hidden sm:flex justify-center gap-10">
-        {CATEGORIES.map((cat) => (
+        {DESKTOP_CATEGORIES.map((cat) => (
           <Link key={cat.url} href={cat.url} className="group flex flex-col items-center no-underline">
             <div className="w-32 h-32 rounded-full flex flex-col items-center justify-center gap-1" style={{ background: '#0a0a0a' }}>
               <img src={cat.icon} alt={cat.title} className="w-10 h-10 object-contain category-icon" />

@@ -375,7 +375,7 @@ button:focus-visible {
 
   /* Stat numbers (11+, 98%, 2024) — shrink so they don't dominate mobile width */
   .stat-number {
-    font-size: 52px !important;
+    font-size: 34px !important;
   }
 
   /* Pricing cards — tighter padding + gaps so cards read shorter on mobile */
