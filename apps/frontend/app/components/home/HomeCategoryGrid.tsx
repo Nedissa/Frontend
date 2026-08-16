@@ -6,7 +6,7 @@ const CATEGORIES = [
   { title: 'Datorer', url: '/kategori/datorer-tillbehor', icon: '/icons/categories/datorer.png' },
   { title: 'Komponenter', url: '/kategori/datorkomponenter', icon: '/icons/categories/datorkomponenter.png' },
   { title: 'Gaming', url: '/kategori/gaming', icon: '/icons/categories/gaming.png' },
-  { title: 'Mobiltelefoner', url: '/kategori/mobiltelefoner', icon: '/icons/categories/mobiltelefoner.png' },
+  { title: 'Mobiler', url: '/kategori/mobiltelefoner', icon: '/icons/categories/mobiltelefoner.png' },
   { title: 'Nätverk', url: '/kategori/natverk', icon: '/icons/categories/natverk.png' },
   { title: 'TV & HiFi', url: '/kategori/tv-hifi', icon: '/icons/categories/tv-hifi.png' },
 ];
