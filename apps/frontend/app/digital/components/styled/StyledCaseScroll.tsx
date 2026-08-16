@@ -114,7 +114,7 @@ export function StyledCaseScroll({ project }: { project: Project }) {
               <div className="flex flex-col gap-16">
                 {project.challenge && <CaseBlock label="Utmaning" text={project.challenge} showLine={!!(project.solution || project.result)} />}
                 {project.solution && <CaseBlock label="Lösning" text={project.solution} showLine={!!project.result} />}
-                {project.result && <CaseBlock label="Resultat" text={project.result} lineDelay={0.3} />}
+                {project.result && <CaseBlock label="Resultat" text={project.result} />}
                 {project.technologies && project.technologies.length > 0 && (
                   <TechStack technologies={project.technologies} />
                 )}
