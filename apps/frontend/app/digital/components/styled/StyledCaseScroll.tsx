@@ -2,6 +2,7 @@
 import type { ReactNode } from 'react';
 import { useRef } from 'react';
 import { motion } from 'framer-motion';
+import { Database, Layout, Code } from '@phosphor-icons/react';
 import type { Project } from '../../projekt-data';
 import { FadeIn } from '../FadeIn';
 import { Eyebrow } from './StyledPrimitives';
@@ -36,27 +37,13 @@ function CaseBlock({ label, text, showLine }: { label: string; text: string; sho
 }
 
 const TECH_ICONS: Record<string, ReactNode> = {
-  'Framer': (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M4 2h16v7h-8l8 7.5H4V9h8L4 2z" /></svg>
-  ),
-  'CMS': (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><ellipse cx="12" cy="5" rx="8" ry="3" /><path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5" /><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3" /></svg>
-  ),
-  'UX/UI Design': (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 0 0 0 20 2.5 2.5 0 0 0 0-5h1a2 2 0 0 0 0-4h-1a2 2 0 0 1 0-4h2a2 2 0 0 0 0-4z" /><circle cx="7.5" cy="10.5" r="1" fill="currentColor" stroke="none" /><circle cx="7.5" cy="15.5" r="1" fill="currentColor" stroke="none" /></svg>
-  ),
-  'Custom Code': (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 6 3 12 9 18" /><polyline points="15 6 21 12 15 18" /></svg>
-  ),
-  'Next.js': (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="9" /><path d="M9 8v8l7-8v8" /></svg>
-  ),
-  'Payload CMS': (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><ellipse cx="12" cy="5" rx="8" ry="3" /><path d="M4 5v14c0 1.66 3.58 3 8 3s8-1.34 8-3V5" /><path d="M4 12c0 1.66 3.58 3 8 3s8-1.34 8-3" /></svg>
-  ),
-  'Stripe': (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="2" y="5" width="20" height="14" rx="2" /><line x1="2" y1="10" x2="22" y2="10" /></svg>
-  ),
+  'Framer': <img src="/icons/tech/framer.svg" alt="" width={16} height={16} />,
+  'CMS': <Database size={16} weight="fill" />,
+  'UX/UI Design': <Layout size={16} weight="fill" />,
+  'Custom Code': <Code size={16} weight="fill" />,
+  'Next.js': <img src="/icons/tech/nextjs.svg" alt="" width={16} height={16} />,
+  'Payload CMS': <Database size={16} weight="fill" />,
+  'Stripe': <img src="/icons/tech/stripe.svg" alt="" width={16} height={16} />,
 };
 
 function TechStack({ technologies }: { technologies: string[] }) {
@@ -71,9 +58,9 @@ function TechStack({ technologies }: { technologies: string[] }) {
           {technologies.map((tech) => (
             <span
               key={tech}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-black/15 rounded-full text-xs font-medium text-[#5c5c58]"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-black/30 rounded-full text-sm font-medium text-[#030303]"
             >
-              {TECH_ICONS[tech] && <span className="shrink-0 text-[#8a8a86]">{TECH_ICONS[tech]}</span>}
+              {TECH_ICONS[tech] && <span className="shrink-0 text-[#030303]">{TECH_ICONS[tech]}</span>}
               {tech}
             </span>
           ))}
