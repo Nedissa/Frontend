@@ -61,45 +61,68 @@ const TECH_ICONS: Record<string, ReactNode> = {
 
 function TechStack({ technologies }: { technologies: string[] }) {
   return (
-    <div className="flex flex-col gap-3">
-      <Eyebrow>Teknik</Eyebrow>
-      <div className="flex flex-wrap gap-2">
-        {technologies.map((tech) => (
-          <span
-            key={tech}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-black/15 rounded-full text-xs font-medium text-[#5c5c58]"
-          >
-            {TECH_ICONS[tech] && <span className="shrink-0 text-[#8a8a86]">{TECH_ICONS[tech]}</span>}
-            {tech}
-          </span>
-        ))}
+    <div className="relative flex gap-5">
+      <div className="relative flex flex-col items-center shrink-0 pt-1.5">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#030303] shrink-0" />
+      </div>
+      <div className="flex flex-col gap-3">
+        <Eyebrow>Teknik</Eyebrow>
+        <div className="flex flex-wrap gap-2">
+          {technologies.map((tech) => (
+            <span
+              key={tech}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-black/15 rounded-full text-xs font-medium text-[#5c5c58]"
+            >
+              {TECH_ICONS[tech] && <span className="shrink-0 text-[#8a8a86]">{TECH_ICONS[tech]}</span>}
+              {tech}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-function MetaItem({ label, value }: { label: string; value: string }) {
+function MetaItem({ label, value, first }: { label: string; value: string; first?: boolean }) {
   return (
-    <div className="flex flex-col gap-1">
+    <div className={`flex flex-col gap-1 ${first ? '' : 'border-l border-black/10 pl-8'}`}>
       <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]">{label}</span>
       <span className="text-sm font-bold uppercase text-[#030303]">{value}</span>
     </div>
   );
 }
 
+function DeviceImage({ label, src, specs, maxHeight }: { label: string; src: string; specs?: string[]; maxHeight: number }) {
+  return (
+    <div className="w-full border-t border-black/10 pt-10 flex flex-col items-center gap-3">
+      <img
+        src={src}
+        alt={label}
+        className="w-auto max-w-full object-contain"
+        style={{ maxHeight }}
+      />
+      {specs && specs.length > 0 && (
+        <span className="text-xs font-medium text-[#5c5c58]">{specs.join(' · ')}</span>
+      )}
+    </div>
+  );
+}
+
 export function StyledCaseScroll({ project }: { project: Project }) {
+  const mobileImage = project.steps?.[0]?.image;
+
   if (!project.challenge && !project.solution && !project.result && !project.conclusionImage) return null;
 
   return (
     <section className="relative pt-32 md:pt-40">
       <div className="max-w-[1440px] mx-auto w-full px-6 md:px-12 box-border pb-16 md:pb-24 lg:pb-32">
         <FadeIn>
-          <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-16">
+          <div className="max-w-[1440px] mx-auto flex flex-col items-start gap-6 mb-16">
             <h1 className="text-[clamp(36px,6vw,52px)] font-bold uppercase tracking-tight leading-[0.95] text-[#030303] m-0">
               {project.title}
             </h1>
-            <div className="flex gap-8 shrink-0 mt-6">
-              <MetaItem label="Kund" value={project.title} />
+            <div className="flex gap-8 shrink-0">
+              <MetaItem label="Status" value={project.status} first />
               <MetaItem label="Tjänst" value={project.category} />
               <MetaItem label="Datum" value={project.year} />
             </div>
@@ -107,12 +130,12 @@ export function StyledCaseScroll({ project }: { project: Project }) {
         </FadeIn>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          <div className="lg:sticky lg:top-32 lg:self-start flex flex-col gap-16">
+          <div className="lg:sticky lg:top-16 lg:self-start flex flex-col gap-16">
             <FadeIn>
               <div className="flex flex-col gap-16">
                 {project.challenge && <CaseBlock label="Utmaning" text={project.challenge} showLine={!!(project.solution || project.result)} />}
                 {project.solution && <CaseBlock label="Lösning" text={project.solution} showLine={!!project.result} />}
-                {project.result && <CaseBlock label="Resultat" text={project.result} />}
+                {project.result && <CaseBlock label="Resultat" text={project.result} showLine={!!(project.technologies && project.technologies.length > 0)} />}
                 {project.technologies && project.technologies.length > 0 && (
                   <TechStack technologies={project.technologies} />
                 )}
@@ -133,8 +156,9 @@ export function StyledCaseScroll({ project }: { project: Project }) {
             )}
           </div>
 
-          {project.conclusionImage && (
-            <div className="flex flex-col items-center">
+          {(project.conclusionImage || mobileImage || project.tabletImage || project.image) && (
+            <div className="flex flex-col items-center gap-10">
+              {project.conclusionImage && (
               <FadeIn>
                 <div className="w-full border border-black/20 bg-white overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
                   <div className="flex items-center gap-4 px-4 py-2.5 bg-[#f0f0ee] border-b border-black/10">
@@ -171,6 +195,11 @@ export function StyledCaseScroll({ project }: { project: Project }) {
                   </div>
                 </div>
               </FadeIn>
+              )}
+
+              {mobileImage && <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} maxHeight={380} />}
+              {project.tabletImage && <DeviceImage label="Surfplatta" src={project.tabletImage} specs={project.steps?.[1]?.uxImprovements} maxHeight={380} />}
+              {project.image && <DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} maxHeight={380} />}
             </div>
           )}
         </div>

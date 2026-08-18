@@ -4,6 +4,8 @@ export type ProjectStep = {
   image?: string;
   bullets?: string[];
   accentColor?: string;
+  uxImprovement?: string;
+  uxImprovements?: string[];
 };
 
 export type Project = {
@@ -26,13 +28,15 @@ export type Project = {
   mobileImage?: string;
   tabletImage?: string;
   conclusionImage?: string;
+  beforeAfter?: string;
+  beforeImage?: string;
 };
 
 export const PROJECTS: Project[] = [
   {
     slug: 'sagateatern',
     title: 'Sagateatern',
-    category: 'Webb & Varumärke',
+    category: 'Restaurang & Kultur',
     year: '2025',
     status: 'Lanserad',
     website: 'sagateatern.nu',
@@ -52,7 +56,7 @@ export const PROJECTS: Project[] = [
   {
     slug: 'crownmatch',
     title: 'Crownmatch',
-    category: 'Webb & Varumärke',
+    category: 'Rekrytering',
     year: '2025',
     status: 'Lanserad',
     image: '/digital/projekt/crownmatch/hero-laptop-mockup-2.png',
@@ -68,15 +72,16 @@ export const PROJECTS: Project[] = [
     result: 'En trygg och högkonverterande plattform som sänker tröskeln till kontakt, effektiviserar intag av nya underleverantörer och ger CrownMatch en professionell digital närvaro som överträffar Arbetsförmedlingens krav.',
     technologies: ['Framer', 'CMS', 'UX/UI Design', 'Custom Code'],
     steps: [
-      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/crownmatch/mobile-mockup.png' },
-      { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', image: '/digital/projekt/crownmatch/blogg-mockup.png' },
-      { title: 'Matchningar', description: 'Statistik och matchningsdata presenteras tydligt så användaren ser sin utveckling.', image: '/digital/projekt/crownmatch/matchningar-phone-mockup.png' },
+      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/crownmatch/mobile-mockup.png', uxImprovement: 'Modernare design', uxImprovements: ['Modernare design', 'Tydligare hierarki', 'Snabbare laddning'] },
+      { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', image: '/digital/projekt/crownmatch/blogg-mockup.png', uxImprovement: 'Enklare navigering', uxImprovements: ['Enklare navigering', 'Bättre struktur', 'Responsiv layout'] },
+      { title: 'Matchningar', description: 'Statistik och matchningsdata presenteras tydligt så användaren ser sin utveckling.', image: '/digital/projekt/crownmatch/matchningar-phone-mockup.png', uxImprovement: 'Tydligare uppmaningar (CTA)', uxImprovements: ['Tydligare uppmaningar (CTA)', 'Bättre datavisualisering', 'Ökad konvertering'] },
     ],
+    beforeAfter: 'Från en otydlig, svårnavigerad sida till en tydlig plattform som guider besökaren rätt.',
   },
   {
     slug: 'wastgota-bil',
     title: 'Wästgöta Bil AB',
-    category: 'Webb & Varumärke',
+    category: 'Bilhandel',
     year: '2025',
     status: 'Lanserad',
     accentColor: '#E85D3A',
@@ -95,7 +100,7 @@ export const PROJECTS: Project[] = [
   {
     slug: 'pistolero-studio',
     title: 'Pistolero Studio',
-    category: 'Design & UX',
+    category: 'Skönhet & Tatuering',
     year: '2025',
     status: 'Lanserad',
     accentColor: '#C93B5A',
@@ -114,7 +119,7 @@ export const PROJECTS: Project[] = [
   {
     slug: 'ljuva-hem-i-mark',
     title: 'Ljuva Hem i Mark',
-    category: 'Webb & Varumärke',
+    category: 'Städtjänst',
     year: '2025',
     status: 'Lanserad',
     accentColor: '#5BA88A',

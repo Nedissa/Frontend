@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { SectionHeader } from './SectionHeader';
 import { PROJECTS } from '../projekt-data';
 
-const CARD_HEIGHT = 480;
 const CARD_GAP = 56;
 
 export function ProjectsSection() {
@@ -42,9 +41,8 @@ export function ProjectsSection() {
             <div key={p.slug} className="flex flex-col">
               <Link
                 href={`/digital/projekt/${p.slug}`}
-                className="group flex flex-col cursor-pointer w-full box-border no-underline p-[20px]"
+                className="group flex flex-col cursor-pointer w-full box-border no-underline p-[20px] h-[380px] md:h-[560px]"
                 style={{
-                  height: `${CARD_HEIGHT}px`,
                   background: 'rgb(240,240,238)',
                   borderRadius: '8px',
                 }}
@@ -81,7 +79,7 @@ export function ProjectsSection() {
                       <img
                         src={p.cardImage}
                         alt={p.title}
-                        className="max-w-[100%] max-h-[100%] object-contain"
+                        className="w-[75%] h-auto object-contain"
                       />
                     )}
                   </div>
@@ -123,19 +121,11 @@ export function ProjectsSection() {
                   </span>
                 </div>
               </Link>
-              <div className="flex items-center justify-between pt-[16px]">
-                <span
-                  className="text-[12px]"
-                  style={{ color: 'rgb(104,105,99)' }}
-                >
-                  ({String(i + 1).padStart(2, '0')})
-                </span>
-                <span
-                  className="text-[12px] uppercase"
-                  style={{ letterSpacing: '0.08em', color: 'rgb(104,105,99)' }}
-                >
-                  {p.technologies?.join(' · ')}
-                </span>
+              <div className="flex items-start justify-between pt-[16px]">
+                <div className="flex flex-col gap-[2px]">
+                  <span className="text-[16px] font-semibold text-[#030303]">{p.title}</span>
+                  <span className="text-[13px]" style={{ color: 'rgb(104,105,99)' }}>{p.category}</span>
+                </div>
                 <span
                   className="text-[12px]"
                   style={{ color: 'rgb(104,105,99)' }}

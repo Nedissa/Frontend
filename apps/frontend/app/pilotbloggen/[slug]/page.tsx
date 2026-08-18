@@ -23,11 +23,21 @@ interface Post {
   content?: { root: { children: RichTextNode[] } };
   heroImage?: { url: string; alt?: string };
   meta?: { description?: string; image?: { url: string } };
+  relatedPosts?: { id: string; title: string; slug: string; heroImage?: { url: string }; meta?: { image?: { url: string } } }[];
+}
+
+function readingTime(post: Post): string {
+  const text = post.content?.root?.children
+    ?.flatMap(node => node.children?.map(c => c.text).filter(Boolean) || [])
+    .join(' ') || '';
+  const words = text.split(/\s+/).filter(Boolean).length;
+  const minutes = Math.max(1, Math.round(words / 200));
+  return `${minutes} min läsning`;
 }
 
 async function getPost(slug: string): Promise<Post | null> {
   try {
-    const res = await fetch(`${PAYLOAD_URL}/api/posts?where[slug][equals]=${slug}&where[_status][equals]=published`, {
+    const res = await fetch(`${PAYLOAD_URL}/api/posts?where[slug][equals]=${slug}&where[_status][equals]=published&depth=1`, {
       next: { revalidate: 60 },
     });
     if (!res.ok) return null;
@@ -76,23 +86,51 @@ export default async function BloggPostPage({ params }: { params: Promise<{ slug
           width: '100%',
           height: '420px',
           marginBottom: '40px',
+          borderRadius: '16px',
           background: post.heroImage?.url || post.meta?.image?.url
             ? `url(${post.heroImage?.url || post.meta?.image?.url}) center/cover no-repeat`
             : 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
         }} />
 
-        <p style={{ fontSize: '0.8rem', color: '#999', marginBottom: '12px' }}>
-          {new Date(post.createdAt).toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' })}
-        </p>
-        <h1 style={{ fontSize: '2rem', fontWeight: 800, lineHeight: 1.2, marginBottom: '32px' }}>{post.title}</h1>
-        <div style={{ fontSize: '1.05rem', color: '#333', lineHeight: 1.9, maxWidth: '720px' }}>
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', marginBottom: '12px' }}>
+          <p style={{ fontSize: '0.8rem', color: '#999' }}>
+            {new Date(post.createdAt).toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' })}
+          </p>
+          <span style={{ fontSize: '0.8rem', color: '#ccc' }}>·</span>
+          <p style={{ fontSize: '0.8rem', color: '#999' }}>{readingTime(post)}</p>
+        </div>
+        <h1 style={{ fontSize: '2.75rem', fontWeight: 800, lineHeight: 1.1, marginBottom: '32px' }}>{post.title}</h1>
+        <div style={{ fontSize: '1.05rem', color: '#333', lineHeight: 1.9 }}>
           {post.content?.root?.children?.map((node, i) => renderNode(node, i))}
         </div>
 
-        <div style={{ maxWidth: '720px', marginTop: '48px' }}>
+        <div style={{ marginTop: '48px' }}>
           <h2 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '24px' }}>Frågor & svar</h2>
           <GuideQuestions guideSlug={post.slug} />
         </div>
+
+        {post.relatedPosts && post.relatedPosts.length > 0 && (
+          <div style={{ marginTop: '56px' }}>
+            <h2 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '24px' }}>Relaterade artiklar</h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '20px' }}>
+              {post.relatedPosts.map(related => {
+                const relatedImage = related.heroImage?.url || related.meta?.image?.url;
+                return (
+                  <Link key={related.id} href={`/pilotbloggen/${related.slug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <div style={{
+                      width: '100%',
+                      height: '140px',
+                      borderRadius: '12px',
+                      marginBottom: '10px',
+                      background: relatedImage ? `url(${relatedImage}) center/cover no-repeat` : 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
+                    }} />
+                    <p style={{ fontSize: '0.9rem', fontWeight: 700, lineHeight: 1.3 }}>{related.title}</p>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        )}
       </div>
     </MainLayout>
   );

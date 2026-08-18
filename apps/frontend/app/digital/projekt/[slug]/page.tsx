@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PROJECTS } from '../../projekt-data';
-import { StyledBenefitScroll } from '../../components/styled/StyledBenefitScroll';
-import { StyledTabletShowcase } from '../../components/styled/StyledTabletShowcase';
 import { StyledCaseScroll } from '../../components/styled/StyledCaseScroll';
 import { CtaSection } from '../../components/CtaSection';
 
@@ -33,10 +31,6 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   return (
     <main className="bg-white text-[#030303] relative">
       <StyledCaseScroll project={project} />
-
-      <StyledBenefitScroll projectTitle={project.title} benefits={project.steps} projectAccentColor={project.accentColor} />
-
-      <StyledTabletShowcase project={project} />
 
       <CtaSection />
     </main>

@@ -52,9 +52,9 @@ export function MobileHeader({
           onClick={onToggleMobileMenu}
           aria-label="Meny"
           className="inline-flex items-center justify-center flex-shrink-0 self-stretch"
-          style={{ background: 'white', width: '56px' }}
+          style={{ background: 'white', width: '44px' }}
         >
-          <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+          <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none">
             {mobileMenuOpen
               ? <path strokeLinecap="round" strokeLinejoin="round" stroke="#111" strokeWidth="1.5" d="M6 18L18 6M6 6l12 12" />
               : <path stroke="#111" strokeWidth="2.5" strokeLinecap="round" d="M3 6h18M3 12h18M3 18h18"/>}

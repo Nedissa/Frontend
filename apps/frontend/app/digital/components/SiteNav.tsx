@@ -15,15 +15,15 @@ const links = [
 const BURGER_BAR_STYLE_BASE: React.CSSProperties = {
   position: 'absolute',
   left: '50%',
-  width: '22px',
+  width: '18px',
   height: '2.5px',
   borderRadius: '2px',
   transition: 'transform 0.3s cubic-bezier(0.76, 0, 0.24, 1), top 0.3s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.2s ease, background 0.3s ease',
 };
 
 const LOGO_CIRCLE_STYLE: React.CSSProperties = {
-  width: '52px',
-  height: '52px',
+  width: '44px',
+  height: '44px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -32,8 +32,8 @@ const LOGO_CIRCLE_STYLE: React.CSSProperties = {
 };
 
 const LOGO_IMG_STYLE: React.CSSProperties = {
-  width: '48px',
-  height: '48px',
+  width: '40px',
+  height: '40px',
   filter: 'none',
   transition: 'opacity 0.3s ease',
 };
@@ -226,7 +226,7 @@ export function SiteNav() {
         className="nav-burger"
         style={{
           display: 'none',
-          width: '40px', height: '40px', alignItems: 'center', justifyContent: 'center',
+          width: '34px', height: '34px', alignItems: 'center', justifyContent: 'center',
           background: 'rgba(20,20,22,0.85)',
           border: 'none',
           borderRadius: '10px', cursor: 'pointer', flexShrink: 0,
