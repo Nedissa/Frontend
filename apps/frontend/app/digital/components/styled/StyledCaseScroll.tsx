@@ -92,9 +92,9 @@ function MetaItem({ label, value, first }: { label: string; value: string; first
   );
 }
 
-function DeviceImage({ label, src, specs, maxHeight }: { label: string; src: string; specs?: string[]; maxHeight: number }) {
+function DeviceImage({ label, src, specs, maxHeight, accentColor }: { label: string; src: string; specs?: string[]; maxHeight: number; accentColor?: string }) {
   return (
-    <div className="w-full border-t border-black/10 pt-10 flex flex-col items-center gap-3">
+    <div className="w-full border-t border-black/10 pt-10 flex flex-col items-center gap-6">
       <img
         src={src}
         alt={label}
@@ -102,7 +102,14 @@ function DeviceImage({ label, src, specs, maxHeight }: { label: string; src: str
         style={{ maxHeight }}
       />
       {specs && specs.length > 0 && (
-        <span className="text-xs font-medium text-[#5c5c58]">{specs.join(' · ')}</span>
+        <span className="flex items-center gap-4 text-xs font-medium text-[#5c5c58]">
+          {specs.map((spec) => (
+            <span key={spec} className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 shrink-0" style={{ backgroundColor: accentColor ?? '#E8C547' }} />
+              {spec}
+            </span>
+          ))}
+        </span>
       )}
     </div>
   );
@@ -197,9 +204,9 @@ export function StyledCaseScroll({ project }: { project: Project }) {
               </FadeIn>
               )}
 
-              {mobileImage && <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} maxHeight={380} />}
-              {project.tabletImage && <DeviceImage label="Surfplatta" src={project.tabletImage} specs={project.steps?.[1]?.uxImprovements} maxHeight={380} />}
-              {project.image && <DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} maxHeight={380} />}
+              {mobileImage && <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} maxHeight={380} accentColor={project.accentColor} />}
+              {project.tabletImage && <DeviceImage label="Surfplatta" src={project.tabletImage} specs={project.steps?.[1]?.uxImprovements} maxHeight={380} accentColor={project.accentColor} />}
+              {project.image && <DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} maxHeight={380} accentColor={project.accentColor} />}
             </div>
           )}
         </div>
