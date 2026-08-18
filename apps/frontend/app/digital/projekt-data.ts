@@ -21,8 +21,11 @@ export type Project = {
   accentColor?: string;
   website?: string;
   challenge?: string;
+  challengeTitle?: string;
   solution?: string;
+  solutionTitle?: string;
   result?: string;
+  resultTitle?: string;
   technologies?: string[];
   steps?: ProjectStep[];
   mobileImage?: string;
@@ -67,9 +70,12 @@ export const PROJECTS: Project[] = [
     accentColor: '#E8C547',
     tagline: 'Rusta och matcha, vägen till jobb och framtid',
     description: 'Vi har fått i uppdrag att utveckla en webbplats för CrownMatch, leverantör av Arbetsförmedlingens tjänst Rusta & Matcha. Efter att ha träffat teamet för att förstå deras vision och behov skapar vi en modern, lättnavigerad plattform som gör det enkelt för arbetssökande att hitta information, ta del av tjänsterna samt komma i kontakt. Webbplatsen speglar varumärket CrownMatch och underlättar kommunikationen mellan kandidater och arbetsgivare på ett engagerande sätt.',
-    challenge: 'Som huvudleverantör till Arbetsförmedlingen för Rusta och Matcha behövde CrownMatch en multifunktionell digital plattform. Utmaningen var dubbel: att dels förklara och förenkla resan för arbetssökande, från beslut till uppstart, och dels attrahera och konvertera nya underleverantörer och samarbetspartners till deras nätverk. Samtidigt förbjöd stränga sekretesskrav bilder på riktiga deltagare.',
-    solution: 'En modern, konverteringsdriven webbplats byggd i Framer. Med intuitiv UX/UI-design, skräddarsydd kod och ett smidigt CMS skapades en tydlig uppdelning där både arbetssökande och blivande underleverantörer möts av skräddarsydda flöden. För att lösa sekretessutmaningen utan att tappa den mänskliga känslan användes AI-genererade bilder för att representera besökarna. Plattformen guidar enkelt nya partners genom hela ansöknings- och avtalsprocessen.',
+    challenge: 'Som huvudleverantör till Arbetsförmedlingen för Rusta och Matcha behövde CrownMatch en multifunktionell digital plattform. Utmaningen var dubbel: förenkla resan för arbetssökande och samtidigt attrahera nya underleverantörer, utan att kunna visa bilder på riktiga deltagare.',
+    challengeTitle: 'Multifunktionell digital plattform',
+    solution: 'En modern, konverteringsdriven webbplats byggd i Framer. Med intuitiv UX/UI-design och smidigt CMS skapades skräddarsydda flöden för både arbetssökande och underleverantörer. AI-genererade bilder löste sekretessutmaningen utan att tappa den mänskliga känslan.',
+    solutionTitle: 'Konverteringsdriven webbplats',
     result: 'En trygg och högkonverterande plattform som sänker tröskeln till kontakt, effektiviserar intag av nya underleverantörer och ger CrownMatch en professionell digital närvaro som överträffar Arbetsförmedlingens krav.',
+    resultTitle: 'Högkonverterande plattform',
     technologies: ['Framer', 'CMS', 'UX/UI Design', 'Custom Code'],
     steps: [
       { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/crownmatch/mobile-mockup.png', uxImprovement: 'Modernare design', uxImprovements: ['Modernare design', 'Tydligare hierarki', 'Snabbare laddning'] },
