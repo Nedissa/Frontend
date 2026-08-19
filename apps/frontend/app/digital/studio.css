@@ -5,21 +5,11 @@ iframe.cal-embed {
 .contact-btn-primary {
   background: #e8c547;
   color: #030303;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-.contact-btn-primary:hover {
-  background: #030303;
-  color: #e8c547;
 }
 
 .contact-btn-secondary {
   background: #030303;
   color: #fff;
-  transition: background-color 0.2s ease, color 0.2s ease;
-}
-.contact-btn-secondary:hover {
-  background: #e8c547;
-  color: #030303;
 }
 
 .contact-btn-icon {
@@ -30,23 +20,21 @@ iframe.cal-embed {
   height: 28px;
   border-radius: 4px;
   flex-shrink: 0;
-  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.contact-btn-icon svg {
+  transition: transform 0.25s ease;
+}
+.contact-btn-primary:hover .contact-btn-icon svg,
+.contact-btn-secondary:hover .contact-btn-icon svg {
+  transform: rotate(45deg);
 }
 .contact-btn-primary .contact-btn-icon {
-  background: #030303;
-  color: #e8c547;
-}
-.contact-btn-primary:hover .contact-btn-icon {
   background: #030303;
   color: #e8c547;
 }
 .contact-btn-secondary .contact-btn-icon {
   background: #e8c547;
   color: #030303;
-}
-.contact-btn-secondary:hover .contact-btn-icon {
-  background: #030303;
-  color: #e8c547;
 }
 
 @keyframes marquee {
