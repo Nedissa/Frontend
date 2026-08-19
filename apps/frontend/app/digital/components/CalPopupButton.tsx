@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 export function CalPopupButton({ className, style, children }: { className?: string; style?: React.CSSProperties; children: React.ReactNode }) {
   useEffect(() => {
     (function (C: any, A: string, L: string) {
-      let p = function (a: any, ar: any) { a.q.push(ar); };
+      let p = function (a: { q: any[] }, ar: any) { a.q.push(ar); };
       let d = C.document;
       C.Cal = C.Cal || function (...args: any[]) {
         let cal = C.Cal;
@@ -16,9 +16,11 @@ export function CalPopupButton({ className, style, children }: { className?: str
           cal.loaded = true;
         }
         if (ar[0] === L) {
-          const api = function (...apiArgs: any[]) { p(api, apiArgs); };
+          const api: { (...apiArgs: any[]): void; q: any[] } = Object.assign(
+            function (...apiArgs: any[]) { p(api, apiArgs); },
+            { q: [] as any[] }
+          );
           const namespace = ar[1];
-          api.q = api.q || [];
           if (typeof namespace === 'string') {
             cal.ns[namespace] = cal.ns[namespace] || api;
             p(cal.ns[namespace], ar);
