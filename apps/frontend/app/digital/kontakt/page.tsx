@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Image from 'next/image';
 import { CalPopupButton } from '../components/CalPopupButton';
 
 const inputStyle: React.CSSProperties = {
@@ -20,10 +21,15 @@ export default function ContactPage() {
     <main style={{ position: 'relative', color: '#030303', fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <div className="contact-hero" style={{ position: 'relative', height: '100vh', boxSizing: 'border-box', background: '#fff', overflow: 'hidden' }}>
       <div className="grid-responsive-2" style={{ position: 'relative', maxWidth: '1320px', margin: '0 auto', padding: '140px 32px 60px', height: '100%', boxSizing: 'border-box', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'stretch' }}>
-        <div style={{
-          width: '100%', height: '100%', borderRadius: '4px',
-          background: 'radial-gradient(circle at 30% 20%, #e8c547 0%, #d9d9d9 55%, #f0f0f0 100%)',
-        }} />
+        <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '4px', overflow: 'hidden' }}>
+          <Image
+            src="/digital/boras-kontakt.avif"
+            alt="Gatuvy i Borås"
+            fill
+            style={{ objectFit: 'cover' }}
+            priority
+          />
+        </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', boxSizing: 'border-box' }}>
           <h1 style={{ fontSize: 'clamp(36px,4.5vw,56px)', fontWeight: 800, letterSpacing: '-0.03em', color: '#030303', margin: '0 0 24px' }}>
