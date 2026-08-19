@@ -1,3 +1,7 @@
+iframe.cal-embed {
+  max-width: min(94vw, 1100px) !important;
+}
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }

@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { CalPopupButton } from '../components/CalPopupButton';
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
@@ -83,17 +84,29 @@ export default function ContactPage() {
               <textarea id="message" rows={3} placeholder="Skriv ditt meddelande..." style={{ ...inputStyle, resize: 'vertical' }} />
             </div>
 
-            <button
-              type="submit"
-              disabled={submitting}
-              style={{
-                marginTop: '4px', padding: '16px', borderRadius: '4px', border: 'none',
-                background: '#e8c547', color: '#030303', fontSize: '15px', fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
-              {submitting ? 'Skickar...' : 'Skicka'}
-            </button>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginTop: '4px' }}>
+              <button
+                type="submit"
+                disabled={submitting}
+                style={{
+                  padding: '16px', borderRadius: '4px', border: 'none',
+                  background: '#e8c547', color: '#030303', fontSize: '15px', fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                {submitting ? 'Skickar...' : 'Skicka'}
+              </button>
+
+              <CalPopupButton
+                style={{
+                  padding: '16px', borderRadius: '4px', border: 'none',
+                  background: '#030303', color: '#fff', fontSize: '15px', fontWeight: 600,
+                  cursor: 'pointer',
+                }}
+              >
+                Boka möte
+              </CalPopupButton>
+            </div>
           </form>
         </div>
       </div>

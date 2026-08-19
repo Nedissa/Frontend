@@ -104,13 +104,13 @@ function DeviceImage({ label, src, specs, maxHeight, accentColor, hideSpecs }: {
   );
 }
 
-export function StyledCaseScroll({ project }: { project: Project }) {
+export function ProjectPageTemplate({ project }: { project: Project }) {
   const mobileImage = project.steps?.[0]?.image;
 
   if (!project.challenge && !project.solution && !project.result && !project.conclusionImage) return null;
 
   return (
-    <section className="relative pt-32 md:pt-40">
+    <section className="case-scroll-no-mobile-anim relative pt-32 md:pt-40">
       <div className="max-w-[1440px] mx-auto w-full px-6 md:px-12 box-border pb-16 md:pb-24 lg:pb-32">
         <FadeIn>
           <div className="max-w-[1440px] mx-auto flex flex-col items-start gap-6 mb-16">

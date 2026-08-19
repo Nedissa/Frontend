@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PROJECTS } from '../../projekt-data';
-import { StyledCaseScroll } from '../../components/styled/StyledCaseScroll';
+import { ProjectPageTemplate } from '../../components/styled/ProjectPageTemplate';
 import { CtaSection } from '../../components/CtaSection';
 
 export function generateStaticParams() {
@@ -30,7 +30,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   return (
     <main className="bg-white text-[#030303] relative">
-      <StyledCaseScroll project={project} />
+      <ProjectPageTemplate project={project} />
 
       <CtaSection />
     </main>
