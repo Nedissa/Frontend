@@ -63,7 +63,7 @@ function HeroPromo() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         <div className="flex items-center gap-[16px]" style={{ flexWrap: 'nowrap' }}>
           <CalPopupButton
-            className="inline-flex items-center gap-[8px] w-fit px-[28px] py-[16px] text-[15px] font-semibold rounded-full no-underline whitespace-nowrap"
+            className="inline-flex items-center gap-[8px] w-fit px-[20px] py-[12px] sm:px-[28px] sm:py-[16px] text-[14px] sm:text-[15px] font-semibold rounded-full no-underline whitespace-nowrap"
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
             style={{
@@ -78,7 +78,7 @@ function HeroPromo() {
           </CalPopupButton>
           <a
             href="/digital#projekt"
-            className="inline-flex items-center w-fit px-[28px] py-[16px] text-[15px] font-semibold rounded-full no-underline whitespace-nowrap"
+            className="inline-flex items-center w-fit px-[20px] py-[12px] sm:px-[28px] sm:py-[16px] text-[14px] sm:text-[15px] font-semibold rounded-full no-underline whitespace-nowrap"
             style={{
               color: '#fff',
               border: '2px solid rgba(255,255,255,0.4)',
