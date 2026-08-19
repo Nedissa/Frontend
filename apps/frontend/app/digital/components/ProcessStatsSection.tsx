@@ -10,7 +10,7 @@ const PROJECT_TYPES = [
   { label: 'Webbutveckling', value: 40, color: '#030303' },
   { label: 'E-handel', value: 30, color: '#e8c547' },
   { label: 'CMS', value: 20, color: '#a8a8a8' },
-  { label: 'Optimering & SEO', value: 10, color: '#e2e2e2' },
+  { label: 'SEO', value: 10, color: '#e2e2e2' },
 ];
 
 const WORK_BARS = [
