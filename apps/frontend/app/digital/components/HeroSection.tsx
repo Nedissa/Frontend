@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { FloatingParticles } from './FloatingParticles';
 import { ShootingStars } from './ShootingStars';
+import { CalPopupButton } from './CalPopupButton';
 
 const MOUSE_SPRING_CONFIG = { stiffness: 40, damping: 20, mass: 0.6 };
 
@@ -61,8 +62,7 @@ function HeroPromo() {
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         <div className="flex items-center gap-[16px]" style={{ flexWrap: 'nowrap' }}>
-          <motion.a
-            href="/digital/kontakt"
+          <CalPopupButton
             className="inline-flex items-center gap-[8px] w-fit px-[28px] py-[16px] text-[15px] font-semibold rounded-full no-underline whitespace-nowrap"
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
@@ -73,9 +73,9 @@ function HeroPromo() {
               transition: 'background 0.3s ease, color 0.3s ease, border-color 0.3s ease',
             }}
           >
-            Boka konsultation
+            Boka ett samtal
             <span>↗</span>
-          </motion.a>
+          </CalPopupButton>
           <a
             href="/digital#projekt"
             className="inline-flex items-center w-fit px-[28px] py-[16px] text-[15px] font-semibold rounded-full no-underline whitespace-nowrap"

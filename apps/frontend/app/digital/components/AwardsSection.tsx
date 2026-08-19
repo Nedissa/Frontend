@@ -3,12 +3,12 @@ import { useState } from 'react';
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
 import { useScrollActiveIndex } from './useScrollActiveIndex';
+import { CalPopupButton } from './CalPopupButton';
 
 function PillButton() {
   const [hovered, setHovered] = useState(false);
   return (
-    <a
-      href="/digital#kontakt"
+    <CalPopupButton
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className="inline-flex items-center justify-between rounded-full gap-[40px] no-underline cursor-pointer relative overflow-hidden min-w-[220px]"
@@ -33,7 +33,7 @@ function PillButton() {
           transition: 'color 0.3s',
         }}
       >
-        Låt oss prata
+        Boka ett samtal
       </span>
       <span
         className="relative z-[1] w-[34px] h-[34px] rounded-full flex items-center justify-center shrink-0"
@@ -70,7 +70,7 @@ function PillButton() {
           />
         </span>
       </span>
-    </a>
+    </CalPopupButton>
   );
 }
 

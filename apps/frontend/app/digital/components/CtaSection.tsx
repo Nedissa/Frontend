@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
-import Link from 'next/link';
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
+import { CalPopupButton } from './CalPopupButton';
 
 export function CtaSection() {
   const [hovered, setHovered] = React.useState(false);
@@ -22,8 +22,7 @@ export function CtaSection() {
           </FadeIn>
 
           <FadeIn delay={0.08}>
-            <Link
-              href="/digital/kontakt"
+            <CalPopupButton
               onMouseEnter={() => setHovered(true)}
               onMouseLeave={() => setHovered(false)}
               style={{
@@ -35,11 +34,11 @@ export function CtaSection() {
                 cursor: 'pointer',
               }}
             >
-              Starta ditt projekt idag
+              Boka ett samtal
               <svg width="16" height="16" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0 }} aria-hidden="true">
                 <path d="M2 2L12 2L12 12L2 2Z" fill={hovered ? '#e8c547' : '#030303'} />
               </svg>
-            </Link>
+            </CalPopupButton>
           </FadeIn>
         </div>
       </div>

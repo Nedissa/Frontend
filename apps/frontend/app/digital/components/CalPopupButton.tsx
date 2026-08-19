@@ -1,7 +1,13 @@
 'use client';
 import { useEffect } from 'react';
 
-export function CalPopupButton({ className, style, children }: { className?: string; style?: React.CSSProperties; children: React.ReactNode }) {
+export function CalPopupButton({ className, style, children, onMouseEnter, onMouseLeave }: {
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+}) {
   useEffect(() => {
     (function (C: any, A: string, L: string) {
       let p = function (a: { q: any[] }, ar: any) { a.q.push(ar); };
@@ -48,6 +54,8 @@ export function CalPopupButton({ className, style, children }: { className?: str
       type="button"
       className={className}
       style={style}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       data-cal-namespace="30min"
       data-cal-link="nedal-issa-yzvxhf/30min"
       data-cal-config='{"layout":"month_view","theme":"light"}'

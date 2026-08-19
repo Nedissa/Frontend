@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { FadeIn } from '../FadeIn';
-import { ITALIC, PrimaryButton, StyledSection } from './StyledPrimitives';
+import { ITALIC, StyledSection } from './StyledPrimitives';
+import { CalPopupButton } from '../CalPopupButton';
 
 export function StyledCtaNav({ prevSlug, nextSlug }: { prevSlug: string; nextSlug: string }) {
   return (
@@ -14,7 +15,9 @@ export function StyledCtaNav({ prevSlug, nextSlug }: { prevSlug: string; nextSlu
             >
               Vill du ha samma resultat?
             </h2>
-            <PrimaryButton href="/digital/kontakt">Boka möte</PrimaryButton>
+            <CalPopupButton className="group inline-flex items-center gap-2 px-6 py-3 bg-[#e8c547] text-[#030303] text-sm font-semibold rounded-full no-underline shadow-[0_8px_24px_rgba(232,197,71,0.35)] transition-all duration-300 hover:bg-[#030303] hover:text-[#e8c547] hover:shadow-[0_12px_32px_rgba(3,3,3,0.25)] hover:scale-[1.02]">
+              Boka ett samtal
+            </CalPopupButton>
           </div>
         </FadeIn>
       </StyledSection>
