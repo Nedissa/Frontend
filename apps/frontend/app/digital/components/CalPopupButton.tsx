@@ -57,7 +57,7 @@ export function CalPopupButton({ className, style, children, onMouseEnter, onMou
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       data-cal-namespace="30min"
-      data-cal-link="nedal-issa-yzvxhf/30min"
+      data-cal-link="nedal-issa/30min"
       data-cal-config='{"layout":"month_view","theme":"light"}'
     >
       {children}
