@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import Image from 'next/image';
 import { CalPopupButton } from '../components/CalPopupButton';
 
 const inputStyle: React.CSSProperties = {
@@ -21,14 +20,17 @@ export default function ContactPage() {
     <main style={{ position: 'relative', color: '#030303', fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <div className="contact-hero" style={{ position: 'relative', height: '100vh', boxSizing: 'border-box', background: '#fff', overflow: 'hidden' }}>
       <div className="grid-responsive-2" style={{ position: 'relative', maxWidth: '1320px', margin: '0 auto', padding: '140px 32px 60px', height: '100%', boxSizing: 'border-box', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'stretch' }}>
-        <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '4px', overflow: 'hidden' }}>
-          <Image
-            src="/digital/boras-kontakt.avif"
-            alt="Gatuvy i Borås"
-            fill
-            style={{ objectFit: 'cover' }}
-            priority
-          />
+        <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '4px', overflow: 'hidden', background: '#f0f0f0' }}>
+          <div style={{
+            position: 'absolute', top: '-10%', right: '-15%',
+            width: '65%', aspectRatio: '1/1', borderRadius: '50%',
+            background: '#e8c547',
+          }} />
+          <div style={{
+            position: 'absolute', bottom: '-8%', left: '-8%',
+            width: '55%', aspectRatio: '1/1',
+            background: '#030303',
+          }} />
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', boxSizing: 'border-box' }}>
