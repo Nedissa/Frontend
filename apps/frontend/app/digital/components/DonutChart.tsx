@@ -31,7 +31,7 @@ export function DonutChart({ data, centerLabel }: { data: DonutSlice[]; centerLa
         offset += dash;
         return el;
       })}
-      <text x="70" y="76" textAnchor="middle" fontSize="22" fontWeight="700" fill="#030303">{centerLabel}</text>
+      <text x="70" y="75" textAnchor="middle" fontSize="18" fontWeight="700" fill="#030303">{centerLabel}</text>
     </svg>
   );
 }

@@ -32,7 +32,7 @@ export function AnimatedBars({ bars, max }: { bars: Bar[]; max: number }) {
               boxSizing: 'border-box',
             }}
           >
-            <span style={{ fontSize: '13px', fontWeight: 700, color: d.color === '#030303' ? '#fff' : '#030303' }}>{d.value}</span>
+            <span style={{ fontSize: '13px', fontWeight: 700, color: d.color === '#030303' ? '#fff' : '#030303' }}>{d.value}%</span>
           </motion.div>
         </div>
       ))}

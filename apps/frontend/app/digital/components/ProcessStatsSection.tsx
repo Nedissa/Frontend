@@ -3,21 +3,30 @@ import { SectionHeader } from './SectionHeader';
 import { ServiceSection } from './ServiceSection';
 import { DonutChart } from './DonutChart';
 import { AnimatedBars } from './AnimatedBars';
-import { AnimatedDots } from './AnimatedDots';
+import { QaBarList } from './QaBarList';
 import { CountUp } from './CountUp';
 
 const PROJECT_TYPES = [
-  { label: 'Webbutveckling', value: 40, color: '#030303' },
-  { label: 'E-handel', value: 30, color: '#e8c547' },
-  { label: 'CMS', value: 20, color: '#a8a8a8' },
-  { label: 'SEO', value: 10, color: '#e2e2e2' },
+  { label: 'Skönhet', value: 40, color: '#030303' },
+  { label: 'Bilhandel', value: 20, color: '#e8c547' },
+  { label: 'Restaurang', value: 20, color: '#a8a8a8' },
+  { label: 'Rekrytering', value: 20, color: '#e2e2e2' },
 ];
 
 const WORK_BARS = [
-  { label: 'Test & QA', value: 15, color: '#9a9a9a' },
   { label: 'Design', value: 25, color: '#030303' },
   { label: 'Utveckling', value: 45, color: '#e8c547' },
-  { label: 'Lansering', value: 35, color: '#b8b8b8' },
+  { label: 'Test & QA', value: 20, color: '#9a9a9a' },
+  { label: 'Lansering', value: 10, color: '#b8b8b8' },
+];
+
+const QA_CHECKS = [
+  'Prestanda och laddtid',
+  'Responsiv design',
+  'SEO-optimering',
+  'Core Web Vitals',
+  'Säkerhet och kryptering',
+  'WCAG-anpassad',
 ];
 
 const HEADLINE_STATS = [
@@ -37,11 +46,12 @@ export function ProcessStatsSection() {
       >
         <FadeIn>
           <div className="h-full box-border">
-            <h3 className="text-[20px] font-bold text-[#030303] m-0 mb-[12px]">Projekttyper</h3>
+            <h3 className="text-[20px] font-bold text-[#030303] m-0 mb-[4px]">Branscher</h3>
+            <p className="text-[13px] m-0 mb-[16px]" style={{ color: 'rgb(140,140,134)' }}>Vi bygger webbplatser för</p>
             <div className="animate-blink w-[32px] h-[2px] mb-[32px]" style={{ background: 'rgb(200,200,200)' }} />
 
             <div className="flex items-end gap-[32px] h-[200px]">
-              <DonutChart data={PROJECT_TYPES} centerLabel="100" />
+              <DonutChart data={PROJECT_TYPES} centerLabel="100%" />
 
               <div className="flex flex-col gap-[10px] mb-[8px]">
                 {PROJECT_TYPES.map((d) => (
@@ -54,7 +64,7 @@ export function ProcessStatsSection() {
                       }}
                       aria-hidden="true"
                     />
-                    {d.label} <span style={{ color: 'rgb(104,105,99)' }}>{d.value}</span>
+                    {d.label} <span style={{ color: 'rgb(104,105,99)' }}>{d.value}%</span>
                   </div>
                 ))}
               </div>
@@ -64,12 +74,13 @@ export function ProcessStatsSection() {
 
         <FadeIn delay={0.06}>
           <div className="h-full box-border">
-            <h3 className="text-[20px] font-bold text-[#030303] m-0 mb-[12px]">Var arbetet läggs</h3>
+            <h3 className="text-[20px] font-bold text-[#030303] m-0 mb-[4px]">Var arbetet läggs</h3>
+            <p className="text-[13px] m-0 mb-[16px]" style={{ color: 'rgb(140,140,134)' }}>Ungefärlig tidsfördelning per fas</p>
             <div className="w-[32px] h-[2px] mb-[32px]" style={{ background: 'rgb(200,200,200)' }} />
 
             <AnimatedBars max={45} bars={WORK_BARS} />
             <div className="flex gap-[20px] mt-[12px]">
-              {['Test', 'Design', 'Utveckling', 'Lansering'].map((l) => (
+              {WORK_BARS.map((b) => b.label).map((l) => (
                 <div key={l} className="flex-1 text-center text-[13px] font-semibold text-[#030303]">{l}</div>
               ))}
             </div>
@@ -78,23 +89,11 @@ export function ProcessStatsSection() {
 
         <FadeIn delay={0.12}>
           <div className="h-full box-border">
-            <h3 className="text-[20px] font-bold text-[#030303] m-0 mb-[12px]">Tjänster per projekt</h3>
+            <h3 className="text-[20px] font-bold text-[#030303] m-0 mb-[4px]">Kvalitetssäkring</h3>
+            <p className="text-[13px] m-0 mb-[16px]" style={{ color: 'rgb(140,140,134)' }}>Det här testar vi alltid för</p>
             <div className="w-[32px] h-[2px] mb-[32px]" style={{ background: 'rgb(200,200,200)' }} />
 
-            <div className="flex items-end gap-[28px] h-[200px]">
-              <AnimatedDots count={32} filled={24} />
-
-              <div className="flex flex-col gap-[10px] self-center">
-                <div className="flex items-center gap-[8px] text-[14px] text-[#030303]">
-                  <span className="w-[8px] h-[8px] rounded-full bg-[#030303] shrink-0" aria-hidden="true" />
-                  Ingår
-                </div>
-                <div className="flex items-center gap-[8px] text-[14px] text-[#030303]">
-                  <span className="w-[8px] h-[8px] rounded-full bg-[#d8d8d8] shrink-0" aria-hidden="true" />
-                  Tillval
-                </div>
-              </div>
-            </div>
+            <QaBarList items={QA_CHECKS} />
           </div>
         </FadeIn>
       </div>
