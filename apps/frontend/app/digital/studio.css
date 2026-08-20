@@ -47,6 +47,29 @@ iframe.cal-embed {
   color: #030303;
 }
 
+@keyframes shapeIn {
+  0% { opacity: 0; transform: scale(0.85); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.animate-shape-in {
+  animation: shapeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes pacmanBounce {
+  0%   { top: 55%; left: 5%; }
+  15%  { top: 12%; left: 40%; }
+  32%  { top: 55%; left: 88%; }
+  50%  { top: 92%; left: 55%; }
+  68%  { top: 55%; left: 88%; }
+  85%  { top: 12%; left: 40%; }
+  100% { top: 55%; left: 5%; }
+}
+.pacman {
+  animation:
+    shapeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both,
+    pacmanBounce 11s linear 0.6s infinite;
+}
+
 @keyframes marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -165,6 +188,17 @@ button:focus-visible {
     height: auto !important;
     min-height: 100vh !important;
     overflow: visible !important;
+  }
+
+  .contact-hero .grid-responsive-2 {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .contact-btn-primary,
+  .contact-btn-secondary {
+    padding: 12px 16px !important;
+    font-size: 13px !important;
   }
 
   .grid-footer {

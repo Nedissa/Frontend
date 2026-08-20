@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Image from 'next/image';
 import { CalPopupButton } from '../components/CalPopupButton';
 
 const inputStyle: React.CSSProperties = {
@@ -18,31 +19,41 @@ export default function ContactPage() {
 
   return (
     <main style={{ position: 'relative', color: '#030303', fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
-      <div className="contact-hero" style={{ position: 'relative', height: '100vh', boxSizing: 'border-box', background: '#fff', overflow: 'hidden' }}>
-      <div className="grid-responsive-2" style={{ position: 'relative', maxWidth: '1320px', margin: '0 auto', padding: '140px 32px 60px', height: '100%', boxSizing: 'border-box', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'stretch' }}>
-        <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '4px', overflow: 'hidden', background: '#f0f0f0' }}>
-          <div style={{
-            position: 'absolute', top: '-10%', right: '-15%',
-            width: '65%', aspectRatio: '1/1', borderRadius: '50%',
-            background: '#e8c547',
-          }} />
-          <div style={{
-            position: 'absolute', bottom: '-8%', left: '-8%',
-            width: '55%', aspectRatio: '1/1',
-            background: '#030303',
-          }} />
-          <div style={{
-            position: 'absolute', inset: 0, pointerEvents: 'none',
-            backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-            opacity: 0.05,
-            mixBlendMode: 'overlay',
-          }} />
+      <div className="contact-hero" style={{ position: 'relative', minHeight: '100vh', boxSizing: 'border-box', background: '#fff', display: 'flex', alignItems: 'center' }}>
+      <div className="grid-responsive-2" style={{ position: 'relative', maxWidth: '1320px', margin: '0 auto', padding: '140px 32px 60px', boxSizing: 'border-box', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'stretch', width: '100%' }}>
+        <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '4px', overflow: 'hidden', background: '#030303', display: 'flex', flexDirection: 'column', boxSizing: 'border-box', padding: '32px' }}>
+          <span style={{ position: 'relative', display: 'inline-block', alignSelf: 'flex-start', background: '#e8c547', color: '#030303', fontSize: '12px', fontWeight: 600, letterSpacing: '0.05em', padding: '6px 14px', marginBottom: '24px' }}>
+            KOSTNADSFRI RÅDGIVNING
+          </span>
+          <h2 style={{ position: 'relative', fontSize: 'clamp(40px,5.2vw,64px)', fontWeight: 800, letterSpacing: '-0.03em', textTransform: 'uppercase', color: '#fff', margin: 0, lineHeight: 0.95 }}>
+            Redo att ta <span style={{ color: '#e8c547' }}>nästa</span> steg?
+          </h2>
+
+          <div style={{ flex: 1 }} />
+
+          <div style={{ position: 'relative', borderTop: '1px solid rgba(255,255,255,0.15)', paddingTop: '32px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
+            <span style={{ fontSize: '48px', lineHeight: 1, fontWeight: 800, color: '#e8c547', fontFamily: 'Georgia, serif', margin: '0 0 4px' }}>
+              &quot;
+            </span>
+            <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
+              <span style={{ width: '3px', alignSelf: 'stretch', background: '#e8c547', flexShrink: 0, borderRadius: '2px' }} />
+              <p style={{ fontSize: '18px', lineHeight: 1.5, fontStyle: 'italic', fontWeight: 400, color: 'rgba(255,255,255,0.75)', margin: 0 }}>
+                Techpilots hjälpte oss förstå vad vi faktiskt behövde. Resultatet blev en snabbare, tydligare webbplats.
+              </p>
+            </div>
+            <div style={{ position: 'relative', width: '96px', height: '96px', borderRadius: '4px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.2)', background: '#e8c547', marginBottom: '12px' }}>
+              <Image src="/digital/nedal-issa-cutout.png" alt="Nedal Issa" fill style={{ objectFit: 'cover', objectPosition: 'bottom' }} />
+            </div>
+            <p style={{ fontSize: '14px', fontWeight: 700, color: '#fff', margin: '0 0 2px' }}>
+              Nedal Issa
+            </p>
+            <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.03em', margin: 0 }}>
+              Head of Techpilots
+            </p>
+          </div>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', boxSizing: 'border-box' }}>
-          <h1 style={{ fontSize: 'clamp(36px,4.5vw,56px)', fontWeight: 800, letterSpacing: '-0.03em', color: '#030303', margin: '0 0 24px' }}>
-            Låt oss bygga er webbplats.
-          </h1>
           <p style={{ fontSize: '15px', color: 'rgba(3,3,3,0.6)', lineHeight: 1.5, maxWidth: '420px', margin: '0 0 48px' }}>
             Berätta lite om ert projekt så hjälper vi er att hitta rätt struktur, omfattning och tidsplan.
           </p>
@@ -138,6 +149,10 @@ export default function ContactPage() {
                 </span>
               </CalPopupButton>
             </div>
+
+            <p style={{ fontSize: '13px', color: 'rgba(3,3,3,0.5)', lineHeight: 1.5, margin: 0 }}>
+              Vi återkommer inom 24 timmar.
+            </p>
           </form>
         </div>
       </div>
