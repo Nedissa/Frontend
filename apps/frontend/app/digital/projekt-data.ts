@@ -70,7 +70,7 @@ export const PROJECTS: Project[] = [
     status: 'Lanserad',
     image: '/digital/projekt/crownmatch/original-hero.avif',
     cardImage: '/digital/projekt/crownmatch/original-hero.avif',
-    tabletImage: '/digital/projekt/crownmatch/original-leverantor.png',
+    tabletImage: '/digital/projekt/crownmatch/original-footer-blogg.avif',
     conclusionImage: '/digital/projekt/crownmatch/original-hela-sidan.avif',
     website: 'crownmatch.se',
     accentColor: '#E8C547',
