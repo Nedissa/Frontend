@@ -87,8 +87,15 @@ const DEVICE_FRAME_MAX_WIDTH: Record<'mobil' | 'surfplatta' | 'dator', number> =
   dator: 640,
 };
 
+const DEVICE_ASPECT_RATIO: Record<'mobil' | 'surfplatta' | 'dator', number> = {
+  mobil: 511 / 917,
+  surfplatta: 2048 / 2732,
+  dator: 2515 / 1414,
+};
+
 function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, website, title }: { label: string; src?: string; specs?: string[]; deviceType: 'mobil' | 'surfplatta' | 'dator'; accentColor?: string; hideSpecs?: boolean; website?: string; title: string }) {
   const width = DEVICE_FRAME_MAX_WIDTH[deviceType];
+  const aspectRatio = DEVICE_ASPECT_RATIO[deviceType];
   const compact = deviceType === 'mobil';
   const iconSize = compact ? 11 : 15;
   return (
@@ -135,12 +142,13 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, we
           <img
             src={src}
             alt={label}
-            className="w-auto h-auto max-w-full block self-center"
+            className="w-full h-full object-cover block self-center"
+            style={{ width, aspectRatio }}
           />
         ) : (
           <div
             className="flex items-center justify-center text-xs font-medium text-[#8a8a86] bg-[repeating-linear-gradient(45deg,#f5f5f3,#f5f5f3_10px,#eeeeec_10px,#eeeeec_20px)]"
-            style={{ width, height: width * 1.2 }}
+            style={{ width, aspectRatio }}
           >
             Bild saknas
           </div>
