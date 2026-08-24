@@ -22,7 +22,7 @@ export default function ContactPage() {
       <div className="contact-hero" style={{ position: 'relative', minHeight: '100vh', boxSizing: 'border-box', background: '#fff', display: 'flex', alignItems: 'center' }}>
       <div className="grid-responsive-2" style={{ position: 'relative', maxWidth: '1320px', margin: '0 auto', padding: '140px 32px 60px', boxSizing: 'border-box', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'stretch', width: '100%' }}>
         <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '4px', overflow: 'hidden', background: '#030303', display: 'flex', flexDirection: 'column', boxSizing: 'border-box', padding: '32px' }}>
-          <span style={{ position: 'relative', display: 'inline-block', alignSelf: 'flex-start', background: '#e8c547', color: '#030303', fontSize: '12px', fontWeight: 600, letterSpacing: '0.05em', padding: '6px 14px', marginBottom: '24px' }}>
+          <span style={{ position: 'relative', display: 'inline-block', alignSelf: 'flex-start', background: '#e8c547', color: '#030303', fontSize: '12px', fontWeight: 600, letterSpacing: '0.05em', padding: '6px 14px', borderRadius: '4px', marginBottom: '24px' }}>
             KOSTNADSFRI RÅDGIVNING
           </span>
           <h2 style={{ position: 'relative', fontSize: 'clamp(40px,5.2vw,64px)', fontWeight: 800, letterSpacing: '-0.03em', textTransform: 'uppercase', color: '#fff', margin: 0, lineHeight: 0.95 }}>

@@ -1,6 +1,8 @@
 'use client';
 import Link from 'next/link';
 import { SectionHeader } from './SectionHeader';
+import { CardParticles } from './CardParticles';
+import { BrowserFrame } from './BrowserFrame';
 import { PROJECTS } from '../projekt-data';
 
 const CARD_GAP = 56;
@@ -69,21 +71,30 @@ export function ProjectsSection() {
                     }}
                   />
                   <div
-                    className="absolute inset-0 pointer-events-none transition-[clip-path] duration-500 ease-out [clip-path:inset(100%_0_0_0)] group-hover:[clip-path:inset(0_0_0_0)]"
+                    className="absolute inset-0 pointer-events-none overflow-hidden"
                     style={{
-                      background: 'linear-gradient(135deg, rgb(104,105,99) 50%, transparent 50%)',
+                      WebkitMaskImage: 'linear-gradient(135deg, #000 50%, transparent 50%)',
+                      maskImage: 'linear-gradient(135deg, #000 50%, transparent 50%)',
                     }}
-                  />
-                  <div className="absolute inset-0 flex items-end justify-center">
+                  >
+                    <div
+                      className="absolute inset-0"
+                      style={{ background: '#030303' }}
+                    >
+                      <CardParticles />
+                    </div>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center z-0">
                     {p.cardImage && (
-                      <img
+                      <BrowserFrame
                         src={p.cardImage}
                         alt={p.title}
-                        className="w-[75%] h-auto object-contain"
+                        website={p.website ?? p.title.toLowerCase().replace(/\s+/g, '')}
+                        className="max-w-[75%] mx-auto"
                       />
                     )}
                   </div>
-                  <div className="absolute left-[20px] top-[20px] w-[19%] flex flex-col gap-[12px] opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out">
+                  <div className="absolute left-[20px] top-[20px] w-[19%] flex flex-col gap-[12px] z-10">
                     <span
                       className="inline-flex w-fit text-[11px] font-bold uppercase"
                       style={{
@@ -95,18 +106,6 @@ export function ProjectsSection() {
                       }}
                     >
                       Projekt
-                    </span>
-                    <div
-                      className="text-[24px] font-semibold w-fit"
-                      style={{ letterSpacing: '-0.03em', color: '#fff', borderBottom: '1px solid rgba(255,255,255,0.4)', paddingBottom: '12px' }}
-                    >
-                      {p.title}
-                    </div>
-                    <span
-                      className="text-[16px]"
-                      style={{ color: '#fff' }}
-                    >
-                      {p.tagline}
                     </span>
                   </div>
                   <span

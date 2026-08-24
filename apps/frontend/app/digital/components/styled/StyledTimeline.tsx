@@ -2,6 +2,7 @@
 import type { ProjectStep } from '../../projekt-data';
 import { FadeIn } from '../FadeIn';
 import { Eyebrow, ITALIC, StyledSection } from './StyledPrimitives';
+import { BrowserFrame } from '../BrowserFrame';
 
 const FALLBACK_BULLETS = ['Långsiktig support och underhåll', 'Transparent rapportering varje månad', 'Proaktiv övervakning av system'];
 
@@ -38,7 +39,6 @@ export function StyledTimeline({ projectTitle, steps, projectAccentColor }: { pr
           {items.map((step, i) => {
             const imageFirst = i % 2 === 0;
             const isLast = i === items.length - 1;
-            const mockupColor = step.accentColor ?? projectAccentColor;
 
             if (isLast) {
               return (
@@ -48,9 +48,13 @@ export function StyledTimeline({ projectTitle, steps, projectAccentColor }: { pr
 
                     <div className="flex flex-col items-center text-center gap-6 max-w-[720px] mx-auto px-2 md:px-0">
                       {step.image && (
-                        <div data-mockup data-mockup-color={mockupColor} className="relative mx-auto mt-4 w-[300px]">
-                          <img src={step.image} alt={`${projectTitle} — ${step.title}`} className="relative w-full h-[420px] object-cover rounded-[24px]" />
-                        </div>
+                        <BrowserFrame
+                          src={step.image}
+                          alt={`${projectTitle} — ${step.title}`}
+                          website={projectTitle.toLowerCase().replace(/\s+/g, '')}
+                          className="mx-auto mt-4 w-full max-w-[480px]"
+                          imgClassName="w-full h-auto block"
+                        />
                       )}
 
                       <div>
@@ -78,13 +82,13 @@ export function StyledTimeline({ projectTitle, steps, projectAccentColor }: { pr
 
                   <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center bg-transparent`}>
                     {step.image && (
-                      <div
-                        data-mockup
-                        data-mockup-color={mockupColor}
-                        className={`relative mx-auto w-[300px] ${imageFirst ? 'md:order-1 md:ml-auto md:mr-8' : 'md:order-2 md:mr-auto md:ml-8'}`}
-                      >
-                        <img src={step.image} alt={`${projectTitle} — ${step.title}`} className="relative w-full h-[420px] object-cover rounded-[24px]" />
-                      </div>
+                      <BrowserFrame
+                        src={step.image}
+                        alt={`${projectTitle} — ${step.title}`}
+                        website={projectTitle.toLowerCase().replace(/\s+/g, '')}
+                        className={`mx-auto w-full max-w-[480px] ${imageFirst ? 'md:order-1 md:ml-auto md:mr-8' : 'md:order-2 md:mr-auto md:ml-8'}`}
+                        imgClassName="w-full h-auto block"
+                      />
                     )}
 
                     <div className={`max-w-[420px] ${imageFirst ? 'md:order-2 md:ml-8' : 'md:order-1 md:mr-8 md:ml-auto'}`}>

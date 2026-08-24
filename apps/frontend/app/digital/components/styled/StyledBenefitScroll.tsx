@@ -2,6 +2,7 @@
 import type { ProjectStep } from '../../projekt-data';
 import { FadeIn } from '../FadeIn';
 import { Eyebrow, ITALIC, StyledSection } from './StyledPrimitives';
+import { BrowserFrame } from '../BrowserFrame';
 
 const FALLBACK_BENEFITS: ProjectStep[] = [
   { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.' },
@@ -10,24 +11,23 @@ const FALLBACK_BENEFITS: ProjectStep[] = [
 ];
 
 
-function BenefitCard({ item, index, accentColor }: { item: ProjectStep; index: number; isActive?: boolean; accentColor?: string }) {
+function BenefitCard({ item, index, projectTitle }: { item: ProjectStep; index: number; projectTitle: string }) {
   return (
-    <div
-      className="mx-auto relative w-full max-w-[260px]"
-      data-mockup
-      data-mockup-color={item.accentColor ?? accentColor}
-      {...(index === 1 ? { 'data-line-start': true } : {})}
-    >
-      <img
-        src={item.image}
-        alt={item.title}
-        className="relative w-full h-[540px] object-cover rounded-[24px]"
-      />
+    <div className="mx-auto relative w-full max-w-[300px]" {...(index === 1 ? { 'data-line-start': true } : {})}>
+      {item.image && (
+        <BrowserFrame
+          src={item.image}
+          alt={item.title}
+          website={projectTitle.toLowerCase().replace(/\s+/g, '')}
+          className="w-full"
+          imgClassName="w-full h-auto block"
+        />
+      )}
     </div>
   );
 }
 
-export function StyledBenefitScroll({ projectTitle, benefits, projectAccentColor }: { projectTitle: string; benefits?: ProjectStep[]; projectAccentColor?: string }) {
+export function StyledBenefitScroll({ projectTitle, benefits }: { projectTitle: string; benefits?: ProjectStep[]; projectAccentColor?: string }) {
   const items = benefits && benefits.length > 0 ? benefits : FALLBACK_BENEFITS;
 
   return (
@@ -53,7 +53,7 @@ export function StyledBenefitScroll({ projectTitle, benefits, projectAccentColor
             <BenefitCard
               item={item}
               index={index}
-              accentColor={projectAccentColor}
+              projectTitle={projectTitle}
             />
           </FadeIn>
         ))}

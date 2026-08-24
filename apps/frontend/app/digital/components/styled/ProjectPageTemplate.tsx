@@ -81,15 +81,71 @@ function MetaItem({ label, value, first }: { label: string; value: string; first
   );
 }
 
-function DeviceImage({ label, src, specs, maxHeight, accentColor, hideSpecs }: { label: string; src: string; specs?: string[]; maxHeight: number; accentColor?: string; hideSpecs?: boolean }) {
+const DEVICE_FRAME_MAX_WIDTH: Record<'mobil' | 'surfplatta' | 'dator', number> = {
+  mobil: 240,
+  surfplatta: 460,
+  dator: 640,
+};
+
+function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, website, title }: { label: string; src?: string; specs?: string[]; deviceType: 'mobil' | 'surfplatta' | 'dator'; accentColor?: string; hideSpecs?: boolean; website?: string; title: string }) {
+  const width = DEVICE_FRAME_MAX_WIDTH[deviceType];
+  const compact = deviceType === 'mobil';
+  const iconSize = compact ? 11 : 15;
   return (
     <div className="w-full border-t border-black/10 pt-10 flex flex-col items-start lg:items-center gap-6">
-      <img
-        src={src}
-        alt={label}
-        className="w-auto max-w-full object-contain"
-        style={{ maxHeight }}
-      />
+      <div className="inline-flex flex-col max-w-full border border-black/20 bg-white overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.08)]" style={{ width: 'fit-content', maxWidth: width }}>
+        <div className={`flex items-center gap-3 ${compact ? 'px-3 py-2' : 'px-4 py-2.5'} bg-[#f0f0ee] border-b border-black/10`}>
+          <div className="flex items-center gap-1.5 shrink-0">
+            <span className={`${compact ? 'w-2 h-2' : 'w-2.5 h-2.5'} rounded-full bg-[#ff5f57]`} />
+            <span className={`${compact ? 'w-2 h-2' : 'w-2.5 h-2.5'} rounded-full bg-[#febc2e]`} />
+            <span className={`${compact ? 'w-2 h-2' : 'w-2.5 h-2.5'} rounded-full bg-[#28c840]`} />
+          </div>
+
+          {!compact && (
+            <div className="flex items-center gap-3 shrink-0 text-[#5c5c58]">
+              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="4" width="18" height="16" rx="2.5" /><line x1="9.5" y1="4" x2="9.5" y2="20" /></svg>
+              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 6 9 12 15 18" /></svg>
+              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 6 15 12 9 18" /></svg>
+            </div>
+          )}
+
+          <div className={`flex-1 flex items-center gap-1.5 bg-white border border-black/10 rounded-md ${compact ? 'px-2 py-1' : 'px-3 py-1'} text-[#8a8a86] min-w-0`}>
+            <svg width={compact ? 10 : 12} height={compact ? 10 : 12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="shrink-0"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3z" /></svg>
+            <span className={`${compact ? 'text-[10px]' : 'text-xs'} whitespace-nowrap`}>{website ?? title.toLowerCase().replace(/\s+/g, '')}</span>
+          </div>
+
+          {!compact && (
+            <div className="flex items-center gap-3 shrink-0 text-[#5c5c58]">
+              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12" /><polyline points="7 10 12 15 17 10" /><line x1="4" y1="20" x2="20" y2="20" /></svg>
+              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7" /><polyline points="21 3 21 9 15 9" /></svg>
+              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
+              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="3" width="13" height="13" rx="2" /><rect x="8" y="8" width="13" height="13" rx="2" /></svg>
+            </div>
+          )}
+
+          {compact && (
+            <div className="flex items-center gap-2 shrink-0 text-[#5c5c58]">
+              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7" /><polyline points="21 3 21 9 15 9" /></svg>
+              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 6 9 12 15 18" /></svg>
+              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 6 15 12 9 18" /></svg>
+            </div>
+          )}
+        </div>
+        {src ? (
+          <img
+            src={src}
+            alt={label}
+            className="w-auto h-auto max-w-full block self-center"
+          />
+        ) : (
+          <div
+            className="flex items-center justify-center text-xs font-medium text-[#8a8a86] bg-[repeating-linear-gradient(45deg,#f5f5f3,#f5f5f3_10px,#eeeeec_10px,#eeeeec_20px)]"
+            style={{ width, height: width * 1.2 }}
+          >
+            Bild saknas
+          </div>
+        )}
+      </div>
       {!hideSpecs && specs && specs.length > 0 && (
         <span className="flex items-center gap-4 text-xs font-medium text-[#5c5c58]">
           {specs.map((spec) => (
@@ -167,7 +223,7 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                     text={project.challenge}
                     showLine={!!(project.solution || project.result)}
                     mobileTitle={project.challengeTitle}
-                    mobileDevice={mobileImage && <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} maxHeight={380} accentColor={project.accentColor} hideSpecs />}
+                    mobileDevice={<DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs />}
                   />
                 )}
                 {project.solution && (
@@ -176,7 +232,7 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                     text={project.solution}
                     showLine={!!project.result}
                     mobileTitle={project.solutionTitle}
-                    mobileDevice={project.tabletImage && <DeviceImage label="Surfplatta" src={project.tabletImage} specs={project.steps?.[1]?.uxImprovements} maxHeight={380} accentColor={project.accentColor} hideSpecs />}
+                    mobileDevice={<DeviceImage label="Surfplatta" src={project.tabletImage} specs={project.steps?.[1]?.uxImprovements} deviceType="surfplatta" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs />}
                   />
                 )}
                 {project.result && (
@@ -185,7 +241,7 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                     text={project.result}
                     showLine={!!(project.technologies && project.technologies.length > 0)}
                     mobileTitle={project.resultTitle}
-                    mobileDevice={project.image && <DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} maxHeight={380} accentColor={project.accentColor} hideSpecs />}
+                    mobileDevice={<DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} deviceType="dator" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs />}
                   />
                 )}
                 {project.technologies && project.technologies.length > 0 && (
@@ -249,9 +305,9 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
               </FadeIn>
               )}
 
-              {mobileImage && <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} maxHeight={380} accentColor={project.accentColor} />}
-              {project.tabletImage && <DeviceImage label="Surfplatta" src={project.tabletImage} specs={project.steps?.[1]?.uxImprovements} maxHeight={380} accentColor={project.accentColor} />}
-              {project.image && <DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} maxHeight={380} accentColor={project.accentColor} />}
+              <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} website={project.website} title={project.title} />
+              <DeviceImage label="Surfplatta" src={project.tabletImage} specs={project.steps?.[1]?.uxImprovements} deviceType="surfplatta" accentColor={project.accentColor} website={project.website} title={project.title} />
+              <DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} deviceType="dator" accentColor={project.accentColor} website={project.website} title={project.title} />
             </div>
           )}
         </div>

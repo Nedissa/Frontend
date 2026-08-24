@@ -114,11 +114,11 @@ export function FooterWrapper() {
                   <span className="text-xs text-gray-400 whitespace-nowrap">SSL-kryptering</span>
                 </Link>
                 <span className="hidden md:inline" style={{ color: '#444' }}>|</span>
-                <Link href="/kundservice/integritet" className="flex flex-row items-center gap-2 md:flex-col md:items-center md:gap-1">
+                <Link href="/kundservice/betalning" className="flex flex-row items-center gap-2 md:flex-col md:items-center md:gap-1">
                   <svg className="w-6 h-6" style={{ color: '#60a5fa' }} fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 14H4v-6h16zm0-10H4V6h16z"/>
                   </svg>
-                  <span className="text-xs text-gray-400 whitespace-nowrap">GDPR</span>
+                  <span className="text-xs text-gray-400 whitespace-nowrap">Säkra betalningar</span>
                 </Link>
                 <span className="hidden md:inline" style={{ color: '#444' }}>|</span>
                 <Link href="/kundservice/miljoansvar" className="flex flex-row items-center gap-2 md:flex-col md:items-center md:gap-1">

@@ -74,11 +74,6 @@ function ExtraInfoColumn({ product }: { product: any }) {
 
   const sections = [
     {
-      key: 'oppet-kop',
-      title: 'ÖPPET KÖP',
-      content: '14 dagars ångerrätt enligt distansavtalslagen.',
-    },
-    {
       key: 'frakt',
       title: 'FRAKT',
       content: 'Fri frakt på beställningar över 499 kr. Leveranstid visas vid kassan baserat på produkt och lagerstatus.',
@@ -905,6 +900,9 @@ export default function ProductDetailClient({
           </div>
           <div className="px-6 py-4 flex items-center gap-3 flex-nowrap">
             <div className="border border-gray-200 rounded px-2 py-1.5 flex items-center justify-center" style={{ minWidth: '48px' }}>
+              <img src="/icons/klarna.svg" alt="Klarna" className="h-4 w-auto" />
+            </div>
+            <div className="border border-gray-200 rounded px-2 py-1.5 flex items-center justify-center" style={{ minWidth: '48px' }}>
               <img src="/icons/visa.svg" alt="Visa" className="h-4 w-auto" />
             </div>
             <div className="border border-gray-200 rounded px-2 py-1.5 flex items-center justify-center" style={{ minWidth: '48px' }}>
@@ -912,9 +910,6 @@ export default function ProductDetailClient({
             </div>
             <div className="border border-gray-200 rounded px-2 py-1.5 flex items-center justify-center" style={{ minWidth: '48px' }}>
               <img src="/icons/applepay.svg" alt="Apple Pay" className="h-4 w-auto" />
-            </div>
-            <div className="border border-gray-200 rounded px-2 py-1.5 flex items-center justify-center" style={{ minWidth: '48px' }}>
-              <img src="/icons/klarna.svg" alt="Klarna" className="h-4 w-auto" />
             </div>
           </div>
         </div>

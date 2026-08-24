@@ -44,7 +44,7 @@ export function HomeCategoryGrid() {
       </div>
 
       {/* Desktop: en rad */}
-      <div className="hidden sm:flex justify-center gap-10">
+      <div className="hidden sm:flex justify-center gap-10 max-w-[1200px] mx-auto">
         {DESKTOP_CATEGORIES.map((cat) => (
           <Link key={cat.url} href={cat.url} className="group flex flex-col items-center no-underline">
             <div className="w-32 h-32 rounded-full flex flex-col items-center justify-center gap-1" style={{ background: '#0a0a0a' }}>

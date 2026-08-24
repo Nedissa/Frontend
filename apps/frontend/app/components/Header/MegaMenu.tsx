@@ -67,7 +67,7 @@ export function MegaMenu({
       </nav>
 
       {/* Mega Menu */}
-      <div className="absolute top-full left-1/2 -translate-x-1/2 bg-white z-40 flex justify-center border-b border-l border-r border-gray-300 shadow-lg" style={{ opacity: (showMegaMenu && activeMegaMenu) ? 1 : 0, transform: (showMegaMenu && activeMegaMenu) ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(-6px)', transition: 'opacity 150ms ease, transform 150ms ease', visibility: (showMegaMenu && activeMegaMenu) ? 'visible' : 'hidden', pointerEvents: (showMegaMenu && activeMegaMenu) ? 'auto' : 'none' }}>
+      <div className="absolute top-full left-1/2 -translate-x-1/2 z-40 flex justify-center border-b border-l border-r border-gray-300 shadow-lg" style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f7f7f5 100%)', opacity: (showMegaMenu && activeMegaMenu) ? 1 : 0, transform: (showMegaMenu && activeMegaMenu) ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(-6px)', transition: 'opacity 150ms ease, transform 150ms ease', visibility: (showMegaMenu && activeMegaMenu) ? 'visible' : 'hidden', pointerEvents: (showMegaMenu && activeMegaMenu) ? 'auto' : 'none' }}>
         <div className="w-[960px] hd:w-[1250px] qhd:w-[1600px] px-6">
           <div className="py-8">
             {/* Erbjudanden panel */}
@@ -111,7 +111,7 @@ export function MegaMenu({
               <div key={category.id} style={{ display: activeMegaMenu === category.id ? 'grid' : 'none', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem' }}>
                 {category.items?.map((section) => (
                   <div key={section.id} className="w-full">
-                    <div className="mb-4 pb-4 border-b border-gray-200 w-full">
+                    <div className="mb-4 pb-4 border-b border-gray-300 w-full">
                       <div style={{ marginBottom: '8px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
                         <img
                           src={SECTION_IMAGES[section.id] || '/assets/cat-electronics.webp'}
