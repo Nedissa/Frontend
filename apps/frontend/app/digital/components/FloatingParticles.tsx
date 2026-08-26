@@ -28,12 +28,33 @@ const PARTICLES = Array.from({ length: 40 }, (_, i) => ({
 
 function Particle({
   p,
+  mouseX,
+  mouseY,
+  active,
 }: {
   p: (typeof PARTICLES)[number];
+  mouseX: MotionValue<number>;
+  mouseY: MotionValue<number>;
+  active: boolean;
 }) {
+  // Musens offset skalas per partikel med p.pull, så vissa dras mer mot pekaren än andra.
+  // Egna springs (inte källans mouseX/mouseY direkt) så vi kan låta dem falla tillbaka till 0
+  // utan att skriva över de delade motion values som andra partiklar också läser.
+  const targetX = useTransform(mouseX, (v) => (active ? v * p.pull : 0));
+  const targetY = useTransform(mouseY, (v) => (active ? v * p.pull : 0));
+  const pullX = useSpring(targetX, SPRING_CONFIG);
+  const pullY = useSpring(targetY, SPRING_CONFIG);
+
   return (
     <motion.div
-      style={{ position: 'absolute', left: `${p.left}%`, top: `${p.top}%`, pointerEvents: 'none' }}
+      style={{
+        position: 'absolute',
+        left: `${p.left}%`,
+        top: `${p.top}%`,
+        pointerEvents: 'none',
+        x: pullX,
+        y: pullY,
+      }}
     >
       <motion.div
         initial={{ opacity: p.opacity, x: 0, y: 0 }}
@@ -111,15 +132,15 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
     };
   }, [sectionRef, rawX, rawY]);
 
-  const randomDrift = true;
-
   // Mobilenheter har svagare GPU:er och kan inte styra hover ändå, så partiklarna hoppas över helt där.
   if (isMobile) return null;
+
+  const active = mouseInside && !mouseIdle;
 
   return (
     <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden' }}>
       {PARTICLES.map((p, i) => (
-        <Particle key={i} p={p} />
+        <Particle key={i} p={p} mouseX={mouseX} mouseY={mouseY} active={active} />
       ))}
     </div>
   );
