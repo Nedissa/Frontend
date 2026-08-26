@@ -38,7 +38,7 @@ const HEADLINE_STATS = [
 export function ProcessStatsSection() {
   return (
     <ServiceSection id="teknologier" background="#f5f5f3">
-      <SectionHeader num="07" label="Vår process" extra="© 2026" />
+      <SectionHeader num="08" label="Vår process" extra="© 2026" />
 
       <div
         className="grid-responsive-3 grid gap-[64px] mb-[16px]"

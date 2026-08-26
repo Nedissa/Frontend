@@ -97,11 +97,12 @@ function AwardRow({ a, forceHovered, onRef }: { a: typeof AWARDS[0]; forceHovere
       onMouseLeave={() => setMouseHovered(false)}
     >
       <div
-        className="absolute top-0 left-0 bottom-0 z-0"
+        className="absolute top-0 left-0 bottom-0 right-0 z-0"
         style={{
-          width: hovered ? '100%' : '0%',
+          transform: hovered ? 'scaleX(1)' : 'scaleX(0)',
+          transformOrigin: 'left center',
           background: '#030303',
-          transition: 'width 0.5s cubic-bezier(0.76, 0, 0.24, 1)',
+          transition: 'transform 0.5s cubic-bezier(0.76, 0, 0.24, 1)',
         }}
       />
       <span

@@ -1,14 +1,19 @@
 'use client';
-import { motion } from 'framer-motion';
-import { FadeIn } from './FadeIn';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { SectionHeader } from './SectionHeader';
 import { ServiceSection } from './ServiceSection';
-import { PRICES, type PricePackage } from '../pricing-data';
+import { PRICES, SEO_PRICES, type PricePackage } from '../pricing-data';
 import { CalPopupButton } from './CalPopupButton';
 
 function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
   return (
-    <FadeIn delay={delay}>
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -16 }}
+      transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1], delay }}
+    >
       <motion.div
         className="pricing-card relative rounded-[8px] flex flex-col gap-[32px] box-border"
         whileHover={{ y: -8, boxShadow: '0 24px 48px rgba(0,0,0,0.14)' }}
@@ -87,12 +92,14 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
               borderBottom: `1px solid ${p.dark ? 'rgba(232,197,71,0.4)' : 'rgb(104,105,99)'}`,
             }}
           >
-            Boka ett samtal
+            {p.ctaLabel ?? 'Boka ett samtal'}
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0" aria-hidden="true">
               <path d="M2 2L12 2L12 12L2 2Z" fill={p.dark ? '#e8c547' : '#030303'} />
             </svg>
           </CalPopupButton>
-          <div style={{ fontSize: '12px', marginTop: '8px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}>Gratis · samma dag offert</div>
+          <div style={{ fontSize: '12px', marginTop: '8px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}>
+            {p.note ?? 'Gratis · samma dag offert'}
+          </div>
         </div>
 
         <div>
@@ -115,19 +122,48 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
           </ul>
         </div>
       </motion.div>
-    </FadeIn>
+    </motion.div>
   );
 }
 
 export function PricingSection() {
+  const [showSeo, setShowSeo] = useState(false);
+  const prices = showSeo ? SEO_PRICES : PRICES;
+
   return (
     <ServiceSection id="priser">
-      <SectionHeader num="04" label="Priser" extra="© 2026" />
+      <SectionHeader num="05" label="Priser" extra="© 2026" />
+
+      <div className="flex items-center gap-[12px] mb-[32px]">
+        <span className="text-[14px] font-semibold" style={{ color: !showSeo ? '#030303' : 'rgb(140,140,134)' }}>
+          Webbplats
+        </span>
+        <button
+          type="button"
+          role="switch"
+          aria-checked={showSeo}
+          onClick={() => setShowSeo((v) => !v)}
+          className="relative shrink-0 rounded-full transition-colors"
+          style={{ width: '44px', height: '24px', background: '#030303' }}
+        >
+          <span
+            className="absolute top-[2px] rounded-full bg-white transition-transform"
+            style={{ width: '20px', height: '20px', left: '2px', transform: showSeo ? 'translateX(20px)' : 'translateX(0)' }}
+          />
+        </button>
+        <span className="text-[14px] font-semibold" style={{ color: showSeo ? '#030303' : 'rgb(140,140,134)' }}>
+          SEO
+        </span>
+      </div>
 
       <div className="grid-responsive-3 grid gap-[16px] items-start" style={{ gridTemplateColumns: 'repeat(3,1fr)' }}>
-        {PRICES.map((p, i) => (
-          <PricingCard key={p.name} p={p} delay={i * 0.08} />
-        ))}
+        <AnimatePresence mode="wait">
+          <motion.div key={showSeo ? 'seo' : 'web'} className="contents">
+            {prices.map((p, i) => (
+              <PricingCard key={p.name} p={p} delay={i * 0.08} />
+            ))}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </ServiceSection>
   );

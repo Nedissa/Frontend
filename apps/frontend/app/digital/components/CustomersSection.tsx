@@ -1,3 +1,5 @@
+'use client';
+import { useState } from 'react';
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
 import { ServiceSection } from './ServiceSection';
@@ -15,7 +17,37 @@ const TESTIMONIALS = [
   },
 ];
 
+function HoverWipe({ hovered, origin }: { hovered: boolean; origin: string }) {
+  return (
+    <div
+      className="absolute inset-0 z-0"
+      style={{
+        transform: hovered ? 'scaleX(1)' : 'scaleX(0)',
+        transformOrigin: `${origin} center`,
+        background: '#030303',
+        transition: 'transform 0.5s cubic-bezier(0.76, 0, 0.24, 1)',
+      }}
+    />
+  );
+}
+
+function useSideHover() {
+  const [hovered, setHovered] = useState(false);
+  const [origin, setOrigin] = useState('left');
+
+  const onMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setOrigin(e.clientX - rect.left < rect.width / 2 ? 'left' : 'right');
+    setHovered(true);
+  };
+
+  return { hovered, origin, onMouseEnter, onMouseLeave: () => setHovered(false) };
+}
+
 export function CustomersSection() {
+  const rating = useSideHover();
+  const quote = useSideHover();
+
   return (
     <ServiceSection id="kunder">
       <SectionHeader num="03" label="Kunder" extra="© 2026" hasVisibleHeading />
@@ -45,15 +77,23 @@ export function CustomersSection() {
       >
         {/* Rating */}
         <FadeIn>
-          <div className="bg-[#f5f5f5] rounded-[8px] px-[32px] py-[40px] h-full box-border flex flex-col">
+          <div
+            className="relative bg-[#f5f5f5] rounded-[8px] px-[32px] py-[40px] h-full box-border flex flex-col overflow-hidden cursor-default"
+            onMouseEnter={rating.onMouseEnter}
+            onMouseLeave={rating.onMouseLeave}
+          >
+            <HoverWipe hovered={rating.hovered} origin={rating.origin} />
             <div
-              className="text-[40px] font-bold text-[#030303] mb-[12px]"
-              style={{ letterSpacing: '-0.02em' }}
+              className="relative z-[1] text-[40px] font-bold mb-[12px]"
+              style={{ letterSpacing: '-0.02em', color: rating.hovered ? '#fff' : '#030303', transition: 'color 0.3s' }}
             >
               4.9/5
             </div>
-            <div className="text-[20px] text-[#f5b700] mb-auto" style={{ letterSpacing: '2px' }} aria-hidden="true">★★★★★</div>
-            <p className="text-[15px] leading-[1.5] m-0 mt-[40px]" style={{ color: 'rgb(104,105,99)' }}>
+            <div className="relative z-[1] text-[20px] text-[#f5b700] mb-auto" style={{ letterSpacing: '2px' }} aria-hidden="true">★★★★★</div>
+            <p
+              className="relative z-[1] text-[15px] leading-[1.5] m-0 mt-[40px]"
+              style={{ color: rating.hovered ? 'rgba(255,255,255,0.6)' : 'rgb(104,105,99)', transition: 'color 0.3s' }}
+            >
               Våra kunder uppskattar det vi gör, vilket märks tydligt i deras positiva omdömen <span className="text-[#e8c547] font-semibold">2026.</span>
             </p>
           </div>
@@ -83,21 +123,46 @@ export function CustomersSection() {
 
         {/* Quote */}
         <FadeIn delay={0.16}>
-          <div className="relative bg-[#f5f5f5] rounded-[8px] px-[32px] py-[40px] h-full box-border flex flex-col">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="absolute top-[20px] right-[20px]" aria-hidden="true">
+          <div
+            className="relative bg-[#f5f5f5] rounded-[8px] px-[32px] py-[40px] h-full box-border flex flex-col overflow-hidden cursor-default"
+            onMouseEnter={quote.onMouseEnter}
+            onMouseLeave={quote.onMouseLeave}
+          >
+            <HoverWipe hovered={quote.hovered} origin={quote.origin} />
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="absolute z-[1] top-[20px] right-[20px]" aria-hidden="true">
               <path d="M2 2L12 2L12 12L2 2Z" fill="#e8c547" />
             </svg>
-            <div className="text-[40px] font-extrabold text-[#030303] leading-none mb-[16px]" aria-hidden="true">&ldquo;</div>
-            <p className="text-[16px] text-[#030303] leading-[1.6] m-0 mb-[32px]">
+            <div
+              className="relative z-[1] text-[40px] font-extrabold leading-none mb-[16px]"
+              style={{ color: quote.hovered ? '#fff' : '#030303', transition: 'color 0.3s' }}
+              aria-hidden="true"
+            >
+              &ldquo;
+            </div>
+            <p
+              className="relative z-[1] text-[16px] leading-[1.6] m-0 mb-[32px]"
+              style={{ color: quote.hovered ? '#fff' : '#030303', transition: 'color 0.3s' }}
+            >
               {TESTIMONIALS[1].quote}
             </p>
-            <div className="flex items-center gap-[12px] mt-auto">
-              <div className="w-[40px] h-[40px] rounded-full bg-[#030303] text-white flex items-center justify-center text-[18px] font-bold shrink-0" aria-hidden="true">
+            <div className="relative z-[1] flex items-center gap-[12px] mt-auto">
+              <div
+                className="w-[40px] h-[40px] rounded-full flex items-center justify-center text-[18px] font-bold shrink-0"
+                style={{ background: quote.hovered ? '#e8c547' : '#030303', color: quote.hovered ? '#030303' : '#fff', transition: 'background 0.3s, color 0.3s' }}
+                aria-hidden="true"
+              >
                 G
               </div>
               <div>
-                <div className="text-[14px] font-semibold text-[#030303]">{TESTIMONIALS[1].name}</div>
-                <div className="text-[13px]" style={{ color: 'rgb(104,105,99)' }}>{TESTIMONIALS[1].role}</div>
+                <div
+                  className="text-[14px] font-semibold"
+                  style={{ color: quote.hovered ? '#fff' : '#030303', transition: 'color 0.3s' }}
+                >
+                  {TESTIMONIALS[1].name}
+                </div>
+                <div className="text-[13px]" style={{ color: quote.hovered ? 'rgba(255,255,255,0.6)' : 'rgb(104,105,99)', transition: 'color 0.3s' }}>
+                  {TESTIMONIALS[1].role}
+                </div>
               </div>
             </div>
           </div>

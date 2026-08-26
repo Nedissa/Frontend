@@ -14,12 +14,21 @@ const PROCESS = [
 
 function FeatureCard({ step, title, desc, tall, forceHovered, onRef }: { step: string; title: string; desc: string; tall?: boolean; forceHovered?: boolean; onRef?: (el: HTMLDivElement | null) => void }) {
   const [mouseHovered, setMouseHovered] = useState(false);
+  const [origin, setOrigin] = useState('top left');
   const hovered = forceHovered || mouseHovered;
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left < rect.width / 2 ? 'left' : 'right';
+    const y = e.clientY - rect.top < rect.height / 2 ? 'top' : 'bottom';
+    setOrigin(`${y} ${x}`);
+    setMouseHovered(true);
+  };
 
   return (
     <div
       ref={onRef}
-      onMouseEnter={() => setMouseHovered(true)}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={() => setMouseHovered(false)}
       className="feature-card relative overflow-hidden bg-[#ebebea] px-[36px] py-[40px] min-h-[220px] flex flex-col justify-between rounded-[8px] cursor-default box-border"
       style={{ height: tall ? '100%' : undefined }}
@@ -28,7 +37,7 @@ function FeatureCard({ step, title, desc, tall, forceHovered, onRef }: { step: s
         className="absolute inset-0 bg-[#030303]"
         style={{
           transform: hovered ? 'scale(1)' : 'scale(0)',
-          transformOrigin: 'top left',
+          transformOrigin: origin,
           transition: 'transform 0.55s cubic-bezier(0.76, 0, 0.24, 1)',
         }}
       />
@@ -79,7 +88,7 @@ export function FeaturesSection() {
       style={{ background: '#f5f5f3' }}
     >
       <div className="max-w-[1440px] mx-auto">
-        <SectionHeader num="05" label="Processen" extra="© 2026" hasVisibleHeading />
+        <SectionHeader num="06" label="Processen" extra="© 2026" hasVisibleHeading />
         <FadeIn>
           <div className="mb-[48px]">
             <p className="text-[12px] font-semibold uppercase m-0 mb-[10px] flex items-center gap-[8px]" style={{ letterSpacing: '0.12em', color: 'rgb(104,105,99)' }}>

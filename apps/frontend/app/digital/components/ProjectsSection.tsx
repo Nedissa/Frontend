@@ -13,7 +13,7 @@ export function ProjectsSection() {
       id="projekt"
       className="section-projects bg-white pt-[140px] pb-[140px] mx-[60px] box-border"
     >
-      <SectionHeader num="06" label="Projekt" extra="© 2026" hasVisibleHeading />
+      <SectionHeader num="07" label="Projekt" extra="© 2026" hasVisibleHeading />
 
       {/* Main layout */}
       <div

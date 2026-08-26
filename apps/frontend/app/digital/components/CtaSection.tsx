@@ -9,7 +9,7 @@ export function CtaSection() {
   return (
     <section className="section-padding" style={{ padding: '140px 30px', boxSizing: 'border-box' }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
-        <SectionHeader num="10" label="Kontakt" extra="© 2026" hasVisibleHeading />
+        <SectionHeader num="11" label="Kontakt" extra="© 2026" hasVisibleHeading />
 
         <div className="grid-cta" style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '80px', alignItems: 'end' }}>
           <FadeIn>

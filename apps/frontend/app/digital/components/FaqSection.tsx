@@ -73,7 +73,7 @@ export function FaqSection() {
   return (
     <section id="faq" className="section-padding" style={{ padding: '140px 30px', background: '#fff', color: '#030303', boxSizing: 'border-box' }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
-        <SectionHeader num="09" label="Vanliga frågor" extra="© 2026" />
+        <SectionHeader num="10" label="Vanliga frågor" extra="© 2026" />
 
         <div className="grid-responsive-2" style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '64px', alignItems: 'start' }}>
           <FadeIn>

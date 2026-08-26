@@ -2,6 +2,7 @@ import { HeroSection } from './components/HeroSection';
 import { StatsSection } from './components/StatsSection';
 import { AwardsSection } from './components/AwardsSection';
 import { CustomersSection } from './components/CustomersSection';
+import { SeoTestSection } from './components/SeoTestSection';
 import { PricingSection } from './components/PricingSection';
 import { FeaturesSection } from './components/FeaturesSection';
 import { ProjectsSection } from './components/ProjectsSection';
@@ -55,6 +56,9 @@ export default function WebStudioPage() {
 
       {/* Bevis (kundcitat) före pris — läsaren ska ha förtroende innan de ser prislappen */}
       <CustomersSection />
+
+      {/* Väcker SEO-behovet innan priserna visas */}
+      <SeoTestSection />
 
       <PricingSection />
 

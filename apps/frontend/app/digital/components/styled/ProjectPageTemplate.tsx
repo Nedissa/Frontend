@@ -142,8 +142,8 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, we
           <img
             src={src}
             alt={label}
-            className="w-full h-full object-cover block self-center"
-            style={{ width, aspectRatio }}
+            className="w-full h-auto object-contain block self-center"
+            style={{ width }}
           />
         ) : (
           <div

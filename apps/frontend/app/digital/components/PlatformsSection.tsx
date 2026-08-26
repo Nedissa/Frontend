@@ -87,7 +87,7 @@ export function PlatformsSection() {
   return (
     <section id="plattformar" className="section-padding" style={{ padding: '140px 30px', minHeight: '100vh', boxSizing: 'border-box' }}>
       <div style={{ maxWidth: '1440px', margin: '0 auto' }}>
-        <SectionHeader num="08" label="Tech stack" extra="© 2026" />
+        <SectionHeader num="09" label="Tech stack" extra="© 2026" />
 
         <FadeIn>
           <div
