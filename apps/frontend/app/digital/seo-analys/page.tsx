@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ServiceSection } from '../components/ServiceSection';
 import { SectionHeader } from '../components/SectionHeader';
 import { CalPopupButton } from '../components/CalPopupButton';
+import { generateSeoReport } from './generateReport';
 
 const LOADING_STEPS = [
   'Hämtar sidan…',
@@ -147,9 +148,19 @@ export default function SeoAnalysPage() {
 
         {result && (
           <div className="mt-[48px] max-w-[900px]">
-            <p className="text-[14px] m-0 mb-[24px]" style={{ color: 'rgb(104,105,99)' }}>
-              Resultat för <span style={{ color: '#030303', fontWeight: 600 }}>{result.url}</span>
-            </p>
+            <div className="flex flex-wrap items-center justify-between gap-[16px] mb-[24px]">
+              <p className="text-[14px] m-0" style={{ color: 'rgb(104,105,99)' }}>
+                Resultat för <span style={{ color: '#030303', fontWeight: 600 }}>{result.url}</span>
+              </p>
+              <button
+                type="button"
+                onClick={() => generateSeoReport(result)}
+                className="text-[13px] font-semibold px-[18px] py-[10px] rounded-full whitespace-nowrap"
+                style={{ border: '1px solid rgb(104,105,99)', color: '#030303', background: 'transparent' }}
+              >
+                Ladda ner rapport (PDF)
+              </button>
+            </div>
 
             <div className="flex flex-wrap gap-[32px] mb-[40px]">
               <ScoreCircle label="Prestanda" score={result.scores.performance} />

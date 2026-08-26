@@ -15,7 +15,7 @@ const IDLE_TIMEOUT_MS = 2000;
 const PARTICLE_COLOR = '#fff';
 const PARTICLE_GOLD = '#e8c547';
 
-const PARTICLES = Array.from({ length: 100 }, (_, i) => ({
+const PARTICLES = Array.from({ length: 40 }, (_, i) => ({
   left: Math.round(seededRandom(i * 12.9898) * 10000) / 100,
   top: Math.round(seededRandom(i * 78.233) * 10000) / 100,
   size: 1.5 + (i % 4) * 0.6,
@@ -112,6 +112,9 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
   }, [sectionRef, rawX, rawY]);
 
   const randomDrift = true;
+
+  // Mobilenheter har svagare GPU:er och kan inte styra hover ändå, så partiklarna hoppas över helt där.
+  if (isMobile) return null;
 
   return (
     <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden' }}>

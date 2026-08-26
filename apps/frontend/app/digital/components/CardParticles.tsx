@@ -1,15 +1,17 @@
 'use client';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 function seededRandom(seed: number) {
   const x = Math.sin(seed) * 10000;
   return x - Math.floor(x);
 }
 
+const MOBILE_BREAKPOINT = 900;
 const PARTICLE_COLOR = '#fff';
 const PARTICLE_GOLD = '#e8c547';
 
-const PARTICLES = Array.from({ length: 48 }, (_, i) => ({
+const PARTICLES = Array.from({ length: 16 }, (_, i) => ({
   left: Math.round(seededRandom(i * 12.9898) * 10000) / 100,
   top: Math.round(seededRandom(i * 78.233) * 10000) / 100,
   size: 2 + (i % 4) * 0.8,
@@ -20,6 +22,18 @@ const PARTICLES = Array.from({ length: 48 }, (_, i) => ({
 }));
 
 export function CardParticles() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Mobilenheter har svagare GPU:er och renderar dessa kort en gång per projekt, så partiklarna hoppas över helt där.
+  useEffect(() => {
+    const syncIsMobile = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
+    syncIsMobile();
+    window.addEventListener('resize', syncIsMobile);
+    return () => window.removeEventListener('resize', syncIsMobile);
+  }, []);
+
+  if (isMobile) return null;
+
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden">
       {PARTICLES.map((p, i) => (
