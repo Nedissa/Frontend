@@ -4,7 +4,10 @@ import Link from 'next/link';
 import { ServiceSection } from '../components/ServiceSection';
 import { SectionHeader } from '../components/SectionHeader';
 import { CalPopupButton } from '../components/CalPopupButton';
+import { GeoChecklist } from '../components/GeoChecklist';
+import { Section } from '../components/SeoResultModal';
 import { generateSeoReport } from './generateReport';
+import { type SeoResult, scoreColor } from './shared';
 
 const LOADING_STEPS = [
   'Hämtar sidan…',
@@ -13,18 +16,6 @@ const LOADING_STEPS = [
   'Testar tillgänglighet…',
   'Sammanställer resultat…',
 ];
-
-type Result = {
-  url: string;
-  scores: { performance: number; seo: number; accessibility: number; bestPractices: number };
-  metrics: { lcp: string | null; cls: string | null; fcp: string | null };
-};
-
-function scoreColor(score: number) {
-  if (score >= 90) return '#3fb950';
-  if (score >= 50) return '#e8c547';
-  return '#e5484d';
-}
 
 function ScoreCircle({ label, score }: { label: string; score: number }) {
   return (
@@ -42,11 +33,29 @@ function ScoreCircle({ label, score }: { label: string; score: number }) {
   );
 }
 
+function GeoScoreCircle({ geo }: { geo: NonNullable<SeoResult['geo']> }) {
+  const passed = (geo.blockedCrawlers.length === 0 ? 1 : 0) + (geo.visibleWithoutJs ? 1 : 0) + (geo.hasStructuredData ? 1 : 0);
+  const color = passed === 3 ? '#3fb950' : passed === 0 ? '#e5484d' : '#e8c547';
+  return (
+    <div className="flex flex-col items-center gap-[12px]">
+      <div
+        className="w-[88px] h-[88px] rounded-full flex items-center justify-center text-[24px] font-bold"
+        style={{ border: `4px solid ${color}`, color }}
+      >
+        {passed}/3
+      </div>
+      <span className="text-[13px] font-medium text-center" style={{ color: 'rgb(104,105,99)' }}>
+        Agentisk<br />webbläsning
+      </span>
+    </div>
+  );
+}
+
 export default function SeoAnalysPage() {
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<Result | null>(null);
+  const [result, setResult] = useState<SeoResult | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
 
   useEffect(() => {
@@ -119,8 +128,8 @@ export default function SeoAnalysPage() {
             <button
               type="submit"
               disabled={loading || !url.trim()}
-              className="text-[15px] font-semibold px-[28px] py-[14px] rounded-[8px] whitespace-nowrap disabled:opacity-50"
-              style={{ background: '#030303', color: '#fff' }}
+              className="text-[15px] font-semibold px-[28px] py-[14px] rounded-[8px] whitespace-nowrap disabled:opacity-50 text-center"
+              style={{ background: '#030303', color: '#fff', minWidth: '160px' }}
             >
               {loading ? 'Analyserar…' : 'Analysera nu'}
             </button>
@@ -148,43 +157,66 @@ export default function SeoAnalysPage() {
 
         {result && (
           <div className="mt-[48px] max-w-[900px]">
-            <div className="flex flex-wrap items-center justify-between gap-[16px] mb-[24px]">
-              <p className="text-[14px] m-0" style={{ color: 'rgb(104,105,99)' }}>
-                Resultat för <span style={{ color: '#030303', fontWeight: 600 }}>{result.url}</span>
-              </p>
-              <button
-                type="button"
-                onClick={() => generateSeoReport(result)}
-                className="text-[13px] font-semibold px-[18px] py-[10px] rounded-full whitespace-nowrap"
-                style={{ border: '1px solid rgb(104,105,99)', color: '#030303', background: 'transparent' }}
+            <Section
+              title="Helhetsbetyg"
+              intro={
+                <>
+                  Resultat för <span style={{ color: '#030303', fontWeight: 600 }}>{result.url}</span>. Poängen går från 0 till 100 — högre är bättre. Under 50 innebär att besökare och sökmotorer sannolikt påverkas negativt.
+                </>
+              }
+            >
+              <div className="flex items-start justify-between gap-[16px] flex-wrap">
+                <div className="flex flex-wrap gap-[32px]">
+                  <ScoreCircle label="Prestanda" score={result.scores.performance} />
+                  <ScoreCircle label="SEO" score={result.scores.seo} />
+                  <ScoreCircle label="Tillgänglighet" score={result.scores.accessibility} />
+                  <ScoreCircle label="Best practices" score={result.scores.bestPractices} />
+                  {result.geo && <GeoScoreCircle geo={result.geo} />}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => generateSeoReport(result)}
+                  className="text-[13px] font-semibold px-[18px] py-[10px] rounded-full whitespace-nowrap"
+                  style={{ border: '1px solid rgb(104,105,99)', color: '#030303', background: 'transparent' }}
+                >
+                  Ladda ner rapport (PDF)
+                </button>
+              </div>
+            </Section>
+
+            <Section
+              title="Laddningsupplevelse"
+              intro="Långsamma sidor gör att besökare lämnar innan de hunnit se innehållet, och Google sänker rankningen för sidor som laddar långsamt."
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-[16px]">
+                <div className="rounded-[8px] p-[20px]" style={{ background: '#f5f5f3' }}>
+                  <div className="text-[13px] font-semibold mb-[4px]" style={{ color: '#030303' }}>Tid till huvudinnehållet syns</div>
+                  <div className="text-[18px] font-bold mb-[6px]">{result.metrics.lcp ?? '—'}</div>
+                  <div className="text-[12px] leading-[1.4]" style={{ color: 'rgb(104,105,99)' }}>Hur lång tid det tar innan det viktigaste innehållet syns. Under 2,5 s är bra.</div>
+                </div>
+                <div className="rounded-[8px] p-[20px]" style={{ background: '#f5f5f3' }}>
+                  <div className="text-[13px] font-semibold mb-[4px]" style={{ color: '#030303' }}>Visuell stabilitet</div>
+                  <div className="text-[18px] font-bold mb-[6px]">{result.metrics.cls ?? '—'}</div>
+                  <div className="text-[12px] leading-[1.4]" style={{ color: 'rgb(104,105,99)' }}>Hur mycket sidan hoppar till medan den laddar. 0 betyder helt stilla.</div>
+                </div>
+                <div className="rounded-[8px] p-[20px]" style={{ background: '#f5f5f3' }}>
+                  <div className="text-[13px] font-semibold mb-[4px]" style={{ color: '#030303' }}>Tid till första intryck</div>
+                  <div className="text-[18px] font-bold mb-[6px]">{result.metrics.fcp ?? '—'}</div>
+                  <div className="text-[12px] leading-[1.4]" style={{ color: 'rgb(104,105,99)' }}>Hur snabbt besökaren ser något alls på skärmen. Under 1,8 s är bra.</div>
+                </div>
+              </div>
+            </Section>
+
+            {result.geo && (
+              <Section
+                title="Synlighet för AI-assistenter"
+                intro="Kan verktyg som ChatGPT och Claude läsa och citera er sida när de svarar på frågor."
               >
-                Ladda ner rapport (PDF)
-              </button>
-            </div>
+                <GeoChecklist geo={result.geo} />
+              </Section>
+            )}
 
-            <div className="flex flex-wrap gap-[32px] mb-[40px]">
-              <ScoreCircle label="Prestanda" score={result.scores.performance} />
-              <ScoreCircle label="SEO" score={result.scores.seo} />
-              <ScoreCircle label="Tillgänglighet" score={result.scores.accessibility} />
-              <ScoreCircle label="Best practices" score={result.scores.bestPractices} />
-            </div>
-
-            <div className="grid grid-cols-3 gap-[16px] mb-[40px]">
-              <div className="rounded-[8px] p-[20px]" style={{ background: '#f5f5f3' }}>
-                <div className="text-[12px] mb-[6px]" style={{ color: 'rgb(104,105,99)' }}>Largest Contentful Paint</div>
-                <div className="text-[18px] font-bold">{result.metrics.lcp ?? '—'}</div>
-              </div>
-              <div className="rounded-[8px] p-[20px]" style={{ background: '#f5f5f3' }}>
-                <div className="text-[12px] mb-[6px]" style={{ color: 'rgb(104,105,99)' }}>Cumulative Layout Shift</div>
-                <div className="text-[18px] font-bold">{result.metrics.cls ?? '—'}</div>
-              </div>
-              <div className="rounded-[8px] p-[20px]" style={{ background: '#f5f5f3' }}>
-                <div className="text-[12px] mb-[6px]" style={{ color: 'rgb(104,105,99)' }}>First Contentful Paint</div>
-                <div className="text-[18px] font-bold">{result.metrics.fcp ?? '—'}</div>
-              </div>
-            </div>
-
-            <div className="rounded-[8px] p-[32px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-[20px]" style={{ background: '#030303' }}>
+            <div className="mt-[28px] rounded-[8px] p-[32px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-[20px]" style={{ background: '#030303' }}>
               <div>
                 <div className="text-[18px] font-semibold text-white mb-[6px]">Vill ni förbättra dessa siffror?</div>
                 <div className="text-[14px]" style={{ color: 'rgba(255,255,255,0.6)' }}>

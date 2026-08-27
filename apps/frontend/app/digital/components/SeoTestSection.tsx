@@ -1,21 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
 import { ServiceSection } from './ServiceSection';
 import { SectionHeader } from './SectionHeader';
+import { SeoResultModal } from './SeoResultModal';
+import { type SeoResult, scoreColor } from '../seo-analys/shared';
 
 const LOADING_STEPS = ['Hämtar sidan…', 'Analyserar prestanda…', 'Kontrollerar SEO…', 'Sammanställer resultat…'];
-
-type Result = {
-  url: string;
-  scores: { performance: number; seo: number; accessibility: number; bestPractices: number };
-};
-
-function scoreColor(score: number) {
-  if (score >= 90) return '#3fb950';
-  if (score >= 50) return '#e8c547';
-  return '#e5484d';
-}
 
 function ScoreCircle({ label, score }: { label: string; score: number }) {
   return (
@@ -33,11 +23,30 @@ function ScoreCircle({ label, score }: { label: string; score: number }) {
   );
 }
 
+function GeoBadge({ geo }: { geo: NonNullable<SeoResult['geo']> }) {
+  const passed = (geo.blockedCrawlers.length === 0 ? 1 : 0) + (geo.visibleWithoutJs ? 1 : 0) + (geo.hasStructuredData ? 1 : 0);
+  const color = passed === 3 ? '#3fb950' : passed === 0 ? '#e5484d' : '#e8c547';
+  return (
+    <div className="flex flex-col items-center gap-[10px]">
+      <div
+        className="w-[64px] h-[64px] rounded-full flex items-center justify-center text-[20px] font-bold"
+        style={{ border: `3px solid ${color}`, color }}
+      >
+        {passed}/3
+      </div>
+      <span className="text-[12px] font-medium text-center" style={{ color: 'rgb(104,105,99)' }}>
+        Agentisk<br />webbläsning
+      </span>
+    </div>
+  );
+}
+
 export function SeoTestSection() {
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<Result | null>(null);
+  const [result, setResult] = useState<SeoResult | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
 
   useEffect(() => {
@@ -70,6 +79,7 @@ export function SeoTestSection() {
         setError(data.error ?? 'Något gick fel. Försök igen.');
       } else {
         setResult(data);
+        setModalOpen(true);
       }
     } catch {
       setError('Något gick fel. Försök igen.');
@@ -82,7 +92,7 @@ export function SeoTestSection() {
     <ServiceSection id="seo-test" fullHeight={false} background="#f5f5f3">
       <SectionHeader num="04" label="SEO-test" extra="© 2026" />
 
-      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-[40px] py-[20px]">
+      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-[40px] py-[20px] min-h-[280px] lg:min-h-[180px]">
         <div className="max-w-[480px]">
           <h2
             className="font-extrabold uppercase m-0 mb-[12px]"
@@ -94,21 +104,21 @@ export function SeoTestSection() {
             Kostnadsfri analys direkt från Google. Skriv in er webbadress och se resultatet direkt.
           </p>
 
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-[10px]">
+          <form onSubmit={handleSubmit} className="flex items-center gap-[10px]">
             <input
               type="text"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               placeholder="www.dinwebbplats.se"
-              className="flex-1 text-[14px] px-[18px] py-[12px] rounded-[8px] outline-none"
+              className="flex-1 min-w-0 text-[14px] px-[18px] py-[12px] rounded-[8px] outline-none"
               style={{ background: '#fff', border: '1px solid rgb(220,220,220)', color: '#030303' }}
               disabled={loading}
             />
             <button
               type="submit"
               disabled={loading || !url.trim()}
-              className="text-[14px] font-semibold px-[22px] py-[12px] rounded-[8px] whitespace-nowrap disabled:opacity-50"
-              style={{ background: '#030303', color: '#fff' }}
+              className="shrink-0 text-[14px] font-semibold py-[12px] rounded-[8px] whitespace-nowrap disabled:opacity-50 text-center"
+              style={{ background: '#030303', color: '#fff', width: '110px' }}
             >
               {loading ? 'Analyserar…' : 'Testa nu'}
             </button>
@@ -141,17 +151,23 @@ export function SeoTestSection() {
               <ScoreCircle label="SEO" score={result.scores.seo} />
               <ScoreCircle label="Tillgänglighet" score={result.scores.accessibility} />
               <ScoreCircle label="Best practices" score={result.scores.bestPractices} />
+              {result.geo && <GeoBadge geo={result.geo} />}
             </div>
-            <Link
-              href="#priser"
-              className="text-[13px] font-semibold no-underline"
-              style={{ color: '#030303', borderBottom: '1px solid rgb(104,105,99)' }}
+            <button
+              type="button"
+              onClick={() => setModalOpen(true)}
+              className="text-[13px] font-semibold"
+              style={{ color: '#030303', borderBottom: '1px solid rgb(104,105,99)', background: 'transparent' }}
             >
-              Se hur vi kan hjälpa er →
-            </Link>
+              Se detaljer och ladda ner rapport →
+            </button>
           </div>
         )}
       </div>
+
+      {modalOpen && result && (
+        <SeoResultModal result={result} onClose={() => setModalOpen(false)} />
+      )}
     </ServiceSection>
   );
 }

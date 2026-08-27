@@ -162,8 +162,9 @@ export function HeroSection() {
         <img
           src="/digital/hero.webp"
           alt=""
+          draggable={false}
           className="hero-image absolute bottom-0 left-0 w-full block"
-          style={{ height: '90%', objectFit: 'contain', objectPosition: 'center', mixBlendMode: 'screen' }}
+          style={{ height: '90%', objectFit: 'contain', objectPosition: 'center', mixBlendMode: 'screen', userSelect: 'none' }}
         />
       </motion.div>
 

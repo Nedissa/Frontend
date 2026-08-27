@@ -53,6 +53,8 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Kunde inte tolka analysresultatet.' }, { status: 502 });
   }
 
+  const geo = await analyzeGeo(targetUrl);
+
   return NextResponse.json({
     url: targetUrl,
     scores: {
@@ -66,5 +68,63 @@ export async function POST(req: NextRequest) {
       cls: audits?.['cumulative-layout-shift']?.displayValue ?? null,
       fcp: audits?.['first-contentful-paint']?.displayValue ?? null,
     },
+    geo,
   });
+}
+
+const AI_CRAWLERS = ['GPTBot', 'ClaudeBot', 'PerplexityBot', 'Google-Extended', 'CCBot'];
+// Under denna textmängd i rå HTML räknas sidan som huvudsakligen JS-renderad —
+// AI-agenter som inte kör JavaScript ser då i praktiken en tom sida.
+const MIN_TEXT_LENGTH_WITHOUT_JS = 200;
+
+async function analyzeGeo(targetUrl: string) {
+  const origin = new URL(targetUrl).origin;
+
+  const [robotsResult, htmlResult] = await Promise.allSettled([
+    fetch(`${origin}/robots.txt`, { signal: AbortSignal.timeout(10_000) }),
+    fetch(targetUrl, { signal: AbortSignal.timeout(15_000), headers: { 'User-Agent': 'Mozilla/5.0 (compatible; TechpilotsSeoBot/1.0)' } }),
+  ]);
+
+  let blockedCrawlers: string[] = [];
+  if (robotsResult.status === 'fulfilled' && robotsResult.value.ok) {
+    const robotsText = await robotsResult.value.text();
+    blockedCrawlers = findBlockedCrawlers(robotsText);
+  }
+
+  let visibleWithoutJs = true;
+  let hasStructuredData = false;
+  if (htmlResult.status === 'fulfilled' && htmlResult.value.ok) {
+    const html = await htmlResult.value.text();
+    const textLength = html
+      .replace(/<script[\s\S]*?<\/script>/gi, '')
+      .replace(/<style[\s\S]*?<\/style>/gi, '')
+      .replace(/<[^>]+>/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim().length;
+    visibleWithoutJs = textLength >= MIN_TEXT_LENGTH_WITHOUT_JS;
+    hasStructuredData = /application\/ld\+json/i.test(html);
+  }
+
+  return { blockedCrawlers, visibleWithoutJs, hasStructuredData };
+}
+
+function findBlockedCrawlers(robotsText: string): string[] {
+  const blocked: string[] = [];
+  const lines = robotsText.split('\n').map((l) => l.trim());
+  let currentAgent: string | null = null;
+
+  for (const line of lines) {
+    const agentMatch = line.match(/^User-agent:\s*(.+)$/i);
+    if (agentMatch) {
+      currentAgent = agentMatch[1].trim();
+      continue;
+    }
+    const disallowMatch = line.match(/^Disallow:\s*(.+)$/i);
+    if (disallowMatch && currentAgent && disallowMatch[1].trim() === '/') {
+      const matchedBot = AI_CRAWLERS.find((bot) => bot.toLowerCase() === currentAgent!.toLowerCase());
+      if (matchedBot && !blocked.includes(matchedBot)) blocked.push(matchedBot);
+    }
+  }
+
+  return blocked;
 }
