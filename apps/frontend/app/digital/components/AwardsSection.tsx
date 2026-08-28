@@ -75,7 +75,7 @@ function PillButton() {
 }
 
 const AWARDS = [
-  { title: 'DESIGN & VARUMÄRKE', source: 'Visuell identitet och UX', desc: 'Design och varumärke som håller ihop, från skiss till färdig produkt.', year: '' },
+  { title: 'DESIGN & VARUMÄRKE', source: 'Visuell identitet och UX/UI', desc: 'Design och varumärke som håller ihop, från skiss till färdig produkt.', year: '' },
   { title: 'WEBBUTVECKLING', source: 'Next.js och React', desc: 'Snabba, skalbara lösningar med modern kod, byggda från grunden.', year: '' },
   { title: 'E-HANDEL', source: 'Medusa, Shopify, Stripe och Klarna', desc: 'E-handelslösningar med rätt plattform och betallösning för era behov.', year: '' },
   { title: 'SÖKOPTIMERING', source: 'Teknisk SEO', desc: 'Snabb laddning, ren kod och rätt struktur för att synas i sökresultat.', year: '' },

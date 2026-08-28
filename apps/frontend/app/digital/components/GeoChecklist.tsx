@@ -38,10 +38,10 @@ export function GeoChecklist({ geo }: { geo: NonNullable<SeoResult['geo']> }) {
         />
         <CheckRow
           ok={geo.hasStructuredData}
-          title={geo.hasStructuredData ? 'Sidan förklarar sig själv för AI' : 'AI måste gissa vad sidan handlar om'}
+          title={geo.hasStructuredData ? 'Sidan förklarar sig själv för AI' : 'ChatGPT och Claude förstår inte vad ni säljer'}
           desc={geo.hasStructuredData
             ? 'Sidan har en maskinläsbar beskrivning av vad den handlar om, vilket minskar risken att AI missförstår eller feltolkar innehållet.'
-            : 'Utan denna beskrivning måste AI-tjänster själva tolka sidans innehåll, vilket ökar risken för felaktig eller ofullständig information i deras svar.'}
+            : 'Utan denna beskrivning måste AI-tjänster gissa sig till vad sidan handlar om. Ni riskerar att tappa kunder som söker via AI-assistenter.'}
         />
       </div>
     </div>

@@ -170,7 +170,7 @@ export default function SeoAnalysPage() {
                   <ScoreCircle label="Prestanda" score={result.scores.performance} />
                   <ScoreCircle label="SEO" score={result.scores.seo} />
                   <ScoreCircle label="Tillgänglighet" score={result.scores.accessibility} />
-                  <ScoreCircle label="Best practices" score={result.scores.bestPractices} />
+                  <ScoreCircle label="Best practice" score={result.scores.bestPractices} />
                   {result.geo && <GeoScoreCircle geo={result.geo} />}
                 </div>
                 <button

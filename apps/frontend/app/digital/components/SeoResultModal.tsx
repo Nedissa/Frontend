@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { CalPopupButton } from './CalPopupButton';
 import { GeoChecklist } from './GeoChecklist';
@@ -68,6 +68,7 @@ function GeoScoreCircle({ geo }: { geo: NonNullable<SeoResult['geo']> }) {
 }
 
 export function SeoResultModal({ result, onClose }: { result: SeoResult; onClose: () => void }) {
+  const [ctaHovered, setCtaHovered] = useState(false);
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -84,7 +85,7 @@ export function SeoResultModal({ result, onClose }: { result: SeoResult; onClose
     ['Prestanda', result.scores.performance],
     ['SEO', result.scores.seo],
     ['Tillgänglighet', result.scores.accessibility],
-    ['Best practices', result.scores.bestPractices],
+    ['Best practice', result.scores.bestPractices],
   ];
 
   return (
@@ -116,7 +117,7 @@ export function SeoResultModal({ result, onClose }: { result: SeoResult; onClose
         <div className="px-[32px]">
           <Section
             title="Helhetsbetyg"
-            intro="Så här presterar er webbplats enligt Google. Poängen går från 0 till 100 — högre är bättre. Under 50 innebär att besökare och sökmotorer sannolikt påverkas negativt."
+            intro="0–100 poäng per område, enligt Google. Ju grönare, desto fler kunder hittar och stannar kvar på er sida."
           >
             <div className="flex flex-wrap gap-[24px]">
               {scores.map(([label, score]) => (
@@ -128,33 +129,43 @@ export function SeoResultModal({ result, onClose }: { result: SeoResult; onClose
 
           <Section
             title="Laddningsupplevelse"
-            intro="Långsamma sidor gör att besökare lämnar innan de hunnit se innehållet, och Google sänker rankningen för sidor som laddar långsamt."
+            intro="Långsam laddning gör att besökare lämnar innan de ens ser er startsida."
           >
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-[12px]">
               <div className="rounded-[8px] p-[16px]" style={{ background: '#f5f5f3' }}>
-                <div className="text-[12px] font-semibold mb-[2px]" style={{ color: '#030303' }}>Tid till huvudinnehållet syns</div>
+                <div className="text-[12px] font-semibold mb-[2px]" style={{ color: '#030303' }}>Hur snabbt sidan syns</div>
                 <div className="text-[16px] font-bold mb-[4px]">{result.metrics.lcp ?? '—'}</div>
-                <div className="text-[11px] leading-[1.4]" style={{ color: 'rgb(104,105,99)' }}>Hur lång tid det tar innan det viktigaste innehållet syns. Under 2,5 s är bra.</div>
+                <div className="text-[11px] leading-[1.4]" style={{ color: 'rgb(104,105,99)' }}>Bra: under 2,5 s</div>
               </div>
               <div className="rounded-[8px] p-[16px]" style={{ background: '#f5f5f3' }}>
-                <div className="text-[12px] font-semibold mb-[2px]" style={{ color: '#030303' }}>Visuell stabilitet</div>
+                <div className="text-[12px] font-semibold mb-[2px]" style={{ color: '#030303' }}>Sidan hoppar inte till</div>
                 <div className="text-[16px] font-bold mb-[4px]">{result.metrics.cls ?? '—'}</div>
-                <div className="text-[11px] leading-[1.4]" style={{ color: 'rgb(104,105,99)' }}>Hur mycket sidan hoppar till medan den laddar. 0 betyder helt stilla.</div>
+                <div className="text-[11px] leading-[1.4]" style={{ color: 'rgb(104,105,99)' }}>Bra: nära 0</div>
               </div>
               <div className="rounded-[8px] p-[16px]" style={{ background: '#f5f5f3' }}>
-                <div className="text-[12px] font-semibold mb-[2px]" style={{ color: '#030303' }}>Tid till första intryck</div>
+                <div className="text-[12px] font-semibold mb-[2px]" style={{ color: '#030303' }}>Första intryck</div>
                 <div className="text-[16px] font-bold mb-[4px]">{result.metrics.fcp ?? '—'}</div>
-                <div className="text-[11px] leading-[1.4]" style={{ color: 'rgb(104,105,99)' }}>Hur snabbt besökaren ser något alls på skärmen. Under 1,8 s är bra.</div>
+                <div className="text-[11px] leading-[1.4]" style={{ color: 'rgb(104,105,99)' }}>Bra: under 1,8 s</div>
               </div>
             </div>
+            {result.metrics.lcp && parseFloat(result.metrics.lcp) > 2.5 && (
+              <div className="mt-[14px] rounded-[8px] px-[16px] py-[12px] text-[13px] font-medium" style={{ background: '#fdf6e3', color: '#030303' }}>
+                Vi kan hjälpa dig sänka laddtiden och vinna tillbaka besökare som annars lämnar.
+              </div>
+            )}
           </Section>
 
           {result.geo && (
             <Section
               title="Synlighet för AI-assistenter"
-              intro="Kan verktyg som ChatGPT och Claude läsa och citera er sida när de svarar på frågor."
+              intro="Kan ChatGPT och Claude läsa och citera er sida?"
             >
               <GeoChecklist geo={result.geo} />
+              {(result.geo.blockedCrawlers.length > 0 || !result.geo.visibleWithoutJs || !result.geo.hasStructuredData) && (
+                <div className="mt-[14px] rounded-[8px] px-[16px] py-[12px] text-[13px] font-medium" style={{ background: '#fdf6e3', color: '#030303' }}>
+                  Vi kan hjälpa dig säkra din synlighet för AI-assistenter.
+                </div>
+              )}
             </Section>
           )}
 
@@ -173,31 +184,40 @@ export function SeoResultModal({ result, onClose }: { result: SeoResult; onClose
                 );
               })}
             </div>
+            <div className="text-[13px] mt-[16px]" style={{ color: 'rgb(104,105,99)' }}>
+              Vill ni åtgärda detta?{' '}
+              <Link href="#priser" onClick={onClose} className="font-semibold" style={{ color: '#030303' }}>
+                Se våra SEO-paket →
+              </Link>
+            </div>
           </Section>
 
-          <div className="flex flex-wrap gap-[10px] py-[28px]">
+          <div className="flex items-center gap-[16px] py-[28px]">
+            <CalPopupButton
+              className="inline-flex items-center gap-[8px] w-fit px-[20px] py-[12px] sm:px-[28px] sm:py-[16px] text-[14px] sm:text-[15px] font-semibold rounded-full no-underline whitespace-nowrap"
+              onMouseEnter={() => setCtaHovered(true)}
+              onMouseLeave={() => setCtaHovered(false)}
+              style={{
+                background: ctaHovered ? '#030303' : '#e8c547',
+                color: ctaHovered ? '#e8c547' : '#0c0d12',
+                border: ctaHovered ? '2px solid #e8c547' : '2px solid #030303',
+                transition: 'background 0.3s ease, color 0.3s ease, border-color 0.3s ease',
+              }}
+            >
+              Boka gratis genomgång
+              <span>↗</span>
+            </CalPopupButton>
             <button
               type="button"
               onClick={() => generateSeoReport(result)}
-              className="text-[13px] font-semibold px-[18px] py-[10px] rounded-full whitespace-nowrap"
-              style={{ border: '1px solid rgb(104,105,99)', color: '#030303', background: 'transparent' }}
+              className="flex items-center gap-[6px] text-[12px] whitespace-nowrap"
+              style={{ color: 'rgb(150,150,145)', background: 'transparent' }}
             >
-              Ladda ner rapport (PDF)
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path d="M6 1v7M3 5.5 6 8.5 9 5.5M2 10.5h8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Ladda ner PDF
             </button>
-            <CalPopupButton
-              className="text-[13px] font-semibold px-[18px] py-[10px] rounded-full whitespace-nowrap"
-              style={{ background: '#030303', color: '#fff' }}
-            >
-              Boka gratis genomgång
-            </CalPopupButton>
-            <Link
-              href="#priser"
-              onClick={onClose}
-              className="text-[13px] font-semibold px-[18px] py-[10px] rounded-full whitespace-nowrap no-underline"
-              style={{ border: '1px solid rgb(220,220,220)', color: '#030303' }}
-            >
-              Se SEO-paket
-            </Link>
           </div>
         </div>
       </div>

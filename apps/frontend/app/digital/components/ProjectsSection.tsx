@@ -100,7 +100,10 @@ export function ProjectsSection() {
                       style={{
                         letterSpacing: '0.06em',
                         color: '#fff',
-                        background: '#030303',
+                        background: 'rgba(3,3,3,0.45)',
+                        backdropFilter: 'blur(8px)',
+                        WebkitBackdropFilter: 'blur(8px)',
+                        border: '1px solid rgba(255,255,255,0.6)',
                         borderRadius: '999px',
                         padding: '6px 14px',
                       }}
@@ -120,11 +123,9 @@ export function ProjectsSection() {
                   </span>
                 </div>
               </Link>
-              <div className="flex items-start justify-between pt-[16px]">
-                <div className="flex flex-col gap-[2px]">
-                  <span className="text-[16px] font-semibold text-[#030303]">{p.title}</span>
-                  <span className="text-[13px]" style={{ color: 'rgb(104,105,99)' }}>{p.category}</span>
-                </div>
+              <div className="flex items-center justify-between pt-[16px]">
+                <span className="text-[16px] font-semibold text-[#030303]">{p.title}</span>
+                <span className="text-[13px]" style={{ color: 'rgb(104,105,99)' }}>{p.category}</span>
                 <span
                   className="text-[12px]"
                   style={{ color: 'rgb(104,105,99)' }}

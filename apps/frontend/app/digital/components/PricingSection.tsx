@@ -7,6 +7,13 @@ import { PRICES, SEO_PRICES, type PricePackage } from '../pricing-data';
 import { CalPopupButton } from './CalPopupButton';
 
 function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
+  const [showIncVat, setShowIncVat] = useState(false);
+  const numericPrice = parseInt(p.price.replace(/\s/g, ''), 10);
+  const displayPrice = showIncVat
+    ? Math.round((numericPrice * 1.25) / 10) * 10
+    : numericPrice;
+  const formattedPrice = displayPrice.toLocaleString('sv-SE');
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -67,7 +74,7 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
                 color: p.dark ? '#fff' : '#030303',
               }}
             >
-              {p.price}
+              {formattedPrice}
             </span>
             <span
               className="text-[15px]"
@@ -76,27 +83,45 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
               {p.suffix}
             </span>
           </div>
-          <div
-            className="text-[13px] mt-[4px]"
+          <button
+            type="button"
+            onClick={() => setShowIncVat((v) => !v)}
+            className="text-[13px] mt-[4px] underline bg-transparent"
             style={{ color: p.dark ? 'rgba(255,255,255,0.4)' : 'rgb(140,140,134)' }}
           >
-            Exkl. moms
-          </div>
+            {showIncVat ? 'Inkl. moms · Visa exkl.' : 'Exkl. moms · Visa inkl.'}
+          </button>
         </div>
 
         <div>
-          <CalPopupButton
-            className="flex items-center justify-between text-[16px] font-semibold pb-[12px] no-underline"
-            style={{
-              color: p.dark ? '#e8c547' : '#030303',
-              borderBottom: `1px solid ${p.dark ? 'rgba(232,197,71,0.4)' : 'rgb(104,105,99)'}`,
-            }}
-          >
-            {p.ctaLabel ?? 'Boka ett samtal'}
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0" aria-hidden="true">
-              <path d="M2 2L12 2L12 12L2 2Z" fill={p.dark ? '#e8c547' : '#030303'} />
-            </svg>
-          </CalPopupButton>
+          {p.ctaLabel ? (
+            <a
+              href="#seo-test"
+              className="flex items-center justify-between text-[16px] font-semibold pb-[12px] no-underline"
+              style={{
+                color: p.dark ? '#e8c547' : '#030303',
+                borderBottom: `1px solid ${p.dark ? 'rgba(232,197,71,0.4)' : 'rgb(104,105,99)'}`,
+              }}
+            >
+              {p.ctaLabel}
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0" aria-hidden="true">
+                <path d="M2 2L12 2L12 12L2 2Z" fill={p.dark ? '#e8c547' : '#030303'} />
+              </svg>
+            </a>
+          ) : (
+            <CalPopupButton
+              className="flex items-center justify-between text-[16px] font-semibold pb-[12px] no-underline"
+              style={{
+                color: p.dark ? '#e8c547' : '#030303',
+                borderBottom: `1px solid ${p.dark ? 'rgba(232,197,71,0.4)' : 'rgb(104,105,99)'}`,
+              }}
+            >
+              Boka ett samtal
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0" aria-hidden="true">
+                <path d="M2 2L12 2L12 12L2 2Z" fill={p.dark ? '#e8c547' : '#030303'} />
+              </svg>
+            </CalPopupButton>
+          )}
           <div style={{ fontSize: '12px', marginTop: '8px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}>
             {p.note ?? 'Gratis · samma dag offert'}
           </div>
@@ -121,6 +146,18 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
             ))}
           </ul>
         </div>
+
+        {p.upgradeNote && (
+          <div
+            className="text-[12px] leading-[1.5] pt-[16px]"
+            style={{
+              borderTop: `1px solid ${p.dark ? 'rgba(255,255,255,0.12)' : 'rgb(230,230,230)'}`,
+              color: p.dark ? 'rgba(255,255,255,0.4)' : 'rgb(140,140,134)',
+            }}
+          >
+            {p.upgradeNote}
+          </div>
+        )}
       </motion.div>
     </motion.div>
   );

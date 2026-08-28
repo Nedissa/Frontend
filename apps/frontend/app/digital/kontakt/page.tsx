@@ -1,7 +1,9 @@
 'use client';
 import { useState } from 'react';
 import Image from 'next/image';
-import { CalPopupButton } from '../components/CalPopupButton';
+import { Great_Vibes } from 'next/font/google';
+
+const scriptFont = Great_Vibes({ subsets: ['latin'], weight: '400' });
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
@@ -29,6 +31,20 @@ export default function ContactPage() {
             Redo att ta <span style={{ color: '#e8c547' }}>nästa</span> steg?
           </h2>
 
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '32px' }}>
+            <div style={{ position: 'relative', width: '160px', height: '160px', borderRadius: '4px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.2)', background: '#e8c547', flexShrink: 0 }}>
+              <Image src="/digital/nedal-issa-cutout.png" alt="Nedal Issa" fill style={{ objectFit: 'cover', objectPosition: 'bottom' }} />
+            </div>
+            <div>
+              <p className={scriptFont.className} style={{ fontSize: '40px', fontWeight: 400, color: '#fff', margin: '0 0 2px', lineHeight: 1 }}>
+                Nedal Issa
+              </p>
+              <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.03em', margin: 0 }}>
+                Head of Techpilots
+              </p>
+            </div>
+          </div>
+
           <div style={{ flex: 1 }} />
 
           <div style={{ position: 'relative', borderTop: '1px solid rgba(255,255,255,0.15)', paddingTop: '32px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
@@ -38,17 +54,11 @@ export default function ContactPage() {
             <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
               <span style={{ width: '3px', alignSelf: 'stretch', background: '#e8c547', flexShrink: 0, borderRadius: '2px' }} />
               <p style={{ fontSize: '18px', lineHeight: 1.5, fontStyle: 'italic', fontWeight: 400, color: 'rgba(255,255,255,0.75)', margin: 0 }}>
-                Techpilots hjälpte oss förstå vad vi faktiskt behövde. Resultatet blev en snabbare, tydligare webbplats.
+                Vi på Ljuva Hem är supernöjda med vår nya hemsida! Techpilots förstod direkt vikten av att förmedla trygghet till våra kunder inom hemstädning. Processen var smidig och vi har redan märkt att fler lokala kunder hittar oss i Mark och Kinna. Rekommenderas varmt för alla företag.
               </p>
             </div>
-            <div style={{ position: 'relative', width: '96px', height: '96px', borderRadius: '4px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.2)', background: '#e8c547', marginBottom: '12px' }}>
-              <Image src="/digital/nedal-issa-cutout.png" alt="Nedal Issa" fill style={{ objectFit: 'cover', objectPosition: 'bottom' }} />
-            </div>
-            <p style={{ fontSize: '14px', fontWeight: 700, color: '#fff', margin: '0 0 2px' }}>
-              Nedal Issa
-            </p>
-            <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.03em', margin: 0 }}>
-              Head of Techpilots
+            <p style={{ fontSize: '14px', fontWeight: 700, color: '#fff', margin: '0 0 2px 0' }}>
+              Ljuva Hem i Mark
             </p>
           </div>
         </div>
@@ -109,50 +119,46 @@ export default function ContactPage() {
                 <span style={{ display: 'inline-block', width: '8px', height: '8px', background: '#030303', flexShrink: 0 }} />
                 Meddelande
               </label>
-              <textarea id="message" rows={3} placeholder="Skriv ditt meddelande..." style={{ ...inputStyle, resize: 'vertical' }} />
+              <textarea
+                id="message"
+                rows={3}
+                placeholder="Skriv ditt meddelande..."
+                style={{
+                  ...inputStyle,
+                  border: '1px solid rgba(0,0,0,0.15)',
+                  borderRadius: '4px',
+                  padding: '12px',
+                  resize: 'none',
+                }}
+              />
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginTop: '4px' }}>
-              <button
-                type="submit"
-                disabled={submitting}
-                className="contact-btn-primary"
-                style={{
-                  padding: '16px', borderRadius: '4px', border: 'none',
-                  fontSize: '15px', fontWeight: 600,
-                  cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                }}
-              >
-                {submitting ? 'Skickar...' : 'Skicka'}
-                <span className="contact-btn-icon">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </button>
+            <div style={{ marginTop: '4px' }}>
+              <p style={{ fontSize: '13px', color: 'rgba(3,3,3,0.5)', lineHeight: 1.5, margin: '0 0 12px' }}>
+                Vi återkommer inom 24 timmar.
+              </p>
 
-              <CalPopupButton
-                className="contact-btn-secondary"
-                style={{
-                  padding: '16px', borderRadius: '4px', border: 'none',
-                  fontSize: '15px', fontWeight: 600,
-                  cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                }}
-              >
-                Boka ett samtal
-                <span className="contact-btn-icon">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              </CalPopupButton>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="contact-btn-primary"
+                  style={{
+                    padding: '16px', borderRadius: '4px', border: 'none',
+                    fontSize: '15px', fontWeight: 600,
+                    cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  }}
+                >
+                  {submitting ? 'Skickar...' : 'Skicka meddelandet'}
+                  <span className="contact-btn-icon">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                </button>
+              </div>
             </div>
-
-            <p style={{ fontSize: '13px', color: 'rgba(3,3,3,0.5)', lineHeight: 1.5, margin: 0 }}>
-              Vi återkommer inom 24 timmar.
-            </p>
           </form>
         </div>
       </div>

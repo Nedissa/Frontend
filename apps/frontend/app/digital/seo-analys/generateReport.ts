@@ -72,7 +72,7 @@ export function generateSeoReport(result: SeoResult) {
     ['Prestanda', result.scores.performance],
     ['SEO', result.scores.seo],
     ['Tillgänglighet', result.scores.accessibility],
-    ['Best practices', result.scores.bestPractices],
+    ['Best practice', result.scores.bestPractices],
   ];
 
   const colWidth = (pageWidth - margin * 2) / 4;

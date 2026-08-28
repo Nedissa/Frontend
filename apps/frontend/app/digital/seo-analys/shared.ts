@@ -15,22 +15,22 @@ export function scoreColor(score: number) {
 
 export function recommendationFor(category: string, score: number): Recommendation {
   const good: Record<string, string> = {
-    Prestanda: 'Sidan laddar snabbt. Fortsätt hålla koll på bildstorlekar och tredjepartsskript vid framtida uppdateringar.',
-    SEO: 'Grundläggande SEO-struktur är på plats. Fortsatt arbete med innehåll och länkbygge stärker positionen ytterligare.',
-    Tillgänglighet: 'Sidan är väl anpassad för skärmläsare och andra hjälpmedel.',
-    'Best practices': 'Sidan följer moderna webbstandarder för säkerhet och kodkvalitet.',
+    Prestanda: 'Sidan laddar snabbt. Fortsätt hålla koll på bildstorlekar och tredjepartsskript.',
+    SEO: 'Grunden är på plats. Fortsatt arbete med innehåll och länkar stärker positionen.',
+    Tillgänglighet: 'Väl anpassad för skärmläsare och andra hjälpmedel.',
+    'Best practice': 'Följer moderna webbstandarder för säkerhet och kodkvalitet.',
   };
   const okay: Record<string, string> = {
-    Prestanda: 'Det finns utrymme att förbättra laddtiden, t.ex. genom bildoptimering och minskad JavaScript-belastning.',
-    SEO: 'Grunderna finns, men strukturerad data, metataggar eller innehållsdjup kan förbättras för bättre synlighet.',
-    Tillgänglighet: 'Vissa tillgänglighetsförbättringar rekommenderas, t.ex. kontrast eller alt-texter.',
-    'Best practices': 'Några mindre avvikelser från best practices, t.ex. föråldrade bibliotek eller saknade säkerhetsheaders.',
+    Prestanda: 'Utrymme att förbättra laddtiden, t.ex. bildoptimering och mindre JavaScript.',
+    SEO: 'Grunderna finns, men strukturerad data eller innehåll kan förbättras.',
+    Tillgänglighet: 'Vissa förbättringar rekommenderas, t.ex. kontrast eller alt-texter.',
+    'Best practice': 'Några mindre avvikelser, t.ex. föråldrade bibliotek eller säkerhetsheaders.',
   };
   const bad: Record<string, string> = {
-    Prestanda: 'Sidan laddar långsamt, vilket påverkar både användarupplevelse och sökrankning. Detta är ofta den enskilt viktigaste faktorn att åtgärda.',
-    SEO: 'Flera grundläggande SEO-faktorer saknas eller är felaktiga, vilket gör det svårare att synas i sökresultat.',
-    Tillgänglighet: 'Sidan har tillgänglighetsproblem som kan utestänga besökare som använder hjälpmedel.',
-    'Best practices': 'Flera moderna webbstandarder följs inte, vilket kan påverka säkerhet och långsiktig underhållbarhet.',
+    Prestanda: 'Långsam laddning kostar er både besökare och sökrankning. Ofta den viktigaste faktorn att åtgärda.',
+    SEO: 'Flera grundläggande SEO-faktorer saknas, vilket gör det svårare att synas i sökresultat.',
+    Tillgänglighet: 'Tillgänglighetsproblem kan utestänga besökare som använder hjälpmedel.',
+    'Best practice': 'Flera webbstandarder följs inte, vilket kan påverka säkerhet och underhåll.',
   };
 
   const set = score >= 90 ? good : score >= 50 ? okay : bad;
