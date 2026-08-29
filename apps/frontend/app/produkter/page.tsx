@@ -11,7 +11,7 @@ interface FilterOptions {
   priceRange: [number, number];
   brands: string[];
   colors: string[];
-  rating: number | null;
+  rating: number[];
   inStock: boolean;
 }
 

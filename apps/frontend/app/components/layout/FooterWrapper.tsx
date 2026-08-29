@@ -147,7 +147,7 @@ export function FooterWrapper() {
               <span style={{ color: '#444', flexShrink: 0 }}>|</span>
               <img src="/icons/swish.svg" alt="Swish" style={{ height: '20px', flexShrink: 0 }} />
               <span style={{ color: '#444', flexShrink: 0 }}>|</span>
-              <img src="/icons/applepay.svg" alt="Apple Pay" style={{ height: '20px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
+              <img src="/icons/applepay.svg" alt="Apple Pay" style={{ height: '28px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
               <span className="hidden md:inline" style={{ color: '#444', flexShrink: 0 }}>|</span>
               <img src="/icons/googlepay.svg" alt="Google Pay" className="hidden md:inline-block" style={{ height: '20px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
             </div>

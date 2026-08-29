@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
 import './globals.css';
 import { RootLayoutClient } from './components/layout/RootLayoutClient';
 import { CookieBanner } from './components/CookieBanner';
@@ -44,10 +43,6 @@ export default async function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body className="bg-white flex flex-col min-h-screen">
-        <Script
-          src="https://static.klaviyo.com/onsite/js/XrJ4Rq/klaviyo.js"
-          strategy="lazyOnload"
-        />
         <RootLayoutClient initialIsLoggedIn={isLoggedIn}>
           {children}
         </RootLayoutClient>

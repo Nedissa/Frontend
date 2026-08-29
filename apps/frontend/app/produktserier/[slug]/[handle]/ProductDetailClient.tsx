@@ -747,7 +747,7 @@ export default function ProductDetailClient({
               <img src="/icons/mastercard.svg" alt="Mastercard" className="h-4 w-auto" />
             </div>
             <div className="border border-gray-200 rounded px-2 py-1.5 flex items-center justify-center" style={{ minWidth: '48px' }}>
-              <img src="/icons/applepay.svg" alt="Apple Pay" className="h-6 w-auto" />
+              <img src="/icons/applepay.svg" alt="Apple Pay" className="h-8 w-auto" />
             </div>
           </div>
         </div>

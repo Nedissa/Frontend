@@ -79,8 +79,8 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
   }, [isPlaying, isVisible]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const heroImages = [
-    '/assets/hero-thumb-1.webp',
     '/assets/hero-thumb-2.webp',
+    '/assets/hero-thumb-1.webp',
     '/assets/hero-thumb-3.webp',
   ];
 
@@ -124,7 +124,7 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1080px) 100vw, 1600px"
                 className="w-full h-full"
-                style={{ objectFit: isHeroThumb ? 'contain' : 'cover', objectPosition: isHeroThumb ? 'center 98%' : 'center' }}
+                style={{ objectFit: isHeroThumb ? 'contain' : 'cover', objectPosition: isHeroThumb ? 'center' : 'center' }}
                 priority={i === 0}
                 quality={85}
               />
@@ -132,25 +132,6 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
           );
         })}
         <div className="absolute inset-0 bg-black/30 z-10"></div>
-
-        {/* Guldbadge — övre högra hörnet */}
-        <div
-          className="absolute top-8 right-4 md:top-6 md:right-6 z-20 text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-full"
-          style={{ background: '#e8c547', color: '#0a0a0a' }}
-        >
-          Nyhet
-        </div>
-
-        {/* Text overlay — centrerad på mobil, vänster på desktop */}
-        <div className="absolute top-12 left-4 right-4 md:top-10 md:left-10 md:right-auto z-20 flex flex-col gap-3 items-center md:items-start" style={{ maxWidth: '440px' }} onClick={(e) => e.stopPropagation()}>
-          <h2 className="text-white font-bold leading-tight text-2xl md:text-[2.8rem] text-center md:text-left" style={{ maxWidth: '480px', textShadow: '0 2px 12px rgba(0,0,0,0.4)' }}>
-            Teknik för en<br />enklare vardag
-          </h2>
-          <div className="hero-divider mx-auto md:mx-0" style={{ width: '220px', height: '1px', borderRadius: '999px' }} />
-          <p className="text-gray-200 text-xs md:text-sm leading-relaxed text-center md:text-left">
-            Vi guidar dig rätt i teknikdjungeln.
-          </p>
-        </div>
 
         {/* Pill controller */}
         <div

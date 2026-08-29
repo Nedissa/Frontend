@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export function AboutBanner() {
   return (
-    <div className="w-full flex flex-col sm:flex-row bg-white sm:h-[400px] overflow-hidden">
+    <div className="w-full flex flex-col sm:flex-row bg-white sm:h-[400px] overflow-hidden border border-black/10">
       {/* Left — image */}
       <div className="relative flex-shrink-0 w-full sm:w-[52%] h-[220px] sm:h-full" style={{
         background: 'linear-gradient(135deg, #0a0a0a, #030303, #0a0a0a, #0a0a0a, #030303)',
@@ -33,11 +33,9 @@ export function AboutBanner() {
       </div>
 
       {/* Right — content */}
-      <div className="flex flex-col justify-center px-2 sm:px-16 w-full sm:w-[48%] py-6 sm:py-0 sm:h-full overflow-hidden border-t sm:border-t-0 sm:border-l border-white/40" style={{
-        background: 'linear-gradient(135deg, #0a0a0a, #030303, #0a0a0a, #0a0a0a, #030303)',
-      }}>
-        <p className="text-sm font-semibold text-gray-400 mb-2 tracking-wide">Enkelt. Snabbt. Pålitligt.</p>
-        <h2 className="text-2xl font-bold text-white leading-tight mb-4 pb-4 border-b border-white/15">
+      <div className="flex flex-col justify-center px-2 sm:px-16 w-full sm:w-[48%] py-6 sm:py-0 sm:h-full overflow-hidden bg-white sm:border-l sm:border-black/10">
+        <p className="text-sm sm:text-base font-semibold text-gray-500 mb-2 tracking-wide">Enkelt. Snabbt. Pålitligt.</p>
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight mb-4 pb-4 border-b border-black/10">
           Teknik ska vara<br />enkelt att handla
         </h2>
         <ul className="flex flex-col gap-2.5 mb-4">
@@ -46,7 +44,7 @@ export function AboutBanner() {
             { text: '4,8 i recensionsbetyg' },
             { text: 'Över 200 utvalda elektronikprodukter' },
           ].map((item, i) => (
-            <li key={i} className="flex items-center gap-2.5 text-sm font-semibold text-white">
+            <li key={i} className="flex items-center gap-2.5 text-sm sm:text-base font-semibold text-gray-900">
               <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#e8c547' }} />
               {item.text}
             </li>

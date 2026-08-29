@@ -14,7 +14,7 @@ export function CookieBanner() {
       setVisible(true);
       requestAnimationFrame(() => requestAnimationFrame(() => setAnimIn(true)));
     }
-    if (consent === 'accepted') loadTidio();
+    if (consent === 'accepted') { loadTidio(); loadKlaviyo(); }
   }, []);
 
   function loadTidio() {
@@ -25,11 +25,20 @@ export function CookieBanner() {
     document.head.appendChild(s);
   }
 
+  function loadKlaviyo() {
+    if (document.querySelector('script[src*="klaviyo"]')) return;
+    const s = document.createElement('script');
+    s.src = 'https://static.klaviyo.com/onsite/js/XrJ4Rq/klaviyo.js';
+    s.async = true;
+    document.head.appendChild(s);
+  }
+
   function accept() {
     localStorage.setItem('cookie_consent', 'accepted');
     setAnimIn(false);
     setTimeout(() => setVisible(false), 300);
     loadTidio();
+    loadKlaviyo();
   }
 
   function decline() {
