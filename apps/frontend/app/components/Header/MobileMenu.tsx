@@ -97,7 +97,7 @@ export function MobileMenu({
                 onClick={onToggleOffers}
               >
                 <span className="flex-shrink-0 w-12 h-12 flex items-center justify-center">
-                  <img src="/icons/categories/erbjudanden.png" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
+                  <img src="/icons/categories/erbjudanden.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />
                 </span>
                 <span className="flex-1 text-sm font-semibold text-black text-left">Erbjudanden</span>
                 <svg className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform ${activeMobileCategory === 'erbjudanden' ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">

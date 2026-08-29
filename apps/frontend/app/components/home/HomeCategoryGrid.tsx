@@ -3,25 +3,56 @@
 import Link from 'next/link';
 
 const CATEGORIES = [
-  { title: 'Datorer', url: '/kategori/datorer-tillbehor', icon: '/icons/categories/datorer.png' },
-  { title: 'Komponenter', url: '/kategori/datorkomponenter', icon: '/icons/categories/datorkomponenter.png' },
-  { title: 'Gaming', url: '/kategori/gaming', icon: '/icons/categories/gaming.png' },
-  { title: 'Mobiler', url: '/kategori/mobiltelefoner', icon: '/icons/categories/mobiltelefoner.png' },
-  { title: 'Nätverk', url: '/kategori/natverk', icon: '/icons/categories/natverk.png' },
-  { title: 'TV & HiFi', url: '/kategori/tv-hifi', icon: '/icons/categories/tv-hifi.png' },
+  { title: 'Datorer', url: '/kategori/datorer-tillbehor', icon: '/icons/categories/datorer.webp' },
+  { title: 'Komponenter', url: '/kategori/datorkomponenter', icon: '/icons/categories/datorkomponenter.webp' },
+  { title: 'Gaming', url: '/kategori/gaming', icon: '/icons/categories/gaming.webp' },
+  { title: 'Mobiler', url: '/kategori/mobiltelefoner', icon: '/icons/categories/mobiltelefoner.webp' },
+  { title: 'Nätverk', url: '/kategori/natverk', icon: '/icons/categories/natverk.webp' },
+  { title: 'TV & HiFi', url: '/kategori/tv-hifi', icon: '/icons/categories/tv-hifi.webp' },
 ];
 
 const DESKTOP_CATEGORIES = [
-  ...CATEGORIES,
+  { title: 'Bärbara', url: '/kategori/barbara', icon: '/icons/categories/datorer.webp' },
+  { title: 'Processorer', url: '/kategori/processorer', icon: '/icons/categories/datorkomponenter.webp' },
+  { title: 'Gaming-tillbehör', url: '/kategori/gaming-tillbehor', icon: '/icons/categories/gaming.webp' },
+  { title: 'Smartphones', url: '/kategori/smartphones', icon: '/icons/categories/mobiltelefoner.webp' },
+  { title: 'Routrar', url: '/kategori/routrar', icon: '/icons/categories/natverk.webp' },
+  { title: 'TV', url: '/kategori/tv', icon: '/icons/categories/tv-hifi.webp' },
   { title: 'Datortillbehör', url: '/kategori/datortillbehor', icon: '/icons/datortillbehor.svg' },
+  { title: 'Ljud & HiFi', url: '/kategori/ljud-hifi', icon: '/icons/ljud-hifi.svg' },
 ];
+
+function DesktopCategoryGrid({ categories }: { categories: typeof DESKTOP_CATEGORIES }) {
+  return (
+    <div className="grid w-full mx-auto" style={{ gridTemplateColumns: `repeat(${categories.length}, 1fr)` }}>
+      {categories.map((cat, i) => (
+        <Link
+          key={cat.url}
+          href={cat.url}
+          className={`group flex flex-col items-center no-underline py-2 ${i > 0 ? 'border-l border-gray-200' : ''}`}
+        >
+          <div
+            className="rounded-full flex items-center justify-center"
+            style={{ background: '#0a0a0a', width: 'clamp(50px, 6vw, 76px)', height: 'clamp(50px, 6vw, 76px)' }}
+          >
+            <img src={cat.icon} alt={cat.title} className="object-contain category-icon" style={{ width: 'clamp(26px, 3vw, 38px)', height: 'clamp(26px, 3vw, 38px)' }} />
+          </div>
+          <span className="font-semibold text-gray-900 text-center leading-tight w-fit relative mt-2 after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-gray-900 after:transition-all after:duration-300 group-hover:after:w-full" style={{ fontSize: 'clamp(9px, 0.9vw, 12px)' }}>
+            {cat.title}
+          </span>
+          <span className="text-gray-500" style={{ fontSize: 'clamp(8px, 0.8vw, 10px)' }}>Visa kategori</span>
+        </Link>
+      ))}
+    </div>
+  );
+}
 
 export function HomeCategoryGrid() {
   return (
     <div className="w-full pt-6 pb-4 px-2 md:px-6">
       <div className="mb-4 sm:mb-6">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Handla efter kategori</h2>
-        <p className="text-sm text-gray-500 mt-1">Utforska våra mest populära produktkategorier.</p>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Underkategorier</h2>
+        <p className="text-sm text-gray-500 mt-1">Hitta rätt i vårt sortiment.</p>
       </div>
 
       {/* Mobil: 2-kolumnsgrid */}
@@ -43,22 +74,9 @@ export function HomeCategoryGrid() {
         ))}
       </div>
 
-      {/* Desktop: en rad, cirklarna krymper relativt till containerns bredd */}
-      <div className="hidden sm:flex justify-center w-full mx-auto" style={{ gap: 'clamp(8px, 2vw, 40px)' }}>
-        {DESKTOP_CATEGORIES.map((cat) => (
-          <Link key={cat.url} href={cat.url} className="group flex flex-col items-center no-underline flex-shrink-0">
-            <div
-              className="rounded-full flex flex-col items-center justify-center gap-1"
-              style={{ background: '#0a0a0a', width: 'clamp(76px, 11vw, 128px)', height: 'clamp(76px, 11vw, 128px)' }}
-            >
-              <img src={cat.icon} alt={cat.title} className="object-contain category-icon" style={{ width: 'clamp(28px, 3.4vw, 40px)', height: 'clamp(28px, 3.4vw, 40px)' }} />
-              <span className="font-semibold text-white text-center leading-tight w-fit relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-300 group-hover:after:w-full" style={{ fontSize: 'clamp(9px, 0.9vw, 12px)' }}>
-                {cat.title}
-              </span>
-              <span className="text-white/60" style={{ fontSize: 'clamp(8px, 0.8vw, 10px)' }}>Visa kategori</span>
-            </div>
-          </Link>
-        ))}
+      {/* Desktop: rutnät med vertikala avdelare mellan varje kategori */}
+      <div className="hidden sm:block">
+        <DesktopCategoryGrid categories={DESKTOP_CATEGORIES} />
       </div>
     </div>
   );
