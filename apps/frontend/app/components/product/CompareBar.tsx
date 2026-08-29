@@ -214,7 +214,7 @@ export function CompareBar() {
           >
             {/* Modal header */}
             <div style={{ position: 'sticky', top: 0, background: '#fff', zIndex: 50, borderBottom: '1px solid #e5e7eb' }}>
-              <div className="content-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 16px 20px', width: '100%' }}>
+              <div className="max-w-content mx-auto" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '12px 16px 20px', width: '100%' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   {/* Kopiera länk */}
                   <button
@@ -242,7 +242,7 @@ export function CompareBar() {
             </div>
 
             {/* Modal content */}
-            <div className="content-container" style={{ padding: '0' }}>
+            <div className="max-w-content mx-auto" style={{ padding: '0' }}>
 
               {/* Desktop: produktkort + tabell */}
               <div className="hidden md:block" style={{ padding: '16px 16px 16px 16px' }}>

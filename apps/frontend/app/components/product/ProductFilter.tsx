@@ -6,7 +6,7 @@ interface FilterOptions {
   priceRange: [number, number];
   brands: string[];
   colors: string[];
-  rating: number | null;
+  rating: number[];
   inStock: boolean;
 }
 
@@ -27,7 +27,7 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
   const [priceRange, setPriceRange] = useState<[number, number]>(() => [0, maxPrice]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
-  const [selectedRating, setSelectedRating] = useState<number | null>(null);
+  const [selectedRating, setSelectedRating] = useState<number[]>([]);
   const [inStockOnly, setInStockOnly] = useState(false);
   const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({
     price: true,
@@ -92,7 +92,9 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
   };
 
   const handleRatingChange = (rating: number) => {
-    const newRating = selectedRating === rating ? null : rating;
+    const newRating = selectedRating.includes(rating)
+      ? selectedRating.filter(r => r !== rating)
+      : [...selectedRating, rating];
     setSelectedRating(newRating);
     updateFilters(priceRange, selectedBrands, selectedColors, newRating, inStockOnly);
   };
@@ -107,7 +109,7 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
     range: [number, number],
     brands: string[],
     colors: string[],
-    rating: number | null,
+    rating: number[],
     stock: boolean
   ) => {
     onFilterChange({
@@ -123,9 +125,9 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
     setPriceRange([0, maxPrice]);
     setSelectedBrands([]);
     setSelectedColors([]);
-    setSelectedRating(null);
+    setSelectedRating([]);
     setInStockOnly(false);
-    updateFilters([0, maxPrice], [], [], null, false);
+    updateFilters([0, maxPrice], [], [], [], false);
   };
 
   return (
@@ -325,8 +327,8 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
                 key={rating}
                 onClick={() => handleRatingChange(rating)}
                 className={`w-full text-left px-2.5 py-1 text-sm font-medium transition-colors flex items-center gap-1 ${
-                  selectedRating === rating
-                    ? `${blackShades[idx]} ${idx < 2 ? 'text-white' : 'text-white'}`
+                  selectedRating.includes(rating)
+                    ? `${blackShades[idx]} text-white`
                     : 'text-gray-900'
                 }`}
               >
@@ -337,7 +339,7 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
                     </span>
                   ))}
                 </div>
-                <span className="text-xs">({rating}+)</span>
+                <span className="text-xs">({rating})</span>
               </button>
             );
           })}

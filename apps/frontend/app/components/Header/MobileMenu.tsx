@@ -41,7 +41,7 @@ export function MobileMenu({
   const activeCat = MENU_DATA.find(c => c.id === mobileExpandedCategory);
 
   return (
-    <div className="md:hidden fixed inset-0 z-[9999] pointer-events-none">
+    <div className="lg:hidden fixed inset-0 z-[9999] pointer-events-none">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black transition-opacity duration-300"

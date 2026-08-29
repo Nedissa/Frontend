@@ -11,7 +11,7 @@ const QUICK_LINKS = [
   { label: 'Projekt', href: '/digital#projekt' },
   { label: 'Priser', href: '/digital#priser' },
   { label: 'Kontakt', href: '/digital/kontakt' },
-  { label: 'Webshop', href: '/' },
+  { label: 'Webbutik', href: '/' },
 ];
 
 const TERMS_LINKS = [

@@ -29,10 +29,10 @@ export function MegaMenu({
   isPathActive,
 }: MegaMenuProps) {
   return (
-    <div className="hidden md:block">
+    <div className="hidden lg:block">
       {/* Navigation */}
       <nav className="bg-white" onMouseLeave={onMouseLeave}>
-        <div className="content-container">
+        <div className="max-w-content mx-auto">
           <div className="w-full flex items-stretch gap-0">
             {MENU_DATA.map((category) => {
               const isActive = isPathActive(category.url);
@@ -68,7 +68,7 @@ export function MegaMenu({
 
       {/* Mega Menu */}
       <div className="absolute top-full left-0 right-0 z-40 flex justify-center" style={{ display: (showMegaMenu && activeMegaMenu) ? 'flex' : 'none' }}>
-        <div className="content-container w-full px-6 border-b border-l border-r border-gray-300 shadow-lg" onMouseLeave={onMouseLeave} style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f7f7f5 100%)' }}>
+        <div className="max-w-content mx-auto w-full px-6 border-b border-l border-r border-gray-300 shadow-lg" onMouseLeave={onMouseLeave} style={{ background: 'linear-gradient(180deg, #ffffff 0%, #f7f7f5 100%)' }}>
           <div className="py-8">
             {/* Erbjudanden panel */}
             <div style={{ display: activeMegaMenu === 'erbjudanden' ? 'flex' : 'none', gap: '2rem' }}>
@@ -144,7 +144,7 @@ export function MegaMenu({
           </div>
         </div>
       </div>
-      <div className="hidden md:block w-full h-px bg-gray-200 relative z-50"></div>
+      <div className="hidden lg:block w-full h-px bg-gray-200 relative z-50"></div>
     </div>
   );
 }

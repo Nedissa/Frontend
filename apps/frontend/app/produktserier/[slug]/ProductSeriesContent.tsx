@@ -42,7 +42,7 @@ export function ProductSeriesContent({
     priceRange: [0, maxPrice],
     brands: [],
     colors: [],
-    rating: null,
+    rating: [],
     inStock: false,
   });
 
@@ -64,7 +64,7 @@ export function ProductSeriesContent({
     const priceMatch = product.price >= filters.priceRange[0] && product.price <= filters.priceRange[1];
     const brandMatch = filters.brands.length === 0 || !product.brand || filters.brands.includes(product.brand);
     const colorMatch = !filters.colors || filters.colors.length === 0 || (product.colors && product.colors.some(color => filters.colors.includes(color)));
-    const ratingMatch = filters.rating === null || (product.rating || 0) >= filters.rating;
+    const ratingMatch = filters.rating.length === 0 || filters.rating.includes(Math.round(product.rating || 0));
     const stockMatch = !filters.inStock || product.stock?.includes('I lager');
     return priceMatch && brandMatch && colorMatch && ratingMatch && stockMatch;
   });

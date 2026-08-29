@@ -16,9 +16,9 @@ const config: Config = {
       fontFamily: {
         sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica Neue', 'sans-serif'],
       },
-      screens: {
-        hd: '1920px',
-        qhd: '2560px',
+      maxWidth: {
+        content: 'clamp(960px, 62.5vw, 1600px)',
+        'content-narrow': 'clamp(960px, 50vw, 1100px)',
       },
     },
   },

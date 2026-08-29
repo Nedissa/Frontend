@@ -43,16 +43,19 @@ export function HomeCategoryGrid() {
         ))}
       </div>
 
-      {/* Desktop: en rad */}
-      <div className="hidden sm:flex justify-center gap-10 w-full mx-auto">
+      {/* Desktop: en rad, cirklarna krymper relativt till containerns bredd */}
+      <div className="hidden sm:flex justify-center w-full mx-auto" style={{ gap: 'clamp(8px, 2vw, 40px)' }}>
         {DESKTOP_CATEGORIES.map((cat) => (
-          <Link key={cat.url} href={cat.url} className="group flex flex-col items-center no-underline">
-            <div className="w-32 h-32 rounded-full flex flex-col items-center justify-center gap-1" style={{ background: '#0a0a0a' }}>
-              <img src={cat.icon} alt={cat.title} className="w-10 h-10 object-contain category-icon" />
-              <span className="text-xs font-semibold text-white text-center leading-tight w-fit relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-300 group-hover:after:w-full">
+          <Link key={cat.url} href={cat.url} className="group flex flex-col items-center no-underline flex-shrink-0">
+            <div
+              className="rounded-full flex flex-col items-center justify-center gap-1"
+              style={{ background: '#0a0a0a', width: 'clamp(76px, 11vw, 128px)', height: 'clamp(76px, 11vw, 128px)' }}
+            >
+              <img src={cat.icon} alt={cat.title} className="object-contain category-icon" style={{ width: 'clamp(28px, 3.4vw, 40px)', height: 'clamp(28px, 3.4vw, 40px)' }} />
+              <span className="font-semibold text-white text-center leading-tight w-fit relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-white after:transition-all after:duration-300 group-hover:after:w-full" style={{ fontSize: 'clamp(9px, 0.9vw, 12px)' }}>
                 {cat.title}
               </span>
-              <span className="text-[10px] text-white/60">Visa kategori</span>
+              <span className="text-white/60" style={{ fontSize: 'clamp(8px, 0.8vw, 10px)' }}>Visa kategori</span>
             </div>
           </Link>
         ))}

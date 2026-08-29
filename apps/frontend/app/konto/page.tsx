@@ -336,11 +336,11 @@ export default function AccountPage() {
     }
   };
 
-  if (!isHydrated) return <MainLayout bordered={false}><div className="content-container-narrow w-full px-6 py-16" /></MainLayout>;
+  if (!isHydrated) return <MainLayout bordered={false}><div className="max-w-content-narrow mx-auto w-full px-6 py-16" /></MainLayout>;
 
   return (
     <MainLayout bordered={false}>
-      <div className="content-container-narrow w-full px-4 md:px-6 py-6 md:py-16">
+      <div className="max-w-content-narrow mx-auto w-full px-4 md:px-6 py-6 md:py-16">
         {/* Welcome Section */}
         <div className="mb-8 p-6 bg-white" style={{ border: '1px solid #e5e7eb' }}>
           <h2 className="text-xl font-bold mb-1 select-none">Välkommen, {firstName || registerEmail?.split('@')[0] || 'Johan'}!</h2>

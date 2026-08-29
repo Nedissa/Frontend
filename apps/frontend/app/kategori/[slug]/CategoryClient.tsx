@@ -11,7 +11,7 @@ interface FilterOptions {
   priceRange: [number, number];
   brands: string[];
   colors: string[];
-  rating: number | null;
+  rating: number[];
   inStock: boolean;
 }
 
@@ -27,7 +27,7 @@ export default function CategoryClient({ slug, categoryTitle }: CategoryClientPr
     priceRange: [0, 20000],
     brands: [],
     colors: [],
-    rating: null,
+    rating: [],
     inStock: false,
   });
   const [sortBy, setSortBy] = useState('relevant');
@@ -47,6 +47,7 @@ export default function CategoryClient({ slug, categoryTitle }: CategoryClientPr
   const filtered = products.filter((p) => {
     if (p.price < filters.priceRange[0] || p.price > filters.priceRange[1]) return false;
     if (filters.brands.length > 0 && !filters.brands.includes(p.brand || '')) return false;
+    if (filters.rating.length > 0 && !filters.rating.includes(Math.round(p.rating || 0))) return false;
     if (filters.inStock && !p.inStock) return false;
     return true;
   });

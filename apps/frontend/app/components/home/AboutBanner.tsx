@@ -33,32 +33,31 @@ export function AboutBanner() {
       </div>
 
       {/* Right — content */}
-      <div className="flex flex-col justify-center px-2 sm:px-16 w-full sm:w-[48%] py-6 sm:py-0 sm:h-full overflow-hidden">
-        <p className="text-sm font-semibold text-gray-500 mb-2 tracking-wide">Enkelt. Snabbt. Pålitligt.</p>
-        <h2 className="text-2xl font-bold text-gray-900 leading-tight mb-3">
+      <div className="flex flex-col justify-center px-2 sm:px-16 w-full sm:w-[48%] py-6 sm:py-0 sm:h-full overflow-hidden border-t sm:border-t-0 sm:border-l border-white/40" style={{
+        background: 'linear-gradient(135deg, #0a0a0a, #030303, #0a0a0a, #0a0a0a, #030303)',
+      }}>
+        <p className="text-sm font-semibold text-gray-400 mb-2 tracking-wide">Enkelt. Snabbt. Pålitligt.</p>
+        <h2 className="text-2xl font-bold text-white leading-tight mb-4 pb-4 border-b border-white/15">
           Teknik ska vara<br />enkelt att handla
         </h2>
-        <p className="text-gray-500 text-sm leading-relaxed mb-3" style={{ maxWidth: '380px' }}>
-          Vi har gjort det enkelt att hitta rätt teknik, utan krångel, utan förvirring. Bara produkter du kan lita på, levererade direkt hem till dig.
-        </p>
-        <ul className="flex flex-col gap-2 mb-3">
+        <ul className="flex flex-col gap-2.5 mb-4">
           {[
             { text: 'Skickar direkt från svenska lager' },
             { text: '4,8 i recensionsbetyg' },
             { text: 'Över 200 utvalda elektronikprodukter' },
           ].map((item, i) => (
-            <li key={i} className="flex items-center gap-2 text-sm font-semibold text-gray-900">
-              <span className="w-1.5 h-1.5 rounded-full bg-gray-400 flex-shrink-0" />
+            <li key={i} className="flex items-center gap-2.5 text-sm font-semibold text-white">
+              <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#e8c547' }} />
               {item.text}
             </li>
           ))}
         </ul>
         <Link
-          href="/kundservice"
+          href="/produkter"
           className="inline-flex items-center justify-center font-semibold text-sm px-8 py-2.5 transition-colors w-fit rounded-full"
           style={{ background: '#e8c547', color: '#0a0a0a' }}
         >
-          Läs mer
+          Handla nu
         </Link>
       </div>
     </div>

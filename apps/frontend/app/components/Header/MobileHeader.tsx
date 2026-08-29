@@ -45,7 +45,7 @@ export function MobileHeader({
   const results = searchProducts.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, 5);
 
   return (
-    <div className="md:hidden" ref={mobileHeaderRef}>
+    <div className="lg:hidden" ref={mobileHeaderRef}>
       {/* Row 1: hamburger | logo | konto+kundvagn */}
       <div className="relative flex items-center px-0 py-0 border-b border-gray-100" style={{ minHeight: '56px', background: 'white' }}>
         <button

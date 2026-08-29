@@ -557,9 +557,6 @@ function CheckoutContent() {
 
   return (
     <MainLayout bordered={false} noPadding>
-      <style>{`
-        @media(max-width:767px){.ml-container{padding-left:8px!important;padding-right:8px!important;}}
-      `}</style>
       {/* Steg-indikator — endast mobil */}
       {(() => {
         const steps = [

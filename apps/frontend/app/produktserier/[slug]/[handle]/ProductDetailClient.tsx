@@ -288,7 +288,7 @@ export default function ProductDetailClient({
       <Breadcrumb items={breadcrumbItems} />
 
       {/* Main layout: left (gallery+tabs) + right (productinfo+handla tryggt) */}
-      <div className="w-full flex flex-col md:flex-row" style={{ alignItems: 'stretch', gap: '5px' }}>
+      <div className="w-full flex flex-col lg:flex-row" style={{ alignItems: 'stretch', gap: '5px' }}>
 
         {/* Left column — gallery + tabs (tabs hidden on mobile, shown after right col) */}
         <div className="flex flex-col flex-1 min-w-0" style={{ gap: '5px' }}>
@@ -417,8 +417,8 @@ export default function ProductDetailClient({
             </div>
           </div>
 
-          {/* Tabs — inside left column, hidden on mobile */}
-          <div className="hidden md:block p-8 pb-0 bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+          {/* Tabs — inside left column, hidden on mobile/tablet */}
+          <div className="hidden lg:block p-8 pb-0 bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
             <style>{`@keyframes tab-fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }`}</style>
             <div className="pt-0 w-full pb-8" id="product-tabs">
               <div className="flex gap-8 mb-8 border-b border-gray-200 w-full">
@@ -509,8 +509,8 @@ export default function ProductDetailClient({
         </div>{/* end left column */}
 
         {/* Right column — productinfo + handla tryggt */}
-        <div className="flex flex-col md:flex-shrink-0 w-full md:w-[288px]" style={{ gap: '5px', alignSelf: 'stretch' }}>
-        <div className="flex flex-col md:grid md:min-h-[540px]" style={{ gridTemplateRows: 'auto 1fr', gap: '5px' }}>
+        <div className="flex flex-col lg:flex-shrink-0 w-full lg:w-[288px]" style={{ gap: '5px', alignSelf: 'stretch' }}>
+        <div className="flex flex-col lg:grid lg:min-h-[540px]" style={{ gridTemplateRows: 'auto 1fr', gap: '5px' }}>
         <div className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
 
           <div className="p-6 pb-4">
@@ -687,8 +687,8 @@ export default function ProductDetailClient({
 
         </div>{/* end productinfo */}
 
-        {/* Beskrivning accordion — mobile only, direkt under köpknappen */}
-        <div className="md:hidden flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+        {/* Beskrivning accordion — mobile/tablet only, direkt under köpknappen */}
+        <div className="lg:hidden flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
           {[
             { key: 'description', label: 'BESKRIVNING', content: <p className="px-5 pb-4 text-xs text-gray-600 leading-relaxed whitespace-pre-wrap">{productDetails.description || 'Ingen beskrivning tillagd'}</p> },
             { key: 'specifications', label: 'SPECIFIKATIONER', content: <div className="px-5 pb-4 space-y-2">{productDetails.specifications.length > 0 ? productDetails.specifications.map((spec: { label: string; value: string }, idx: number) => (<div key={idx} className="border-b border-gray-100 pb-2"><p className="text-xs font-semibold text-gray-900">{spec.label}</p><p className="text-xs text-gray-600">{spec.value}</p></div>)) : <p className="text-xs text-gray-400">Inga specifikationer</p>}</div> },
@@ -721,7 +721,7 @@ export default function ProductDetailClient({
         </div>
 
         {/* Frakt, Retur, Öppet köp — desktop only */}
-        <div className="hidden md:flex md:flex-col md:min-h-0"><ExtraInfoColumn product={product} /></div>
+        <div className="hidden lg:flex lg:flex-col lg:min-h-0"><ExtraInfoColumn product={product} /></div>
         </div>{/* end productinfo+extrainfo grid */}
 
         {/* Handla tryggt */}
@@ -789,8 +789,8 @@ export default function ProductDetailClient({
 
       </div>{/* end main layout */}
 
-      {/* Mobile-only: ExtraInfoColumn below main layout */}
-      <div className="md:hidden w-full flex flex-col gap-2 mt-2">
+      {/* Mobile/tablet-only: ExtraInfoColumn below main layout */}
+      <div className="lg:hidden w-full flex flex-col gap-2 mt-2">
         <ExtraInfoColumn product={product} />
       </div>
 

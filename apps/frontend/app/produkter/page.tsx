@@ -22,7 +22,7 @@ export default function ProductsPage() {
     priceRange: [0, 20000],
     brands: [],
     colors: [],
-    rating: null,
+    rating: [],
     inStock: false,
   });
   const [sortBy, setSortBy] = useState('relevant');
@@ -47,7 +47,7 @@ export default function ProductsPage() {
       const productColors: string[] = (product as any).colors || [];
       if (!filters.colors.some(c => productColors.includes(c))) return false;
     }
-    if (filters.rating !== null && (product.rating || 0) < filters.rating) return false;
+    if (filters.rating.length > 0 && !filters.rating.includes(Math.round(product.rating || 0))) return false;
     if (filters.inStock && !(product as any).inStock) return false;
     return true;
   });

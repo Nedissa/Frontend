@@ -12,7 +12,7 @@ interface MainLayoutProps {
 export function MainLayout({ children, title, bordered = false, noPadding = false }: MainLayoutProps) {
   return (
     <div className={`w-full flex justify-center ${noPadding ? '' : 'pt-[20px]'}`}>
-      <div className={`ml-container flex flex-col ${bordered ? 'border border-gray-200' : ''}`} style={{ width: '100%', ...( bordered ? { boxShadow: '0 2px 8px rgba(0,0,0,0.15)' } : {}), overflow: 'visible' }}>
+      <div className={`max-w-content mx-auto px-3 md:px-0 flex flex-col ${bordered ? 'border border-gray-200' : ''}`} style={{ width: '100%', ...( bordered ? { boxShadow: '0 2px 8px rgba(0,0,0,0.15)' } : {}), overflow: 'visible' }}>
         {/* Title if provided */}
         {title && (
           <div className="py-8 px-0">
