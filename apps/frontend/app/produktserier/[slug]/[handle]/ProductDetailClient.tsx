@@ -83,15 +83,10 @@ function ExtraInfoColumn({ product }: { product: any }) {
       title: 'RETUR',
       content: 'Retur inom 14 dagar. Produkten ska vara i originalskick och oöppnad förpackning.',
     },
-    {
-      key: 'oppet-kop',
-      title: 'ÖPPET KÖP',
-      content: 'Öppet köp i 14 dagar. Ångrar du dig får du full återbetalning, oavsett anledning.',
-    },
   ];
 
   return (
-    <div className="flex flex-col bg-white divide-y divide-gray-200" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', minHeight: '100%' }}>
+    <div className="flex flex-col justify-evenly bg-white divide-y divide-gray-200" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', minHeight: '100%' }}>
       {sections.map((s, i) => (
         <div key={s.key}>
           <button
@@ -775,10 +770,10 @@ export default function ProductDetailClient({
                   </div>
                   <button
                     onClick={() => window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: acc.id, variantId: acc.variantId, title: acc.title, price: acc.price, quantity: 1, image: acc.image } }))}
-                    className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full bg-black text-white transition-colors hover:bg-gray-800"
+                    className="w-7 h-7 flex-shrink-0 flex items-center justify-center rounded-full bg-black text-white transition-colors hover:bg-gray-800"
                     aria-label={`Lägg till ${acc.title} i varukorg`}
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
                       <path strokeLinecap="square" strokeLinejoin="miter" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5H17"/>
                       <circle cx="9" cy="22" r="1.6" fill="currentColor" stroke="none"/>
                       <circle cx="16" cy="22" r="1.6" fill="currentColor" stroke="none"/>

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { MainLayout } from '@/app/components/layout/MainLayout';
-import { getProductByHandle, getBreadcrumbTrail } from '@/app/lib/products';
+import { getProductByHandle, getBreadcrumbTrail, getAccessories, getReviewStats, getQuestionCount } from '@/app/lib/products';
 import ProductDetailClient from '@/app/produktserier/[slug]/[handle]/ProductDetailClient';
 
 export const revalidate = 60;
@@ -60,6 +60,9 @@ export default async function ProductPage({ params }: PageProps) {
 
   const categorySlug = product.category || 'laptops';
   const breadcrumbTrail = getBreadcrumbTrail(categorySlug);
+  const accessories = await getAccessories(categorySlug, product.image);
+  const reviewStats = await getReviewStats(product.id);
+  const questionCount = await getQuestionCount(product.id);
 
   return (
     <MainLayout>
@@ -68,6 +71,9 @@ export default async function ProductPage({ params }: PageProps) {
         categorySlug={categorySlug}
         categoryTitle={product.category || 'Produkter'}
         breadcrumbTrail={breadcrumbTrail}
+        initialAccessories={accessories as any}
+        initialReviewStats={reviewStats}
+        initialQuestionCount={questionCount}
       />
     </MainLayout>
   );
