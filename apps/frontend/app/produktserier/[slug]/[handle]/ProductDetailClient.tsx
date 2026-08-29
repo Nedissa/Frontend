@@ -288,7 +288,7 @@ export default function ProductDetailClient({
       <Breadcrumb items={breadcrumbItems} />
 
       {/* Main layout: left (gallery+tabs) + right (productinfo+handla tryggt) */}
-      <div className="w-full max-w-[960px] hd:max-w-[1250px] qhd:max-w-[1600px] mx-auto flex flex-col md:flex-row" style={{ alignItems: 'stretch', gap: '5px' }}>
+      <div className="w-full flex flex-col md:flex-row" style={{ alignItems: 'stretch', gap: '5px' }}>
 
         {/* Left column — gallery + tabs (tabs hidden on mobile, shown after right col) */}
         <div className="flex flex-col flex-1 min-w-0" style={{ gap: '5px' }}>
@@ -790,7 +790,7 @@ export default function ProductDetailClient({
       </div>{/* end main layout */}
 
       {/* Mobile-only: ExtraInfoColumn below main layout */}
-      <div className="md:hidden w-full max-w-[960px] hd:max-w-[1250px] qhd:max-w-[1600px] mx-auto flex flex-col gap-2 mt-2">
+      <div className="md:hidden w-full flex flex-col gap-2 mt-2">
         <ExtraInfoColumn product={product} />
       </div>
 
@@ -803,7 +803,7 @@ export default function ProductDetailClient({
 
       <div className="hidden md:block">
       {alsoLikeProducts.length > 0 && (
-        <div className="w-full max-w-[960px] hd:max-w-[1250px] qhd:max-w-[1600px] mx-auto mt-12 px-4">
+        <div className="w-full mt-12 px-4">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Du kanske också gillar</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-4 -my-4 px-4 -mx-4">
             {alsoLikeProducts.map((product) => (
@@ -813,7 +813,7 @@ export default function ProductDetailClient({
         </div>
       )}
       {recentlyViewed.length > 0 && (
-        <div className="w-full max-w-[960px] hd:max-w-[1250px] qhd:max-w-[1600px] mx-auto mt-12 mb-8 px-4">
+        <div className="w-full mt-12 mb-8 px-4">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Du tittade nyligen på</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 py-4 -my-4 px-4 -mx-4">
             {recentlyViewed.map((p) => (

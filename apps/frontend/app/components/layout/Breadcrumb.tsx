@@ -14,7 +14,7 @@ interface BreadcrumbProps {
 export function Breadcrumb({ items }: BreadcrumbProps) {
   return (
     <div className="py-4">
-      <div className="max-w-[960px] hd:max-w-[1250px] qhd:max-w-[1600px] w-full mx-auto flex items-center gap-2 text-sm text-black">
+      <div className="w-full flex items-center gap-2 text-sm text-black">
         <Link href="/" className="hover:text-gray-600 flex items-center">
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
             <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />

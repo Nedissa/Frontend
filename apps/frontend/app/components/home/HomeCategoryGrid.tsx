@@ -13,7 +13,7 @@ const CATEGORIES = [
 
 const DESKTOP_CATEGORIES = [
   ...CATEGORIES,
-  { title: 'Datortillbehör', url: '/kategori/datortillbehor', icon: '/icons/datortillbehor.png' },
+  { title: 'Datortillbehör', url: '/kategori/datortillbehor', icon: '/icons/datortillbehor.svg' },
 ];
 
 export function HomeCategoryGrid() {

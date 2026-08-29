@@ -244,6 +244,8 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       else if (currentY < lastY) { setIsHeaderVisible(true); }
       else if (currentY > lastY + 5) { setIsHeaderVisible(false); }
       lastY = currentY;
+      setShowMegaMenu(false);
+      setActiveMegaMenu(null);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
