@@ -123,8 +123,7 @@ export function getCategoryTitle(slug: string): string {
 // TILLFÄLLIG DUMMY DATA för visuell test — ta bort när riktiga tillbehör finns i Medusa
 function getDummyAccessories(fallbackImage: string): Product[] {
   return [
-    { id: 'dummy-1', title: 'Nätaggregat 850W', handle: '#', price: 1290, image: fallbackImage } as any,
-    { id: 'dummy-2', title: 'CPU-kylare Dark Rock 6', handle: '#', price: 899, image: fallbackImage } as any,
+    { id: 'dummy-1', title: 'CPU-kylare Dark Rock 6', handle: '#', price: 899, image: 'https://api.techpilots.se/static/1780865499247-5325871_1dwxx4.webp' } as any,
   ];
 }
 
