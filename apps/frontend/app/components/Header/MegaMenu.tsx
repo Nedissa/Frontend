@@ -54,7 +54,6 @@ export function MegaMenu({
                 </Link>
               );
             })}
-            <div className="flex-1" />
             <button
               onMouseEnter={onMouseEnterOffers}
               className="px-6 py-2 text-sm font-semibold text-black whitespace-nowrap relative group inline-flex items-center"
