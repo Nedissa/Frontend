@@ -172,13 +172,12 @@ export function ProductCard({
         onMouseMove={(e) => {
           if (!cardImages || cardImages.length === 0) return;
           if (mouseMoveFrameRef.current) return;
+          const rect = e.currentTarget.getBoundingClientRect();
+          const clientX = e.clientX;
           mouseMoveFrameRef.current = requestAnimationFrame(() => {
-            const rect = e.currentTarget?.getBoundingClientRect();
-            if (rect) {
-              const x = e.clientX - rect.left;
-              const third = rect.width / 3;
-              setImageIndex(x < third ? 0 : x < third * 2 ? 1 : 2);
-            }
+            const x = clientX - rect.left;
+            const third = rect.width / 3;
+            setImageIndex(x < third ? 0 : x < third * 2 ? 1 : 2);
             mouseMoveFrameRef.current = null;
           });
         }}
@@ -251,6 +250,16 @@ export function ProductCard({
             </div>
           )}
         </Link>
+
+        {/* Rating — nere till vänster på bilden */}
+        <Link href={`${productLink}#reviews`} className="absolute bottom-2 left-2 flex items-center gap-1 hover:opacity-70 transition-opacity z-10">
+          <div className="flex gap-0.5">
+            {[...Array(5)].map((_, i) => (
+              <span key={i} style={{ color: i < Math.floor(product.rating || 0) ? '#000000' : '#d1d5db' }}>★</span>
+            ))}
+          </div>
+          <span className="text-xs text-gray-600">({product.reviews || 0})</span>
+        </Link>
       </div>
 
       {/* Quick facts — below image */}
@@ -296,19 +305,6 @@ export function ProductCard({
             <span className={`w-2 h-2 rounded-full ${product.stock === 'Slut i lager' ? 'bg-red-500' : 'bg-green-600'}`}></span>
             {product.stock || 'I lager'}
           </p>
-        </div>
-
-
-        {/* Rating */}
-        <div className="py-1 border-b border-gray-100">
-          <Link href={`${productLink}#reviews`} className="flex items-center gap-1 hover:opacity-70 transition-opacity">
-            <div className="flex gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <span key={i} style={{ color: i < Math.floor(product.rating || 0) ? '#000000' : '#d1d5db' }}>★</span>
-              ))}
-            </div>
-            <span className="text-xs text-gray-600">({product.reviews || 0})</span>
-          </Link>
         </div>
 
         {/* Colors */}
