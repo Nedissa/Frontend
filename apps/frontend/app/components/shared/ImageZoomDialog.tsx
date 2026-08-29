@@ -50,15 +50,14 @@ export function ImageZoomDialog({
   useEffect(() => {
     if (isOpen) {
       setVisible(true);
-      requestAnimationFrame(() => requestAnimationFrame(() => setAnimIn(true)));
+      setAnimIn(true);
       document.body.style.overflow = 'hidden';
       document.documentElement.style.overflow = 'hidden';
     } else {
       setAnimIn(false);
-      const t = setTimeout(() => setVisible(false), 300);
+      setVisible(false);
       document.body.style.overflow = 'unset';
       document.documentElement.style.overflow = 'unset';
-      return () => clearTimeout(t);
     }
   }, [isOpen]);
 
@@ -90,7 +89,7 @@ export function ImageZoomDialog({
       onClick={onClose}
     >
       <div
-        className="absolute inset-0 bg-black transition-opacity duration-300"
+        className="absolute inset-0 bg-black"
         style={{ opacity: animIn ? 0.5 : 0 }}
       />
       <div
@@ -98,7 +97,6 @@ export function ImageZoomDialog({
         style={{
           height: '100dvh',
           transform: animIn ? 'translateY(0)' : 'translateY(100%)',
-          transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)',
         }}
         onClick={(e) => e.stopPropagation()}
         onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}

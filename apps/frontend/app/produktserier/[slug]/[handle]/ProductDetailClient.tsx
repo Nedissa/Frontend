@@ -83,15 +83,20 @@ function ExtraInfoColumn({ product }: { product: any }) {
       title: 'RETUR',
       content: 'Retur inom 14 dagar. Produkten ska vara i originalskick och oöppnad förpackning.',
     },
+    {
+      key: 'oppet-kop',
+      title: 'ÖPPET KÖP',
+      content: 'Öppet köp i 14 dagar. Ångrar du dig får du full återbetalning, oavsett anledning.',
+    },
   ];
 
   return (
-    <div className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', flex: 1 }}>
+    <div className="flex flex-col bg-white divide-y divide-gray-200" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', minHeight: '100%' }}>
       {sections.map((s, i) => (
-        <div key={s.key} className={i > 0 ? 'border-t border-gray-200' : ''}>
+        <div key={s.key}>
           <button
             onClick={() => toggle(s.key)}
-            className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-gray-50"
+            className="w-full flex items-center justify-between px-5 py-2 text-left hover:bg-gray-50"
           >
             <span className="text-xs font-bold tracking-widest text-gray-800">{s.title}</span>
             <svg className={`w-4 h-4 text-gray-400 transition-transform ${openSection === s.key ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -131,6 +136,9 @@ interface ProductDetailClientProps {
   categorySlug: string;
   categoryTitle: string;
   breadcrumbTrail: BreadcrumbTrail | null;
+  initialAccessories?: ProductData[];
+  initialReviewStats?: { avg: number; count: number };
+  initialQuestionCount?: number;
 }
 
 export default function ProductDetailClient({
@@ -138,6 +146,9 @@ export default function ProductDetailClient({
   categorySlug,
   categoryTitle,
   breadcrumbTrail,
+  initialAccessories = [],
+  initialQuestionCount = 0,
+  initialReviewStats = { avg: 0, count: 0 },
 }: ProductDetailClientProps) {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -145,10 +156,8 @@ export default function ProductDetailClient({
   const [slideDir, setSlideDir] = useState<'left' | 'right'>('right');
   const [isSliding, setIsSliding] = useState(false);
   const thumbnailRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const productInfoRef = useRef<HTMLDivElement>(null);
   const galleryRef = useRef<HTMLDivElement>(null);
   const [galleryHeight, setGalleryHeight] = useState<number>(476);
-  const [productInfoHeight, setProductInfoHeight] = useState<number>(0);
 
   const goToImage = (idx: number) => {
     if (idx === selectedImage) return;
@@ -162,18 +171,16 @@ export default function ProductDetailClient({
   const [selectedColor, setSelectedColor] = useState('Svart');
   const [activeTab, setActiveTab] = useState('description');
   const [mobileActiveTab, setMobileActiveTab] = useState<string>('description');
-  const [showAccessories, setShowAccessories] = useState(false);
-  const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
   const [isAdded, setIsAdded] = useState(false);
   const [pageUrl, setPageUrl] = useState('');
   const [showZoom, setShowZoom] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const [alsoLikeProducts, setAlsoLikeProducts] = useState<ProductData[]>([]);
-  const [questionCount, setQuestionCount] = useState(0);
+  const [questionCount, setQuestionCount] = useState(initialQuestionCount);
   const [recentlyViewed, setRecentlyViewed] = useState<ProductData[]>([]);
-  const [accessories, setAccessories] = useState<ProductData[]>([]);
+  const [accessories] = useState<ProductData[]>(initialAccessories);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [reviewStats, setReviewStats] = useState<{ avg: number; count: number } | null>(null);
+  const [reviewStats, setReviewStats] = useState<{ avg: number; count: number } | null>(initialReviewStats);
   const router = useRouter();
 
   useEffect(() => {
@@ -186,24 +193,6 @@ export default function ProductDetailClient({
     });
   }, [product.id]);
 
-  useEffect(() => {
-    const updateHeight = () => {
-      if (productInfoRef.current) {
-        setProductInfoHeight(productInfoRef.current.offsetHeight);
-      }
-    };
-    updateHeight();
-    const observer = new ResizeObserver(updateHeight);
-    if (productInfoRef.current) observer.observe(productInfoRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    fetch(`/api/accessories?category=${categorySlug}`)
-      .then(r => r.json())
-      .then(data => setAccessories(data.accessories || []));
-  }, [categorySlug]);
-
   // Öppna recensionsflik om URL:en har #reviews
   useEffect(() => {
     const hash = window.location.hash;
@@ -213,26 +202,6 @@ export default function ProductDetailClient({
       setTimeout(scroll, 300);
     }
   }, []);
-
-  useEffect(() => {
-    fetch(`/api/reviews?product_id=${product.id}`)
-      .then(r => r.json())
-      .then(data => {
-        const reviews = data.reviews || [];
-        if (reviews.length > 0) {
-          const avg = reviews.reduce((s: number, r: any) => s + r.rating, 0) / reviews.length;
-          setReviewStats({ avg, count: reviews.length });
-        } else {
-          setReviewStats({ avg: 0, count: 0 });
-        }
-      });
-  }, [product.id]);
-
-  useEffect(() => {
-    fetch(`/api/questions?product_id=${product.id}`)
-      .then(r => r.json())
-      .then(data => setQuestionCount((data.questions || []).length));
-  }, [product.id]);
 
   useEffect(() => {
     setPageUrl(window.location.href);
@@ -261,18 +230,6 @@ export default function ProductDetailClient({
     const existingIds: string[] = JSON.parse(localStorage.getItem('recentlyViewedIds') || '[]');
     const updatedIds = [product.id, ...existingIds.filter(id => id !== product.id)].slice(0, 8);
     localStorage.setItem('recentlyViewedIds', JSON.stringify(updatedIds));
-
-    const handleCartCleared = () => { setSelectedAccessories([]); };
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'cartItems' && !e.newValue) setSelectedAccessories([]);
-    };
-
-    window.addEventListener('cartCleared', handleCartCleared);
-    window.addEventListener('storage', handleStorageChange);
-    return () => {
-      window.removeEventListener('cartCleared', handleCartCleared);
-      window.removeEventListener('storage', handleStorageChange);
-    };
   }, [product.id]);
 
   const handleFavoriteToggle = () => {
@@ -336,10 +293,10 @@ export default function ProductDetailClient({
       <Breadcrumb items={breadcrumbItems} />
 
       {/* Main layout: left (gallery+tabs) + right (productinfo+handla tryggt) */}
-      <div className="w-full max-w-[960px] hd:max-w-[1250px] qhd:max-w-[1600px] mx-auto flex flex-col md:flex-row gap-4" style={{ alignItems: 'stretch' }}>
+      <div className="w-full max-w-[960px] hd:max-w-[1250px] qhd:max-w-[1600px] mx-auto flex flex-col md:flex-row" style={{ alignItems: 'stretch', gap: '5px' }}>
 
         {/* Left column — gallery + tabs (tabs hidden on mobile, shown after right col) */}
-        <div className="flex flex-col flex-1 min-w-0" style={{ gap: '8px' }}>
+        <div className="flex flex-col flex-1 min-w-0" style={{ gap: '5px' }}>
 
           {/* Gallery */}
           <div
@@ -431,7 +388,9 @@ export default function ProductDetailClient({
                           fill
                           sizes="(max-width: 768px) 100vw, 700px"
                           priority={imgIdx === 0}
-                          className="object-contain p-4 md:p-20"
+                          className="object-contain p-4 md:p-20 transition-opacity duration-300"
+                          style={{ opacity: 0 }}
+                          onLoad={(e) => { e.currentTarget.style.opacity = '1'; }}
                         />
                       </div>
                     );
@@ -552,36 +511,12 @@ export default function ProductDetailClient({
             </div>
           </div>
 
-          {/* Rekommenderat tillbehör — desktop */}
-          {accessories.length > 0 && (
-            <div className="hidden md:block mt-2" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-              <button
-                onClick={() => setActiveTab(activeTab === 'accessories' ? '' : 'accessories')}
-                className="w-full flex items-center justify-between px-8 py-4 text-left"
-                style={{ background: '#3a3a3a' }}
-              >
-                <span className="text-xs font-bold tracking-widest text-white">REKOMMENDERAT TILLBEHÖR</span>
-                <svg className={`w-4 h-4 text-white transition-transform ${activeTab === 'accessories' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              <div style={{ display: 'grid', gridTemplateRows: activeTab === 'accessories' ? '1fr' : '0fr', transition: 'grid-template-rows 0.25s ease' }}>
-                <div style={{ overflow: 'hidden' }}>
-                  <div className="p-6 grid grid-cols-4 gap-4 bg-white">
-                    {accessories.map((acc) => (
-                      <ProductCard key={acc.id} product={acc} variant="related" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
         </div>{/* end left column */}
 
         {/* Right column — productinfo + handla tryggt */}
-        <div className="flex flex-col md:flex-shrink-0 w-full md:w-[288px]" style={{ gap: '8px', alignSelf: 'stretch' }}>
-        <div ref={productInfoRef} className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+        <div className="flex flex-col md:flex-shrink-0 w-full md:w-[288px]" style={{ gap: '5px', alignSelf: 'stretch' }}>
+        <div className="flex flex-col md:grid md:min-h-[540px]" style={{ gridTemplateRows: 'auto 1fr', gap: '5px' }}>
+        <div className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
 
           <div className="p-6 pb-4">
             <div className="flex items-center gap-2 mb-2">
@@ -641,7 +576,7 @@ export default function ProductDetailClient({
           </div>
 
           <div className="mx-6 h-px bg-gray-100" />
-          <div className="px-6 py-4 flex items-center justify-between">
+          <div className="px-6 py-[10px] flex items-center justify-between">
             <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Pris</span>
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-bold text-red-600">{product.price.toLocaleString('sv-SE')} kr</span>
@@ -649,7 +584,7 @@ export default function ProductDetailClient({
             </div>
           </div>
           <div className="mx-6 h-px bg-gray-100" />
-          <div className="px-6 py-4 flex items-center justify-between">
+          <div className="px-6 py-[10px] flex items-center justify-between">
             <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Färg</span>
             <div className="flex gap-3">
               {Object.entries(COLORS).map(([name, hex]) => (
@@ -680,7 +615,7 @@ export default function ProductDetailClient({
             return (
               <>
                 <div className="mx-6 h-px bg-gray-100" />
-                <div className="px-6 py-4 flex items-center justify-between">
+                <div className="px-6 py-[10px] flex items-center justify-between">
                   <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Lager</span>
                   <div className="flex items-center gap-2">
                     <span className={`w-2 h-2 rounded-full ${isOutOfStock ? 'bg-red-500' : 'bg-green-500'}`}></span>
@@ -693,58 +628,6 @@ export default function ProductDetailClient({
             );
           })()}
 
-          {accessories.length > 0 && <div className="mx-6 h-px bg-gray-100" />}
-          {accessories.length > 0 && <div>
-            <button
-              type="button"
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowAccessories(!showAccessories); }}
-              className="w-full flex items-center justify-between text-xs uppercase tracking-widest text-gray-400 font-medium px-6 py-4 hover:bg-gray-50"
-            >
-              <span>Tillbehör</span>
-              <svg className={`w-4 h-4 transition-transform ${showAccessories ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div style={{ display: 'grid', gridTemplateRows: showAccessories ? '1fr' : '0fr', transition: 'grid-template-rows 0.25s ease' }}>
-              <div style={{ overflow: 'hidden' }}>
-              <div className="px-4 pb-3 flex flex-col gap-2">
-                {accessories.map((accessory) => {
-                  const isSelected = selectedAccessories.includes(accessory.id);
-                  return (
-                    <div key={accessory.id} className="flex items-center gap-3 p-2" style={{ backgroundColor: '#f5f5f5' }}>
-                      <div className="relative w-12 h-12 flex-shrink-0 flex items-center justify-center rounded-md">
-                        <Image src={accessory.image} alt={accessory.title} fill sizes="48px" className="object-contain" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-bold text-gray-900 truncate">{accessory.title}</p>
-                        <p className="text-xs text-gray-500">{accessory.price.toLocaleString('sv-SE')} kr</p>
-                      </div>
-                      <button
-                        onClick={() => {
-                          if (isSelected) {
-                            setSelectedAccessories(selectedAccessories.filter(id => id !== accessory.id));
-                          } else {
-                            setSelectedAccessories([...selectedAccessories, accessory.id]);
-                          }
-                        }}
-                        className="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full bg-white shadow-sm"
-                      >
-                        <svg
-                          className="w-4 h-4 text-black"
-                          fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"
-                          style={{ transform: isSelected ? 'rotate(45deg)' : 'rotate(0deg)', transition: 'transform 200ms ease' }}
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-                        </svg>
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-              </div>
-            </div>
-          </div>}
-
           <div className="px-6 pt-4 pb-6 border-t border-gray-100 flex flex-col gap-2">
             <div className="flex items-center gap-3">
               <div className="flex items-center h-11 px-4 gap-4 self-stretch" style={{ backgroundColor: '#f5f5f5' }}>
@@ -755,11 +638,6 @@ export default function ProductDetailClient({
               <button
                 onClick={() => {
                   window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: product.id, variantId: product.variantId, title: product.title, price: product.price, originalPrice: product.originalPrice, quantity, image: product.image } }));
-                  selectedAccessories.forEach((accessoryId) => {
-                    const accessory = accessories.find(a => a.id === accessoryId);
-                    if (accessory) window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: accessory.id, variantId: accessory.variantId, title: accessory.title, price: accessory.price, quantity: 1, image: accessory.image } }));
-                  });
-                  setSelectedAccessories([]);
                   setIsAdded(true);
                   setTimeout(() => setIsAdded(false), 2000);
                 }}
@@ -804,24 +682,13 @@ export default function ProductDetailClient({
           <div className="mx-6 h-px bg-gray-100" />
           <button
             onClick={handleFavoriteToggle}
-            className="w-full flex items-center justify-center gap-2 px-6 py-4 transition-colors hover:bg-gray-50 text-black"
+            className="w-full flex items-center justify-center gap-2 px-6 py-[10px] transition-colors hover:bg-gray-50 text-black"
           >
             <span className="text-xs">{isFavorite ? 'Sparad favorit' : 'Spara favorit'}</span>
             <svg className={`w-5 h-5 flex-shrink-0 ${isFavorite ? 'text-red-500' : ''}`} fill={isFavorite ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
           </button>
-          <div className="mx-6 h-px bg-gray-100" />
-          <div className="px-6 py-4 flex items-center justify-center gap-4">
-            <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs text-gray-700 hover:text-black">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
-              Facebook
-            </a>
-            <a href="https://www.instagram.com/techpilots.se/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs text-gray-700 hover:text-black">
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-              Instagram
-            </a>
-          </div>
 
         </div>{/* end productinfo */}
 
@@ -858,47 +725,23 @@ export default function ProductDetailClient({
           ))}
         </div>
 
-        {/* Rekommenderat tillbehör */}
-        {accessories.length > 0 && (
-          <div className="flex flex-col" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-            <button
-              onClick={() => setMobileActiveTab(mobileActiveTab === 'accessories' ? '' : 'accessories')}
-              className="w-full flex items-center justify-between px-5 py-4 text-left"
-              style={{ background: '#3a3a3a' }}
-            >
-              <span className="text-xs font-bold tracking-widest text-white">REKOMMENDERAT TILLBEHÖR</span>
-              <svg className={`w-4 h-4 text-white transition-transform ${mobileActiveTab === 'accessories' ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div style={{ display: 'grid', gridTemplateRows: mobileActiveTab === 'accessories' ? '1fr' : '0fr', transition: 'grid-template-rows 0.25s ease' }}>
-              <div style={{ overflow: 'hidden' }}>
-                <div className="p-4 grid grid-cols-2 gap-3 bg-white">
-                  {accessories.map((acc) => (
-                    <ProductCard key={acc.id} product={acc} variant="related" />
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
         {/* Frakt, Retur, Öppet köp — desktop only */}
-        <div className="hidden md:block"><ExtraInfoColumn product={product} /></div>
+        <div className="hidden md:flex md:flex-col md:min-h-0"><ExtraInfoColumn product={product} /></div>
+        </div>{/* end productinfo+extrainfo grid */}
 
         {/* Handla tryggt */}
-        <div className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)', flex: 1 }}>
-          <div className="flex items-center gap-2 px-6 py-4 border-b border-gray-100">
+        <div className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+          <div className="flex items-center gap-2 px-6 py-[10px] border-b border-gray-100">
             <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24">
               <path fill="#16a34a" d="M12 2.944a11.955 11.955 0 008.618 3.04A12.02 12.02 0 0121 9c0 5.591-3.824 10.29-9 11.622C6.824 19.29 3 14.591 3 9c0-1.042.133-2.052.382-3.016A11.955 11.955 0 0012 2.944z" />
               <path stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" d="M9 12l2 2 4-4" />
             </svg>
             <span className="text-black text-sm font-bold">Handla tryggt</span>
           </div>
-          <div className="px-6 py-4 border-b border-gray-100">
+          <div className="px-6 py-[10px] border-b border-gray-100">
             <p className="text-gray-500 text-xs">Säker betalning med krypterad anslutning och betrodda betalmetoder.</p>
           </div>
-          <div className="px-6 py-4 flex items-center gap-3 flex-nowrap">
+          <div className="px-6 py-[10px] flex items-center gap-3 flex-nowrap">
             <div className="border border-gray-200 rounded px-2 py-1.5 flex items-center justify-center" style={{ minWidth: '48px' }}>
               <img src="/icons/klarna.svg" alt="Klarna" className="h-4 w-auto" />
             </div>
@@ -909,10 +752,43 @@ export default function ProductDetailClient({
               <img src="/icons/mastercard.svg" alt="Mastercard" className="h-4 w-auto" />
             </div>
             <div className="border border-gray-200 rounded px-2 py-1.5 flex items-center justify-center" style={{ minWidth: '48px' }}>
-              <img src="/icons/applepay.svg" alt="Apple Pay" className="h-4 w-auto" />
+              <img src="/icons/applepay.svg" alt="Apple Pay" className="h-6 w-auto" />
             </div>
           </div>
         </div>
+
+        {/* Tillbehör */}
+        {accessories.length > 0 && (
+          <div className="flex flex-col bg-white" style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+            <div className="px-5 py-[10px] border-b border-gray-200">
+              <span className="text-xs font-bold tracking-widest text-gray-800">TILLBEHÖR</span>
+            </div>
+            <div className="flex flex-col divide-y divide-gray-100">
+              {accessories.map((acc) => (
+                <div key={acc.id} className="flex items-center gap-3 px-6 py-3">
+                  <div className="relative w-14 h-14 flex-shrink-0 flex items-center justify-center">
+                    <Image src={acc.image} alt={acc.title} fill sizes="56px" className="object-contain" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-gray-900 leading-snug line-clamp-2">{acc.title}</p>
+                    <p className="text-sm font-bold text-gray-900 mt-1">{acc.price.toLocaleString('sv-SE')} kr</p>
+                  </div>
+                  <button
+                    onClick={() => window.dispatchEvent(new CustomEvent('addToCart', { detail: { id: acc.id, variantId: acc.variantId, title: acc.title, price: acc.price, quantity: 1, image: acc.image } }))}
+                    className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full bg-black text-white transition-colors hover:bg-gray-800"
+                    aria-label={`Lägg till ${acc.title} i varukorg`}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+                      <path strokeLinecap="square" strokeLinejoin="miter" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.4 5H17"/>
+                      <circle cx="9" cy="22" r="1.6" fill="currentColor" stroke="none"/>
+                      <circle cx="16" cy="22" r="1.6" fill="currentColor" stroke="none"/>
+                    </svg>
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         </div>{/* end right column wrapper */}
 

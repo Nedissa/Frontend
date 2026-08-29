@@ -119,3 +119,67 @@ export async function getProductByHandle(handle: string): Promise<Product | unde
 export function getCategoryTitle(slug: string): string {
   return CATEGORY_TITLES[slug] || slug.charAt(0).toUpperCase() + slug.slice(1);
 }
+
+// TILLFÄLLIG DUMMY DATA för visuell test — ta bort när riktiga tillbehör finns i Medusa
+function getDummyAccessories(fallbackImage: string): Product[] {
+  return [
+    { id: 'dummy-1', title: 'Nätaggregat 850W 80+ Gold', handle: '#', price: 1290, image: fallbackImage } as any,
+    { id: 'dummy-2', title: 'CPU-kylare Dark Rock 6', handle: '#', price: 899, image: fallbackImage } as any,
+  ];
+}
+
+export async function getAccessories(categorySlug: string, fallbackImage: string = ''): Promise<Product[]> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://techpilots.vercel.app';
+    const response = await fetch(`${baseUrl}/api/accessories?category=${categorySlug}`, {
+      next: { revalidate: 60 },
+    });
+
+    if (!response.ok) return getDummyAccessories(fallbackImage);
+
+    const data = await response.json();
+    const accessories = (data.accessories || []) as Product[];
+    return accessories.length > 0 ? accessories : getDummyAccessories(fallbackImage);
+  } catch (error) {
+    console.error('Error fetching accessories:', error);
+  }
+  return getDummyAccessories(fallbackImage);
+}
+
+export async function getReviewStats(productId: string): Promise<{ avg: number; count: number }> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://techpilots.vercel.app';
+    const response = await fetch(`${baseUrl}/api/reviews?product_id=${productId}`, {
+      next: { revalidate: 60 },
+    });
+
+    if (!response.ok) return { avg: 0, count: 0 };
+
+    const data = await response.json();
+    const reviews = data.reviews || [];
+    if (reviews.length === 0) return { avg: 0, count: 0 };
+
+    const avg = reviews.reduce((s: number, r: any) => s + r.rating, 0) / reviews.length;
+    return { avg, count: reviews.length };
+  } catch (error) {
+    console.error('Error fetching review stats:', error);
+  }
+  return { avg: 0, count: 0 };
+}
+
+export async function getQuestionCount(productId: string): Promise<number> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://techpilots.vercel.app';
+    const response = await fetch(`${baseUrl}/api/questions?product_id=${productId}`, {
+      next: { revalidate: 60 },
+    });
+
+    if (!response.ok) return 0;
+
+    const data = await response.json();
+    return (data.questions || []).length;
+  } catch (error) {
+    console.error('Error fetching question count:', error);
+  }
+  return 0;
+}
