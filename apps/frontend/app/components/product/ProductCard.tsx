@@ -169,7 +169,7 @@ export function ProductCard({
     >
       {/* Image + Ikoner */}
       <div
-        className="relative aspect-[3/2] sm:aspect-square w-full"
+        className="relative aspect-[3/2] sm:aspect-square w-full flex-shrink-0"
         style={{ backgroundColor: PRODUCT_IMAGE_BG }}
         onMouseMove={(e) => {
           if (!cardImages || cardImages.length === 0) return;
@@ -288,7 +288,7 @@ export function ProductCard({
         {/* Brand + Title */}
         <div className="pt-2 pb-1 border-b border-gray-100">
           <p className="text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">{product.brand || 'Varumärke'}</p>
-          <h3 className="text-xs sm:text-sm font-semibold text-gray-900 leading-snug line-clamp-2 sm:line-clamp-none">{product.title}</h3>
+          <h3 className="text-xs sm:text-sm font-semibold text-gray-900 leading-snug line-clamp-2">{product.title}</h3>
         </div>
 
         {/* Price */}
