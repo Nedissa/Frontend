@@ -276,12 +276,12 @@ export function CartAside() {
                         <Link href={`/produkter/${item.id}`} className="text-gray-900 font-semibold text-sm hover:text-gray-700 block truncate" style={{ textTransform: 'capitalize', lineHeight: '1.2' }} title={item.title}>
                           {item.title.toLowerCase()}
                         </Link>
-                        <div className="flex items-center justify-between flex-nowrap gap-2">
+                        <div className="flex items-center flex-nowrap gap-2">
                           <div className="flex items-center gap-1 min-w-0">
                             <svg className="w-2 h-2 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" /></svg>
                             <span className="text-xs text-gray-500 whitespace-nowrap">I lager</span>
                           </div>
-                          <div className="flex items-center flex-shrink-0 -my-3">
+                          <div className="flex items-center flex-shrink-0 -my-3 ml-auto -mr-6">
                             <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="text-gray-700 disabled:text-gray-300 font-bold w-11 h-11 flex items-center justify-center text-lg">−</button>
                             <span className="text-sm font-semibold tabular-nums w-5 text-center">{item.quantity}</span>
                             <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="text-gray-700 font-bold w-11 h-11 flex items-center justify-center text-lg">+</button>
