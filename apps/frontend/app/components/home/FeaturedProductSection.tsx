@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { PRODUCT_IMAGE_BG } from '../../lib/productDisplay';
 
 interface FeaturedProduct {
   title: string;
@@ -44,7 +45,7 @@ export function FeaturedProductSection({
 
         {/* Höger — produktkort */}
         <div className="flex flex-col bg-white overflow-hidden w-full sm:w-[300px] sm:flex-shrink-0" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.10)' }}>
-          <div className="relative flex-1 flex items-center justify-center p-4" style={{ backgroundColor: '#f5f5f5' }}>
+          <div className="relative flex-1 flex items-center justify-center p-4" style={{ backgroundColor: PRODUCT_IMAGE_BG }}>
             <span className="absolute top-3 right-3 flex items-center gap-0.5 bg-white px-2 py-0.5 text-xs font-semibold shadow-sm rounded">
               <span className="text-yellow-400">★</span> {product.rating.toFixed(1)}
             </span>

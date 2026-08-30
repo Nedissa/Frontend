@@ -6,15 +6,7 @@ import { useState, useCallback, useEffect, useRef, memo } from 'react';
 import { createPortal } from 'react-dom';
 import { ImageZoomDialog } from '../shared/ImageZoomDialog';
 import { useFavoritesAndCompare } from '../../hooks/useFavoritesAndCompare';
-
-const COLOR_ORDER = ['röd', 'red', 'blå', 'blue', 'grön', 'green', 'gul', 'yellow', 'silver', 'grå', 'gray', 'grey', 'svart', 'black', 'vit', 'white'];
-function sortColors(colors: string[]): string[] {
-  return [...colors].sort((a, b) => {
-    const ai = COLOR_ORDER.indexOf(a.toLowerCase());
-    const bi = COLOR_ORDER.indexOf(b.toLowerCase());
-    return (ai === -1 ? COLOR_ORDER.length : ai) - (bi === -1 ? COLOR_ORDER.length : bi);
-  });
-}
+import { PRODUCT_IMAGE_BG, COLOR_HEX_MAP, sortColors } from '../../lib/productDisplay';
 
 function Tooltip({ label, anchorRef }: { label: string; anchorRef: React.RefObject<HTMLElement | null> }) {
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
@@ -177,7 +169,8 @@ export function ProductCard({
     >
       {/* Image + Ikoner */}
       <div
-        className="relative bg-[#f0f0f0] aspect-[3/2] sm:aspect-square w-full"
+        className="relative aspect-[3/2] sm:aspect-square w-full"
+        style={{ backgroundColor: PRODUCT_IMAGE_BG }}
         onMouseMove={(e) => {
           if (!cardImages || cardImages.length === 0) return;
           if (mouseMoveFrameRef.current) return;
@@ -273,7 +266,7 @@ export function ProductCard({
 
       {/* Quick facts — below image */}
       {config.showFeatures && product.features && product.features.length > 0 && (
-        <div className="relative flex items-stretch bg-[#f0f0f0] border-b border-gray-200" style={{ boxShadow: 'inset 0 1px 0 #000000' }}>
+        <div className="relative flex items-stretch border-b border-gray-200" style={{ backgroundColor: PRODUCT_IMAGE_BG, boxShadow: 'inset 0 1px 0 #d1d5db' }}>
           {product.features.filter(f => !f.startsWith('tier:')).slice(0, 3).map((feature: string, idx: number) => {
             const parts = feature.split('|');
             const value = parts[0]?.trim() || feature;
@@ -320,16 +313,7 @@ export function ProductCard({
         <div className="py-1 border-b border-gray-100">
           <div className="flex gap-2 min-h-[20px]">
             {product.colors && product.colors.length > 0 && sortColors(product.colors).map((color, idx) => {
-              const colorMap: Record<string, string> = {
-                'svart': '#000000', 'black': '#000000',
-                'vit': '#FFFFFF', 'white': '#FFFFFF',
-                'silver': '#C0C0C0', 'grå': '#808080', 'gray': '#808080', 'grey': '#808080',
-                'röd': '#EF4444', 'red': '#EF4444',
-                'blå': '#3B82F6', 'blue': '#3B82F6',
-                'grön': '#22C55E', 'green': '#22C55E',
-                'gul': '#EAB308', 'yellow': '#EAB308',
-              };
-              const bgColor = colorMap[color.toLowerCase()] || color;
+              const bgColor = COLOR_HEX_MAP[color.toLowerCase()] || color;
               return (
                 <ColorSwatch key={idx} color={color} bgColor={bgColor} isSelected={selectedColor === idx} onSelect={() => setSelectedColor(idx)} />
               );

@@ -12,6 +12,7 @@ import { ProductReviews } from '@/app/components/product/ProductReviews';
 import { ProductQuestions } from '@/app/components/product/ProductQuestions';
 import { fetchProductsFromMedusa } from '@/app/lib/medusa-client';
 import { klaviyoTrack } from '@/app/lib/klaviyoTrack';
+import { PRODUCT_IMAGE_BG, COLOR_HEX_MAP, sortColors } from '@/app/lib/productDisplay';
 
 const COUNTDOWN_DURATION = 60000;
 const saleEndTime = Date.now() + COUNTDOWN_DURATION;
@@ -110,24 +111,6 @@ function ExtraInfoColumn({ product }: { product: any }) {
   );
 }
 
-const COLOR_HEX_MAP: Record<string, string> = {
-  'svart': '#000000', 'black': '#000000',
-  'vit': '#FFFFFF', 'white': '#FFFFFF',
-  'silver': '#C0C0C0', 'grå': '#808080', 'gray': '#808080', 'grey': '#808080',
-  'röd': '#EF4444', 'red': '#EF4444',
-  'blå': '#3B82F6', 'blue': '#3B82F6',
-  'grön': '#22C55E', 'green': '#22C55E',
-  'gul': '#EAB308', 'yellow': '#EAB308',
-};
-
-const COLOR_ORDER = ['röd', 'red', 'blå', 'blue', 'grön', 'green', 'gul', 'yellow', 'silver', 'grå', 'gray', 'grey', 'svart', 'black', 'vit', 'white'];
-function sortColors(colors: string[]): string[] {
-  return [...colors].sort((a, b) => {
-    const ai = COLOR_ORDER.indexOf(a.toLowerCase());
-    const bi = COLOR_ORDER.indexOf(b.toLowerCase());
-    return (ai === -1 ? COLOR_ORDER.length : ai) - (bi === -1 ? COLOR_ORDER.length : bi);
-  });
-}
 
 
 interface BreadcrumbTrail {
@@ -332,7 +315,7 @@ export default function ProductDetailClient({
                     <button
                       onClick={() => goToImage(idx)}
                       className="relative flex items-center justify-center focus:outline-none"
-                      style={{ width: '110px', height: '110px', backgroundColor: '#f5f5f5' }}
+                      style={{ width: '110px', height: '110px', backgroundColor: PRODUCT_IMAGE_BG }}
                     >
                       <Image
                         src={img.url} alt=""
@@ -353,7 +336,7 @@ export default function ProductDetailClient({
             <div className="flex-1 flex flex-col min-w-0">
               <div
                 className="relative flex flex-col h-full"
-                style={{ backgroundColor: '#f5f5f5' }}
+                style={{ backgroundColor: PRODUCT_IMAGE_BG }}
                 onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
                 onTouchEnd={(e) => {
                   if (touchStartX.current === null) return;

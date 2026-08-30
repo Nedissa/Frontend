@@ -26,7 +26,7 @@ async function fetchProductsFromAPI() {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 8000);
     const response = await fetch(
-      `${medusaUrl}/store/products?limit=100&region_id=${regionId}&fields=id,title,handle,description,images,thumbnail,brand,isNew,created_at,*variants.prices,*variants.inventory_quantity,*collection,options.title,options.values.value,+metadata`,
+      `${medusaUrl}/store/products?limit=100&region_id=${regionId}&fields=id,title,handle,description,*images,thumbnail,brand,isNew,created_at,*variants.prices,*variants.inventory_quantity,*collection,options.title,options.values.value,+metadata`,
       {
         headers: { 'Content-Type': 'application/json', 'x-publishable-api-key': publishableKey },
         next: { revalidate: 60 },
