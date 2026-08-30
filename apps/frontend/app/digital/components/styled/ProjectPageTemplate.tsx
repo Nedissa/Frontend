@@ -1,11 +1,132 @@
 'use client';
 import type { ReactNode } from 'react';
-import { useRef } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Database, Layout, Code } from '@phosphor-icons/react';
 import type { Project } from '../../projekt-data';
 import { FadeIn } from '../FadeIn';
 import { Eyebrow } from './StyledPrimitives';
+
+const ZOOM_MIN = 1;
+const ZOOM_MAX = 4;
+const ZOOM_STEP = 0.5;
+
+function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+  const [scale, setScale] = useState(1);
+  const [dragging, setDragging] = useState(false);
+  const lastPos = useRef({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const zoomTo = useCallback((next: number) => {
+    const container = containerRef.current;
+    if (!container) { setScale(next); return; }
+    const { scrollLeft, scrollTop, clientWidth, clientHeight, scrollWidth, scrollHeight } = container;
+    const centerX = (scrollLeft + clientWidth / 2) / scrollWidth;
+    const centerY = (scrollTop + clientHeight / 2) / scrollHeight;
+    setScale(next);
+    requestAnimationFrame(() => {
+      if (!containerRef.current) return;
+      const el = containerRef.current;
+      el.scrollLeft = centerX * el.scrollWidth - el.clientWidth / 2;
+      el.scrollTop = centerY * el.scrollHeight - el.clientHeight / 2;
+    });
+  }, []);
+
+  const zoomIn = useCallback(() => zoomTo(Math.min(ZOOM_MAX, scale + ZOOM_STEP)), [scale, zoomTo]);
+  const zoomOut = useCallback(() => zoomTo(Math.max(ZOOM_MIN, scale - ZOOM_STEP)), [scale, zoomTo]);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    if (scale <= 1) return;
+    setDragging(true);
+    lastPos.current = { x: e.clientX, y: e.clientY };
+  }, [scale]);
+
+  useEffect(() => {
+    if (!dragging) return;
+
+    const handleMove = (e: MouseEvent) => {
+      const el = containerRef.current;
+      if (!el) return;
+      el.scrollLeft -= e.clientX - lastPos.current.x;
+      el.scrollTop -= e.clientY - lastPos.current.y;
+      lastPos.current = { x: e.clientX, y: e.clientY };
+    };
+    const handleUp = () => setDragging(false);
+
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('mouseup', handleUp);
+    return () => {
+      window.removeEventListener('mousemove', handleMove);
+      window.removeEventListener('mouseup', handleUp);
+    };
+  }, [dragging]);
+
+  return (
+    <div className="fixed inset-0 z-[9999] bg-black/70 flex items-center justify-center p-6" onClick={onClose}>
+      <div
+        className="w-[85vw] h-[85vh] max-w-6xl bg-[#111] overflow-hidden flex flex-col shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+        onClick={(e) => e.stopPropagation()}
+      >
+      <div className="flex items-center justify-end gap-2 p-4 shrink-0 bg-white border-b border-black/10">
+        <button
+          onClick={zoomOut}
+          disabled={scale <= ZOOM_MIN}
+          className="w-10 h-10 flex items-center justify-center rounded-full bg-black/5 text-black text-xl disabled:opacity-30 hover:bg-black/10"
+          aria-label="Zooma ut"
+        >
+          −
+        </button>
+        <button
+          onClick={zoomIn}
+          disabled={scale >= ZOOM_MAX}
+          className="w-10 h-10 flex items-center justify-center rounded-full bg-black/5 text-black text-xl disabled:opacity-30 hover:bg-black/10"
+          aria-label="Zooma in"
+        >
+          +
+        </button>
+        <button
+          onClick={onClose}
+          className="w-10 h-10 flex items-center justify-center rounded-full bg-black/5 text-black text-xl hover:bg-black/10 ml-2"
+          aria-label="Stäng"
+        >
+          ×
+        </button>
+      </div>
+      <div
+        ref={containerRef}
+        className={`flex-1 overflow-auto ${scale > 1 ? (dragging ? 'cursor-grabbing' : 'cursor-grab') : ''}`}
+        onMouseDown={handleMouseDown}
+      >
+        <img
+          src={src}
+          alt={alt}
+          draggable={false}
+          className="mx-auto block"
+          style={{ width: `${scale * 100}%`, maxWidth: 'none' }}
+        />
+      </div>
+      </div>
+    </div>
+  );
+}
+
+function ZoomableImage({ src, alt, className }: { src: string; alt: string; className?: string }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <div className="w-full h-full overflow-auto">
+        <img
+          src={src}
+          alt={alt}
+          className={`${className} cursor-zoom-in`}
+          onClick={() => setOpen(true)}
+        />
+      </div>
+      {open && <Lightbox src={src} alt={alt} onClose={() => setOpen(false)} />}
+    </>
+  );
+}
 
 function CaseBlock({ label, text, showLine, mobileDevice, mobileTitle }: { label: string; text: string; showLine?: boolean; mobileDevice?: ReactNode; mobileTitle?: string }) {
   const lineRef = useRef<HTMLSpanElement>(null);
@@ -210,8 +331,8 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 6 15 12 9 18" /></svg>
                 </div>
               </div>
-              <div className="h-[420px] overflow-y-auto overflow-x-hidden">
-                <img
+              <div className="h-[420px]">
+                <ZoomableImage
                   src={project.conclusionImage}
                   alt={project.title}
                   className="w-full h-auto block"
@@ -302,8 +423,8 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="3" width="13" height="13" rx="2" /><rect x="8" y="8" width="13" height="13" rx="2" /></svg>
                     </div>
                   </div>
-                  <div className="h-[820px] overflow-y-auto overflow-x-hidden">
-                    <img
+                  <div className="h-[820px]">
+                    <ZoomableImage
                       src={project.conclusionImage}
                       alt={project.title}
                       className="w-full h-auto block"

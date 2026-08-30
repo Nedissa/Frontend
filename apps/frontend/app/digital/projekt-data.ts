@@ -195,8 +195,8 @@ export const PROJECTS: Project[] = [
     technologies: ['Next.js', 'Medusa', 'Payload CMS'],
     steps: [
       { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/techpilots/original-mobil.avif', uxImprovements: ['Snabb laddning', 'Tydlig identitet', 'Modern design'] },
-      { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', uxImprovements: ['Enkel navigering', 'Tydlig produktpresentation', 'Responsiv layout'] },
-      { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.', uxImprovements: ['Konsekvent varumärkeston', 'Skalbar arkitektur', 'Finslipad mellanrumskänsla'] },
+      { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', image: '/digital/projekt/techpilots/original-desktop-produktinfo.avif', uxImprovements: ['Enkel navigering', 'Tydlig produktpresentation', 'Responsiv layout'] },
+      { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.', image: '/digital/projekt/techpilots/original-mobil-kassa.avif', uxImprovements: ['Konsekvent varumärkeston', 'Skalbar arkitektur', 'Finslipad mellanrumskänsla'] },
     ],
   },
 ];
