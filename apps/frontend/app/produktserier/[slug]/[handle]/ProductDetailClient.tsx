@@ -110,10 +110,14 @@ function ExtraInfoColumn({ product }: { product: any }) {
   );
 }
 
-const COLORS = {
-  'Svart': '#000000',
-  'Vit': '#FFFFFF',
-  'Silver': '#C0C0C0',
+const COLOR_HEX_MAP: Record<string, string> = {
+  'svart': '#000000', 'black': '#000000',
+  'vit': '#FFFFFF', 'white': '#FFFFFF',
+  'silver': '#C0C0C0', 'grå': '#808080', 'gray': '#808080', 'grey': '#808080',
+  'röd': '#EF4444', 'red': '#EF4444',
+  'blå': '#3B82F6', 'blue': '#3B82F6',
+  'grön': '#22C55E', 'green': '#22C55E',
+  'gul': '#EAB308', 'yellow': '#EAB308',
 };
 
 
@@ -582,7 +586,9 @@ export default function ProductDetailClient({
           <div className="px-6 py-[10px] flex items-center justify-between">
             <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Färg</span>
             <div className="flex gap-3">
-              {Object.entries(COLORS).map(([name, hex]) => (
+              {(product.colors || []).map((name) => {
+                const hex = COLOR_HEX_MAP[name.toLowerCase()] || name;
+                return (
                 <div key={name} className="tp-tooltip-wrap">
                   <button
                     onClick={() => setSelectedColor(name)}
@@ -599,7 +605,8 @@ export default function ProductDetailClient({
                     {name}
                   </span>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
