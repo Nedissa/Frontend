@@ -120,6 +120,15 @@ const COLOR_HEX_MAP: Record<string, string> = {
   'gul': '#EAB308', 'yellow': '#EAB308',
 };
 
+const COLOR_ORDER = ['röd', 'red', 'blå', 'blue', 'grön', 'green', 'gul', 'yellow', 'silver', 'grå', 'gray', 'grey', 'svart', 'black', 'vit', 'white'];
+function sortColors(colors: string[]): string[] {
+  return [...colors].sort((a, b) => {
+    const ai = COLOR_ORDER.indexOf(a.toLowerCase());
+    const bi = COLOR_ORDER.indexOf(b.toLowerCase());
+    return (ai === -1 ? COLOR_ORDER.length : ai) - (bi === -1 ? COLOR_ORDER.length : bi);
+  });
+}
+
 
 interface BreadcrumbTrail {
   mainCategorySlug: string;
@@ -586,7 +595,7 @@ export default function ProductDetailClient({
           <div className="px-6 py-[10px] flex items-center justify-between">
             <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Färg</span>
             <div className="flex gap-3">
-              {(product.colors || []).map((name) => {
+              {sortColors(product.colors || []).map((name) => {
                 const hex = COLOR_HEX_MAP[name.toLowerCase()] || name;
                 return (
                 <div key={name} className="tp-tooltip-wrap">

@@ -75,7 +75,7 @@ export function Aside({
       {/* Desktop cart + login: dropdown. Allt annat (search, mobile): full panel från höger */}
       {(type === 'cart' || type === 'login') ? (
         <aside
-          className={`hidden md:flex absolute top-[56px] bg-white shadow-2xl border border-gray-200 z-50 flex-col rounded-none ${
+          className={`hidden xl:flex absolute top-[56px] bg-white shadow-2xl border border-gray-200 z-50 flex-col rounded-none ${
             expanded ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 pointer-events-none'
           }`}
           style={{
@@ -98,7 +98,7 @@ export function Aside({
       ) : null}
 
       {/* Mobil cart + login + alla övriga asides: full panel från höger */}
-      <aside className={`${(type === 'cart' || type === 'login') ? 'flex md:hidden' : 'flex'} fixed right-0 top-0 w-full max-w-md bg-white shadow-lg z-50 flex-col ${
+      <aside className={`${(type === 'cart' || type === 'login') ? 'flex xl:hidden' : 'flex'} fixed right-0 top-0 w-full max-w-md bg-white shadow-lg z-50 flex-col ${
         expanded ? 'translate-x-0' : 'translate-x-full'
       }`}
       style={{ transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)', height: '100dvh' }}>

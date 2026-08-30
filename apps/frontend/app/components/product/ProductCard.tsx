@@ -7,6 +7,15 @@ import { createPortal } from 'react-dom';
 import { ImageZoomDialog } from '../shared/ImageZoomDialog';
 import { useFavoritesAndCompare } from '../../hooks/useFavoritesAndCompare';
 
+const COLOR_ORDER = ['röd', 'red', 'blå', 'blue', 'grön', 'green', 'gul', 'yellow', 'silver', 'grå', 'gray', 'grey', 'svart', 'black', 'vit', 'white'];
+function sortColors(colors: string[]): string[] {
+  return [...colors].sort((a, b) => {
+    const ai = COLOR_ORDER.indexOf(a.toLowerCase());
+    const bi = COLOR_ORDER.indexOf(b.toLowerCase());
+    return (ai === -1 ? COLOR_ORDER.length : ai) - (bi === -1 ? COLOR_ORDER.length : bi);
+  });
+}
+
 function Tooltip({ label, anchorRef }: { label: string; anchorRef: React.RefObject<HTMLElement | null> }) {
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -310,7 +319,7 @@ export function ProductCard({
         {/* Colors */}
         <div className="py-1 border-b border-gray-100">
           <div className="flex gap-2 min-h-[20px]">
-            {product.colors && product.colors.length > 0 && product.colors.map((color, idx) => {
+            {product.colors && product.colors.length > 0 && sortColors(product.colors).map((color, idx) => {
               const colorMap: Record<string, string> = {
                 'svart': '#000000', 'black': '#000000',
                 'vit': '#FFFFFF', 'white': '#FFFFFF',

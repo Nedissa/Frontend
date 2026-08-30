@@ -181,7 +181,7 @@ export const PROJECTS: Project[] = [
     tagline: 'Vår egen plattform, byggd för prestanda',
     description: 'Vi har byggt vår egen webshop från grunden, en modern e-handelsplattform med fokus på hastighet, stabilitet och skalbarhet. Techpilots Webshop är vårt sätt att visa vad vi kan leverera, med Next.js på frontend och Medusa som backend.',
     image: '/digital/projekt/techpilots/original-desktop-hero.avif',
-    cardImage: '/digital/projekt/techpilots/original-desktop-hero.avif',
+    cardImage: '/digital/projekt/techpilots/original-desktop-produktinfo.avif',
     conclusionImage: '/digital/projekt/techpilots/original-full-size.avif',
     tabletImage: '/digital/projekt/techpilots/original-kontakt-surfpad.avif',
     website: 'techpilots.se',
