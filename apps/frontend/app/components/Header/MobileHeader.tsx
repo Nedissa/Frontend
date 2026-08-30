@@ -96,11 +96,13 @@ export function MobileHeader({
         </div>
       </div>
       {/* Row 2: search */}
-      <div className="px-4 py-2 relative bg-white border-b border-gray-200" ref={mobileSearchContainerRef}>
-        <div className="flex items-center bg-gray-50 border border-gray-200 rounded px-3 py-2 gap-2">
-          <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
-            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/>
-          </svg>
+      <div className="px-3 py-2 relative bg-white border-b border-gray-200" ref={mobileSearchContainerRef}>
+        <div className="flex items-center bg-gray-50 border border-gray-200 overflow-hidden">
+          <div className="flex items-center justify-center border-r border-gray-200 flex-shrink-0 self-stretch px-3">
+            <svg className="w-4 h-4 text-black flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+              <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35"/>
+            </svg>
+          </div>
           <input
             ref={mobileSearchInputRef}
             type="text"
@@ -109,8 +111,8 @@ export function MobileHeader({
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="none"
-            placeholder="Sök efter produkt..."
-            className="flex-1 bg-transparent text-sm text-black placeholder-gray-400 focus:outline-none"
+            placeholder="Sök efter produkt, kategori eller artikel..."
+            className="flex-1 bg-transparent text-sm text-black placeholder-gray-400 focus:outline-none px-3 py-2"
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
             onFocus={onSearchFocus}

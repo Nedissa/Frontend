@@ -9,16 +9,21 @@ import { Eyebrow } from './StyledPrimitives';
 
 const ZOOM_MIN = 1;
 const ZOOM_MAX = 4;
-const ZOOM_STEP = 0.5;
+const ZOOM_STEP = 0.1;
 
-function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+function Lightbox({ src, alt, onClose, fillWidth }: { src: string; alt: string; onClose: () => void; fillWidth?: boolean }) {
   const [scale, setScale] = useState(1);
   const [dragging, setDragging] = useState(false);
   const lastPos = useRef({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const baseWidthRef = useRef<number | null>(null);
 
   const zoomTo = useCallback((next: number) => {
     const container = containerRef.current;
+    if (baseWidthRef.current === null && imgRef.current) {
+      baseWidthRef.current = imgRef.current.offsetWidth;
+    }
     if (!container) { setScale(next); return; }
     const { scrollLeft, scrollTop, clientWidth, clientHeight, scrollWidth, scrollHeight } = container;
     const centerX = (scrollLeft + clientWidth / 2) / scrollWidth;
@@ -64,46 +69,57 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
   return (
     <div className="fixed inset-0 z-[9999] bg-black/70 flex items-center justify-center p-6" onClick={onClose}>
       <div
-        className="w-[85vw] h-[85vh] max-w-6xl bg-[#111] overflow-hidden flex flex-col shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+        className="w-[85vw] h-[85vh] max-w-6xl bg-white overflow-hidden flex flex-col shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
         onClick={(e) => e.stopPropagation()}
       >
-      <div className="flex items-center justify-end gap-2 p-4 shrink-0 bg-white border-b border-black/10">
-        <button
-          onClick={zoomOut}
-          disabled={scale <= ZOOM_MIN}
-          className="w-10 h-10 flex items-center justify-center rounded-full bg-black/5 text-black text-xl disabled:opacity-30 hover:bg-black/10"
-          aria-label="Zooma ut"
-        >
-          −
-        </button>
-        <button
-          onClick={zoomIn}
-          disabled={scale >= ZOOM_MAX}
-          className="w-10 h-10 flex items-center justify-center rounded-full bg-black/5 text-black text-xl disabled:opacity-30 hover:bg-black/10"
-          aria-label="Zooma in"
-        >
-          +
-        </button>
+      <div className="relative flex items-center justify-end p-4 shrink-0 bg-white border-b border-black/10">
+        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
+          <button
+            onClick={zoomOut}
+            disabled={scale <= ZOOM_MIN}
+            className="w-10 h-10 flex items-center justify-center rounded-full bg-black/5 text-black text-xl disabled:opacity-30 hover:bg-black/10"
+            aria-label="Zooma ut"
+          >
+            −
+          </button>
+          <button
+            onClick={zoomIn}
+            disabled={scale >= ZOOM_MAX}
+            className="w-10 h-10 flex items-center justify-center rounded-full bg-black/5 text-black text-xl disabled:opacity-30 hover:bg-black/10"
+            aria-label="Zooma in"
+          >
+            +
+          </button>
+        </div>
         <button
           onClick={onClose}
-          className="w-10 h-10 flex items-center justify-center rounded-full bg-black/5 text-black text-xl hover:bg-black/10 ml-2"
+          className="w-8 h-8 flex items-center justify-center rounded-full bg-black text-white text-base hover:bg-black/80"
           aria-label="Stäng"
         >
           ×
         </button>
       </div>
-      <div
-        ref={containerRef}
-        className={`flex-1 overflow-auto ${scale > 1 ? (dragging ? 'cursor-grabbing' : 'cursor-grab') : ''}`}
-        onMouseDown={handleMouseDown}
-      >
-        <img
-          src={src}
-          alt={alt}
-          draggable={false}
-          className="mx-auto block"
-          style={{ width: `${scale * 100}%`, maxWidth: 'none' }}
-        />
+      <div className="relative flex-1 min-h-0">
+        <div
+          ref={containerRef}
+          className={`w-full h-full overflow-auto ${fillWidth ? '' : 'flex items-center justify-center p-10'} ${scale > 1 ? (dragging ? 'cursor-grabbing' : 'cursor-grab') : ''}`}
+          onMouseDown={handleMouseDown}
+        >
+          <img
+            ref={imgRef}
+            src={src}
+            alt={alt}
+            draggable={false}
+            className="block"
+            style={
+              scale > 1 && baseWidthRef.current !== null
+                ? { width: `${baseWidthRef.current * scale}px`, maxWidth: 'none', height: 'auto' }
+                : fillWidth
+                  ? { width: '100%', height: 'auto' }
+                  : { maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'contain' }
+            }
+          />
+        </div>
       </div>
       </div>
     </div>
@@ -123,7 +139,7 @@ function ZoomableImage({ src, alt, className }: { src: string; alt: string; clas
           onClick={() => setOpen(true)}
         />
       </div>
-      {open && <Lightbox src={src} alt={alt} onClose={() => setOpen(false)} />}
+      {open && <Lightbox src={src} alt={alt} onClose={() => setOpen(false)} fillWidth />}
     </>
   );
 }
@@ -219,6 +235,7 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, we
   const aspectRatio = DEVICE_ASPECT_RATIO[deviceType];
   const compact = deviceType === 'mobil';
   const iconSize = compact ? 11 : 15;
+  const [open, setOpen] = useState(false);
   return (
     <div className="w-full border-t border-black/10 pt-10 flex flex-col items-start lg:items-center gap-6">
       <div className="inline-flex flex-col max-w-full border border-black/20 bg-white overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.08)]" style={{ width: 'fit-content', maxWidth: width }}>
@@ -260,12 +277,16 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, we
           )}
         </div>
         {src ? (
-          <img
-            src={src}
-            alt={label}
-            className="w-full h-auto object-contain block self-center"
-            style={{ width }}
-          />
+          <>
+            <img
+              src={src}
+              alt={label}
+              className="w-full h-auto object-contain block self-center cursor-zoom-in"
+              style={{ width }}
+              onClick={() => setOpen(true)}
+            />
+            {open && <Lightbox src={src} alt={label} onClose={() => setOpen(false)} />}
+          </>
         ) : (
           <div
             className="flex items-center justify-center text-xs font-medium text-[#8a8a86] bg-[repeating-linear-gradient(45deg,#f5f5f3,#f5f5f3_10px,#eeeeec_10px,#eeeeec_20px)]"
