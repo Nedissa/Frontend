@@ -63,7 +63,6 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
     } catch {}
   };
   const hideTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const megaMenuCloseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const mobileSearchContainerRef = useRef<HTMLDivElement>(null);
   const mobileSearchInputRef = useRef<HTMLInputElement>(null);
@@ -386,20 +385,16 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
         showMegaMenu={showMegaMenu}
         activeMegaMenu={activeMegaMenu}
         onMouseEnterCategory={(categoryId) => {
-          if (megaMenuCloseTimeoutRef.current) clearTimeout(megaMenuCloseTimeoutRef.current);
           setShowMegaMenu(true);
           setActiveMegaMenu(categoryId);
         }}
         onMouseEnterOffers={() => {
-          if (megaMenuCloseTimeoutRef.current) clearTimeout(megaMenuCloseTimeoutRef.current);
           setShowMegaMenu(true);
           setActiveMegaMenu('erbjudanden');
         }}
         onMouseLeave={() => {
-          megaMenuCloseTimeoutRef.current = setTimeout(() => {
-            setShowMegaMenu(false);
-            setActiveMegaMenu(null);
-          }, 150);
+          setShowMegaMenu(false);
+          setActiveMegaMenu(null);
         }}
         isPathActive={isPathActive}
       />
