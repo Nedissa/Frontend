@@ -98,7 +98,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
 
       {/* Mobil */}
       <div className="md:hidden overflow-x-auto" style={{ scrollbarWidth: 'none', scrollSnapType: 'x mandatory' }}>
-        <div className="flex gap-3" style={{ paddingRight: '12px' }}>
+        <div className="flex gap-3" style={{ paddingLeft: '8px', paddingRight: '12px' }}>
           {products.map((product, idx) => (
             <div
               key={product.id}

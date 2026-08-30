@@ -124,12 +124,8 @@ img {
   filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.35));
 }
 
-/* On mobile: always show add-to-cart button and hover-only elements */
+/* On mobile: show hover-only elements */
 @media (max-width: 767px) {
-  .mobile-btn-visible {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-  }
   .mobile-hover-visible {
     opacity: 1 !important;
     transform: translateY(0) !important;
