@@ -281,10 +281,10 @@ export function CartAside() {
                             <svg className="w-2 h-2 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10" /></svg>
                             <span className="text-xs text-gray-500 whitespace-nowrap">I lager</span>
                           </div>
-                          <div className="flex items-center flex-shrink-0 -my-3">
-                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="text-gray-700 disabled:text-gray-300 font-bold w-8 h-8 flex items-center justify-center text-lg">−</button>
+                          <div className="flex items-center flex-shrink-0">
+                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="text-gray-700 disabled:text-gray-300 font-bold w-11 h-11 flex items-center justify-center text-lg">−</button>
                             <span className="text-sm font-semibold tabular-nums w-5 text-center">{item.quantity}</span>
-                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="text-gray-700 font-bold w-8 h-8 flex items-center justify-center text-lg">+</button>
+                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="text-gray-700 font-bold w-11 h-11 flex items-center justify-center text-lg">+</button>
                           </div>
                         </div>
                       </div>

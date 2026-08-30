@@ -98,7 +98,7 @@ export function Aside({
       ) : null}
 
       {/* Mobil cart + login + alla övriga asides: full panel från höger */}
-      <aside className={`${(type === 'cart' || type === 'login') ? 'flex xl:hidden' : 'flex'} fixed right-0 top-0 w-full max-w-md bg-white shadow-lg z-50 flex-col ${
+      <aside className={`${(type === 'cart' || type === 'login') ? 'flex xl:hidden w-full md:w-1/2' : 'flex w-full'} fixed right-0 top-0 max-w-md bg-white shadow-lg z-50 flex-col ${
         expanded ? 'translate-x-0' : 'translate-x-full'
       }`}
       style={{ transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)', height: '100dvh' }}>

@@ -89,7 +89,8 @@ body {
   position: relative;
 }
 
-.tp-tooltip-wrap:hover .tp-tooltip {
+.tp-tooltip-wrap:hover .tp-tooltip,
+.tp-tooltip-wrap:active .tp-tooltip {
   opacity: 1;
 }
 
