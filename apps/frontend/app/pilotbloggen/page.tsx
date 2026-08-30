@@ -34,7 +34,7 @@ export default async function BloggPage() {
     <MainLayout>
       <div style={{ padding: '64px 24px' }}>
         <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-          <p style={{ fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#888', marginBottom: '16px' }}>Teknikskolan</p>
+          <p style={{ fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#888', marginBottom: '16px' }}>Pilotguiden</p>
           <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, lineHeight: 1.1, marginBottom: '16px' }}>
             Lär dig tekniken<br /><em style={{ fontStyle: 'italic', fontWeight: 800 }}>innan du köper</em>
           </h1>

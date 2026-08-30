@@ -41,7 +41,7 @@ export function MobileMenu({
   const activeCat = MENU_DATA.find(c => c.id === mobileExpandedCategory);
 
   return (
-    <div className="lg:hidden fixed inset-0 z-[9999] pointer-events-none">
+    <div className="xl:hidden fixed inset-0 z-[9999] pointer-events-none">
       {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black transition-opacity duration-300"
@@ -51,9 +51,8 @@ export function MobileMenu({
 
       {/* Slide-in panel */}
       <div
-        className="absolute top-0 left-0 h-full bg-white overflow-hidden flex flex-col transition-transform duration-300 ease-in-out"
+        className="absolute top-0 left-0 h-full bg-white overflow-hidden flex flex-col transition-transform duration-300 ease-in-out w-full md:w-[40vw]"
         style={{
-          width: '100vw',
           transform: mobileMenuOpen ? 'translateX(0)' : 'translateX(-100%)',
           pointerEvents: mobileMenuOpen ? 'auto' : 'none',
         }}

@@ -8,7 +8,7 @@ export function FooterWrapper() {
     <footer className="w-full text-white" style={{ background: '#0a0a0a' }}>
       <div className="py-16 md:py-28">
         <div className="max-w-content mx-auto px-6">
-          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr] gap-0 sm:gap-x-12 sm:gap-y-10 mb-0 sm:mb-16 sm:pb-16 text-white [&>div]:border-b [&>div]:border-white/20 [&>div]:pb-8 [&>div]:pt-8 sm:[&>div]:border-b-0 sm:[&>div]:pt-0 [&>div:last-child]:border-b-0 sm:[&>div:not(:first-child)]:border-l sm:[&>div:not(:first-child)]:border-white/20 sm:[&>div:not(:first-child)]:pl-12">
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr] gap-0 sm:gap-x-12 sm:gap-y-10 mb-0 sm:mb-16 sm:pb-16 text-white [&>div]:border-b [&>div]:border-white/20 [&>div]:pb-8 [&>div]:pt-8 sm:[&>div]:border-b-0 sm:[&>div]:pt-0 sm:[&>div:not(:first-child)]:border-l sm:[&>div:not(:first-child)]:border-white/20 sm:[&>div:not(:first-child)]:pl-12">
             {/* Logo section */}
             <div>
               <div className="flex items-center gap-1 mb-6">
@@ -94,7 +94,7 @@ export function FooterWrapper() {
               <h3 className="font-bold mb-3 text-sm text-white">Utforska</h3>
               <ul className="space-y-2 text-sm">
                 <li><Link href="/kundservice/om-oss">Vår historia</Link></li>
-                <li><Link href="/pilotbloggen">Teknikskolan</Link></li>
+                <li><Link href="/pilotbloggen">Pilotguiden</Link></li>
                 <li><Link href="/digital" className="whitespace-nowrap block">Digitala tjänster</Link></li>
               </ul>
             </div>
@@ -102,7 +102,7 @@ export function FooterWrapper() {
           </div>
 
           {/* Certifieringar + Betalningsmetoder — på desktop på samma rad */}
-          <div className="py-10 border-b border-white/20 flex flex-col md:flex-row md:items-start md:justify-between gap-8">
+          <div className="py-10 border-b border-white/20 flex flex-col md:flex-row md:items-start md:justify-between gap-8 divide-y divide-white/10 md:divide-y-0">
             {/* Certifieringar */}
             <div>
               <h3 className="font-bold mb-4 text-sm text-white">Ansvar & Säkerhet</h3>
@@ -113,21 +113,18 @@ export function FooterWrapper() {
                   </svg>
                   <span className="text-xs text-gray-400 whitespace-nowrap">SSL-kryptering</span>
                 </Link>
-                <span className="hidden md:inline" style={{ color: '#444' }}>|</span>
                 <Link href="/kundservice/betalning" className="flex flex-row items-center gap-2 md:flex-col md:items-center md:gap-1">
                   <svg className="w-6 h-6" style={{ color: '#60a5fa' }} fill="currentColor" viewBox="0 0 24 24">
                     <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2m0 14H4v-6h16zm0-10H4V6h16z"/>
                   </svg>
                   <span className="text-xs text-gray-400 whitespace-nowrap">Säkra betalningar</span>
                 </Link>
-                <span className="hidden md:inline" style={{ color: '#444' }}>|</span>
                 <Link href="/kundservice/miljoansvar" className="flex flex-row items-center gap-2 md:flex-col md:items-center md:gap-1">
                   <svg className="w-6 h-6" style={{ color: '#4ade80' }} fill="currentColor" viewBox="0 0 24 24">
                     <path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20c9 0 11-16 11-16l-1.07-.8A10 10 0 0 1 17 8z"/>
                   </svg>
                   <span className="text-xs text-gray-400 whitespace-nowrap">Miljöansvar</span>
                 </Link>
-                <span className="hidden md:inline" style={{ color: '#444' }}>|</span>
                 <Link href="/kundservice/tillganglighet" className="flex flex-row items-center gap-2 md:flex-col md:items-center md:gap-1">
                   <svg className="w-6 h-6" style={{ color: '#a78bfa' }} fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm9 7h-6l-1 5 3 8h-2l-3-7-3 7H7l3-8-1-5H3V7h18v2z"/>
@@ -138,18 +135,16 @@ export function FooterWrapper() {
             </div>
 
             {/* Betalningsmetoder */}
-            <div className="flex flex-row flex-nowrap items-center gap-4 overflow-x-auto md:ml-auto md:mt-9" style={{ scrollbarWidth: 'none' }}>
-              <img src="/icons/klarna-text.svg" alt="Klarna" style={{ height: '14px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
-              <span style={{ color: '#444', flexShrink: 0 }}>|</span>
-              <img src="/icons/visa.svg" alt="Visa" style={{ height: '20px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
-              <span style={{ color: '#444', flexShrink: 0 }}>|</span>
-              <img src="/icons/mastercard.svg" alt="Mastercard" style={{ height: '20px', flexShrink: 0 }} />
-              <span style={{ color: '#444', flexShrink: 0 }}>|</span>
-              <img src="/icons/swish.svg" alt="Swish" style={{ height: '20px', flexShrink: 0 }} />
-              <span style={{ color: '#444', flexShrink: 0 }}>|</span>
-              <img src="/icons/applepay.svg" alt="Apple Pay" style={{ height: '28px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
-              <span className="hidden md:inline" style={{ color: '#444', flexShrink: 0 }}>|</span>
-              <img src="/icons/googlepay.svg" alt="Google Pay" className="hidden md:inline-block" style={{ height: '20px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
+            <div className="pt-8 md:pt-0 md:ml-auto">
+              <h3 className="font-bold mb-4 text-sm text-white">Betalningsmetoder</h3>
+              <div className="flex flex-row flex-nowrap items-center gap-4 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
+                <img src="/icons/klarna-text.svg" alt="Klarna" style={{ height: '14px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
+                <img src="/icons/visa.svg" alt="Visa" style={{ height: '20px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
+                <img src="/icons/mastercard.svg" alt="Mastercard" style={{ height: '20px', flexShrink: 0 }} />
+                <img src="/icons/swish.svg" alt="Swish" style={{ height: '20px', flexShrink: 0 }} />
+                <img src="/icons/applepay.svg" alt="Apple Pay" style={{ height: '28px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
+                <img src="/icons/googlepay.svg" alt="Google Pay" className="hidden md:inline-block" style={{ height: '20px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
+              </div>
             </div>
           </div>
 

@@ -67,7 +67,7 @@ const sidebarCategories = [
     label: 'Om oss',
     links: [
       { href: '/kundservice', label: 'Vår historia' },
-      { href: '/pilotbloggen', label: 'Teknikskolan' },
+      { href: '/pilotbloggen', label: 'Pilotguiden' },
     ],
   },
 ];

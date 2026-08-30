@@ -29,7 +29,7 @@ export function MegaMenu({
   isPathActive,
 }: MegaMenuProps) {
   return (
-    <div className="hidden lg:block" onMouseLeave={onMouseLeave}>
+    <div className="hidden xl:block" onMouseLeave={onMouseLeave}>
       {/* Navigation */}
       <nav className="bg-white">
         <div className="max-w-content mx-auto">
@@ -143,7 +143,7 @@ export function MegaMenu({
           </div>
         </div>
       </div>
-      <div className="hidden lg:block w-full h-px bg-gray-200 relative z-50"></div>
+      <div className="hidden xl:block w-full h-px bg-gray-200 relative z-50"></div>
     </div>
   );
 }
