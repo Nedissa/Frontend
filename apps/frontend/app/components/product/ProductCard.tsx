@@ -273,7 +273,7 @@ export function ProductCard({
 
       {/* Quick facts — below image */}
       {config.showFeatures && product.features && product.features.length > 0 && (
-        <div className="relative flex items-stretch bg-[#fafaf8] border-b border-gray-200">
+        <div className="relative flex items-stretch bg-[#f0f0f0] border-b border-gray-200" style={{ boxShadow: 'inset 0 1px 0 #000000' }}>
           {product.features.filter(f => !f.startsWith('tier:')).slice(0, 3).map((feature: string, idx: number) => {
             const parts = feature.split('|');
             const value = parts[0]?.trim() || feature;
