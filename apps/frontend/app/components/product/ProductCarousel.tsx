@@ -112,7 +112,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
       </div>
 
       {/* Progress line with dot — mobile */}
-      <div className="md:hidden px-4 mt-10 mb-6">
+      <div className="md:hidden px-4 mb-6" style={{ marginTop: '40px' }}>
         <div className="relative h-[3px] w-full bg-gray-200 rounded-full">
           <div className="absolute left-0 top-0 h-full bg-black rounded-full transition-all duration-300 ease-out" style={{ width: `${products.length > 1 ? (activeIndex / (products.length - 1)) * 100 : 100}%` }} />
         </div>
