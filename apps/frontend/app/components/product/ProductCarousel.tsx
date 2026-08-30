@@ -9,7 +9,10 @@ interface ProductCarouselProps {
   variant?: 'popular' | 'recommended' | 'new' | 'related' | 'also-like';
 }
 
-export function ProductCarousel({ title, products, variant = 'popular' }: ProductCarouselProps) {
+export function ProductCarousel({ title, products: rawProducts, variant = 'popular' }: ProductCarouselProps) {
+  const products = rawProducts.length > 0 && rawProducts.length <= 4
+    ? Array.from({ length: 8 }, (_, i) => ({ ...rawProducts[i % rawProducts.length], id: `${rawProducts[i % rawProducts.length].id}-dup${i}` }))
+    : rawProducts;
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [desktopIndex, setDesktopIndex] = useState(0);
@@ -35,10 +38,12 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
     return () => observer.disconnect();
   }, [products]);
 
+  const maxIndex = Math.max(0, products.length - 4);
+
   const scroll = (dir: 'left' | 'right') => {
     const el = scrollRef.current;
     if (!el) return;
-    if (dir === 'right' && desktopIndex >= products.length) return;
+    if (dir === 'right' && desktopIndex >= maxIndex) return;
     if (dir === 'left' && desktopIndex <= 0) return;
     const newIndex = dir === 'right' ? desktopIndex + 1 : desktopIndex - 1;
     setDesktopIndex(newIndex);
@@ -83,7 +88,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
             </svg>
           </button>
         )}
-        {desktopIndex < products.length && (
+        {desktopIndex < maxIndex && (
           <button
             onClick={() => scroll('right')}
             className="hidden md:flex"
@@ -112,7 +117,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
       </div>
 
       {/* Progress line with dot — mobile */}
-      <div className="md:hidden px-4 mb-6" style={{ marginTop: '40px' }}>
+      <div className="md:hidden px-4 mb-6" style={{ marginTop: 0 }}>
         <div className="relative h-[3px] w-full bg-gray-200 rounded-full">
           <div className="absolute left-0 top-0 h-full bg-black rounded-full transition-all duration-300 ease-out" style={{ width: `${products.length > 1 ? (activeIndex / (products.length - 1)) * 100 : 100}%` }} />
         </div>
@@ -120,7 +125,7 @@ export function ProductCarousel({ title, products, variant = 'popular' }: Produc
       {/* Progress line with dot — desktop */}
       <div className="hidden md:block px-6 mt-4 mb-6">
         <div className="relative h-[3px] w-full bg-gray-200 rounded-full">
-          <div className="absolute left-0 top-0 h-full bg-black rounded-full transition-all duration-300 ease-out" style={{ width: `${(desktopIndex / products.length) * 100}%` }} />
+          <div className="absolute left-0 top-0 h-full bg-black rounded-full transition-all duration-300 ease-out" style={{ width: `${maxIndex > 0 ? (desktopIndex / maxIndex) * 100 : 100}%` }} />
         </div>
       </div>
     </div>

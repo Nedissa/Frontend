@@ -12,7 +12,7 @@ import { ProductReviews } from '@/app/components/product/ProductReviews';
 import { ProductQuestions } from '@/app/components/product/ProductQuestions';
 import { fetchProductsFromMedusa } from '@/app/lib/medusa-client';
 import { klaviyoTrack } from '@/app/lib/klaviyoTrack';
-import { PRODUCT_IMAGE_BG, COLOR_HEX_MAP, sortColors } from '@/app/lib/productDisplay';
+import { COLOR_HEX_MAP, sortColors } from '@/app/lib/productDisplay';
 
 const COUNTDOWN_DURATION = 60000;
 const saleEndTime = Date.now() + COUNTDOWN_DURATION;
@@ -315,7 +315,7 @@ export default function ProductDetailClient({
                     <button
                       onClick={() => goToImage(idx)}
                       className="relative flex items-center justify-center focus:outline-none"
-                      style={{ width: '110px', height: '110px', backgroundColor: PRODUCT_IMAGE_BG }}
+                      style={{ width: '110px', height: '110px', backgroundColor: 'rgba(238, 241, 244, 0.5)' }}
                     >
                       <Image
                         src={img.url} alt=""
@@ -336,7 +336,7 @@ export default function ProductDetailClient({
             <div className="flex-1 flex flex-col min-w-0">
               <div
                 className="relative flex flex-col h-full"
-                style={{ backgroundColor: PRODUCT_IMAGE_BG }}
+                style={{ backgroundColor: 'rgba(238, 241, 244, 0.5)' }}
                 onTouchStart={(e) => { touchStartX.current = e.touches[0].clientX; }}
                 onTouchEnd={(e) => {
                   if (touchStartX.current === null) return;

@@ -6,7 +6,7 @@ import { useState, useCallback, useEffect, useRef, memo } from 'react';
 import { createPortal } from 'react-dom';
 import { ImageZoomDialog } from '../shared/ImageZoomDialog';
 import { useFavoritesAndCompare } from '../../hooks/useFavoritesAndCompare';
-import { PRODUCT_IMAGE_BG, COLOR_HEX_MAP, sortColors } from '../../lib/productDisplay';
+import { COLOR_HEX_MAP, sortColors } from '../../lib/productDisplay';
 
 function Tooltip({ label, anchorRef }: { label: string; anchorRef: React.RefObject<HTMLElement | null> }) {
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
@@ -162,15 +162,15 @@ export function ProductCard({
     <>
     <div className="h-full" style={{ isolation: 'isolate', contain: 'layout' }}>
     <div
-      className="flex flex-col bg-white h-full p-2 sm:p-3 md:hover:-translate-y-1 border border-gray-200"
-      style={{ boxShadow: activeHover ? '0 4px 20px rgba(0,0,0,0.12)' : undefined, transition: 'box-shadow 300ms ease, transform 300ms ease', willChange: 'transform' }}
+      className="flex flex-col bg-white h-full p-2 sm:p-3 border border-gray-200"
+      style={{ boxShadow: activeHover ? '0 4px 20px rgba(0,0,0,0.12)' : undefined, transition: 'box-shadow 300ms ease' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image + Ikoner */}
       <div
         className="relative aspect-[3/2] sm:aspect-square w-full flex-shrink-0"
-        style={{ backgroundColor: PRODUCT_IMAGE_BG }}
+        style={{ backgroundColor: 'rgba(238, 241, 244, 0.5)' }}
         onMouseMove={(e) => {
           if (!cardImages || cardImages.length === 0) return;
           if (mouseMoveFrameRef.current) return;
@@ -266,7 +266,7 @@ export function ProductCard({
 
       {/* Quick facts — below image */}
       {config.showFeatures && product.features && product.features.length > 0 && (
-        <div className="relative flex items-stretch border-b border-gray-200" style={{ backgroundColor: PRODUCT_IMAGE_BG, boxShadow: 'inset 0 1px 0 #d1d5db' }}>
+        <div className="relative flex items-stretch border-b border-gray-200" style={{ backgroundColor: 'rgba(238, 241, 244, 0.5)', boxShadow: 'inset 0 1px 0 #d1d5db' }}>
           {product.features.filter(f => !f.startsWith('tier:')).slice(0, 3).map((feature: string, idx: number) => {
             const parts = feature.split('|');
             const value = parts[0]?.trim() || feature;
@@ -286,13 +286,13 @@ export function ProductCard({
       <div className="flex-1 flex flex-col">
 
         {/* Brand + Title */}
-        <div className="pt-2 pb-1 border-b border-gray-100">
+        <div className="pt-1.5 pb-1 border-b border-gray-100">
           <p className="text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">{product.brand || 'Varumärke'}</p>
           <h3 className="text-xs sm:text-sm font-semibold text-gray-900 leading-snug line-clamp-2">{product.title}</h3>
         </div>
 
         {/* Price */}
-        <div className="py-2 border-b border-gray-100 flex items-baseline gap-2">
+        <div className="py-1 border-b border-gray-100 flex items-baseline gap-2">
           {product.price !== undefined && (
             <span className="text-sm sm:text-lg font-bold text-gray-900">{product.price.toLocaleString('sv-SE')} kr</span>
           )}
@@ -302,7 +302,7 @@ export function ProductCard({
         </div>
 
         {/* Stock */}
-        <div className="py-1 border-b border-gray-100">
+        <div className="py-0.5 border-b border-gray-100">
           <p className={`text-xs font-semibold flex items-center gap-2 ${product.stock === 'Slut i lager' ? 'text-red-500' : 'text-green-600'}`}>
             <span className={`w-2 h-2 rounded-full ${product.stock === 'Slut i lager' ? 'bg-red-500' : 'bg-green-600'}`}></span>
             {product.stock || 'I lager'}
@@ -310,7 +310,7 @@ export function ProductCard({
         </div>
 
         {/* Colors */}
-        <div className="py-1 border-b border-gray-100">
+        <div className="py-0.5 border-b border-gray-100">
           <div className="flex gap-2 min-h-[20px]">
             {product.colors && product.colors.length > 0 && sortColors(product.colors).map((color, idx) => {
               const bgColor = COLOR_HEX_MAP[color.toLowerCase()] || color;
