@@ -130,7 +130,7 @@ function Lightbox({ src, alt, onClose, fillWidth }: { src: string; alt: string; 
                   ? { width: `${baseWidthRef.current * scale}px`, maxWidth: 'none', height: 'auto' }
                   : { width: '100%', height: 'auto' })
                 : { maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'contain', transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})` }),
-            } as React.CSSProperties}
+            } as unknown as React.CSSProperties}
           />
         </div>
       </div>
