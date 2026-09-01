@@ -56,7 +56,7 @@ export const PROJECTS: Project[] = [
     solutionTitle: 'Lättnavigerad webbplats',
     result: 'En webbplats som speglar vad Sagateatern faktiskt är idag och som gör det enklare för besökare att hitta rätt, boka bord och delta i evenemang.',
     resultTitle: 'Speglar Sagateatern idag',
-    technologies: ['Next.js', 'Payload CMS', 'Stripe'],
+    technologies: ['Framer', 'Framer CMS', 'React', 'TypeScript'],
     steps: [
       { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/sagateatern/original-hero-mobile.avif', uxImprovements: ['Varm, inbjudande känsla', 'Tydlig kulturell identitet', 'Snabbare laddning'] },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', uxImprovements: ['Tydligt bokningsflöde', 'Enklare navigering', 'Responsiv layout'] },
@@ -83,7 +83,7 @@ export const PROJECTS: Project[] = [
     solutionTitle: 'Konverteringsdriven webbplats',
     result: 'En trygg och högkonverterande plattform som sänker tröskeln till kontakt, effektiviserar intag av nya underleverantörer och ger CrownMatch en professionell digital närvaro som överträffar Arbetsförmedlingens krav.',
     resultTitle: 'Högkonverterande plattform',
-    technologies: ['Framer', 'CMS', 'UX/UI Design', 'Custom Code'],
+    technologies: ['Framer', 'Framer CMS', 'React', 'TypeScript'],
     steps: [
       { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/crownmatch/original-blogg.avif', uxImprovement: 'Modernare design', uxImprovements: ['Modernare design', 'Tydligare hierarki', 'Snabbare laddning'] },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', image: '/digital/projekt/crownmatch/original-kontakt.avif', uxImprovement: 'Enklare navigering', uxImprovements: ['Enklare navigering', 'Bättre struktur', 'Responsiv layout'] },
@@ -111,7 +111,7 @@ export const PROJECTS: Project[] = [
     solutionTitle: 'Modern och tydlig plattform',
     result: 'En webbplats som gör det enkelt för kunder att hitta sin nästa bil och som stärker förtroendet för varumärket.',
     resultTitle: 'Stärker förtroendet',
-    technologies: ['Next.js', 'Payload CMS'],
+    technologies: ['Framer', 'Framer CMS', 'React', 'TypeScript'],
     steps: [
       { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/wastgota-bil/original-mobil.avif', uxImprovements: ['Fordonen i fokus', 'Modern och tydlig design', 'Snabbare laddning'] },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', uxImprovements: ['Enkel sökfunktion', 'Tydlig lagerpresentation', 'Responsiv layout'] },
@@ -138,7 +138,7 @@ export const PROJECTS: Project[] = [
     solutionTitle: 'Snygg och funktionell design',
     result: 'En webbplats som matchar studion, med en personlig känsla och helhet som kunden är supernöjd med.',
     resultTitle: 'Personlig känsla och helhet',
-    technologies: ['Next.js', 'Payload CMS'],
+    technologies: ['Framer', 'Framer CMS', 'React', 'TypeScript'],
     steps: [
       { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/pistolero-studio/mobile.avif', uxImprovements: ['Personlig känsla', 'Snygg och funktionell design', 'Snabbare laddning'] },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', uxImprovements: ['Tydlig tjänsteöversikt', 'Enklare navigering', 'Responsiv layout'] },
@@ -165,7 +165,7 @@ export const PROJECTS: Project[] = [
     solutionTitle: 'Ljus och ren design',
     result: 'En webbplats som stärker förtroendet för varumärket och gör det enkelt för kunder att hitta och boka rätt tjänst.',
     resultTitle: 'Stärker förtroendet',
-    technologies: ['Next.js', 'Payload CMS'],
+    technologies: ['Framer', 'Framer CMS', 'React', 'TypeScript'],
     steps: [
       { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/ljuva-hem-i-mark/mobile.avif', uxImprovements: ['Ljus, ren design', 'Förtroendeingivande känsla', 'Snabbare laddning'] },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', uxImprovements: ['Tydlig tjänstepresentation', 'Enklare bokning', 'Responsiv layout'] },
@@ -186,13 +186,13 @@ export const PROJECTS: Project[] = [
     tabletImage: '/digital/projekt/techpilots/original-kontakt-surfpad.avif',
     website: 'techpilots.se',
     accentColor: '#000000',
-    challenge: 'Vi behövde en egen plattform som visar vår tekniska nivå, snabb, stabil och byggd för att växa med sortimentet utan att tappa prestanda.',
+    challenge: 'Vi behövde en egen plattform som visar vår tekniska nivå, snabb, stabil och byggd för att växa med sortimentet utan att tappa prestanda när fler produkter, kategorier och besökare tillkommer.',
     challengeTitle: 'Snabb och skalbar e-handel',
-    solution: 'En skräddarsydd lösning med Next.js för frontend, Medusa som backend och Payload CMS för innehåll, byggd för snabba sidladdningar och enkel förvaltning.',
+    solution: 'En skräddarsydd lösning med Next.js för frontend, Medusa som backend på egen VPS och Payload CMS för innehåll, byggd för snabba sidladdningar och enkel förvaltning.',
     solutionTitle: 'Modern teknikstack',
-    result: 'En webshop som fungerar som referensprojekt, snabb, pålitlig och en tydlig representation av vår kompetens inom fullstack-utveckling.',
+    result: 'En webshop som fungerar som referensprojekt, snabb, pålitlig och en tydlig representation av vår kompetens inom fullstack-utveckling, från frontend till drift.',
     resultTitle: 'Vår egen visitkort',
-    technologies: ['Next.js', 'Medusa', 'Payload CMS'],
+    technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Medusa', 'Payload CMS', 'PostgreSQL', 'Stripe', 'Framer Motion'],
     steps: [
       { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/techpilots/original-mobil.avif', uxImprovements: ['Snabb laddning', 'Tydlig identitet', 'Modern design'] },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', image: '/digital/projekt/techpilots/original-desktop-produktinfo.avif', uxImprovements: ['Enkel navigering', 'Tydlig produktpresentation', 'Responsiv layout'] },

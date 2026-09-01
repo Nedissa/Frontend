@@ -16,11 +16,13 @@ type ServiceSectionProps = {
 export function ServiceSection({ id, children, background, fullHeight = true }: ServiceSectionProps) {
   return (
     <section
-      id={id}
       className={`service-section-shell section-padding ${fullHeight ? 'section-full-desktop' : ''}`}
       style={background ? { background } : undefined}
     >
-      <div className="max-w-[1440px] mx-auto">{children}</div>
+      {/* id sitter på den inre wrappern (inte <section>) så att scrollToAnchorId i SiteNav
+          landar precis vid innehållets faktiska start, utan att behöva kompensera för
+          sektionens egen padding-top (140px). */}
+      <div id={id} className="max-w-[1440px] mx-auto">{children}</div>
     </section>
   );
 }

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SectionHeader } from './SectionHeader';
 import { ServiceSection } from './ServiceSection';
+import { FadeIn } from './FadeIn';
 import { PRICES, SEO_PRICES, type PricePackage } from '../pricing-data';
 import { CalPopupButton } from './CalPopupButton';
 
@@ -171,7 +172,7 @@ export function PricingSection() {
     <ServiceSection id="priser">
       <SectionHeader num="05" label="Priser" extra="© 2026" />
 
-      <div className="flex items-center gap-[12px] mb-[32px]">
+      <FadeIn className="flex items-center gap-[12px] mb-[32px]">
         <span className="text-[14px] font-semibold" style={{ color: !showSeo ? '#030303' : 'rgb(140,140,134)' }}>
           Webbplats
         </span>
@@ -191,9 +192,9 @@ export function PricingSection() {
         <span className="text-[14px] font-semibold" style={{ color: showSeo ? '#030303' : 'rgb(140,140,134)' }}>
           SEO
         </span>
-      </div>
+      </FadeIn>
 
-      <div className="grid-responsive-3 grid gap-[16px] items-start" style={{ gridTemplateColumns: 'repeat(3,1fr)' }}>
+      <FadeIn delay={0.1} className="grid-responsive-3 grid gap-[16px] items-start" style={{ gridTemplateColumns: 'repeat(3,1fr)' }}>
         <AnimatePresence mode="wait">
           <motion.div key={showSeo ? 'seo' : 'web'} className="contents">
             {prices.map((p, i) => (
@@ -201,7 +202,7 @@ export function PricingSection() {
             ))}
           </motion.div>
         </AnimatePresence>
-      </div>
+      </FadeIn>
     </ServiceSection>
   );
 }

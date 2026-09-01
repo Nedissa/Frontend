@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useLayoutEffect } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -43,6 +43,8 @@ export function SiteNav() {
   const [closing, setClosing] = useState(false);
   const [hash, setHash] = useState('');
   const [navHidden, setNavHidden] = useState(false);
+  const suppressHideRef = useRef(false);
+  const suppressHideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -122,15 +124,51 @@ export function SiteNav() {
     return () => window.removeEventListener('hashchange', syncHash);
   }, [pathname, open]);
 
+  // scrollIntoView({behavior:'smooth'}) saknar ett "klar"-event och tar olika lång tid
+  // beroende på avstånd, så vi håller navbaren synlig tills scrollpositionen slutar
+  // röra sig (istället för en fast timer som är för kort för långa scrollar).
+  const scrollToAnchorId = (id: string) => {
+    suppressHideRef.current = true;
+    setNavHidden(false);
+    if (suppressHideTimerRef.current) clearTimeout(suppressHideTimerRef.current);
+
+    let lastCheckedY = window.scrollY;
+    const checkStopped = () => {
+      const y = window.scrollY;
+      if (y === lastCheckedY) {
+        suppressHideRef.current = false;
+        return;
+      }
+      lastCheckedY = y;
+      suppressHideTimerRef.current = setTimeout(checkStopped, 150);
+    };
+    suppressHideTimerRef.current = setTimeout(checkStopped, 150);
+
+    // id sitter numera på sektionens inre content-wrapper (inte på <section> självt), så
+    // getBoundingClientRect() ger redan innehållets faktiska start utan sektionens egen
+    // padding-top inräknad. Vi behöver bara kompensera för den fixerade navbaren plus lite
+    // luft, ingen gissad paddingkompensation längre.
+    const el = document.getElementById(id);
+    if (!el) return;
+    const NAVBAR_HEIGHT = 72;
+    const EXTRA_BREATHING_ROOM = 24;
+    const top = el.getBoundingClientRect().top + window.scrollY - NAVBAR_HEIGHT - EXTRA_BREATHING_ROOM;
+    window.scrollTo({ top, behavior: 'smooth' });
+  };
+
   // Om ProjectNav sparade ett mål-ankare innan navigering hit (annan route), scrolla dit nu.
   useEffect(() => {
     if (pathname !== '/digital') return;
     const target = sessionStorage.getItem('webbstudio-scroll-to');
     if (!target) return;
     sessionStorage.removeItem('webbstudio-scroll-to');
-    setTimeout(() => {
-      document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 0);
+    setTimeout(() => scrollToAnchorId(target), 0);
+  }, [pathname]);
+
+  // Navbaren ska alltid synas direkt efter en sidnavigering (länkklick) — den ska bara
+  // döljas av att användaren faktiskt scrollar vidare, inte av navigeringen i sig.
+  useEffect(() => {
+    setNavHidden(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -138,6 +176,12 @@ export function SiteNav() {
     const onScroll = () => {
       const y = window.scrollY;
       const delta = y - lastY;
+      // Programmatiskt scroll-till-ankare (menyklick) ska aldrig gömma navbaren, bara
+      // användarens egen scroll efteråt ska kunna göra det.
+      if (suppressHideRef.current) {
+        lastY = y;
+        return;
+      }
       if (y < 80) {
         setNavHidden(false);
       } else if (delta > 4) {
@@ -147,10 +191,9 @@ export function SiteNav() {
       }
       lastY = y;
     };
-    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [pathname]);
 
   const isLinkActive = (href: string): boolean => {
     const [linkPath, linkAnchor] = href.split('#');
@@ -173,9 +216,7 @@ export function SiteNav() {
     setHash(`#${anchor}`);
     // setTimeout skjuter scrollen till nästa tick, efter att webbläsarens egen
     // native hash-navigering (som annars återställer scrollY till 0) hunnit köra klart.
-    setTimeout(() => {
-      document.getElementById(anchor)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 0);
+    setTimeout(() => scrollToAnchorId(anchor), 0);
   };
 
   return (

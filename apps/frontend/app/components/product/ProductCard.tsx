@@ -232,7 +232,7 @@ export function ProductCard({
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
           </button>
-          <Tooltip anchorRef={favRef} label={isFav ? 'Ta bort från önskelista' : 'Lägg till i önskelista'} />
+          <Tooltip anchorRef={favRef} label={isFav ? 'Ta bort favorit' : 'Spara favorit'} />
         </div>
 
         <Link href={productLink} scroll={false} className="absolute inset-0 flex items-center justify-center overflow-hidden">
@@ -242,7 +242,7 @@ export function ProductCard({
               alt={product.title}
               fill
               sizes="(max-width: 640px) 75vw, (max-width: 1024px) 50vw, 25vw"
-              className="object-contain pt-12 pb-6 pl-6 pr-6"
+              className="object-contain pt-12 pb-10 pl-6 pr-6"
               priority={priority}
               quality={80}
             />

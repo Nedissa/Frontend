@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { ServiceSection } from './ServiceSection';
 import { SectionHeader } from './SectionHeader';
+import { FadeIn } from './FadeIn';
 import { SeoResultModal } from './SeoResultModal';
 import { type SeoResult, scoreColor } from '../seo-analys/shared';
 
@@ -122,7 +123,7 @@ export function SeoTestSection() {
     <ServiceSection id="seo-test" fullHeight={false} background="#f5f5f3">
       <SectionHeader num="04" label="SEO-test" extra="© 2026" />
 
-      <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-[40px] py-[20px] min-h-[280px] lg:min-h-[180px]">
+      <FadeIn className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-[40px] py-[20px] min-h-[280px] lg:min-h-[180px]">
         <div className="max-w-[480px]">
           <h2
             className="font-extrabold uppercase m-0 mb-[12px]"
@@ -201,7 +202,7 @@ export function SeoTestSection() {
             </button>
           </div>
         )}
-      </div>
+      </FadeIn>
 
       {modalOpen && result && (
         <SeoResultModal result={result} onClose={() => setModalOpen(false)} />

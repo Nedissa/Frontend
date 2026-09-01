@@ -568,7 +568,7 @@ footer a {
 }
 
 @media (max-width: 1023px) {
-  .case-scroll-no-mobile-anim * {
+  .case-scroll-no-mobile-anim *:not(.tp-lightbox, .tp-lightbox *) {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;

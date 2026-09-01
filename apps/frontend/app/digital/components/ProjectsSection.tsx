@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { SectionHeader } from './SectionHeader';
+import { FadeIn } from './FadeIn';
 import { CardParticles } from './CardParticles';
 import { BrowserFrame } from './BrowserFrame';
 import { PROJECTS } from '../projekt-data';
@@ -10,13 +11,16 @@ const CARD_GAP = 56;
 export function ProjectsSection() {
   return (
     <section
-      id="projekt"
       className="section-projects bg-white pt-[140px] pb-[140px] mx-[60px] box-border"
     >
-      <SectionHeader num="07" label="Projekt" extra="© 2026" hasVisibleHeading />
+      {/* id sitter på SectionHeader-wrappern (inte <section>) så scrollToAnchorId i SiteNav
+          landar vid innehållets faktiska start, inte 140px ovanför i sektionens padding-top. */}
+      <div id="projekt">
+        <SectionHeader num="07" label="Projekt" extra="© 2026" hasVisibleHeading />
+      </div>
 
       {/* Main layout */}
-      <div
+      <FadeIn
         className="grid-projects grid items-start pt-[80px]"
         style={{ gridTemplateColumns: '26vw 44vw 30vw' }}
       >
@@ -43,7 +47,7 @@ export function ProjectsSection() {
             <div key={p.slug} className="flex flex-col">
               <Link
                 href={`/digital/projekt/${p.slug}`}
-                className="group flex flex-col cursor-pointer w-full box-border no-underline p-[20px] h-[380px] md:h-[560px]"
+                className="project-card-link group flex flex-col cursor-pointer w-full box-border no-underline p-[20px] h-[380px] md:h-[560px]"
                 style={{
                   background: 'rgb(240,240,238)',
                   borderRadius: '8px',
@@ -84,19 +88,19 @@ export function ProjectsSection() {
                       <CardParticles />
                     </div>
                   </div>
-                  <div className="absolute inset-0 flex items-center justify-center z-0">
+                  <div className="project-card-mockup-wrap absolute inset-0 flex items-center justify-center z-0">
                     {p.cardImage && (
                       <BrowserFrame
                         src={p.cardImage}
                         alt={p.title}
                         website={p.website ?? p.title.toLowerCase().replace(/\s+/g, '')}
-                        className="max-w-[75%] mx-auto"
+                        className="project-card-browser-frame max-w-[75%] mx-auto"
                       />
                     )}
                   </div>
-                  <div className="absolute left-[20px] top-[20px] w-[19%] flex flex-col gap-[12px] z-10">
+                  <div className="project-card-badge-wrap absolute left-[20px] top-[20px] w-[19%] flex flex-col gap-[12px] z-10">
                     <span
-                      className="inline-flex w-fit text-[11px] font-bold uppercase"
+                      className="project-card-badge inline-flex w-fit text-[11px] font-bold uppercase"
                       style={{
                         letterSpacing: '0.06em',
                         color: '#fff',
@@ -112,7 +116,7 @@ export function ProjectsSection() {
                     </span>
                   </div>
                   <span
-                    className="absolute right-[20px] bottom-[20px] flex items-center justify-center w-[36px] h-[36px] rounded-full shrink-0"
+                    className="project-card-arrow absolute right-[20px] bottom-[20px] flex items-center justify-center w-[36px] h-[36px] rounded-full shrink-0"
                     style={{ background: '#030303' }}
                   >
                     <svg
@@ -123,7 +127,7 @@ export function ProjectsSection() {
                   </span>
                 </div>
               </Link>
-              <div className="flex items-center justify-between pt-[16px]">
+              <div className="project-card-meta flex items-center justify-between pt-[16px]">
                 <span className="text-[16px] font-semibold text-[#030303]">{p.title}</span>
                 <span className="text-[13px]" style={{ color: 'rgb(104,105,99)' }}>{p.category}</span>
                 <span
@@ -151,7 +155,7 @@ export function ProjectsSection() {
           </div>
         </div>
 
-      </div>
+      </FadeIn>
     </section>
   );
 }

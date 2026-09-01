@@ -101,18 +101,15 @@ export function Footer() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
               <div
                 style={{
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: '50%',
-                  border: '1.5px solid #fff',
+                  width: 'clamp(28px,3vw,40px)',
+                  height: 'clamp(28px,3vw,40px)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  overflow: 'hidden',
                   flexShrink: 0,
                 }}
               >
-                <img src="/techpilots-logo-new.svg" alt="Techpilots" style={{ width: '40px', height: '40px', objectFit: 'cover' }} />
+                <img src="/techpilots-logo-new.svg" alt="Techpilots" style={{ width: '100%', height: '100%' }} />
               </div>
 
               <h2

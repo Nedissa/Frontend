@@ -14,16 +14,18 @@ const ZOOM_STEP = 0.1;
 function Lightbox({ src, alt, onClose, fillWidth }: { src: string; alt: string; onClose: () => void; fillWidth?: boolean }) {
   const [scale, setScale] = useState(1);
   const [dragging, setDragging] = useState(false);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
   const lastPos = useRef({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const baseWidthRef = useRef<number | null>(null);
 
   const zoomTo = useCallback((next: number) => {
-    const container = containerRef.current;
     if (baseWidthRef.current === null && imgRef.current) {
       baseWidthRef.current = imgRef.current.offsetWidth;
     }
+    if (!fillWidth) { setScale(next); return; }
+    const container = containerRef.current;
     if (!container) { setScale(next); return; }
     const { scrollLeft, scrollTop, clientWidth, clientHeight, scrollWidth, scrollHeight } = container;
     const centerX = (scrollLeft + clientWidth / 2) / scrollWidth;
@@ -35,26 +37,31 @@ function Lightbox({ src, alt, onClose, fillWidth }: { src: string; alt: string; 
       el.scrollLeft = centerX * el.scrollWidth - el.clientWidth / 2;
       el.scrollTop = centerY * el.scrollHeight - el.clientHeight / 2;
     });
-  }, []);
+  }, [fillWidth]);
 
   const zoomIn = useCallback(() => zoomTo(Math.min(ZOOM_MAX, scale + ZOOM_STEP)), [scale, zoomTo]);
   const zoomOut = useCallback(() => zoomTo(Math.max(ZOOM_MIN, scale - ZOOM_STEP)), [scale, zoomTo]);
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    if (scale <= 1) return;
     setDragging(true);
     lastPos.current = { x: e.clientX, y: e.clientY };
-  }, [scale]);
+  }, []);
 
   useEffect(() => {
     if (!dragging) return;
 
     const handleMove = (e: MouseEvent) => {
-      const el = containerRef.current;
-      if (!el) return;
-      el.scrollLeft -= e.clientX - lastPos.current.x;
-      el.scrollTop -= e.clientY - lastPos.current.y;
+      const dx = e.clientX - lastPos.current.x;
+      const dy = e.clientY - lastPos.current.y;
       lastPos.current = { x: e.clientX, y: e.clientY };
+      if (fillWidth) {
+        const el = containerRef.current;
+        if (!el) return;
+        el.scrollLeft -= dx;
+        el.scrollTop -= dy;
+      } else {
+        setOffset((prev) => ({ x: prev.x + dx, y: prev.y + dy }));
+      }
     };
     const handleUp = () => setDragging(false);
 
@@ -64,10 +71,10 @@ function Lightbox({ src, alt, onClose, fillWidth }: { src: string; alt: string; 
       window.removeEventListener('mousemove', handleMove);
       window.removeEventListener('mouseup', handleUp);
     };
-  }, [dragging]);
+  }, [dragging, fillWidth]);
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-black/70 flex items-center justify-center p-6" onClick={onClose}>
+    <div className="tp-lightbox fixed inset-0 z-[9999] bg-black/70 flex items-center justify-center p-6" onClick={onClose}>
       <div
         className="w-[85vw] h-[85vh] max-w-6xl bg-white overflow-hidden flex flex-col shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
         onClick={(e) => e.stopPropagation()}
@@ -102,22 +109,28 @@ function Lightbox({ src, alt, onClose, fillWidth }: { src: string; alt: string; 
       <div className="relative flex-1 min-h-0">
         <div
           ref={containerRef}
-          className={`w-full h-full overflow-auto ${fillWidth ? '' : 'flex items-center justify-center p-10'} ${scale > 1 ? (dragging ? 'cursor-grabbing' : 'cursor-grab') : ''}`}
+          className={`w-full h-full ${fillWidth ? 'overflow-y-auto overflow-x-hidden' : 'overflow-hidden flex items-center justify-center p-10'} ${dragging ? 'cursor-grabbing' : 'cursor-grab'}`}
           onMouseDown={handleMouseDown}
+          onDragStart={(e) => e.preventDefault()}
+          style={{ WebkitUserDrag: 'none', userSelect: 'none' } as React.CSSProperties}
         >
           <img
             ref={imgRef}
             src={src}
             alt={alt}
             draggable={false}
+            onDragStart={(e) => e.preventDefault()}
             className="block"
-            style={
-              scale > 1 && baseWidthRef.current !== null
-                ? { width: `${baseWidthRef.current * scale}px`, maxWidth: 'none', height: 'auto' }
-                : fillWidth
-                  ? { width: '100%', height: 'auto' }
-                  : { maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'contain' }
-            }
+            style={{
+              WebkitUserDrag: 'none',
+              userSelect: 'none',
+              pointerEvents: 'none',
+              ...(fillWidth
+                ? (scale > 1 && baseWidthRef.current !== null
+                  ? { width: `${baseWidthRef.current * scale}px`, maxWidth: 'none', height: 'auto' }
+                  : { width: '100%', height: 'auto' })
+                : { maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'contain', transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})` }),
+            } as React.CSSProperties}
           />
         </div>
       </div>
@@ -148,7 +161,7 @@ function CaseBlock({ label, text, showLine, mobileDevice, mobileTitle }: { label
   const lineRef = useRef<HTMLSpanElement>(null);
 
   return (
-    <div className="relative flex gap-5 min-w-0">
+    <div className="relative flex gap-5 min-w-0 overflow-hidden">
       <div className="relative flex flex-col items-center shrink-0 pt-1.5">
         <span className="w-2.5 h-2.5 rounded-full bg-[#030303] shrink-0" />
         <span
@@ -167,7 +180,7 @@ function CaseBlock({ label, text, showLine, mobileDevice, mobileTitle }: { label
       </div>
       <div className="flex flex-col gap-3 min-w-0 w-full">
         <Eyebrow>{label}</Eyebrow>
-        {mobileDevice && <div className="lg:hidden">{mobileDevice}</div>}
+        {mobileDevice && <div className="lg:hidden w-full min-w-0 overflow-hidden">{mobileDevice}</div>}
         {mobileTitle && <p className="lg:hidden text-lg font-bold text-[#030303] m-0">{mobileTitle}</p>}
         <p className="text-base leading-relaxed text-[#5c5c58] max-w-[40ch] m-0">{text}</p>
       </div>
@@ -177,12 +190,20 @@ function CaseBlock({ label, text, showLine, mobileDevice, mobileTitle }: { label
 
 const TECH_ICONS: Record<string, ReactNode> = {
   'Framer': <img src="/icons/tech/framer.svg" alt="" width={16} height={16} />,
+  'Framer CMS': <img src="/icons/tech/framer.svg" alt="" width={16} height={16} />,
+  'React': <img src="/icons/tech/react.svg" alt="" width={16} height={16} />,
   'CMS': <Database size={16} weight="fill" />,
   'UX/UI Design': <Layout size={16} weight="fill" />,
   'Custom Code': <Code size={16} weight="fill" />,
   'Next.js': <img src="/icons/tech/nextjs.svg" alt="" width={16} height={16} />,
-  'Payload CMS': <Database size={16} weight="fill" />,
+  'Payload CMS': <img src="/icons/tech/payloadcms.svg" alt="" width={16} height={16} />,
   'Stripe': <img src="/icons/tech/stripe.svg" alt="" width={16} height={16} />,
+  'TypeScript': <img src="/icons/tech/typescript.svg" alt="" width={16} height={16} />,
+  'Tailwind CSS': <img src="/icons/tech/tailwindcss.svg" alt="" width={16} height={16} />,
+  'Node.js': <img src="/icons/tech/nodejs.svg" alt="" width={16} height={16} />,
+  'Medusa': <img src="/icons/tech/medusa.svg" alt="" width={16} height={16} />,
+  'PostgreSQL': <img src="/icons/tech/postgresql.svg" alt="" width={16} height={16} />,
+  'Framer Motion': <img src="/icons/tech/framer.svg" alt="" width={16} height={16} />,
 };
 
 function TechStack({ technologies }: { technologies: string[] }) {
@@ -193,15 +214,17 @@ function TechStack({ technologies }: { technologies: string[] }) {
       </div>
       <div className="flex flex-col gap-3">
         <Eyebrow>Teknik</Eyebrow>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-1.5">
           {technologies.map((tech) => (
-            <span
+            <div
               key={tech}
-              className="inline-flex items-center gap-2 px-4 py-2 border border-black/30 rounded-full text-sm font-medium text-[#030303]"
+              className="flex items-center gap-2 p-1 rounded-full bg-[#030303]"
             >
-              {TECH_ICONS[tech] && <span className="shrink-0 text-[#030303]">{TECH_ICONS[tech]}</span>}
-              {tech}
-            </span>
+              <span className="flex items-center justify-center shrink-0 w-6 h-6 rounded-full bg-white [&_img]:w-3.5 [&_img]:h-3.5 [&_svg]:w-3.5 [&_svg]:h-3.5">
+                {TECH_ICONS[tech]}
+              </span>
+              <span className="text-[11px] font-medium text-white pr-3">{tech}</span>
+            </div>
           ))}
         </div>
       </div>
@@ -238,7 +261,7 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, we
   const [open, setOpen] = useState(false);
   return (
     <div className="w-full border-t border-black/10 pt-10 flex flex-col items-start lg:items-center gap-6">
-      <div className="inline-flex flex-col max-w-full border border-black/20 bg-white overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.08)]" style={{ width: 'fit-content', maxWidth: width }}>
+      <div className="w-full flex flex-col border border-black/20 bg-white overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.08)]" style={{ maxWidth: width }}>
         <div className={`flex items-center gap-3 ${compact ? 'px-3 py-2' : 'px-4 py-2.5'} bg-[#f0f0ee] border-b border-black/10`}>
           <div className="flex items-center gap-1.5 shrink-0">
             <span className={`${compact ? 'w-2 h-2' : 'w-2.5 h-2.5'} rounded-full bg-[#ff5f57]`} />
@@ -282,7 +305,7 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, we
               src={src}
               alt={label}
               className="w-full h-auto object-contain block self-center cursor-zoom-in"
-              style={{ width }}
+              style={{ maxWidth: width }}
               onClick={() => setOpen(true)}
             />
             {open && <Lightbox src={src} alt={label} onClose={() => setOpen(false)} />}

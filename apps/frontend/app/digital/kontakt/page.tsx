@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { Great_Vibes } from 'next/font/google';
+import { ShootingStars } from '../components/ShootingStars';
 
 const scriptFont = Great_Vibes({ subsets: ['latin'], weight: '400' });
 
@@ -23,23 +24,25 @@ export default function ContactPage() {
     <main style={{ position: 'relative', color: '#030303', fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
       <div className="contact-hero" style={{ position: 'relative', minHeight: '100vh', boxSizing: 'border-box', background: '#fff', display: 'flex', alignItems: 'center' }}>
       <div className="grid-responsive-2" style={{ position: 'relative', maxWidth: '1320px', margin: '0 auto', padding: '140px 32px 60px', boxSizing: 'border-box', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'stretch', width: '100%' }}>
-        <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '4px', overflow: 'hidden', background: '#030303', display: 'flex', flexDirection: 'column', boxSizing: 'border-box', padding: '32px' }}>
-          <span style={{ position: 'relative', display: 'inline-block', alignSelf: 'flex-start', background: '#e8c547', color: '#030303', fontSize: '12px', fontWeight: 600, letterSpacing: '0.05em', padding: '6px 14px', borderRadius: '4px', marginBottom: '24px' }}>
+        <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '4px', overflow: 'hidden', background: '#f5f5f0', display: 'flex', flexDirection: 'column', boxSizing: 'border-box', padding: '32px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
+          <div style={{ position: 'absolute', top: 0, right: 0, width: 0, height: 0, borderStyle: 'solid', borderWidth: '0 24px 24px 0', borderColor: 'transparent #030303 transparent transparent' }} />
+          <ShootingStars color="#030303" />
+          <span style={{ position: 'relative', display: 'inline-block', alignSelf: 'flex-start', background: '#030303', color: '#fff', fontSize: '12px', fontWeight: 600, letterSpacing: '0.05em', padding: '6px 14px', borderRadius: '4px', marginBottom: '24px' }}>
             KOSTNADSFRI RÅDGIVNING
           </span>
-          <h2 style={{ position: 'relative', fontSize: 'clamp(40px,5.2vw,64px)', fontWeight: 800, letterSpacing: '-0.03em', textTransform: 'uppercase', color: '#fff', margin: 0, lineHeight: 0.95 }}>
+          <h2 style={{ position: 'relative', fontSize: 'clamp(40px,5.2vw,64px)', fontWeight: 800, letterSpacing: '-0.03em', textTransform: 'uppercase', color: '#030303', margin: 0, lineHeight: 0.95 }}>
             Redo att ta <span style={{ color: '#e8c547' }}>nästa</span> steg?
           </h2>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '32px' }}>
-            <div style={{ position: 'relative', width: '160px', height: '160px', borderRadius: '4px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.2)', background: '#e8c547', flexShrink: 0 }}>
+            <div style={{ position: 'relative', width: '160px', height: '160px', borderRadius: '4px', overflow: 'hidden', border: '2px solid #030303', background: '#030303', flexShrink: 0 }}>
               <Image src="/digital/nedal-issa-cutout.png" alt="Nedal Issa" fill style={{ objectFit: 'cover', objectPosition: 'bottom' }} />
             </div>
             <div>
-              <p className={scriptFont.className} style={{ fontSize: '40px', fontWeight: 400, color: '#fff', margin: '0 0 2px', lineHeight: 1 }}>
+              <p className={scriptFont.className} style={{ fontSize: '40px', fontWeight: 400, color: '#030303', margin: '0 0 2px', lineHeight: 1 }}>
                 Nedal Issa
               </p>
-              <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.03em', margin: 0 }}>
+              <p style={{ fontSize: '12px', color: 'rgba(3,3,3,0.6)', textTransform: 'uppercase', letterSpacing: '0.03em', margin: 0 }}>
                 Head of Techpilots
               </p>
             </div>
@@ -47,17 +50,17 @@ export default function ContactPage() {
 
           <div style={{ flex: 1 }} />
 
-          <div style={{ position: 'relative', borderTop: '1px solid rgba(255,255,255,0.15)', paddingTop: '32px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
-            <span style={{ fontSize: '48px', lineHeight: 1, fontWeight: 800, color: '#e8c547', fontFamily: 'Georgia, serif', margin: '0 0 4px' }}>
+          <div style={{ position: 'relative', borderTop: '1px solid rgba(3,3,3,0.2)', paddingTop: '32px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
+            <span style={{ fontSize: '48px', lineHeight: 1, fontWeight: 800, color: '#030303', fontFamily: 'Georgia, serif', margin: '0 0 4px' }}>
               &quot;
             </span>
             <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
-              <span style={{ width: '3px', alignSelf: 'stretch', background: '#e8c547', flexShrink: 0, borderRadius: '2px' }} />
-              <p style={{ fontSize: '18px', lineHeight: 1.5, fontStyle: 'italic', fontWeight: 400, color: 'rgba(255,255,255,0.75)', margin: 0 }}>
+              <span style={{ width: '3px', alignSelf: 'stretch', background: '#030303', flexShrink: 0, borderRadius: '2px' }} />
+              <p style={{ fontSize: '18px', lineHeight: 1.5, fontStyle: 'italic', fontWeight: 400, color: 'rgba(3,3,3,0.75)', margin: 0 }}>
                 Vi på Ljuva Hem är supernöjda med vår nya hemsida! Techpilots förstod direkt vikten av att förmedla trygghet till våra kunder inom hemstädning. Processen var smidig och vi har redan märkt att fler lokala kunder hittar oss i Mark och Kinna. Rekommenderas varmt för alla företag.
               </p>
             </div>
-            <p style={{ fontSize: '14px', fontWeight: 700, color: '#fff', margin: '0 0 2px 0' }}>
+            <p style={{ fontSize: '14px', fontWeight: 700, color: '#030303', margin: '0 0 2px 0' }}>
               Ljuva Hem i Mark
             </p>
           </div>

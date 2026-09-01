@@ -1,3 +1,7 @@
+html, body {
+  overflow-x: hidden;
+}
+
 iframe.cal-embed {
   max-width: min(94vw, 1100px) !important;
 }
@@ -13,9 +17,10 @@ iframe.cal-embed {
 }
 
 .contact-btn-primary {
-  background: #e8c547;
-  color: #030303;
+  background: #030303;
+  color: #fff;
 }
+
 
 .contact-btn-secondary {
   background: #030303;
@@ -39,8 +44,8 @@ iframe.cal-embed {
   transform: rotate(45deg);
 }
 .contact-btn-primary .contact-btn-icon {
-  background: #030303;
-  color: #e8c547;
+  background: #e8c547;
+  color: #030303;
 }
 .contact-btn-secondary .contact-btn-icon {
   background: #e8c547;
@@ -154,6 +159,32 @@ button:focus-visible {
   .nav-logo-mobile {
     display: none !important;
   }
+
+  /* Projektkort — mindre browserfönster på desktop, mobil orörd.
+     max-height förhindrar att bilder med brett/lågt format (t.ex. desktop-hero-skärmdumpar)
+     lämnar stort tomt utrymme under fönstret när kortet är högt. */
+  .project-card-mockup-wrap {
+    padding-left: 48px !important;
+    padding-right: 48px !important;
+  }
+
+  .project-card-browser-frame {
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: 100% !important;
+  }
+
+  .project-card-browser-frame img {
+    max-height: 560px !important;
+    max-width: 100% !important;
+    width: auto !important;
+    object-fit: contain !important;
+    margin: 0 auto !important;
+  }
+
+  .project-card-link {
+    height: 640px !important;
+  }
 }
 
 /* QHD and larger — content already caps at maxWidth:1440px on each section, nothing extra needed here */
@@ -257,6 +288,33 @@ button:focus-visible {
     padding-right: 0 !important;
   }
 
+  .project-card-browser-frame {
+    max-width: 94% !important;
+  }
+
+  .browser-frame-nav-icons-left {
+    display: none !important;
+  }
+
+  .browser-frame-nav-icons-right svg:not(.browser-frame-icon-fullscreen):not(.browser-frame-icon-duplicate) {
+    display: none !important;
+  }
+
+  .browser-frame-topbar {
+    padding: 10px 14px !important;
+    gap: 10px !important;
+  }
+
+  .browser-frame-url {
+    flex: 1 1 auto !important;
+    justify-content: center !important;
+    padding: 6px 12px !important;
+  }
+
+  .browser-frame-url span {
+    font-size: 13px !important;
+  }
+
   .hide-mobile {
     display: none !important;
   }
@@ -302,6 +360,90 @@ button:focus-visible {
 @media (max-width: 600px) {
   .grid-awards-row {
     gap: 12px !important;
+  }
+
+  /* Projektkort — lägre höjd och luftigare meta-rad så titel/kategori/år
+     inte trängs ihop på smala skärmar. */
+  .project-card-link {
+    height: 340px !important;
+    padding: 14px !important;
+  }
+
+  /* Badge och pilknapp görs mindre på mobil så de tar mindre skyddat utrymme,
+     vilket ger mockup-fönstret mer plats att växa in i. */
+  .project-card-badge-wrap {
+    left: 12px !important;
+    top: 12px !important;
+  }
+
+  .project-card-badge {
+    font-size: 8px !important;
+    padding: 3px 8px !important;
+  }
+
+  .project-card-arrow {
+    right: 12px !important;
+    bottom: 12px !important;
+    width: 26px !important;
+    height: 26px !important;
+  }
+
+  .project-card-arrow svg {
+    width: 12px !important;
+    height: 12px !important;
+  }
+
+  /* Mockup-fönstret får inte krocka med badgen (övre vänster, ~30px hög inkl.
+     position) eller pilknappen (nedre höger, ~38px). Paddingen på behållaren
+     behöver bara överstiga dessa mindre mått nu, med lite marginal. */
+  .project-card-mockup-wrap {
+    padding: 40px 16px 46px 16px !important;
+  }
+
+  .project-card-browser-frame {
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
+
+  .project-card-browser-frame img {
+    max-height: 190px !important;
+    width: auto !important;
+    object-fit: contain !important;
+  }
+
+  /* Kompakt bar på mobil — traffic lights + URL-fält, mindre padding/gap. */
+  .project-card-browser-frame .browser-frame-topbar {
+    padding: 6px 8px !important;
+    gap: 6px !important;
+  }
+
+  .project-card-browser-frame .browser-frame-topbar span.w-2\.5 {
+    width: 6px !important;
+    height: 6px !important;
+  }
+
+  .project-card-browser-frame .browser-frame-url {
+    padding: 3px 8px !important;
+  }
+
+  .project-card-browser-frame .browser-frame-url span {
+    font-size: 10px !important;
+  }
+
+  .project-card-browser-frame .browser-frame-url svg {
+    width: 9px !important;
+    height: 9px !important;
+  }
+
+  .project-card-meta {
+    flex-wrap: wrap !important;
+    row-gap: 4px !important;
+    padding-top: 12px !important;
+  }
+
+  .project-card-meta > span:last-child {
+    flex-basis: 100% !important;
+    text-align: left !important;
   }
 
   .hero-promo-panel {

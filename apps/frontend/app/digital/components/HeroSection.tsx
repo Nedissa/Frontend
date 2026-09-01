@@ -103,7 +103,7 @@ export function HeroSection() {
   const mouseX = useSpring(rawX, MOUSE_SPRING_CONFIG);
   const mouseY = useSpring(rawY, MOUSE_SPRING_CONFIG);
   const imageX = useTransform(mouseX, (v) => v * 0.02);
-  const imageY = useTransform(mouseY, (v) => v * 0.02);
+  const imageY = useTransform(mouseY, (v) => Math.min(0, v * 0.02));
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -157,14 +157,14 @@ export function HeroSection() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.4, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 }}
         className="absolute top-0 left-0 w-full h-full z-[1]"
-        style={{ x: imageX, y: imageY }}
+        style={{ x: imageX }}
       >
-        <img
+        <motion.img
           src="/digital/hero.webp"
           alt=""
           draggable={false}
           className="hero-image absolute bottom-0 left-0 w-full block"
-          style={{ height: '90%', objectFit: 'contain', objectPosition: 'center', mixBlendMode: 'screen', userSelect: 'none' }}
+          style={{ height: '90%', objectFit: 'contain', objectPosition: 'center bottom', mixBlendMode: 'screen', userSelect: 'none', y: imageY }}
         />
       </motion.div>
 

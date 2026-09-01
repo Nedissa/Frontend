@@ -4,12 +4,12 @@ import { motion } from 'framer-motion';
 // Diagonal (top-left → bottom-right) streaks that fire one at a time with long gaps between,
 // so the effect stays subtle and doesn't compete with the hero text.
 const STARS = [
-  { left: '5%', top: '-5%', delay: 2, duration: 2.2, cycle: 9 },
-  { left: '35%', top: '-8%', delay: 6.5, duration: 2, cycle: 12 },
-  { left: '55%', top: '-4%', delay: 11, duration: 2.4, cycle: 15 },
+  { left: '5%', top: '-5%', delay: 2, duration: 4.4, cycle: 9 },
+  { left: '35%', top: '-8%', delay: 6.5, duration: 4, cycle: 12 },
+  { left: '55%', top: '-4%', delay: 11, duration: 4.8, cycle: 15 },
 ];
 
-function Star({ left, top, delay, duration, cycle }: (typeof STARS)[number]) {
+function Star({ left, top, delay, duration, cycle, color }: (typeof STARS)[number] & { color: string }) {
   return (
     <motion.div
       style={{
@@ -36,7 +36,7 @@ function Star({ left, top, delay, duration, cycle }: (typeof STARS)[number]) {
           width: '120px',
           height: '2px',
           borderRadius: '2px',
-          background: 'linear-gradient(225deg, #fff, rgba(255,255,255,0))',
+          background: `linear-gradient(225deg, ${color}, rgba(0,0,0,0))`,
           transform: 'rotate(45deg)',
           transformOrigin: 'left center',
         }}
@@ -45,11 +45,11 @@ function Star({ left, top, delay, duration, cycle }: (typeof STARS)[number]) {
   );
 }
 
-export function ShootingStars() {
+export function ShootingStars({ color = '#fff' }: { color?: string }) {
   return (
-    <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+    <div style={{ position: 'absolute', inset: 0, zIndex: -1, overflow: 'hidden', pointerEvents: 'none' }}>
       {STARS.map((s, i) => (
-        <Star key={i} {...s} />
+        <Star key={i} {...s} color={color} />
       ))}
     </div>
   );
