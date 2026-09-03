@@ -25,7 +25,6 @@ export default function ContactPage() {
       <div className="contact-hero" style={{ position: 'relative', minHeight: '100vh', boxSizing: 'border-box', background: '#fff', display: 'flex', alignItems: 'center' }}>
       <div className="grid-responsive-2" style={{ position: 'relative', maxWidth: '1320px', margin: '0 auto', padding: '140px 32px 60px', boxSizing: 'border-box', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'stretch', width: '100%' }}>
         <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '4px', overflow: 'hidden', background: '#f5f5f0', display: 'flex', flexDirection: 'column', boxSizing: 'border-box', padding: '32px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
-          <div style={{ position: 'absolute', top: 0, right: 0, width: 0, height: 0, borderStyle: 'solid', borderWidth: '0 24px 24px 0', borderColor: 'transparent #030303 transparent transparent' }} />
           <ShootingStars color="#030303" />
           <span style={{ position: 'relative', display: 'inline-block', alignSelf: 'flex-start', background: '#030303', color: '#fff', fontSize: '12px', fontWeight: 600, letterSpacing: '0.05em', padding: '6px 14px', borderRadius: '4px', marginBottom: '24px' }}>
             KOSTNADSFRI RÅDGIVNING
@@ -34,11 +33,14 @@ export default function ContactPage() {
             Redo att ta <span style={{ color: '#e8c547' }}>nästa</span> steg?
           </h2>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '32px' }}>
-            <div className="contact-avatar" style={{ position: 'relative', width: '160px', height: '160px', borderRadius: '4px', overflow: 'hidden', border: '2px solid #030303', background: '#030303', flexShrink: 0 }}>
-              <Image src="/digital/nedal-issa-cutout.png" alt="Nedal Issa" fill style={{ objectFit: 'cover', objectPosition: 'bottom' }} />
+          <div className="contact-avatar-row" style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '32px' }}>
+            <div className="contact-avatar-wrap" style={{ position: 'relative', width: '280px', height: '280px', flexShrink: 0 }}>
+              <div className="contact-avatar-circle" style={{ position: 'absolute', top: '0', left: '0', width: '280px', height: '280px', borderRadius: '50%', background: '#e8c547' }} />
+              <div className="contact-avatar" style={{ position: 'relative', width: '280px', height: '280px', borderRadius: '50%', overflow: 'hidden', background: 'transparent' }}>
+                <Image src="/digital/nedal-issa-cutout.png" alt="Nedal Issa" fill draggable={false} style={{ objectFit: 'cover', objectPosition: 'bottom' }} />
+              </div>
             </div>
-            <div>
+            <div className="contact-avatar-text">
               <p className={`contact-name ${scriptFont.className}`} style={{ fontSize: '40px', fontWeight: 400, color: '#030303', margin: '0 0 2px', lineHeight: 1, whiteSpace: 'nowrap' }}>
                 Nedal Issa
               </p>
@@ -48,7 +50,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div style={{ flex: 1 }} />
+          <div style={{ flex: 1, minHeight: '24px' }} />
 
           <div style={{ position: 'relative', borderTop: '1px solid rgba(3,3,3,0.2)', paddingTop: '32px', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }}>
             <span style={{ fontSize: '48px', lineHeight: 1, fontWeight: 800, color: '#030303', fontFamily: 'Georgia, serif', margin: '0 0 4px' }}>
