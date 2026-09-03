@@ -11,7 +11,7 @@ const MOBILE_BREAKPOINT = 900;
 const PARTICLE_COLOR = '#fff';
 const PARTICLE_GOLD = '#e8c547';
 
-const PARTICLES = Array.from({ length: 16 }, (_, i) => ({
+const PARTICLES = Array.from({ length: 32 }, (_, i) => ({
   left: Math.round(seededRandom(i * 12.9898) * 10000) / 100,
   top: Math.round(seededRandom(i * 78.233) * 10000) / 100,
   size: 2 + (i % 4) * 0.8,

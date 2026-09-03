@@ -7,7 +7,7 @@ import type { Project } from '../../projekt-data';
 import { FadeIn } from '../FadeIn';
 import { Eyebrow } from './StyledPrimitives';
 
-const ZOOM_MIN = 1;
+const ZOOM_MIN = 0.25;
 const ZOOM_MAX = 4;
 const ZOOM_STEP = 0.1;
 
@@ -19,6 +19,16 @@ function Lightbox({ src, alt, onClose, fillWidth }: { src: string; alt: string; 
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const baseWidthRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (containerRef.current) containerRef.current.scrollTop = 0;
+  }, []);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = previousOverflow; };
+  }, []);
 
   const zoomTo = useCallback((next: number) => {
     if (baseWidthRef.current === null && imgRef.current) {
@@ -89,6 +99,7 @@ function Lightbox({ src, alt, onClose, fillWidth }: { src: string; alt: string; 
           >
             −
           </button>
+          <span className="w-12 text-center text-sm font-medium text-black tabular-nums">{Math.round(scale * 100)}%</span>
           <button
             onClick={zoomIn}
             disabled={scale >= ZOOM_MAX}
@@ -120,15 +131,16 @@ function Lightbox({ src, alt, onClose, fillWidth }: { src: string; alt: string; 
             alt={alt}
             draggable={false}
             onDragStart={(e) => e.preventDefault()}
-            className="block"
+            onLoad={() => { if (containerRef.current) containerRef.current.scrollTop = 0; }}
+            className="block mx-auto"
             style={{
               WebkitUserDrag: 'none',
               userSelect: 'none',
               pointerEvents: 'none',
               ...(fillWidth
-                ? (scale > 1 && baseWidthRef.current !== null
+                ? (scale !== 1 && baseWidthRef.current !== null
                   ? { width: `${baseWidthRef.current * scale}px`, maxWidth: 'none', height: 'auto' }
-                  : { width: '100%', height: 'auto' })
+                  : { width: 'auto', maxWidth: '85%', height: 'auto' })
                 : { maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'contain', transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})` }),
             } as unknown as React.CSSProperties}
           />
@@ -144,7 +156,7 @@ function ZoomableImage({ src, alt, className }: { src: string; alt: string; clas
 
   return (
     <>
-      <div className="w-full h-full overflow-auto">
+      <div className="w-full h-full overflow-hidden">
         <img
           src={src}
           alt={alt}
@@ -161,21 +173,15 @@ function CaseBlock({ label, text, showLine, mobileDevice, mobileTitle }: { label
   const lineRef = useRef<HTMLSpanElement>(null);
 
   return (
-    <div className="relative flex gap-5 min-w-0 overflow-hidden">
+    <div className="relative flex gap-5 min-w-0">
       <div className="relative flex flex-col items-center shrink-0 pt-1.5">
         <span className="w-2.5 h-2.5 rounded-full bg-[#030303] shrink-0" />
         <span
           ref={lineRef}
-          className={`absolute top-2.5 w-px bg-black/10 overflow-hidden ${showLine ? '' : 'hidden'}`}
+          className={`absolute top-2.5 w-px bg-black/10 ${showLine ? '' : 'hidden'}`}
           style={{ height: 'calc(100% + 4rem)' }}
         >
-          <motion.span
-            className="block w-full bg-[#030303]/70 origin-top"
-            initial={{ scaleY: 0 }}
-            animate={{ scaleY: 1 }}
-            transition={{ duration: 0.6, ease: 'easeOut' }}
-            style={{ height: '100%' }}
-          />
+          <span className="block w-full h-full bg-[#030303]/70" />
         </span>
       </div>
       <div className="flex flex-col gap-3 min-w-0 w-full">
@@ -304,11 +310,11 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, we
             <img
               src={src}
               alt={label}
-              className="w-full h-auto object-contain block self-center cursor-zoom-in"
-              style={{ maxWidth: width }}
+              className="w-full object-cover object-top block self-center cursor-zoom-in"
+              style={{ maxWidth: width, aspectRatio }}
               onClick={() => setOpen(true)}
             />
-            {open && <Lightbox src={src} alt={label} onClose={() => setOpen(false)} />}
+            {open && <Lightbox src={src} alt={label} onClose={() => setOpen(false)} fillWidth />}
           </>
         ) : (
           <div
@@ -322,7 +328,7 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, we
       {!hideSpecs && specs && specs.length > 0 && (
         <span className="flex items-center gap-4 text-xs font-medium text-[#5c5c58]">
           {specs.map((spec) => (
-            <span key={spec} className="flex items-center gap-2">
+            <span key={spec} className="flex items-center gap-2 whitespace-nowrap">
               <span className="w-1.5 h-1.5 shrink-0" style={{ backgroundColor: accentColor ?? '#E8C547' }} />
               {spec}
             </span>
@@ -354,38 +360,6 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
           </div>
         </FadeIn>
 
-        {project.conclusionImage && (
-          <FadeIn>
-            <div className="lg:hidden mb-16 w-full border border-black/20 bg-white overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
-              <div className="flex items-center gap-4 px-4 py-2.5 bg-[#f0f0ee] border-b border-black/10">
-                <div className="flex items-center gap-1.5 shrink-0">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
-                </div>
-
-                <div className="flex-1 flex items-center gap-2 bg-white border border-black/10 rounded-md px-3 py-1 text-[#8a8a86]">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="shrink-0"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3z" /></svg>
-                  <span className="text-xs truncate">{project.website ?? project.title.toLowerCase().replace(/\s+/g, '')}</span>
-                </div>
-
-                <div className="flex items-center gap-2 shrink-0 text-[#5c5c58]">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7" /><polyline points="21 3 21 9 15 9" /></svg>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 6 9 12 15 18" /></svg>
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 6 15 12 9 18" /></svg>
-                </div>
-              </div>
-              <div className="h-[420px]">
-                <ZoomableImage
-                  src={project.conclusionImage}
-                  alt={project.title}
-                  className="w-full h-auto block"
-                />
-              </div>
-            </div>
-          </FadeIn>
-        )}
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           <div className="lg:sticky lg:top-16 lg:self-start flex flex-col gap-16 min-w-0">
             <FadeIn>
@@ -396,7 +370,7 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                     text={project.challenge}
                     showLine={!!(project.solution || project.result)}
                     mobileTitle={project.challengeTitle}
-                    mobileDevice={<DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs />}
+                    mobileDevice={<DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} deviceType="dator" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs />}
                   />
                 )}
                 {project.solution && (
@@ -405,7 +379,6 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                     text={project.solution}
                     showLine={!!project.result}
                     mobileTitle={project.solutionTitle}
-                    mobileDevice={<DeviceImage label="Surfplatta" src={project.tabletImage} specs={project.steps?.[1]?.uxImprovements} deviceType="surfplatta" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs />}
                   />
                 )}
                 {project.result && (
@@ -414,7 +387,7 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                     text={project.result}
                     showLine={!!(project.technologies && project.technologies.length > 0)}
                     mobileTitle={project.resultTitle}
-                    mobileDevice={<DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} deviceType="dator" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs />}
+                    mobileDevice={<DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs />}
                   />
                 )}
                 {project.technologies && project.technologies.length > 0 && (
@@ -437,10 +410,12 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
             )}
           </div>
 
-          {(project.conclusionImage || mobileImage || project.tabletImage || project.image) && (
-            <div className="hidden lg:flex flex-col items-center gap-10">
+          {(project.conclusionImage || mobileImage) && (
+            <div className="hidden lg:flex items-start gap-10">
+              <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements?.slice(0, 2)} deviceType="mobil" accentColor={project.accentColor} website={project.website} title={project.title} />
+
               {project.conclusionImage && (
-              <FadeIn>
+                <div className="flex flex-col items-center gap-6">
                 <div className="w-full border border-black/20 bg-white overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
                   <div className="flex items-center gap-4 px-4 py-2.5 bg-[#f0f0ee] border-b border-black/10">
                     <div className="flex items-center gap-1.5 shrink-0">
@@ -471,16 +446,22 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                     <ZoomableImage
                       src={project.conclusionImage}
                       alt={project.title}
-                      className="w-full h-auto block"
+                      className="w-full h-full object-cover object-top block"
                     />
                   </div>
                 </div>
-              </FadeIn>
+                {project.steps?.[2]?.uxImprovements && project.steps[2].uxImprovements.length > 0 && (
+                  <span className="flex items-center gap-4 text-xs font-medium text-[#5c5c58]">
+                    {project.steps[2].uxImprovements.map((spec) => (
+                      <span key={spec} className="flex items-center gap-2 whitespace-nowrap">
+                        <span className="w-1.5 h-1.5 shrink-0" style={{ backgroundColor: project.accentColor ?? '#E8C547' }} />
+                        {spec}
+                      </span>
+                    ))}
+                  </span>
+                )}
+                </div>
               )}
-
-              <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} website={project.website} title={project.title} />
-              <DeviceImage label="Surfplatta" src={project.tabletImage} specs={project.steps?.[1]?.uxImprovements} deviceType="surfplatta" accentColor={project.accentColor} website={project.website} title={project.title} />
-              <DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} deviceType="dator" accentColor={project.accentColor} website={project.website} title={project.title} />
             </div>
           )}
         </div>
