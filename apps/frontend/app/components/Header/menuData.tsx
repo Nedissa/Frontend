@@ -11,7 +11,6 @@ export interface MenuSection {
   id: string;
   title: string;
   url: string;
-  icon?: React.ReactNode;
   items?: MenuItem[];
 }
 
@@ -44,7 +43,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'barbara',
         title: 'Bärbara',
         url: '/kategori/barbara',
-        icon: <img src="/icons/menu-photos/barbara.avif" alt="Bärbara datorer" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'ultrabooks', title: 'Ultrabooks', url: '/kategori/barbara' },
           { id: 'gaming-barbara', title: 'Gaming bärbara', url: '/kategori/barbara' },
@@ -55,7 +53,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'stationara',
         title: 'Stationära',
         url: '/kategori/stationara',
-        icon: <img src="/icons/menu-photos/stationara.avif" alt="Stationära datorer" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'mini-pc', title: 'Mini-PC', url: '/kategori/stationara' },
           { id: 'allt-i-ett', title: 'Allt-i-ett-datorer', url: '/kategori/stationara' },
@@ -66,7 +63,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'datortillbehor',
         title: 'Tillbehör',
         url: '/kategori/datortillbehor',
-        icon: <img src="/icons/menu-photos/datortillbehor.avif" alt="Datortillbehör" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'bildskarm', title: 'Bildskärmar', url: '/kategori/datortillbehor' },
           { id: 'tangentbord', title: 'Tangentbord', url: '/kategori/datortillbehor' },
@@ -84,7 +80,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'processorer',
         title: 'Processorer',
         url: '/kategori/processorer',
-        icon: <img src="/icons/menu-photos/cpu.avif" alt="CPU" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'intel', title: 'Intel', url: '/kategori/processorer' },
           { id: 'amd', title: 'AMD', url: '/kategori/processorer' },
@@ -94,7 +89,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'moderkort',
         title: 'Moderkort',
         url: '/kategori/moderkort',
-        icon: <img src="/icons/menu-photos/moderkort.avif" alt="Moderkort" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'intel-socket', title: 'Intel', url: '/kategori/moderkort' },
           { id: 'amd-socket', title: 'AMD', url: '/kategori/moderkort' },
@@ -104,7 +98,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'grafikkort',
         title: 'Grafikkort',
         url: '/kategori/grafikkort',
-        icon: <img src="/icons/menu-photos/gpu.avif" alt="GPU" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'nvidia', title: 'NVIDIA', url: '/kategori/grafikkort' },
           { id: 'amd-gpu', title: 'AMD', url: '/kategori/grafikkort' },
@@ -114,7 +107,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'ram',
         title: 'RAM-minne',
         url: '/kategori/ram',
-        icon: <img src="/icons/menu-photos/ram.avif" alt="RAM" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'ddr5', title: 'DDR5', url: '/kategori/ram' },
           { id: 'ddr4', title: 'DDR4', url: '/kategori/ram' },
@@ -124,7 +116,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'lagringsenhet',
         title: 'Lagring',
         url: '/kategori/lagring',
-        icon: <img src="/icons/menu-photos/lagring.avif" alt="Lagring" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'ssd-nvme', title: 'SSD NVMe', url: '/kategori/lagring' },
           { id: 'ssd-sata', title: 'SSD SATA', url: '/kategori/lagring' },
@@ -135,7 +126,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'natlagring',
         title: 'Nätaggregat',
         url: '/kategori/natagregat',
-        icon: <img src="/icons/menu-photos/nataggregat.avif" alt="Nätaggregat" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'modular', title: 'Modulärt', url: '/kategori/natagregat' },
           { id: 'semi-modular', title: 'Semi-modulärt', url: '/kategori/natagregat' },
@@ -152,7 +142,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'gaming-laptops',
         title: 'Bärbara',
         url: '/kategori/gaming-laptops',
-        icon: <img src="/icons/menu-photos/gaming-laptop.avif" alt="Gaming Bärbara" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'high-end', title: 'High-End', url: '/kategori/gaming-laptops' },
           { id: 'mid-range', title: 'Mid-Range', url: '/kategori/gaming-laptops' },
@@ -162,7 +151,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'gaming-pc',
         title: 'Datorer',
         url: '/kategori/gaming-pc',
-        icon: <img src="/icons/menu-photos/gaming-datorer.avif" alt="Gaming PC" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'budget', title: 'Budget', url: '/kategori/gaming-pc' },
           { id: 'pro', title: 'Pro', url: '/kategori/gaming-pc' },
@@ -172,7 +160,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'gaming-peripherals',
         title: 'Tillbehör',
         url: '/kategori/gaming-tillbehor',
-        icon: <img src="/icons/menu-photos/gaming-tillbehor.avif" alt="Gamingtillbehör" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'gaming-mus', title: 'Gaming Möss', url: '/kategori/gaming-tillbehor' },
           { id: 'gaming-tangentbord', title: 'Gaming Tangentbord', url: '/kategori/gaming-tillbehor' },
@@ -190,7 +177,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'smartphones',
         title: 'Smartphones',
         url: '/kategori/smartphones',
-        icon: <img src="/icons/menu-photos/smartphones.avif" alt="Smartphones" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'flagship', title: 'Flaggskepp', url: '/kategori/smartphones' },
           { id: 'mid-range-phone', title: 'Mid-Range', url: '/kategori/smartphones' },
@@ -201,7 +187,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'mobil-tillbehor',
         title: 'Mobil tillbehör',
         url: '/kategori/mobil-tillbehor',
-        icon: <img src="/icons/menu-photos/mobiltillbehor.avif" alt="Mobiltillbehör" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'skal', title: 'Skal & Skydd', url: '/kategori/mobil-tillbehor' },
           { id: 'laddare', title: 'Laddare', url: '/kategori/mobil-tillbehor' },
@@ -219,7 +204,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'accesspunkter',
         title: 'Accesspunkter',
         url: '/kategori/accesspunkter',
-        icon: <img src="/icons/menu-photos/accesspunkter.avif" alt="Accesspunkter" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'wifi6', title: 'WiFi 6', url: '/kategori/accesspunkter' },
           { id: 'wifi7', title: 'WiFi 7', url: '/kategori/accesspunkter' },
@@ -229,7 +213,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'natsverksforlangarе',
         title: 'Nätverksförlängare',
         url: '/kategori/natverksforlangare',
-        icon: <img src="/icons/menu-photos/natverksforlangare.avif" alt="Nätverksförlängare" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'wifi-forlangarе', title: 'WiFi', url: '/kategori/natverksforlangare' },
           { id: 'mesh-forlangarе', title: 'Mesh', url: '/kategori/natverksforlangare' },
@@ -239,7 +222,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'routrar',
         title: 'Routrar',
         url: '/kategori/routrar',
-        icon: <img src="/icons/menu-photos/routrar.avif" alt="Routrar" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'wifi6-routrar', title: 'WiFi 6', url: '/kategori/routrar' },
           { id: 'wifi7-routrar', title: 'WiFi 7', url: '/kategori/routrar' },
@@ -250,7 +232,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'mesh',
         title: 'Mesh Nätverk',
         url: '/kategori/mesh-natverk',
-        icon: <img src="/icons/menu-photos/mesh-natverk.avif" alt="Mesh Nätverk" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'mesh-wifi6', title: 'WiFi 6', url: '/kategori/mesh-natverk' },
           { id: 'mesh-wifi7', title: 'WiFi 7', url: '/kategori/mesh-natverk' },
@@ -267,7 +248,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'tv',
         title: 'TV',
         url: '/kategori/tv',
-        icon: <img src="/icons/menu-photos/tv.avif" alt="TV" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'oled-tv', title: 'OLED', url: '/kategori/oled-tv' },
           { id: 'qled-tv', title: 'QLED', url: '/kategori/qled-tv' },
@@ -279,7 +259,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'ljud',
         title: 'Ljud & HiFi',
         url: '/kategori/ljud-hifi',
-        icon: <img src="/icons/menu-photos/ljud-hifi.avif" alt="Ljud & HiFi" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'hemmabio', title: 'Hemmabio', url: '/kategori/hemmabio' },
           { id: 'horlur', title: 'Hörlurar', url: '/kategori/horlur' },
@@ -290,7 +269,6 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'tillbehor-tv',
         title: 'TV Tillbehör',
         url: '/kategori/tv-tillbehor',
-        icon: <img src="/icons/menu-photos/tv-tillbehor.avif" alt="TV Tillbehör" style={{ width: '48px', height: '48px', objectFit: 'contain' }} />,
         items: [
           { id: 'montering', title: 'Montering', url: '/kategori/tv-tillbehor' },
           { id: 'soundbar', title: 'Soundbar', url: '/kategori/tv-tillbehor' },
@@ -301,27 +279,27 @@ export const MENU_DATA: MenuCategory[] = [
 ];
 
 export const SECTION_IMAGES: Record<string, string> = {
-  barbara: '/assets/mega-barbara.webp',
-  stationara: '/assets/mega-stationara.webp',
-  datortillbehor: '/assets/mega-datortillbehor.webp',
-  processorer: '/assets/mega-processorer.webp',
-  moderkort: '/assets/mega-moderkort.webp',
-  grafikkort: '/assets/mega-grafikkort.webp',
-  ram: '/assets/mega-ram.webp',
-  lagringsenhet: '/assets/mega-lagring.webp',
-  natlagring: '/assets/mega-natlaggregat.webp',
-  'gaming-laptops': '/assets/mega-gaming-laptop.webp',
-  'gaming-pc': '/assets/mega-gaming-pc.webp',
-  'gaming-peripherals': '/assets/mega-gaming-tillbehor.webp',
-  smartphones: '/assets/mega-smartphones.webp',
-  'mobil-tillbehor': '/assets/mega-mobil-tillbehor.webp',
-  accesspunkter: '/assets/mega-accesspunkter.webp',
-  natsverksforlangarе: '/assets/mega-natverksforlangare.webp',
-  routrar: '/assets/mega-routrar.webp',
-  mesh: '/assets/mega-mesh.webp',
-  tv: '/assets/mega-tv.webp',
-  ljud: '/assets/mega-ljud.webp',
-  'tillbehor-tv': '/assets/mega-tv-tillbehor.webp',
+  barbara: '/assets/mega-barbara-menu.webp',
+  stationara: '/assets/mega-stationara-menu.webp',
+  datortillbehor: '/assets/mega-datortillbehor-menu.webp',
+  processorer: '/assets/mega-processorer-menu.webp',
+  moderkort: '/assets/mega-moderkort-menu.webp',
+  grafikkort: '/assets/mega-grafikkort-menu.webp',
+  ram: '/assets/mega-ram-menu.webp',
+  lagringsenhet: '/assets/mega-lagring-menu.webp',
+  natlagring: '/assets/mega-natlaggregat-menu.webp',
+  'gaming-laptops': '/assets/mega-gaming-laptop-menu.webp',
+  'gaming-pc': '/assets/mega-gaming-pc-menu.webp',
+  'gaming-peripherals': '/assets/mega-gaming-tillbehor-menu.webp',
+  smartphones: '/assets/mega-smartphones-menu.webp',
+  'mobil-tillbehor': '/assets/mega-mobil-tillbehor-menu.webp',
+  accesspunkter: '/assets/mega-accesspunkter-menu.webp',
+  natsverksforlangarе: '/assets/mega-natverksforlangare-menu.webp',
+  routrar: '/assets/mega-routrar-menu.webp',
+  mesh: '/assets/mega-mesh-menu.webp',
+  tv: '/assets/mega-tv-menu.webp',
+  ljud: '/assets/mega-ljud-menu.webp',
+  'tillbehor-tv': '/assets/mega-tv-tillbehor-menu.webp',
 };
 
 export const OFFERS_CAMPAIGNS = [

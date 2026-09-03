@@ -111,11 +111,11 @@ export function MegaMenu({
                 {category.items?.map((section) => (
                   <div key={section.id} className="w-full">
                     <div className="mb-4 pb-4 border-b border-gray-300 w-full">
-                      <div style={{ marginBottom: '8px', height: '80px', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+                      <div style={{ marginBottom: '8px', height: '40px', width: '40px', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
                         <img
                           src={SECTION_IMAGES[section.id] || '/assets/cat-electronics.webp'}
                           alt={section.title}
-                          style={{ display: 'block', height: '80px', width: 'auto' }}
+                          style={{ display: 'block', maxWidth: '40px', maxHeight: '40px', width: 'auto', height: 'auto', objectFit: 'contain', objectPosition: 'left center' }}
                         />
                       </div>
                       <Link href={section.url}>
