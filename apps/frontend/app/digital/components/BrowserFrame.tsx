@@ -14,7 +14,7 @@ function UrlField({ website, showLock }: { website?: string; showLock: boolean }
       {showLock && (
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="shrink-0"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3z" /></svg>
       )}
-      <span className="text-xs whitespace-nowrap truncate">{website}</span>
+      <span className="text-xs truncate block min-w-0">{website}</span>
     </div>
   );
 }

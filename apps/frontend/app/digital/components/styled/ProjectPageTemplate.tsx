@@ -259,14 +259,15 @@ const DEVICE_ASPECT_RATIO: Record<'mobil' | 'surfplatta' | 'dator', number> = {
   dator: 2515 / 1414,
 };
 
-function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, website, title }: { label: string; src?: string; specs?: string[]; deviceType: 'mobil' | 'surfplatta' | 'dator'; accentColor?: string; hideSpecs?: boolean; website?: string; title: string }) {
+function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, website, title, compact: compactProp, aspectRatio: aspectRatioProp }: { label: string; src?: string; specs?: string[]; deviceType: 'mobil' | 'surfplatta' | 'dator'; accentColor?: string; hideSpecs?: boolean; website?: string; title: string; compact?: boolean; aspectRatio?: number }) {
   const width = DEVICE_FRAME_MAX_WIDTH[deviceType];
-  const aspectRatio = DEVICE_ASPECT_RATIO[deviceType];
-  const compact = deviceType === 'mobil';
+  const aspectRatio = aspectRatioProp ?? DEVICE_ASPECT_RATIO[deviceType];
+  const compact = compactProp ?? deviceType === 'mobil';
   const iconSize = compact ? 11 : 15;
   const [open, setOpen] = useState(false);
   return (
     <div className="w-full border-t border-black/10 pt-10 flex flex-col items-start lg:items-center gap-6">
+      <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]" style={{ maxWidth: width }}>{label}</span>
       <div className="w-full flex flex-col border border-black/20 bg-white overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.08)]" style={{ maxWidth: width }}>
         <div className={`flex items-center gap-3 ${compact ? 'px-3 py-2' : 'px-4 py-2.5'} bg-[#f0f0ee] border-b border-black/10`}>
           <div className="flex items-center gap-1.5 shrink-0">
@@ -285,7 +286,7 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, we
 
           <div className={`flex-1 flex items-center gap-1.5 bg-white border border-black/10 rounded-md ${compact ? 'px-2 py-1' : 'px-3 py-1'} text-[#8a8a86] min-w-0`}>
             <svg width={compact ? 10 : 12} height={compact ? 10 : 12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="shrink-0"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3z" /></svg>
-            <span className={`${compact ? 'text-[10px]' : 'text-xs'} whitespace-nowrap`}>{website ?? title.toLowerCase().replace(/\s+/g, '')}</span>
+            <span className={`${compact ? 'text-[10px]' : 'text-xs'} truncate block min-w-0`}>{website ?? title.toLowerCase().replace(/\s+/g, '')}</span>
           </div>
 
           {!compact && (
@@ -329,7 +330,7 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, we
         <span className="flex items-center gap-4 text-xs font-medium text-[#5c5c58]">
           {specs.map((spec) => (
             <span key={spec} className="flex items-center gap-2 whitespace-nowrap">
-              <span className="w-1.5 h-1.5 shrink-0" style={{ backgroundColor: accentColor ?? '#E8C547' }} />
+              <span className="w-1.5 h-1.5 shrink-0 bg-[#030303]" />
               {spec}
             </span>
           ))}
@@ -370,7 +371,7 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                     text={project.challenge}
                     showLine={!!(project.solution || project.result)}
                     mobileTitle={project.challengeTitle}
-                    mobileDevice={<DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} deviceType="dator" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs />}
+                    mobileDevice={<DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} deviceType="dator" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs compact aspectRatio={(2515 / 1414) / 2} />}
                   />
                 )}
                 {project.solution && (
@@ -416,6 +417,7 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
 
               {project.conclusionImage && (
                 <div className="flex flex-col items-center gap-6">
+                <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86] w-full text-center">Dator</span>
                 <div className="w-full border border-black/20 bg-white overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
                   <div className="flex items-center gap-4 px-4 py-2.5 bg-[#f0f0ee] border-b border-black/10">
                     <div className="flex items-center gap-1.5 shrink-0">
@@ -454,7 +456,7 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                   <span className="flex items-center gap-4 text-xs font-medium text-[#5c5c58]">
                     {project.steps[2].uxImprovements.map((spec) => (
                       <span key={spec} className="flex items-center gap-2 whitespace-nowrap">
-                        <span className="w-1.5 h-1.5 shrink-0" style={{ backgroundColor: project.accentColor ?? '#E8C547' }} />
+                        <span className="w-1.5 h-1.5 shrink-0 bg-[#030303]" />
                         {spec}
                       </span>
                     ))}
