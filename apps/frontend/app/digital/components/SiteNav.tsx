@@ -14,9 +14,9 @@ const links = [
 
 const BURGER_BAR_STYLE_BASE: React.CSSProperties = {
   position: 'absolute',
-  left: '50%',
+  right: '8px',
   width: '18px',
-  height: '2.5px',
+  height: '3.5px',
   borderRadius: '2px',
   transition: 'transform 0.3s cubic-bezier(0.76, 0, 0.24, 1), top 0.3s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.2s ease, background 0.3s ease',
 };
@@ -114,7 +114,7 @@ export function SiteNav() {
 
   const isDark = !pastHero && !open;
   // Burger-strecken är vita när menyn är öppen eller navbaren är mörk, annars svarta.
-  const burgerBarColor = '#fff';
+  const burgerBarColor = open || isDark ? '#fff' : '#030303';
 
   // Re-read the hash on navigation, when the menu toggles, and on hashchange.
   useEffect(() => {
@@ -268,17 +268,17 @@ export function SiteNav() {
         style={{
           display: 'none',
           width: '34px', height: '34px', alignItems: 'center', justifyContent: 'center',
-          background: 'rgba(20,20,22,0.85)',
+          background: 'transparent',
           border: 'none',
+          outline: 'none',
           borderRadius: '10px', cursor: 'pointer', flexShrink: 0,
           position: 'relative', zIndex: 110,
           transition: 'background 0.3s ease, border-color 0.3s ease',
         }}
       >
-        {/* Tre streck (≡) i vila, som fälls ihop till ett X när menyn är öppen. */}
-        <span style={{ ...BURGER_BAR_STYLE_BASE, top: open ? '50%' : 'calc(50% - 6px)', transform: `translateX(-50%) ${open ? 'rotate(45deg)' : 'rotate(0deg)'}`, background: burgerBarColor }} />
-        <span style={{ ...BURGER_BAR_STYLE_BASE, top: '50%', transform: 'translateX(-50%)', opacity: open ? 0 : 1, background: burgerBarColor }} />
-        <span style={{ ...BURGER_BAR_STYLE_BASE, top: open ? '50%' : 'calc(50% + 6px)', transform: `translateX(-50%) ${open ? 'rotate(-45deg)' : 'rotate(0deg)'}`, background: burgerBarColor }} />
+        {/* Plus (+) i vila, som roterar till ett X när menyn är öppen. */}
+        <span style={{ ...BURGER_BAR_STYLE_BASE, top: '50%', transform: open ? 'rotate(45deg)' : 'rotate(0deg)', background: burgerBarColor }} />
+        <span style={{ ...BURGER_BAR_STYLE_BASE, top: '50%', transform: open ? 'rotate(-45deg)' : 'rotate(90deg)', background: burgerBarColor }} />
       </button>
 
       {mounted && createPortal(

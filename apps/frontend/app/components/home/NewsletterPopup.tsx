@@ -95,6 +95,15 @@ export function NewsletterPopup() {
     setTimeout(handleClose, 5000);
   };
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const original = document.documentElement.style.overflowY;
+    document.documentElement.style.overflowY = 'hidden';
+    return () => {
+      document.documentElement.style.overflowY = original;
+    };
+  }, [isOpen]);
+
   if (!isHydrated || !isOpen) return null;
 
   return (

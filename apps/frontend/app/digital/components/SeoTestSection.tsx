@@ -6,7 +6,14 @@ import { FadeIn } from './FadeIn';
 import { SeoResultModal } from './SeoResultModal';
 import { type SeoResult, scoreColor } from '../seo-analys/shared';
 
-const LOADING_STEPS = ['Hämtar sidan…', 'Analyserar prestanda…', 'Kontrollerar SEO…', 'Sammanställer resultat…'];
+const GRAY_TEXT = { color: 'rgb(104,105,99)' } as const;
+
+const LOADING_STEPS: React.ReactNode[] = [
+  <>Hämtar<br /><span style={GRAY_TEXT}>sidan</span></>,
+  <>Analyserar<br /><span style={GRAY_TEXT}>prestanda</span></>,
+  <>Kontrollerar<br /><span style={GRAY_TEXT}>SEO</span></>,
+  <>Sammanställer<br /><span style={GRAY_TEXT}>resultat</span></>,
+];
 
 function ScoreCircle({ label, score }: { label: string; score: number }) {
   const [progress, setProgress] = useState(0);
@@ -41,6 +48,20 @@ function ScoreCircle({ label, score }: { label: string; score: number }) {
   );
 }
 
+function FadeText({ text, fadeKey }: { text: React.ReactNode; fadeKey: string }) {
+  return (
+    <span
+      key={fadeKey}
+      style={{
+        display: 'inline-block',
+        animation: 'seoTestFadeUp 0.4s ease-out',
+      }}
+    >
+      {text}
+    </span>
+  );
+}
+
 function GeoBadge({ geo }: { geo: NonNullable<SeoResult['geo']> }) {
   const passed = (geo.blockedCrawlers.length === 0 ? 1 : 0) + (geo.visibleWithoutJs ? 1 : 0) + (geo.hasStructuredData ? 1 : 0);
   const color = passed === 3 ? '#3fb950' : passed === 0 ? '#e5484d' : '#e8c547';
@@ -64,6 +85,7 @@ export function SeoTestSection() {
   const [stepIndex, setStepIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [finishing, setFinishing] = useState(false);
+  const [resultVisible, setResultVisible] = useState(false);
 
   useEffect(() => {
     if (!loading) {
@@ -92,6 +114,7 @@ export function SeoTestSection() {
     setLoading(true);
     setError(null);
     setResult(null);
+    setResultVisible(false);
 
     try {
       const res = await fetch('/api/seo-analys', {
@@ -111,6 +134,7 @@ export function SeoTestSection() {
         });
         setTimeout(() => {
           setLoading(false);
+          requestAnimationFrame(() => setResultVisible(true));
         }, 500);
       }
     } catch {
@@ -123,16 +147,49 @@ export function SeoTestSection() {
     <ServiceSection id="seo-test" fullHeight={false} background="#f5f5f3">
       <SectionHeader num="04" label="SEO-test" extra="© 2026" />
 
-      <FadeIn className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-[40px] py-[20px] min-h-[280px] lg:min-h-[180px]">
+      <FadeIn className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-[40px] py-[20px] min-h-[320px] lg:min-h-[220px]">
         <div className="max-w-[480px]">
           <h2
             className="font-extrabold uppercase m-0 mb-[12px]"
-            style={{ fontSize: 'clamp(32px,4.2vw,54px)', letterSpacing: '-0.03em', lineHeight: 1, color: '#030303' }}
+            style={{
+              fontSize: 'clamp(32px,4.2vw,54px)',
+              letterSpacing: '-0.03em',
+              lineHeight: 1,
+              color: '#030303',
+              minHeight: 'calc(clamp(32px,4.2vw,54px) * 2)',
+            }}
           >
-            Hur står det till med er <span style={{ color: 'rgb(104,105,99)' }}>SEO?</span>
+            <FadeText
+              fadeKey={loading ? `loading-${stepIndex}` : result ? 'result' : 'idle'}
+              text={
+                loading ? (
+                  LOADING_STEPS[stepIndex]
+                ) : result ? (
+                  <>Ta del av<br /><span style={{ color: 'rgb(104,105,99)' }}>ert resultat</span></>
+                ) : (
+                  <>Hur står det till med er <span style={{ color: 'rgb(104,105,99)' }}>SEO?</span></>
+                )
+              }
+            />
           </h2>
+
+          {loading && (
+            <div className="mb-[16px]">
+              <div className="w-full h-[3px] rounded-full overflow-hidden" style={{ background: 'rgb(230,230,230)' }}>
+                <div
+                  className="h-full rounded-full"
+                  style={{
+                    background: '#030303',
+                    width: `${progress}%`,
+                    transition: progress === 100 ? 'width 0.4s ease-out' : 'width 0.1s linear',
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
           <p className="text-[15px] leading-[1.6] m-0 mb-[24px]" style={{ color: 'rgb(104,105,99)' }}>
-            Få en snabb analys av webbplatsens prestanda, SEO, tillgänglighet och tekniska kvalitet.
+            Baserat på Googles egna mätverktyg får ni en analys av prestanda, SEO, tillgänglighet och teknisk kvalitet.
           </p>
 
           <form onSubmit={handleSubmit} className="flex items-center gap-[10px]">
@@ -148,10 +205,10 @@ export function SeoTestSection() {
             <button
               type="submit"
               disabled={loading || !url.trim()}
-              className="shrink-0 text-[14px] font-semibold px-[14px] py-[12px] rounded-[8px] whitespace-nowrap disabled:opacity-100 text-center"
-              style={{ background: '#030303', color: '#fff' }}
+              className="shrink-0 text-[13px] font-semibold px-[12px] py-[10px] rounded-[7px] whitespace-nowrap disabled:opacity-100 text-center"
+              style={{ background: '#030303', color: '#fff', minWidth: '72px' }}
             >
-              {loading ? 'Analyserar' : 'Analysera'}
+              Kör
             </button>
           </form>
 
@@ -160,28 +217,17 @@ export function SeoTestSection() {
               {error}
             </p>
           )}
-
-          {loading && (
-            <div className="mt-[12px]">
-              <div className="w-full h-[3px] rounded-full overflow-hidden" style={{ background: 'rgb(230,230,230)' }}>
-                <div
-                  className="h-full rounded-full"
-                  style={{
-                    background: '#030303',
-                    width: `${progress}%`,
-                    transition: progress === 100 ? 'width 0.4s ease-out' : 'width 0.1s linear',
-                  }}
-                />
-              </div>
-              <span className="text-[13px] mt-[8px] inline-block" style={{ color: 'rgb(104,105,99)' }}>
-                {LOADING_STEPS[stepIndex]}
-              </span>
-            </div>
-          )}
         </div>
 
         {result && (
-          <div className="w-full lg:w-auto">
+          <div
+            className="w-full lg:w-auto"
+            style={{
+              opacity: resultVisible ? 1 : 0,
+              transform: resultVisible ? 'translateY(0)' : 'translateY(12px)',
+              transition: 'opacity 0.5s ease-out, transform 0.5s ease-out',
+            }}
+          >
             <div className="text-[11px] font-semibold uppercase mb-[16px]" style={{ color: 'rgb(104,105,99)', letterSpacing: '0.04em' }}>
               {result.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}
             </div>

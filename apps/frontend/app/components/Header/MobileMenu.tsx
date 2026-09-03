@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { MENU_DATA, MOBILE_CATEGORY_ICONS, MOBILE_SECTION_ICONS } from './menuData';
 
@@ -39,6 +40,15 @@ export function MobileMenu({
   onToggleSubCategory,
 }: MobileMenuProps) {
   const activeCat = MENU_DATA.find(c => c.id === mobileExpandedCategory);
+
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const original = document.documentElement.style.overflowY;
+    document.documentElement.style.overflowY = 'hidden';
+    return () => {
+      document.documentElement.style.overflowY = original;
+    };
+  }, [mobileMenuOpen]);
 
   return (
     <div className="xl:hidden fixed inset-0 z-[9999] pointer-events-none">
