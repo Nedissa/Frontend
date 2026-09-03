@@ -35,14 +35,14 @@ export default function ContactPage() {
           </h2>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '32px' }}>
-            <div style={{ position: 'relative', width: '160px', height: '160px', borderRadius: '4px', overflow: 'hidden', border: '2px solid #030303', background: '#030303', flexShrink: 0 }}>
+            <div className="contact-avatar" style={{ position: 'relative', width: '160px', height: '160px', borderRadius: '4px', overflow: 'hidden', border: '2px solid #030303', background: '#030303', flexShrink: 0 }}>
               <Image src="/digital/nedal-issa-cutout.png" alt="Nedal Issa" fill style={{ objectFit: 'cover', objectPosition: 'bottom' }} />
             </div>
             <div>
-              <p className={scriptFont.className} style={{ fontSize: '40px', fontWeight: 400, color: '#030303', margin: '0 0 2px', lineHeight: 1 }}>
+              <p className={`contact-name ${scriptFont.className}`} style={{ fontSize: '40px', fontWeight: 400, color: '#030303', margin: '0 0 2px', lineHeight: 1, whiteSpace: 'nowrap' }}>
                 Nedal Issa
               </p>
-              <p style={{ fontSize: '12px', color: 'rgba(3,3,3,0.6)', textTransform: 'uppercase', letterSpacing: '0.03em', margin: 0 }}>
+              <p style={{ fontSize: '12px', color: 'rgba(3,3,3,0.6)', textTransform: 'uppercase', letterSpacing: '0.03em', margin: 0, whiteSpace: 'nowrap' }}>
                 Head of Techpilots
               </p>
             </div>
@@ -57,7 +57,7 @@ export default function ContactPage() {
             <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
               <span style={{ width: '3px', alignSelf: 'stretch', background: '#030303', flexShrink: 0, borderRadius: '2px' }} />
               <p style={{ fontSize: '18px', lineHeight: 1.5, fontStyle: 'italic', fontWeight: 400, color: 'rgba(3,3,3,0.75)', margin: 0 }}>
-                Vi på Ljuva Hem är supernöjda med vår nya hemsida! Techpilots förstod direkt vikten av att förmedla trygghet till våra kunder inom hemstädning. Processen var smidig och vi har redan märkt att fler lokala kunder hittar oss i Mark och Kinna. Rekommenderas varmt för alla företag.
+                Vi på Ljuva Hem är supernöjda med vår nya hemsida! Techpilots hjälpte oss förmedla trygghet till våra kunder, och vi märker redan att fler lokala kunder hittar oss i Mark och Kinna. Rekommenderas varmt.
               </p>
             </div>
             <p style={{ fontSize: '14px', fontWeight: 700, color: '#030303', margin: '0 0 2px 0' }}>
@@ -141,7 +141,7 @@ export default function ContactPage() {
                 Vi återkommer inom 24 timmar.
               </p>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+              <div className="grid-contact-submit" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
                 <button
                   type="submit"
                   disabled={submitting}

@@ -239,6 +239,19 @@ button:focus-visible {
     font-size: 13px !important;
   }
 
+  .contact-avatar {
+    width: 110px !important;
+    height: 110px !important;
+  }
+
+  .contact-name {
+    font-size: 28px !important;
+  }
+
+  .grid-contact-submit {
+    grid-template-columns: 1fr !important;
+  }
+
   .grid-footer {
     grid-template-columns: 1fr !important;
     row-gap: 32px !important;
