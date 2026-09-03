@@ -12,7 +12,7 @@ import { FaqSection } from './components/FaqSection';
 import { CtaSection } from './components/CtaSection';
 import './studio.css';
 
-const LOGO_NAMES = ['Stripe', 'Klarna', 'Medusa', 'Payload', 'Brevo', 'Vercel', 'Hetzner', 'GitHub'];
+const LOGO_NAMES = ['Sagateatern', 'Crownmatch', 'Wästgöta Bil AB', 'Pistolero Studio', 'Ljuva Hem i Mark', 'Medieinstitutet', 'Siroma'];
 const LOGOS = [...LOGO_NAMES, ...LOGO_NAMES];
 
 export default function WebStudioPage() {
@@ -29,23 +29,28 @@ export default function WebStudioPage() {
       <section
         className="logo-ticker-mobile-first overflow-hidden bg-white py-[40px]"
         style={{ borderTop: '1px solid rgb(220,220,220)' }}
-        aria-label="Verktyg och plattformar vi arbetar med"
+        aria-label="Kunder och samarbetspartners"
       >
-        <div className="animate-marquee flex items-center gap-0 whitespace-nowrap" aria-hidden="true">
-          {LOGOS.map((logo, i) => (
-            <span key={i} className="inline-flex items-center">
-              <span
-                className="logo-ticker-text text-[34px] font-bold text-[#1a1a1a] px-[36px]"
-                style={{ letterSpacing: '0' }}
-              >
-                {logo}
+        <p className="text-center text-[14px] font-medium uppercase text-[rgb(140,140,140)] mb-[24px]" style={{ letterSpacing: '0.04em' }}>
+          Kunder &amp; partners
+        </p>
+        <div className="logo-ticker-fade">
+          <div className="animate-marquee flex items-center gap-0 whitespace-nowrap" aria-hidden="true">
+            {LOGOS.map((logo, i) => (
+              <span key={i} className="inline-flex items-center">
+                <span
+                  className="logo-ticker-text text-[34px] font-bold text-[#1a1a1a] px-[36px]"
+                  style={{ letterSpacing: '0' }}
+                >
+                  {logo}
+                </span>
+                <span
+                  className="inline-block w-[1px] h-[52px]"
+                  style={{ background: 'rgb(210,210,210)' }}
+                />
               </span>
-              <span
-                className="inline-block w-[1px] h-[52px]"
-                style={{ background: 'rgb(210,210,210)' }}
-              />
-            </span>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
