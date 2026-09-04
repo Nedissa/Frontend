@@ -1,172 +1,15 @@
 'use client';
 import type { ReactNode } from 'react';
-import { useRef, useState, useCallback, useEffect } from 'react';
+import { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Database, Layout, Code } from '@phosphor-icons/react';
 import type { Project } from '../../projekt-data';
 import { FadeIn } from '../FadeIn';
 import { Eyebrow } from './StyledPrimitives';
 
-const ZOOM_MIN = 0.25;
-const ZOOM_MAX = 4;
-const ZOOM_STEP = 0.1;
-
-function Lightbox({ src, alt, onClose, fillWidth }: { src: string; alt: string; onClose: () => void; fillWidth?: boolean }) {
-  const [scale, setScale] = useState(1);
-  const [dragging, setDragging] = useState(false);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
-  const lastPos = useRef({ x: 0, y: 0 });
-  const containerRef = useRef<HTMLDivElement>(null);
-  const imgRef = useRef<HTMLImageElement>(null);
-  const baseWidthRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    if (containerRef.current) containerRef.current.scrollTop = 0;
-  }, []);
-
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = previousOverflow; };
-  }, []);
-
-  const zoomTo = useCallback((next: number) => {
-    if (baseWidthRef.current === null && imgRef.current) {
-      baseWidthRef.current = imgRef.current.offsetWidth;
-    }
-    if (!fillWidth) { setScale(next); return; }
-    const container = containerRef.current;
-    if (!container) { setScale(next); return; }
-    const { scrollLeft, scrollTop, clientWidth, clientHeight, scrollWidth, scrollHeight } = container;
-    const centerX = (scrollLeft + clientWidth / 2) / scrollWidth;
-    const centerY = (scrollTop + clientHeight / 2) / scrollHeight;
-    setScale(next);
-    requestAnimationFrame(() => {
-      if (!containerRef.current) return;
-      const el = containerRef.current;
-      el.scrollLeft = centerX * el.scrollWidth - el.clientWidth / 2;
-      el.scrollTop = centerY * el.scrollHeight - el.clientHeight / 2;
-    });
-  }, [fillWidth]);
-
-  const zoomIn = useCallback(() => zoomTo(Math.min(ZOOM_MAX, scale + ZOOM_STEP)), [scale, zoomTo]);
-  const zoomOut = useCallback(() => zoomTo(Math.max(ZOOM_MIN, scale - ZOOM_STEP)), [scale, zoomTo]);
-
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    setDragging(true);
-    lastPos.current = { x: e.clientX, y: e.clientY };
-  }, []);
-
-  useEffect(() => {
-    if (!dragging) return;
-
-    const handleMove = (e: MouseEvent) => {
-      const dx = e.clientX - lastPos.current.x;
-      const dy = e.clientY - lastPos.current.y;
-      lastPos.current = { x: e.clientX, y: e.clientY };
-      if (fillWidth) {
-        const el = containerRef.current;
-        if (!el) return;
-        el.scrollLeft -= dx;
-        el.scrollTop -= dy;
-      } else {
-        setOffset((prev) => ({ x: prev.x + dx, y: prev.y + dy }));
-      }
-    };
-    const handleUp = () => setDragging(false);
-
-    window.addEventListener('mousemove', handleMove);
-    window.addEventListener('mouseup', handleUp);
-    return () => {
-      window.removeEventListener('mousemove', handleMove);
-      window.removeEventListener('mouseup', handleUp);
-    };
-  }, [dragging, fillWidth]);
-
-  return (
-    <div className="tp-lightbox fixed inset-0 z-[9999] bg-black/70 flex items-center justify-center p-6" onClick={onClose}>
-      <div
-        className="w-[85vw] h-[85vh] max-w-6xl bg-white overflow-hidden flex flex-col shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
-        onClick={(e) => e.stopPropagation()}
-      >
-      <div className="relative flex items-center justify-end p-4 shrink-0 bg-white border-b border-black/10">
-        <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
-          <button
-            onClick={zoomOut}
-            disabled={scale <= ZOOM_MIN}
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-black/5 text-black text-xl disabled:opacity-30 hover:bg-black/10"
-            aria-label="Zooma ut"
-          >
-            −
-          </button>
-          <span className="w-12 text-center text-sm font-medium text-black tabular-nums">{Math.round(scale * 100)}%</span>
-          <button
-            onClick={zoomIn}
-            disabled={scale >= ZOOM_MAX}
-            className="w-10 h-10 flex items-center justify-center rounded-full bg-black/5 text-black text-xl disabled:opacity-30 hover:bg-black/10"
-            aria-label="Zooma in"
-          >
-            +
-          </button>
-        </div>
-        <button
-          onClick={onClose}
-          className="w-8 h-8 flex items-center justify-center rounded-full bg-black text-white text-base hover:bg-black/80"
-          aria-label="Stäng"
-        >
-          ×
-        </button>
-      </div>
-      <div className="relative flex-1 min-h-0">
-        <div
-          ref={containerRef}
-          className={`w-full h-full ${fillWidth ? 'overflow-y-auto overflow-x-hidden' : 'overflow-hidden flex items-center justify-center p-10'} ${dragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-          onMouseDown={handleMouseDown}
-          onDragStart={(e) => e.preventDefault()}
-          style={{ WebkitUserDrag: 'none', userSelect: 'none' } as React.CSSProperties}
-        >
-          <img
-            ref={imgRef}
-            src={src}
-            alt={alt}
-            draggable={false}
-            onDragStart={(e) => e.preventDefault()}
-            onLoad={() => { if (containerRef.current) containerRef.current.scrollTop = 0; }}
-            className="block mx-auto"
-            style={{
-              WebkitUserDrag: 'none',
-              userSelect: 'none',
-              pointerEvents: 'none',
-              ...(fillWidth
-                ? (scale !== 1 && baseWidthRef.current !== null
-                  ? { width: `${baseWidthRef.current * scale}px`, maxWidth: 'none', height: 'auto' }
-                  : { width: 'auto', maxWidth: '85%', height: 'auto' })
-                : { maxWidth: '100%', maxHeight: '100%', width: 'auto', height: 'auto', objectFit: 'contain', transform: `translate(${offset.x}px, ${offset.y}px) scale(${scale})` }),
-            } as unknown as React.CSSProperties}
-          />
-        </div>
-      </div>
-      </div>
-    </div>
-  );
-}
-
-function ZoomableImage({ src, alt, className }: { src: string; alt: string; className?: string }) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <>
-      <div className="w-full h-full overflow-hidden">
-        <img
-          src={src}
-          alt={alt}
-          className={`${className} cursor-zoom-in`}
-          onClick={() => setOpen(true)}
-        />
-      </div>
-      {open && <Lightbox src={src} alt={alt} onClose={() => setOpen(false)} fillWidth />}
-    </>
-  );
+const MOBILE_HERO_SLUGS = ['sagateatern', 'crownmatch', 'techpilots', 'ljuva-hem-i-mark', 'pistolero-studio', 'wastgota-bil'];
+function mobileHeroFrameImage(slug: string): string | undefined {
+  return MOBILE_HERO_SLUGS.includes(slug) ? `/digital/projekt/${slug}/mockup-mobile-hero.avif` : undefined;
 }
 
 function CaseBlock({ label, text, showLine, mobileDevice, mobileTitle }: { label: string; text: string; showLine?: boolean; mobileDevice?: ReactNode; mobileTitle?: string }) {
@@ -220,7 +63,7 @@ function TechStack({ technologies }: { technologies: string[] }) {
       </div>
       <div className="flex flex-col gap-3">
         <Eyebrow>Teknik</Eyebrow>
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex flex-wrap gap-3">
           {technologies.map((tech) => (
             <div
               key={tech}
@@ -250,7 +93,7 @@ function MetaItem({ label, value, first }: { label: string; value: string; first
 const DEVICE_FRAME_MAX_WIDTH: Record<'mobil' | 'surfplatta' | 'dator', number> = {
   mobil: 240,
   surfplatta: 460,
-  dator: 640,
+  dator: 860,
 };
 
 const DEVICE_ASPECT_RATIO: Record<'mobil' | 'surfplatta' | 'dator', number> = {
@@ -259,64 +102,107 @@ const DEVICE_ASPECT_RATIO: Record<'mobil' | 'surfplatta' | 'dator', number> = {
   dator: 2515 / 1414,
 };
 
-function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, website, title, compact: compactProp, aspectRatio: aspectRatioProp }: { label: string; src?: string; specs?: string[]; deviceType: 'mobil' | 'surfplatta' | 'dator'; accentColor?: string; hideSpecs?: boolean; website?: string; title: string; compact?: boolean; aspectRatio?: number }) {
+function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseColor, hideSpecs, website, title, compact: compactProp, aspectRatio: aspectRatioProp, phoneFrame, frameImage }: { label: string; src?: string; specs?: string[]; deviceType: 'mobil' | 'surfplatta' | 'dator'; accentColor?: string; stripeBaseColor?: string; hideSpecs?: boolean; website?: string; title: string; compact?: boolean; aspectRatio?: number; phoneFrame?: boolean; frameImage?: string }) {
   const width = DEVICE_FRAME_MAX_WIDTH[deviceType];
   const aspectRatio = aspectRatioProp ?? DEVICE_ASPECT_RATIO[deviceType];
   const compact = compactProp ?? deviceType === 'mobil';
-  const iconSize = compact ? 11 : 15;
-  const [open, setOpen] = useState(false);
-  return (
-    <div className="w-full border-t border-black/10 pt-10 flex flex-col items-start lg:items-center gap-6">
-      <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]" style={{ maxWidth: width }}>{label}</span>
-      <div className="w-full flex flex-col border border-black/20 bg-white overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.08)]" style={{ maxWidth: width }}>
-        <div className={`flex items-center gap-3 ${compact ? 'px-3 py-2' : 'px-4 py-2.5'} bg-[#f0f0ee] border-b border-black/10`}>
-          <div className="flex items-center gap-1.5 shrink-0">
-            <span className={`${compact ? 'w-2 h-2' : 'w-2.5 h-2.5'} rounded-full bg-[#ff5f57]`} />
-            <span className={`${compact ? 'w-2 h-2' : 'w-2.5 h-2.5'} rounded-full bg-[#febc2e]`} />
-            <span className={`${compact ? 'w-2 h-2' : 'w-2.5 h-2.5'} rounded-full bg-[#28c840]`} />
-          </div>
 
-          {!compact && (
-            <div className="flex items-center gap-3 shrink-0 text-[#5c5c58]">
-              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="4" width="18" height="16" rx="2.5" /><line x1="9.5" y1="4" x2="9.5" y2="20" /></svg>
-              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 6 9 12 15 18" /></svg>
-              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 6 15 12 9 18" /></svg>
-            </div>
-          )}
-
-          <div className={`flex-1 flex items-center gap-1.5 bg-white border border-black/10 rounded-md ${compact ? 'px-2 py-1' : 'px-3 py-1'} text-[#8a8a86] min-w-0`}>
-            <svg width={compact ? 10 : 12} height={compact ? 10 : 12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="shrink-0"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3z" /></svg>
-            <span className={`${compact ? 'text-[10px]' : 'text-xs'} truncate block min-w-0`}>{website ?? title.toLowerCase().replace(/\s+/g, '')}</span>
-          </div>
-
-          {!compact && (
-            <div className="flex items-center gap-3 shrink-0 text-[#5c5c58]">
-              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12" /><polyline points="7 10 12 15 17 10" /><line x1="4" y1="20" x2="20" y2="20" /></svg>
-              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7" /><polyline points="21 3 21 9 15 9" /></svg>
-              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="3" width="13" height="13" rx="2" /><rect x="8" y="8" width="13" height="13" rx="2" /></svg>
-            </div>
-          )}
-
-          {compact && (
-            <div className="flex items-center gap-2 shrink-0 text-[#5c5c58]">
-              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7" /><polyline points="21 3 21 9 15 9" /></svg>
-              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 6 9 12 15 18" /></svg>
-              <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 6 15 12 9 18" /></svg>
-            </div>
-          )}
+  if (frameImage) {
+    const displayWidth = 800;
+    const stripeColor = accentColor ?? '#0a0a0a';
+    const baseColor = stripeBaseColor ?? '#ffffff';
+    // Faktisk telefon-bounding-box inuti mockup-mobile-hero.avif (1920x1440 källbild): x 680-1240, y 160-1312
+    const scale = displayWidth / 1920;
+    const phoneLeft = 680 * scale;
+    const phoneRight = 1240 * scale;
+    const phoneTop = 160 * scale;
+    const phoneBottom = 1312 * scale;
+    const phoneWidth = phoneRight - phoneLeft;
+    const phoneHeight = phoneBottom - phoneTop;
+    const margin = 20;
+    return (
+      <div className="flex flex-col items-center gap-6" style={{ width: phoneWidth + margin * 2 }}>
+        <span className="text-xs font-semibold uppercase tracking-widest text-[#030303] whitespace-nowrap">{label}</span>
+        <div
+          className="rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.18)] overflow-hidden"
+          style={{
+            padding: margin,
+            backgroundImage: `radial-gradient(circle at 15% 15%, ${stripeColor} 0%, transparent 55%), linear-gradient(${baseColor}, ${baseColor})`,
+          }}
+        >
+          <div
+            style={{
+              width: phoneWidth,
+              height: phoneHeight,
+              backgroundImage: `url(${frameImage})`,
+              backgroundSize: `${displayWidth}px auto`,
+              backgroundPosition: `-${phoneLeft}px -${phoneTop}px`,
+              filter: 'drop-shadow(0 25px 40px rgba(0,0,0,0.35))',
+            }}
+          />
         </div>
+      </div>
+    );
+  }
+
+  if (phoneFrame) {
+    return (
+      <div className="w-full border-t border-black/10 pt-10 flex flex-col items-start lg:items-center gap-6">
+        <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]" style={{ maxWidth: width }}>{label}</span>
+        <div className="relative inline-flex rounded-[2.8rem] shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ width: width + 12, padding: 6, boxSizing: 'border-box', background: 'linear-gradient(160deg, #3a3a3c 0%, #0a0a0a 30%, #0a0a0a 70%, #3a3a3c 100%)' }}>
+            <span className="absolute -left-[3px] top-[15%] w-[3px] h-5 bg-[#1c1c1e] rounded-l-sm" />
+            <span className="absolute -left-[3px] top-[22%] w-[3px] h-8 bg-[#1c1c1e] rounded-l-sm" />
+            <span className="absolute -left-[3px] top-[31%] w-[3px] h-8 bg-[#1c1c1e] rounded-l-sm" />
+            <span className="absolute -right-[3px] top-[18%] w-[3px] h-11 bg-[#1c1c1e] rounded-r-sm" />
+          <div className="relative bg-white overflow-hidden rounded-[2.3rem] ring-1 ring-black/40" style={{ width, aspectRatio: 390 / 690 }}>
+            <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-[#030303] rounded-full z-10 flex items-center justify-end pr-1.5">
+              <span className="w-1 h-1 rounded-full bg-[#1c1c1e] ring-1 ring-[#2a2a2a]" />
+            </div>
+            {src ? (
+              <img
+                src={src}
+                alt={label}
+                className="w-full h-full object-cover object-top block"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-xs font-medium text-[#8a8a86] bg-[repeating-linear-gradient(45deg,#f5f5f3,#f5f5f3_10px,#eeeeec_10px,#eeeeec_20px)]">
+                Bild saknas
+              </div>
+            )}
+          </div>
+        </div>
+        {!hideSpecs && specs && specs.length > 0 && (
+          <span className="flex items-center gap-4 text-xs font-medium text-[#5c5c58]">
+            {specs.map((spec) => (
+              <span key={spec} className="flex items-center gap-2 whitespace-nowrap">
+                <span className="w-1.5 h-1.5 shrink-0 bg-[#030303]" />
+                {spec}
+              </span>
+            ))}
+          </span>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full border-t border-black/10 pt-10 flex flex-col items-center gap-6">
+      <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]" style={{ maxWidth: width }}>{label}</span>
+      <div
+        className="w-full rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
+        style={{
+          maxWidth: width,
+          padding: 20,
+          backgroundImage: `radial-gradient(circle at 15% 15%, ${accentColor ?? '#0a0a0a'} 0%, transparent 55%), linear-gradient(${stripeBaseColor ?? '#ffffff'}, ${stripeBaseColor ?? '#ffffff'})`,
+        }}
+      >
+      <div className="w-full flex flex-col rounded-lg border-2 border-black/15 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ maxHeight: width * (aspectRatio ?? 0.75) }}>
         {src ? (
-          <>
-            <img
-              src={src}
-              alt={label}
-              className="w-full object-cover object-top block self-center cursor-zoom-in"
-              style={{ maxWidth: width, aspectRatio }}
-              onClick={() => setOpen(true)}
-            />
-            {open && <Lightbox src={src} alt={label} onClose={() => setOpen(false)} fillWidth />}
-          </>
+          <img
+            src={src}
+            alt={label}
+            className="w-full h-auto block self-center"
+          />
         ) : (
           <div
             className="flex items-center justify-center text-xs font-medium text-[#8a8a86] bg-[repeating-linear-gradient(45deg,#f5f5f3,#f5f5f3_10px,#eeeeec_10px,#eeeeec_20px)]"
@@ -325,6 +211,7 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, hideSpecs, we
             Bild saknas
           </div>
         )}
+      </div>
       </div>
       {!hideSpecs && specs && specs.length > 0 && (
         <span className="flex items-center gap-4 text-xs font-medium text-[#5c5c58]">
@@ -361,7 +248,7 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
           </div>
         </FadeIn>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-16">
           <div className="lg:sticky lg:top-16 lg:self-start flex flex-col gap-16 min-w-0">
             <FadeIn>
               <div className="flex flex-col gap-16">
@@ -388,7 +275,7 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                     text={project.result}
                     showLine={!!(project.technologies && project.technologies.length > 0)}
                     mobileTitle={project.resultTitle}
-                    mobileDevice={<DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs />}
+                    mobileDevice={<DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs frameImage={mobileHeroFrameImage(project.slug)} />}
                   />
                 )}
                 {project.technologies && project.technologies.length > 0 && (
@@ -398,7 +285,7 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
             </FadeIn>
 
             {project.website && (
-              <FadeIn delay={0.1}>
+              <FadeIn delay={0.1} className="flex justify-center">
                 <a
                   href={`https://${project.website}`}
                   target="_blank"
@@ -412,56 +299,27 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
           </div>
 
           {(project.conclusionImage || mobileImage) && (
-            <div className="hidden lg:flex items-start gap-10">
-              <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements?.slice(0, 2)} deviceType="mobil" accentColor={project.accentColor} website={project.website} title={project.title} />
+            <div className="hidden lg:flex items-start gap-10 border-t border-black/10 pt-10">
+              <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements?.slice(0, 2)} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} frameImage={mobileHeroFrameImage(project.slug)} />
 
               {project.conclusionImage && (
-                <div className="flex flex-col items-center gap-6">
-                <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86] w-full text-center">Dator</span>
-                <div className="w-full border border-black/20 bg-white overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.08)]">
-                  <div className="flex items-center gap-4 px-4 py-2.5 bg-[#f0f0ee] border-b border-black/10">
-                    <div className="flex items-center gap-1.5 shrink-0">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
-                    </div>
-
-                    <div className="flex items-center gap-3 shrink-0 text-[#5c5c58]">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="4" width="18" height="16" rx="2.5" /><line x1="9.5" y1="4" x2="9.5" y2="20" /></svg>
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 6 9 12 15 18" /></svg>
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 6 15 12 9 18" /></svg>
-                    </div>
-
-                    <div className="flex-1 flex items-center gap-2 bg-white border border-black/10 rounded-md px-3 py-1 text-[#8a8a86]">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="shrink-0"><path d="M12 2 4 5v6c0 5 3.5 8.5 8 11 4.5-2.5 8-6 8-11V5l-8-3z" /></svg>
-                      <span className="text-xs truncate">{project.website ?? project.title.toLowerCase().replace(/\s+/g, '')}</span>
-                    </div>
-
-                    <div className="flex items-center gap-3 shrink-0 text-[#5c5c58]">
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12" /><polyline points="7 10 12 15 17 10" /><line x1="4" y1="20" x2="20" y2="20" /></svg>
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7" /><polyline points="21 3 21 9 15 9" /></svg>
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="3" y="3" width="13" height="13" rx="2" /><rect x="8" y="8" width="13" height="13" rx="2" /></svg>
-                    </div>
-                  </div>
-                  <div className="h-[820px]">
-                    <ZoomableImage
-                      src={project.conclusionImage}
-                      alt={project.title}
-                      className="w-full h-full object-cover object-top block"
-                    />
-                  </div>
+                <div className="flex flex-col items-center gap-6 flex-1 min-w-0">
+                <span className="text-xs font-semibold uppercase tracking-widest text-[#030303] w-full text-center">Dator</span>
+                <div
+                  className="w-full rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
+                  style={{
+                    padding: 20,
+                    backgroundImage: `radial-gradient(circle at 15% 15%, ${project.accentColor ?? '#0a0a0a'} 0%, transparent 55%), linear-gradient(${project.stripeBaseColor ?? '#ffffff'}, ${project.stripeBaseColor ?? '#ffffff'})`,
+                  }}
+                >
+                <div className="w-full rounded-lg border-2 border-black/15 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ maxHeight: 680 }}>
+                  <img
+                    src={project.conclusionImage}
+                    alt={project.title}
+                    className="w-full h-auto block"
+                  />
                 </div>
-                {project.steps?.[2]?.uxImprovements && project.steps[2].uxImprovements.length > 0 && (
-                  <span className="flex items-center gap-4 text-xs font-medium text-[#5c5c58]">
-                    {project.steps[2].uxImprovements.map((spec) => (
-                      <span key={spec} className="flex items-center gap-2 whitespace-nowrap">
-                        <span className="w-1.5 h-1.5 shrink-0 bg-[#030303]" />
-                        {spec}
-                      </span>
-                    ))}
-                  </span>
-                )}
+                </div>
                 </div>
               )}
             </div>

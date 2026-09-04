@@ -3,10 +3,13 @@ import Link from 'next/link';
 import { SectionHeader } from './SectionHeader';
 import { FadeIn } from './FadeIn';
 import { CardParticles } from './CardParticles';
-import { BrowserFrame } from './BrowserFrame';
 import { PROJECTS } from '../projekt-data';
 
 const CARD_GAP = 56;
+const FEATURED_SLUGS = ['pistolero-studio', 'crownmatch', 'sagateatern'];
+const FEATURED_PROJECTS = FEATURED_SLUGS
+  .map((slug) => PROJECTS.find((p) => p.slug === slug))
+  .filter((p): p is (typeof PROJECTS)[number] => p !== undefined);
 
 export function ProjectsSection() {
   return (
@@ -32,18 +35,18 @@ export function ProjectsSection() {
           >
             TP-26'
           </h2>
-          <a
-            href="#"
+          <Link
+            href="/digital/projekt"
             className="flex items-center justify-between pb-[10px] text-[16px] font-medium text-[#030303] no-underline w-fit min-w-[120px]"
             style={{ borderBottom: '1px solid rgb(180,180,180)' }}
           >
             Alla projekt <span>↗</span>
-          </a>
+          </Link>
         </div>
 
         {/* Middle: project cards */}
         <div className="flex flex-col" style={{ gap: `${CARD_GAP}px` }}>
-          {PROJECTS.map((p, i) => (
+          {FEATURED_PROJECTS.map((p, i) => (
             <div key={p.slug} className="flex flex-col">
               <Link
                 href={`/digital/projekt/${p.slug}`}
@@ -90,41 +93,13 @@ export function ProjectsSection() {
                   </div>
                   <div className="project-card-mockup-wrap absolute inset-0 flex items-center justify-center z-0">
                     {p.cardImage && (
-                      <BrowserFrame
+                      <img
                         src={p.cardImage}
                         alt={p.title}
-                        website={p.website ?? p.title.toLowerCase().replace(/\s+/g, '')}
-                        className="project-card-browser-frame max-w-[75%] mx-auto"
+                        className="project-card-browser-frame max-w-[75%] mx-auto rounded-lg border-2 border-black/15 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]"
                       />
                     )}
                   </div>
-                  <div className="project-card-badge-wrap absolute left-[20px] top-[20px] w-[19%] flex flex-col gap-[12px] z-10">
-                    <span
-                      className="project-card-badge inline-flex w-fit text-[11px] font-bold uppercase"
-                      style={{
-                        letterSpacing: '0.06em',
-                        color: '#fff',
-                        background: 'rgba(3,3,3,0.45)',
-                        backdropFilter: 'blur(8px)',
-                        WebkitBackdropFilter: 'blur(8px)',
-                        border: '1px solid rgba(255,255,255,0.6)',
-                        borderRadius: '999px',
-                        padding: '6px 14px',
-                      }}
-                    >
-                      Projekt
-                    </span>
-                  </div>
-                  <span
-                    className="project-card-arrow absolute right-[20px] bottom-[20px] flex items-center justify-center w-[36px] h-[36px] rounded-full shrink-0"
-                    style={{ background: '#030303' }}
-                  >
-                    <svg
-                      width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                    >
-                      <path d="M5 12h14M13 6l6 6-6 6" />
-                    </svg>
-                  </span>
                 </div>
               </Link>
               <div className="project-card-meta flex items-center justify-between pt-[16px]">
@@ -143,8 +118,9 @@ export function ProjectsSection() {
 
         {/* Right: See all. Desktop only. */}
         <div className="projects-right-panel hide-mobile pl-[40px]">
-          <div
-            className="inline-flex items-center gap-[12px] rounded-[6px] px-[14px] py-[10px] cursor-pointer"
+          <Link
+            href="/digital/projekt"
+            className="inline-flex items-center gap-[12px] rounded-[6px] px-[14px] py-[10px] cursor-pointer no-underline"
             style={{ background: 'rgb(240,240,238)' }}
           >
             <div
@@ -152,7 +128,7 @@ export function ProjectsSection() {
               style={{ background: 'rgb(160,140,130)' }}
             />
             <span className="text-[15px] font-medium text-[#030303] whitespace-nowrap">Se alla (08)</span>
-          </div>
+          </Link>
         </div>
 
       </FadeIn>

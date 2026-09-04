@@ -26,9 +26,6 @@ export default function ContactPage() {
       <div className="grid-responsive-2" style={{ position: 'relative', maxWidth: '1320px', margin: '0 auto', padding: '140px 32px 60px', boxSizing: 'border-box', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'stretch', width: '100%' }}>
         <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '4px', overflow: 'hidden', background: '#f5f5f0', display: 'flex', flexDirection: 'column', boxSizing: 'border-box', padding: '32px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
           <ShootingStars color="#030303" />
-          <span style={{ position: 'relative', display: 'inline-block', alignSelf: 'flex-start', background: '#030303', color: '#fff', fontSize: '12px', fontWeight: 600, letterSpacing: '0.05em', padding: '6px 14px', borderRadius: '4px', marginBottom: '24px' }}>
-            KOSTNADSFRI RÅDGIVNING
-          </span>
           <h2 style={{ position: 'relative', fontSize: 'clamp(40px,5.2vw,64px)', fontWeight: 800, letterSpacing: '-0.03em', textTransform: 'uppercase', color: '#030303', margin: 0, lineHeight: 0.95 }}>
             Redo att ta <span style={{ color: '#e8c547' }}>nästa</span> steg?
           </h2>
@@ -45,7 +42,7 @@ export default function ContactPage() {
                 Nedal Issa
               </p>
               <p style={{ fontSize: '12px', color: 'rgba(3,3,3,0.6)', textTransform: 'uppercase', letterSpacing: '0.03em', margin: 0, whiteSpace: 'nowrap' }}>
-                Head of Techpilots
+                Grundare &amp; Techlead
               </p>
             </div>
           </div>
@@ -69,8 +66,11 @@ export default function ContactPage() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', height: '100%', boxSizing: 'border-box' }}>
+          <span style={{ display: 'inline-block', alignSelf: 'flex-start', background: '#030303', color: '#fff', fontSize: '12px', fontWeight: 600, letterSpacing: '0.05em', padding: '6px 14px', borderRadius: '4px', marginBottom: '24px' }}>
+            KOSTNADSFRI RÅDGIVNING
+          </span>
           <p style={{ fontSize: '15px', color: 'rgba(3,3,3,0.6)', lineHeight: 1.5, maxWidth: '420px', margin: '0 0 48px' }}>
-            Berätta lite om ert projekt så hjälper vi er att hitta rätt struktur, omfattning och tidsplan.
+            Beskriv vad ni behöver hjälp med, så hittar vi tillsammans rätt lösning och tidsplan.
           </p>
 
           <form
@@ -115,7 +115,7 @@ export default function ContactPage() {
                   <span style={{ display: 'inline-block', width: '8px', height: '8px', background: '#030303', flexShrink: 0 }} />
                   E-post
                 </label>
-                <input id="email" type="email" required placeholder="namn@techpilots.se" style={inputStyle} />
+                <input id="email" type="email" required placeholder="namn@exempel.se" style={inputStyle} />
               </div>
             </div>
 
