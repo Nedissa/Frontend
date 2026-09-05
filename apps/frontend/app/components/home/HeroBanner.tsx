@@ -122,7 +122,7 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
                 src={src}
                 alt={collections[i]?.title || ''}
                 fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1080px) 100vw, 1600px"
+                sizes="(max-width: 768px) 100vw, (max-width: 1536px) 62.5vw, 1600px"
                 className="w-full h-full"
                 style={{ objectFit: isHeroThumb ? 'contain' : 'cover', objectPosition: isHeroThumb ? 'center' : 'center' }}
                 priority={i === 0}
@@ -141,7 +141,7 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
         >
           <div className="flex items-center gap-2 md:gap-3 bg-white rounded-full px-3 md:px-4 py-1.5 md:py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.15)' }}>
             {/* Prev */}
-            <button onClick={() => prev(true)} className="text-gray-500 hover:text-black transition-colors">
+            <button onClick={() => prev(true)} aria-label="Föregående bild" className="text-gray-500 hover:text-black transition-colors">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
             </button>
 
@@ -150,6 +150,7 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
               <button
                 key={i}
                 onClick={() => goTo(i, false)}
+                aria-label={`Visa bild ${i + 1} av ${heroImages.length}`}
                 className="relative w-2.5 h-2.5 rounded-full bg-gray-200 overflow-hidden"
               >
                 <div
@@ -160,12 +161,12 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
             ))}
 
             {/* Next */}
-            <button onClick={() => next(true)} className="text-gray-500 hover:text-black transition-colors">
+            <button onClick={() => next(true)} aria-label="Nästa bild" className="text-gray-500 hover:text-black transition-colors">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </button>
 
             {/* Play/Pause with progress ring */}
-            <button onClick={() => setIsPlaying(!isPlaying)} className="relative w-7 h-7 flex items-center justify-center text-gray-500 hover:text-black transition-colors">
+            <button onClick={() => setIsPlaying(!isPlaying)} aria-label={isPlaying ? 'Pausa bildspel' : 'Starta bildspel'} className="relative w-7 h-7 flex items-center justify-center text-gray-500 hover:text-black transition-colors">
               <svg className="absolute inset-0 w-7 h-7 -rotate-90" viewBox="0 0 28 28">
                 <circle cx="14" cy="14" r="12" fill="none" stroke="#e5e7eb" strokeWidth="1.5" />
                 <circle

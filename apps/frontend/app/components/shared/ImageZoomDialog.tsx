@@ -112,6 +112,7 @@ export function ImageZoomDialog({
         {/* Close Button */}
         <button
           onClick={onClose}
+          aria-label="Stäng bildvisning"
           className="absolute top-4 right-4 z-10 w-9 h-9 flex items-center justify-center bg-black rounded-full text-white hover:bg-gray-800 transition-colors"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -124,6 +125,7 @@ export function ImageZoomDialog({
           {/* Left Arrow */}
           {!isMobile && <button
             onClick={() => goTo((currentIndex - 1 + images.length) % images.length)}
+            aria-label="Föregående bild"
             className="absolute left-2 p-3 hover:bg-gray-100 rounded transition-colors flex items-center justify-center z-10"
           >
             <svg className="w-9 h-9 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -134,7 +136,7 @@ export function ImageZoomDialog({
           <img
             key={currentIndex}
             src={images[currentIndex]?.url}
-            alt={images[currentIndex]?.altText}
+            alt={images[currentIndex]?.altText || `Bild ${currentIndex + 1} av ${images.length}`}
             className="max-w-full max-h-full object-contain"
             style={{ minWidth: '60%', minHeight: '60%' }}
           />
@@ -142,6 +144,7 @@ export function ImageZoomDialog({
           {/* Right Arrow */}
           {!isMobile && <button
             onClick={() => goTo((currentIndex + 1) % images.length)}
+            aria-label="Nästa bild"
             className="absolute right-2 p-3 hover:bg-gray-100 rounded transition-colors flex items-center justify-center z-10"
           >
             <svg className="w-9 h-9 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,6 +166,7 @@ export function ImageZoomDialog({
             <div key={idx} ref={el => { thumbItemRefs.current[idx] = el; }} className={isMobile ? 'zoom-thumb-item' : 'flex-shrink-0 flex items-center justify-center'}>
               <button
                 onClick={() => goTo(idx)}
+                aria-label={`Visa bild ${idx + 1} av ${images.length}`}
                 className="aspect-square flex items-center justify-center transition-all duration-200"
                 style={{
                   opacity: currentIndex === idx ? 1 : 0.25,

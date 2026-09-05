@@ -80,6 +80,7 @@ export function ProductCarousel({ title, products: rawProducts, variant = 'popul
         {desktopIndex > 0 && (
           <button
             onClick={() => scroll('left')}
+            aria-label="Scrolla vänster"
             className="hidden md:flex"
             style={{ position: 'absolute', left: '-16px', top: '50%', transform: 'translateY(-50%)', width: '32px', height: '32px', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '50%', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.10)', zIndex: 2 }}
           >
@@ -91,6 +92,7 @@ export function ProductCarousel({ title, products: rawProducts, variant = 'popul
         {desktopIndex < maxIndex && (
           <button
             onClick={() => scroll('right')}
+            aria-label="Scrolla höger"
             className="hidden md:flex"
             style={{ position: 'absolute', right: '-16px', top: '50%', transform: 'translateY(-50%)', width: '32px', height: '32px', alignItems: 'center', justifyContent: 'center', background: '#fff', border: '1px solid #e5e7eb', borderRadius: '50%', cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.10)', zIndex: 2 }}
           >

@@ -205,6 +205,7 @@ export function ProductCard({
           <button
             ref={compareRef}
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); window.dispatchEvent(new CustomEvent('toggleCompare', { detail: { ...product, categorySlug: categorySlug || product.sectionCategory } })); }}
+            aria-label={inCompare ? 'Ta bort jämförelse' : 'Lägg till i jämförelse'}
             className="w-9 h-9 flex items-center justify-center rounded-full transition-all duration-150"
             style={{ border: 'none', padding: 0, cursor: 'pointer', background: inCompare ? '#0f2448' : 'transparent', boxShadow: inCompare ? '0 2px 8px rgba(0,0,0,0.18)' : 'none' }}
             onMouseEnter={(e) => { if (!inCompare) { e.currentTarget.style.background = '#fff'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.18)'; } }}
@@ -223,6 +224,7 @@ export function ProductCard({
               e.stopPropagation();
               toggleFavorite();
             }}
+            aria-label={isFav ? 'Ta bort favorit' : 'Spara favorit'}
             className="w-9 h-9 flex items-center justify-center rounded-full transition-all duration-150"
             style={{ border: 'none', padding: 0, cursor: 'pointer', background: isFav ? '#fff' : 'transparent', boxShadow: isFav ? '0 2px 8px rgba(0,0,0,0.18)' : 'none' }}
             onMouseEnter={(e) => { if (!isFav) { e.currentTarget.style.background = '#fff'; e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.18)'; } }}

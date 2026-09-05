@@ -76,6 +76,7 @@ export function MobileMenu({
             <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Huvudkategorier</p>
             <button
               onClick={onClose}
+              aria-label="Stäng meny"
               className="w-11 h-11 flex items-center justify-center text-gray-500 hover:text-black"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -156,6 +157,7 @@ export function MobileMenu({
           <div className="flex items-center gap-3 px-5 pt-5 pb-3 border-b border-gray-100">
             <button
               onClick={onBackToLevel0}
+              aria-label="Tillbaka till huvudkategorier"
               className="flex-shrink-0 w-11 h-11 flex items-center justify-center rounded-full bg-gray-100 active:bg-gray-200"
             >
               <svg className="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">

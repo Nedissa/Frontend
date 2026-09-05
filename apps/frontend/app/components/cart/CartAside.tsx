@@ -282,9 +282,9 @@ export function CartAside() {
                             <span className="text-xs text-gray-500 whitespace-nowrap">I lager</span>
                           </div>
                           <div className="flex items-center flex-shrink-0 -my-3 ml-auto -mr-6">
-                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} className="text-gray-700 disabled:text-gray-300 font-bold w-11 h-11 flex items-center justify-center text-lg">−</button>
+                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)} disabled={item.quantity <= 1} aria-label="Minska antal" className="text-gray-700 disabled:text-gray-300 font-bold w-11 h-11 flex items-center justify-center text-lg">−</button>
                             <span className="text-sm font-semibold tabular-nums w-5 text-center">{item.quantity}</span>
-                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} className="text-gray-700 font-bold w-11 h-11 flex items-center justify-center text-lg">+</button>
+                            <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)} aria-label="Öka antal" className="text-gray-700 font-bold w-11 h-11 flex items-center justify-center text-lg">+</button>
                           </div>
                         </div>
                       </div>
@@ -294,7 +294,7 @@ export function CartAside() {
                         <span className="text-sm font-bold text-gray-900 tabular-nums whitespace-nowrap" style={{ lineHeight: '1.2' }}>
                           {(item.price * item.quantity).toLocaleString('sv-SE')} kr
                         </span>
-                        <button onClick={() => handleRemoveItem(item.id)} className="w-8 h-8 -my-2 -mr-2 flex items-center justify-center text-black hover:text-red-500 transition-colors">
+                        <button onClick={() => handleRemoveItem(item.id)} aria-label={`Ta bort ${item.title} från varukorgen`} className="w-8 h-8 -my-2 -mr-2 flex items-center justify-center text-black hover:text-red-500 transition-colors">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" />
                           </svg>
