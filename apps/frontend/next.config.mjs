@@ -1,10 +1,12 @@
+import withBundleAnalyzerInit from '@next/bundle-analyzer';
+
+const withBundleAnalyzer = withBundleAnalyzerInit({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    // react-icons re-exporterar tusentals ikoner per undermapp (t.ex. react-icons/si) —
-    // utan detta importeras hela barrel-filen även om bara en handfull ikoner används,
-    // vilket kostar 200-800ms extra per cold start. Next.js transformerar automatiskt
-    // barrel-imports (import { X } from 'react-icons/si') till direkta imports vid bygge.
     optimizePackageImports: ['react-icons'],
   },
   async headers() {
@@ -52,4 +54,4 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

@@ -126,7 +126,7 @@ export const PROJECTS: Project[] = [
     year: '2026',
     status: 'Lanserad',
     website: 'pistolero.se',
-    image: '/digital/projekt/pistolero-studio/desktop-hero.jpg',
+    image: '/digital/projekt/pistolero-studio/desktop-hero.webp',
     cardImage: '/digital/projekt/pistolero-studio/desktop-hero.webp',
     conclusionImage: '/digital/projekt/pistolero-studio/full-size.avif',
     accentColor: '#4B5563',

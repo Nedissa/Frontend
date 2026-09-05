@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export function AboutBanner() {
   return (
@@ -7,9 +8,11 @@ export function AboutBanner() {
       <div className="relative flex-shrink-0 w-full sm:w-[52%] h-[220px] sm:h-full" style={{
         background: 'linear-gradient(135deg, #0a0a0a, #030303, #0a0a0a, #0a0a0a, #030303)',
       }}>
-        <img
+        <Image
           src="/assets/svg-hand.webp"
           alt="Techpilots"
+          width={265}
+          height={352}
           className="absolute bottom-[-25%] left-0 h-[160%] w-auto"
           loading="lazy"
         />

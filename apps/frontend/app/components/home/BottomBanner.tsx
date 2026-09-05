@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 export function BottomBanner() {
   return (
     <div className="w-full bottom-banner-bg relative overflow-hidden">
@@ -72,10 +74,12 @@ export function BottomBanner() {
 
       <div className="bottom-banner-inner">
         <div className="bottom-banner-img-col">
-          <img
+          <Image
             src="/controllers.webp"
             alt="Controllers"
-            style={{ maxHeight: '320px', maxWidth: '90%', objectFit: 'contain' }}
+            width={347}
+            height={262}
+            style={{ maxHeight: '320px', maxWidth: '90%', width: 'auto', height: 'auto', objectFit: 'contain' }}
           />
         </div>
 

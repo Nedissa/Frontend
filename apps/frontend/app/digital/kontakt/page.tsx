@@ -34,7 +34,7 @@ export default function ContactPage() {
             <div className="contact-avatar-wrap" style={{ position: 'relative', width: '240px', height: '240px', flexShrink: 0 }}>
               <div className="contact-avatar-circle" style={{ position: 'absolute', top: '0', left: '0', width: '240px', height: '240px', borderRadius: '50%', background: '#e8c547' }} />
               <div className="contact-avatar" style={{ position: 'relative', width: '240px', height: '240px', borderRadius: '50%', overflow: 'hidden', background: 'transparent' }}>
-                <Image src="/digital/nedal-issa-cutout.png" alt="Nedal Issa" fill draggable={false} style={{ objectFit: 'cover', objectPosition: 'bottom' }} />
+                <Image src="/digital/nedal-issa-cutout.webp" alt="Nedal Issa" fill draggable={false} style={{ objectFit: 'cover', objectPosition: 'bottom' }} />
               </div>
             </div>
             <div className="contact-avatar-text">

@@ -1,15 +1,36 @@
 'use client';
 import { useLayoutEffect, useState } from 'react';
 import type { IconType } from 'react-icons';
-import {
-  SiPayloadcms, SiSanity, SiContentful, SiMedusa, SiShopify, SiStripe, SiKlarna,
-  SiHetzner, SiDigitalocean, SiSupabase, SiBrevo, SiNextdotjs, SiReact, SiTypescript,
-  SiVercel, SiGoogleanalytics, SiGoogletagmanager, SiFramer, SiWebflow, SiWordpress,
-  SiGit, SiClaude,
-} from 'react-icons/si';
 import { Shield, Lock, Cookie, Gear, Code } from '@phosphor-icons/react';
+import { BrandIcon } from './BrandIcon';
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
+
+const brandIcon = (name: Parameters<typeof BrandIcon>[0]['name']): IconType =>
+  (({ size, color }: { size?: number; color?: string }) => <BrandIcon name={name} size={size} color={color} />) as IconType;
+
+const SiPayloadcms = brandIcon('payloadcms');
+const SiSanity = brandIcon('sanity');
+const SiContentful = brandIcon('contentful');
+const SiMedusa = brandIcon('medusa');
+const SiShopify = brandIcon('shopify');
+const SiStripe = brandIcon('stripe');
+const SiKlarna = brandIcon('klarna');
+const SiHetzner = brandIcon('hetzner');
+const SiDigitalocean = brandIcon('digitalocean');
+const SiSupabase = brandIcon('supabase');
+const SiBrevo = brandIcon('brevo');
+const SiNextdotjs = brandIcon('nextdotjs');
+const SiReact = brandIcon('react');
+const SiTypescript = brandIcon('typescript');
+const SiVercel = brandIcon('vercel');
+const SiGoogleanalytics = brandIcon('googleanalytics');
+const SiGoogletagmanager = brandIcon('googletagmanager');
+const SiFramer = brandIcon('framer');
+const SiWebflow = brandIcon('webflow');
+const SiWordpress = brandIcon('wordpress');
+const SiGit = brandIcon('git');
+const SiClaude = brandIcon('claude');
 
 const CATEGORIES = ['Utvalda', 'Frontend', 'CMS', 'E-handel', 'Infrastruktur', 'Webbplattformar', 'CRM', 'Säkerhet', 'Verktyg'] as const;
 
