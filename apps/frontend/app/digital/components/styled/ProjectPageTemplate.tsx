@@ -205,7 +205,7 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
             alt={label}
             fill
             sizes={`${width}px`}
-            className="object-cover object-top"
+            className="object-contain"
           />
         ) : (
           <div
@@ -299,7 +299,9 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
           </div>
 
           {(project.conclusionImage || mobileImage) && (
-            <div className="hidden lg:flex items-start gap-10 border-t border-black/10 pt-10">
+            <div className="hidden lg:flex flex-col gap-10 border-t border-black/10 pt-10">
+              <p className="text-xs text-[#8a8a86] m-0">Bilder visar sidan vid lansering. Vi erbjuder även löpande förvaltning och uppdateringar efter lansering.</p>
+              <div className="flex items-start gap-10">
               <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements?.slice(0, 2)} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} frameImage={mobileHeroFrameImage(project.slug)} />
 
               {project.conclusionImage && (
@@ -324,6 +326,7 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                 </div>
                 </div>
               )}
+              </div>
             </div>
           )}
         </div>
