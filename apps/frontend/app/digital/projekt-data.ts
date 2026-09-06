@@ -59,7 +59,7 @@ export const PROJECTS: Project[] = [
     resultTitle: 'Speglar Sagateatern idag',
     technologies: ['Framer', 'Framer CMS', 'React', 'TypeScript'],
     steps: [
-      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/sagateatern/original-hero-mobile.webp', uxImprovements: ['Varm', 'Kulturell'] },
+      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', uxImprovements: ['Varm', 'Kulturell'] },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', uxImprovements: ['Tydligt bokningsflöde', 'Enklare navigering', 'Responsiv layout'] },
       { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.', uxImprovements: ['Konsekvent', 'Genomtänkt', 'Finslipad'] },
     ],
@@ -86,9 +86,9 @@ export const PROJECTS: Project[] = [
     resultTitle: 'Högkonverterande plattform',
     technologies: ['Framer', 'Framer CMS', 'React', 'TypeScript'],
     steps: [
-      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/crownmatch/original-blogg.webp', uxImprovement: 'Modernare design', uxImprovements: ['Modernare', 'Tydligare'] },
-      { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', image: '/digital/projekt/crownmatch/original-kontakt.avif', uxImprovement: 'Enklare navigering', uxImprovements: ['Enklare', 'Bättre struktur', 'Responsiv'] },
-      { title: 'Matchningar', description: 'Statistik och matchningsdata presenteras tydligt så användaren ser sin utveckling.', image: '/digital/projekt/crownmatch/original-hero.avif', uxImprovement: 'Tydligare uppmaningar (CTA)', uxImprovements: ['Tydligare', 'Datavisualisering', 'Konvertering'] },
+      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', uxImprovement: 'Modernare design', uxImprovements: ['Modernare', 'Tydligare'] },
+      { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', uxImprovement: 'Enklare navigering', uxImprovements: ['Enklare', 'Bättre struktur', 'Responsiv'] },
+      { title: 'Matchningar', description: 'Statistik och matchningsdata presenteras tydligt så användaren ser sin utveckling.', uxImprovement: 'Tydligare uppmaningar (CTA)', uxImprovements: ['Tydligare', 'Datavisualisering', 'Konvertering'] },
     ],
     beforeAfter: 'Från en otydlig, svårnavigerad sida till en tydlig plattform som guider besökaren rätt.',
   },
@@ -114,7 +114,7 @@ export const PROJECTS: Project[] = [
     resultTitle: 'Stärker förtroendet',
     technologies: ['Framer', 'Framer CMS', 'React', 'TypeScript'],
     steps: [
-      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/wastgota-bil/original-mobil.webp', uxImprovements: ['Fordon', 'Modern'] },
+      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', uxImprovements: ['Fordon', 'Modern'] },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', uxImprovements: ['Sökfunktion', 'Lagerpresentation', 'Responsiv'] },
       { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.', uxImprovements: ['Förtroende', 'Konsekvent', 'Finslipad'] },
     ],
@@ -141,7 +141,7 @@ export const PROJECTS: Project[] = [
     resultTitle: 'Personlig känsla och helhet',
     technologies: ['Framer', 'Framer CMS', 'React', 'TypeScript'],
     steps: [
-      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/pistolero-studio/mobile.webp', uxImprovements: ['Personlig', 'Funktionell'] },
+      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', uxImprovements: ['Personlig', 'Funktionell'] },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', uxImprovements: ['Tjänsteöversikt', 'Navigering', 'Responsiv'] },
       { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.', uxImprovements: ['Unik stil', 'Konsekvent', 'Finslipad'] },
     ],
@@ -168,7 +168,7 @@ export const PROJECTS: Project[] = [
     resultTitle: 'Stärker förtroendet',
     technologies: ['Framer', 'Framer CMS', 'React', 'TypeScript'],
     steps: [
-      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/ljuva-hem-i-mark/mobile.webp', uxImprovements: ['Ljus', 'Förtroende'] },
+      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', uxImprovements: ['Ljus', 'Förtroende'] },
       { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', uxImprovements: ['Tjänstepresentation', 'Enklare bokning', 'Responsiv'] },
       { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.', uxImprovements: ['Ordning', 'Konsekvent', 'Finslipad'] },
     ],
@@ -195,9 +195,9 @@ export const PROJECTS: Project[] = [
     resultTitle: 'Vår egen visitkort',
     technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Node.js', 'Medusa', 'Payload CMS', 'PostgreSQL', 'Stripe', 'Framer Motion'],
     steps: [
-      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', image: '/digital/projekt/techpilots/original-mobil.webp', uxImprovements: ['Snabb', 'Tydlig'] },
-      { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', image: '/digital/projekt/techpilots/original-desktop-produktinfo.webp', uxImprovements: ['Navigering', 'Produktpresentation', 'Responsiv'] },
-      { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.', image: '/digital/projekt/techpilots/original-mobil-kassa.avif', uxImprovements: ['Varumärke', 'Skalbar', 'Finslipad'] },
+      { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', uxImprovements: ['Snabb', 'Tydlig'] },
+      { title: 'Nyckelsida', description: 'En central sida i flödet, byggd för att göra nästa steg enkelt och tydligt.', uxImprovements: ['Navigering', 'Produktpresentation', 'Responsiv'] },
+      { title: 'Detalj', description: 'Finjusteringar i typografi, färg och mellanrum som ger helheten dess känsla.', uxImprovements: ['Varumärke', 'Skalbar', 'Finslipad'] },
     ],
   },
 ];
