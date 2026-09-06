@@ -2,9 +2,9 @@
 import type { ReactNode } from 'react';
 import { useRef } from 'react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { Database, Layout, Code } from '@phosphor-icons/react';
 import type { Project } from '../../projekt-data';
-import { FadeIn } from '../FadeIn';
 import { Eyebrow } from './StyledPrimitives';
 
 const MOBILE_HERO_SLUGS = ['sagateatern', 'crownmatch', 'techpilots', 'ljuva-hem-i-mark', 'pistolero-studio', 'wastgota-bil'];
@@ -159,10 +159,12 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
               <span className="w-1 h-1 rounded-full bg-[#1c1c1e] ring-1 ring-[#2a2a2a]" />
             </div>
             {src ? (
-              <img
+              <Image
                 src={src}
                 alt={label}
-                className="w-full h-full object-cover object-top block"
+                fill
+                sizes={`${width}px`}
+                className="object-cover object-top"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-xs font-medium text-[#8a8a86] bg-[repeating-linear-gradient(45deg,#f5f5f3,#f5f5f3_10px,#eeeeec_10px,#eeeeec_20px)]">
@@ -196,12 +198,14 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
           backgroundImage: `radial-gradient(circle at 15% 15%, ${accentColor ?? '#0a0a0a'} 0%, transparent 55%), linear-gradient(${stripeBaseColor ?? '#ffffff'}, ${stripeBaseColor ?? '#ffffff'})`,
         }}
       >
-      <div className="w-full flex flex-col rounded-lg border-2 border-black/15 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ maxHeight: width * (aspectRatio ?? 0.75) }}>
+      <div className="relative w-full flex flex-col rounded-lg border-2 border-black/15 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ height: width * (aspectRatio ?? 0.75) }}>
         {src ? (
-          <img
+          <Image
             src={src}
             alt={label}
-            className="w-full h-auto block self-center"
+            fill
+            sizes={`${width}px`}
+            className="object-cover object-top"
           />
         ) : (
           <div
@@ -235,57 +239,53 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
   return (
     <section className="case-scroll-no-mobile-anim relative pt-32 md:pt-40">
       <div className="max-w-[1440px] mx-auto w-full px-6 md:px-12 box-border pb-16 md:pb-24 lg:pb-32">
-        <FadeIn>
-          <div className="max-w-[1440px] mx-auto flex flex-col items-start gap-6 mb-16">
-            <h1 className="text-[clamp(36px,6vw,52px)] font-bold uppercase tracking-tight leading-[0.95] text-[#030303] m-0">
-              {project.title}
-            </h1>
-            <div className="flex gap-8 shrink-0">
-              <MetaItem label="Status" value={project.status} first />
-              <MetaItem label="Tjänst" value={project.category} />
-              <MetaItem label="Datum" value={project.year} />
-            </div>
+        <div className="max-w-[1440px] mx-auto flex flex-col items-start gap-6 mb-16">
+          <h1 className="text-[clamp(36px,6vw,52px)] font-bold uppercase tracking-tight leading-[0.95] text-[#030303] m-0">
+            {project.title}
+          </h1>
+          <div className="flex gap-8 shrink-0">
+            <MetaItem label="Status" value={project.status} first />
+            <MetaItem label="Tjänst" value={project.category} />
+            <MetaItem label="Datum" value={project.year} />
           </div>
-        </FadeIn>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-16">
           <div className="lg:sticky lg:top-16 lg:self-start flex flex-col gap-16 min-w-0">
-            <FadeIn>
-              <div className="flex flex-col gap-16">
-                {project.challenge && (
-                  <CaseBlock
-                    label="Utmaning"
-                    text={project.challenge}
-                    showLine={!!(project.solution || project.result)}
-                    mobileTitle={project.challengeTitle}
-                    mobileDevice={<DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} deviceType="dator" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs compact aspectRatio={(2515 / 1414) / 2} />}
-                  />
-                )}
-                {project.solution && (
-                  <CaseBlock
-                    label="Lösning"
-                    text={project.solution}
-                    showLine={!!project.result}
-                    mobileTitle={project.solutionTitle}
-                  />
-                )}
-                {project.result && (
-                  <CaseBlock
-                    label="Resultat"
-                    text={project.result}
-                    showLine={!!(project.technologies && project.technologies.length > 0)}
-                    mobileTitle={project.resultTitle}
-                    mobileDevice={<DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs frameImage={mobileHeroFrameImage(project.slug)} />}
-                  />
-                )}
-                {project.technologies && project.technologies.length > 0 && (
-                  <TechStack technologies={project.technologies} />
-                )}
-              </div>
-            </FadeIn>
+            <div className="flex flex-col gap-16">
+              {project.challenge && (
+                <CaseBlock
+                  label="Utmaning"
+                  text={project.challenge}
+                  showLine={!!(project.solution || project.result)}
+                  mobileTitle={project.challengeTitle}
+                  mobileDevice={<DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} deviceType="dator" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs compact aspectRatio={(2515 / 1414) / 2} />}
+                />
+              )}
+              {project.solution && (
+                <CaseBlock
+                  label="Lösning"
+                  text={project.solution}
+                  showLine={!!project.result}
+                  mobileTitle={project.solutionTitle}
+                />
+              )}
+              {project.result && (
+                <CaseBlock
+                  label="Resultat"
+                  text={project.result}
+                  showLine={!!(project.technologies && project.technologies.length > 0)}
+                  mobileTitle={project.resultTitle}
+                  mobileDevice={<DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs frameImage={mobileHeroFrameImage(project.slug)} />}
+                />
+              )}
+              {project.technologies && project.technologies.length > 0 && (
+                <TechStack technologies={project.technologies} />
+              )}
+            </div>
 
             {project.website && (
-              <FadeIn delay={0.1} className="flex justify-center">
+              <div className="flex justify-center">
                 <a
                   href={`https://${project.website}`}
                   target="_blank"
@@ -294,7 +294,7 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                 >
                   Besök webbplatsen
                 </a>
-              </FadeIn>
+              </div>
             )}
           </div>
 
@@ -312,11 +312,13 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                     backgroundImage: `radial-gradient(circle at 15% 15%, ${project.accentColor ?? '#0a0a0a'} 0%, transparent 55%), linear-gradient(${project.stripeBaseColor ?? '#ffffff'}, ${project.stripeBaseColor ?? '#ffffff'})`,
                   }}
                 >
-                <div className="w-full rounded-lg border-2 border-black/15 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ maxHeight: 680 }}>
-                  <img
+                <div className="relative w-full rounded-lg border-2 border-black/15 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ height: 680 }}>
+                  <Image
                     src={project.conclusionImage}
                     alt={project.title}
-                    className="w-full h-auto block"
+                    fill
+                    sizes="(max-width: 1024px) 0px, 860px"
+                    className="object-cover object-top"
                   />
                 </div>
                 </div>
