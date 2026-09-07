@@ -31,6 +31,12 @@ export const metadata: Metadata = {
 export default function WebStudioLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
+      <link
+        rel="preload"
+        as="image"
+        href="/_next/image?url=%2Fdigital%2Fhero.webp&w=750&q=75"
+        fetchPriority="high"
+      />
       <StructuredData />
       <div style={{ fontFamily: 'var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
         <SiteNav />

@@ -14,8 +14,16 @@ export function CookieBanner() {
       setVisible(true);
       requestAnimationFrame(() => requestAnimationFrame(() => setAnimIn(true)));
     }
-    if (consent === 'accepted') { loadTidio(); loadKlaviyo(); }
+    if (consent === 'accepted') { deferLoad(() => { loadTidio(); loadKlaviyo(); }); }
   }, []);
+
+  function deferLoad(fn: () => void) {
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(fn, { timeout: 4000 });
+    } else {
+      setTimeout(fn, 3000);
+    }
+  }
 
   function loadTidio() {
     if (document.querySelector('script[src*="tidio"]')) return;
