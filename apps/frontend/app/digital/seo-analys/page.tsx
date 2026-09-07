@@ -99,7 +99,7 @@ export default function SeoAnalysPage() {
   return (
     <main
       className="bg-white text-[#030303] min-h-screen"
-      style={{ fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}
+      style={{ fontFamily: 'var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}
     >
       <ServiceSection id="seo-analys">
         <SectionHeader num="11" label="SEO-analys" extra="© 2026" hasVisibleHeading />

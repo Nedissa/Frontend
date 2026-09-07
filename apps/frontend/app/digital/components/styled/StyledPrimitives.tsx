@@ -2,7 +2,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { motion } from 'framer-motion';
 
-export const ITALIC = { fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', fontStyle: 'italic' } as const;
+export const ITALIC = { fontFamily: 'var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', fontStyle: 'italic' } as const;
 
 export function StyledSection({ children, className = '', style }: { children: ReactNode; className?: string; style?: CSSProperties }) {
   return (

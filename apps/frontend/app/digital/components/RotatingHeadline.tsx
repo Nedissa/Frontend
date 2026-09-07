@@ -32,7 +32,7 @@ export function RotatingHeadline() {
     <h1
       className="hero-promo-heading"
       style={{
-        fontFamily: '"Geist", system-ui, sans-serif',
+        fontFamily: 'var(--font-sans), system-ui, sans-serif',
         fontSize: 'clamp(26px, 2.4vw, 42px)',
         fontWeight: 700,
         lineHeight: 1.05,

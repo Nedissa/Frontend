@@ -71,7 +71,7 @@ export function CookieBanner() {
         <Cookie size={28} weight="fill" color="#111" style={{ marginBottom: '6px' }} />
         <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#111', display: 'block' }}>Vi använder cookies</span>
       </div>
-      <p style={{ fontSize: '0.76rem', color: '#777', margin: '0 0 14px 0', lineHeight: 1.6 }}>
+      <p style={{ fontSize: '0.76rem', color: '#5c5c5c', margin: '0 0 14px 0', lineHeight: 1.6 }}>
         För att ge dig en bättre upplevelse. Läs vår{' '}
         <Link href="/cookiepolicy" style={{ color: '#111', fontWeight: 600 }}>cookiepolicy</Link>
         {' '}och{' '}

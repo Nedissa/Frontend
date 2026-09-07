@@ -19,7 +19,7 @@ export default function WebStudioPage() {
   return (
     <main
       className="main-mobile-order bg-white text-[#030303] min-h-screen"
-      style={{ fontFamily: '"Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}
+      style={{ fontFamily: 'var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}
     >
       {/* Hero */}
       <HeroSection />
