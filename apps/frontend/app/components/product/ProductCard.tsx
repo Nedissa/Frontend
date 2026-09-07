@@ -307,7 +307,7 @@ export function ProductCard({
 
         {/* Stock */}
         <div className="py-0.5 border-b border-gray-100">
-          <p className={`text-xs font-semibold flex items-center gap-2 ${product.stock === 'Slut i lager' ? 'text-red-500' : 'text-green-600'}`}>
+          <p className={`text-xs font-semibold flex items-center gap-2 ${product.stock === 'Slut i lager' ? 'text-red-600' : 'text-green-700'}`}>
             <span className={`w-2 h-2 rounded-full ${product.stock === 'Slut i lager' ? 'bg-red-500' : 'bg-green-600'}`}></span>
             {product.stock || 'I lager'}
           </p>
