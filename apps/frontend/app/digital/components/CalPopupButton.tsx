@@ -1,15 +1,12 @@
 'use client';
-import { useEffect } from 'react';
 
-export function CalPopupButton({ className, style, children, onMouseEnter, onMouseLeave }: {
-  className?: string;
-  style?: React.CSSProperties;
-  children: React.ReactNode;
-  onMouseEnter?: () => void;
-  onMouseLeave?: () => void;
-}) {
-  useEffect(() => {
-    (function (C: any, A: string, L: string) {
+let calInitialized = false;
+
+function initCal() {
+  if (calInitialized) return;
+  calInitialized = true;
+
+  (function (C: any, A: string, L: string) {
       let p = function (a: { q: any[] }, ar: any) { a.q.push(ar); };
       let d = C.document;
       C.Cal = C.Cal || function (...args: any[]) {
@@ -42,20 +39,29 @@ export function CalPopupButton({ className, style, children, onMouseEnter, onMou
 
     (window as any).Cal('init', '30min', { origin: 'https://app.cal.com' });
 
-    (window as any).Cal.ns['30min']('ui', {
-      cssVarsPerTheme: { light: { 'cal-brand': '#000000' }, dark: { 'cal-brand': '#00d603' } },
-      hideEventTypeDetails: false,
-      layout: 'month_view',
-    });
-  }, []);
+  (window as any).Cal.ns['30min']('ui', {
+    cssVarsPerTheme: { light: { 'cal-brand': '#000000' }, dark: { 'cal-brand': '#00d603' } },
+    hideEventTypeDetails: false,
+    layout: 'month_view',
+  });
+}
 
+export function CalPopupButton({ className, style, children, onMouseEnter, onMouseLeave }: {
+  className?: string;
+  style?: React.CSSProperties;
+  children: React.ReactNode;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+}) {
   return (
     <button
       type="button"
       className={className}
       style={style}
-      onMouseEnter={onMouseEnter}
+      onMouseEnter={() => { initCal(); onMouseEnter?.(); }}
       onMouseLeave={onMouseLeave}
+      onFocus={initCal}
+      onTouchStart={initCal}
       data-cal-namespace="30min"
       data-cal-link="nedal-issa/30min"
       data-cal-config='{"layout":"month_view","theme":"light"}'
