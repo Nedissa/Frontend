@@ -85,7 +85,7 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
   const rawY = useMotionValue(0);
   const mouseX = useSpring(rawX, SPRING_CONFIG);
   const mouseY = useSpring(rawY, SPRING_CONFIG);
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= MOBILE_BREAKPOINT);
   const [mouseInside, setMouseInside] = useState(false);
   const [mouseIdle, setMouseIdle] = useState(false);
 
