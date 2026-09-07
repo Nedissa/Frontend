@@ -12,26 +12,32 @@ function mobileHeroFrameImage(slug: string): string | undefined {
   return MOBILE_HERO_SLUGS.includes(slug) ? `/digital/projekt/${slug}/mockup-mobile-hero.avif` : undefined;
 }
 
+function stripHighlightMarkup(text: string): string {
+  return text.replace(/\*\*([^*]+)\*\*/g, '$1');
+}
+
 function CaseBlock({ label, text, showLine, mobileDevice, mobileTitle }: { label: string; text: string; showLine?: boolean; mobileDevice?: ReactNode; mobileTitle?: string }) {
   const lineRef = useRef<HTMLSpanElement>(null);
 
   return (
     <div className="relative flex gap-5 min-w-0">
       <div className="relative flex flex-col items-center shrink-0 pt-1.5">
-        <span className="w-2.5 h-2.5 rounded-full bg-[#030303] shrink-0" />
+        <span className="relative flex items-center justify-center w-7 h-7 shrink-0">
+          <span className="absolute inset-0 rounded-full bg-[#e8c547]/25 blur-[3px]" />
+          <span className="absolute inset-1 rounded-full bg-[#e8c547]/40" />
+          <span className="relative w-2 h-2 rounded-full bg-[#030303]" />
+        </span>
         <span
           ref={lineRef}
-          className={`absolute top-2.5 w-px bg-black/10 ${showLine ? '' : 'hidden'}`}
+          className={`absolute top-7 w-[2px] bg-gradient-to-b from-[#e8c547]/50 to-black/10 ${showLine ? '' : 'hidden'}`}
           style={{ height: 'calc(100% + 4rem)' }}
-        >
-          <span className="block w-full h-full bg-[#030303]/70" />
-        </span>
+        />
       </div>
       <div className="flex flex-col gap-3 min-w-0 w-full">
         <Eyebrow>{label}</Eyebrow>
         {mobileDevice && <div className="lg:hidden w-full min-w-0 overflow-hidden">{mobileDevice}</div>}
-        {mobileTitle && <p className="lg:hidden text-lg font-bold text-[#030303] m-0">{mobileTitle}</p>}
-        <p className="text-base leading-relaxed text-[#5c5c58] max-w-[40ch] m-0">{text}</p>
+        {mobileTitle && <p className="text-lg font-bold text-[#030303] m-0">{mobileTitle}</p>}
+        <p className="text-base leading-relaxed text-[#5c5c58] max-w-[40ch] m-0">{stripHighlightMarkup(text)}</p>
       </div>
     </div>
   );
@@ -59,7 +65,9 @@ function TechStack({ technologies }: { technologies: string[] }) {
   return (
     <div className="relative flex gap-5">
       <div className="relative flex flex-col items-center shrink-0 pt-1.5">
-        <span className="w-2.5 h-2.5 rounded-full bg-[#030303] shrink-0" />
+        <span className="flex items-center justify-center w-7 h-7 shrink-0">
+          <span className="w-2 h-2 rounded-full bg-[#030303]" />
+        </span>
       </div>
       <div className="flex flex-col gap-3">
         <Eyebrow>Teknik</Eyebrow>
@@ -81,9 +89,9 @@ function TechStack({ technologies }: { technologies: string[] }) {
   );
 }
 
-function MetaItem({ label, value, first }: { label: string; value: string; first?: boolean }) {
+function MetaItem({ label, value, first, className }: { label: string; value: string; first?: boolean; className?: string }) {
   return (
-    <div className={`flex flex-col gap-1 ${first ? '' : 'border-l border-black/10 pl-8'}`}>
+    <div className={`flex flex-col gap-1 ${first ? '' : 'border-l border-black/10 pl-8'} ${className ?? ''}`}>
       <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]">{label}</span>
       <span className="text-sm font-bold uppercase text-[#030303]">{value}</span>
     </div>
@@ -243,10 +251,10 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
           <h1 className="text-[clamp(36px,6vw,52px)] font-bold uppercase tracking-tight leading-[0.95] text-[#030303] m-0">
             {project.title}
           </h1>
-          <div className="flex gap-8 shrink-0">
-            <MetaItem label="Status" value={project.status} first />
-            <MetaItem label="Tjänst" value={project.category} />
-            <MetaItem label="Datum" value={project.year} />
+          <div className="flex gap-4 md:gap-8 shrink-0 flex-wrap">
+            <MetaItem label="Status" value={project.status} first className="w-[90px] md:w-[110px] shrink-0" />
+            <MetaItem label="Kund typ" value={project.category} className="w-[120px] md:w-[160px] shrink-0" />
+            <MetaItem label="Datum" value={project.year} className="w-[60px] md:w-[80px] shrink-0" />
           </div>
         </div>
 
