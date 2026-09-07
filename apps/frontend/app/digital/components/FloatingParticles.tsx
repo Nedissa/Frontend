@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, type MotionValue } from 'framer-motion';
 
 // Seeded pseudo-random so left/top stay non-repeating but identical on server and client (avoids hydration mismatch)
@@ -85,12 +85,14 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
   const rawY = useMotionValue(0);
   const mouseX = useSpring(rawX, SPRING_CONFIG);
   const mouseY = useSpring(rawY, SPRING_CONFIG);
-  const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth <= MOBILE_BREAKPOINT);
+  const [isMobile, setIsMobile] = useState(false);
   const [mouseInside, setMouseInside] = useState(false);
   const [mouseIdle, setMouseIdle] = useState(false);
 
   // Mobile has no pointer to follow, so particles drift on their own instead.
-  useEffect(() => {
+  // useLayoutEffect (not useEffect) so the mobile check runs before the browser paints,
+  // avoiding a flash where 40 particles mount and animate for a frame before being removed.
+  useLayoutEffect(() => {
     const syncIsMobile = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
     syncIsMobile();
     window.addEventListener('resize', syncIsMobile);
