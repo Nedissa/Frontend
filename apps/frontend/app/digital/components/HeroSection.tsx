@@ -1,6 +1,9 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+
+const MotionImage = motion.create(Image);
 import { FloatingParticles } from './FloatingParticles';
 import { ShootingStars } from './ShootingStars';
 import { CalPopupButton } from './CalPopupButton';
@@ -163,11 +166,14 @@ export function HeroSection() {
         className="absolute top-0 left-0 w-full h-full z-[1]"
         style={{ x: imageX }}
       >
-        <motion.img
+        <MotionImage
           src="/digital/hero.webp"
           alt=""
+          width={864}
+          height={1080}
           draggable={false}
-          fetchPriority="high"
+          priority
+          sizes="(max-width: 768px) 100vw, 55vw"
           className="hero-image absolute bottom-0 left-0 w-full block"
           style={{ height: '90%', objectFit: 'contain', objectPosition: 'center bottom', mixBlendMode: 'screen', userSelect: 'none', y: imageY }}
         />
