@@ -70,7 +70,7 @@ export function DesktopHeader({
             <div className="relative flex-shrink-0 hidden sm:block" ref={categoryDropdownRef}>
               <button
                 onClick={onToggleCategoryDropdown}
-                className="flex items-center gap-2 pl-4 pr-3 py-2.5 text-sm font-medium text-gray-500 whitespace-nowrap border-r border-gray-200"
+                className="flex items-center gap-2 pl-4 pr-3 py-2.5 text-sm font-medium text-gray-600 whitespace-nowrap border-r border-gray-200"
                 style={{ backgroundColor: '#f5f5f5', width: '145px' }}
               >
                 <span>{selectedCategory ? selectedCategory.title : 'Alla kategorier'}</span>

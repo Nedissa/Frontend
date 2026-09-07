@@ -180,6 +180,7 @@ export function PricingSection() {
           type="button"
           role="switch"
           aria-checked={showSeo}
+          aria-label="Växla mellan Webbplats- och SEO-priser"
           onClick={() => setShowSeo((v) => !v)}
           className="relative shrink-0 rounded-full transition-colors"
           style={{ width: '44px', height: '24px', background: '#030303' }}

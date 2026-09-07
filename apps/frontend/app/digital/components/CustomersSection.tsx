@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Image from 'next/image';
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
 import { ServiceSection } from './ServiceSection';
@@ -105,10 +106,12 @@ export function CustomersSection() {
         {/* Customer image with quote */}
         <FadeIn delay={0.08}>
           <div className="customer-image-card relative rounded-[8px] overflow-hidden h-full min-h-[600px] flex items-end box-border">
-            <img
+            <Image
               src="/digital/kunder-partners.webp"
               alt=""
-              className="absolute inset-0 w-full h-full object-cover"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
             />
             <div
               className="absolute inset-0"

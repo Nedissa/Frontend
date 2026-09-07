@@ -52,7 +52,7 @@ function FeatureCard({ step, title, desc, tall, forceHovered, onRef }: { step: s
         {step}
       </span>
       <div className="relative">
-        <h4
+        <h3
           className="text-[19px] font-semibold m-0 mb-[12px]"
           style={{
             letterSpacing: '-0.02em',
@@ -61,7 +61,7 @@ function FeatureCard({ step, title, desc, tall, forceHovered, onRef }: { step: s
           }}
         >
           {title}
-        </h4>
+        </h3>
         <p
           className="feature-card-desc text-[15px] leading-[1.6] m-0"
           style={{

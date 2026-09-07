@@ -31,7 +31,7 @@ export default function WebStudioPage() {
         style={{ borderTop: '1px solid rgb(220,220,220)' }}
         aria-label="Kunder och samarbetspartners"
       >
-        <p className="text-center text-[14px] font-medium uppercase text-[rgb(140,140,140)] mb-[24px]" style={{ letterSpacing: '0.04em' }}>
+        <p className="text-center text-[14px] font-medium uppercase text-[rgb(107,107,107)] mb-[24px]" style={{ letterSpacing: '0.04em' }}>
           Kunder &amp; partners
         </p>
         <div className="logo-ticker-fade">

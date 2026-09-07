@@ -167,6 +167,7 @@ export function HeroSection() {
           src="/digital/hero.webp"
           alt=""
           draggable={false}
+          fetchPriority="high"
           className="hero-image absolute bottom-0 left-0 w-full block"
           style={{ height: '90%', objectFit: 'contain', objectPosition: 'center bottom', mixBlendMode: 'screen', userSelect: 'none', y: imageY }}
         />
