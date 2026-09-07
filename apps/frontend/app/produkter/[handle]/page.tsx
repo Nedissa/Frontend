@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { MainLayout } from '@/app/components/layout/MainLayout';
 import { getProductByHandle, getBreadcrumbTrail, getAccessories, getReviewStats, getQuestionCount } from '@/app/lib/products';
+import { getProductJsonLd, getBreadcrumbJsonLd } from '@/app/lib/productSchema';
 import ProductDetailClient from '@/app/produktserier/[slug]/[handle]/ProductDetailClient';
 
 export const revalidate = 60;
@@ -64,8 +65,21 @@ export default async function ProductPage({ params }: PageProps) {
   const reviewStats = await getReviewStats(product.id);
   const questionCount = await getQuestionCount(product.id);
 
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://techpilots.vercel.app';
+  const productUrl = `${baseUrl}/produkter/${handle}`;
+  const productJsonLd = getProductJsonLd(product, productUrl);
+  const breadcrumbJsonLd = getBreadcrumbJsonLd(breadcrumbTrail, product, baseUrl, productUrl);
+
   return (
     <MainLayout>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <ProductDetailClient
         product={product}
         categorySlug={categorySlug}

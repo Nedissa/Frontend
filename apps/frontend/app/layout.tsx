@@ -35,9 +35,26 @@ export default async function RootLayout({
   const token = cookieStore.get('medusa_token')?.value;
   const isLoggedIn = !!token;
 
+  const organizationJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Techpilots',
+    url: 'https://techpilots.vercel.app',
+    sameAs: [
+      'https://www.facebook.com/techpilots.se/',
+      'https://www.instagram.com/techpilots.se/',
+      'https://www.linkedin.com/company/techpilots-webagency',
+    ],
+  };
+
   return (
     <html lang="sv" style={{ scrollbarGutter: 'stable', overflowY: 'scroll' }} className={cn("font-sans", geist.variable)}>
-      <head></head>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
+      </head>
       <body className="bg-white flex flex-col min-h-screen">
         <RootLayoutClient initialIsLoggedIn={isLoggedIn}>
           {children}

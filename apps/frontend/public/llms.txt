@@ -1,0 +1,16 @@
+# Techpilots
+
+> Techpilots är en svensk webshop för datorer, komponenter, gaming, mobiltelefoner, nätverk och TV/HiFi.
+
+Techpilots säljer elektronik och datorutrustning till privatpersoner och företag i Sverige, med fokus på snabb leverans och konkurrenskraftiga priser.
+
+## Sortiment
+- [Alla produkter](https://techpilots.vercel.app/produkter): Fullständigt produktsortiment
+- [Datorer & Tillbehör](https://techpilots.vercel.app/kategori/datorer-tillbehor)
+- [Gaming](https://techpilots.vercel.app/kategori/gaming)
+- [Mobiltelefoner](https://techpilots.vercel.app/kategori/mobiltelefoner)
+- [Nätverk](https://techpilots.vercel.app/kategori/natverk)
+- [TV & HiFi](https://techpilots.vercel.app/kategori/tv-hifi)
+
+## Kundservice
+- [Kundservice](https://techpilots.vercel.app/kundservice): Leverans, returer, garanti och vanliga frågor

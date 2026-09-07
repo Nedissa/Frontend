@@ -54,6 +54,8 @@ const ColorSwatch = memo(function ColorSwatch({ color, bgColor, isSelected, onSe
         onClick={(e) => { e.preventDefault(); e.stopPropagation(); onSelect(); }}
         className="w-11 h-11 flex items-center justify-center flex-shrink-0"
         style={{ background: 'none', border: 'none', padding: 0 }}
+        aria-label={`Välj färg ${color}`}
+        aria-pressed={isSelected}
       >
         <span
           className="w-8 h-3 rounded-full block"

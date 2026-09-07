@@ -1,4 +1,5 @@
 ﻿import type { Metadata } from 'next';
+import { FAQS } from './faq-data';
 
 export const metadata: Metadata = {
   title: 'Kundservice | Techpilots',
@@ -11,5 +12,20 @@ export const metadata: Metadata = {
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return children;
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQS.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
+      {children}
+    </>
+  );
 }

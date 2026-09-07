@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { MainLayout } from '@/app/components/layout/MainLayout';
 import { getProductByHandle, getCategoryTitle, getBreadcrumbTrail, getAccessories, getReviewStats, getQuestionCount } from '@/app/lib/products';
+import { getProductJsonLd, getBreadcrumbJsonLd } from '@/app/lib/productSchema';
 import ProductDetailClient from './ProductDetailClient';
 
 export const dynamic = 'force-dynamic';
@@ -66,8 +67,21 @@ export default async function ProductPage({ params }: PageProps) {
   const reviewStats = await getReviewStats(product.id);
   const questionCount = await getQuestionCount(product.id);
 
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://techpilots.vercel.app';
+  const productUrl = `${baseUrl}/produktserier/${slug}/${handle}`;
+  const productJsonLd = getProductJsonLd(product, productUrl);
+  const breadcrumbJsonLd = getBreadcrumbJsonLd(breadcrumbTrail, product, baseUrl, productUrl);
+
   return (
     <MainLayout>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <ProductDetailClient
         product={product}
         categorySlug={slug}
