@@ -36,14 +36,14 @@ export default function AllProjectsPage() {
                 className="group block w-full box-border no-underline p-[10px] md:p-[20px] aspect-[4/2.66] md:aspect-[1.63/1]"
                 style={{
                   background: 'rgb(240,240,238)',
-                  borderRadius: '8px',
+                  borderRadius: '5px',
                 }}
               >
                 <div
                   className="relative w-full h-full p-[10px] md:p-[20px] overflow-hidden"
                   style={{
                     background: '#f5f5f3',
-                    borderRadius: '8px',
+                    borderRadius: '5px',
                   }}
                 >
                   <div
@@ -79,7 +79,8 @@ export default function AllProjectsPage() {
                       <img
                         src={p.cardImage}
                         alt={p.title}
-                        className="max-w-[94%] mx-auto rounded-lg border-2 border-black/15 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]"
+                        className="max-w-[94%] mx-auto border-2 border-black/15 bg-white overflow-hidden"
+                        style={{ borderRadius: 5 }}
                       />
                     )}
                   </div>

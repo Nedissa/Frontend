@@ -53,14 +53,14 @@ export function ProjectsSection() {
                 className="project-card-link group flex flex-col cursor-pointer w-full box-border no-underline p-[20px] h-[320px] md:h-[520px]"
                 style={{
                   background: 'rgb(240,240,238)',
-                  borderRadius: '8px',
+                  borderRadius: '5px',
                 }}
               >
                 <div
                   className="relative flex-1 min-h-0 p-[20px] overflow-hidden"
                   style={{
                     background: '#f5f5f3',
-                    borderRadius: '8px',
+                    borderRadius: '5px',
                   }}
                 >
                   <div
@@ -96,7 +96,8 @@ export function ProjectsSection() {
                       <img
                         src={p.cardImage}
                         alt={p.title}
-                        className="project-card-browser-frame max-w-[75%] mx-auto rounded-lg border-2 border-black/15 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]"
+                        className="project-card-browser-frame max-w-[75%] mx-auto border-2 border-black/15 bg-white overflow-hidden"
+                        style={{ borderRadius: 5 }}
                       />
                     )}
                   </div>

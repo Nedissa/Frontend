@@ -15,10 +15,7 @@ const links = [
 const BURGER_BAR_STYLE_BASE: React.CSSProperties = {
   position: 'absolute',
   right: '8px',
-  width: '18px',
-  height: '3.5px',
-  borderRadius: '2px',
-  transition: 'transform 0.3s cubic-bezier(0.76, 0, 0.24, 1), top 0.3s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.2s ease, background 0.3s ease',
+  transition: 'transform 0.3s cubic-bezier(0.76, 0, 0.24, 1), top 0.3s cubic-bezier(0.76, 0, 0.24, 1), width 0.3s cubic-bezier(0.76, 0, 0.24, 1), height 0.3s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.2s ease, background 0.3s ease',
 };
 
 const LOGO_CIRCLE_STYLE: React.CSSProperties = {
@@ -127,7 +124,7 @@ export function SiteNav() {
   // scrollIntoView({behavior:'smooth'}) saknar ett "klar"-event och tar olika lång tid
   // beroende på avstånd, så vi håller navbaren synlig tills scrollpositionen slutar
   // röra sig (istället för en fast timer som är för kort för långa scrollar).
-  const scrollToAnchorId = (id: string) => {
+  const smoothScrollTo = (top: number) => {
     suppressHideRef.current = true;
     setNavHidden(false);
     if (suppressHideTimerRef.current) clearTimeout(suppressHideTimerRef.current);
@@ -144,6 +141,10 @@ export function SiteNav() {
     };
     suppressHideTimerRef.current = setTimeout(checkStopped, 150);
 
+    window.scrollTo({ top, behavior: 'smooth' });
+  };
+
+  const scrollToAnchorId = (id: string) => {
     // id sitter numera på sektionens inre content-wrapper (inte på <section> självt), så
     // getBoundingClientRect() ger redan innehållets faktiska start utan sektionens egen
     // padding-top inräknad. Vi behöver bara kompensera för den fixerade navbaren plus lite
@@ -153,7 +154,7 @@ export function SiteNav() {
     const NAVBAR_HEIGHT = 72;
     const EXTRA_BREATHING_ROOM = 24;
     const top = el.getBoundingClientRect().top + window.scrollY - NAVBAR_HEIGHT - EXTRA_BREATHING_ROOM;
-    window.scrollTo({ top, behavior: 'smooth' });
+    smoothScrollTo(top);
   };
 
   // Om ProjectNav sparade ett mål-ankare innan navigering hit (annan route), scrolla dit nu.
@@ -205,6 +206,14 @@ export function SiteNav() {
   // klick på samma route. Från andra sidor (t.ex. /digital/kontakt) finns elementet inte
   // i DOM än, så vi navigerar dit på riktigt och sparar målankaret i sessionStorage — samma
   // mönster som ProjectNav använder.
+  const handleHomeClick = (e: React.MouseEvent) => {
+    if (pathname !== '/digital') return;
+    e.preventDefault();
+    window.history.pushState({ scrollY: window.scrollY }, '', '/digital');
+    setHash('');
+    smoothScrollTo(0);
+  };
+
   const handleAnchorClick = (anchor: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     if (pathname !== '/digital') {
@@ -212,7 +221,7 @@ export function SiteNav() {
       router.push('/digital');
       return;
     }
-    window.history.pushState(null, '', `/digital#${anchor}`);
+    window.history.pushState({ scrollY: window.scrollY }, '', `/digital#${anchor}`);
     setHash(`#${anchor}`);
     // setTimeout skjuter scrollen till nästa tick, efter att webbläsarens egen
     // native hash-navigering (som annars återställer scrollY till 0) hunnit köra klart.
@@ -225,7 +234,7 @@ export function SiteNav() {
       style={{
         position: 'fixed', top: 0, left: 0, right: 0, width: '100%', height: '72px', zIndex: 150,
         display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 32px',
-        background: open || closing ? 'rgb(12,13,18)' : isDark ? 'rgba(0,0,0,0.2)' : '#fff',
+        background: open || closing ? 'transparent' : isDark ? 'rgba(0,0,0,0.2)' : '#fff',
         borderBottom: open || closing || isDark ? '1px solid transparent' : '1px solid rgba(10,10,10,0.1)',
         boxSizing: 'border-box',
         transform: navHidden ? 'translateY(-100%)' : 'translateY(0)',
@@ -253,7 +262,7 @@ export function SiteNav() {
               <sup style={{ fontSize: '9px', color: supColor, marginLeft: '3px', verticalAlign: 'super' }}>{l.num}</sup>
             </a>
           ) : (
-            <Link key={l.href} href={linkPath} className="nav-link" style={linkStyle}>
+            <Link key={l.href} href={linkPath} onClick={linkPath === '/digital' ? handleHomeClick : undefined} className="nav-link" style={linkStyle}>
               {l.label}
               <sup style={{ fontSize: '9px', color: supColor, marginLeft: '3px', verticalAlign: 'super' }}>{l.num}</sup>
             </Link>
@@ -276,9 +285,10 @@ export function SiteNav() {
           transition: 'background 0.3s ease, border-color 0.3s ease',
         }}
       >
-        {/* Plus (+) i vila, som roterar till ett X när menyn är öppen. */}
-        <span style={{ ...BURGER_BAR_STYLE_BASE, top: '50%', transform: open ? 'rotate(45deg)' : 'rotate(0deg)', background: burgerBarColor }} />
-        <span style={{ ...BURGER_BAR_STYLE_BASE, top: '50%', transform: open ? 'rotate(-45deg)' : 'rotate(90deg)', background: burgerBarColor }} />
+        {/* Tre olika långa linjer i vila (kort/lång/kort), som jämnas ut och morphar till ett X när menyn är öppen. */}
+        <span style={{ ...BURGER_BAR_STYLE_BASE, top: open ? '50%' : 'calc(50% - 8px)', width: open ? '18px' : '22px', height: open ? '3.5px' : '5px', transform: open ? 'rotate(45deg)' : 'rotate(0deg)', background: burgerBarColor }} />
+        <span style={{ ...BURGER_BAR_STYLE_BASE, top: '50%', width: '15px', height: '5px', transform: 'rotate(0deg)', background: burgerBarColor, opacity: open ? 0 : 1 }} />
+        <span style={{ ...BURGER_BAR_STYLE_BASE, top: open ? '50%' : 'calc(50% + 8px)', width: open ? '18px' : '22px', height: open ? '3.5px' : '5px', transform: open ? 'rotate(-45deg)' : 'rotate(0deg)', background: burgerBarColor }} />
       </button>
 
       {mounted && createPortal(

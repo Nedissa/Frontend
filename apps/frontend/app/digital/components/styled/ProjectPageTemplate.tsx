@@ -199,14 +199,15 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
     <div className="w-full border-t border-black/10 pt-10 flex flex-col items-center gap-6">
       <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]" style={{ maxWidth: width }}>{label}</span>
       <div
-        className="w-full rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
+        className="w-full overflow-hidden"
         style={{
           maxWidth: width,
           padding: 20,
+          borderRadius: 5,
           backgroundImage: `radial-gradient(circle at 15% 15%, ${accentColor ?? '#0a0a0a'} 0%, transparent 55%), linear-gradient(${stripeBaseColor ?? '#ffffff'}, ${stripeBaseColor ?? '#ffffff'})`,
         }}
       >
-      <div className="relative w-full flex flex-col rounded-lg border-2 border-black/15 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ aspectRatio: 1 / (aspectRatio ?? 0.75) }}>
+      <div className="relative w-full flex flex-col border-2 border-black/15 bg-white overflow-hidden" style={{ aspectRatio: 1 / (aspectRatio ?? 0.75), borderRadius: 5 }}>
         {src ? (
           <Image
             src={src}
