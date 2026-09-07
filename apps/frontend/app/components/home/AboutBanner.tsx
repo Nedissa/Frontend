@@ -13,6 +13,7 @@ export function AboutBanner() {
           alt="Techpilots"
           width={265}
           height={352}
+          sizes="(max-width: 640px) 60vw, 30vw"
           className="absolute bottom-[-25%] left-0 h-[160%] w-auto"
           loading="lazy"
         />

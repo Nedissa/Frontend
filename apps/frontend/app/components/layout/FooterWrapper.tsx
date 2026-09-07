@@ -138,12 +138,12 @@ export function FooterWrapper() {
             <div className="pt-8 md:pt-0 md:ml-auto">
               <h3 className="font-bold mb-4 text-sm text-white">Betalningsmetoder</h3>
               <div className="flex flex-row flex-nowrap items-center gap-4 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
-                <img src="/icons/klarna-text.svg" alt="Klarna" style={{ height: '14px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
-                <img src="/icons/visa.svg" alt="Visa" style={{ height: '20px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
-                <img src="/icons/mastercard.svg" alt="Mastercard" style={{ height: '20px', flexShrink: 0 }} />
-                <img src="/icons/swish.svg" alt="Swish" style={{ height: '20px', flexShrink: 0 }} />
-                <img src="/icons/applepay.svg" alt="Apple Pay" style={{ height: '28px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
-                <img src="/icons/googlepay.svg" alt="Google Pay" className="hidden md:inline-block" style={{ height: '20px', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
+                <img src="/icons/klarna-text.svg" alt="Klarna" width={63} height={14} style={{ height: '14px', width: 'auto', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
+                <img src="/icons/visa.svg" alt="Visa" width={60} height={20} style={{ height: '20px', width: 'auto', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
+                <img src="/icons/mastercard.svg" alt="Mastercard" width={20} height={20} style={{ height: '20px', width: 'auto', flexShrink: 0 }} />
+                <img src="/icons/swish.svg" alt="Swish" width={15} height={20} style={{ height: '20px', width: 'auto', flexShrink: 0 }} />
+                <img src="/icons/applepay.svg" alt="Apple Pay" width={28} height={28} style={{ height: '28px', width: 'auto', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
+                <img src="/icons/googlepay.svg" alt="Google Pay" width={42} height={20} className="hidden md:inline-block" style={{ height: '20px', width: 'auto', filter: 'brightness(0) invert(1)', flexShrink: 0 }} />
               </div>
             </div>
           </div>

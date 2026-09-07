@@ -737,16 +737,16 @@ export default function ProductDetailClient({
           </div>
           <div className="px-6 py-[10px] flex items-center gap-3 flex-nowrap">
             <div className="border border-gray-200 rounded px-2 py-1.5 flex items-center justify-center" style={{ minWidth: '48px' }}>
-              <img src="/icons/klarna.svg" alt="Klarna" className="h-4 w-auto" />
+              <img src="/icons/klarna.svg" alt="Klarna" width={16} height={16} className="h-4 w-auto" />
             </div>
             <div className="border border-gray-200 rounded px-2 py-1.5 flex items-center justify-center" style={{ minWidth: '48px' }}>
-              <img src="/icons/visa.svg" alt="Visa" className="h-4 w-auto" />
+              <img src="/icons/visa.svg" alt="Visa" width={48} height={16} className="h-4 w-auto" />
             </div>
             <div className="border border-gray-200 rounded px-2 py-1.5 flex items-center justify-center" style={{ minWidth: '48px' }}>
-              <img src="/icons/mastercard.svg" alt="Mastercard" className="h-4 w-auto" />
+              <img src="/icons/mastercard.svg" alt="Mastercard" width={16} height={16} className="h-4 w-auto" />
             </div>
             <div className="border border-gray-200 rounded px-2 py-1.5 flex items-center justify-center" style={{ minWidth: '48px' }}>
-              <img src="/icons/applepay.svg" alt="Apple Pay" className="h-8 w-auto" />
+              <img src="/icons/applepay.svg" alt="Apple Pay" width={32} height={32} className="h-8 w-auto" />
             </div>
           </div>
         </div>
