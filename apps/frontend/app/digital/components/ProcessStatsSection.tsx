@@ -1,3 +1,5 @@
+'use client';
+import { useState } from 'react';
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
 import { ServiceSection } from './ServiceSection';
@@ -5,6 +7,7 @@ import { DonutChart } from './DonutChart';
 import { AnimatedBars } from './AnimatedBars';
 import { QaBarList } from './QaBarList';
 import { CountUp } from './CountUp';
+import { useScrollActiveIndex } from './useScrollActiveIndex';
 
 const PROJECT_TYPES = [
   { label: 'Skönhet', value: 40, color: '#030303' },
@@ -35,7 +38,48 @@ const HEADLINE_STATS = [
   { value: '90', suffix: '%', desc: 'I Google PageSpeed. Vi kodar och optimerar sajten för högsta möjliga betyg och laddtid.' },
 ];
 
+function StatCard({ stat, forceHovered, onRef }: { stat: (typeof HEADLINE_STATS)[number]; forceHovered: boolean; onRef: (el: HTMLDivElement | null) => void }) {
+  const [mouseHovered, setMouseHovered] = useState(false);
+  const hovered = forceHovered || mouseHovered;
+
+  return (
+    <div
+      ref={onRef}
+      onMouseEnter={() => setMouseHovered(true)}
+      onMouseLeave={() => setMouseHovered(false)}
+      className="relative overflow-hidden rounded-[8px] px-[24px] pb-[24px] cursor-default"
+      style={{ borderTop: '3px solid rgb(210,210,210)' }}
+    >
+      <div
+        className="absolute inset-0"
+        style={{
+          background: '#030303',
+          transform: hovered ? 'scaleY(1)' : 'scaleY(0)',
+          transformOrigin: 'bottom',
+          transition: 'transform 0.5s cubic-bezier(0.76, 0, 0.24, 1)',
+        }}
+      />
+      <div className="relative pt-[32px] flex justify-between items-start">
+        <div
+          className="font-extrabold leading-none whitespace-nowrap"
+          style={{ fontSize: 'clamp(40px,5vw,64px)', letterSpacing: '-0.03em', color: hovered ? '#e8c547' : '#030303', transition: 'color 0.35s' }}
+        >
+          <CountUp value={`${stat.value}${stat.suffix}`} />
+        </div>
+        <p
+          className="text-[14px] leading-[1.5] m-0 pt-[10px] max-w-[160px] text-left"
+          style={{ color: hovered ? 'rgba(255,255,255,0.7)' : 'rgb(104,105,99)', transition: 'color 0.35s' }}
+        >
+          {stat.desc}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export function ProcessStatsSection() {
+  const { activeIndex, setItemRef } = useScrollActiveIndex();
+
   return (
     <ServiceSection id="teknologier" background="#f5f5f3">
       <SectionHeader num="08" label="Vår process" extra="© 2026" />
@@ -102,19 +146,9 @@ export function ProcessStatsSection() {
         className="grid-responsive-3 grid gap-[64px]"
         style={{ gridTemplateColumns: 'repeat(3,1fr)', marginBottom: '48px' }}
       >
-        {HEADLINE_STATS.map((stat) => (
+        {HEADLINE_STATS.map((stat, i) => (
           <FadeIn key={stat.desc}>
-            <div className="pt-[32px] flex justify-between items-start" style={{ borderTop: '3px solid rgb(210,210,210)' }}>
-              <div
-                className="font-extrabold leading-none text-[#030303] whitespace-nowrap"
-                style={{ fontSize: 'clamp(40px,5vw,64px)', letterSpacing: '-0.03em' }}
-              >
-                <CountUp value={`${stat.value}${stat.suffix}`} />
-              </div>
-              <p className="text-[14px] leading-[1.5] m-0 pt-[10px] max-w-[160px] text-left" style={{ color: 'rgb(104,105,99)' }}>
-                {stat.desc}
-              </p>
-            </div>
+            <StatCard stat={stat} forceHovered={activeIndex === i} onRef={setItemRef(i)} />
           </FadeIn>
         ))}
       </div>

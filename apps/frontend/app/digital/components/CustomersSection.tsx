@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { FadeIn } from './FadeIn';
 import { SectionHeader } from './SectionHeader';
 import { ServiceSection } from './ServiceSection';
+import { useScrollActiveIndex } from './useScrollActiveIndex';
 
 const TESTIMONIALS = [
   {
@@ -31,22 +32,23 @@ function HoverWipe({ hovered, origin }: { hovered: boolean; origin: string }) {
   );
 }
 
-function useSideHover() {
-  const [hovered, setHovered] = useState(false);
+function useSideHover(forceHovered?: boolean) {
+  const [mouseHovered, setMouseHovered] = useState(false);
   const [origin, setOrigin] = useState('left');
 
   const onMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     setOrigin(e.clientX - rect.left < rect.width / 2 ? 'left' : 'right');
-    setHovered(true);
+    setMouseHovered(true);
   };
 
-  return { hovered, origin, onMouseEnter, onMouseLeave: () => setHovered(false) };
+  return { hovered: forceHovered || mouseHovered, origin, onMouseEnter, onMouseLeave: () => setMouseHovered(false) };
 }
 
 export function CustomersSection() {
-  const rating = useSideHover();
-  const quote = useSideHover();
+  const { activeIndex, setItemRef } = useScrollActiveIndex();
+  const rating = useSideHover(activeIndex === 0);
+  const quote = useSideHover(activeIndex === 1);
 
   return (
     <ServiceSection id="kunder">
@@ -78,6 +80,7 @@ export function CustomersSection() {
         {/* Rating */}
         <FadeIn>
           <div
+            ref={setItemRef(0)}
             className="relative bg-[#f5f5f5] rounded-[8px] px-[32px] py-[40px] h-full box-border flex flex-col overflow-hidden cursor-default"
             onMouseEnter={rating.onMouseEnter}
             onMouseLeave={rating.onMouseLeave}
@@ -124,6 +127,7 @@ export function CustomersSection() {
         {/* Quote */}
         <FadeIn delay={0.16}>
           <div
+            ref={setItemRef(1)}
             className="relative bg-[#f5f5f5] rounded-[8px] px-[32px] py-[40px] h-full box-border flex flex-col overflow-hidden cursor-default"
             onMouseEnter={quote.onMouseEnter}
             onMouseLeave={quote.onMouseLeave}

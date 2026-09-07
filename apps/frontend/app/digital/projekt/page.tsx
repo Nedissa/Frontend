@@ -33,7 +33,7 @@ export default function AllProjectsPage() {
               </div>
               <Link
                 href={`/digital/projekt/${p.slug}`}
-                className="group block w-full box-border no-underline p-[10px] md:p-[20px] aspect-[4/2.4] md:aspect-[4/3.4]"
+                className="group block w-full box-border no-underline p-[10px] md:p-[20px] aspect-[4/2.66] md:aspect-[1.63/1]"
                 style={{
                   background: 'rgb(240,240,238)',
                   borderRadius: '8px',

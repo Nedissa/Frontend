@@ -50,7 +50,7 @@ export function ProjectsSection() {
             <div key={p.slug} className="flex flex-col">
               <Link
                 href={`/digital/projekt/${p.slug}`}
-                className="project-card-link group flex flex-col cursor-pointer w-full box-border no-underline p-[20px] h-[380px] md:h-[560px]"
+                className="project-card-link group flex flex-col cursor-pointer w-full box-border no-underline p-[20px] h-[320px] md:h-[520px]"
                 style={{
                   background: 'rgb(240,240,238)',
                   borderRadius: '8px',

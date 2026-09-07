@@ -65,12 +65,21 @@ function FadeText({ text, fadeKey }: { text: React.ReactNode; fadeKey: string })
 function GeoBadge({ geo }: { geo: NonNullable<SeoResult['geo']> }) {
   const passed = (geo.blockedCrawlers.length === 0 ? 1 : 0) + (geo.visibleWithoutJs ? 1 : 0) + (geo.hasStructuredData ? 1 : 0);
   const color = passed === 3 ? '#3fb950' : passed === 0 ? '#e5484d' : '#e8c547';
+  const textColor = passed === 1 || passed === 2 ? '#030303' : '#fff';
   return (
     <div className="flex items-center gap-[12px] px-[16px] py-[10px] rounded-[8px]" style={{ background: color }}>
-      <span className="text-[18px] font-bold" style={{ color: '#fff' }}>{passed}/3</span>
-      <div>
-        <div className="text-[11px] font-semibold uppercase" style={{ color: '#fff', letterSpacing: '0.02em' }}>AI / Agent Ready</div>
-        <div className="text-[11px]" style={{ color: '#fff' }}>{passed} av 3 tester godkända</div>
+      <span className="text-[18px] font-bold" style={{ color: textColor }}>{passed}/3</span>
+      <div className="flex-1">
+        <div className="text-[11px] font-semibold uppercase mb-[6px]" style={{ color: textColor, letterSpacing: '0.02em' }}>Redo för AI-sökning</div>
+        <div className="flex gap-[3px] h-[4px]">
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="flex-1 rounded-full"
+              style={{ background: i < passed ? textColor : `${textColor}40` }}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -147,7 +156,9 @@ export function SeoTestSection() {
     <ServiceSection id="seo-test" fullHeight={false} background="#f5f5f3">
       <SectionHeader num="04" label="SEO-test" extra="© 2026" />
 
-      <FadeIn className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-[40px] py-[20px] min-h-[320px] lg:min-h-[220px]">
+      <FadeIn
+        className={`flex flex-col lg:flex-row items-start lg:items-center justify-between gap-[40px] py-[20px]${result ? ' min-h-[440px] lg:min-h-[260px]' : ''}`}
+      >
         <div className="max-w-[480px]">
           <h2
             className="font-extrabold uppercase m-0 mb-[12px]"
@@ -173,20 +184,18 @@ export function SeoTestSection() {
             />
           </h2>
 
-          {loading && (
-            <div className="mb-[16px]">
-              <div className="w-full h-[3px] rounded-full overflow-hidden" style={{ background: 'rgb(230,230,230)' }}>
-                <div
-                  className="h-full rounded-full"
-                  style={{
-                    background: '#030303',
-                    width: `${progress}%`,
-                    transition: progress === 100 ? 'width 0.4s ease-out' : 'width 0.1s linear',
-                  }}
-                />
-              </div>
+          <div className="mb-[16px]" style={{ visibility: loading ? 'visible' : 'hidden' }}>
+            <div className="w-full h-[3px] rounded-full overflow-hidden" style={{ background: 'rgb(230,230,230)' }}>
+              <div
+                className="h-full rounded-full"
+                style={{
+                  background: '#030303',
+                  width: `${progress}%`,
+                  transition: progress === 100 ? 'width 0.4s ease-out' : 'width 0.1s linear',
+                }}
+              />
             </div>
-          )}
+          </div>
 
           <p className="text-[15px] leading-[1.6] m-0 mb-[24px]" style={{ color: 'rgb(104,105,99)' }}>
             Baserat på Googles egna mätverktyg får ni en analys av prestanda, SEO, tillgänglighet och teknisk kvalitet.

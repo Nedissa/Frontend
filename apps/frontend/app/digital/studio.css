@@ -201,7 +201,7 @@ button:focus-visible {
   }
 
   .project-card-link {
-    height: 640px !important;
+    height: 520px !important;
   }
 }
 
@@ -409,7 +409,7 @@ button:focus-visible {
   /* Projektkort — lägre höjd och luftigare meta-rad så titel/kategori/år
      inte trängs ihop på smala skärmar. */
   .project-card-link {
-    height: 340px !important;
+    height: 260px !important;
     padding: 14px !important;
   }
 
@@ -441,16 +441,12 @@ button:focus-visible {
      position) eller pilknappen (nedre höger, ~38px). Paddingen på behållaren
      behöver bara överstiga dessa mindre mått nu, med lite marginal. */
   .project-card-mockup-wrap {
-    padding: 40px 16px 46px 16px !important;
+    padding: 10px !important;
   }
 
   .project-card-browser-frame {
-    max-width: 100% !important;
+    max-width: 94% !important;
     max-height: 100% !important;
-  }
-
-  .project-card-browser-frame img {
-    max-height: 190px !important;
     width: auto !important;
     object-fit: contain !important;
   }
