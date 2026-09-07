@@ -258,7 +258,7 @@ export function ProductCard({
         </Link>
 
         {/* Rating — nere till vänster på bilden */}
-        <Link href={`${productLink}#reviews`} className="absolute bottom-2 left-2 flex items-center gap-1 hover:opacity-70 transition-opacity z-10">
+        <Link href={`${productLink}#reviews`} aria-label={`Recensioner för ${product.title}`} className="absolute bottom-2 left-2 flex items-center gap-1 hover:opacity-70 transition-opacity z-10">
           <div className="flex gap-0.5">
             {[...Array(5)].map((_, i) => (
               <span key={i} style={{ color: i < Math.floor(product.rating || 0) ? '#000000' : '#d1d5db' }}>★</span>
