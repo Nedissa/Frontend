@@ -4,6 +4,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { FloatingParticles } from './FloatingParticles';
 import { ShootingStars } from './ShootingStars';
 import { CalPopupButton } from './CalPopupButton';
+import { RotatingHeadline } from './RotatingHeadline';
 
 const MOUSE_SPRING_CONFIG = { stiffness: 40, damping: 20, mass: 0.6 };
 
@@ -31,22 +32,7 @@ function HeroPromo() {
         <span style={{ fontSize: '16px', letterSpacing: '2px', color: '#fff' }} aria-hidden="true">★★★★★</span>
         <span style={{ color: '#fff' }}>4.9/5</span>
       </div>
-      <h1
-        className="hero-promo-heading"
-        style={{
-          fontFamily: '"Geist", system-ui, sans-serif',
-          fontSize: 'clamp(26px, 2.4vw, 42px)',
-          fontWeight: 700,
-          lineHeight: 1.05,
-          letterSpacing: '-0.01em',
-          color: '#fff',
-          margin: '0 0 16px',
-          textShadow: '0 4px 24px rgba(0,0,0,0.5)',
-        }}
-      >
-        Lyft din <br className="hero-promo-heading-break" />
-  <span style={{ color: '#e8c547' }}>digitala närvaro</span>
-      </h1>
+      <RotatingHeadline />
       <div style={{ width: '100%', height: '2px', background: 'rgba(255,255,255,0.35)', margin: '0 0 16px' }} />
       <p
         className="hero-promo-text"
@@ -134,6 +120,24 @@ export function HeroSection() {
         }}
       />
 
+      {/* Ojämn/texturerad kant på guldringen — organisk oregelbundenhet via SVG-turbulensfilter, som en riktig solförmörkelse */}
+      <svg width="0" height="0" style={{ position: 'absolute' }} aria-hidden="true">
+        <filter id="corona-edge-turbulence">
+          <feTurbulence type="fractalNoise" baseFrequency="0.012 0.02" numOctaves="2" seed="7" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="18" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+      </svg>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.8, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 }}
+        className="absolute inset-0 pointer-events-none z-0"
+        style={{
+          background: 'radial-gradient(ellipse 55% 100% at 0% 50%, transparent 0%, transparent 44%, rgba(255, 210, 60, 0.55) 50%, rgba(255, 190, 50, 0.35) 56%, transparent 65%)',
+          filter: 'url(#corona-edge-turbulence)',
+        }}
+      />
+
       {/* God rays — faint light beams radiating from the glow source */}
       <motion.div
         initial={{ opacity: 0 }}
@@ -150,7 +154,7 @@ export function HeroSection() {
 
 
       <FloatingParticles sectionRef={sectionRef} />
-      <ShootingStars />
+      <ShootingStars zIndex={1} />
       {/* Hero image — 55% from left, full height */}
       <motion.div
         initial={{ opacity: 0.2, scale: 1.05 }}

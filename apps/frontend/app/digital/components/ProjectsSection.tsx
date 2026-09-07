@@ -116,20 +116,8 @@ export function ProjectsSection() {
           ))}
         </div>
 
-        {/* Right: See all. Desktop only. */}
-        <div className="projects-right-panel hide-mobile pl-[40px]">
-          <Link
-            href="/digital/projekt"
-            className="inline-flex items-center gap-[12px] rounded-[6px] px-[14px] py-[10px] cursor-pointer no-underline"
-            style={{ background: 'rgb(240,240,238)' }}
-          >
-            <div
-              className="w-[52px] h-[52px] rounded-[4px] shrink-0"
-              style={{ background: 'rgb(160,140,130)' }}
-            />
-            <span className="text-[15px] font-medium text-[#030303] whitespace-nowrap">Se alla (08)</span>
-          </Link>
-        </div>
+        {/* Right: empty spacer column to preserve the 3-column grid ratio. Desktop only. */}
+        <div className="projects-right-panel hide-mobile pl-[40px]" />
 
       </FadeIn>
     </section>

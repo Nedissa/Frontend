@@ -504,11 +504,6 @@ button:focus-visible {
   .hero-promo-panel h1 {
     font-size: 20px !important;
     margin-bottom: 8px !important;
-    white-space: nowrap !important;
-  }
-
-  .hero-promo-heading-break {
-    display: none !important;
   }
 
   .hero-promo-panel > div {

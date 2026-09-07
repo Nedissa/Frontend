@@ -45,9 +45,9 @@ function Star({ left, top, delay, duration, cycle, color }: (typeof STARS)[numbe
   );
 }
 
-export function ShootingStars({ color = '#fff' }: { color?: string }) {
+export function ShootingStars({ color = '#fff', zIndex = -1 }: { color?: string; zIndex?: number }) {
   return (
-    <div style={{ position: 'absolute', inset: 0, zIndex: -1, overflow: 'hidden', pointerEvents: 'none' }}>
+    <div style={{ position: 'absolute', inset: 0, zIndex, overflow: 'hidden', pointerEvents: 'none' }}>
       {STARS.map((s, i) => (
         <Star key={i} {...s} color={color} />
       ))}
