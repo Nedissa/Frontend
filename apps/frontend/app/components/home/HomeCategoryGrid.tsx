@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 const CATEGORIES = [
   { title: 'Datorer', url: '/kategori/datorer-tillbehor', icon: '/icons/categories/datorer.webp' },
@@ -35,7 +36,7 @@ function DesktopCategoryGrid({ categories }: { categories: typeof DESKTOP_CATEGO
             className="rounded-full flex items-center justify-center"
             style={{ background: '#0a0a0a', width: 'clamp(50px, 6vw, 76px)', height: 'clamp(50px, 6vw, 76px)' }}
           >
-            <img src={cat.icon} alt={cat.title} className="object-contain category-icon" style={{ width: 'clamp(26px, 3vw, 38px)', height: 'clamp(26px, 3vw, 38px)' }} />
+            <Image src={cat.icon} alt={cat.title} width={38} height={38} className="object-contain category-icon" style={{ width: 'clamp(26px, 3vw, 38px)', height: 'clamp(26px, 3vw, 38px)' }} />
           </div>
           <span className="font-semibold text-gray-900 text-center leading-tight w-fit relative mt-2 after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-gray-900 after:transition-all after:duration-300 group-hover:after:w-full" style={{ fontSize: 'clamp(9px, 0.9vw, 12px)' }}>
             {cat.title}
@@ -64,11 +65,11 @@ export function HomeCategoryGrid() {
             className="flex items-center gap-3 no-underline bg-gray-100 p-3"
           >
             <div className="rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#0a0a0a', width: '48px', height: '48px' }}>
-              <img src={cat.icon} alt={cat.title} className="category-icon" style={{ width: '45%', height: '45%', objectFit: 'contain' }} />
+              <Image src={cat.icon} alt={cat.title} width={22} height={22} className="category-icon" style={{ width: '45%', height: '45%', objectFit: 'contain' }} />
             </div>
             <div className="flex flex-col">
               <span className="text-xs font-bold text-gray-900 leading-tight">{cat.title}</span>
-              <span className="text-[10px] text-gray-500 mt-0.5">Visa kategori</span>
+              <span className="text-[10px] text-gray-600 mt-0.5">Visa kategori</span>
             </div>
           </Link>
         ))}

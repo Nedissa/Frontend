@@ -126,6 +126,7 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
                 className="w-full h-full"
                 style={{ objectFit: isHeroThumb ? 'contain' : 'cover', objectPosition: isHeroThumb ? 'center' : 'center' }}
                 priority={i === 0}
+                fetchPriority={i === 0 ? 'high' : undefined}
                 loading={i === 0 ? undefined : 'lazy'}
                 quality={85}
               />
