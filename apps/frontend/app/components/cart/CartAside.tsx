@@ -45,12 +45,16 @@ export function CartAside() {
     setIsHydrated(true);
     setIsSharedCart(!!sessionStorage.getItem('sharedCart'));
 
-    // Check if first order
-    fetch('/api/orders').then(res => {
-      if (res.ok) res.json().then(data => {
-        setIsFirstOrder((data.orders || []).length === 0);
-      });
-    }).catch(() => {});
+    // Check if first order (bara om användaren är inloggad, annars 401 i onödan)
+    if (document.cookie.includes('medusa_token=')) {
+      fetch('/api/orders').then(res => {
+        if (res.ok) res.json().then(data => {
+          setIsFirstOrder((data.orders || []).length === 0);
+        });
+      }).catch(() => {});
+    } else {
+      setIsFirstOrder(true);
+    }
 
     // Also listen for storage changes from other tabs
     const handleStorageChange = (e: StorageEvent) => {

@@ -151,12 +151,15 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
                 key={i}
                 onClick={() => goTo(i, false)}
                 aria-label={`Visa bild ${i + 1} av ${heroImages.length}`}
-                className="relative w-2.5 h-2.5 rounded-full bg-gray-200 overflow-hidden"
+                className="relative w-11 h-11 flex items-center justify-center flex-shrink-0"
+                style={{ background: 'none', border: 'none', padding: 0 }}
               >
-                <div
-                  className="absolute inset-0 rounded-full bg-gray-800 transition-transform duration-300"
-                  style={{ transform: i <= currentIndex ? 'scale(1)' : 'scale(0)' }}
-                />
+                <span className="relative w-2.5 h-2.5 rounded-full bg-gray-200 overflow-hidden block">
+                  <span
+                    className="absolute inset-0 rounded-full bg-gray-800 transition-transform duration-300 block"
+                    style={{ transform: i <= currentIndex ? 'scale(1)' : 'scale(0)' }}
+                  />
+                </span>
               </button>
             ))}
 

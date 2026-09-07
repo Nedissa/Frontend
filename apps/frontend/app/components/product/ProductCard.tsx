@@ -278,7 +278,7 @@ export function ProductCard({
             return (
               <div key={idx} className={`flex-1 flex flex-col items-center justify-center py-1.5 px-1 text-center min-w-0 ${idx < 2 ? 'border-r border-gray-300' : ''}`}>
                 <span className="text-[11px] font-bold text-gray-800 truncate w-full">{value}</span>
-                <span className="text-[9px] text-gray-400 leading-tight truncate w-full">{label}</span>
+                <span className="text-[9px] text-gray-500 leading-tight truncate w-full">{label}</span>
               </div>
             );
           })}
@@ -291,7 +291,7 @@ export function ProductCard({
 
         {/* Brand + Title */}
         <div className="pt-1.5 pb-1 border-b border-gray-100">
-          <p className="text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">{product.brand || 'Varumärke'}</p>
+          <p className="text-[9px] sm:text-[10px] text-gray-500 uppercase tracking-wider mb-0.5">{product.brand || 'Varumärke'}</p>
           <h3 className="text-xs sm:text-sm font-semibold text-gray-900 leading-snug line-clamp-2">{product.title}</h3>
         </div>
 
