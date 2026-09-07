@@ -39,7 +39,15 @@
       "PowerShell(\"Process stopped\")",
       "Bash(curl -s http://localhost:3000/)",
       "PowerShell(Stop-Process -Force)",
-      "PowerShell(\"Old processes stopped\")"
+      "PowerShell(\"Old processes stopped\")",
+      "Bash(git status)",
+      "Bash(git status *)",
+      "Bash(git diff)",
+      "Bash(git diff *)",
+      "Bash(git log)",
+      "Bash(git log *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
     ],
     "additionalDirectories": [
       "F:\\Techpilots-Hydrogen\\app\\components\\Icons",

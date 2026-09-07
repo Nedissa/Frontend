@@ -102,7 +102,7 @@ const DEVICE_ASPECT_RATIO: Record<'mobil' | 'surfplatta' | 'dator', number> = {
   dator: 2515 / 1414,
 };
 
-function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseColor, hideSpecs, website, title, compact: compactProp, aspectRatio: aspectRatioProp, phoneFrame, frameImage }: { label: string; src?: string; specs?: string[]; deviceType: 'mobil' | 'surfplatta' | 'dator'; accentColor?: string; stripeBaseColor?: string; hideSpecs?: boolean; website?: string; title: string; compact?: boolean; aspectRatio?: number; phoneFrame?: boolean; frameImage?: string }) {
+function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseColor, hideSpecs, website, title, compact: compactProp, aspectRatio: aspectRatioProp, phoneFrame, frameImage, imageFit = 'contain' }: { label: string; src?: string; specs?: string[]; deviceType: 'mobil' | 'surfplatta' | 'dator'; accentColor?: string; stripeBaseColor?: string; hideSpecs?: boolean; website?: string; title: string; compact?: boolean; aspectRatio?: number; phoneFrame?: boolean; frameImage?: string; imageFit?: 'contain' | 'cover' }) {
   const width = DEVICE_FRAME_MAX_WIDTH[deviceType];
   const aspectRatio = aspectRatioProp ?? DEVICE_ASPECT_RATIO[deviceType];
   const compact = compactProp ?? deviceType === 'mobil';
@@ -198,14 +198,14 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
           backgroundImage: `radial-gradient(circle at 15% 15%, ${accentColor ?? '#0a0a0a'} 0%, transparent 55%), linear-gradient(${stripeBaseColor ?? '#ffffff'}, ${stripeBaseColor ?? '#ffffff'})`,
         }}
       >
-      <div className="relative w-full flex flex-col rounded-lg border-2 border-black/15 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ height: width * (aspectRatio ?? 0.75) }}>
+      <div className="relative w-full flex flex-col rounded-lg border-2 border-black/15 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ aspectRatio: 1 / (aspectRatio ?? 0.75) }}>
         {src ? (
           <Image
             src={src}
             alt={label}
             fill
             sizes={`${width}px`}
-            className="object-contain"
+            className={imageFit === 'cover' ? 'object-cover object-top' : 'object-contain'}
           />
         ) : (
           <div
@@ -259,7 +259,7 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
                   text={project.challenge}
                   showLine={!!(project.solution || project.result)}
                   mobileTitle={project.challengeTitle}
-                  mobileDevice={<DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} deviceType="dator" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs compact aspectRatio={(2515 / 1414) / 2} />}
+                  mobileDevice={<DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} deviceType="dator" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs compact aspectRatio={1.3} imageFit="cover" />}
                 />
               )}
               {project.solution && (
