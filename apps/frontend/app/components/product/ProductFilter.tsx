@@ -173,6 +173,7 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
                 }
               }}
               className="price-input"
+              aria-label="Lägsta pris"
             />
             <input
               type="range"
@@ -186,6 +187,7 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
                 }
               }}
               className="price-input"
+              aria-label="Högsta pris"
             />
           </div>
           <div className="flex items-center justify-between gap-2 text-xs">
@@ -202,6 +204,7 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
                   updateFilters([num, priceRange[1]], selectedBrands, selectedColors, selectedRating, inStockOnly);
                 }}
                 className="w-16 px-1 py-0.5 text-xs text-gray-700 text-center border-b border-gray-900 focus:outline-none focus:border-gray-900"
+                aria-label="Lägsta pris i kronor"
               />
               <span className="text-gray-600">kr</span>
             </div>
@@ -218,6 +221,7 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
                   updateFilters([priceRange[0], num], selectedBrands, selectedColors, selectedRating, inStockOnly);
                 }}
                 className="w-16 px-1 py-0.5 text-xs text-gray-700 text-center border-b border-gray-900 focus:outline-none focus:border-gray-900"
+                aria-label="Högsta pris i kronor"
               />
               <span className="text-gray-600">kr</span>
             </div>
