@@ -68,15 +68,10 @@ export function PerformanceBadge({ result }: { result: PagespeedResult }) {
   const geoScore = geoChecks.filter(Boolean).length;
 
   return (
-    <div className="relative flex gap-5">
-      <div className="relative flex flex-col items-center shrink-0 pt-1.5">
-        <span className="flex items-center justify-center w-7 h-7 shrink-0">
-          <span className="w-2 h-2 rounded-full bg-[#030303]" />
-        </span>
-      </div>
-      <div className="flex flex-col gap-4">
+    <div className="relative flex gap-5 justify-center">
+      <div className="flex flex-col gap-4 items-center">
         <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]">Prestanda (Google PageSpeed)</span>
-        <div className="flex flex-wrap items-center gap-6">
+        <div className="flex flex-wrap items-center justify-center gap-6">
           <ScoreRing label="Prestanda" score={result.performance} />
           <ScoreRing label="Tillgänglighet" score={result.accessibility} />
           <ScoreRing label="Best practice" score={result.bestPractices} />

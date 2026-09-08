@@ -11,7 +11,13 @@ import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-
 import { Spinner } from '../components/shared/Spinner';
 import { klaviyoTrack } from '@/app/lib/klaviyoTrack';
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
+let stripePromise: ReturnType<typeof loadStripe> | null = null;
+function getStripe() {
+  if (!stripePromise) {
+    stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
+  }
+  return stripePromise;
+}
 
 interface CartItem {
   id: string;
@@ -42,7 +48,7 @@ function StickyStepBar({ steps, step, stepComplete, onStepClick }: { steps: { la
         const isFirst = i === 0;
         const isLast = i === steps.length - 1;
         const isClickable = i <= step;
-        const bg = i === step ? (isLast && stepComplete ? '#16a34a' : '#FF6600') : i < step ? '#000' : '#f3f4f6';
+        const bg = i === step ? (isLast && stepComplete ? '#16a34a' : '#CC5200') : i < step ? '#000' : '#f3f4f6';
         const fg = i <= step ? '#fff' : '#9ca3af';
         const clipPath = isFirst
           ? 'polygon(0 0, calc(100% - 8px) 0, 100% 50%, calc(100% - 8px) 100%, 0 100%)'
@@ -82,7 +88,7 @@ function DesktopStepBar({ steps, step, stepComplete, onStepClick }: { steps: { l
           const isFirst = i === 0;
           const isLast = i === steps.length - 1;
           const isClickable = i <= step;
-          const bg = i === step ? (isLast && stepComplete ? '#16a34a' : '#FF6600') : i < step ? '#000' : '#f3f4f6';
+          const bg = i === step ? (isLast && stepComplete ? '#16a34a' : '#CC5200') : i < step ? '#000' : '#f3f4f6';
           const fg = i <= step ? '#fff' : '#9ca3af';
           const clipPath = isFirst
             ? 'polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%)'
@@ -427,8 +433,8 @@ function CheckoutContent() {
     loadCustomer();
   }, [fetchShippingOptions]);
 
-  // Google Maps autocomplete
-  useEffect(() => {
+  // Google Maps autocomplete — laddas först när adressfältet får fokus
+  const loadGoogleMapsAutocomplete = useCallback(() => {
     if ((window as any).google?.maps?.places) return;
     if (document.querySelector('script[src*="maps.googleapis.com"]')) return;
 
@@ -474,7 +480,6 @@ function CheckoutContent() {
 
     script.onload = () => (window as any).initGoogleMapsAutocomplete?.();
     document.head.appendChild(script);
-    return () => { delete (window as any).initGoogleMapsAutocomplete; };
   }, [fetchShippingOptions]);
 
   const selectedShippingOption = shippingOptions.find(o => o.id === shippingMethod);
@@ -695,46 +700,46 @@ function CheckoutContent() {
                   <div className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-1">Förnamn</label>
-                        <InputWithCheck type="text" name="firstName" placeholder="" value={formData.firstName} onChange={handleInputChange} required style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
+                        <label htmlFor="firstName" className="block text-sm font-medium text-gray-900 mb-1">Förnamn</label>
+                        <InputWithCheck id="firstName" type="text" name="firstName" placeholder="" value={formData.firstName} onChange={handleInputChange} required style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-1">Efternamn</label>
-                        <InputWithCheck type="text" name="lastName" placeholder="" value={formData.lastName} onChange={handleInputChange} required style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
+                        <label htmlFor="lastName" className="block text-sm font-medium text-gray-900 mb-1">Efternamn</label>
+                        <InputWithCheck id="lastName" type="text" name="lastName" placeholder="" value={formData.lastName} onChange={handleInputChange} required style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
                       </div>
                     </div>
 
                     {customerType === 'business' && (
                       <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-1">Företagsnamn</label>
-                        <InputWithCheck type="text" name="companyName" placeholder="" value={formData.companyName} onChange={handleInputChange} required style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
+                        <label htmlFor="companyName" className="block text-sm font-medium text-gray-900 mb-1">Företagsnamn</label>
+                        <InputWithCheck id="companyName" type="text" name="companyName" placeholder="" value={formData.companyName} onChange={handleInputChange} required style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
                       </div>
                     )}
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-1">E-postadress</label>
-                        <InputWithCheck type="email" name="email" placeholder="" value={formData.email} onChange={handleInputChange} required style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-900 mb-1">E-postadress</label>
+                        <InputWithCheck id="email" type="email" name="email" placeholder="" value={formData.email} onChange={handleInputChange} required style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-1">Telefonnummer</label>
-                        <InputWithCheck type="tel" name="phone" placeholder="" value={formData.phone} onChange={handleInputChange} required autoComplete="tel" inputMode="tel" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
+                        <label htmlFor="phone" className="block text-sm font-medium text-gray-900 mb-1">Telefonnummer</label>
+                        <InputWithCheck id="phone" type="tel" name="phone" placeholder="" value={formData.phone} onChange={handleInputChange} required autoComplete="tel" inputMode="tel" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-900 mb-1">Adress</label>
-                      <InputWithCheck type="text" name="address" placeholder="" value={formData.address} onChange={handleInputChange} required ref={addressInputRef} style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
+                      <label htmlFor="address" className="block text-sm font-medium text-gray-900 mb-1">Adress</label>
+                      <InputWithCheck id="address" type="text" name="address" placeholder="" value={formData.address} onChange={handleInputChange} onFocus={loadGoogleMapsAutocomplete} required ref={addressInputRef} style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-1">Postnummer</label>
-                        <InputWithCheck type="text" name="postalCode" placeholder="" value={formData.postalCode} onChange={handleInputChange} required inputMode="numeric" autoComplete="postal-code" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
+                        <label htmlFor="postalCode" className="block text-sm font-medium text-gray-900 mb-1">Postnummer</label>
+                        <InputWithCheck id="postalCode" type="text" name="postalCode" placeholder="" value={formData.postalCode} onChange={handleInputChange} required inputMode="numeric" autoComplete="postal-code" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-900 mb-1">Stad</label>
-                        <InputWithCheck type="text" name="city" placeholder="" value={formData.city} onChange={handleInputChange} required style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
+                        <label htmlFor="city" className="block text-sm font-medium text-gray-900 mb-1">Stad</label>
+                        <InputWithCheck id="city" type="text" name="city" placeholder="" value={formData.city} onChange={handleInputChange} required style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }} />
                       </div>
                     </div>
                   </div>
@@ -765,14 +770,14 @@ function CheckoutContent() {
                 <section ref={el => { sectionRefs.current[2] = el; }} className="relative p-6">
                   <h2 className="text-2xl font-bold mb-4"><span className="text-black">Betalning</span></h2>
                   {!clientSecret && !isProcessing && (
-                    <p className="text-sm text-gray-400 mb-4">Fyll i dina kontaktuppgifter ovan så visas betalningsalternativen här.</p>
+                    <p className="text-sm text-gray-500 mb-4">Fyll i dina kontaktuppgifter ovan så visas betalningsalternativen här.</p>
                   )}
                   {paymentError && <p className="text-red-600 text-sm mb-4">{paymentError}</p>}
                   {isProcessing && !clientSecret && (
                     <div className="flex items-center gap-2 text-gray-400 text-sm mb-4"><Spinner size={16} /> Förbereder betalning...</div>
                   )}
                   {showPayment && clientSecret && (
-                    <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe', variables: { colorPrimary: '#000000' } } }}>
+                    <Elements stripe={getStripe()} options={{ clientSecret, appearance: { theme: 'stripe', variables: { colorPrimary: '#000000' } } }}>
                       <PaymentForm cartId={cartId} formData={formData} finalTotal={finalTotal} onSuccess={handlePaymentSuccess} onError={handlePaymentError} onPaymentComplete={setPaymentComplete} />
                     </Elements>
                   )}

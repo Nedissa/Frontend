@@ -1,15 +1,19 @@
 'use client';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
-// Diagonal (top-left → bottom-right) streaks that fire one at a time with long gaps between,
-// so the effect stays subtle and doesn't compete with the hero text.
+// Diagonal (top-left → bottom-right) streaks. Only one star is ever visible
+// at a time: a single sequence cycles through the start positions below.
 const STARS = [
-  { left: '5%', top: '-5%', delay: 2, duration: 4.4, cycle: 9 },
-  { left: '35%', top: '-8%', delay: 6.5, duration: 4, cycle: 12 },
-  { left: '55%', top: '-4%', delay: 11, duration: 4.8, cycle: 15 },
+  { left: '5%', top: '-5%' },
+  { left: '35%', top: '-8%' },
+  { left: '55%', top: '-4%' },
 ];
 
-function Star({ left, top, delay, duration, cycle, color }: (typeof STARS)[number] & { color: string }) {
+const DURATION = 4.4;
+const GAP = 8;
+
+function Star({ left, top, color }: (typeof STARS)[number] & { color: string }) {
   return (
     <motion.div
       style={{
@@ -22,14 +26,7 @@ function Star({ left, top, delay, duration, cycle, color }: (typeof STARS)[numbe
       }}
       initial={{ opacity: 0, x: 0, y: 0 }}
       animate={{ opacity: [0, 1, 1, 0], x: [0, 1400], y: [0, 1400] }}
-      transition={{
-        duration,
-        delay,
-        repeat: Infinity,
-        repeatDelay: cycle,
-        ease: 'linear',
-        times: [0, 0.03, 0.92, 1],
-      }}
+      transition={{ duration: DURATION, ease: 'linear', times: [0, 0.03, 0.92, 1] }}
     >
       <div
         style={{
@@ -46,11 +43,20 @@ function Star({ left, top, delay, duration, cycle, color }: (typeof STARS)[numbe
 }
 
 export function ShootingStars({ color = '#fff', zIndex = -1 }: { color?: string; zIndex?: number }) {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActive((i) => (i + 1) % STARS.length);
+    }, (DURATION + GAP) * 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const s = STARS[active];
+
   return (
     <div style={{ position: 'absolute', inset: 0, zIndex, overflow: 'hidden', pointerEvents: 'none' }}>
-      {STARS.map((s, i) => (
-        <Star key={i} {...s} color={color} />
-      ))}
+      <Star key={active} {...s} color={color} />
     </div>
   );
 }

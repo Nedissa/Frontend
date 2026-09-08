@@ -37,13 +37,11 @@ function Particle({
   mouseY: MotionValue<number>;
   active: boolean;
 }) {
-  // Musens offset skalas per partikel med p.pull, så vissa dras mer mot pekaren än andra.
-  // Egna springs (inte källans mouseX/mouseY direkt) så vi kan låta dem falla tillbaka till 0
-  // utan att skriva över de delade motion values som andra partiklar också läser.
-  const targetX = useTransform(mouseX, (v) => (active ? v * p.pull : 0));
-  const targetY = useTransform(mouseY, (v) => (active ? v * p.pull : 0));
-  const pullX = useSpring(targetX, SPRING_CONFIG);
-  const pullY = useSpring(targetY, SPRING_CONFIG);
+  // Musens offset skalas per partikel med p.pull. mouseX/mouseY är redan en spring
+  // (satt av föräldern), så vi transformerar den direkt istället för att lägga på
+  // ytterligare en spring per partikel — annars blir det 80 extra fjädersimuleringar.
+  const pullX = useTransform(mouseX, (v) => (active ? v * p.pull : 0));
+  const pullY = useTransform(mouseY, (v) => (active ? v * p.pull : 0));
 
   return (
     <motion.div

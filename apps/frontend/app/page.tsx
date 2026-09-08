@@ -12,9 +12,9 @@ import { HomeCategoryGrid } from './components/home/HomeCategoryGrid';
 export const revalidate = 60;
 
 const FEATURED_COLLECTIONS = [
-  { title: 'Gaming Laptops', handle: 'gaming-laptops' },
-  { title: 'Datorkomponenter', handle: 'datorkomponenter' },
-  { title: 'Gaming Setup', handle: 'gaming-setup' },
+  { title: 'Smart hem', handle: 'gaming-laptops' },
+  { title: 'TV & streaming', handle: 'datorkomponenter' },
+  { title: 'Ljud & hörlurar', handle: 'gaming-setup' },
 ]
 
 

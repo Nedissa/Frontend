@@ -245,7 +245,7 @@ export function ProductCard({
               src={getProxiedImageUrl(cardImages?.[imageIndex] || product.image)}
               alt={product.title}
               fill
-              sizes="(max-width: 768px) 75vw, 25vw"
+              sizes="(max-width: 768px) 75vw, 400px"
               className="object-contain pt-12 pb-10 pl-6 pr-6"
               priority={priority}
               quality={80}

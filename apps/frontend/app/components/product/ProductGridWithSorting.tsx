@@ -62,7 +62,7 @@ export function ProductGridWithSorting({
   return (
     <div className="space-y-6">
       <div className={`grid ${breadcrumbTrail ? 'grid-cols-3' : 'grid-cols-4'} gap-6 py-6`}>
-        {sortedProducts.map((product) => (
+        {sortedProducts.map((product, index) => (
           <ProductCard
             key={product.id}
             product={product}
@@ -70,6 +70,7 @@ export function ProductGridWithSorting({
             categorySlug={categorySlug}
             onAddToCart={handleAddToCart}
             isAdded={addedIds.has(product.id)}
+            priority={index < 4}
           />
         ))}
       </div>

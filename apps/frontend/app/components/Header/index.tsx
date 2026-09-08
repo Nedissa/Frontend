@@ -112,7 +112,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
         document.documentElement.style.setProperty('--login-right', `${Math.round(window.innerWidth - r.right)}px`);
       }
     }
-    updatePositions();
+    requestAnimationFrame(updatePositions);
     let resizeTimeoutRef: NodeJS.Timeout | null = null;
     const throttledUpdatePositions = () => {
       if (resizeTimeoutRef) clearTimeout(resizeTimeoutRef);

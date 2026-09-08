@@ -109,8 +109,8 @@ export default function ProductsPage() {
 
           {/* Products Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {paginatedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} variant="popular" />
+            {paginatedProducts.map((product, index) => (
+              <ProductCard key={product.id} product={product} variant="popular" priority={index < 3} />
             ))}
           </div>
 

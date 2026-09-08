@@ -79,6 +79,7 @@ export function BottomBanner() {
             alt="Controllers"
             width={347}
             height={262}
+            sizes="(max-width: 639px) 90vw, 45vw"
             style={{ maxHeight: '320px', maxWidth: '90%', width: 'auto', height: 'auto', objectFit: 'contain' }}
           />
         </div>

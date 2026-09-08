@@ -115,8 +115,8 @@ export default function CategoryClient({ slug, categoryTitle }: CategoryClientPr
 
         {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4">
-          {paginated.map((product) => (
-            <ProductCard key={product.id} product={product} variant="popular" />
+          {paginated.map((product, index) => (
+            <ProductCard key={product.id} product={product} variant="popular" priority={index < 3} />
           ))}
         </div>
 

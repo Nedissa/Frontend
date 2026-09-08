@@ -17,7 +17,7 @@ function stripHighlightMarkup(text: string): string {
   return text.replace(/\*\*([^*]+)\*\*/g, '$1');
 }
 
-function CaseBlock({ label, text, showLine, mobileDevice, mobileTitle }: { label: string; text: string; showLine?: boolean; mobileDevice?: ReactNode; mobileTitle?: string }) {
+function CaseBlock({ label, text, showLine, mobileDevice, mobileTitle, mobileExtra }: { label: string; text: string; showLine?: boolean; mobileDevice?: ReactNode; mobileTitle?: string; mobileExtra?: ReactNode }) {
   const lineRef = useRef<HTMLSpanElement>(null);
 
   return (
@@ -39,6 +39,7 @@ function CaseBlock({ label, text, showLine, mobileDevice, mobileTitle }: { label
         {mobileDevice && <div className="lg:hidden w-full min-w-0 overflow-hidden">{mobileDevice}</div>}
         {mobileTitle && <p className="text-lg font-bold text-[#030303] m-0">{mobileTitle}</p>}
         <p className="text-base leading-relaxed text-[#5c5c58] max-w-[40ch] m-0">{stripHighlightMarkup(text)}</p>
+        {mobileExtra && <div className="lg:hidden w-full min-w-0">{mobileExtra}</div>}
       </div>
     </div>
   );
@@ -281,6 +282,7 @@ export function ProjectPageTemplate({ project, pagespeedResult }: { project: Pro
                   text={project.solution}
                   showLine={!!project.result}
                   mobileTitle={project.solutionTitle}
+                  mobileDevice={<DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs frameImage={mobileHeroFrameImage(project.slug)} />}
                 />
               )}
               {project.result && (
@@ -289,13 +291,12 @@ export function ProjectPageTemplate({ project, pagespeedResult }: { project: Pro
                   text={project.result}
                   showLine={!!(project.technologies && project.technologies.length > 0)}
                   mobileTitle={project.resultTitle}
-                  mobileDevice={<DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs frameImage={mobileHeroFrameImage(project.slug)} />}
+                  mobileExtra={pagespeedResult && <PerformanceBadge result={pagespeedResult} />}
                 />
               )}
               {project.technologies && project.technologies.length > 0 && (
                 <TechStack technologies={project.technologies} />
               )}
-              {pagespeedResult && <PerformanceBadge result={pagespeedResult} />}
             </div>
 
             {project.website && (
@@ -313,8 +314,9 @@ export function ProjectPageTemplate({ project, pagespeedResult }: { project: Pro
           </div>
 
           {(project.conclusionImage || mobileImage) && (
-            <div className="hidden lg:flex flex-col gap-10 border-t border-black/10 pt-10">
-              <p className="text-xs text-[#8a8a86] m-0">Bilder visar sidan vid lansering. Vi erbjuder även löpande förvaltning och uppdateringar efter lansering.</p>
+            <div className="hidden lg:flex flex-col gap-10">
+              {pagespeedResult && <PerformanceBadge result={pagespeedResult} />}
+              <div className="border-t border-black/10 pt-10 flex flex-col gap-10">
               <div className="flex items-start gap-10">
               <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements?.slice(0, 2)} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} frameImage={mobileHeroFrameImage(project.slug)} />
 
@@ -340,6 +342,7 @@ export function ProjectPageTemplate({ project, pagespeedResult }: { project: Pro
                 </div>
                 </div>
               )}
+              </div>
               </div>
             </div>
           )}

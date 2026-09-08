@@ -47,11 +47,11 @@ function StatCard({ stat, forceHovered, onRef }: { stat: (typeof HEADLINE_STATS)
       ref={onRef}
       onMouseEnter={() => setMouseHovered(true)}
       onMouseLeave={() => setMouseHovered(false)}
-      className="relative overflow-hidden rounded-[8px] px-[24px] pb-[24px] cursor-default"
+      className="relative px-[24px] pb-[24px] cursor-default"
       style={{ borderTop: '3px solid rgb(210,210,210)' }}
     >
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 overflow-hidden rounded-b-[8px]"
         style={{
           background: '#030303',
           transform: hovered ? 'scaleY(1)' : 'scaleY(0)',
