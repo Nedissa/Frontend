@@ -100,6 +100,7 @@ interface ProductCardProps {
   isAdded?: boolean;
   priority?: boolean;
   isActive?: boolean;
+  sizes?: string;
 }
 
 const VARIANT_CONFIG: Record<ProductCardVariant, { showFeatures: boolean }> = {
@@ -119,6 +120,7 @@ export function ProductCard({
   isAdded = false,
   priority = false,
   isActive = false,
+  sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
 }: ProductCardProps) {
   const [imageIndex, setImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -245,7 +247,7 @@ export function ProductCard({
               src={getProxiedImageUrl(cardImages?.[imageIndex] || product.image)}
               alt={product.title}
               fill
-              sizes="(max-width: 768px) 75vw, 400px"
+              sizes={sizes}
               className="object-contain pt-12 pb-10 pl-6 pr-6"
               priority={priority}
               quality={80}
