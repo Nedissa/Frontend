@@ -1,3 +1,9 @@
 {
-  "regions": ["arn1"]
+  "regions": ["arn1"],
+  "crons": [
+    {
+      "path": "/api/cron/pagespeed",
+      "schedule": "0 3 * * *"
+    }
+  ]
 }

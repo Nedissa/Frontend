@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Database, Layout, Code } from '@phosphor-icons/react';
 import type { Project } from '../../projekt-data';
 import { Eyebrow } from './StyledPrimitives';
+import { PerformanceBadge, type PagespeedResult } from './PerformanceBadge';
 
 const MOBILE_HERO_SLUGS = ['sagateatern', 'crownmatch', 'techpilots', 'ljuva-hem-i-mark', 'pistolero-studio', 'wastgota-bil'];
 function mobileHeroFrameImage(slug: string): string | undefined {
@@ -130,6 +131,7 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
     const margin = 20;
     return (
       <div className="flex flex-col items-center gap-6" style={{ width: phoneWidth + margin * 2 }}>
+        {priority && <Image src={frameImage} alt="" width={1} height={1} priority style={{ display: 'none' }} />}
         <span className="text-xs font-semibold uppercase tracking-widest text-[#030303] whitespace-nowrap">{label}</span>
         <div
           className="rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.18)] overflow-hidden"
@@ -242,7 +244,7 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
   );
 }
 
-export function ProjectPageTemplate({ project }: { project: Project }) {
+export function ProjectPageTemplate({ project, pagespeedResult }: { project: Project; pagespeedResult?: PagespeedResult | null }) {
   const mobileImage = project.steps?.[0]?.image;
 
   if (!project.challenge && !project.solution && !project.result && !project.conclusionImage) return null;
@@ -293,6 +295,7 @@ export function ProjectPageTemplate({ project }: { project: Project }) {
               {project.technologies && project.technologies.length > 0 && (
                 <TechStack technologies={project.technologies} />
               )}
+              {pagespeedResult && <PerformanceBadge result={pagespeedResult} />}
             </div>
 
             {project.website && (
