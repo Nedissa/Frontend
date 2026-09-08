@@ -79,9 +79,9 @@ export function HeroBanner({ collections }: { collections: Collection[] }) {
   }, [isPlaying, isVisible]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const heroImages = [
-    '/assets/hero-thumb-2.webp',
-    '/assets/hero-thumb-1.webp',
-    '/assets/hero-thumb-3.webp',
+    '/assets/hero-thumb-2.avif',
+    '/assets/hero-thumb-1.avif',
+    '/assets/hero-thumb-3.avif',
   ];
 
   return (
