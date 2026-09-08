@@ -294,7 +294,7 @@ export function ProductCard({
         {/* Brand + Title */}
         <div className="pt-1.5 pb-1 border-b border-gray-100">
           <p className="text-[9px] sm:text-[10px] text-gray-500 uppercase tracking-wider mb-0.5">{product.brand || 'Varumärke'}</p>
-          <h3 className="text-xs sm:text-sm font-semibold text-gray-900 leading-snug line-clamp-2">{product.title}</h3>
+          <h2 className="text-xs sm:text-sm font-semibold text-gray-900 leading-snug line-clamp-2">{product.title}</h2>
         </div>
 
         {/* Price */}
