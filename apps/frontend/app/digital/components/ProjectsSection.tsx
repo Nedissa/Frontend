@@ -96,6 +96,8 @@ export function ProjectsSection() {
                       <img
                         src={p.cardImage}
                         alt={p.title}
+                        width={2515}
+                        height={1414}
                         className="project-card-browser-frame max-w-[75%] mx-auto border-2 border-black/15 bg-white overflow-hidden"
                         style={{ borderRadius: 5 }}
                       />

@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { CalPopupButton } from './CalPopupButton';
 import { GeoChecklist } from './GeoChecklist';
 import { type SeoResult, scoreColor, recommendationFor } from '../seo-analys/shared';
-import { generateSeoReport } from '../seo-analys/generateReport';
 
 export function SectionHeading({ title }: { title: string }) {
   return (
@@ -209,7 +208,7 @@ export function SeoResultModal({ result, onClose }: { result: SeoResult; onClose
             </CalPopupButton>
             <button
               type="button"
-              onClick={() => generateSeoReport(result)}
+              onClick={() => import('../seo-analys/generateReport').then((mod) => mod.generateSeoReport(result))}
               className="flex items-center gap-[6px] text-[12px] whitespace-nowrap"
               style={{ color: 'rgb(150,150,145)', background: 'transparent' }}
             >
