@@ -1,6 +1,6 @@
-const MEDUSA_URL = 'https://api.techpilots.se';
-const MEDUSA_PUB_KEY = 'pk_be1d32dae17bd54fa1b82b443354fc250d222284107fd067a30caf3cf2f49b8f';
-const REGION_ID = 'reg_01KTHS2MPSXRTVGRHVJRA8P703';
+const MEDUSA_URL = process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL || 'http://localhost:9000';
+const MEDUSA_PUB_KEY = process.env.NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '';
+const REGION_ID = process.env.NEXT_PUBLIC_MEDUSA_REGION_ID || '';
 
 const countryCodeMap: Record<string, string> = {
   'sverige': 'se', 'sweden': 'se',
