@@ -92,7 +92,10 @@ export function HeroSection() {
   const mouseX = useSpring(rawX, MOUSE_SPRING_CONFIG);
   const mouseY = useSpring(rawY, MOUSE_SPRING_CONFIG);
   const imageX = useTransform(mouseX, (v) => v * 0.02);
-  const imageY = useTransform(mouseY, (v) => Math.min(0, v * 0.02));
+  // Bilden är bottenförankrad (objectPosition: 'center bottom'), så en obegränsad negativ
+  // y-rörelse drar upp den och lämnar ett synligt tomrum under bilden. Klampa till max -12px
+  // så parallaxeffekten finns kvar utan att bottenkanten någonsin lossnar.
+  const imageY = useTransform(mouseY, (v) => Math.max(-12, Math.min(0, v * 0.02)));
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -174,8 +177,8 @@ export function HeroSection() {
           draggable={false}
           priority
           sizes="(max-width: 768px) 100vw, 55vw"
-          className="hero-image absolute bottom-0 left-0 w-full block"
-          style={{ height: '90%', objectFit: 'contain', objectPosition: 'center bottom', mixBlendMode: 'screen', userSelect: 'none', y: imageY }}
+          className="hero-image absolute left-0 w-full block"
+          style={{ bottom: '-12px', height: '90%', objectFit: 'contain', objectPosition: 'center bottom', mixBlendMode: 'screen', userSelect: 'none', y: imageY }}
         />
       </motion.div>
 

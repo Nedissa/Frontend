@@ -544,6 +544,13 @@ button:focus-visible {
   }
 }
 
+.pricing-noise {
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
 /* Fullskärmstvång på sektioner gäller bara desktop, där innehållet faktiskt fyller höjden.
    På mobil ger min-h-screen bara onödigt tomrum och en längre scrollresa (svaghet: "infinite
    scroll fatigue") eftersom samma innehåll tar mindre vertikal plats i en smal kolumn. */
@@ -641,9 +648,9 @@ button:focus-visible {
   }
 
   /* Pricing cards — tighter padding + gaps so cards read shorter on mobile */
-  .pricing-card {
+  .pricing-card > div:last-child {
     gap: 20px !important;
-    padding: 28px 24px 20px !important;
+    padding: 20px 24px 20px !important;
   }
 
   .pricing-desc {

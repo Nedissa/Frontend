@@ -14,6 +14,10 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
     ? Math.round((numericPrice * 1.25) / 10) * 10
     : numericPrice;
   const formattedPrice = displayPrice.toLocaleString('sv-SE');
+  const bindingNote = p.bindingMonths
+    ? `${p.bindingMonths} mån bindningstid · ${(displayPrice * p.bindingMonths).toLocaleString('sv-SE')} kr totalt`
+    : undefined;
+  const combinedNote = [bindingNote, p.note].filter(Boolean).join(' · ');
 
   return (
     <motion.div
@@ -21,44 +25,63 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -16 }}
       transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1], delay }}
+      className="relative"
     >
       <motion.div
-        className="pricing-card relative rounded-[8px] flex flex-col gap-[32px] box-border"
-        whileHover={{ y: -8, boxShadow: '0 24px 48px rgba(0,0,0,0.14)' }}
+        className="pricing-card relative rounded-[5px] flex flex-col box-border"
+        whileHover={{
+          y: -8,
+          boxShadow: p.popular ? '0 0 0 2px #e8c547, 0 24px 48px rgba(0,0,0,0.14)' : '0 24px 48px rgba(0,0,0,0.14)',
+        }}
         transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
         style={{
-          background: p.dark
-            ? 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)'
-            : 'linear-gradient(160deg, #f7f7f6 0%, #efeeec 140%)',
-          borderTop: '2px solid #e8c547',
-          padding: p.dark ? '48px 40px 24px' : '38px 32px 24px',
+          ...(p.popular ? { marginBottom: '-24px' } : {}),
           boxShadow: p.popular ? '0 0 0 2px #e8c547' : 'none',
         }}
       >
         {p.popular && (
           <span
-            className="absolute -top-[14px] left-1/2 -translate-x-1/2 text-[12px] font-bold uppercase px-[16px] py-[6px] rounded-full"
+            className="absolute -top-[14px] left-1/2 -translate-x-1/2 z-20 text-[12px] font-bold uppercase px-[16px] py-[6px] rounded-full"
             style={{ background: '#e8c547', color: '#030303', letterSpacing: '0.04em' }}
           >
             Mest valda
           </span>
         )}
-
-        <div>
-          <h3
-            className="text-[22px] font-semibold m-0 mb-[16px]"
-            style={{ color: p.dark ? '#fff' : '#030303' }}
+        <div
+          className="relative rounded-[5px] flex flex-col box-border"
+          style={{
+            background: p.dark
+              ? 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)'
+              : 'linear-gradient(160deg, #f7f7f6 0%, #efeeec 140%)',
+            overflow: 'hidden',
+          }}
+        >
+        <div className="relative" style={{ minHeight: '180px', background: p.headerGradient ?? '#030303' }}>
+          <div className="pricing-noise absolute inset-0" />
+          <div className="relative z-10 flex flex-col justify-center h-full" style={{ padding: '0 32px', minHeight: '180px' }}>
+            <h3 className="text-[22px] font-semibold m-0 mb-[12px] text-white">{p.name}</h3>
+            <p className="pricing-desc text-[14px] leading-[1.5] m-0" style={{ color: 'rgba(255,255,255,0.75)' }}>
+              {p.desc}
+            </p>
+          </div>
+          <svg
+            className="absolute -bottom-px left-0 w-full"
+            viewBox="0 0 400 24"
+            preserveAspectRatio="none"
+            style={{ height: '24px' }}
+            aria-hidden="true"
           >
-            {p.name}
-          </h3>
-          <p
-            className="pricing-desc text-[14px] leading-[1.5] m-0"
-            style={{ color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}
-          >
-            {p.desc}
-          </p>
+            <path
+              d="M0,24 L0,10 Q100,-4 200,10 T400,10 L400,24 Z"
+              fill={p.dark ? 'rgb(12,13,18)' : '#f7f7f6'}
+            />
+          </svg>
         </div>
 
+        <div
+          className="flex flex-col gap-[32px]"
+          style={{ padding: p.dark ? '20px 40px 24px' : '16px 32px 24px' }}
+        >
         <div>
           <div className="flex items-baseline gap-[10px]">
             <span
@@ -98,7 +121,7 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
           {p.ctaLabel ? (
             <a
               href="#seo-test"
-              className="flex items-center justify-between text-[16px] font-semibold pb-[12px] no-underline"
+              className="flex items-center gap-[10px] text-[16px] font-semibold pb-[12px] no-underline"
               style={{
                 color: p.dark ? '#e8c547' : '#030303',
                 borderBottom: `1px solid ${p.dark ? 'rgba(232,197,71,0.4)' : 'rgb(104,105,99)'}`,
@@ -111,7 +134,7 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
             </a>
           ) : (
             <CalPopupButton
-              className="flex items-center justify-between text-[16px] font-semibold pb-[12px] no-underline"
+              className="flex items-center gap-[10px] text-[16px] font-semibold pb-[12px] no-underline"
               style={{
                 color: p.dark ? '#e8c547' : '#030303',
                 borderBottom: `1px solid ${p.dark ? 'rgba(232,197,71,0.4)' : 'rgb(104,105,99)'}`,
@@ -124,7 +147,7 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
             </CalPopupButton>
           )}
           <div style={{ fontSize: '12px', marginTop: '8px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}>
-            {p.note ?? 'Gratis · samma dag offert'}
+            {combinedNote || 'Gratis · samma dag offert'}
           </div>
         </div>
 
@@ -159,6 +182,8 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
             {p.upgradeNote}
           </div>
         )}
+        </div>
+        </div>
       </motion.div>
     </motion.div>
   );
@@ -172,8 +197,8 @@ export function PricingSection() {
     <ServiceSection id="priser">
       <SectionHeader num="05" label="Priser" extra="© 2026" />
 
-      <FadeIn className="flex items-center gap-[12px] mb-[32px]">
-        <span className="text-[14px] font-semibold" style={{ color: !showSeo ? '#030303' : 'rgb(140,140,134)' }}>
+      <FadeIn className="flex items-center justify-center gap-[12px] mb-[96px]">
+        <span className="text-[16px] font-semibold" style={{ color: !showSeo ? '#030303' : 'rgb(140,140,134)' }}>
           Webbplats
         </span>
         <button
@@ -183,19 +208,19 @@ export function PricingSection() {
           aria-label="Växla mellan Webbplats- och SEO-priser"
           onClick={() => setShowSeo((v) => !v)}
           className="relative shrink-0 rounded-full transition-colors"
-          style={{ width: '44px', height: '24px', background: '#030303' }}
+          style={{ width: '64px', height: '34px', background: '#030303', boxShadow: '0 2px 8px rgba(0,0,0,0.25)' }}
         >
           <span
-            className="absolute top-[2px] rounded-full bg-white transition-transform"
-            style={{ width: '20px', height: '20px', left: '2px', transform: showSeo ? 'translateX(20px)' : 'translateX(0)' }}
+            className="absolute top-[3px] rounded-full bg-white transition-transform"
+            style={{ width: '28px', height: '28px', left: '3px', boxShadow: '0 1px 3px rgba(0,0,0,0.3)', transform: showSeo ? 'translateX(30px)' : 'translateX(0)' }}
           />
         </button>
-        <span className="text-[14px] font-semibold" style={{ color: showSeo ? '#030303' : 'rgb(140,140,134)' }}>
+        <span className="text-[16px] font-semibold" style={{ color: showSeo ? '#030303' : 'rgb(140,140,134)' }}>
           SEO
         </span>
       </FadeIn>
 
-      <FadeIn delay={0.1} className="grid-responsive-3 grid gap-[16px] items-start" style={{ gridTemplateColumns: 'repeat(3,1fr)' }}>
+      <FadeIn delay={0.1} className="grid-responsive-3 grid gap-[32px] items-start" style={{ gridTemplateColumns: 'repeat(3,1fr)' }}>
         <AnimatePresence mode="wait">
           <motion.div key={showSeo ? 'seo' : 'web'} className="contents">
             {prices.map((p, i) => (

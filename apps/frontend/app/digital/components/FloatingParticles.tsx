@@ -106,28 +106,28 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
       clearTimeout(idleTimer);
       idleTimer = setTimeout(() => setMouseIdle(true), IDLE_TIMEOUT_MS);
     };
+    // Lyssnar på document (inte el) eftersom överlagrade element som menyn tar emot
+    // mousemove-eventet istället för sektionen när muspekaren är över dem — annars
+    // fryser partiklarna varje gång pekaren hovrar en menylänk.
     const handleMouseMove = (e: MouseEvent) => {
       const rect = el.getBoundingClientRect();
+      const inside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+      setMouseInside(inside);
+      if (!inside) return;
       rawX.set(e.clientX - rect.left - rect.width / 2);
       rawY.set(e.clientY - rect.top - rect.height / 2);
       resetIdleTimer();
     };
-    const handleMouseEnter = () => setMouseInside(true);
-    // Musen kan lämna föstret helt (t.ex. till en annan app) utan att passera sektionens
-    // kant, så mouseleave på document räcker inte alltid — men täcker de vanliga fallen.
+    // Musen kan lämna föstret helt (t.ex. till en annan app) utan ett sista mousemove-event.
     const handleMouseLeave = () => {
       setMouseInside(false);
       clearTimeout(idleTimer);
     };
-    el.addEventListener('mousemove', handleMouseMove);
-    el.addEventListener('mouseenter', handleMouseEnter);
-    el.addEventListener('mouseleave', handleMouseLeave);
+    document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseleave', handleMouseLeave);
     return () => {
       clearTimeout(idleTimer);
-      el.removeEventListener('mousemove', handleMouseMove);
-      el.removeEventListener('mouseenter', handleMouseEnter);
-      el.removeEventListener('mouseleave', handleMouseLeave);
+      document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, [sectionRef, rawX, rawY]);
