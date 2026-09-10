@@ -62,7 +62,7 @@ function HeroPromo() {
               transition: 'background 0.3s ease, color 0.3s ease, border-color 0.3s ease',
             }}
           >
-            Boka ett samtal
+            Boka samtal
             <span>↗</span>
           </CalPopupButton>
           <a
@@ -76,8 +76,7 @@ function HeroPromo() {
             Se vad vi byggt
           </a>
         </div>
-        <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.65)' }}>30 min helt kostnadsfritt — utan bindning</div>
-        <div style={{ fontSize: '20px', color: 'rgba(255,255,255,0.4)', textAlign: 'center', margin: '6px 0 0' }} aria-hidden="true">●</div>
+        <div style={{ fontSize: '14px', color: 'rgba(255,255,255,0.65)' }}>30 min helt kostnadsfritt, utan bindning</div>
       </div>
     </motion.div>
   );

@@ -70,7 +70,7 @@ export function PerformanceBadge({ result }: { result: PagespeedResult }) {
   return (
     <div className="relative flex gap-5 justify-center">
       <div className="flex flex-col gap-4 items-center">
-        <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]">Prestanda (Google PageSpeed)</span>
+        <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]">Prestanda (Google PageSpeed) · Ju högre desto bättre, max 100</span>
         <div className="flex flex-wrap items-center justify-center gap-6">
           <ScoreRing label="Prestanda" score={result.performance} />
           <ScoreRing label="Tillgänglighet" score={result.accessibility} />
@@ -82,7 +82,7 @@ export function PerformanceBadge({ result }: { result: PagespeedResult }) {
                 {geoScore}/3
               </span>
             </div>
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-[#8a8a86] text-center">Agentisk webbläsning</span>
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-[#8a8a86] text-center">Redo för AI-sökmotorer</span>
           </div>
         </div>
       </div>

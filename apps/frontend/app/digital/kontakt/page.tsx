@@ -26,7 +26,7 @@ export default function ContactPage() {
       <div className="grid-responsive-2" style={{ position: 'relative', maxWidth: '1320px', margin: '0 auto', padding: '140px 32px 60px', boxSizing: 'border-box', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'stretch', width: '100%' }}>
         <div style={{ position: 'relative', width: '100%', height: '100%', borderRadius: '4px', overflow: 'hidden', background: '#f5f5f0', display: 'flex', flexDirection: 'column', boxSizing: 'border-box', padding: '32px', boxShadow: '0 2px 8px rgba(0,0,0,0.06)' }}>
           <ShootingStars color="#030303" />
-          <h2 style={{ position: 'relative', fontSize: 'clamp(40px,5.2vw,64px)', fontWeight: 800, letterSpacing: '-0.03em', textTransform: 'uppercase', color: '#030303', margin: 0, lineHeight: 0.95 }}>
+          <h2 style={{ position: 'relative', fontSize: 'clamp(40px,5.2vw,64px)', fontWeight: 800, letterSpacing: '0em', textTransform: 'uppercase', color: '#030303', margin: 0, lineHeight: 0.95 }}>
             Redo att ta <span style={{ color: '#e8c547' }}>nästa</span> steg?
           </h2>
 
@@ -37,11 +37,11 @@ export default function ContactPage() {
                 <Image src="/digital/nedal-issa-cutout.webp" alt="Nedal Issa" fill priority sizes="240px" draggable={false} style={{ objectFit: 'cover', objectPosition: 'bottom' }} />
               </div>
             </div>
-            <div className="contact-avatar-text">
-              <p className={`contact-name ${scriptFont.className}`} style={{ fontSize: '40px', fontWeight: 400, color: '#030303', margin: '0 0 2px', lineHeight: 1, whiteSpace: 'nowrap' }}>
+            <div className="contact-avatar-text" style={{ textAlign: 'center' }}>
+              <p className={`contact-name ${scriptFont.className}`} style={{ fontSize: '46px', fontWeight: 400, color: '#030303', margin: '0 0 2px', lineHeight: 1, whiteSpace: 'nowrap' }}>
                 Nedal Issa
               </p>
-              <p style={{ fontSize: '12px', color: 'rgba(3,3,3,0.6)', textTransform: 'uppercase', letterSpacing: '0.03em', margin: 0, whiteSpace: 'nowrap' }}>
+              <p style={{ fontSize: '13px', color: 'rgba(3,3,3,0.6)', textTransform: 'uppercase', letterSpacing: '0.03em', margin: 0, whiteSpace: 'nowrap' }}>
                 Grundare &amp; Techlead
               </p>
             </div>

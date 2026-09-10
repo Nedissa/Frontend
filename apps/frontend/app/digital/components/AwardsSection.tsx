@@ -79,7 +79,7 @@ const AWARDS = [
   { title: 'WEBBUTVECKLING', source: 'Next.js och React', desc: 'Snabba, skalbara lösningar med modern kod, byggda från grunden.', year: '' },
   { title: 'E-HANDEL', source: 'Medusa, Shopify, Stripe och Klarna', desc: 'E-handelslösningar med rätt plattform och betallösning för era behov.', year: '' },
   { title: 'SÖKOPTIMERING', source: 'Teknisk SEO', desc: 'Snabb laddning, ren kod och rätt struktur för att synas i sökresultat.', year: '' },
-  { title: 'CRM', source: 'Kunddata och automatisering', desc: 'System som samlar kunddata och automatiserar uppföljning och försäljning.', year: '' },
+  { title: 'KUNDUPPFÖLJNING', source: 'Kunddata och automatisering', desc: 'System som samlar kunddata och automatiserar uppföljning och försäljning.', year: '' },
 ];
 
 function AwardRow({ a, forceHovered, onRef }: { a: typeof AWARDS[0]; forceHovered?: boolean; onRef?: (el: HTMLDivElement | null) => void }) {

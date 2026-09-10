@@ -7,6 +7,18 @@ import { FadeIn } from './FadeIn';
 import { PRICES, SEO_PRICES, type PricePackage } from '../pricing-data';
 import { CalPopupButton } from './CalPopupButton';
 
+// Samma mönster som scrollToAnchorId i SiteNav — landar mitt i sektionen (kompenserar
+// för fixed navbar) istället för webbläsarens standard-hopp som klipper av toppen.
+function scrollToSeoTest(e: React.MouseEvent) {
+  e.preventDefault();
+  const el = document.getElementById('seo-test');
+  if (!el) return;
+  const NAVBAR_HEIGHT = 72;
+  const rect = el.getBoundingClientRect();
+  const sectionMiddle = rect.top + window.scrollY + rect.height / 2 - window.innerHeight / 2;
+  window.scrollTo({ top: Math.max(0, sectionMiddle + NAVBAR_HEIGHT / 2), behavior: 'smooth' });
+}
+
 function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
   const [showIncVat, setShowIncVat] = useState(false);
   const numericPrice = parseInt(p.price.replace(/\s/g, ''), 10);
@@ -121,6 +133,7 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
           {p.ctaLabel ? (
             <a
               href="#seo-test"
+              onClick={scrollToSeoTest}
               className="flex items-center gap-[10px] text-[16px] font-semibold pb-[12px] no-underline"
               style={{
                 color: p.dark ? '#e8c547' : '#030303',
@@ -165,7 +178,24 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
                 className="text-[14px] flex gap-[8px] items-start font-medium"
                 style={{ color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}
               >
-                <span style={{ color: p.dark ? '#e8c547' : '#030303', marginTop: '1px' }} aria-hidden="true">+</span> {f}
+                <span
+                  className="flex items-center justify-center shrink-0 rounded-full"
+                  style={{
+                    width: '18px',
+                    height: '18px',
+                    marginTop: '1px',
+                    background: p.headerGradient ?? '#030303',
+                    color: '#fff',
+                    fontSize: '13px',
+                    fontWeight: 700,
+                    lineHeight: 1,
+                    textAlign: 'center',
+                  }}
+                  aria-hidden="true"
+                >
+                  +
+                </span>{' '}
+                {f}
               </li>
             ))}
           </ul>

@@ -9,8 +9,7 @@ function seededRandom(seed: number) {
 }
 
 const MOBILE_BREAKPOINT = 900;
-const SPRING_CONFIG = { stiffness: 40, damping: 20, mass: 0.6 };
-const IDLE_TIMEOUT_MS = 2000;
+const SPRING_CONFIG = { stiffness: 120, damping: 25, mass: 0.6 };
 
 const PARTICLE_COLOR = '#fff';
 const PARTICLE_GOLD = '#e8c547';
@@ -30,18 +29,18 @@ function Particle({
   p,
   mouseX,
   mouseY,
-  active,
 }: {
   p: (typeof PARTICLES)[number];
   mouseX: MotionValue<number>;
   mouseY: MotionValue<number>;
-  active: boolean;
 }) {
   // Musens offset skalas per partikel med p.pull. mouseX/mouseY är redan en spring
   // (satt av föräldern), så vi transformerar den direkt istället för att lägga på
   // ytterligare en spring per partikel — annars blir det 80 extra fjädersimuleringar.
-  const pullX = useTransform(mouseX, (v) => (active ? v * p.pull : 0));
-  const pullY = useTransform(mouseY, (v) => (active ? v * p.pull : 0));
+  // mouseX/mouseY glider själva mot 0 (i föräldern) när musen lämnar, så partiklarna
+  // glider tillbaka smidigt istället för att hoppa.
+  const pullX = useTransform(mouseX, (v) => v * p.pull);
+  const pullY = useTransform(mouseY, (v) => v * p.pull);
 
   return (
     <motion.div
@@ -84,8 +83,6 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
   const mouseX = useSpring(rawX, SPRING_CONFIG);
   const mouseY = useSpring(rawY, SPRING_CONFIG);
   const [isMobile, setIsMobile] = useState(false);
-  const [mouseInside, setMouseInside] = useState(false);
-  const [mouseIdle, setMouseIdle] = useState(false);
 
   // Mobile has no pointer to follow, so particles drift on their own instead.
   // useLayoutEffect (not useEffect) so the mobile check runs before the browser paints,
@@ -100,47 +97,32 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
-    let idleTimer: ReturnType<typeof setTimeout>;
-    const resetIdleTimer = () => {
-      setMouseIdle(false);
-      clearTimeout(idleTimer);
-      idleTimer = setTimeout(() => setMouseIdle(true), IDLE_TIMEOUT_MS);
-    };
     // Lyssnar på document (inte el) eftersom överlagrade element som menyn tar emot
     // mousemove-eventet istället för sektionen när muspekaren är över dem — annars
     // fryser partiklarna varje gång pekaren hovrar en menylänk.
     const handleMouseMove = (e: MouseEvent) => {
       const rect = el.getBoundingClientRect();
       const inside = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
-      setMouseInside(inside);
       if (!inside) return;
       rawX.set(e.clientX - rect.left - rect.width / 2);
       rawY.set(e.clientY - rect.top - rect.height / 2);
-      resetIdleTimer();
     };
-    // Musen kan lämna föstret helt (t.ex. till en annan app) utan ett sista mousemove-event.
-    const handleMouseLeave = () => {
-      setMouseInside(false);
-      clearTimeout(idleTimer);
-    };
+    // Musen kan lämna fönstret eller bli overksam utan att vi vill dra partiklarna
+    // tillbaka mot mitten — rawX/rawY lämnas orörda så pullX/pullY fryser på sitt
+    // senaste värde, och den oberoende drift-animationen svävar vidare därifrån.
     document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseleave', handleMouseLeave);
     return () => {
-      clearTimeout(idleTimer);
       document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseleave', handleMouseLeave);
     };
   }, [sectionRef, rawX, rawY]);
 
   // Mobilenheter har svagare GPU:er och kan inte styra hover ändå, så partiklarna hoppas över helt där.
   if (isMobile) return null;
 
-  const active = mouseInside && !mouseIdle;
-
   return (
     <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden' }}>
       {PARTICLES.map((p, i) => (
-        <Particle key={i} p={p} mouseX={mouseX} mouseY={mouseY} active={active} />
+        <Particle key={i} p={p} mouseX={mouseX} mouseY={mouseY} />
       ))}
     </div>
   );

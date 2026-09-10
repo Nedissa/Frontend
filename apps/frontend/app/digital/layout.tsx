@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Footer } from './components/Footer';
+import { PageTransition } from './components/PageTransition';
 import { SiteNav } from './components/SiteNav';
 import { StructuredData } from './components/StructuredData';
 import './studio.css';
@@ -40,7 +41,7 @@ export default function WebStudioLayout({ children }: { children: React.ReactNod
       <StructuredData />
       <div style={{ fontFamily: 'var(--font-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
         <SiteNav />
-        {children}
+        <PageTransition>{children}</PageTransition>
         <Footer />
       </div>
     </>
