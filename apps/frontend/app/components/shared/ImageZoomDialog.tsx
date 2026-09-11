@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 interface ImageZoomDialogProps {
   images: Array<{ id: string; url: string; altText: string }>;
@@ -137,13 +138,16 @@ export function ImageZoomDialog({
             </svg>
           </button>}
 
-          <img
-            key={currentIndex}
-            src={images[currentIndex]?.url}
-            alt={images[currentIndex]?.altText || `Bild ${currentIndex + 1} av ${images.length}`}
-            className="max-w-full max-h-full object-contain"
-            style={{ minWidth: '60%', minHeight: '60%' }}
-          />
+          <div className="relative max-w-full max-h-full" style={{ minWidth: '60%', minHeight: '60%', width: '100%', height: '100%' }}>
+            <Image
+              key={currentIndex}
+              src={images[currentIndex]?.url}
+              alt={images[currentIndex]?.altText || `Bild ${currentIndex + 1} av ${images.length}`}
+              fill
+              sizes="90vw"
+              className="object-contain"
+            />
+          </div>
 
           {/* Right Arrow */}
           {!isMobile && <button
@@ -171,7 +175,7 @@ export function ImageZoomDialog({
               <button
                 onClick={() => goTo(idx)}
                 aria-label={`Visa bild ${idx + 1} av ${images.length}`}
-                className="aspect-square flex items-center justify-center transition-all duration-200"
+                className="relative aspect-square flex items-center justify-center transition-all duration-200"
                 style={{
                   opacity: currentIndex === idx ? 1 : 0.25,
                   width: isMobile ? (currentIndex === idx ? '110%' : '80%') : (currentIndex === idx ? '130px' : '60px'),
@@ -179,7 +183,7 @@ export function ImageZoomDialog({
                   filter: currentIndex === idx ? 'drop-shadow(0 3px 8px rgba(0,0,0,0.2))' : 'none',
                 }}
               >
-                <img src={img.url} alt="" className="w-full h-full object-contain" />
+                <Image src={img.url} alt="" fill sizes="130px" className="object-contain" />
               </button>
             </div>
           ))}

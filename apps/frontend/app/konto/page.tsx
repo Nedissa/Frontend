@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { MainLayout } from '../components/layout/MainLayout';
@@ -107,7 +108,7 @@ export default function AccountPage() {
     }
 
     // Load favorites from localStorage, then enrich with live prices from Medusa
-    if (favoriteProducts.length === 0) {
+    if (!accountData?.favoriteProducts?.length) {
       const localFavorites = JSON.parse(localStorage.getItem('favoritesList') || '[]');
       if (localFavorites.length > 0) {
         setFavoriteProducts(localFavorites);
@@ -130,6 +131,7 @@ export default function AccountPage() {
         }
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- körs endast vid mount, favoriteProducts initieras redan från accountData som prop
   }, []);
 
   useEffect(() => {
@@ -571,7 +573,7 @@ export default function AccountPage() {
                                     return (
                                       <div key={item.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 12, marginBottom: idx < (order.items?.length - 1) ? 12 : 0, borderBottom: idx < (order.items?.length - 1) ? '1px solid #f3f4f6' : 'none' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                                          {img && <img src={img} alt={item.title} style={{ width: 48, height: 48, objectFit: 'contain', borderRadius: 4, flexShrink: 0 }} />}
+                                          {img && <Image src={img} alt={item.title} width={48} height={48} style={{ objectFit: 'contain', borderRadius: 4, flexShrink: 0 }} />}
                                           <div>
                                             <p style={{ fontSize: '0.8rem', fontWeight: 600 }}>{item.title}</p>
                                             <p style={{ fontSize: '0.7rem', color: '#6b7280', marginTop: 2 }}>Antal: {item.quantity}</p>
@@ -633,7 +635,7 @@ export default function AccountPage() {
                     {favoriteProducts.map((product, idx) => (
                       <div key={product.id} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', borderTop: idx === 0 ? '1px solid #e5e7eb' : 'none', borderBottom: '1px solid #e5e7eb' }}>
                         <Link href={`/produkter/${product.handle}`}>
-                          <img src={product.image} alt={product.title} style={{ width: 64, height: 64, objectFit: 'contain', flexShrink: 0, background: '#f5f5f5' }} />
+                          <Image src={product.image} alt={product.title} width={64} height={64} style={{ objectFit: 'contain', flexShrink: 0, background: '#f5f5f5' }} />
                         </Link>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <Link href={`/produkter/${product.handle}`} className="text-sm font-semibold hover:underline line-clamp-1">{product.title}</Link>
@@ -1046,7 +1048,7 @@ export default function AccountPage() {
                             return (
                               <div key={item.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 16, marginBottom: idx < (order.items?.length - 1) ? 16 : 0, borderBottom: idx < (order.items?.length - 1) ? '1px solid #f3f4f6' : 'none' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                                  {img && <img src={img} alt={item.title} style={{ width: 64, height: 64, objectFit: 'contain', borderRadius: 6, flexShrink: 0 }} />}
+                                  {img && <Image src={img} alt={item.title} width={64} height={64} style={{ objectFit: 'contain', borderRadius: 6, flexShrink: 0 }} />}
                                   <div>
                                     <p style={{ fontSize: '0.875rem', fontWeight: 600 }}>{item.title}</p>
                                     <p style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: 2 }}>Antal: {item.quantity}</p>
@@ -1123,7 +1125,7 @@ export default function AccountPage() {
                   {favoriteProducts.map((product) => (
                     <tr key={product.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
                       <td style={{ padding: '16px 16px 16px 0' }}>
-                        <img src={product.image} alt={product.title} style={{ width: 80, height: 80, objectFit: 'contain', display: 'block' }} />
+                        <Image src={product.image} alt={product.title} width={80} height={80} style={{ objectFit: 'contain', display: 'block' }} />
                       </td>
                       <td style={{ padding: '16px 16px 16px 0' }}>
                         <Link href={`/produkter/${product.handle}`} className="text-sm font-semibold hover:underline">{product.title}</Link>

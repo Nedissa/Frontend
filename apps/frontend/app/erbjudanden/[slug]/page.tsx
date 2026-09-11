@@ -44,7 +44,7 @@ export default function OffersPage() {
         setProducts(all.filter(offer.filter));
       })
       .finally(() => setLoading(false));
-  }, [slug]);
+  }, [slug, offer]);
 
   if (!offer) {
     return (

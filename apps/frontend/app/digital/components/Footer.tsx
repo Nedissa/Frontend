@@ -109,6 +109,7 @@ export function Footer() {
                   flexShrink: 0,
                 }}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element -- SVG, next/image blockerar SVG utan dangerouslyAllowSVG i next.config */}
                 <img src="/techpilots-logo-new.svg" alt="Techpilots" style={{ width: '100%', height: '100%' }} />
               </div>
 

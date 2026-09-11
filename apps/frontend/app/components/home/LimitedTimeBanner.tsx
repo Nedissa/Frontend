@@ -101,6 +101,7 @@ export function LimitedTimeBanner() {
 
           {/* Right — image */}
           <div className="relative w-full sm:w-[55%] h-[200px] sm:h-full overflow-hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element -- SVG, next/image blockerar SVG utan dangerouslyAllowSVG i next.config */}
             <img
               src="/assets/bluetooth-speaker.svg"
               alt="Kampanj"

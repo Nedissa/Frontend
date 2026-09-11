@@ -19,6 +19,7 @@ export default function DesignPage() {
             {DESIGNS.map((d) => (
               <div key={d.title} style={{ background: '#fff', border: '1px solid #e0e0e0', borderRadius: '8px', overflow: 'hidden' }}>
                 {d.image && (
+                  // eslint-disable-next-line @next/next/no-img-element -- internt designgalleri, bildstorlekar okända i förväg
                   <img src={d.image} alt={d.title} style={{ width: '100%', display: 'block', objectFit: 'cover' }} />
                 )}
                 <div style={{ padding: '16px' }}>

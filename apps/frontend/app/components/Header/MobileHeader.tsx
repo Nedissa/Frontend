@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { RefObject } from 'react';
 import { Logo } from '../layout/Logo';
 import { Spinner } from '../shared/Spinner';
@@ -133,7 +134,7 @@ export function MobileHeader({
                     className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50"
                     onClick={onSearchResultClick}
                   >
-                    <img src={product.image} alt={product.title} className="w-14 h-14 object-contain flex-shrink-0" />
+                    <Image src={product.image} alt={product.title} width={56} height={56} className="w-14 h-14 object-contain flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <div className="text-sm font-semibold truncate">{product.title}</div>
                       <div className="text-xs text-red-600 font-bold">{product.price.toLocaleString('sv-SE')} kr</div>

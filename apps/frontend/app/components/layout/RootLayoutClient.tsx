@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { Aside } from '../shared/Aside';
 import { CartAside } from '../cart/CartAside';
 import { LoginAside } from '../auth/LoginAside';
@@ -100,10 +101,10 @@ const headingMap: Record<View, string> = {
 function LoginHeadingLink() {
   const { close } = useAside();
   return (
-    <a href="/" onClick={close} className="flex items-center gap-1" style={{ textDecoration: 'none' }}>
+    <Link href="/" onClick={close} className="flex items-center gap-1" style={{ textDecoration: 'none' }}>
       <Logo size={28} />
       <span className="font-bold text-black text-base normal-case tracking-normal">Techpilots</span>
-    </a>
+    </Link>
   );
 }
 

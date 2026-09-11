@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Aside, useAside } from '../shared/Aside';
 import { MAIN_CATEGORIES } from '@/app/lib/products';
 import { MOBILE_CATEGORY_ICONS } from '@/app/components/Header/menuData';
@@ -270,12 +271,16 @@ export function CartAside() {
                   <li key={item.id} className="border-b border-gray-200 last:border-b-0 py-3">
                     <div className="grid items-center" style={{ gridTemplateColumns: '72px 1fr auto auto', columnGap: '12px', minHeight: '72px' }}>
                       {/* Bild */}
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-[72px] h-[72px] object-contain"
-                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                      />
+                      {item.image && (
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          width={72}
+                          height={72}
+                          className="w-[72px] h-[72px] object-contain"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
+                      )}
 
                       {/* Titel + (I lager + räknare på samma rad) */}
                       <div className="min-w-0 flex flex-col gap-1">

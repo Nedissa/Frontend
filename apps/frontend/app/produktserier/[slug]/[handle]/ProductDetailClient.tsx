@@ -182,7 +182,7 @@ export default function ProductDetailClient({
       ImageURL: product.image,
       Categories: categorySlug ? [categorySlug] : undefined,
     });
-  }, [product.id]);
+  }, [product.id, product.title, product.price, product.image, categorySlug]);
 
   // Öppna recensionsflik om URL:en har #reviews
   useEffect(() => {
@@ -738,6 +738,7 @@ export default function ProductDetailClient({
           <div className="px-6 py-[10px] border-b border-gray-100">
             <p className="text-gray-500 text-xs">Säker betalning med krypterad anslutning och betrodda betalmetoder.</p>
           </div>
+          {/* eslint-disable @next/next/no-img-element -- SVG-ikoner, next/image blockerar SVG utan dangerouslyAllowSVG i next.config */}
           <div className="px-6 py-[10px] flex items-center gap-3 flex-nowrap">
             <div className="border border-gray-200 rounded px-2 py-1.5 flex items-center justify-center" style={{ minWidth: '48px' }}>
               <img src="/icons/klarna.svg" alt="Klarna" width={16} height={16} className="h-4 w-auto" />
@@ -752,6 +753,7 @@ export default function ProductDetailClient({
               <img src="/icons/applepay.svg" alt="Apple Pay" width={32} height={32} className="h-8 w-auto" />
             </div>
           </div>
+          {/* eslint-enable @next/next/no-img-element */}
         </div>
 
         {/* Tillbehör */}

@@ -783,7 +783,7 @@ function CheckoutContent() {
                   )}
                   {!showPayment && (
                     <div className="text-center pt-4">
-                      <a href="/" className="text-sm text-gray-500 hover:text-black">Avbryt</a>
+                      <Link href="/" className="text-sm text-gray-500 hover:text-black">Avbryt</Link>
                     </div>
                   )}
                 </section>

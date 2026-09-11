@@ -51,6 +51,7 @@ export function BrowserFrame({ src, alt, website, className, imgClassName }: { s
         </div>
       </div>
 
+      {/* eslint-disable-next-line @next/next/no-img-element -- återanvändbar komponent, bildens naturliga storlek styr layouten (w-auto h-auto), inga fasta dimensioner tillgängliga */}
       <img src={src} alt={alt} className={imgClassName ?? 'w-auto h-auto max-w-full block'} />
     </div>
   );

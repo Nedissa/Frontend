@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { MENU_DATA, SECTION_IMAGES, OFFERS_CAMPAIGNS } from './menuData';
 
 interface MegaMenuProps {
@@ -95,7 +96,7 @@ export function MegaMenu({
                   <div className="flex gap-3">
                     {OFFERS_CAMPAIGNS.map((b) => (
                       <Link key={b.id} href={b.url} className="group relative overflow-hidden rounded flex-1 flex items-end p-3 hover:opacity-90 transition-opacity" style={{ aspectRatio: '1/1', backgroundColor: '#111' }}>
-                        <img src={b.image} alt={b.title} className="absolute inset-0 w-full h-full object-cover" />
+                        <Image src={b.image} alt={b.title} fill sizes="150px" className="object-cover" />
                         <div className="relative z-10" style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)', position: 'absolute', inset: 0, display: 'flex', alignItems: 'flex-end', padding: '12px' }}>
                           <p className="text-white font-bold text-sm">{b.title}</p>
                         </div>
@@ -112,9 +113,11 @@ export function MegaMenu({
                   <div key={section.id} className="w-full">
                     <div className="mb-4 pb-4 border-b border-gray-300 w-full">
                       <div style={{ marginBottom: '8px', height: '40px', width: '40px', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
-                        <img
+                        <Image
                           src={SECTION_IMAGES[section.id] || '/assets/cat-electronics.webp'}
                           alt={section.title}
+                          width={40}
+                          height={40}
                           style={{ display: 'block', maxWidth: '40px', maxHeight: '40px', width: 'auto', height: 'auto', objectFit: 'contain', objectPosition: 'left center' }}
                         />
                       </div>

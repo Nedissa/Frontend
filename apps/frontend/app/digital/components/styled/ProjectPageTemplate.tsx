@@ -45,6 +45,7 @@ function CaseBlock({ label, text, showLine, mobileDevice, mobileTitle, mobileExt
   );
 }
 
+/* eslint-disable @next/next/no-img-element -- SVG-ikoner, next/image blockerar SVG utan dangerouslyAllowSVG i next.config */
 const TECH_ICONS: Record<string, ReactNode> = {
   'Framer': <img src="/icons/tech/framer.svg" alt="" width={16} height={16} />,
   'Framer CMS': <img src="/icons/tech/framer.svg" alt="" width={16} height={16} />,
@@ -62,6 +63,7 @@ const TECH_ICONS: Record<string, ReactNode> = {
   'PostgreSQL': <img src="/icons/tech/postgresql.svg" alt="" width={16} height={16} />,
   'Framer Motion': <img src="/icons/tech/framer.svg" alt="" width={16} height={16} />,
 };
+/* eslint-enable @next/next/no-img-element */
 
 function TechStack({ technologies }: { technologies: string[] }) {
   return (

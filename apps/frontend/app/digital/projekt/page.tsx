@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { PROJECTS } from '../projekt-data';
 
 export const metadata: Metadata = {
@@ -76,9 +77,12 @@ export default function AllProjectsPage() {
                   </div>
                   <div className="absolute inset-0 flex items-center justify-center z-0">
                     {p.cardImage && (
-                      <img
+                      <Image
                         src={p.cardImage}
                         alt={p.title}
+                        width={2515}
+                        height={1414}
+                        sizes="94vw"
                         className="max-w-[94%] mx-auto border-2 border-black/15 bg-white overflow-hidden"
                         style={{ borderRadius: 5 }}
                       />

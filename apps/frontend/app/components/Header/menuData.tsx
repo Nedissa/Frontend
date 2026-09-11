@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 export interface MenuItem {
   id: string;
@@ -317,37 +318,37 @@ export const OFFERS_DATA: MenuCategory = {
 };
 
 export const MOBILE_CATEGORY_ICONS: Record<string, React.ReactNode> = {
-  'datorer-och-tillbehor': <img src="/icons/categories/datorer.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'datorer-tillbehor':     <img src="/icons/categories/datorer.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'komponenter':           <img src="/icons/categories/datorkomponenter.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'datorkomponenter':      <img src="/icons/categories/datorkomponenter.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'gaming':                <img src="/icons/categories/gaming.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'mobiltelefoner':        <img src="/icons/categories/mobiltelefoner.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'natverk':               <img src="/icons/categories/natverk.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'natwerk':               <img src="/icons/categories/natverk.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'tv-hifi':               <img src="/icons/categories/tv-hifi.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
+  'datorer-och-tillbehor': <Image src="/icons/categories/datorer.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'datorer-tillbehor':     <Image src="/icons/categories/datorer.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'komponenter':           <Image src="/icons/categories/datorkomponenter.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'datorkomponenter':      <Image src="/icons/categories/datorkomponenter.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'gaming':                <Image src="/icons/categories/gaming.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'mobiltelefoner':        <Image src="/icons/categories/mobiltelefoner.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'natverk':               <Image src="/icons/categories/natverk.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'natwerk':               <Image src="/icons/categories/natverk.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'tv-hifi':               <Image src="/icons/categories/tv-hifi.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
 };
 
 export const MOBILE_SECTION_ICONS: Record<string, React.ReactNode> = {
-  'barbara':              <img src="/icons/mobile/barbara-datorer.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'stationara':           <img src="/icons/mobile/stationara-datorer.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'datortillbehor':       <img src="/icons/mobile/datortillbehor.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'processorer':          <img src="/icons/mobile/processorer.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'moderkort':            <img src="/icons/mobile/moderkort.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'grafikkort':           <img src="/icons/mobile/grafikkort.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'ram':                  <img src="/icons/mobile/ram.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'lagringsenhet':        <img src="/icons/mobile/lagring.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'natlagring':           <img src="/icons/mobile/nataggregat.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'gaming-laptops':       <img src="/icons/mobile/gaming-laptop.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'gaming-pc':            <img src="/icons/mobile/gaming-pc.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'gaming-peripherals':   <img src="/icons/mobile/gaming-tillbehor.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'smartphones':          <img src="/icons/mobile/smartphones.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'mobil-tillbehor':      <img src="/icons/mobile/mobil-tillbehor.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'accesspunkter':        <img src="/icons/mobile/accesspunkter.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'natsverksforlangarе':  <img src="/icons/mobile/natverksforlangare.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'routrar':              <img src="/icons/mobile/routrar.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'mesh':                 <img src="/icons/mobile/mesh.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'tv':                   <img src="/icons/mobile/tv.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'ljud':                 <img src="/icons/mobile/ljud.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
-  'tillbehor-tv':         <img src="/icons/mobile/tillbehor-tv.webp" alt="" style={{ width: '32px', height: '32px', objectFit: 'contain' }} />,
+  'barbara':              <Image src="/icons/mobile/barbara-datorer.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'stationara':           <Image src="/icons/mobile/stationara-datorer.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'datortillbehor':       <Image src="/icons/mobile/datortillbehor.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'processorer':          <Image src="/icons/mobile/processorer.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'moderkort':            <Image src="/icons/mobile/moderkort.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'grafikkort':           <Image src="/icons/mobile/grafikkort.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'ram':                  <Image src="/icons/mobile/ram.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'lagringsenhet':        <Image src="/icons/mobile/lagring.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'natlagring':           <Image src="/icons/mobile/nataggregat.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'gaming-laptops':       <Image src="/icons/mobile/gaming-laptop.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'gaming-pc':            <Image src="/icons/mobile/gaming-pc.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'gaming-peripherals':   <Image src="/icons/mobile/gaming-tillbehor.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'smartphones':          <Image src="/icons/mobile/smartphones.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'mobil-tillbehor':      <Image src="/icons/mobile/mobil-tillbehor.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'accesspunkter':        <Image src="/icons/mobile/accesspunkter.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'natsverksforlangarе':  <Image src="/icons/mobile/natverksforlangare.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'routrar':              <Image src="/icons/mobile/routrar.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'mesh':                 <Image src="/icons/mobile/mesh.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'tv':                   <Image src="/icons/mobile/tv.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'ljud':                 <Image src="/icons/mobile/ljud.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
+  'tillbehor-tv':         <Image src="/icons/mobile/tillbehor-tv.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
 };

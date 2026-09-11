@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { InputWithCheck } from '../auth/InputWithCheck';
 
 export function NewsletterPopup() {
@@ -127,11 +128,13 @@ export function NewsletterPopup() {
       <div className="bg-white overflow-hidden shadow-2xl">
         <div className="flex flex-col md:flex-row md:h-96">
           {/* Image Section — hidden on mobile */}
-          <div className="hidden md:flex w-[35%] bg-gray-200 items-center justify-center p-6">
-            <img
+          <div className="relative hidden md:flex w-[35%] bg-gray-200 items-center justify-center p-6">
+            <Image
               src="/assets/Produkt bilder/LAPTOP/1978563_1.webp"
               alt="Newsletter"
-              className="w-full h-full object-contain"
+              fill
+              sizes="35vw"
+              className="object-contain"
             />
           </div>
 

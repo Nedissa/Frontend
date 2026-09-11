@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState } from 'react';
 import { PRODUCT_IMAGE_BG } from '../../lib/productDisplay';
 
@@ -40,7 +41,7 @@ export function FeaturedProductSection({
       <div className="flex flex-col sm:flex-row gap-4" style={{ minHeight: '320px' }}>
         {/* Vänster — stor hero-bild */}
         <div className="relative overflow-hidden flex-1" style={{ minHeight: '200px' }}>
-          <img src={heroImage} alt={title} className="w-full h-full object-cover" />
+          <Image src={heroImage} alt={title} fill sizes="(max-width: 640px) 100vw, 50vw" className="object-cover" />
         </div>
 
         {/* Höger — produktkort */}
@@ -49,7 +50,7 @@ export function FeaturedProductSection({
             <span className="absolute top-3 right-3 flex items-center gap-0.5 bg-white px-2 py-0.5 text-xs font-semibold shadow-sm rounded">
               <span className="text-yellow-400">★</span> {product.rating.toFixed(1)}
             </span>
-            <img src={product.image} alt={product.title} className="w-full h-full object-contain" style={{ maxHeight: '220px' }} />
+            <Image src={product.image} alt={product.title} fill sizes="300px" className="object-contain" style={{ maxHeight: '220px' }} />
           </div>
           <div className="p-4">
             <p className="text-[10px] text-gray-400 uppercase tracking-widest mb-1">{product.brand}</p>
@@ -60,8 +61,8 @@ export function FeaturedProductSection({
             {product.colors && (
               <div className="flex gap-2 mb-4">
                 {product.colors.map((color, i) => (
-                  <div key={i} className="w-7 h-7 rounded border border-gray-200 flex-shrink-0 overflow-hidden">
-                    <img src={color} alt="" className="w-full h-full object-cover" />
+                  <div key={i} className="relative w-7 h-7 rounded border border-gray-200 flex-shrink-0 overflow-hidden">
+                    <Image src={color} alt="" fill sizes="28px" className="object-cover" />
                   </div>
                 ))}
               </div>

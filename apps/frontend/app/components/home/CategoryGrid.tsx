@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 const SUBCATEGORIES: Record<string, { title: string; url: string; icon: string }[]> = {
   'datorer-tillbehor': [
@@ -45,11 +46,13 @@ export function CategoryGrid({ slug }: { slug: string }) {
       <div className="w-full flex flex-wrap items-start justify-center gap-4 sm:gap-10">
         {categories.map((cat) => (
           <Link key={cat.url + cat.title} href={cat.url} className="flex flex-col items-center gap-3 group min-w-[72px] sm:min-w-[100px]">
-            <div className="w-[72px] h-[72px] sm:w-[100px] sm:h-[100px] rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
-              <img
+            <div className="relative w-[72px] h-[72px] sm:w-[100px] sm:h-[100px] rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+              <Image
                 src={cat.icon}
                 alt={cat.title}
-                className="w-[72px] h-[72px] sm:w-[100px] sm:h-[100px] object-cover"
+                fill
+                sizes="100px"
+                className="object-cover"
                 loading="lazy"
               />
             </div>

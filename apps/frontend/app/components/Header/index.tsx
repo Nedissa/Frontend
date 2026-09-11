@@ -193,26 +193,29 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       const { price, quantity } = customEvent.detail;
       const priceNum = typeof price === 'string' ? parseInt(price) : price;
 
-      const newCount = cartCount + (quantity || 1);
-      const newTotal = cartTotal + (priceNum * (quantity || 1));
+      setCartCount(prev => {
+        const newCount = prev + (quantity || 1);
+        setCartTotal(prevTotal => {
+          const newTotal = prevTotal + (priceNum * (quantity || 1));
+          sessionStorage.setItem('cart', JSON.stringify({ count: newCount, total: newTotal }));
+          return newTotal;
+        });
+        return newCount;
+      });
 
-      setCartCount(newCount);
-      setCartTotal(newTotal);
-
-      sessionStorage.setItem('cart', JSON.stringify({ count: newCount, total: newTotal }));
-
-      setIsHeaderVisible(true);
-      if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
-
-      if (isHeaderVisible) {
-        setIsVibrating(true);
-        setTimeout(() => setIsVibrating(false), 400);
-      } else {
-        setTimeout(() => {
+      setIsHeaderVisible(prevVisible => {
+        if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+        if (prevVisible) {
           setIsVibrating(true);
-          setTimeout(() => setIsVibrating(false), 800);
-        }, 300);
-      }
+          setTimeout(() => setIsVibrating(false), 400);
+        } else {
+          setTimeout(() => {
+            setIsVibrating(true);
+            setTimeout(() => setIsVibrating(false), 800);
+          }, 300);
+        }
+        return true;
+      });
     };
 
     const handleCartUpdatedEvent = () => {

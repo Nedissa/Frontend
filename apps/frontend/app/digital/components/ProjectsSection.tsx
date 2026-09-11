@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import Image from 'next/image';
 import { SectionHeader } from './SectionHeader';
 import { FadeIn } from './FadeIn';
 import { CardParticles } from './CardParticles';
@@ -93,11 +94,12 @@ export function ProjectsSection() {
                   </div>
                   <div className="project-card-mockup-wrap absolute inset-0 flex items-center justify-center z-0">
                     {p.cardImage && (
-                      <img
+                      <Image
                         src={p.cardImage}
                         alt={p.title}
                         width={2515}
                         height={1414}
+                        sizes="75vw"
                         className="project-card-browser-frame max-w-[75%] mx-auto border-2 border-black/15 bg-white overflow-hidden"
                         style={{ borderRadius: 5 }}
                       />

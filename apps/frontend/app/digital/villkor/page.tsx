@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 const NAV = [
   {
@@ -295,7 +296,7 @@ export default function WebstudioCustomerServicePage() {
                 <p>Aktiva produkter och avtal: produkter och tjänster som du använder, samt historik om tidigare användning</p>
                 <p>Kundaktivitet: läs- och handlingshistorik från appen, webbplatser eller elektronisk kommunikation vi skickar ut</p>
                 <p>Teknisk information: om enheter du använder</p>
-                <p>Cookies: se vår <a href="/digital/villkor/cookies" style={{ color: '#000', textDecoration: 'underline' }}>cookiepolicy</a>.</p>
+                <p>Cookies: se vår <Link href="/digital/villkor/cookies" style={{ color: '#000', textDecoration: 'underline' }}>cookiepolicy</Link>.</p>
 
                 <h3>Hur vi använder personuppgifter</h3>
 

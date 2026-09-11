@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, Fragment } from 'react';
+import Image from 'next/image';
 import { useCompare } from './CompareContext';
 import { useAside } from '../shared/Aside';
 
@@ -256,8 +257,8 @@ export function CompareBar() {
                         <button onClick={() => { window.dispatchEvent(new CustomEvent('toggleCompare', { detail: p })); removeFromCompare(p.id); }} aria-label={`Ta bort ${p.title} från jämförelse`} style={{ position: 'absolute', top: 0, right: 0, background: '#f0f0f0', border: 'none', cursor: 'pointer', borderRadius: '0 4px 0 999px', padding: '5px 5px 7px 9px', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
                           <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#111" strokeWidth="1.5" strokeLinecap="round"><line x1="2" y1="2" x2="8" y2="8" /><line x1="8" y1="2" x2="2" y2="8" /></svg>
                         </button>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', padding: '8px', height: '70px' }}>
-                          <img src={p.image} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'left' }} />
+                        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'flex-start', padding: '8px', height: '70px' }}>
+                          <Image src={p.image} alt={p.title} fill sizes="150px" style={{ objectFit: 'contain', objectPosition: 'left' }} />
                         </div>
                         <div style={{ padding: '5px 8px', borderBottom: '1px solid #f3f4f6' }}>
                           <p style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#aaa', marginBottom: '1px' }}>{p.brand || 'Varumärke'}</p>
@@ -373,8 +374,8 @@ export function CompareBar() {
                                 <button onClick={() => { window.dispatchEvent(new CustomEvent('toggleCompare', { detail: p })); removeFromCompare(p.id); }} aria-label={`Ta bort ${p.title} från jämförelse`} style={{ position: 'absolute', top: 0, right: 0, background: '#f0f0f0', border: 'none', cursor: 'pointer', borderRadius: '0 4px 0 999px', padding: '5px 5px 7px 9px', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 10 }}>
                                   <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#111" strokeWidth="1.5" strokeLinecap="round"><line x1="2" y1="2" x2="8" y2="8" /><line x1="8" y1="2" x2="2" y2="8" /></svg>
                                 </button>
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px', height: '80px' }}>
-                                  <img src={p.image} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                                <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px', height: '80px' }}>
+                                  <Image src={p.image} alt={p.title} fill sizes="200px" style={{ objectFit: 'contain' }} />
                                 </div>
                                 <div style={{ padding: '5px 8px', borderTop: '1px solid #f3f4f6' }}>
                                   <p style={{ fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#aaa', marginBottom: '1px' }}>{p.brand || 'Varumärke'}</p>

@@ -167,6 +167,7 @@ export function SiteNav() {
     if (!target) return;
     sessionStorage.removeItem('webbstudio-scroll-to');
     setTimeout(() => scrollToAnchorId(target), 0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- scrollToAnchorId omdefinieras varje render, ska inte trigga om denna effekt
   }, [pathname]);
 
   // Navbaren ska alltid synas direkt efter en sidnavigering (länkklick) — den ska bara
@@ -245,6 +246,7 @@ export function SiteNav() {
         transition: 'transform 0.3s ease, background 0.3s ease, border-color 0.3s ease',
       }}
     >
+      {/* eslint-disable @next/next/no-img-element -- SVG, next/image blockerar SVG utan dangerouslyAllowSVG i next.config */}
       <Link href="/digital" className="site-nav-logo nav-logo-mobile" style={{ ...LOGO_CIRCLE_STYLE, position: 'relative', zIndex: 110 }}>
         <img src="/techpilots-logo-new.svg" alt="Techpilots" style={LOGO_IMG_STYLE} />
       </Link>
@@ -252,6 +254,7 @@ export function SiteNav() {
       <Link href="/digital" className="site-nav-logo hide-mobile" style={LOGO_CIRCLE_STYLE}>
         <img src="/techpilots-logo-new.svg" alt="Techpilots" style={LOGO_IMG_STYLE} />
       </Link>
+      {/* eslint-enable @next/next/no-img-element */}
 
       <div className="nav-links-desktop" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '96px', zIndex: 60 }}>
         {links.map((l) => {
