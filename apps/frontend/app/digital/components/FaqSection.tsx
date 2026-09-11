@@ -140,11 +140,11 @@ function FaqIntro() {
         </p>
 
         <div className="faq-intro-quote" style={{ marginTop: 'auto', paddingTop: '48px' }}>
-          <span style={{ fontSize: '32px', color: 'rgba(232,197,71,0.4)', lineHeight: 1, display: 'block', marginBottom: '12px' }} aria-hidden="true">
+          <span style={{ fontSize: '32px', color: '#e8c547', lineHeight: 1, display: 'block', marginBottom: '12px' }} aria-hidden="true">
             &ldquo;
           </span>
           <p style={{ fontSize: '17px', fontWeight: 600, lineHeight: 1.5, color: '#fff', margin: '0 0 20px', maxWidth: '340px' }}>
-            Vi behövde en helt ny webbplats som speglar vad Sagateatern faktiskt är idag. Techpilots levererade precis det.
+            Fantastiskt service och väldigt bra känsla för webbdesign, har refererat flera vänner som också vart väldigt nöjda med arbetet som har gjorts. Väldigt lätt att få kontakt när man behöver hjälp eller vill ändra något.
           </p>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <span
@@ -155,11 +155,11 @@ function FaqIntro() {
               }}
               aria-hidden="true"
             >
-              Q
+              M
             </span>
             <div>
-              <div style={{ fontSize: '14px', fontWeight: 700, color: '#fff' }}>Qia Hjelmäng</div>
-              <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)' }}>Ägare, Sagateatern i Borås</div>
+              <div style={{ fontSize: '14px', fontWeight: 700, color: '#fff' }}>Mirza Pepic</div>
+              <div style={{ fontSize: '13px', color: 'rgba(255,255,255,0.6)' }}>Wästgöta Bil AB</div>
             </div>
           </div>
         </div>

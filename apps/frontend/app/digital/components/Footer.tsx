@@ -157,7 +157,7 @@ export function Footer() {
           </div>
 
           {/* Column 2: Quick links */}
-          <div className="footer-col" style={{ marginTop: '60px' }}>
+          <div className="footer-col quick-links-col" style={{ marginTop: '60px' }}>
             <div style={columnHeadingStyle}>Snabblänkar</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {QUICK_LINKS.map((l) => (

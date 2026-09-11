@@ -53,7 +53,7 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
       >
         {p.popular && (
           <span
-            className="absolute -top-[14px] left-1/2 -translate-x-1/2 z-20 text-[12px] font-bold uppercase px-[16px] py-[6px] rounded-full"
+            className="absolute -top-[22px] left-1/2 -translate-x-1/2 z-20 text-[12px] font-bold uppercase px-[16px] py-[6px] rounded-full"
             style={{ background: '#e8c547', color: '#030303', letterSpacing: '0.04em' }}
           >
             Mest valda

@@ -235,6 +235,20 @@ button:focus-visible {
     align-items: start !important;
   }
 
+  /* Priskorten går från 1/3 av desktop-bredden till full mobilbredd, men behöll samma
+     stora sidopadding och pris-clamp — gjorde innehållet trångt och hoptryckt. */
+  .pricing-card > div > div:nth-child(2) {
+    padding: 16px 20px 20px !important;
+  }
+
+  .pricing-card .pricing-desc {
+    font-size: 13px !important;
+  }
+
+  .pricing-card .pricing-features {
+    gap: 20px !important;
+  }
+
   .contact-hero {
     height: auto !important;
     min-height: 100vh !important;
@@ -287,6 +301,10 @@ button:focus-visible {
      nollställ på mobil där de staplas, annars blir gapen mellan grupperna onaturligt stora. */
   .footer-col {
     margin-top: 0 !important;
+  }
+
+  .quick-links-col {
+    display: none !important;
   }
 
   .site-footer {

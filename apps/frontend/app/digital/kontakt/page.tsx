@@ -56,7 +56,7 @@ export default function ContactPage() {
             <div style={{ display: 'flex', gap: '12px', marginBottom: '24px' }}>
               <span style={{ width: '3px', alignSelf: 'stretch', background: '#030303', flexShrink: 0, borderRadius: '2px' }} />
               <p style={{ fontSize: '18px', lineHeight: 1.5, fontStyle: 'italic', fontWeight: 400, color: 'rgba(3,3,3,0.75)', margin: 0 }}>
-                Vi på Ljuva Hem är supernöjda med vår nya hemsida! Techpilots hjälpte oss förmedla trygghet till våra kunder, och vi märker redan att fler lokala kunder hittar oss i Mark och Kinna. Rekommenderas varmt.
+                Vi på Ljuva Hem är supernöjda med vår nya hemsida! Techpilots förstod direkt vikten av att förmedla trygghet till våra kunder inom hemstädning. Processen var smidig och vi har redan märkt att fler lokala kunder hittar oss i Mark och Kinna. Rekommenderas varmt för alla företag
               </p>
             </div>
             <p style={{ fontSize: '14px', fontWeight: 700, color: '#030303', margin: '0 0 2px 0' }}>
