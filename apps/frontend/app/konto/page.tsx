@@ -96,6 +96,7 @@ export default function AccountPage() {
 
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- läser localStorage/window vid mount, kan inte beräknas server-side
     setIsHydrated(true);
 
     // Desktop: återställ senast aktiva tab, mobil: alltid stängt vid besök

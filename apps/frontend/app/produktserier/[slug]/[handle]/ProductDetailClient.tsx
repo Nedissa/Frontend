@@ -188,6 +188,7 @@ export default function ProductDetailClient({
   useEffect(() => {
     const hash = window.location.hash;
     if (hash === '#reviews') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- läser URL-hash vid mount, kan inte beräknas server-side
       setActiveTab('reviews');
       const scroll = () => document.getElementById('product-tabs')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       setTimeout(scroll, 300);
@@ -195,6 +196,7 @@ export default function ProductDetailClient({
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- läser window.location vid mount, kan inte beräknas server-side
     setPageUrl(window.location.href);
   }, []);
 
@@ -215,6 +217,7 @@ export default function ProductDetailClient({
     loadProducts();
 
     const favoritesList = JSON.parse(localStorage.getItem('favoritesList') || '[]');
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- läser localStorage vid mount, kan inte beräknas server-side
     setIsFavorite(favoritesList.some((item: any) => item.id === product.id));
 
     // Save current product ID to recently viewed list

@@ -16,8 +16,6 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   const { open, type: asideType } = useAside();
   const pathname = usePathname();
 
-  if (pathname === '/inlogg' || pathname === '/aterstall-losenord') return null;
-
   const [showMegaMenu, setShowMegaMenu] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -74,6 +72,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- synkar menystate mot route-navigation
     setShowMegaMenu(false);
     setActiveMegaMenu(null);
     setMobileMenuOpen(false);
@@ -133,6 +132,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
         const items = JSON.parse(savedCartItems);
         const count = items.reduce((sum: number, item: any) => sum + (item.quantity || 1), 0);
         const total = items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- läser localStorage vid mount, kan inte beräknas server-side
         setCartCount(count);
         setCartTotal(total);
       } catch {}
@@ -318,6 +318,8 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       return next;
     });
   };
+
+  if (pathname === '/inlogg' || pathname === '/aterstall-losenord') return null;
 
   return (
     <header suppressHydrationWarning className={`fixed top-0 left-0 right-0 w-full bg-white z-40 transition-transform duration-300 ease-in-out ${

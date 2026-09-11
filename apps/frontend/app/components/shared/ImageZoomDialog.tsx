@@ -16,6 +16,7 @@ export function ImageZoomDialog({
   onClose,
 }: ImageZoomDialogProps) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex);
+  const [prevInitialIndex, setPrevInitialIndex] = useState(initialIndex);
   const [visible, setVisible] = useState(false);
   const [animIn, setAnimIn] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -32,6 +33,12 @@ export function ImageZoomDialog({
 
   const goTo = (idx: number) => setCurrentIndex(idx);
 
+  // Återställ currentIndex under render (inte i effect) när initialIndex ändras
+  if (initialIndex !== prevInitialIndex) {
+    setPrevInitialIndex(initialIndex);
+    setCurrentIndex(initialIndex);
+  }
+
   useEffect(() => {
     if (!isMobile) return;
     const item = thumbItemRefs.current[currentIndex];
@@ -44,11 +51,8 @@ export function ImageZoomDialog({
   }, [currentIndex, isMobile]);
 
   useEffect(() => {
-    setCurrentIndex(initialIndex);
-  }, [initialIndex]);
-
-  useEffect(() => {
     if (isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- synkas tillsammans med DOM-mutationer (scroll lock) nedan
       setVisible(true);
       setAnimIn(true);
       document.body.style.overflow = 'hidden';

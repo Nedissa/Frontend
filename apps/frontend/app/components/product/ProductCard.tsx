@@ -12,6 +12,7 @@ function Tooltip({ label, anchorRef }: { label: string; anchorRef: React.RefObje
   const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
   const [mounted, setMounted] = useState(false);
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- markerar client-mount, krävs innan createPortal kan användas
   useEffect(() => { setMounted(true); }, []);
 
   useEffect(() => {

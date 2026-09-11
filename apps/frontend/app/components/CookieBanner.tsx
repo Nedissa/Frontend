@@ -8,15 +8,6 @@ export function CookieBanner() {
   const [visible, setVisible] = useState(false);
   const [animIn, setAnimIn] = useState(false);
 
-  useEffect(() => {
-    const consent = localStorage.getItem('cookie_consent');
-    if (!consent) {
-      setVisible(true);
-      requestAnimationFrame(() => requestAnimationFrame(() => setAnimIn(true)));
-    }
-    if (consent === 'accepted') { deferLoad(() => { loadTidio(); loadKlaviyo(); }); }
-  }, []);
-
   function deferLoad(fn: () => void) {
     if ('requestIdleCallback' in window) {
       (window as any).requestIdleCallback(fn, { timeout: 4000 });
@@ -40,6 +31,16 @@ export function CookieBanner() {
     s.async = true;
     document.head.appendChild(s);
   }
+
+  useEffect(() => {
+    const consent = localStorage.getItem('cookie_consent');
+    if (!consent) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- läser localStorage vid mount, kan inte beräknas server-side
+      setVisible(true);
+      requestAnimationFrame(() => requestAnimationFrame(() => setAnimIn(true)));
+    }
+    if (consent === 'accepted') { deferLoad(() => { loadTidio(); loadKlaviyo(); }); }
+  }, []);
 
   function accept() {
     localStorage.setItem('cookie_consent', 'accepted');

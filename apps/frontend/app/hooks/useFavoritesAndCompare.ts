@@ -31,6 +31,7 @@ export function useFavoritesAndCompare(productId: string) {
 
   useEffect(() => {
     initializeCache();
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- läser localStorage-baserad cache vid mount, kan inte beräknas server-side
     setIsFav(favoritesCache.ids.has(productId));
     setInCompare(compareCache.ids.has(productId));
 

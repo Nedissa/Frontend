@@ -27,6 +27,7 @@ function OrderConfirmationContent() {
       const pending = sessionStorage.getItem('pendingOrder');
       if (pending) {
         const { cartId, formData, total } = JSON.parse(pending);
+        // eslint-disable-next-line react-hooks/set-state-in-effect -- läser sessionStorage vid mount, kan inte beräknas server-side
         if (formData?.firstName) setFirstName(formData.firstName);
         setLoading(true);
         fetch('/api/medusa-checkout/confirm', {

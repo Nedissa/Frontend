@@ -33,7 +33,7 @@ export function ProjectsSection() {
             className="font-bold leading-none text-[#030303] m-0 mb-[24px]"
             style={{ fontSize: 'clamp(40px,6vw,64px)', letterSpacing: '-0.04em' }}
           >
-            TP-26'
+            TP-26&apos;
           </h2>
           <Link
             href="/digital/projekt"

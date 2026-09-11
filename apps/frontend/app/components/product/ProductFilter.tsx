@@ -25,6 +25,7 @@ const COLOR_MAP: { [key: string]: string } = {
 
 export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] }: ProductFilterProps) {
   const [priceRange, setPriceRange] = useState<[number, number]>(() => [0, maxPrice]);
+  const [prevMaxPrice, setPrevMaxPrice] = useState(maxPrice);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedRating, setSelectedRating] = useState<number[]>([]);
@@ -45,14 +46,13 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
       .filter(Boolean)
   ));
 
-  useEffect(() => {
-    setPriceRange(prev => {
-      if (prev[1] > maxPrice) {
-        return [prev[0], maxPrice];
-      }
-      return prev;
-    });
-  }, [maxPrice]);
+  // Klampa priceRange mot nytt maxPrice under render (inte i effect) om maxPrice ändrats sedan senaste render
+  if (maxPrice !== prevMaxPrice) {
+    setPrevMaxPrice(maxPrice);
+    if (priceRange[1] > maxPrice) {
+      setPriceRange([priceRange[0], maxPrice]);
+    }
+  }
 
   const toggleSection = (section: string) => {
     setExpandedSections(prev => ({

@@ -26,6 +26,7 @@ export function Aside({
 
   useEffect(() => {
     if (expanded) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- synkas tillsammans med DOM-mutationer (scroll lock, tidio-widget) nedan
       setIsVisible(true);
       document.documentElement.style.overflowY = 'hidden';
       document.documentElement.style.scrollbarGutter = 'stable';

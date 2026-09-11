@@ -60,6 +60,7 @@ export default function SeoAnalysPage() {
 
   useEffect(() => {
     if (!loading) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- nollställer animationsstate när loading avslutas utifrån
       setStepIndex(0);
       return;
     }

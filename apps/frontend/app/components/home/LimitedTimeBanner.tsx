@@ -15,6 +15,7 @@ export function LimitedTimeBanner() {
     if (cached) {
       const data = JSON.parse(cached);
       const campaign = (data.campaigns || []).find((c: any) => c.ends_at);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- läser sessionStorage vid mount, kan inte beräknas server-side
       if (campaign?.ends_at) setEndDate(new Date(campaign.ends_at));
       return;
     }

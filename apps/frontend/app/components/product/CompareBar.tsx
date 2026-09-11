@@ -37,6 +37,7 @@ export function CompareBar() {
     const params = new URLSearchParams(window.location.search);
     const compareParam = params.get('compare');
     if (compareParam && compareList.length >= 2) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- öppnar modal baserat på URL-parameter vid mount
       setModalOpen(true);
       // Rensa URL-parametern utan att ladda om sidan
       const url = new URL(window.location.href);
@@ -81,6 +82,7 @@ export function CompareBar() {
   }, [modalOpen]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- stänger modal när listan töms utifrån (t.ex. clearCompare)
     if (compareList.length === 0) setModalOpen(false);
   }, [compareList.length]);
 

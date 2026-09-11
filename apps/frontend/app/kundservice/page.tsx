@@ -69,11 +69,14 @@ const NAV = [
 
 function Sidebar({ active, navigate }: { active: string; navigate: (id: string) => void }) {
   const [open, setOpen] = useState<string | null>(NAV[0].id);
+  const [prevActive, setPrevActive] = useState(active);
 
-  useEffect(() => {
+  // Öppna rätt sektion under render (inte i effect) när active ändras utifrån
+  if (active !== prevActive) {
+    setPrevActive(active);
     const parentCat = NAV.find(cat => cat.links.some(l => l.id === active))?.id;
     if (parentCat) setOpen(parentCat);
-  }, [active]);
+  }
 
   const toggle = (id: string) => setOpen(prev => prev === id ? null : id);
 
@@ -175,6 +178,7 @@ export default function CustomerServicePage() {
   useEffect(() => {
     const seg = window.location.pathname.split('/kundservice/')[1];
     if (seg) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- läser URL-path vid mount, kan inte beräknas server-side
       setActive(seg);
       if (window.innerWidth < 768) {
         setTimeout(() => {

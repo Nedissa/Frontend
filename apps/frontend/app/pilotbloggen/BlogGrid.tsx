@@ -71,6 +71,7 @@ function PostCard({ post, index }: { post: Post; index: number }) {
             background: 'rgba(255,255,255,0.85)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
+            {/* eslint-disable-next-line react-hooks/static-components -- väljer bara bland statiskt importerade ikonkomponenter, skapar inget nytt */}
             <CategoryIcon size={18} strokeWidth={2} color="#0f2448" />
           </span>
         </div>

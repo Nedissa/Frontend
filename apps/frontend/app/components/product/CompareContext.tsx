@@ -29,6 +29,7 @@ export function CompareProvider({ children }: { children: React.ReactNode }) {
       if (stored) {
         const parsed: ProductData[] = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
+          // eslint-disable-next-line react-hooks/set-state-in-effect -- läser localStorage vid mount, kan inte beräknas server-side
           setCompareList(parsed);
         }
       }

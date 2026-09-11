@@ -98,6 +98,7 @@ export function SeoTestSection() {
 
   useEffect(() => {
     if (!loading) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- nollställer animationsstate när loading avslutas utifrån
       setStepIndex(0);
       setProgress(0);
       setFinishing(false);

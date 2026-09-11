@@ -48,6 +48,7 @@ export function SiteNav() {
 
   // Portalen till document.body får bara renderas efter mount, annars skiljer sig
   // server-renderad HTML (ingen portal) från första client-render (portal finns direkt).
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- markerar client-mount, krävs innan portal kan renderas
   useEffect(() => { setMounted(true); }, []);
 
   // Håll navbar-raden mörk under overlayns stängnings-animation (0.5s clip-path-transition),
@@ -91,6 +92,7 @@ export function SiteNav() {
   // pastHero sättas synkront INNAN webbläsaren målar nästa frame — annars hinner navbaren
   // rendera med förra sidans färg ett ögonblick (synlig "flash"/hopp vid fram- och bakåtnavigering).
   useLayoutEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- måste sättas synkront före paint för att undvika flash, se kommentar ovan
     setPastHero(pathname !== '/digital');
   }, [pathname]);
 
@@ -98,6 +100,7 @@ export function SiteNav() {
   // Sidor utan .hero-section behåller default pastHero=true (vit navbar).
   useEffect(() => {
     const darkEl = document.querySelector('.hero-section');
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- läser DOM vid mount, kan inte beräknas server-side
     if (!darkEl) { setPastHero(true); return; }
 
     const checkScroll = () => {
@@ -169,6 +172,7 @@ export function SiteNav() {
   // Navbaren ska alltid synas direkt efter en sidnavigering (länkklick) — den ska bara
   // döljas av att användaren faktiskt scrollar vidare, inte av navigeringen i sig.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- synkar navbar-synlighet mot route-navigation
     setNavHidden(false);
   }, [pathname]);
 

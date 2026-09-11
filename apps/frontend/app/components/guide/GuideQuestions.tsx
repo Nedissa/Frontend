@@ -53,6 +53,7 @@ function VoteButtons({
   const [voted, setVoted] = useState<'like' | 'dislike' | null>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- läser localStorage, kan inte beräknas server-side
     setVoted(localStorage.getItem(votedKey) as 'like' | 'dislike' | null);
   }, [votedKey]);
 

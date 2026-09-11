@@ -86,6 +86,7 @@ export function PlatformsSection() {
 
   useLayoutEffect(() => {
     if (window.innerWidth <= MOBILE_BREAKPOINT) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- läser window.innerWidth vid mount, kan inte beräknas server-side
       setActive('Frontend');
     }
   }, []);

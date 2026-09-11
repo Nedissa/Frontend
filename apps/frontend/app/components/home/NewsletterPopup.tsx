@@ -14,6 +14,7 @@ export function NewsletterPopup() {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- markerar client-hydration, kan inte beräknas server-side
     setIsHydrated(true);
     const closed = localStorage.getItem('newsletterPopupClosed');
     const shown = localStorage.getItem('newsletterPopupShown');

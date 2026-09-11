@@ -25,11 +25,14 @@ const NAV = [
 
 function Sidebar({ active, navigate }: { active: string; navigate: (id: string) => void }) {
   const [open, setOpen] = useState<string | null>(NAV[0].id);
+  const [prevActive, setPrevActive] = useState(active);
 
-  useEffect(() => {
+  // Öppna rätt sektion under render (inte i effect) när active ändras utifrån
+  if (active !== prevActive) {
+    setPrevActive(active);
     const parentCat = NAV.find(cat => cat.links.some(l => l.id === active))?.id;
     if (parentCat) setOpen(parentCat);
-  }, [active]);
+  }
 
   const toggle = (id: string) => setOpen(prev => prev === id ? null : id);
 
@@ -109,6 +112,7 @@ export default function WebstudioCustomerServicePage() {
 
   useEffect(() => {
     const seg = window.location.pathname.split('/digital/villkor/')[1];
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- läser URL-path vid mount, kan inte beräknas server-side
     if (seg) setActive(seg);
   }, []);
 
@@ -158,7 +162,7 @@ export default function WebstudioCustomerServicePage() {
             {active === 'affarsvillkor' && (
               <div>
                 <h2>Allmänna Villkor</h2>
-                <p>Gäller från 1 januari 2025. Dessa villkor reglerar avtal mellan Techpilots AB, org.nr 559385-5346 ("Techpilots"), och kund som anlitar företagets tjänster.</p>
+                <p>Gäller från 1 januari 2025. Dessa villkor reglerar avtal mellan Techpilots AB, org.nr 559385-5346 (&quot;Techpilots&quot;), och kund som anlitar företagets tjänster.</p>
 
                 <h3>1. Allmänna Bestämmelser</h3>
                 <p>1.1 Dessa allmänna villkor gäller för alla tjänster som tillhandahålls av Techpilots som webbyrå och reglerar förhållandet mellan företaget och kunden.</p>

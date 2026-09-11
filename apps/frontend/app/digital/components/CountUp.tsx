@@ -17,6 +17,7 @@ export function CountUp({ value, style }: Props) {
 
     // Extract number and suffix (e.g. "20+" → 20, "+"; "98%" → 98, "%"; "2022" → 2022, "")
     const match = value.match(/^(\d+)(.*)$/);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- triggas av isInView (viewport-detektion), kan inte beräknas server-side
     if (!match) { setDisplay(value); return; }
 
     const target = parseInt(match[1]);

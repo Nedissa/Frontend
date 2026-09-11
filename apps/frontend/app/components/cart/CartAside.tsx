@@ -41,6 +41,7 @@ export function CartAside() {
 
   useEffect(() => {
     // Load from localStorage on mount
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- läser localStorage/sessionStorage vid mount, kan inte beräknas server-side
     loadCartFromStorage();
     setIsHydrated(true);
     setIsSharedCart(!!sessionStorage.getItem('sharedCart'));
@@ -84,9 +85,10 @@ export function CartAside() {
   }, []);
 
   useEffect(() => {
-    // Update total when cartItems changes
+    // Update total when cartItems changes (cartTotal hanteras även optimistiskt på flera ställen nedan)
     if (isHydrated) {
       const total = cartItems.reduce((sum: number, item: CartItem) => sum + (item.price * item.quantity), 0);
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- synkar total mot cartItems, som i sin tur kommer från localStorage
       setCartTotal(total);
     }
   }, [cartItems, isHydrated]);
