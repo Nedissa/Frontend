@@ -9,7 +9,7 @@ function seededRandom(seed: number) {
 }
 
 const MOBILE_BREAKPOINT = 900;
-const SPRING_CONFIG = { stiffness: 120, damping: 25, mass: 0.6 };
+const SPRING_CONFIG = { stiffness: 220, damping: 25, mass: 0.4 };
 
 const PARTICLE_COLOR = '#fff';
 const PARTICLE_GOLD = '#e8c547';

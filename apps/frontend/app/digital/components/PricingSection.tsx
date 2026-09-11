@@ -153,7 +153,7 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
                 borderBottom: `1px solid ${p.dark ? 'rgba(232,197,71,0.4)' : 'rgb(104,105,99)'}`,
               }}
             >
-              Boka ett samtal
+              Boka samtal
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="shrink-0" aria-hidden="true">
                 <path d="M2 2L12 2L12 12L2 2Z" fill={p.dark ? '#e8c547' : '#030303'} />
               </svg>

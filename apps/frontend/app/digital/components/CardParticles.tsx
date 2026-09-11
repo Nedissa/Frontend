@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function seededRandom(seed: number) {
   const x = Math.sin(seed) * 10000;
@@ -39,6 +39,8 @@ const PARTICLES = Array.from({ length: GRID_COLS * GRID_ROWS }, (_, i) => {
 
 export function CardParticles() {
   const [isMobile, setIsMobile] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Mobilenheter har svagare GPU:er och renderar dessa kort en gång per projekt, så partiklarna hoppas över helt där.
   useEffect(() => {
@@ -48,37 +50,56 @@ export function CardParticles() {
     return () => window.removeEventListener('resize', syncIsMobile);
   }, []);
 
-  if (isMobile) return null;
+  // Mountar partiklarna först när kortet faktiskt är i viewport, så alla utvalda
+  // projektkort inte kör hundratals animationer samtidigt vid sidladdning.
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  if (isMobile) return <div ref={containerRef} className="absolute inset-0" />;
 
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden">
-      {PARTICLES.map((p, i) => (
-        <div key={i} style={{ position: 'absolute', left: `${p.left}%`, top: `${p.top}%` }}>
-          <motion.div
-            initial={{ opacity: p.opacity, x: 0, y: 0 }}
-            animate={{
-              opacity: [p.opacity, p.opacity * 0.3, p.opacity],
-              x: [0, (seededRandom(p.left * 3.1) - 0.5) * 60, (seededRandom(p.top * 5.7) - 0.5) * 60, 0],
-              y: [0, (seededRandom(p.top * 2.3) - 0.5) * 60, (seededRandom(p.left * 7.9) - 0.5) * 60, 0],
-            }}
-            transition={{
-              opacity: { duration: p.duration, delay: p.delay, repeat: Infinity, ease: 'easeInOut' },
-              x: { duration: p.duration * 1.5, delay: p.delay, repeat: Infinity, ease: 'easeInOut' },
-              y: { duration: p.duration * 1.8, delay: p.delay, repeat: Infinity, ease: 'easeInOut' },
-            }}
-          >
-            <div
-              style={{
-                width: p.size,
-                height: p.size,
-                borderRadius: '50%',
-                background: p.color,
-                boxShadow: `0 0 ${p.size * 0.9}px ${p.color}`,
+    <div ref={containerRef} className="absolute inset-0 pointer-events-none overflow-hidden">
+      {isVisible &&
+        PARTICLES.map((p, i) => (
+          <div key={i} style={{ position: 'absolute', left: `${p.left}%`, top: `${p.top}%` }}>
+            <motion.div
+              initial={{ opacity: p.opacity, x: 0, y: 0 }}
+              animate={{
+                opacity: [p.opacity, p.opacity * 0.3, p.opacity],
+                x: [0, (seededRandom(p.left * 3.1) - 0.5) * 60, (seededRandom(p.top * 5.7) - 0.5) * 60, 0],
+                y: [0, (seededRandom(p.top * 2.3) - 0.5) * 60, (seededRandom(p.left * 7.9) - 0.5) * 60, 0],
               }}
-            />
-          </motion.div>
-        </div>
-      ))}
+              transition={{
+                opacity: { duration: p.duration, delay: p.delay, repeat: Infinity, ease: 'easeInOut' },
+                x: { duration: p.duration * 1.5, delay: p.delay, repeat: Infinity, ease: 'easeInOut' },
+                y: { duration: p.duration * 1.8, delay: p.delay, repeat: Infinity, ease: 'easeInOut' },
+              }}
+            >
+              <div
+                style={{
+                  width: p.size,
+                  height: p.size,
+                  borderRadius: '50%',
+                  background: p.color,
+                  boxShadow: `0 0 ${p.size * 0.9}px ${p.color}`,
+                }}
+              />
+            </motion.div>
+          </div>
+        ))}
     </div>
   );
 }
