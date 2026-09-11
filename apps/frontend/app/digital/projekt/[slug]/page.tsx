@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { PROJECTS } from '../../projekt-data';
 import { ProjectPageTemplate } from '../../components/styled/ProjectPageTemplate';
-import { getPagespeedResult } from '../../components/styled/PerformanceBadge';
+import { getPagespeedResults } from '../../components/styled/pagespeed-data';
 import { CtaSection } from '../../components/CtaSection';
 
 export function generateStaticParams() {
@@ -29,11 +29,11 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
   const project = PROJECTS.find((p) => p.slug === slug);
   if (!project) notFound();
 
-  const pagespeedResult = await getPagespeedResult(project.slug);
+  const pagespeedResults = await getPagespeedResults(project.slug);
 
   return (
     <main className="bg-white text-[#030303] relative">
-      <ProjectPageTemplate project={project} pagespeedResult={pagespeedResult} />
+      <ProjectPageTemplate project={project} pagespeedResults={pagespeedResults} />
 
       <CtaSection />
     </main>

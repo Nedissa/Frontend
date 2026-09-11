@@ -1,29 +1,6 @@
-const PAYLOAD_URL = process.env.PAYLOAD_URL || 'https://cms.techpilots.se';
-
-export type PagespeedResult = {
-  performance: number;
-  accessibility: number;
-  bestPractices: number;
-  seo: number;
-  geoBlockedCrawlers?: string[];
-  geoVisibleWithoutJs?: boolean;
-  geoHasStructuredData?: boolean;
-  measuredAt: string;
-};
-
-export async function getPagespeedResult(slug: string): Promise<PagespeedResult | null> {
-  try {
-    const res = await fetch(
-      `${PAYLOAD_URL}/api/pagespeed-results?where[projectSlug][equals]=${encodeURIComponent(slug)}&where[strategy][equals]=mobile&limit=1`,
-      { next: { revalidate: 3600 } }
-    );
-    if (!res.ok) return null;
-    const data = await res.json();
-    return data.docs?.[0] ?? null;
-  } catch {
-    return null;
-  }
-}
+'use client';
+import { useState } from 'react';
+import type { PagespeedResult, PagespeedResults } from './pagespeed-data';
 
 function scoreColor(score: number): string {
   if (score >= 90) return '#3fb950';
@@ -58,8 +35,7 @@ function ScoreRing({ label, score }: { label: string; score: number }) {
   );
 }
 
-export function PerformanceBadge({ result }: { result: PagespeedResult }) {
-
+function ScoreRings({ result }: { result: PagespeedResult }) {
   const geoChecks = [
     (result.geoBlockedCrawlers?.length ?? 0) === 0,
     result.geoVisibleWithoutJs ?? false,
@@ -68,23 +44,56 @@ export function PerformanceBadge({ result }: { result: PagespeedResult }) {
   const geoScore = geoChecks.filter(Boolean).length;
 
   return (
+    <div className="flex flex-wrap items-center justify-center gap-6">
+      <ScoreRing label="Prestanda" score={result.performance} />
+      <ScoreRing label="Tillgänglighet" score={result.accessibility} />
+      <ScoreRing label="Best practice" score={result.bestPractices} />
+      <ScoreRing label="SEO" score={result.seo} />
+      <div className="flex flex-col items-center gap-2">
+        <div className="relative w-14 h-14 flex items-center justify-center">
+          <span className="text-sm font-bold" style={{ color: scoreColor(geoScore === 3 ? 100 : geoScore === 2 ? 70 : 30) }}>
+            {geoScore}/3
+          </span>
+        </div>
+        <span className="text-[10px] font-semibold uppercase tracking-widest text-[#8a8a86] text-center">Redo för AI-sökmotorer</span>
+      </div>
+    </div>
+  );
+}
+
+export function PerformanceBadge({ results }: { results: PagespeedResults }) {
+  const hasMobile = !!results.mobile;
+  const hasDesktop = !!results.desktop;
+  const [activeTab, setActiveTab] = useState<'mobile' | 'desktop'>(hasMobile ? 'mobile' : 'desktop');
+  const activeResult = activeTab === 'mobile' ? results.mobile : results.desktop;
+
+  if (!activeResult) return null;
+
+  return (
     <div className="relative flex gap-5 justify-center">
       <div className="flex flex-col gap-4 items-center">
         <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]">Prestanda (Google PageSpeed) · Ju högre desto bättre, max 100</span>
-        <div className="flex flex-wrap items-center justify-center gap-6">
-          <ScoreRing label="Prestanda" score={result.performance} />
-          <ScoreRing label="Tillgänglighet" score={result.accessibility} />
-          <ScoreRing label="Best practice" score={result.bestPractices} />
-          <ScoreRing label="SEO" score={result.seo} />
-          <div className="flex flex-col items-center gap-2">
-            <div className="relative w-14 h-14 flex items-center justify-center">
-              <span className="text-sm font-bold" style={{ color: scoreColor(geoScore === 3 ? 100 : geoScore === 2 ? 70 : 30) }}>
-                {geoScore}/3
-              </span>
-            </div>
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-[#8a8a86] text-center">Redo för AI-sökmotorer</span>
+
+        {hasMobile && hasDesktop && (
+          <div className="flex items-center gap-4 text-sm font-semibold">
+            <button
+              type="button"
+              onClick={() => setActiveTab('mobile')}
+              className={`pb-1 border-b-2 transition-colors ${activeTab === 'mobile' ? 'border-[#030303] text-[#030303]' : 'border-transparent text-[#8a8a86] hover:text-[#030303]'}`}
+            >
+              Mobil
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('desktop')}
+              className={`pb-1 border-b-2 transition-colors ${activeTab === 'desktop' ? 'border-[#030303] text-[#030303]' : 'border-transparent text-[#8a8a86] hover:text-[#030303]'}`}
+            >
+              Dator
+            </button>
           </div>
-        </div>
+        )}
+
+        <ScoreRings result={activeResult} />
       </div>
     </div>
   );

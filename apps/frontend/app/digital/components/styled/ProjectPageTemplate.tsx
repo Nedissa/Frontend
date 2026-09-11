@@ -6,7 +6,8 @@ import Image from 'next/image';
 import { Database, Layout, Code } from '@phosphor-icons/react';
 import type { Project } from '../../projekt-data';
 import { Eyebrow } from './StyledPrimitives';
-import { PerformanceBadge, type PagespeedResult } from './PerformanceBadge';
+import { PerformanceBadge } from './PerformanceBadge';
+import type { PagespeedResults } from './pagespeed-data';
 
 const MOBILE_HERO_SLUGS = ['sagateatern', 'crownmatch', 'techpilots', 'ljuva-hem-i-mark', 'pistolero-studio', 'wastgota-bil'];
 function mobileHeroFrameImage(slug: string): string | undefined {
@@ -247,7 +248,7 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
   );
 }
 
-export function ProjectPageTemplate({ project, pagespeedResult }: { project: Project; pagespeedResult?: PagespeedResult | null }) {
+export function ProjectPageTemplate({ project, pagespeedResults }: { project: Project; pagespeedResults?: PagespeedResults }) {
   const mobileImage = project.steps?.[0]?.image;
 
   if (!project.challenge && !project.solution && !project.result && !project.conclusionImage) return null;
@@ -293,7 +294,7 @@ export function ProjectPageTemplate({ project, pagespeedResult }: { project: Pro
                   text={project.result}
                   showLine={!!(project.technologies && project.technologies.length > 0)}
                   mobileTitle={project.resultTitle}
-                  mobileExtra={pagespeedResult && <PerformanceBadge result={pagespeedResult} />}
+                  mobileExtra={pagespeedResults && (pagespeedResults.mobile || pagespeedResults.desktop) && <PerformanceBadge results={pagespeedResults} />}
                 />
               )}
               {project.technologies && project.technologies.length > 0 && (
@@ -317,7 +318,7 @@ export function ProjectPageTemplate({ project, pagespeedResult }: { project: Pro
 
           {(project.conclusionImage || mobileImage) && (
             <div className="hidden lg:flex flex-col gap-10">
-              {pagespeedResult && <PerformanceBadge result={pagespeedResult} />}
+              {pagespeedResults && (pagespeedResults.mobile || pagespeedResults.desktop) && <PerformanceBadge results={pagespeedResults} />}
               <div className="border-t border-black/10 pt-10 flex flex-col gap-10">
               <div className="flex items-start gap-10">
               <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements?.slice(0, 2)} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} frameImage={mobileHeroFrameImage(project.slug)} />
