@@ -2,6 +2,27 @@ html, body {
   overflow-x: hidden;
 }
 
+/* Ljus-sveep-effekt för projektkortens mockup vid hover.
+   Ren transition skulle spela baklänges (samma väg tillbaka) när musen lämnar,
+   vilket ser ut som en repeterande studs. Keyframe-animationen spelas bara
+   framåt en gång per hover-in och stannar i sluttillståndet tills nästa hover. */
+@keyframes project-card-sheen {
+  from { background-position: 150% 150%; }
+  to { background-position: -150% -150%; }
+}
+
+.project-card-sheen {
+  background-position: 150% 150%;
+}
+
+.project-card-link:hover .project-card-sheen {
+  animation-name: project-card-sheen;
+  animation-duration: 2200ms;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
 iframe.cal-embed {
   max-width: min(94vw, 1100px) !important;
 }

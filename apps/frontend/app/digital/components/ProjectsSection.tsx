@@ -89,15 +89,25 @@ export function ProjectsSection() {
                   </div>
                   <div className="project-card-mockup-wrap absolute inset-0 flex items-center justify-center z-0">
                     {p.cardImage && (
-                      <Image
-                        src={p.cardImage}
-                        alt={p.title}
-                        width={2515}
-                        height={1414}
-                        sizes="75vw"
-                        className="project-card-browser-frame max-w-[75%] mx-auto border-2 border-black/15 bg-white overflow-hidden"
+                      <div
+                        className="relative project-card-browser-frame max-w-[75%] mx-auto border-2 border-black/15 bg-white overflow-hidden"
                         style={{ borderRadius: 5 }}
-                      />
+                      >
+                        <Image
+                          src={p.cardImage}
+                          alt={p.title}
+                          width={2515}
+                          height={1414}
+                          sizes="75vw"
+                          className="block w-full h-auto"
+                        />
+                        <div
+                          className="project-card-sheen absolute inset-0 pointer-events-none bg-no-repeat bg-[length:300%_300%]"
+                          style={{
+                            backgroundImage: 'linear-gradient(115deg, transparent 45%, rgba(255,255,255,0.5) 50%, transparent 55%)',
+                          }}
+                        />
+                      </div>
                     )}
                   </div>
                 </div>
