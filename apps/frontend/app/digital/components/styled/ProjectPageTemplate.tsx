@@ -1,9 +1,9 @@
 'use client';
-import type { ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Image from 'next/image';
-import { Database, Layout, Code } from '@phosphor-icons/react';
+import { useInView, animate } from 'framer-motion';
+import { Database, Layout, Code, Gauge, Eye, CheckCircle, MagnifyingGlass, Robot } from '@phosphor-icons/react';
 import type { Project } from '../../projekt-data';
-import { Eyebrow } from './StyledPrimitives';
 import { PerformanceBadge } from './PerformanceBadge';
 import type { PagespeedResults } from './pagespeed-data';
 
@@ -12,39 +12,79 @@ function mobileHeroFrameImage(slug: string): string | undefined {
   return MOBILE_HERO_SLUGS.includes(slug) ? `/digital/projekt/${slug}/mockup-mobile-hero.avif` : undefined;
 }
 
+function ProjectBadge({ children }: { children: ReactNode }) {
+  return (
+    <span className="inline-block px-3.5 py-1 bg-[#030303] rounded-full text-xs font-bold text-white uppercase tracking-widest w-fit">
+      {children}
+    </span>
+  );
+}
+
 function stripHighlightMarkup(text: string): string {
   return text.replace(/\*\*([^*]+)\*\*/g, '$1');
 }
 
-function SplitTitle({ title }: { title: string }) {
+function TypewriterTitle({ title }: { title: string }) {
+  const [charsShown, setCharsShown] = useState(0);
+
+  useEffect(() => {
+    setCharsShown(0);
+    let i = 0;
+    const interval = setInterval(() => {
+      i += 1;
+      setCharsShown(i);
+      if (i >= title.length) clearInterval(interval);
+    }, 45);
+    return () => clearInterval(interval);
+  }, [title]);
+
   const words = title.split(' ');
-  const lastWord = words.pop();
+  const lastWord = words.pop() ?? '';
   const leadWords = words.join(' ');
+  const leadEnd = leadWords ? leadWords.length + 1 : 0;
+
+  const visibleLead = leadWords.slice(0, Math.max(0, Math.min(charsShown, leadWords.length)));
+  const visibleLast = lastWord.slice(0, Math.max(0, charsShown - leadEnd));
+
   return (
-    <h3 className="text-[clamp(28px,4.5vw,44px)] font-black uppercase leading-[0.95] tracking-tight m-0">
-      {leadWords && <span className="text-[#c4c4c0]">{leadWords} </span>}
-      <span className="text-[#030303]">{lastWord}</span>
-    </h3>
+    <>
+      {leadWords && <span className="text-[#9a9a95]">{visibleLead}{visibleLead.length < leadWords.length ? '' : ' '}</span>}
+      <span className="text-[#030303]">{visibleLast}</span>
+      <span className="inline-block w-[0.06em] h-[0.85em] bg-[#030303] ml-1 align-middle animate-pulse" style={{ opacity: charsShown >= title.length ? 0 : 1 }} />
+    </>
   );
 }
 
-function CaseBlock({ label, text, mobileDevice, mobileTitle, mobileExtra, tags, emphasis, first }: { label: string; text: string; mobileDevice?: ReactNode; mobileTitle?: string; mobileExtra?: ReactNode; tags?: string[]; emphasis?: boolean; first?: boolean }) {
+function SplitTitle({ title, as: Tag = 'h3', size = 'text-[clamp(22px,4.5vw,44px)]' }: { title: string; as?: 'h1' | 'h2' | 'h3'; size?: string }) {
+  const words = title.split(' ').filter((w) => w.toLowerCase() !== 'och');
+  const lastWord = words.pop() ?? '';
+  let row1 = '';
+  let row2 = '';
+  if (words.length === 1) {
+    row1 = words[0];
+    row2 = '';
+  } else if (words.length > 1) {
+    row1 = words[0];
+    row2 = words.slice(1).join(' ');
+  }
   return (
-    <div className={`flex flex-col gap-8 min-w-0 ${first ? '' : 'border-t border-black/10 pt-12'}`}>
-      <Eyebrow>{label}</Eyebrow>
+    <Tag className={`${size} font-black uppercase leading-[0.95] tracking-tight m-0 break-words`}>
+      <span className="text-[#9a9a95] block">{row1}</span>
+      {row2 && <span className="text-[#9a9a95] block">{row2}</span>}
+      <span className="text-[#030303] block">{lastWord}</span>
+    </Tag>
+  );
+}
+
+function CaseBlock({ label, text, mobileDevice, mobileTitle, mobileExtra, footer }: { label: string; text: string; mobileDevice?: ReactNode; mobileTitle?: string; mobileExtra?: ReactNode; footer?: ReactNode }) {
+  return (
+    <div className="flex flex-col gap-6 min-w-0 rounded-2xl bg-[#f7f6f4] p-6">
+      <ProjectBadge>{label}</ProjectBadge>
       {mobileDevice && <div className="lg:hidden w-full min-w-0 overflow-hidden">{mobileDevice}</div>}
       {mobileTitle && <SplitTitle title={mobileTitle} />}
-      <p className={`leading-relaxed w-full m-0 ${emphasis ? 'text-lg font-medium text-[#030303]' : 'text-base text-[#5c5c58]'}`}>{stripHighlightMarkup(text)}</p>
-      {tags && tags.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <span key={tag} className="text-xs font-semibold uppercase tracking-widest text-[#030303] bg-[#f1e4d8] px-3 py-1.5 rounded-full">
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
+      <p className="leading-relaxed w-full m-0 pt-6 border-t border-black/10 text-base text-[#5c5c58]">{stripHighlightMarkup(text)}</p>
       {mobileExtra && <div className="lg:hidden w-full min-w-0">{mobileExtra}</div>}
+      {footer}
     </div>
   );
 }
@@ -71,37 +111,136 @@ const TECH_ICONS: Record<string, ReactNode> = {
 
 function TechStack({ technologies }: { technologies: string[] }) {
   return (
-    <div className="relative flex gap-5">
-      <div className="relative flex flex-col items-center shrink-0 pt-1.5">
-        <span className="flex items-center justify-center w-7 h-7 shrink-0">
-          <span className="w-2 h-2 rounded-full bg-[#030303]" />
-        </span>
-      </div>
-      <div className="flex flex-col gap-3">
-        <Eyebrow>Teknik</Eyebrow>
-        <div className="flex flex-wrap gap-3">
-          {technologies.map((tech) => (
-            <div
-              key={tech}
-              className="flex items-center gap-2 p-1 rounded-full bg-[#030303]"
-            >
-              <span className="flex items-center justify-center shrink-0 w-6 h-6 rounded-full bg-white [&_img]:w-3.5 [&_img]:h-3.5 [&_svg]:w-3.5 [&_svg]:h-3.5">
-                {TECH_ICONS[tech]}
-              </span>
-              <span className="text-[11px] font-medium text-white pr-3">{tech}</span>
-            </div>
-          ))}
-        </div>
+    <div className="flex flex-col gap-5 pt-8 border-t border-black/10">
+      <ProjectBadge>Teknik</ProjectBadge>
+      <div className="flex flex-wrap gap-3">
+        {technologies.map((tech) => (
+          <div
+            key={tech}
+            className="flex items-center gap-2 p-1 rounded-full bg-black/5"
+          >
+            <span className="flex items-center justify-center shrink-0 w-6 h-6 rounded-full bg-white [&_img]:w-3.5 [&_img]:h-3.5 [&_svg]:w-3.5 [&_svg]:h-3.5">
+              {TECH_ICONS[tech]}
+            </span>
+            <span className="text-[11px] font-medium text-[#030303] pr-3">{tech}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
 }
 
-function MetaItem({ label, value, first, className }: { label: string; value: string; first?: boolean; className?: string }) {
+function MetaRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className={`flex flex-col gap-1 ${first ? '' : 'border-l border-black/10 pl-8'} ${className ?? ''}`}>
+    <div className="w-full flex items-center justify-between py-4 border-t border-black/10">
       <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]">{label}</span>
       <span className="text-sm font-bold uppercase text-[#030303]">{value}</span>
+    </div>
+  );
+}
+
+function CountUp({ value, delay = 0 }: { value: number; delay?: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '0px 0px -150px 0px' });
+  const [display, setDisplay] = useState(0);
+
+  useEffect(() => {
+    if (!isInView) return;
+    const timeout = setTimeout(() => {
+      const controls = animate(0, value, {
+        duration: 2,
+        ease: [0.25, 0.1, 0.25, 1],
+        onUpdate: (v) => setDisplay(Math.round(v)),
+      });
+      return () => controls.stop();
+    }, delay * 1000);
+    return () => clearTimeout(timeout);
+  }, [isInView, value, delay]);
+
+  return (
+    <span ref={ref} className="inline-block text-right tabular-nums" style={{ minWidth: `${String(value).length}ch` }}>
+      {display}
+    </span>
+  );
+}
+
+function PageSpeedComparisonCard({ icon, oldValue, newValue, label, description, delay }: { icon: ReactNode; oldValue?: number | string; newValue: number | string; label: string; description: string; delay?: number }) {
+  return (
+    <div className="h-full flex flex-col gap-6 md:gap-10 rounded-2xl bg-[#f7f6f4] p-6 md:p-8 shadow-[0_1px_3px_rgba(0,0,0,0.08)]">
+      <div className="flex items-start justify-between">
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2">
+            <span className="text-3xl font-bold text-[#3fb950]">{typeof newValue === 'number' ? <CountUp value={newValue} delay={delay} /> : newValue}</span>
+            {oldValue !== undefined && typeof oldValue === 'number' && typeof newValue === 'number' && oldValue > 0 && (
+              <span className="text-sm font-bold text-[#3fb950] bg-[#3fb950]/5 rounded-full px-2 py-1">
+                +{Math.round(((newValue - oldValue) / oldValue) * 100)}%
+              </span>
+            )}
+          </div>
+          {oldValue !== undefined && (
+            <span className="text-sm text-[#d97757]">Tidigare: {oldValue}</span>
+          )}
+        </div>
+        <span className="flex items-center justify-center w-11 h-11 rounded-full bg-white text-[#030303]">{icon}</span>
+      </div>
+      <div className="flex flex-col gap-3">
+        <span className="text-sm font-bold uppercase tracking-widest text-[#030303] pb-3 border-b border-black/10">{label}</span>
+        <span className="text-base leading-relaxed text-[#5c5c58]">{description}</span>
+      </div>
+    </div>
+  );
+}
+
+function PageSpeedComparison({ oldPageSpeed, newResult }: { oldPageSpeed?: Project['oldPageSpeed']; newResult: PagespeedResults['mobile'] }) {
+  if (!newResult) return null;
+
+  const geoChecks = [
+    (newResult.geoBlockedCrawlers?.length ?? 0) === 0,
+    newResult.geoVisibleWithoutJs ?? false,
+    newResult.geoHasStructuredData ?? false,
+  ];
+  const geoScore = geoChecks.filter(Boolean).length;
+
+  return (
+    <div className="flex flex-col gap-6">
+      <div className="flex items-center gap-2 self-start rounded-full bg-[#030303] pl-3 pr-4 py-1.5">
+        <Robot size={14} weight="fill" className="text-white" />
+        <span className="text-sm font-bold uppercase tracking-widest text-white">Agentisk webbläsning {geoScore}/3</span>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <PageSpeedComparisonCard
+        icon={<Gauge size={18} weight="fill" />}
+        oldValue={oldPageSpeed?.performance}
+        newValue={newResult.performance}
+        label="Prestanda"
+        description="Laddningstid och upplevd snabbhet på webbplatsen."
+        delay={0}
+      />
+      <PageSpeedComparisonCard
+        icon={<Eye size={18} weight="fill" />}
+        oldValue={oldPageSpeed?.accessibility}
+        newValue={newResult.accessibility}
+        label="Tillgänglighet"
+        description="Hur väl sidan fungerar för alla besökare."
+        delay={0.6}
+      />
+      <PageSpeedComparisonCard
+        icon={<CheckCircle size={18} weight="fill" />}
+        oldValue={oldPageSpeed?.bestPractices}
+        newValue={newResult.bestPractices}
+        label="Bästa metoder"
+        description="Följsamhet mot moderna webbstandarder."
+        delay={1.2}
+      />
+      <PageSpeedComparisonCard
+        icon={<MagnifyingGlass size={18} weight="fill" />}
+        oldValue={oldPageSpeed?.seo}
+        newValue={newResult.seo}
+        label="SEO"
+        description="Hur redo sidan är att hittas i sökmotorer."
+        delay={1.8}
+      />
+      </div>
     </div>
   );
 }
@@ -139,7 +278,6 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
     return (
       <div className="flex flex-col items-center gap-6" style={{ width: phoneWidth + margin * 2 }}>
         {priority && <Image src={frameImage} alt="" width={1} height={1} priority style={{ display: 'none' }} />}
-        <span className="text-xs font-semibold uppercase tracking-widest text-[#030303] whitespace-nowrap">{label}</span>
         <div
           className="shadow-[0_8px_24px_rgba(0,0,0,0.18)] overflow-hidden"
           style={{
@@ -166,7 +304,6 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
   if (phoneFrame) {
     return (
       <div className="w-full border-t border-black/10 pt-10 flex flex-col items-start lg:items-center gap-6">
-        <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]" style={{ maxWidth: width }}>{label}</span>
         <div className="relative inline-flex shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ width: width + 12, padding: 6, boxSizing: 'border-box', background: 'linear-gradient(160deg, #3a3a3c 0%, #0a0a0a 30%, #0a0a0a 70%, #3a3a3c 100%)', borderRadius: 10 }}>
             <span className="absolute -left-[3px] top-[15%] w-[3px] h-5 bg-[#1c1c1e] rounded-l-sm" />
             <span className="absolute -left-[3px] top-[22%] w-[3px] h-8 bg-[#1c1c1e] rounded-l-sm" />
@@ -207,7 +344,6 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
 
   return (
     <div className="w-full border-t border-black/10 pt-10 flex flex-col items-center gap-6">
-      <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]" style={{ maxWidth: width }}>{label}</span>
       <div
         className="w-full overflow-hidden"
         style={{
@@ -260,21 +396,21 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
 
   return (
     <section className="case-scroll-no-mobile-anim relative pt-32 md:pt-40">
-      <div className="max-w-[1440px] mx-auto w-full px-6 md:px-12 box-border pb-16 md:pb-24 lg:pb-32">
+      <div className="max-w-[1500px] mx-auto w-full px-6 md:px-[30px] box-border pb-16 md:pb-24 lg:pb-32">
         <div className="max-w-[1440px] mx-auto flex flex-col items-start gap-6 mb-16">
-          <h1 className="text-[clamp(36px,6vw,52px)] font-bold uppercase tracking-tight leading-[0.95] text-[#030303] m-0">
-            {project.title}
+          <h1 className="w-full text-[clamp(48px,9vw,120px)] font-black uppercase tracking-tight leading-[0.95] m-0">
+            <TypewriterTitle title={project.title} />
           </h1>
-          <div className="flex gap-4 md:gap-8 shrink-0 flex-wrap">
-            <MetaItem label="Status" value={project.status} first className="w-[90px] md:w-[110px] shrink-0" />
-            <MetaItem label="Kund typ" value={project.category} className="w-[120px] md:w-[160px] shrink-0" />
-            <MetaItem label="Datum" value={project.year} className="w-[60px] md:w-[80px] shrink-0" />
+          <div className="w-full max-w-md flex flex-col">
+            <MetaRow label="Status" value={project.status} />
+            <MetaRow label="Kund typ" value={project.category} />
+            <MetaRow label="Datum" value={project.year} />
           </div>
         </div>
 
         {heroImage && (
           <div
-            className="w-full mb-48 shadow-[0_25px_60px_rgba(0,0,0,0.15)]"
+            className="w-full mb-16 md:mb-48 shadow-[0_25px_60px_rgba(0,0,0,0.15)]"
             style={{
               padding: 20,
               borderRadius: 10,
@@ -295,16 +431,31 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-16">
-          <div className="lg:sticky lg:top-16 lg:self-start flex flex-col gap-16 min-w-0">
-            <div className="flex flex-col gap-16">
+        {(pagespeedResults?.mobile ?? pagespeedResults?.desktop) && (
+          <div className="mb-16 md:mb-48 flex flex-col gap-8 md:gap-16 rounded-3xl bg-[#f5f5f3] p-6 md:p-12">
+            <div className="flex flex-col gap-4">
+              <h2 className="text-[clamp(22px,4.5vw,44px)] font-black uppercase leading-[0.95] tracking-tight m-0">
+                <span className="text-[#9a9a95]">Google-resultat, </span>
+                <span className="text-[#030303]">{project.oldPageSpeed ? 'före och efter' : 'idag'}</span>
+              </h2>
+              <div className="flex items-center gap-2 self-start pt-4 border-t border-black/10">
+                {/* eslint-disable-next-line @next/next/no-img-element -- SVG-ikon, next/image blockerar SVG utan dangerouslyAllowSVG i next.config */}
+                <img src="/icons/brands/lighthouse.svg" alt="" width={20} height={20} />
+                <span className="text-sm font-bold uppercase tracking-widest text-[#030303]">Mätt med Google PageSpeed Insights</span>
+              </div>
+            </div>
+            <PageSpeedComparison oldPageSpeed={project.oldPageSpeed} newResult={pagespeedResults?.mobile ?? pagespeedResults?.desktop} />
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-8 lg:gap-16 border-t border-black/10 pt-10">
+          <div className="lg:sticky lg:top-16 lg:self-start flex flex-col gap-8 lg:gap-16 min-w-0">
+            <div className="flex flex-col gap-8 lg:gap-16">
               {project.challenge && (
                 <CaseBlock
                   label="Utmaning"
                   text={project.challenge}
                   mobileTitle={project.challengeTitle}
-                  tags={project.steps?.[0]?.uxImprovements}
-                  first
                   mobileDevice={<DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} deviceType="dator" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs compact aspectRatio={1.3} imageFit="cover" priority />}
                 />
               )}
@@ -313,7 +464,6 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                   label="Lösning"
                   text={project.solution}
                   mobileTitle={project.solutionTitle}
-                  tags={project.steps?.[1]?.uxImprovements}
                   mobileDevice={<DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs frameImage={mobileHeroFrameImage(project.slug)} />}
                 />
               )}
@@ -322,13 +472,9 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                   label="Resultat"
                   text={project.result}
                   mobileTitle={project.resultTitle}
-                  tags={project.steps?.[2]?.uxImprovements}
-                  emphasis
-                  mobileExtra={pagespeedResults && (pagespeedResults.mobile || pagespeedResults.desktop) && <PerformanceBadge results={pagespeedResults} />}
+                  mobileExtra={pagespeedResults && (pagespeedResults.mobile || pagespeedResults.desktop) && <div className="hidden"><PerformanceBadge results={pagespeedResults} /></div>}
+                  footer={project.technologies && project.technologies.length > 0 && <TechStack technologies={project.technologies} />}
                 />
-              )}
-              {project.technologies && project.technologies.length > 0 && (
-                <TechStack technologies={project.technologies} />
               )}
             </div>
 
@@ -338,9 +484,11 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                   href={`https://${project.website}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-base text-[#030303] font-medium border-b border-black/20 pb-1 w-fit no-underline transition-colors duration-300 hover:border-black/60"
+                  className="inline-flex items-center gap-2 text-base text-white font-semibold bg-[#030303] px-6 py-3 shadow-[0_4px_16px_rgba(0,0,0,0.1)] no-underline transition-shadow duration-300 hover:shadow-[0_6px_20px_rgba(0,0,0,0.15)]"
+                  style={{ borderRadius: 10 }}
                 >
                   Besök webbplatsen
+                  <span aria-hidden="true">↗</span>
                 </a>
               </div>
             )}
@@ -349,11 +497,10 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
           {project.conclusionImage && (
             <div className="hidden lg:flex flex-col gap-10">
               {pagespeedResults && (pagespeedResults.mobile || pagespeedResults.desktop) && (
-                <PerformanceBadge results={pagespeedResults} />
+                <div className="hidden"><PerformanceBadge results={pagespeedResults} /></div>
               )}
-              <div className="border-t border-black/10 pt-10 flex flex-col gap-10">
+              <div className="flex flex-col gap-10">
                 <div className="flex flex-col items-center gap-6 w-full">
-                <span className="text-xs font-semibold uppercase tracking-widest text-[#030303] w-full text-center">Dator</span>
                 <div
                   className="w-full shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
                   style={{
@@ -362,7 +509,7 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                     backgroundImage: `radial-gradient(circle at 15% 15%, ${project.accentColor ?? '#0a0a0a'} 0%, transparent 55%), linear-gradient(${project.stripeBaseColor ?? '#ffffff'}, ${project.stripeBaseColor ?? '#ffffff'})`,
                   }}
                 >
-                <div className="relative w-full border-2 border-black/15 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ height: 1200, borderRadius: 10 }}>
+                <div className="relative w-full border-2 border-black/25 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ height: 1200, borderRadius: 10 }}>
                   <Image
                     src={project.conclusionImage}
                     alt={project.title}
@@ -374,15 +521,14 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                 </div>
                 </div>
               </div>
+              {(mobileImage || mobileHeroFrameImage(project.slug)) && (
+                <div className="border-t border-black/10 pt-10 flex justify-center">
+                  <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements?.slice(0, 2)} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} frameImage={mobileHeroFrameImage(project.slug)} />
+                </div>
+              )}
             </div>
           )}
         </div>
-
-        {(mobileImage || mobileHeroFrameImage(project.slug)) && (
-          <div className="hidden lg:flex w-full justify-center border-t border-black/10 mt-16 pt-16">
-            <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements?.slice(0, 2)} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} frameImage={mobileHeroFrameImage(project.slug)} />
-          </div>
-        )}
       </div>
     </section>
   );

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function AllProjectsPage() {
   return (
     <main className="bg-white text-[#030303]">
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 pt-40 pb-16">
+      <div className="max-w-[1500px] mx-auto px-6 md:px-[30px] pt-40 pb-16">
         <h1
           className="font-bold leading-[0.9] m-0"
           style={{ fontSize: 'clamp(48px,7vw,88px)', letterSpacing: '-0.04em' }}
@@ -24,24 +24,20 @@ export default function AllProjectsPage() {
         </p>
       </div>
 
-      <div className="max-w-[1440px] mx-auto px-6 md:px-12 pb-40">
+      <div className="max-w-[1500px] mx-auto px-6 md:px-[30px] pb-40">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-20">
-          {PROJECTS.map((p) => (
-            <div key={p.slug} className="flex flex-col">
+          {PROJECTS.map((p, i) => (
+            <div key={p.slug} className={`flex flex-col ${i >= 2 ? 'pt-20 border-t border-black/10' : ''}`}>
               <div className="flex items-baseline justify-between mb-4">
                 <span className="text-[16px] font-semibold">{p.title}</span>
                 <span className="text-[13px]" style={{ color: 'rgb(104,105,99)' }}>{p.category}</span>
               </div>
               <Link
                 href={`/digital/projekt/${p.slug}`}
-                className="group block w-full box-border no-underline p-[10px] md:p-[20px] aspect-[4/2.66] md:aspect-[1.63/1]"
-                style={{
-                  background: 'rgb(240,240,238)',
-                  borderRadius: '5px',
-                }}
+                className="group block w-full box-border no-underline aspect-[4/2.66] md:aspect-[1.63/1]"
               >
                 <div
-                  className="relative w-full h-full p-[10px] md:p-[20px] overflow-hidden"
+                  className="relative w-full h-full p-6 overflow-hidden"
                   style={{
                     background: '#f5f5f3',
                     borderRadius: '5px',

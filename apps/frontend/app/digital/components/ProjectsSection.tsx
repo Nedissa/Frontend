@@ -3,7 +3,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { SectionHeader } from './SectionHeader';
 import { FadeIn } from './FadeIn';
-import { CardParticles } from './CardParticles';
 import { PROJECTS } from '../projekt-data';
 
 const CARD_GAP = 56;
@@ -48,14 +47,10 @@ export function ProjectsSection() {
         {/* Middle: project cards */}
         <div className="flex flex-col" style={{ gap: `${CARD_GAP}px` }}>
           {FEATURED_PROJECTS.map((p, i) => (
-            <div key={p.slug} className="flex flex-col">
+            <div key={p.slug} className={`flex flex-col ${i > 0 ? 'pt-14 border-t border-black/10' : ''}`}>
               <Link
                 href={`/digital/projekt/${p.slug}`}
-                className="project-card-link group flex flex-col cursor-pointer w-full box-border no-underline p-[20px] h-[320px] md:h-[520px]"
-                style={{
-                  background: 'rgb(240,240,238)',
-                  borderRadius: '5px',
-                }}
+                className="project-card-link group flex flex-col cursor-pointer w-full box-border no-underline h-[320px] md:h-[520px]"
               >
                 <div
                   className="relative flex-1 min-h-0 p-[20px] overflow-hidden"
@@ -74,7 +69,7 @@ export function ProjectsSection() {
                   <div
                     className="absolute inset-0 pointer-events-none"
                     style={{
-                      background: 'linear-gradient(135deg, #e8c547 50%, transparent 50%)',
+                      background: `linear-gradient(135deg, ${p.accentColor ?? '#e8c547'} 50%, transparent 50%)`,
                       opacity: 0.08,
                     }}
                   />
@@ -87,10 +82,10 @@ export function ProjectsSection() {
                   >
                     <div
                       className="absolute inset-0"
-                      style={{ background: '#030303' }}
-                    >
-                      <CardParticles />
-                    </div>
+                      style={{
+                        backgroundImage: `radial-gradient(circle at 15% 15%, ${p.accentColor ?? '#e8c547'} 0%, transparent 55%), linear-gradient(#0a0a0a, #0a0a0a)`,
+                      }}
+                    />
                   </div>
                   <div className="project-card-mockup-wrap absolute inset-0 flex items-center justify-center z-0">
                     {p.cardImage && (

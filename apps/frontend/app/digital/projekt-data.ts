@@ -34,6 +34,12 @@ export type Project = {
   conclusionImage?: string;
   beforeAfter?: string;
   beforeImage?: string;
+  oldPageSpeed?: {
+    performance: number;
+    accessibility: number;
+    bestPractices: number;
+    seo: number;
+  };
 };
 
 export const PROJECTS: Project[] = [
@@ -57,6 +63,7 @@ export const PROJECTS: Project[] = [
     solutionTitle: 'Lättnavigerad webbplats',
     result: 'En digital scen som speglar Sagateatern som den faktiskt är idag, inte som den var. Besökare hittar snabbt rätt evenemang, bokar bord utan krångel och känner teaterns identitet redan på startsidan. Det har gjort skillnad både för gäster och för teamet bakom kulisserna.',
     resultTitle: 'Speglar Sagateatern idag',
+    oldPageSpeed: { performance: 31, accessibility: 29, bestPractices: 46, seo: 27 },
     technologies: ['Framer', 'Framer CMS', 'React', 'TypeScript'],
     steps: [
       { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', uxImprovements: ['Varm', 'Kulturell'] },
@@ -81,9 +88,10 @@ export const PROJECTS: Project[] = [
     challenge: 'Som huvudleverantör till Arbetsförmedlingen för Rusta och Matcha behövde CrownMatch en plattform som löste två saker samtidigt. Den skulle förenkla resan för arbetssökande och samtidigt attrahera nya underleverantörer till nätverket. Utmaningen låg i sekretessen: inga bilder på riktiga deltagare fick användas, men plattformen skulle ändå kännas mänsklig och trygg.',
     challengeTitle: 'Multifunktionell digital plattform',
     solution: 'Vi byggde en konverteringsdriven webbplats i Framer med skräddarsydda flöden för både arbetssökande och underleverantörer. Intuitiv UX/UI-design och ett smidigt CMS gjorde innehållet enkelt att förvalta. AI-genererade bilder löste sekretessutmaningen utan att plattformen kändes kall eller opersonlig.',
-    solutionTitle: 'Konverteringsdriven webbplats',
+    solutionTitle: 'Konverterande webbplats',
     result: 'En trygg och högkonverterande plattform som sänker tröskeln till kontakt för både kandidater och arbetsgivare. Intaget av nya underleverantörer går snabbare, och CrownMatch har fått en professionell digital närvaro som överträffar Arbetsförmedlingens krav. Resultatet talar för sig själv i både trafik och konvertering.',
-    resultTitle: 'Högkonverterande plattform',
+    resultTitle: 'Effektiv plattform',
+    oldPageSpeed: { performance: 24, accessibility: 38, bestPractices: 35, seo: 30 },
     technologies: ['Framer', 'Framer CMS', 'React', 'TypeScript'],
     steps: [
       { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', uxImprovement: 'Modernare design', uxImprovements: ['Modernare', 'Tydligare'] },
@@ -112,6 +120,7 @@ export const PROJECTS: Project[] = [
     solutionTitle: 'Modern och tydlig plattform',
     result: 'En webbplats som gör det enkelt för kunder att hitta sin nästa bil, och som sömlöst tar dem vidare till rätt annons på Blocket. Förtroendet för varumärket stärks redan i det första intrycket, innan sortimentet ens visas. Wästgöta Bil har nu en digital närvaro som matchar deras rykte på riktigt.',
     resultTitle: 'Stärker förtroendet',
+    oldPageSpeed: { performance: 33, accessibility: 27, bestPractices: 39, seo: 25 },
     technologies: ['Framer', 'Framer CMS', 'React', 'TypeScript'],
     steps: [
       { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', uxImprovements: ['Fordon', 'Modern'] },
@@ -139,6 +148,7 @@ export const PROJECTS: Project[] = [
     solutionTitle: 'Snygg och funktionell design',
     result: 'En webbplats som matchar studion på riktigt, med en **personlig känsla och helhet** genom hela upplevelsen. Kunden är supernöjd med resultatet, och det syns redan i hur besökare rör sig på sidan. Pistolero har nu en digital identitet som lever upp till den nya studion.',
     resultTitle: 'Personlig känsla och helhet',
+    oldPageSpeed: { performance: 28, accessibility: 34, bestPractices: 41, seo: 32 },
     technologies: ['Framer', 'Framer CMS', 'React', 'TypeScript'],
     steps: [
       { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', uxImprovements: ['Personlig', 'Funktionell'] },
@@ -166,6 +176,7 @@ export const PROJECTS: Project[] = [
     solutionTitle: 'Ljus och ren design',
     result: 'En webbplats som stärker förtroendet för varumärket redan innan första kontakten. Kunder hittar och bokar rätt tjänst snabbt, utan att behöva fråga sig fram. Ljuva Hem i Mark har nu en digital närvaro som matchar kvaliteten i deras arbete.',
     resultTitle: 'Stärker förtroendet',
+    oldPageSpeed: { performance: 29, accessibility: 32, bestPractices: 42, seo: 28 },
     technologies: ['Framer', 'Framer CMS', 'React', 'TypeScript'],
     steps: [
       { title: 'Översikt', description: 'Startsidan sätter tonen. Tydlig identitet och en snabb väg till det besökaren letar efter.', uxImprovements: ['Ljus', 'Förtroende'] },

@@ -48,10 +48,10 @@ function ScoreRings({ result }: { result: PagespeedResult }) {
     <div className="flex flex-wrap items-start justify-center">
       <ScoreRing label="Prestanda" score={result.performance} />
       <ScoreRing label="Tillgänglighet" score={result.accessibility} />
-      <ScoreRing label="Best practice" score={result.bestPractices} />
+      <ScoreRing label="Bästa metoder" score={result.bestPractices} />
       <ScoreRing label="SEO" score={result.seo} />
       <ScoreRing
-        label="Redo för AI-sökmotorer"
+        label="Agentisk webbläsning"
         score={geoScore}
         displayValue={`${geoScore}/3`}
         color={scoreColor(geoScore === 3 ? 100 : geoScore === 2 ? 70 : 30)}
