@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { PagespeedResult, PagespeedResults } from './pagespeed-data';
 
 function scoreColor(score: number): string {
@@ -8,28 +8,29 @@ function scoreColor(score: number): string {
   return '#e5484d';
 }
 
-function ScoreRing({ label, score }: { label: string; score: number }) {
-  const color = scoreColor(score);
-  const radius = 22;
-  const circumference = 2 * Math.PI * radius;
-  const offset = circumference * (1 - score / 100);
+function ScoreRing({ label, score, displayValue, color: colorOverride }: { label: string; score: number; displayValue?: string; color?: string }) {
+  const color = colorOverride ?? scoreColor(score);
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      <div className="relative w-14 h-14">
-        <svg viewBox="0 0 56 56" className="w-14 h-14 -rotate-90">
-          <circle cx="28" cy="28" r={radius} fill="none" stroke="#e5e5e1" strokeWidth="4" />
-          <circle
-            cx="28" cy="28" r={radius} fill="none" stroke={color} strokeWidth="4"
-            strokeDasharray={circumference}
-            strokeDashoffset={offset}
-            strokeLinecap="round"
-          />
-        </svg>
-        <span className="absolute inset-0 flex items-center justify-center text-sm font-bold" style={{ color }}>
-          {score}
-        </span>
-      </div>
+    <div className="flex flex-col items-center gap-2 w-28 shrink-0">
+      <motion.div
+        className="relative w-14 h-14 rounded-full flex items-center justify-center overflow-hidden"
+        animate={{ background: color, scale: [1.15, 1] }}
+        transition={{ background: { duration: 0.4 }, scale: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] } }}
+      >
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={displayValue ?? score}
+            className="text-sm font-bold text-white"
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2 }}
+          >
+            {displayValue ?? score}
+          </motion.span>
+        </AnimatePresence>
+      </motion.div>
       <span className="text-[10px] font-semibold uppercase tracking-widest text-[#8a8a86] text-center">{label}</span>
     </div>
   );
@@ -44,55 +45,29 @@ function ScoreRings({ result }: { result: PagespeedResult }) {
   const geoScore = geoChecks.filter(Boolean).length;
 
   return (
-    <div className="flex flex-wrap items-center justify-center gap-6">
+    <div className="flex flex-wrap items-start justify-center">
       <ScoreRing label="Prestanda" score={result.performance} />
       <ScoreRing label="Tillgänglighet" score={result.accessibility} />
       <ScoreRing label="Best practice" score={result.bestPractices} />
       <ScoreRing label="SEO" score={result.seo} />
-      <div className="flex flex-col items-center gap-2">
-        <div className="relative w-14 h-14 flex items-center justify-center">
-          <span className="text-sm font-bold" style={{ color: scoreColor(geoScore === 3 ? 100 : geoScore === 2 ? 70 : 30) }}>
-            {geoScore}/3
-          </span>
-        </div>
-        <span className="text-[10px] font-semibold uppercase tracking-widest text-[#8a8a86] text-center">Redo för AI-sökmotorer</span>
-      </div>
+      <ScoreRing
+        label="Redo för AI-sökmotorer"
+        score={geoScore}
+        displayValue={`${geoScore}/3`}
+        color={scoreColor(geoScore === 3 ? 100 : geoScore === 2 ? 70 : 30)}
+      />
     </div>
   );
 }
 
 export function PerformanceBadge({ results }: { results: PagespeedResults }) {
-  const hasMobile = !!results.mobile;
-  const hasDesktop = !!results.desktop;
-  const [activeTab, setActiveTab] = useState<'mobile' | 'desktop'>(hasMobile ? 'mobile' : 'desktop');
-  const activeResult = activeTab === 'mobile' ? results.mobile : results.desktop;
+  const activeResult = results.desktop ?? results.mobile;
 
   if (!activeResult) return null;
 
   return (
     <div className="relative flex gap-5 justify-center">
-      <div className="flex flex-col gap-4 items-center">
-        <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]">Prestanda (Google PageSpeed) · Ju högre desto bättre, max 100</span>
-
-        {hasMobile && hasDesktop && (
-          <div className="flex items-center gap-4 text-sm font-semibold">
-            <button
-              type="button"
-              onClick={() => setActiveTab('mobile')}
-              className={`pb-1 border-b-2 transition-colors ${activeTab === 'mobile' ? 'border-[#030303] text-[#030303]' : 'border-transparent text-[#8a8a86] hover:text-[#030303]'}`}
-            >
-              Mobil
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab('desktop')}
-              className={`pb-1 border-b-2 transition-colors ${activeTab === 'desktop' ? 'border-[#030303] text-[#030303]' : 'border-transparent text-[#8a8a86] hover:text-[#030303]'}`}
-            >
-              Dator
-            </button>
-          </div>
-        )}
-
+      <div className="flex flex-col gap-8 items-center">
         <ScoreRings result={activeResult} />
       </div>
     </div>

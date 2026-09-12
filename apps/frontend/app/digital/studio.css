@@ -604,6 +604,15 @@ button:focus-visible {
     background: radial-gradient(circle at left 65%, rgba(255, 210, 60, 0.6) 0%, rgb(12, 13, 18) 58%) !important;
   }
 
+  /* Alla framer-motion-animationer (fade-ins, parallax, corona/god-rays-transitions) stängs av
+     på mobil — de körs ändå via JS men blir visuellt ögonblickliga istället för att animera in. */
+  .hero-section *:not(.tp-lightbox, .tp-lightbox *) {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
   .hero-image {
     transform: none !important;
     height: 55% !important;

@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, type MotionValue } from 'framer-motion';
 
 // Seeded pseudo-random so left/top stay non-repeating but identical on server and client (avoids hydration mismatch)
@@ -8,7 +8,6 @@ function seededRandom(seed: number) {
   return x - Math.floor(x);
 }
 
-const MOBILE_BREAKPOINT = 900;
 const SPRING_CONFIG = { stiffness: 220, damping: 25, mass: 0.4 };
 
 const PARTICLE_COLOR = '#fff';
@@ -82,17 +81,6 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
   const rawY = useMotionValue(0);
   const mouseX = useSpring(rawX, SPRING_CONFIG);
   const mouseY = useSpring(rawY, SPRING_CONFIG);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Mobile has no pointer to follow, so particles drift on their own instead.
-  // useLayoutEffect (not useEffect) so the mobile check runs before the browser paints,
-  // avoiding a flash where 40 particles mount and animate for a frame before being removed.
-  useLayoutEffect(() => {
-    const syncIsMobile = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT);
-    syncIsMobile();
-    window.addEventListener('resize', syncIsMobile);
-    return () => window.removeEventListener('resize', syncIsMobile);
-  }, []);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -116,11 +104,11 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
     };
   }, [sectionRef, rawX, rawY]);
 
-  // Mobilenheter har svagare GPU:er och kan inte styra hover ändå, så partiklarna hoppas över helt där.
-  if (isMobile) return null;
-
+  // Mobilenheter har svagare GPU:er och kan inte styra hover ändå, så partiklarna döljs
+  // med CSS istället för att monteras villkorligt via JS — annars skiljer sig server- och
+  // klientrendern (window finns inte på servern) och React kastar ett hydration mismatch-fel.
   return (
-    <div style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden' }}>
+    <div className="hidden md:block" style={{ position: 'absolute', inset: 0, zIndex: 0, overflow: 'hidden' }}>
       {PARTICLES.map((p, i) => (
         <Particle key={i} p={p} mouseX={mouseX} mouseY={mouseY} />
       ))}

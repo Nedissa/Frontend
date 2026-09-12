@@ -1,7 +1,5 @@
 'use client';
 import type { ReactNode } from 'react';
-import { useRef } from 'react';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Database, Layout, Code } from '@phosphor-icons/react';
 import type { Project } from '../../projekt-data';
@@ -18,30 +16,35 @@ function stripHighlightMarkup(text: string): string {
   return text.replace(/\*\*([^*]+)\*\*/g, '$1');
 }
 
-function CaseBlock({ label, text, showLine, mobileDevice, mobileTitle, mobileExtra }: { label: string; text: string; showLine?: boolean; mobileDevice?: ReactNode; mobileTitle?: string; mobileExtra?: ReactNode }) {
-  const lineRef = useRef<HTMLSpanElement>(null);
-
+function SplitTitle({ title }: { title: string }) {
+  const words = title.split(' ');
+  const lastWord = words.pop();
+  const leadWords = words.join(' ');
   return (
-    <div className="relative flex gap-5 min-w-0">
-      <div className="relative flex flex-col items-center shrink-0 pt-1.5">
-        <span className="relative flex items-center justify-center w-7 h-7 shrink-0">
-          <span className="absolute inset-0 rounded-full bg-[#e8c547]/25 blur-[3px]" />
-          <span className="absolute inset-1 rounded-full bg-[#e8c547]/40" />
-          <span className="relative w-2 h-2 rounded-full bg-[#030303]" />
-        </span>
-        <span
-          ref={lineRef}
-          className={`absolute top-7 w-[2px] bg-gradient-to-b from-[#e8c547]/50 to-black/10 ${showLine ? '' : 'hidden'}`}
-          style={{ height: 'calc(100% + 4rem)' }}
-        />
-      </div>
-      <div className="flex flex-col gap-3 min-w-0 w-full">
-        <Eyebrow>{label}</Eyebrow>
-        {mobileDevice && <div className="lg:hidden w-full min-w-0 overflow-hidden">{mobileDevice}</div>}
-        {mobileTitle && <p className="text-lg font-bold text-[#030303] m-0">{mobileTitle}</p>}
-        <p className="text-base leading-relaxed text-[#5c5c58] max-w-[40ch] m-0">{stripHighlightMarkup(text)}</p>
-        {mobileExtra && <div className="lg:hidden w-full min-w-0">{mobileExtra}</div>}
-      </div>
+    <h3 className="text-[clamp(28px,4.5vw,44px)] font-black uppercase leading-[0.95] tracking-tight m-0">
+      {leadWords && <span className="text-[#c4c4c0]">{leadWords} </span>}
+      <span className="text-[#030303]">{lastWord}</span>
+    </h3>
+  );
+}
+
+function CaseBlock({ label, text, mobileDevice, mobileTitle, mobileExtra, tags, emphasis, first }: { label: string; text: string; mobileDevice?: ReactNode; mobileTitle?: string; mobileExtra?: ReactNode; tags?: string[]; emphasis?: boolean; first?: boolean }) {
+  return (
+    <div className={`flex flex-col gap-8 min-w-0 ${first ? '' : 'border-t border-black/10 pt-12'}`}>
+      <Eyebrow>{label}</Eyebrow>
+      {mobileDevice && <div className="lg:hidden w-full min-w-0 overflow-hidden">{mobileDevice}</div>}
+      {mobileTitle && <SplitTitle title={mobileTitle} />}
+      <p className={`leading-relaxed w-full m-0 ${emphasis ? 'text-lg font-medium text-[#030303]' : 'text-base text-[#5c5c58]'}`}>{stripHighlightMarkup(text)}</p>
+      {tags && tags.length > 0 && (
+        <div className="flex flex-wrap gap-2">
+          {tags.map((tag) => (
+            <span key={tag} className="text-xs font-semibold uppercase tracking-widest text-[#030303] bg-[#f1e4d8] px-3 py-1.5 rounded-full">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+      {mobileExtra && <div className="lg:hidden w-full min-w-0">{mobileExtra}</div>}
     </div>
   );
 }
@@ -138,8 +141,9 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
         {priority && <Image src={frameImage} alt="" width={1} height={1} priority style={{ display: 'none' }} />}
         <span className="text-xs font-semibold uppercase tracking-widest text-[#030303] whitespace-nowrap">{label}</span>
         <div
-          className="rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.18)] overflow-hidden"
+          className="shadow-[0_8px_24px_rgba(0,0,0,0.18)] overflow-hidden"
           style={{
+            borderRadius: 10,
             padding: margin,
             backgroundImage: `radial-gradient(circle at 15% 15%, ${stripeColor} 0%, transparent 55%), linear-gradient(${baseColor}, ${baseColor})`,
           }}
@@ -163,12 +167,12 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
     return (
       <div className="w-full border-t border-black/10 pt-10 flex flex-col items-start lg:items-center gap-6">
         <span className="text-xs font-medium uppercase tracking-widest text-[#8a8a86]" style={{ maxWidth: width }}>{label}</span>
-        <div className="relative inline-flex rounded-[2.8rem] shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ width: width + 12, padding: 6, boxSizing: 'border-box', background: 'linear-gradient(160deg, #3a3a3c 0%, #0a0a0a 30%, #0a0a0a 70%, #3a3a3c 100%)' }}>
+        <div className="relative inline-flex shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ width: width + 12, padding: 6, boxSizing: 'border-box', background: 'linear-gradient(160deg, #3a3a3c 0%, #0a0a0a 30%, #0a0a0a 70%, #3a3a3c 100%)', borderRadius: 10 }}>
             <span className="absolute -left-[3px] top-[15%] w-[3px] h-5 bg-[#1c1c1e] rounded-l-sm" />
             <span className="absolute -left-[3px] top-[22%] w-[3px] h-8 bg-[#1c1c1e] rounded-l-sm" />
             <span className="absolute -left-[3px] top-[31%] w-[3px] h-8 bg-[#1c1c1e] rounded-l-sm" />
             <span className="absolute -right-[3px] top-[18%] w-[3px] h-11 bg-[#1c1c1e] rounded-r-sm" />
-          <div className="relative bg-white overflow-hidden rounded-[2.3rem] ring-1 ring-black/40" style={{ width, aspectRatio: 390 / 690 }}>
+          <div className="relative bg-white overflow-hidden ring-1 ring-black/40" style={{ width, aspectRatio: 390 / 690, borderRadius: 10 }}>
             <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-[#030303] rounded-full z-10 flex items-center justify-end pr-1.5">
               <span className="w-1 h-1 rounded-full bg-[#1c1c1e] ring-1 ring-[#2a2a2a]" />
             </div>
@@ -209,11 +213,11 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
         style={{
           maxWidth: width,
           padding: 20,
-          borderRadius: 5,
+          borderRadius: 10,
           backgroundImage: `radial-gradient(circle at 15% 15%, ${accentColor ?? '#0a0a0a'} 0%, transparent 55%), linear-gradient(${stripeBaseColor ?? '#ffffff'}, ${stripeBaseColor ?? '#ffffff'})`,
         }}
       >
-      <div className="relative w-full flex flex-col border-2 border-black/15 bg-white overflow-hidden" style={{ aspectRatio: 1 / (aspectRatio ?? 0.75), borderRadius: 5 }}>
+      <div className="relative w-full flex flex-col border-2 border-black/15 bg-white overflow-hidden" style={{ aspectRatio: 1 / (aspectRatio ?? 0.75), borderRadius: 10 }}>
         {src ? (
           <Image
             src={src}
@@ -250,8 +254,9 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
 
 export function ProjectPageTemplate({ project, pagespeedResults }: { project: Project; pagespeedResults?: PagespeedResults }) {
   const mobileImage = project.steps?.[0]?.image;
-
   if (!project.challenge && !project.solution && !project.result && !project.conclusionImage) return null;
+
+  const heroImage = project.cardImage ?? project.image;
 
   return (
     <section className="case-scroll-no-mobile-anim relative pt-32 md:pt-40">
@@ -267,6 +272,29 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
           </div>
         </div>
 
+        {heroImage && (
+          <div
+            className="w-full mb-48 shadow-[0_25px_60px_rgba(0,0,0,0.15)]"
+            style={{
+              padding: 20,
+              borderRadius: 10,
+              backgroundImage: `radial-gradient(circle at 15% 15%, ${project.accentColor ?? '#0a0a0a'} 0%, transparent 55%), linear-gradient(${project.stripeBaseColor ?? '#ffffff'}, ${project.stripeBaseColor ?? '#ffffff'})`,
+            }}
+          >
+            <div className="relative w-full overflow-hidden border-2 border-black/15" style={{ aspectRatio: '16 / 9', borderRadius: 10 }}>
+              <Image
+                src={heroImage}
+                alt={project.title}
+                fill
+                sizes="(max-width: 1440px) 100vw, 1440px"
+                className="object-cover object-top"
+                priority
+                fetchPriority="high"
+              />
+            </div>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-16">
           <div className="lg:sticky lg:top-16 lg:self-start flex flex-col gap-16 min-w-0">
             <div className="flex flex-col gap-16">
@@ -274,8 +302,9 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                 <CaseBlock
                   label="Utmaning"
                   text={project.challenge}
-                  showLine={!!(project.solution || project.result)}
                   mobileTitle={project.challengeTitle}
+                  tags={project.steps?.[0]?.uxImprovements}
+                  first
                   mobileDevice={<DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} deviceType="dator" accentColor={project.accentColor} website={project.website} title={project.title} hideSpecs compact aspectRatio={1.3} imageFit="cover" priority />}
                 />
               )}
@@ -283,8 +312,8 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                 <CaseBlock
                   label="Lösning"
                   text={project.solution}
-                  showLine={!!project.result}
                   mobileTitle={project.solutionTitle}
+                  tags={project.steps?.[1]?.uxImprovements}
                   mobileDevice={<DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs frameImage={mobileHeroFrameImage(project.slug)} />}
                 />
               )}
@@ -292,8 +321,9 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                 <CaseBlock
                   label="Resultat"
                   text={project.result}
-                  showLine={!!(project.technologies && project.technologies.length > 0)}
                   mobileTitle={project.resultTitle}
+                  tags={project.steps?.[2]?.uxImprovements}
+                  emphasis
                   mobileExtra={pagespeedResults && (pagespeedResults.mobile || pagespeedResults.desktop) && <PerformanceBadge results={pagespeedResults} />}
                 />
               )}
@@ -316,24 +346,23 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
             )}
           </div>
 
-          {(project.conclusionImage || mobileImage) && (
+          {project.conclusionImage && (
             <div className="hidden lg:flex flex-col gap-10">
-              {pagespeedResults && (pagespeedResults.mobile || pagespeedResults.desktop) && <PerformanceBadge results={pagespeedResults} />}
+              {pagespeedResults && (pagespeedResults.mobile || pagespeedResults.desktop) && (
+                <PerformanceBadge results={pagespeedResults} />
+              )}
               <div className="border-t border-black/10 pt-10 flex flex-col gap-10">
-              <div className="flex items-start gap-10">
-              <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements?.slice(0, 2)} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} frameImage={mobileHeroFrameImage(project.slug)} />
-
-              {project.conclusionImage && (
-                <div className="flex flex-col items-center gap-6 flex-1 min-w-0">
+                <div className="flex flex-col items-center gap-6 w-full">
                 <span className="text-xs font-semibold uppercase tracking-widest text-[#030303] w-full text-center">Dator</span>
                 <div
-                  className="w-full rounded-2xl shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
+                  className="w-full shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
                   style={{
                     padding: 20,
+                    borderRadius: 10,
                     backgroundImage: `radial-gradient(circle at 15% 15%, ${project.accentColor ?? '#0a0a0a'} 0%, transparent 55%), linear-gradient(${project.stripeBaseColor ?? '#ffffff'}, ${project.stripeBaseColor ?? '#ffffff'})`,
                   }}
                 >
-                <div className="relative w-full rounded-lg border-2 border-black/15 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ height: 680 }}>
+                <div className="relative w-full border-2 border-black/15 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ height: 1200, borderRadius: 10 }}>
                   <Image
                     src={project.conclusionImage}
                     alt={project.title}
@@ -344,12 +373,16 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                 </div>
                 </div>
                 </div>
-              )}
-              </div>
               </div>
             </div>
           )}
         </div>
+
+        {(mobileImage || mobileHeroFrameImage(project.slug)) && (
+          <div className="hidden lg:flex w-full justify-center border-t border-black/10 mt-16 pt-16">
+            <DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements?.slice(0, 2)} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} frameImage={mobileHeroFrameImage(project.slug)} />
+          </div>
+        )}
       </div>
     </section>
   );
