@@ -238,7 +238,7 @@ export function CartAside() {
     }>
       <div className="flex flex-col h-full bg-white">
         {cartItems.length === 0 ? (
-          <div className="flex-1 flex flex-col items-center justify-center px-6 py-8" style={{ display: cartItems.length > 0 ? 'none' : 'flex' }}>
+          <div className="flex-1 flex flex-col items-center justify-start px-6 py-8" style={{ display: cartItems.length > 0 ? 'none' : 'flex' }}>
             <p className="text-gray-600 text-sm mb-6 text-center">Inte säker på var du ska börja?<br />Prova dessa kategorier:</p>
 
             <div className="space-y-2 w-full">

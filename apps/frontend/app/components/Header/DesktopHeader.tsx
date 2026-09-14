@@ -127,7 +127,7 @@ export function DesktopHeader({
           </div>
           {searchTerm.length > 0 && showSearchResults && (
             <div
-              className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 shadow-lg z-[9999]"
+              className="absolute top-full left-0 right-0 bg-white border border-gray-200 shadow-lg z-[9999]"
               style={{ animation: 'searchFadeIn 120ms ease forwards' }}
               onMouseDown={(e) => e.preventDefault()}
             >

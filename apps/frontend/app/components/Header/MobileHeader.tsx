@@ -48,7 +48,7 @@ export function MobileHeader({
   return (
     <div className="xl:hidden" ref={mobileHeaderRef}>
       {/* Row 1: hamburger | logo | konto+kundvagn */}
-      <div className="relative flex items-center px-0 py-0 border-b border-gray-100" style={{ minHeight: '56px', background: 'white' }}>
+      <div className="relative flex items-center px-0 py-0" style={{ minHeight: '56px', background: 'white' }}>
         <button
           onClick={onToggleMobileMenu}
           aria-label="Meny"
@@ -97,7 +97,7 @@ export function MobileHeader({
         </div>
       </div>
       {/* Row 2: search */}
-      <div className="py-2 relative bg-white" ref={mobileSearchContainerRef}>
+      <div className="pt-2 pb-0 relative bg-white" ref={mobileSearchContainerRef}>
         <div className="flex items-center bg-gray-50 border border-gray-200 overflow-hidden">
           <div className="flex items-center justify-center border-r border-gray-200 flex-shrink-0 self-stretch px-3">
             <svg className="w-4 h-4 text-black flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
@@ -121,7 +121,7 @@ export function MobileHeader({
         </div>
         {showSearchResults && (
           <div
-            className="absolute left-0 right-0 bg-white border border-gray-200 shadow-lg z-[9999] mt-1"
+            className="absolute left-0 right-0 bg-white border border-gray-200 shadow-lg z-[9999]"
             style={{ animation: 'searchFadeIn 120ms ease forwards' }}
             onMouseDown={(e) => e.preventDefault()}
           >

@@ -325,7 +325,6 @@ export const MOBILE_CATEGORY_ICONS: Record<string, React.ReactNode> = {
   'gaming':                <Image src="/icons/categories/gaming.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
   'mobiltelefoner':        <Image src="/icons/categories/mobiltelefoner.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
   'natverk':               <Image src="/icons/categories/natverk.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
-  'natwerk':               <Image src="/icons/categories/natverk.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
   'tv-hifi':               <Image src="/icons/categories/tv-hifi.webp" alt="" width={32} height={32} style={{ objectFit: 'contain' }} />,
 };
 
