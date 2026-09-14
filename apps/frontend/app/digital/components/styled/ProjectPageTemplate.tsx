@@ -203,7 +203,7 @@ function ScoreDonut({ value, delay = 0 }: { value: number; delay?: number }) {
   }, [isInView, value, delay]);
 
   return (
-    <div className="relative shrink-0" style={{ width: 72, height: 72 }}>
+    <div className="relative shrink-0 w-[72px] h-[72px]">
       <svg ref={ref} width={72} height={72} viewBox="0 0 72 72" className="-rotate-90">
         <circle cx={36} cy={36} r={radius - 4} fill="#030303" />
         <circle cx={36} cy={36} r={radius} fill="none" stroke="#ebebea" strokeWidth={6} />
@@ -226,7 +226,7 @@ function ScoreDonut({ value, delay = 0 }: { value: number; delay?: number }) {
   );
 }
 
-function PageSpeedComparisonCard({ icon, oldValue, newValue, label, description, delay, accentColor, stripeBaseColor }: { icon: ReactNode; oldValue?: number | string; newValue: number | string; label: string; description: string; delay?: number; accentColor?: string; stripeBaseColor?: string }) {
+function PageSpeedComparisonCard({ icon, oldValue, newValue, label, description, delay }: { icon: ReactNode; oldValue?: number | string; newValue: number | string; label: string; description: string; delay?: number }) {
   return (
     <div className="h-full flex flex-col gap-6 rounded-2xl bg-white p-6 md:p-7 shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
       <div className="flex flex-col gap-4">
@@ -265,8 +265,7 @@ function AgenticBadge({ newResult }: { newResult: PagespeedResults['mobile'] }) 
 
   return (
     <div
-      className="flex flex-col items-center justify-center gap-1 rounded-full bg-[#030303] shrink-0"
-      style={{ width: 140, height: 140 }}
+      className="flex flex-col items-center justify-center gap-1 rounded-full bg-[#030303] shrink-0 w-[140px] h-[140px]"
       title={`Agentisk webbläsning ${geoScore}/3`}
     >
       <Robot size={32} weight="fill" className="text-white" />
@@ -275,11 +274,12 @@ function AgenticBadge({ newResult }: { newResult: PagespeedResults['mobile'] }) 
   );
 }
 
-function PageSpeedComparison({ oldPageSpeed, newResult, accentColor, stripeBaseColor }: { oldPageSpeed?: Project['oldPageSpeed']; newResult: PagespeedResults['mobile']; accentColor?: string; stripeBaseColor?: string }) {
+function PageSpeedComparison({ oldPageSpeed, newResult }: { oldPageSpeed?: Project['oldPageSpeed']; newResult: PagespeedResults['mobile'] }) {
   if (!newResult) return null;
 
   return (
     <div className="flex flex-col gap-6">
+      <AgenticBadge newResult={newResult} />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl w-full">
       <PageSpeedComparisonCard
         icon={<Gauge size={18} weight="fill" />}
@@ -288,8 +288,6 @@ function PageSpeedComparison({ oldPageSpeed, newResult, accentColor, stripeBaseC
         label="Prestanda"
         description="Laddningstid och upplevd snabbhet på webbplatsen."
         delay={0}
-        accentColor={accentColor}
-        stripeBaseColor={stripeBaseColor}
       />
       <PageSpeedComparisonCard
         icon={<Eye size={18} weight="fill" />}
@@ -298,8 +296,6 @@ function PageSpeedComparison({ oldPageSpeed, newResult, accentColor, stripeBaseC
         label="Tillgänglighet"
         description="Hur väl sidan fungerar för alla besökare."
         delay={0.6}
-        accentColor={accentColor}
-        stripeBaseColor={stripeBaseColor}
       />
       <PageSpeedComparisonCard
         icon={<CheckCircle size={18} weight="fill" />}
@@ -308,8 +304,6 @@ function PageSpeedComparison({ oldPageSpeed, newResult, accentColor, stripeBaseC
         label="Bästa metoder"
         description="Följsamhet mot moderna webbstandarder."
         delay={1.2}
-        accentColor={accentColor}
-        stripeBaseColor={stripeBaseColor}
       />
       <PageSpeedComparisonCard
         icon={<MagnifyingGlass size={18} weight="fill" />}
@@ -318,8 +312,6 @@ function PageSpeedComparison({ oldPageSpeed, newResult, accentColor, stripeBaseC
         label="SEO"
         description="Hur redo sidan är att hittas i sökmotorer."
         delay={1.8}
-        accentColor={accentColor}
-        stripeBaseColor={stripeBaseColor}
       />
       </div>
     </div>
@@ -376,7 +368,7 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
             <span className="absolute -left-[3px] top-[22%] w-[3px] h-8 bg-[#1c1c1e] rounded-l-sm" />
             <span className="absolute -left-[3px] top-[31%] w-[3px] h-8 bg-[#1c1c1e] rounded-l-sm" />
             <span className="absolute -right-[3px] top-[18%] w-[3px] h-11 bg-[#1c1c1e] rounded-r-sm" />
-          <div className="relative w-full bg-white overflow-hidden ring-1 ring-black/40" style={{ aspectRatio: 390 / 690, borderRadius: 10 }}>
+          <div className="relative w-full bg-white overflow-hidden ring-1 ring-black/40 rounded-[10px]" style={{ aspectRatio: '390 / 690' }}>
             <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-[#030303] rounded-full z-10 flex items-center justify-end pr-1.5">
               <span className="w-1 h-1 rounded-full bg-[#1c1c1e] ring-1 ring-[#2a2a2a]" />
             </div>
@@ -464,7 +456,8 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
   return (
     <section className="case-scroll-no-mobile-anim relative pt-32 md:pt-40">
       <div className="max-w-[1440px] mx-auto w-full px-6 md:px-[30px] box-border pb-16 md:pb-24 lg:pb-32">
-        <div className="max-w-[1440px] mx-auto flex flex-col items-start gap-6 mb-16">
+        <SectionHeader num="01" label={project.title} hasVisibleHeading />
+        <div className="max-w-[1440px] mx-auto flex flex-col items-start gap-6 mb-16 md:mb-24">
           <h1 className="w-full text-[clamp(48px,9vw,120px)] font-black uppercase tracking-tight leading-[0.95] m-0">
             <TypewriterTitle title={project.title} />
           </h1>
@@ -479,7 +472,6 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
 
         {heroImage && (
           <div className="mb-16 md:mb-48">
-            <SectionHeader num="01" label={project.title} hasVisibleHeading />
             <div
               className="w-full overflow-hidden"
               style={{
@@ -521,8 +513,9 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
               </div>
             </div>
             <div className="flex flex-col lg:flex-row items-stretch gap-8 lg:gap-12">
-              <PageSpeedComparison oldPageSpeed={project.oldPageSpeed} newResult={pagespeedResults?.mobile ?? pagespeedResults?.desktop} accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} />
+              <PageSpeedComparison oldPageSpeed={project.oldPageSpeed} newResult={pagespeedResults?.mobile ?? pagespeedResults?.desktop} />
               <div className="hidden lg:flex justify-center items-end lg:flex-1 lg:border-l lg:border-black/10 lg:pl-12">
+                {/* frameImageScale lägre än standard 1.9 här eftersom denna container (bredvid pagespeed-korten) är kortare än Lösning-blockets — högre scale skar av telefonens header mot containerns topp. */}
                 <DeviceImage label="Mobil" src={mobileImage} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs compact width={360} frameImage={mobileHeroFrameImage(project.slug)} frameImageScale={1.5} />
               </div>
             </div>
@@ -560,24 +553,21 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                   text={project.result}
                   mobileTitle={project.resultTitle}
                   mobileExtra={pagespeedResults && (pagespeedResults.mobile || pagespeedResults.desktop) && <div className="hidden"><PerformanceBadge results={pagespeedResults} /></div>}
-                  footer={
-                    <>
-                      {project.technologies && project.technologies.length > 0 && <TechStack technologies={project.technologies} />}
-                      {project.website && (
-                        <div className="flex justify-center pt-8 border-t border-black/10">
-                          <a
-                            href={`https://${project.website}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-base font-semibold text-[#030303] no-underline"
-                          >
-                            Besök webbplatsen
-                          </a>
-                        </div>
-                      )}
-                    </>
-                  }
+                  footer={project.technologies && project.technologies.length > 0 && <TechStack technologies={project.technologies} />}
                 />
+                </div>
+              )}
+              {project.website && (
+                <div className="flex justify-center pt-8 border-t border-black/10">
+                  <a
+                    href={`https://${project.website}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-[#030303] text-white px-6 py-3 rounded-full text-sm font-semibold no-underline"
+                  >
+                    Besök webbplatsen
+                    <span aria-hidden="true">↗</span>
+                  </a>
                 </div>
               )}
             </div>

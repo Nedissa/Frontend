@@ -19,6 +19,28 @@ function scrollToSeoTest(e: React.MouseEvent) {
   window.scrollTo({ top: Math.max(0, sectionMiddle + NAVBAR_HEIGHT / 2), behavior: 'smooth' });
 }
 
+// Osynlig spacer i bredaste variantens bredd + AnimatePresence-swap, så grid-cellen
+// aldrig ändrar storlek när innehållet växlar (pris, moms-toggle, bindningstext).
+function MeasuredSwap({ as: As = 'span', widest, swapKey, ySlide, duration = 0.28, className, style, children }: { as?: 'span' | 'div'; widest: React.ReactNode; swapKey: string; ySlide?: number; duration?: number; className?: string; style?: React.CSSProperties; children: React.ReactNode }) {
+  return (
+    <As className={`relative inline-grid overflow-hidden justify-items-start ${className ?? ''}`} style={style}>
+      <span className="[grid-area:1/1] invisible" aria-hidden="true">{widest}</span>
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.span
+          key={swapKey}
+          className="[grid-area:1/1]"
+          initial={{ y: ySlide, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: ySlide !== undefined ? -ySlide : undefined, opacity: 0 }}
+          transition={{ duration, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          {children}
+        </motion.span>
+      </AnimatePresence>
+    </As>
+  );
+}
+
 function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
   const [showIncVat, setShowIncVat] = useState(false);
   const numericPrice = parseInt(p.price.replace(/\s/g, ''), 10);
@@ -34,11 +56,13 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
     ? `${p.bindingMonths} mån bindningstid · ${(displayPrice * p.bindingMonths).toLocaleString('sv-SE')} kr totalt`
     : undefined;
   const combinedNote = [bindingNote, p.note].filter(Boolean).join(' · ');
-  const widestBindingNote = p.bindingMonths
-    ? [priceExcl, priceIncl]
-        .map((v) => [`${p.bindingMonths} mån bindningstid · ${(v * p.bindingMonths!).toLocaleString('sv-SE')} kr totalt`, p.note].filter(Boolean).join(' · '))
-        .reduce((a, b) => (b.length > a.length ? b : a))
-    : combinedNote || 'Gratis · samma dag offert';
+  const widestBindingNote = (() => {
+    const months = p.bindingMonths;
+    if (!months) return combinedNote || 'Gratis · samma dag offert';
+    return [priceExcl, priceIncl]
+      .map((v) => [`${months} mån bindningstid · ${(v * months).toLocaleString('sv-SE')} kr totalt`, p.note].filter(Boolean).join(' · '))
+      .reduce((a, b) => (b.length > a.length ? b : a));
+  })();
 
   return (
     <motion.div
@@ -111,29 +135,15 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
             >
               kr
             </span>
-            <span
-              className="font-bold leading-none relative inline-grid overflow-hidden justify-items-start"
-              style={{
-                fontSize: 'clamp(32px,4vw,56px)',
-                letterSpacing: '-0.03em',
-                color: p.dark ? '#fff' : '#030303',
-              }}
+            <MeasuredSwap
+              className="font-bold leading-none"
+              style={{ fontSize: 'clamp(32px,4vw,56px)', letterSpacing: '-0.03em', color: p.dark ? '#fff' : '#030303' }}
+              widest={widestFormattedPrice}
+              swapKey={formattedPrice}
+              ySlide={showIncVat ? 20 : -20}
             >
-              {/* Osynlig spacer i bredaste variantens bredd, så grid-cellen aldrig ändrar storlek vid togglingen */}
-              <span className="[grid-area:1/1] invisible" aria-hidden="true">{widestFormattedPrice}</span>
-              <AnimatePresence mode="popLayout" initial={false}>
-                <motion.span
-                  key={formattedPrice}
-                  className="[grid-area:1/1]"
-                  initial={{ y: showIncVat ? 20 : -20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: showIncVat ? -20 : 20, opacity: 0 }}
-                  transition={{ duration: 0.28, ease: [0.25, 0.1, 0.25, 1] }}
-                >
-                  {formattedPrice}
-                </motion.span>
-              </AnimatePresence>
-            </span>
+              {formattedPrice}
+            </MeasuredSwap>
             <span
               className="text-[15px]"
               style={{ color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}
@@ -195,24 +205,16 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
               </svg>
             </CalPopupButton>
           )}
-          <div
-            className="relative inline-grid overflow-hidden justify-items-start"
+          <MeasuredSwap
+            as="div"
             style={{ fontSize: '12px', marginTop: '8px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}
+            widest={widestBindingNote}
+            swapKey={combinedNote || 'default'}
+            ySlide={showIncVat ? 10 : -10}
+            duration={0.24}
           >
-            <span className="[grid-area:1/1] invisible" aria-hidden="true">{widestBindingNote}</span>
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.span
-                key={combinedNote || 'default'}
-                className="[grid-area:1/1]"
-                initial={{ y: showIncVat ? 10 : -10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: showIncVat ? -10 : 10, opacity: 0 }}
-                transition={{ duration: 0.24, ease: [0.25, 0.1, 0.25, 1] }}
-              >
-                {combinedNote || 'Gratis · samma dag offert'}
-              </motion.span>
-            </AnimatePresence>
-          </div>
+            {combinedNote || 'Gratis · samma dag offert'}
+          </MeasuredSwap>
         </div>
 
         <div>
