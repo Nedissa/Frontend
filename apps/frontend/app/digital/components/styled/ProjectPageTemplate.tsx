@@ -156,51 +156,43 @@ function MetaRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-function CountUp({ value, delay = 0 }: { value: number; delay?: number }) {
-  const ref = useRef<HTMLSpanElement>(null);
+// Delad av CountUp och ScoreDonut: animerar 0→value när elementet scrollar in i vy, en gång.
+function useScrollTriggeredCount<T extends Element>(value: number, delay: number, duration: number) {
+  const ref = useRef<T>(null);
   const isInView = useInView(ref, { once: true, margin: '0px 0px -150px 0px' });
-  const [display, setDisplay] = useState(0);
+  const [current, setCurrent] = useState(0);
 
   useEffect(() => {
     if (!isInView) return;
     const timeout = setTimeout(() => {
       const controls = animate(0, value, {
-        duration: 2,
+        duration,
         ease: [0.25, 0.1, 0.25, 1],
-        onUpdate: (v) => setDisplay(Math.round(v)),
+        onUpdate: setCurrent,
       });
       return () => controls.stop();
     }, delay * 1000);
     return () => clearTimeout(timeout);
-  }, [isInView, value, delay]);
+  }, [isInView, value, delay, duration]);
+
+  return { ref, current };
+}
+
+function CountUp({ value, delay = 0 }: { value: number; delay?: number }) {
+  const { ref, current } = useScrollTriggeredCount<HTMLSpanElement>(value, delay, 2);
 
   return (
     <span ref={ref} className="inline-block text-right tabular-nums" style={{ minWidth: `${String(value).length}ch` }}>
-      {display}
+      {Math.round(current)}
     </span>
   );
 }
 
 function ScoreDonut({ value, delay = 0 }: { value: number; delay?: number }) {
-  const ref = useRef<SVGSVGElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '0px 0px -150px 0px' });
-  const [progress, setProgress] = useState(0);
+  const { ref, current: progress } = useScrollTriggeredCount<SVGSVGElement>(value, delay, 1.4);
   const radius = 30;
   const circumference = 2 * Math.PI * radius;
   const color = scoreColor(value);
-
-  useEffect(() => {
-    if (!isInView) return;
-    const timeout = setTimeout(() => {
-      const controls = animate(0, value, {
-        duration: 1.4,
-        ease: [0.25, 0.1, 0.25, 1],
-        onUpdate: (v) => setProgress(v),
-      });
-      return () => controls.stop();
-    }, delay * 1000);
-    return () => clearTimeout(timeout);
-  }, [isInView, value, delay]);
 
   return (
     <div className="relative shrink-0 w-[72px] h-[72px]">

@@ -1,12 +1,7 @@
 'use client';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { PagespeedResult, PagespeedResults } from './pagespeed-data';
-
-function scoreColor(score: number): string {
-  if (score >= 90) return '#3fb950';
-  if (score >= 50) return '#c99a2e';
-  return '#e5484d';
-}
+import { scoreColor } from '../../seo-analys/shared';
 
 function ScoreRing({ label, score, displayValue, color: colorOverride }: { label: string; score: number; displayValue?: string; color?: string }) {
   const color = colorOverride ?? scoreColor(score);
