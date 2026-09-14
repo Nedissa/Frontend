@@ -105,7 +105,11 @@ export function SiteNav() {
 
     const checkScroll = () => {
       const bottom = darkEl.getBoundingClientRect().bottom;
-      setPastHero(bottom <= 72);
+      const next = bottom <= 72;
+      // Undviker en render-loop: sätt bara state när värdet faktiskt ändras, annars kan
+      // upprepade scroll-events (t.ex. adressfältet som döljs/visas på mobil) trigga
+      // "Maximum update depth exceeded" via kedjan av re-render -> nytt scroll-event.
+      setPastHero((prev) => (prev === next ? prev : next));
     };
     checkScroll();
     window.addEventListener('scroll', checkScroll, { passive: true });

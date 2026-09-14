@@ -35,7 +35,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     <main className="bg-white text-[#030303] relative">
       <ProjectPageTemplate project={project} pagespeedResults={pagespeedResults} />
 
-      <CtaSection />
+      <CtaSection num="04" />
     </main>
   );
 }

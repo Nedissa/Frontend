@@ -84,7 +84,7 @@ export function Footer() {
       className="site-footer"
       style={{ position: 'relative', background: 'linear-gradient(160deg, rgb(12,13,18) 0%, #030303 140%)', padding: '120px 60px 80px', overflow: 'hidden' }}
     >
-      <FloatingParticles sectionRef={footerRef} />
+      <FloatingParticles sectionRef={footerRef} followMouse={false} />
       <div style={{ maxWidth: '1440px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <div
           className="grid-footer"

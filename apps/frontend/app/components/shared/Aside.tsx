@@ -98,20 +98,41 @@ export function Aside({
         </aside>
       ) : null}
 
-      {/* Mobil cart + login + alla övriga asides: full panel från höger */}
-      <aside className={`${(type === 'cart' || type === 'login') ? 'flex xl:hidden w-full md:w-1/2' : 'flex w-full'} fixed right-0 top-0 max-w-md bg-white shadow-lg z-50 flex-col ${
-        expanded ? 'translate-x-0' : 'translate-x-full'
-      }`}
-      style={{ transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)', height: '100dvh' }}>
-        <header className="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold text-black">{heading}</h2>
-          <button onClick={close} className="w-11 h-11 flex items-center justify-center text-gray-600 hover:text-black transition-colors text-2xl" aria-label="Stäng">×</button>
-        </header>
-        <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-          {children}
-          <style>{`main::-webkit-scrollbar { display: none; }`}</style>
-        </main>
-      </aside>
+      {/* Mobil login: nedfälld panel från toppen (som Apohem), istället för sidopanel */}
+      {type === 'login' ? (
+        <aside
+          className="flex xl:hidden w-full fixed left-0 right-0 top-0 bg-white shadow-lg z-50 flex-col"
+          style={{
+            transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+            transform: expanded ? 'translateY(0)' : 'translateY(-100%)',
+            maxHeight: '90dvh',
+          }}
+        >
+          <header className="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+            <h2 className="text-lg font-bold text-black">{heading}</h2>
+            <button onClick={close} className="w-11 h-11 flex items-center justify-center text-gray-600 hover:text-black transition-colors text-2xl" aria-label="Stäng">×</button>
+          </header>
+          <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            {children}
+            <style>{`main::-webkit-scrollbar { display: none; }`}</style>
+          </main>
+        </aside>
+      ) : (
+        /* Mobil cart + alla övriga asides: full panel från höger */
+        <aside className={`${type === 'cart' ? 'flex xl:hidden w-full md:w-1/2' : 'flex w-full'} fixed right-0 top-0 max-w-md bg-white shadow-lg z-50 flex-col ${
+          expanded ? 'translate-x-0' : 'translate-x-full'
+        }`}
+        style={{ transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)', height: '100dvh' }}>
+          <header className="border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+            <h2 className="text-lg font-bold text-black">{heading}</h2>
+            <button onClick={close} className="w-11 h-11 flex items-center justify-center text-gray-600 hover:text-black transition-colors text-2xl" aria-label="Stäng">×</button>
+          </header>
+          <main className="flex-1 overflow-y-auto" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+            {children}
+            <style>{`main::-webkit-scrollbar { display: none; }`}</style>
+          </main>
+        </aside>
+      )}
     </div>
   );
 }

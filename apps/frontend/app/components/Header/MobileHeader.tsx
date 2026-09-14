@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { RefObject } from 'react';
 import { Logo } from '../layout/Logo';
 import { Spinner } from '../shared/Spinner';
-import { SearchProduct } from './menuData';
+import { SearchProduct, MENU_DATA } from './menuData';
 
 interface MobileHeaderProps {
   mobileHeaderRef: RefObject<HTMLDivElement | null>;
@@ -97,7 +97,7 @@ export function MobileHeader({
         </div>
       </div>
       {/* Row 2: search */}
-      <div className="px-3 py-2 relative bg-white border-b border-gray-200" ref={mobileSearchContainerRef}>
+      <div className="py-2 relative bg-white" ref={mobileSearchContainerRef}>
         <div className="flex items-center bg-gray-50 border border-gray-200 overflow-hidden">
           <div className="flex items-center justify-center border-r border-gray-200 flex-shrink-0 self-stretch px-3">
             <svg className="w-4 h-4 text-black flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
@@ -119,13 +119,29 @@ export function MobileHeader({
             onFocus={onSearchFocus}
           />
         </div>
-        {searchTerm.length > 0 && showSearchResults && (
+        {showSearchResults && (
           <div
-            className="absolute left-0 right-0 bg-white border border-gray-200 shadow-lg z-[9999] mt-1 mx-4"
+            className="absolute left-0 right-0 bg-white border border-gray-200 shadow-lg z-[9999] mt-1"
             style={{ animation: 'searchFadeIn 120ms ease forwards' }}
             onMouseDown={(e) => e.preventDefault()}
           >
-            {results.length > 0 ? (
+            {searchTerm.length === 0 ? (
+              <div className="py-2">
+                <p className="px-4 pt-2 pb-1 text-xs font-bold uppercase tracking-widest text-gray-400">Populära kategorier</p>
+                <div className="divide-y divide-gray-100">
+                  {MENU_DATA.slice(0, 5).map((category) => (
+                    <Link
+                      key={category.id}
+                      href={category.url}
+                      className="flex items-center gap-3 px-4 py-3 hover:bg-gray-50"
+                      onClick={onSearchResultClick}
+                    >
+                      <span className="text-sm font-semibold">{category.title}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ) : results.length > 0 ? (
               <div className="divide-y divide-gray-100">
                 {results.map((product) => (
                   <Link

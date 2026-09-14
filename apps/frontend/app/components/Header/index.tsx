@@ -276,7 +276,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
 
   const handleSearchFocus = () => {
     fetchProductsForSearch();
-    if (searchTerm.length > 0) setShowSearchResults(true);
+    setShowSearchResults(true);
   };
 
   const handleSearchResultClick = () => {

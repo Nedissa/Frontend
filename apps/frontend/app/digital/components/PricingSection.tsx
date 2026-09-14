@@ -22,14 +22,23 @@ function scrollToSeoTest(e: React.MouseEvent) {
 function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
   const [showIncVat, setShowIncVat] = useState(false);
   const numericPrice = parseInt(p.price.replace(/\s/g, ''), 10);
-  const displayPrice = showIncVat
-    ? Math.round((numericPrice * 1.25) / 10) * 10
-    : numericPrice;
+  const priceExcl = numericPrice;
+  const priceIncl = Math.round((numericPrice * 1.25) / 10) * 10;
+  const displayPrice = showIncVat ? priceIncl : priceExcl;
   const formattedPrice = displayPrice.toLocaleString('sv-SE');
+  // Bredaste av exkl./inkl.-varianten avgör kolumnbredd, så toggeln aldrig knuffar layouten (kr/suffix bredvid).
+  const widestFormattedPrice = [priceExcl, priceIncl]
+    .map((v) => v.toLocaleString('sv-SE'))
+    .reduce((a, b) => (b.length > a.length ? b : a));
   const bindingNote = p.bindingMonths
     ? `${p.bindingMonths} mån bindningstid · ${(displayPrice * p.bindingMonths).toLocaleString('sv-SE')} kr totalt`
     : undefined;
   const combinedNote = [bindingNote, p.note].filter(Boolean).join(' · ');
+  const widestBindingNote = p.bindingMonths
+    ? [priceExcl, priceIncl]
+        .map((v) => [`${p.bindingMonths} mån bindningstid · ${(v * p.bindingMonths!).toLocaleString('sv-SE')} kr totalt`, p.note].filter(Boolean).join(' · '))
+        .reduce((a, b) => (b.length > a.length ? b : a))
+    : combinedNote || 'Gratis · samma dag offert';
 
   return (
     <motion.div
@@ -103,14 +112,27 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
               kr
             </span>
             <span
-              className="font-bold leading-none"
+              className="font-bold leading-none relative inline-grid overflow-hidden justify-items-start"
               style={{
                 fontSize: 'clamp(32px,4vw,56px)',
                 letterSpacing: '-0.03em',
                 color: p.dark ? '#fff' : '#030303',
               }}
             >
-              {formattedPrice}
+              {/* Osynlig spacer i bredaste variantens bredd, så grid-cellen aldrig ändrar storlek vid togglingen */}
+              <span className="[grid-area:1/1] invisible" aria-hidden="true">{widestFormattedPrice}</span>
+              <AnimatePresence mode="popLayout" initial={false}>
+                <motion.span
+                  key={formattedPrice}
+                  className="[grid-area:1/1]"
+                  initial={{ y: showIncVat ? 20 : -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: showIncVat ? -20 : 20, opacity: 0 }}
+                  transition={{ duration: 0.28, ease: [0.25, 0.1, 0.25, 1] }}
+                >
+                  {formattedPrice}
+                </motion.span>
+              </AnimatePresence>
             </span>
             <span
               className="text-[15px]"
@@ -122,10 +144,24 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
           <button
             type="button"
             onClick={() => setShowIncVat((v) => !v)}
-            className="text-[13px] mt-[4px] underline bg-transparent"
+            className="text-[13px] mt-[4px] underline bg-transparent relative inline-grid overflow-hidden justify-items-start"
             style={{ color: p.dark ? 'rgba(255,255,255,0.4)' : 'rgb(140,140,134)' }}
           >
-            {showIncVat ? 'Inkl. moms · Visa exkl.' : 'Exkl. moms · Visa inkl.'}
+            <span className="[grid-area:1/1] invisible" aria-hidden="true">
+              {'Inkl. moms · Visa exkl.'.length > 'Exkl. moms · Visa inkl.'.length ? 'Inkl. moms · Visa exkl.' : 'Exkl. moms · Visa inkl.'}
+            </span>
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.span
+                key={showIncVat ? 'inc' : 'exc'}
+                className="[grid-area:1/1]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {showIncVat ? 'Inkl. moms · Visa exkl.' : 'Exkl. moms · Visa inkl.'}
+              </motion.span>
+            </AnimatePresence>
           </button>
         </div>
 
@@ -159,8 +195,23 @@ function PricingCard({ p, delay }: { p: PricePackage; delay: number }) {
               </svg>
             </CalPopupButton>
           )}
-          <div style={{ fontSize: '12px', marginTop: '8px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}>
-            {combinedNote || 'Gratis · samma dag offert'}
+          <div
+            className="relative inline-grid overflow-hidden justify-items-start"
+            style={{ fontSize: '12px', marginTop: '8px', color: p.dark ? 'rgba(255,255,255,0.5)' : 'rgb(104,105,99)' }}
+          >
+            <span className="[grid-area:1/1] invisible" aria-hidden="true">{widestBindingNote}</span>
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.span
+                key={combinedNote || 'default'}
+                className="[grid-area:1/1]"
+                initial={{ y: showIncVat ? 10 : -10, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: showIncVat ? -10 : 10, opacity: 0 }}
+                transition={{ duration: 0.24, ease: [0.25, 0.1, 0.25, 1] }}
+              >
+                {combinedNote || 'Gratis · samma dag offert'}
+              </motion.span>
+            </AnimatePresence>
           </div>
         </div>
 

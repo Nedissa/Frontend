@@ -76,13 +76,14 @@ function Particle({
   );
 }
 
-export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<HTMLElement | null> }) {
+export function FloatingParticles({ sectionRef, followMouse = true }: { sectionRef: React.RefObject<HTMLElement | null>; followMouse?: boolean }) {
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
   const mouseX = useSpring(rawX, SPRING_CONFIG);
   const mouseY = useSpring(rawY, SPRING_CONFIG);
 
   useEffect(() => {
+    if (!followMouse) return;
     const el = sectionRef.current;
     if (!el) return;
     // Lyssnar på document (inte el) eftersom överlagrade element som menyn tar emot
@@ -102,7 +103,7 @@ export function FloatingParticles({ sectionRef }: { sectionRef: React.RefObject<
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
     };
-  }, [sectionRef, rawX, rawY]);
+  }, [sectionRef, rawX, rawY, followMouse]);
 
   // Mobilenheter har svagare GPU:er och kan inte styra hover ändå, så partiklarna döljs
   // med CSS istället för att monteras villkorligt via JS — annars skiljer sig server- och
