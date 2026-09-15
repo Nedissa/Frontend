@@ -16,8 +16,67 @@ function mobileHeroFrameImage(slug: string): string | undefined {
 
 // Samma fasta ram-höjd (aspect ratio) för fullstorlekscreenshoten på mobil, oavsett projekt eller källbildens egen höjd.
 const MOBILE_FULL_SIZE_CROP_ASPECT_RATIO = '2515 / 4449';
-function mobileFullSizeCropAspectRatio(): string {
-  return MOBILE_FULL_SIZE_CROP_ASPECT_RATIO;
+
+// Fullstorlek-mockup: hela sidans skärmdump utan telefon-chrome, i vit ram.
+// aspectRatio styr formen när ingen fast höjd finns (mobil); height styr den när en fast höjd redan är känd (desktop, matchar case-kolumnen).
+function FullSizeMockup({ src, alt, accentColor, stripeBaseColor, aspectRatio, height, priority, sizes }: { src: string; alt: string; accentColor?: string; stripeBaseColor?: string; aspectRatio?: string; height?: number; priority?: boolean; sizes: string }) {
+  return (
+    <StripedFrame accentColor={accentColor} stripeBaseColor={stripeBaseColor}>
+      <div
+        className="relative w-full border-2 border-black/25 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]"
+        style={height ? { height, borderRadius: 10 } : { aspectRatio: aspectRatio ?? MOBILE_FULL_SIZE_CROP_ASPECT_RATIO, borderRadius: 10 }}
+      >
+        <Image src={src} alt={alt} fill sizes={sizes} className="object-cover object-top" priority={priority} />
+      </div>
+    </StripedFrame>
+  );
+}
+
+// Desktop-mockup: bred 16:9 skärmdump för hero-sektionen.
+function DesktopMockup({ src, alt, accentColor, stripeBaseColor }: { src: string; alt: string; accentColor?: string; stripeBaseColor?: string }) {
+  return (
+    <StripedFrame accentColor={accentColor} stripeBaseColor={stripeBaseColor}>
+      <div className="relative w-full overflow-hidden border-2 border-black/25 shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ aspectRatio: '16 / 9', borderRadius: 10 }}>
+        <Image src={src} alt={alt} fill sizes="(max-width: 1440px) 100vw, 1440px" className="object-cover object-top" priority fetchPriority="high" />
+      </div>
+    </StripedFrame>
+  );
+}
+
+function StripedFrame({ accentColor, stripeBaseColor, maxWidth, fillHeight, children }: { accentColor?: string; stripeBaseColor?: string; maxWidth?: number; fillHeight?: boolean; children: ReactNode }) {
+  return (
+    <div
+      className={`w-full ${fillHeight ? 'h-full' : ''} flex justify-center items-center relative overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.18)]`}
+      style={{
+        maxWidth,
+        padding: 20,
+        borderRadius: 10,
+        backgroundImage: `linear-gradient(135deg, ${accentColor ?? '#0a0a0a'} 50%, ${stripeBaseColor ?? '#ffffff'} 50%)`,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+// Telefonram-mockup (skärmdump med statusbar/UI-chrome inbakad i källbilden).
+// fillHeight=true (t.ex. PageSpeed på desktop): bilden fyller bredden, transform-skalan förstorar den inom lådans overflow-hidden-gräns.
+// fillHeight=false (t.ex. Lösning-kortet på mobil): samma metod, annan skala.
+function MobileMockup({ slug, accentColor, stripeBaseColor, priority, fillHeight = true, frameImageScale = 1.7 }: { slug: string; accentColor?: string; stripeBaseColor?: string; priority?: boolean; fillHeight?: boolean; frameImageScale?: number }) {
+  const src = mobileHeroFrameImage(slug);
+  if (!src) return null;
+  return (
+    <StripedFrame accentColor={accentColor} stripeBaseColor={stripeBaseColor} maxWidth={1400} fillHeight={fillHeight}>
+      <Image
+        src={src}
+        alt=""
+        width={720}
+        height={1280}
+        priority={priority}
+        style={{ width: '100%', height: 'auto', borderRadius: 10, filter: 'drop-shadow(0 25px 40px rgba(0,0,0,0.35))', transform: `scale(${frameImageScale})`, transformOrigin: 'center' }}
+      />
+    </StripedFrame>
+  );
 }
 
 function ProjectBadge({ children }: { children: ReactNode }) {
@@ -33,32 +92,33 @@ function stripHighlightMarkup(text: string): string {
 }
 
 function TypewriterTitle({ title }: { title: string }) {
-  const [charsShown, setCharsShown] = useState(0);
+  const [state, setState] = useState({ animate: false, charsShown: title.length });
 
   useEffect(() => {
-    setCharsShown(0);
+    if (window.matchMedia('(max-width: 767px)').matches) return;
     let i = 0;
     const interval = setInterval(() => {
       i += 1;
-      setCharsShown(i);
+      setState({ animate: true, charsShown: i });
       if (i >= title.length) clearInterval(interval);
     }, 45);
     return () => clearInterval(interval);
   }, [title]);
 
+  const { animate, charsShown } = state;
   const words = title.split(' ');
   const lastWord = words.pop() ?? '';
   const leadWords = words.join(' ');
   const leadEnd = leadWords ? leadWords.length + 1 : 0;
 
-  const visibleLead = leadWords.slice(0, Math.max(0, Math.min(charsShown, leadWords.length)));
-  const visibleLast = lastWord.slice(0, Math.max(0, charsShown - leadEnd));
+  const visibleLead = animate ? leadWords.slice(0, Math.max(0, Math.min(charsShown, leadWords.length))) : leadWords;
+  const visibleLast = animate ? lastWord.slice(0, Math.max(0, charsShown - leadEnd)) : lastWord;
 
   return (
     <>
       {leadWords && <span className="text-[#9a9a95]">{visibleLead}{visibleLead.length < leadWords.length ? '' : ' '}</span>}
       <span className="text-[#030303]">{visibleLast}</span>
-      <span className="inline-block w-[0.06em] h-[0.85em] bg-[#030303] ml-1 align-middle animate-pulse" style={{ opacity: charsShown >= title.length ? 0 : 1 }} />
+      {animate && <span className="inline-block w-[0.06em] h-[0.85em] bg-[#030303] ml-1 align-middle animate-pulse" style={{ opacity: charsShown >= title.length ? 0 : 1 }} />}
     </>
   );
 }
@@ -66,19 +126,10 @@ function TypewriterTitle({ title }: { title: string }) {
 function SplitTitle({ title, as: Tag = 'h3', size = 'text-[clamp(22px,4.5vw,44px)]' }: { title: string; as?: 'h1' | 'h2' | 'h3'; size?: string }) {
   const words = title.split(' ').filter((w) => w.toLowerCase() !== 'och');
   const lastWord = words.pop() ?? '';
-  let row1 = '';
-  let row2 = '';
-  if (words.length === 1) {
-    row1 = words[0];
-    row2 = '';
-  } else if (words.length > 1) {
-    row1 = words[0];
-    row2 = words.slice(1).join(' ');
-  }
+  const row1 = words.join(' ');
   return (
     <Tag className={`${size} font-black uppercase leading-[0.95] tracking-tight m-0 break-words`}>
-      <span className="text-[#9a9a95] block">{row1}</span>
-      {row2 && <span className="text-[#9a9a95] block">{row2}</span>}
+      {row1 && <span className="text-[#9a9a95] block">{row1}</span>}
       <span className="text-[#030303] block">{lastWord}</span>
     </Tag>
   );
@@ -289,136 +340,7 @@ function PageSpeedComparison({ oldPageSpeed, newResult }: { oldPageSpeed?: Proje
   );
 }
 
-const DEVICE_FRAME_MAX_WIDTH: Record<'mobil' | 'surfplatta' | 'dator', number> = {
-  mobil: 190,
-  surfplatta: 370,
-  dator: 690,
-};
-
-const DEVICE_ASPECT_RATIO: Record<'mobil' | 'surfplatta' | 'dator', number> = {
-  mobil: 511 / 917,
-  surfplatta: 2048 / 2732,
-  dator: 2515 / 1414,
-};
-
-function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseColor, hideSpecs, website, title, compact: compactProp, aspectRatio: aspectRatioProp, phoneFrame, frameImage, frameImageScale = 1.9, imageFit = 'contain', priority, width: widthProp }: { label: string; src?: string; specs?: string[]; deviceType: 'mobil' | 'surfplatta' | 'dator'; accentColor?: string; stripeBaseColor?: string; hideSpecs?: boolean; website?: string; title: string; compact?: boolean; aspectRatio?: number; phoneFrame?: boolean; frameImage?: string; frameImageScale?: number; imageFit?: 'contain' | 'cover'; priority?: boolean; width?: number }) {
-  const width = widthProp ?? DEVICE_FRAME_MAX_WIDTH[deviceType];
-  const aspectRatio = aspectRatioProp ?? DEVICE_ASPECT_RATIO[deviceType];
-  const compact = compactProp ?? deviceType === 'mobil';
-
-  if (frameImage) {
-    const displayWidth = 1400;
-    const stripeColor = accentColor ?? '#0a0a0a';
-    const baseColor = stripeBaseColor ?? '#ffffff';
-    return (
-      <div
-        className="max-h-full flex justify-center items-center relative overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
-        style={{
-          width: aspectRatioProp ? 'auto' : '100%',
-          height: '100%',
-          maxWidth: displayWidth,
-          aspectRatio: aspectRatioProp,
-          padding: 20,
-          borderRadius: 10,
-          backgroundImage: `linear-gradient(135deg, ${stripeColor} 50%, ${baseColor} 50%)`,
-        }}
-      >
-        <Image
-          src={frameImage}
-          alt=""
-          width={720}
-          height={1280}
-          priority={priority}
-          style={{ width: aspectRatioProp ? 'auto' : '100%', height: aspectRatioProp ? '100%' : 'auto', borderRadius: 10, filter: 'drop-shadow(0 25px 40px rgba(0,0,0,0.35))', transform: `scale(${frameImageScale})`, transformOrigin: 'center' }}
-        />
-      </div>
-    );
-  }
-
-  if (phoneFrame) {
-    return (
-      <div className="w-full border-t border-black/10 pt-10 flex flex-col items-start lg:items-center gap-6">
-        <div className="relative inline-flex w-full shadow-[0_25px_50px_rgba(0,0,0,0.18)] box-border" style={{ maxWidth: width + 12, padding: 6, background: 'linear-gradient(160deg, #3a3a3c 0%, #0a0a0a 30%, #0a0a0a 70%, #3a3a3c 100%)', borderRadius: 10 }}>
-            <span className="absolute -left-[3px] top-[15%] w-[3px] h-5 bg-[#1c1c1e] rounded-l-sm" />
-            <span className="absolute -left-[3px] top-[22%] w-[3px] h-8 bg-[#1c1c1e] rounded-l-sm" />
-            <span className="absolute -left-[3px] top-[31%] w-[3px] h-8 bg-[#1c1c1e] rounded-l-sm" />
-            <span className="absolute -right-[3px] top-[18%] w-[3px] h-11 bg-[#1c1c1e] rounded-r-sm" />
-          <div className="relative w-full bg-white overflow-hidden rounded-[10px]" style={{ aspectRatio: '390 / 690' }}>
-            <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-[#030303] rounded-full z-10 flex items-center justify-end pr-1.5">
-              <span className="w-1 h-1 rounded-full bg-[#1c1c1e] ring-1 ring-[#2a2a2a]" />
-            </div>
-            {src ? (
-              <Image
-                src={src}
-                alt={label}
-                fill
-                sizes={`(max-width: ${width}px) 100vw, ${width}px`}
-                className="object-cover object-top"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-xs font-medium text-[#8a8a86] bg-[repeating-linear-gradient(45deg,#f5f5f3,#f5f5f3_10px,#eeeeec_10px,#eeeeec_20px)]">
-                Bild saknas
-              </div>
-            )}
-          </div>
-        </div>
-        {!hideSpecs && specs && specs.length > 0 && (
-          <span className="flex items-center gap-4 text-xs font-medium text-[#5c5c58]">
-            {specs.map((spec) => (
-              <span key={spec} className="flex items-center gap-2 whitespace-nowrap">
-                <span className="w-1.5 h-1.5 shrink-0 bg-[#030303]" />
-                {spec}
-              </span>
-            ))}
-          </span>
-        )}
-      </div>
-    );
-  }
-
-  return (
-    <div className="w-full border-t border-black/10 pt-10 flex flex-col items-center gap-6">
-      <div
-        className="w-full overflow-hidden"
-        style={{ maxWidth: width, borderRadius: 10 }}
-      >
-      <div className="relative w-full flex flex-col bg-white overflow-hidden" style={{ aspectRatio: 1 / (aspectRatio ?? 0.75), borderRadius: 10 }}>
-        {src ? (
-          <Image
-            src={src}
-            alt={label}
-            fill
-            sizes={`(max-width: ${width}px) 100vw, ${width}px`}
-            className={imageFit === 'cover' ? 'object-cover object-top' : 'object-contain'}
-            priority={priority}
-            fetchPriority={priority ? 'high' : undefined}
-          />
-        ) : (
-          <div
-            className="flex items-center justify-center text-xs font-medium text-[#8a8a86] bg-[repeating-linear-gradient(45deg,#f5f5f3,#f5f5f3_10px,#eeeeec_10px,#eeeeec_20px)]"
-            style={{ width, aspectRatio }}
-          >
-            Bild saknas
-          </div>
-        )}
-      </div>
-      </div>
-      {!hideSpecs && specs && specs.length > 0 && (
-        <span className="flex items-center gap-4 text-xs font-medium text-[#5c5c58]">
-          {specs.map((spec) => (
-            <span key={spec} className="flex items-center gap-2 whitespace-nowrap">
-              <span className="w-1.5 h-1.5 shrink-0 bg-[#030303]" />
-              {spec}
-            </span>
-          ))}
-        </span>
-      )}
-    </div>
-  );
-}
-
 export function ProjectPageTemplate({ project, pagespeedResults }: { project: Project; pagespeedResults?: PagespeedResults }) {
-  const mobileImage = project.steps?.[0]?.image;
   const caseColumnRef = useRef<HTMLDivElement>(null);
   const [caseColumnHeight, setCaseColumnHeight] = useState<number>();
 
@@ -453,26 +375,7 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
 
         {heroImage && (
           <div className="mb-16 md:mb-48">
-            <div
-              className="w-full overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
-              style={{
-                padding: 20,
-                borderRadius: 10,
-                backgroundImage: `linear-gradient(135deg, ${project.accentColor ?? '#0a0a0a'} 50%, ${project.stripeBaseColor ?? '#ffffff'} 50%)`,
-              }}
-            >
-              <div className="relative w-full overflow-hidden border-2 border-black/25 shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ aspectRatio: '16 / 9', borderRadius: 10 }}>
-                <Image
-                  src={heroImage}
-                  alt={project.title}
-                  fill
-                  sizes="(max-width: 1440px) 100vw, 1440px"
-                  className="object-cover object-top"
-                  priority
-                  fetchPriority="high"
-                />
-              </div>
-            </div>
+            <DesktopMockup src={heroImage} alt={project.title} accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} />
           </div>
         )}
 
@@ -496,7 +399,7 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
             <div className="flex flex-col lg:flex-row lg:items-stretch gap-8 lg:gap-12">
               <PageSpeedComparison oldPageSpeed={project.oldPageSpeed} newResult={pagespeedResults?.mobile ?? pagespeedResults?.desktop} />
               <div className="hidden lg:flex justify-center lg:flex-1 lg:border-l lg:border-black/10 lg:pl-12 overflow-hidden" style={{ maxHeight: 464 }}>
-                <DeviceImage label="Mobil" src={mobileImage} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs compact width={360} frameImage={mobileHeroFrameImage(project.slug)} frameImageScale={1.1} aspectRatio={4 / 5} />
+                <MobileMockup slug={project.slug} accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} frameImageScale={1.7} />
               </div>
             </div>
           </div>
@@ -512,26 +415,16 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                   label="Utmaning"
                   text={project.challenge}
                   mobileTitle={project.challengeTitle}
+                  imageFirst={false}
                   mobileDevice={
-                    <div
-                      className="w-full shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
-                      style={{
-                        padding: 20,
-                        borderRadius: 10,
-                        backgroundImage: `linear-gradient(135deg, ${project.accentColor ?? '#0a0a0a'} 50%, ${project.stripeBaseColor ?? '#ffffff'} 50%)`,
-                      }}
-                    >
-                      <div className="relative w-full border-2 border-black/25 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ aspectRatio: mobileFullSizeCropAspectRatio(), borderRadius: 10 }}>
-                        <Image
-                          src={project.image ?? ''}
-                          alt={project.title}
-                          fill
-                          sizes="(max-width: 768px) 100vw, 768px"
-                          className="object-cover object-top"
-                          priority
-                        />
-                      </div>
-                    </div>
+                    <FullSizeMockup
+                      src={project.image ?? ''}
+                      alt={project.title}
+                      accentColor={project.accentColor}
+                      stripeBaseColor={project.stripeBaseColor}
+                      sizes="(max-width: 768px) 100vw, 768px"
+                      priority
+                    />
                   }
                 />
               )}
@@ -541,7 +434,7 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                     label="Lösning"
                     text={project.solution}
                     mobileTitle={project.solutionTitle}
-                    mobileDevice={<DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs frameImage={mobileHeroFrameImage(project.slug)} frameImageScale={1.55} />}
+                    mobileDevice={<MobileMockup slug={project.slug} accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} fillHeight={false} frameImageScale={2.2} />}
                     imageFirst={false}
                   />
                 </div>
@@ -580,24 +473,15 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
               )}
               <div className="flex flex-col gap-10">
                 <div className="flex flex-col items-center gap-6 w-full">
-                <div
-                  className="w-full shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
-                  style={{
-                    padding: 20,
-                    borderRadius: 10,
-                    backgroundImage: `linear-gradient(135deg, ${project.accentColor ?? '#0a0a0a'} 50%, ${project.stripeBaseColor ?? '#ffffff'} 50%)`,
-                  }}
-                >
-                <div className="relative w-full border-2 border-black/25 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={caseColumnHeight ? { height: caseColumnHeight - 40, borderRadius: 10 } : { aspectRatio: '2515 / 7445', borderRadius: 10 }}>
-                  <Image
+                  <FullSizeMockup
                     src={project.conclusionImage}
                     alt={project.title}
-                    fill
+                    accentColor={project.accentColor}
+                    stripeBaseColor={project.stripeBaseColor}
+                    height={caseColumnHeight ? caseColumnHeight - 40 : undefined}
+                    aspectRatio="2515 / 7445"
                     sizes="(max-width: 1024px) 0px, 860px"
-                    className="object-cover object-top"
                   />
-                </div>
-                </div>
                 </div>
               </div>
             </div>
