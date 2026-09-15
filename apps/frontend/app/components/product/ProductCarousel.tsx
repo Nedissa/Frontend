@@ -71,7 +71,7 @@ export function ProductCarousel({ title, products: rawProducts, variant = 'popul
           >
             {products.map((product, idx) => (
               <div key={product.id} style={{ flexShrink: 0, width: 'calc((100% - 48px) / 4)' }}>
-                <ProductCard product={product} variant={variant} priority={idx < 4} />
+                <ProductCard product={product} variant={variant} priority={idx < 4} sizes="(max-width: 767px) 75vw, 25vw" />
               </div>
             ))}
           </div>
@@ -112,7 +112,7 @@ export function ProductCarousel({ title, products: rawProducts, variant = 'popul
               ref={el => { mobileItemRefs.current[idx] = el; }}
               style={{ flexShrink: 0, width: 'calc(75vw)', scrollSnapAlign: 'start' }}
             >
-              <ProductCard product={product} variant={variant} priority={idx < 4} isActive={activeIndex === idx} />
+              <ProductCard product={product} variant={variant} priority={idx < 4} isActive={activeIndex === idx} sizes="75vw" />
             </div>
           ))}
         </div>
