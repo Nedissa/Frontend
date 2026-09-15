@@ -14,20 +14,10 @@ function mobileHeroFrameImage(slug: string): string | undefined {
   return MOBILE_HERO_SLUGS.includes(slug) ? `/digital/projekt/${slug}/mockup-mobile-hero.avif` : undefined;
 }
 
-// Naturlig bredd/höjd på varje projekts fullstorlekscreenshot, använt för att beskära till samma andel av höjden (object-cover, ingen sidbeskärning) på mobil.
-const FULL_SIZE_IMAGE_DIMENSIONS: Record<string, { width: number; height: number }> = {
-  techpilots: { width: 2515, height: 7445 },
-  'wastgota-bil': { width: 2515, height: 10289 },
-  sagateatern: { width: 2515, height: 10201 },
-  crownmatch: { width: 2515, height: 11123 },
-  'pistolero-studio': { width: 2395, height: 16272 },
-  'ljuva-hem-i-mark': { width: 2515, height: 10050 },
-};
-const MOBILE_FULL_SIZE_CROP_RATIO = 0.4;
-function mobileFullSizeCropAspectRatio(slug: string): string {
-  const dims = FULL_SIZE_IMAGE_DIMENSIONS[slug];
-  if (!dims) return '2515 / 2978';
-  return `${dims.width} / ${Math.round(dims.height * MOBILE_FULL_SIZE_CROP_RATIO)}`;
+// Samma fasta ram-höjd (aspect ratio) för fullstorlekscreenshoten på mobil, oavsett projekt eller källbildens egen höjd.
+const MOBILE_FULL_SIZE_CROP_ASPECT_RATIO = '2515 / 4449';
+function mobileFullSizeCropAspectRatio(): string {
+  return MOBILE_FULL_SIZE_CROP_ASPECT_RATIO;
 }
 
 function ProjectBadge({ children }: { children: ReactNode }) {
@@ -322,9 +312,12 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
     const baseColor = stripeBaseColor ?? '#ffffff';
     return (
       <div
-        className="w-full h-full flex justify-center items-end relative overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
+        className="max-h-full flex justify-center items-center relative overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
         style={{
+          width: aspectRatioProp ? 'auto' : '100%',
+          height: '100%',
           maxWidth: displayWidth,
+          aspectRatio: aspectRatioProp,
           padding: 20,
           borderRadius: 10,
           backgroundImage: `linear-gradient(135deg, ${stripeColor} 50%, ${baseColor} 50%)`,
@@ -333,10 +326,10 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
         <Image
           src={frameImage}
           alt=""
-          width={1920}
-          height={1440}
+          width={720}
+          height={1280}
           priority={priority}
-          style={{ width: '100%', height: 'auto', borderRadius: 10, filter: 'drop-shadow(0 25px 40px rgba(0,0,0,0.35))', transform: `scale(${frameImageScale})`, transformOrigin: 'bottom center' }}
+          style={{ width: '100%', height: 'auto', borderRadius: 10, filter: 'drop-shadow(0 25px 40px rgba(0,0,0,0.35))', transform: `scale(${frameImageScale})`, transformOrigin: 'center' }}
         />
       </div>
     );
@@ -500,11 +493,10 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                 <span className="text-sm font-bold uppercase tracking-widest text-[#030303]">Mätt med Google PageSpeed Insights</span>
               </div>
             </div>
-            <div className="flex flex-col lg:flex-row items-stretch gap-8 lg:gap-12">
+            <div className="flex flex-col lg:flex-row lg:items-stretch gap-8 lg:gap-12">
               <PageSpeedComparison oldPageSpeed={project.oldPageSpeed} newResult={pagespeedResults?.mobile ?? pagespeedResults?.desktop} />
-              <div className="hidden lg:flex justify-center items-end lg:flex-1 lg:border-l lg:border-black/10 lg:pl-12">
-                {/* frameImageScale lägre än standard 1.9 här eftersom denna container (bredvid pagespeed-korten) är kortare än Lösning-blockets — högre scale skar av telefonens header mot containerns topp. */}
-                <DeviceImage label="Mobil" src={mobileImage} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs compact width={360} frameImage={mobileHeroFrameImage(project.slug)} frameImageScale={1.65} />
+              <div className="hidden lg:flex justify-center lg:flex-1 lg:border-l lg:border-black/10 lg:pl-12 overflow-hidden" style={{ maxHeight: 464 }}>
+                <DeviceImage label="Mobil" src={mobileImage} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs compact width={360} frameImage={mobileHeroFrameImage(project.slug)} frameImageScale={0.78} aspectRatio={4 / 5} />
               </div>
             </div>
           </div>
@@ -529,7 +521,7 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                         backgroundImage: `linear-gradient(135deg, ${project.accentColor ?? '#0a0a0a'} 50%, ${project.stripeBaseColor ?? '#ffffff'} 50%)`,
                       }}
                     >
-                      <div className="relative w-full border-2 border-black/25 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ aspectRatio: mobileFullSizeCropAspectRatio(project.slug), borderRadius: 10 }}>
+                      <div className="relative w-full border-2 border-black/25 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ aspectRatio: mobileFullSizeCropAspectRatio(), borderRadius: 10 }}>
                         <Image
                           src={project.image ?? ''}
                           alt={project.title}
@@ -549,7 +541,7 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                     label="Lösning"
                     text={project.solution}
                     mobileTitle={project.solutionTitle}
-                    mobileDevice={<DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs frameImage={mobileHeroFrameImage(project.slug)} />}
+                    mobileDevice={<DeviceImage label="Mobil" src={mobileImage} specs={project.steps?.[0]?.uxImprovements} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs frameImage={mobileHeroFrameImage(project.slug)} frameImageScale={1.55} />}
                     imageFirst={false}
                   />
                 </div>
