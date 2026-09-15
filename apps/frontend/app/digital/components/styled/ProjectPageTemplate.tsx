@@ -329,7 +329,7 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
           width={720}
           height={1280}
           priority={priority}
-          style={{ width: '100%', height: 'auto', borderRadius: 10, filter: 'drop-shadow(0 25px 40px rgba(0,0,0,0.35))', transform: `scale(${frameImageScale})`, transformOrigin: 'center' }}
+          style={{ width: aspectRatioProp ? 'auto' : '100%', height: aspectRatioProp ? '100%' : 'auto', borderRadius: 10, filter: 'drop-shadow(0 25px 40px rgba(0,0,0,0.35))', transform: `scale(${frameImageScale})`, transformOrigin: 'center' }}
         />
       </div>
     );
