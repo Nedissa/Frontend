@@ -14,6 +14,22 @@ function mobileHeroFrameImage(slug: string): string | undefined {
   return MOBILE_HERO_SLUGS.includes(slug) ? `/digital/projekt/${slug}/mockup-mobile-hero.avif` : undefined;
 }
 
+// Naturlig bredd/höjd på varje projekts fullstorlekscreenshot, använt för att beskära till samma andel av höjden (object-cover, ingen sidbeskärning) på mobil.
+const FULL_SIZE_IMAGE_DIMENSIONS: Record<string, { width: number; height: number }> = {
+  techpilots: { width: 2515, height: 7445 },
+  'wastgota-bil': { width: 2515, height: 10289 },
+  sagateatern: { width: 2515, height: 10201 },
+  crownmatch: { width: 2515, height: 11123 },
+  'pistolero-studio': { width: 2395, height: 16272 },
+  'ljuva-hem-i-mark': { width: 2515, height: 10050 },
+};
+const MOBILE_FULL_SIZE_CROP_RATIO = 0.4;
+function mobileFullSizeCropAspectRatio(slug: string): string {
+  const dims = FULL_SIZE_IMAGE_DIMENSIONS[slug];
+  if (!dims) return '2515 / 2978';
+  return `${dims.width} / ${Math.round(dims.height * MOBILE_FULL_SIZE_CROP_RATIO)}`;
+}
+
 function ProjectBadge({ children }: { children: ReactNode }) {
   return (
     <span className="inline-block px-3.5 py-1 bg-[#030303] rounded-full text-xs font-bold text-white uppercase tracking-widest w-fit">
@@ -306,11 +322,12 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
     const baseColor = stripeBaseColor ?? '#ffffff';
     return (
       <div
-        className="w-full h-full flex justify-center items-end relative overflow-hidden"
+        className="w-full h-full flex justify-center items-end relative overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
         style={{
           maxWidth: displayWidth,
+          padding: 20,
           borderRadius: 10,
-          backgroundImage: `radial-gradient(circle at 15% 15%, ${stripeColor} 0%, transparent 55%), linear-gradient(${baseColor}, ${baseColor})`,
+          backgroundImage: `linear-gradient(135deg, ${stripeColor} 50%, ${baseColor} 50%)`,
         }}
       >
         <Image
@@ -333,7 +350,7 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
             <span className="absolute -left-[3px] top-[22%] w-[3px] h-8 bg-[#1c1c1e] rounded-l-sm" />
             <span className="absolute -left-[3px] top-[31%] w-[3px] h-8 bg-[#1c1c1e] rounded-l-sm" />
             <span className="absolute -right-[3px] top-[18%] w-[3px] h-11 bg-[#1c1c1e] rounded-r-sm" />
-          <div className="relative w-full bg-white overflow-hidden ring-1 ring-black/40 rounded-[10px]" style={{ aspectRatio: '390 / 690' }}>
+          <div className="relative w-full bg-white overflow-hidden rounded-[10px]" style={{ aspectRatio: '390 / 690' }}>
             <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-16 h-4 bg-[#030303] rounded-full z-10 flex items-center justify-end pr-1.5">
               <span className="w-1 h-1 rounded-full bg-[#1c1c1e] ring-1 ring-[#2a2a2a]" />
             </div>
@@ -370,14 +387,9 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
     <div className="w-full border-t border-black/10 pt-10 flex flex-col items-center gap-6">
       <div
         className="w-full overflow-hidden"
-        style={{
-          maxWidth: width,
-          padding: 6,
-          borderRadius: 10,
-          backgroundImage: `radial-gradient(circle at 50% 50%, ${accentColor ?? '#0a0a0a'} 0%, transparent 85%), linear-gradient(${stripeBaseColor ?? '#ffffff'}, ${stripeBaseColor ?? '#ffffff'})`,
-        }}
+        style={{ maxWidth: width, borderRadius: 10 }}
       >
-      <div className="relative w-full flex flex-col border-2 border-black/15 bg-white overflow-hidden" style={{ aspectRatio: 1 / (aspectRatio ?? 0.75), borderRadius: 10 }}>
+      <div className="relative w-full flex flex-col bg-white overflow-hidden" style={{ aspectRatio: 1 / (aspectRatio ?? 0.75), borderRadius: 10 }}>
         {src ? (
           <Image
             src={src}
@@ -414,6 +426,17 @@ function DeviceImage({ label, src, specs, deviceType, accentColor, stripeBaseCol
 
 export function ProjectPageTemplate({ project, pagespeedResults }: { project: Project; pagespeedResults?: PagespeedResults }) {
   const mobileImage = project.steps?.[0]?.image;
+  const caseColumnRef = useRef<HTMLDivElement>(null);
+  const [caseColumnHeight, setCaseColumnHeight] = useState<number>();
+
+  useEffect(() => {
+    const el = caseColumnRef.current;
+    if (!el) return;
+    const observer = new ResizeObserver(([entry]) => setCaseColumnHeight(entry.contentRect.height));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   if (!project.challenge && !project.solution && !project.result && !project.conclusionImage) return null;
 
   const heroImage = project.cardImage ?? project.image;
@@ -438,14 +461,14 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
         {heroImage && (
           <div className="mb-16 md:mb-48">
             <div
-              className="w-full overflow-hidden"
+              className="w-full overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
               style={{
-                padding: 6,
+                padding: 20,
                 borderRadius: 10,
-                backgroundImage: `radial-gradient(circle at 15% 15%, ${project.accentColor ?? '#0a0a0a'} 0%, transparent 55%), linear-gradient(${project.stripeBaseColor ?? '#ffffff'}, ${project.stripeBaseColor ?? '#ffffff'})`,
+                backgroundImage: `linear-gradient(135deg, ${project.accentColor ?? '#0a0a0a'} 50%, ${project.stripeBaseColor ?? '#ffffff'} 50%)`,
               }}
             >
-              <div className="relative w-full overflow-hidden border-2 border-black/15" style={{ aspectRatio: '16 / 9', borderRadius: 10 }}>
+              <div className="relative w-full overflow-hidden border-2 border-black/25 shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ aspectRatio: '16 / 9', borderRadius: 10 }}>
                 <Image
                   src={heroImage}
                   alt={project.title}
@@ -481,7 +504,7 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
               <PageSpeedComparison oldPageSpeed={project.oldPageSpeed} newResult={pagespeedResults?.mobile ?? pagespeedResults?.desktop} />
               <div className="hidden lg:flex justify-center items-end lg:flex-1 lg:border-l lg:border-black/10 lg:pl-12">
                 {/* frameImageScale lägre än standard 1.9 här eftersom denna container (bredvid pagespeed-korten) är kortare än Lösning-blockets — högre scale skar av telefonens header mot containerns topp. */}
-                <DeviceImage label="Mobil" src={mobileImage} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs compact width={360} frameImage={mobileHeroFrameImage(project.slug)} frameImageScale={1.5} />
+                <DeviceImage label="Mobil" src={mobileImage} deviceType="mobil" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs compact width={360} frameImage={mobileHeroFrameImage(project.slug)} frameImageScale={1.65} />
               </div>
             </div>
           </div>
@@ -491,13 +514,33 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
         <SectionHeader num="03" label="Utmaning, lösning och resultat" hasVisibleHeading />
         <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-8 lg:gap-16">
           <div className="lg:sticky lg:top-16 lg:self-start flex flex-col gap-8 lg:gap-16 min-w-0">
-            <div className="flex flex-col gap-8 lg:gap-16">
+            <div ref={caseColumnRef} className="flex flex-col gap-8 lg:gap-16">
               {project.challenge && (
                 <CaseBlock
                   label="Utmaning"
                   text={project.challenge}
                   mobileTitle={project.challengeTitle}
-                  mobileDevice={<DeviceImage label="Dator" src={project.image} specs={project.steps?.[2]?.uxImprovements} deviceType="dator" accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} website={project.website} title={project.title} hideSpecs compact aspectRatio={1.8} imageFit="cover" priority />}
+                  mobileDevice={
+                    <div
+                      className="w-full shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
+                      style={{
+                        padding: 20,
+                        borderRadius: 10,
+                        backgroundImage: `linear-gradient(135deg, ${project.accentColor ?? '#0a0a0a'} 50%, ${project.stripeBaseColor ?? '#ffffff'} 50%)`,
+                      }}
+                    >
+                      <div className="relative w-full border-2 border-black/25 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ aspectRatio: mobileFullSizeCropAspectRatio(project.slug), borderRadius: 10 }}>
+                        <Image
+                          src={project.image ?? ''}
+                          alt={project.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 768px"
+                          className="object-cover object-top"
+                          priority
+                        />
+                      </div>
+                    </div>
+                  }
                 />
               )}
               {project.solution && (
@@ -522,20 +565,20 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                 />
                 </div>
               )}
-              {project.website && (
-                <div className="flex justify-center pt-8 border-t border-black/10">
-                  <a
-                    href={`https://${project.website}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-[#030303] text-white px-6 py-3 rounded-full text-sm font-semibold no-underline"
-                  >
-                    Besök webbplatsen
-                    <span aria-hidden="true">↗</span>
-                  </a>
-                </div>
-              )}
             </div>
+            {project.website && (
+              <div className="flex justify-center pt-8 border-t border-black/10">
+                <a
+                  href={`https://${project.website}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-[#030303] text-white px-6 py-3 rounded-full text-sm font-semibold no-underline"
+                >
+                  Besök webbplatsen
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            )}
           </div>
 
           {project.conclusionImage && (
@@ -550,10 +593,10 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                   style={{
                     padding: 20,
                     borderRadius: 10,
-                    backgroundImage: `radial-gradient(circle at 15% 15%, ${project.accentColor ?? '#0a0a0a'} 0%, transparent 75%), linear-gradient(${project.stripeBaseColor ?? '#ffffff'}, ${project.stripeBaseColor ?? '#ffffff'})`,
+                    backgroundImage: `linear-gradient(135deg, ${project.accentColor ?? '#0a0a0a'} 50%, ${project.stripeBaseColor ?? '#ffffff'} 50%)`,
                   }}
                 >
-                <div className="relative w-full border-2 border-black/25 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={{ height: 1600, borderRadius: 10 }}>
+                <div className="relative w-full border-2 border-black/25 bg-white overflow-hidden shadow-[0_25px_50px_rgba(0,0,0,0.18)]" style={caseColumnHeight ? { height: caseColumnHeight - 40, borderRadius: 10 } : { aspectRatio: '2515 / 7445', borderRadius: 10 }}>
                   <Image
                     src={project.conclusionImage}
                     alt={project.title}
