@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import Image from 'next/image';
 import { useInView, animate } from 'framer-motion';
-import { Database, Layout, Code, Gauge, Eye, CheckCircle, MagnifyingGlass, Robot } from '@phosphor-icons/react';
+import { Database, Layout, Code } from '@phosphor-icons/react';
 import type { Project } from '../../projekt-data';
 import { PerformanceBadge } from './PerformanceBadge';
 import type { PagespeedResults } from './pagespeed-data';
@@ -218,14 +218,13 @@ function ScoreDonut({ value, delay = 0 }: { value: number; delay?: number }) {
   );
 }
 
-function PageSpeedComparisonCard({ icon, oldValue, newValue, label, description, delay }: { icon: ReactNode; oldValue?: number | string; newValue: number | string; label: string; description: string; delay?: number }) {
+function PageSpeedComparisonCard({ oldValue, newValue, label, description, delay }: { oldValue?: number | string; newValue: number | string; label: string; description: string; delay?: number }) {
   return (
     <div className="h-full flex flex-col gap-6 rounded-2xl bg-white p-6 md:p-7 shadow-[0_4px_16px_rgba(0,0,0,0.08)]">
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between gap-2 pb-2 border-b border-black/10">
             <span className="flex items-center gap-2">
-              <span className="hidden md:flex items-center justify-center w-6 h-6 rounded-full shrink-0 bg-[#030303] text-white">{icon}</span>
               <span className="text-sm font-bold uppercase tracking-widest text-[#030303]">{label}</span>
             </span>
             {typeof newValue === 'number' ? <ScoreDonut value={newValue} delay={delay} /> : <span className="text-3xl font-black text-[#030303]">{newValue}</span>}
@@ -245,36 +244,13 @@ function PageSpeedComparisonCard({ icon, oldValue, newValue, label, description,
   );
 }
 
-function AgenticBadge({ newResult }: { newResult: PagespeedResults['mobile'] }) {
-  if (!newResult) return null;
-
-  const geoChecks = [
-    (newResult.geoBlockedCrawlers?.length ?? 0) === 0,
-    newResult.geoVisibleWithoutJs ?? false,
-    newResult.geoHasStructuredData ?? false,
-  ];
-  const geoScore = geoChecks.filter(Boolean).length;
-
-  return (
-    <div
-      className="flex flex-col items-center justify-center gap-1 rounded-full bg-[#030303] shrink-0 w-[140px] h-[140px]"
-      title={`Agentisk webbläsning ${geoScore}/3`}
-    >
-      <Robot size={32} weight="fill" className="text-white" />
-      <span className="text-lg font-bold text-white">{geoScore}/3</span>
-    </div>
-  );
-}
-
 function PageSpeedComparison({ oldPageSpeed, newResult }: { oldPageSpeed?: Project['oldPageSpeed']; newResult: PagespeedResults['mobile'] }) {
   if (!newResult) return null;
 
   return (
     <div className="flex flex-col gap-6">
-      <AgenticBadge newResult={newResult} />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-5xl w-full">
       <PageSpeedComparisonCard
-        icon={<Gauge size={18} weight="fill" />}
         oldValue={oldPageSpeed?.performance}
         newValue={newResult.performance}
         label="Prestanda"
@@ -282,7 +258,6 @@ function PageSpeedComparison({ oldPageSpeed, newResult }: { oldPageSpeed?: Proje
         delay={0}
       />
       <PageSpeedComparisonCard
-        icon={<Eye size={18} weight="fill" />}
         oldValue={oldPageSpeed?.accessibility}
         newValue={newResult.accessibility}
         label="Tillgänglighet"
@@ -290,7 +265,6 @@ function PageSpeedComparison({ oldPageSpeed, newResult }: { oldPageSpeed?: Proje
         delay={0.6}
       />
       <PageSpeedComparisonCard
-        icon={<CheckCircle size={18} weight="fill" />}
         oldValue={oldPageSpeed?.bestPractices}
         newValue={newResult.bestPractices}
         label="Bästa metoder"
@@ -298,7 +272,6 @@ function PageSpeedComparison({ oldPageSpeed, newResult }: { oldPageSpeed?: Proje
         delay={1.2}
       />
       <PageSpeedComparisonCard
-        icon={<MagnifyingGlass size={18} weight="fill" />}
         oldValue={oldPageSpeed?.seo}
         newValue={newResult.seo}
         label="SEO"
