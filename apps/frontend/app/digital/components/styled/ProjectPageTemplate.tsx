@@ -59,14 +59,12 @@ function StripedFrame({ accentColor, stripeBaseColor, maxWidth, fillHeight, chil
   );
 }
 
-// Telefonram-mockup (skärmdump med statusbar/UI-chrome inbakad i källbilden).
-// fillHeight=true (t.ex. PageSpeed på desktop): bilden fyller bredden, transform-skalan förstorar den inom lådans overflow-hidden-gräns.
-// fillHeight=false (t.ex. Lösning-kortet på mobil): samma metod, annan skala.
-function MobileMockup({ slug, accentColor, stripeBaseColor, priority, fillHeight = true, frameImageScale = 1.7 }: { slug: string; accentColor?: string; stripeBaseColor?: string; priority?: boolean; fillHeight?: boolean; frameImageScale?: number }) {
+// Telefonram-mockup för PageSpeed-sektionen på desktop. Oförändrad sedan tidigare bekräftat fungerande version.
+function MobileMockup({ slug, accentColor, stripeBaseColor, priority, frameImageScale = 1.7 }: { slug: string; accentColor?: string; stripeBaseColor?: string; priority?: boolean; frameImageScale?: number }) {
   const src = mobileHeroFrameImage(slug);
   if (!src) return null;
   return (
-    <StripedFrame accentColor={accentColor} stripeBaseColor={stripeBaseColor} maxWidth={1400} fillHeight={fillHeight}>
+    <StripedFrame accentColor={accentColor} stripeBaseColor={stripeBaseColor} maxWidth={1400} fillHeight>
       <Image
         src={src}
         alt=""
@@ -76,6 +74,26 @@ function MobileMockup({ slug, accentColor, stripeBaseColor, priority, fillHeight
         style={{ width: '100%', height: 'auto', borderRadius: 10, filter: 'drop-shadow(0 25px 40px rgba(0,0,0,0.35))', transform: `scale(${frameImageScale})`, transformOrigin: 'center' }}
       />
     </StripedFrame>
+  );
+}
+
+// Telefonram-mockup för Lösning-kortet på mobil. Egen isolerad väg: hela lådan (bakgrund+telefon)
+// görs bredare tillsammans, ingen klippning av delar av bilden. Ändringar här påverkar aldrig PageSpeed-mockupen ovan.
+function MobileMockupCard({ slug, accentColor, stripeBaseColor, widthPercent = 130 }: { slug: string; accentColor?: string; stripeBaseColor?: string; widthPercent?: number }) {
+  const src = mobileHeroFrameImage(slug);
+  if (!src) return null;
+  return (
+    <div className="flex justify-center" style={{ marginLeft: `-${(widthPercent - 100) / 2}%`, marginRight: `-${(widthPercent - 100) / 2}%` }}>
+      <div className="flex justify-center items-center relative overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.18)]" style={{ width: `${widthPercent}%`, padding: 20, borderRadius: 10, backgroundImage: `linear-gradient(135deg, ${accentColor ?? '#0a0a0a'} 50%, ${stripeBaseColor ?? '#ffffff'} 50%)` }}>
+        <Image
+          src={src}
+          alt=""
+          width={720}
+          height={1280}
+          style={{ width: '100%', height: 'auto', borderRadius: 10, filter: 'drop-shadow(0 25px 40px rgba(0,0,0,0.35))' }}
+        />
+      </div>
+    </div>
   );
 }
 
@@ -434,7 +452,7 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                     label="Lösning"
                     text={project.solution}
                     mobileTitle={project.solutionTitle}
-                    mobileDevice={<MobileMockup slug={project.slug} accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} fillHeight={false} frameImageScale={2.2} />}
+                    mobileDevice={<MobileMockupCard slug={project.slug} accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} widthPercent={165} />}
                     imageFirst={false}
                   />
                 </div>
