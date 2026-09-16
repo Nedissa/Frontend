@@ -413,6 +413,13 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
                 <img src="/icons/brands/lighthouse.svg" alt="" width={20} height={20} />
                 <span className="text-sm font-bold uppercase tracking-widest text-[#030303]">Mätt med Google PageSpeed Insights</span>
               </div>
+              {project.cwvApproved && (
+                <div className="flex items-center gap-2 self-start rounded-full pl-2 pr-4 py-1.5">
+                  {/* eslint-disable-next-line @next/next/no-img-element -- SVG-ikon, next/image blockerar SVG utan dangerouslyAllowSVG i next.config */}
+                  <img src="/icons/brands/google.svg" alt="" width={20} height={20} />
+                  <span className="text-sm font-bold uppercase tracking-widest text-[#030303]">Godkänd för Core Web Vitals</span>
+                </div>
+              )}
             </div>
             <div className="flex flex-col lg:flex-row lg:items-stretch gap-8 lg:gap-12">
               <PageSpeedComparison oldPageSpeed={project.oldPageSpeed} newResult={pagespeedResults?.mobile ?? pagespeedResults?.desktop} />

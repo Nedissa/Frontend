@@ -34,6 +34,7 @@ export type Project = {
   conclusionImage?: string;
   beforeAfter?: string;
   beforeImage?: string;
+  cwvApproved?: boolean;
   oldPageSpeed?: {
     performance: number;
     accessibility: number;
@@ -55,6 +56,7 @@ export const PROJECTS: Project[] = [
     website: 'sagateatern.nu',
     accentColor: '#B33A3A',
     stripeBaseColor: '#0a0a0a',
+    cwvApproved: true,
     tagline: 'Där scenkonst möter mat och gemenskap',
     description: 'Sagateatern i Borås är en kulturarena där scenkonst möter mat och gemenskap. Med ny regi och tydlig vision behövdes en digital plattform som speglar teaterns identitet och gör det enkelt att boka bord, hitta evenemang och hyra lokal.',
     challenge: 'Ny regi, ny vision, men ingen digital plattform som visade det. Sagateatern behövde en webbnärvaro som speglade en kulturarena där mat och scenkonst möts. Besökare skulle enkelt kunna boka bord, hitta evenemang och hyra lokal, allt på samma ställe, utan att känslan av teatern gick förlorad.',
@@ -140,6 +142,7 @@ export const PROJECTS: Project[] = [
     conclusionImage: '/digital/projekt/pistolero-studio/full-size.avif',
     accentColor: '#4B5563',
     stripeBaseColor: '#0a0a0a',
+    cwvApproved: true,
     tagline: 'Ny studio, förnyad identitet',
     description: 'När våra kunder tar nästa steg får vi ofta vara med på resan. Nu öppnar Pistolero en ny studio på Stora Brogatan 37 i Borås och vi har haft förtroendet att ta fram deras nya webbplats. I samband med flytten förnyas den lokala profilen med tydligare identitet och ny energi som vi hjälper till att skapa.',
     challenge: 'Pistolero öppnar en ny studio på Stora Brogatan 37 i Borås, och flytten krävde en **förnyad digital profil**. Identiteten skulle spegla hela bredden av studions stil, från tatuering till skönhetsbehandlingar. Den gamla webbplatsen höll varken visuellt eller funktionellt för den nya energin i lokalen.',
