@@ -63,9 +63,7 @@ export default async function CategoryPage({ params }: PageProps) {
 
   return (
     <MainLayout>
-      <div className="px-6">
-        <Breadcrumb items={breadcrumbItems} />
-      </div>
+      <Breadcrumb items={breadcrumbItems} />
       <CategoryClient slug={slug} categoryTitle={categoryTitle} />
     </MainLayout>
   );

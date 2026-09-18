@@ -292,7 +292,7 @@ export default function ProductDetailClient({
     : [{ label: product.title }];
 
   return (
-    <div className="pt-[20px]">
+    <div>
       <Breadcrumb items={breadcrumbItems} />
 
       {/* Main layout: left (gallery+tabs) + right (productinfo+handla tryggt) */}
