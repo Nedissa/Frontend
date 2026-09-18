@@ -126,7 +126,7 @@ export function ImageZoomDialog({
         </button>
 
         {/* Image Container with Navigation */}
-        <div className="flex-1 flex items-center justify-center overflow-hidden relative" style={{ minHeight: 0, padding: isMobile ? '8px 8px' : '8px 56px' }}>
+        <div className="flex-1 flex items-center justify-center overflow-hidden relative" style={{ minHeight: 0, padding: isMobile ? '40px 8px 8px' : '40px 56px 8px' }}>
           {/* Left Arrow */}
           {!isMobile && <button
             onClick={() => goTo((currentIndex - 1 + images.length) % images.length)}

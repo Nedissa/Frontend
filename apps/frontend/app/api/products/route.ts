@@ -24,7 +24,7 @@ export async function GET(request: Request) {
 
     // Fetch products with publishable API key
     const response = await fetch(
-      `${medusaUrl}/store/products?limit=100&region_id=${regionId}&fields=id,title,handle,description,*images,thumbnail,brand,isNew,created_at,*variants.prices,*variants.inventory_quantity,*collection,options.title,options.values.value,+metadata${idParam}`,
+      `${medusaUrl}/store/products?limit=100&region_id=${regionId}&fields=id,title,handle,description,*images,thumbnail,brand,isNew,created_at,*variants.prices,*variants.inventory_quantity,variants.sku,*collection,*categories,options.title,options.values.value,+metadata${idParam}`,
       {
         method: 'GET',
         headers: {
@@ -65,6 +65,13 @@ export async function GET(request: Request) {
       let imageUrl = product.images?.[0]?.url || product.thumbnail || '';
       imageUrl = imageUrl.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se').replace(/^http:\/\//, 'https://');
       const image = imageUrl;
+
+      const fixImageUrl = (url: string) =>
+        url.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se').replace(/^http:\/\//, 'https://');
+      const imageMapRaw = product.metadata?.imageMap;
+      const imageMap = imageMapRaw
+        ? Object.fromEntries(Object.entries(imageMapRaw).map(([color, url]) => [color, fixImageUrl(url as string)]))
+        : null;
 
       // Hitta varianten med SEK-pris — den enda som går att lägga i SEK-cart
       let price = 0;
@@ -115,11 +122,18 @@ export async function GET(request: Request) {
           return url;
         }) || []),
         category: collectionTitle,
+        categoryHandles: (product.categories?.map((c: any) => c.handle) || []),
         description: product.description || '',
+        sku: sekVariant?.sku || '',
+        manufacturerSku: product.metadata?.manufacturer_sku || '',
         metadata: {
           highlights: parseMeta(product.metadata?.highlights),
           specifications: parseMeta(product.metadata?.specifications),
           contents: parseMeta(product.metadata?.contents),
+          colorMap: product.metadata?.colorMap || null,
+          descriptionMap: product.metadata?.descriptionMap || null,
+          descriptionSections: parseMeta(product.metadata?.descriptionSections),
+          imageMap,
         },
         brand: product.brand || '',
         colors: product.options?.find((o: any) => o.title?.toLowerCase() === 'color' || o.title?.toLowerCase() === 'färg')?.values?.map((v: any) => v.value) || parseMeta(product.metadata?.colors),

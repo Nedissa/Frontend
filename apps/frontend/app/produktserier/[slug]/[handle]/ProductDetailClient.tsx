@@ -253,11 +253,20 @@ export default function ProductDetailClient({
 
   const metadata = (product as any).metadata || {};
 
+  const manufacturerSkuMap: Record<string, string> = Object.fromEntries(
+    ((product as any).manufacturerSku || '')
+      .split(',')
+      .map((entry: string) => entry.split(':'))
+      .filter((pair: string[]) => pair.length === 2)
+  );
+  const currentSku = (product as any).sku || '';
+  const displaySku = (manufacturerSkuMap[currentSku] || currentSku || product.id.slice(-8).toUpperCase()).split('#')[0];
+
   const productDetails = {
-    sku: product.id.slice(-8).toUpperCase(),
+    sku: displaySku,
     quantityAvailable: (product as any).inventoryQuantity ?? null,
     compareAtPrice: product.originalPrice,
-    description: (product as any).description || '',
+    description: (metadata.descriptionMap as Record<string, string> | undefined)?.[selectedColor] || (product as any).description || '',
     featuredImage: { url: product.image, altText: product.title },
     images: (product.images && product.images.length > 0)
       ? product.images.map((url, idx) => ({ id: String(idx + 1), url, altText: `${product.title} ${idx + 1}` }))
@@ -456,10 +465,17 @@ export default function ProductDetailClient({
                     const firstDot = text.search(/[.!?]\s/);
                     const ingress = firstDot > 0 ? text.slice(0, firstDot + 1) : text.slice(0, 120);
                     const rest = firstDot > 0 ? text.slice(firstDot + 2) : text.slice(120);
+                    const sections = (metadata.descriptionSections as { heading: string; body: string }[] | undefined) || [];
                     return (
                       <>
                         <p className="text-sm font-semibold text-gray-900 leading-relaxed mb-3">{ingress}</p>
                         {rest && <p className="text-sm text-gray-600 whitespace-pre-wrap leading-relaxed">{rest}</p>}
+                        {sections.map((section, idx) => (
+                          <div key={idx} className="mt-6">
+                            <p className="text-sm font-semibold text-gray-900 leading-relaxed mb-2">{section.heading}</p>
+                            <p className="text-sm text-gray-600 whitespace-pre-wrap leading-relaxed">{section.body}</p>
+                          </div>
+                        ))}
                       </>
                     );
                   })()}
@@ -582,19 +598,29 @@ export default function ProductDetailClient({
             <span className="text-xs uppercase tracking-widest text-gray-400 font-medium">Färg</span>
             <div className="flex gap-3">
               {sortColors(product.colors || []).map((name) => {
-                const hex = COLOR_HEX_MAP[name.toLowerCase()] || name;
+                const colorMap = (product.metadata as any)?.colorMap as Record<string, string> | null;
+                const hex = colorMap?.[name] || COLOR_HEX_MAP[name.toLowerCase()];
                 return (
                 <div key={name} className="tp-tooltip-wrap">
                   <button
                     onClick={() => setSelectedColor(name)}
-                    className="w-11 h-11 flex items-center justify-center flex-shrink-0"
+                    className="flex items-center justify-center flex-shrink-0"
                     style={{ background: 'none', border: 'none', padding: 0 }}
                     aria-label={`Välj färg ${name}`}
                   >
-                    <span
-                      className="w-10 h-4 rounded-full block"
-                      style={{ backgroundColor: hex, outline: selectedColor === name ? '2px solid #999999' : 'none', outlineOffset: '2px', boxShadow: hex === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
-                    />
+                    {hex ? (
+                      <span
+                        className="w-10 h-4 rounded-full block"
+                        style={{ background: hex, outline: selectedColor === name ? '2px solid #999999' : 'none', outlineOffset: '2px', boxShadow: hex === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
+                      />
+                    ) : (
+                      <span
+                        className="px-3 h-8 flex items-center text-xs font-medium border rounded-full"
+                        style={{ borderColor: selectedColor === name ? '#999999' : '#D1D5DB' }}
+                      >
+                        {name}
+                      </span>
+                    )}
                   </button>
                   <span className="tp-tooltip">
                     {name}
@@ -617,7 +643,7 @@ export default function ProductDetailClient({
                   <div className="flex items-center gap-2">
                     <span className={`w-2 h-2 rounded-full ${isOutOfStock ? 'bg-red-500' : 'bg-green-500'}`}></span>
                     <span className={`text-sm font-medium ${isOutOfStock ? 'text-red-500' : 'text-black'}`}>
-                      {isOutOfStock ? 'Slut i lager' : qty !== null ? `${qty} st` : 'I lager'}
+                      {isOutOfStock ? 'Slut i lager' : managesInventory && qty !== null ? `${qty} st` : 'i lager'}
                     </span>
                   </div>
                 </div>

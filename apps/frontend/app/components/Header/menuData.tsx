@@ -32,6 +32,8 @@ export interface SearchProduct {
   price: number;
   rating?: number;
   reviews?: number;
+  sku?: string;
+  manufacturerSku?: string;
 }
 
 export const MENU_DATA: MenuCategory[] = [
@@ -68,6 +70,10 @@ export const MENU_DATA: MenuCategory[] = [
           { id: 'bildskarm', title: 'Bildskärmar', url: '/kategori/datortillbehor' },
           { id: 'tangentbord', title: 'Tangentbord', url: '/kategori/datortillbehor' },
           { id: 'moss', title: 'Möss', url: '/kategori/datortillbehor' },
+          { id: 'kablar', title: 'Kablar & Laddning', url: '/kategori/kablar' },
+          { id: 'batterier', title: 'Batterier', url: '/kategori/batterier' },
+          { id: 'blackpatroner', title: 'Bläckpatroner & Toner', url: '/kategori/blackpatroner' },
+          { id: 'vaskor', title: 'Väskor & Fodral', url: '/kategori/vaskor' },
         ],
       },
     ],

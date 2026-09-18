@@ -52,7 +52,8 @@ export function DesktopHeader({
 }: DesktopHeaderProps) {
   const results = searchProducts.filter(product =>
     product.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.category.toLowerCase().includes(searchTerm.toLowerCase())
+    product.sku?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    product.manufacturerSku?.toLowerCase().includes(searchTerm.toLowerCase())
   ).slice(0, 5);
 
   return (
@@ -112,7 +113,7 @@ export function DesktopHeader({
                 autoComplete="off"
                 autoCorrect="off"
                 autoCapitalize="none"
-                placeholder="Sök efter produkt, kategori eller artikel..."
+                placeholder="Sök efter produkt eller varukod..."
                 className="flex-1 bg-transparent text-sm placeholder-gray-400 focus:outline-none py-2"
                 value={searchTerm}
                 onChange={(e) => onSearchChange(e.target.value)}

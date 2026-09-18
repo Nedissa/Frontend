@@ -43,7 +43,11 @@ export function MobileHeader({
   onSearchFocus,
   onSearchResultClick,
 }: MobileHeaderProps) {
-  const results = searchProducts.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, 5);
+  const results = searchProducts.filter(p =>
+    p.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    p.sku?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    p.manufacturerSku?.toLowerCase().includes(searchTerm.toLowerCase())
+  ).slice(0, 5);
 
   return (
     <div className="xl:hidden" ref={mobileHeaderRef}>
@@ -112,7 +116,7 @@ export function MobileHeader({
             autoComplete="off"
             autoCorrect="off"
             autoCapitalize="none"
-            placeholder="Sök efter produkt, kategori eller artikel..."
+            placeholder="Sök efter produkt eller varukod..."
             className="flex-1 bg-transparent text-sm text-black placeholder-gray-400 focus:outline-none px-3 py-2"
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}

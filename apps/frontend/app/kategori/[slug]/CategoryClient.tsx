@@ -6,6 +6,7 @@ import { ProductCard } from '@/app/components/product/ProductCard';
 import { ProductFilter } from '@/app/components/product/ProductFilter';
 import { SortDropdown } from '@/app/components/product/SortDropdown';
 import { CategoryGrid } from '@/app/components/home/CategoryGrid';
+import { MEDUSA_CATEGORY_TO_MAIN } from '@/app/lib/products';
 
 interface FilterOptions {
   priceRange: [number, number];
@@ -42,9 +43,13 @@ export default function CategoryClient({ slug, categoryTitle }: CategoryClientPr
     load();
   }, [slug]);
 
-  const maxPrice = products.length > 0 ? Math.max(...products.map(p => p.price)) : 20000;
+  const categoryProducts = products.filter((p) =>
+    (p.categoryHandles || []).some((handle: string) => MEDUSA_CATEGORY_TO_MAIN[handle] === slug)
+  );
 
-  const filtered = products.filter((p) => {
+  const maxPrice = categoryProducts.length > 0 ? Math.max(...categoryProducts.map(p => p.price)) : 20000;
+
+  const filtered = categoryProducts.filter((p) => {
     if (p.price < filters.priceRange[0] || p.price > filters.priceRange[1]) return false;
     if (filters.brands.length > 0 && !filters.brands.includes(p.brand || '')) return false;
     if (filters.rating.length > 0 && !filters.rating.includes(Math.round(p.rating || 0))) return false;
@@ -88,7 +93,7 @@ export default function CategoryClient({ slug, categoryTitle }: CategoryClientPr
         <ProductFilter
           onFilterChange={(f) => { setFilters(f); setCurrentPage(1); }}
           maxPrice={maxPrice}
-          products={products}
+          products={categoryProducts}
         />
       </div>
 

@@ -60,7 +60,7 @@ const ColorSwatch = memo(function ColorSwatch({ color, bgColor, isSelected, onSe
       >
         <span
           className="w-8 h-3 rounded-full block"
-          style={{ backgroundColor: bgColor, outline: isSelected ? '2px solid #999999' : 'none', outlineOffset: '2px', boxShadow: bgColor === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
+          style={{ background: bgColor, outline: isSelected ? '2px solid #999999' : 'none', outlineOffset: '2px', boxShadow: bgColor === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
         />
       </button>
       <Tooltip anchorRef={ref} label={color} />
@@ -130,6 +130,9 @@ export function ProductCard({
   const [selectedColor, setSelectedColor] = useState(0);
   const config = VARIANT_CONFIG[variant];
   const cardImages = product.images?.slice(0, 3);
+  const imageMap = product.metadata?.imageMap as Record<string, string> | null;
+  const selectedColorName = product.colors && sortColors(product.colors)[selectedColor];
+  const colorImageUrl = imageMap && selectedColorName ? imageMap[selectedColorName] : undefined;
 
   const handleAddToCart = useCallback(() => {
     const cartEvent = new CustomEvent('addToCart', {
@@ -167,7 +170,7 @@ export function ProductCard({
     <>
     <div className="h-full" style={{ isolation: 'isolate', contain: 'layout' }}>
     <div
-      className="flex flex-col bg-white h-full p-2 sm:p-3 border border-gray-200"
+      className="flex flex-col bg-white h-full border border-gray-200"
       style={{ boxShadow: activeHover ? '0 4px 20px rgba(0,0,0,0.12)' : undefined, transition: 'box-shadow 300ms ease' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -175,7 +178,7 @@ export function ProductCard({
       {/* Image + Ikoner */}
       <div
         className="relative aspect-[3/2] sm:aspect-square w-full flex-shrink-0"
-        style={{ backgroundColor: 'rgba(238, 241, 244, 0.5)' }}
+        style={{ backgroundColor: '#FFFFFF' }}
         onMouseMove={(e) => {
           if (!cardImages || cardImages.length === 0) return;
           if (mouseMoveFrameRef.current) return;
@@ -243,9 +246,9 @@ export function ProductCard({
         </div>
 
         <Link href={productLink} scroll={false} className="absolute inset-0 flex items-center justify-center overflow-hidden">
-          {(cardImages?.[imageIndex] || product.image) ? (
+          {(colorImageUrl || cardImages?.[imageIndex] || product.image) ? (
             <Image
-              src={getProxiedImageUrl(cardImages?.[imageIndex] || product.image)}
+              src={getProxiedImageUrl(colorImageUrl || cardImages?.[imageIndex] || product.image)}
               alt={product.title}
               fill
               sizes={sizes}
@@ -273,7 +276,7 @@ export function ProductCard({
 
       {/* Quick facts — below image */}
       {config.showFeatures && product.features && product.features.length > 0 && (
-        <div className="relative flex items-stretch border-b border-gray-200" style={{ backgroundColor: 'rgba(238, 241, 244, 0.5)', boxShadow: 'inset 0 1px 0 #d1d5db' }}>
+        <div className="relative flex items-stretch border-b border-gray-200" style={{ backgroundColor: '#FFFFFF', boxShadow: 'inset 0 1px 0 #d1d5db' }}>
           {product.features.filter(f => !f.startsWith('tier:')).slice(0, 3).map((feature: string, idx: number) => {
             const parts = feature.split('|');
             const value = parts[0]?.trim() || feature;
@@ -290,7 +293,7 @@ export function ProductCard({
 
 
       {/* Product Info */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col p-2 sm:p-3">
 
         {/* Brand + Title */}
         <div className="pt-1.5 pb-1 border-b border-gray-100">
@@ -320,7 +323,8 @@ export function ProductCard({
         <div className="py-0.5 border-b border-gray-100">
           <div className="flex gap-2 min-h-[20px]">
             {product.colors && product.colors.length > 0 && sortColors(product.colors).map((color, idx) => {
-              const bgColor = COLOR_HEX_MAP[color.toLowerCase()] || color;
+              const productColorMap = product.metadata?.colorMap as Record<string, string> | undefined;
+              const bgColor = productColorMap?.[color] || COLOR_HEX_MAP[color.toLowerCase()] || '#D1D5DB';
               return (
                 <ColorSwatch key={idx} color={color} bgColor={bgColor} isSelected={selectedColor === idx} onSelect={() => setSelectedColor(idx)} />
               );

@@ -42,6 +42,23 @@ export const SUBCATEGORIES: Record<string, { title: string; mainCategory: string
   'ultrabooks': { title: 'Ultrabooks', mainCategory: 'laptops' },
 };
 
+// Kopplar Medusas product_category-handles till frontends huvudkategorier
+// (MAIN_CATEGORIES). En Medusa-kategori kan bara höra till en huvudkategori.
+export const MEDUSA_CATEGORY_TO_MAIN: Record<string, string> = {
+  datorer: 'datorer-tillbehor',
+  laptops: 'datorer-tillbehor',
+  'laptop-tillbehor': 'datorer-tillbehor',
+  'stationardator-tillbehor': 'datorer-tillbehor',
+  vaskor: 'datorer-tillbehor',
+  blackpatroner: 'datorer-tillbehor',
+  kablar: 'datorer-tillbehor',
+  batterier: 'datorer-tillbehor',
+  grafikkort: 'datorkomponenter',
+  'grafikkort-tillbehor': 'datorkomponenter',
+  kylar: 'datorkomponenter',
+  'kylare-tillbehor': 'datorkomponenter',
+};
+
 export const PRODUCT_SERIES: Record<string, { title: string; parentCategory: string }> = {
   'ultrabooks': { title: 'Ultrabooks', parentCategory: 'laptops' },
   'gaming-laptops-gaming': { title: 'Gaming bärbara', parentCategory: 'gaming-laptops' },

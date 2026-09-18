@@ -8,6 +8,8 @@ export const COLOR_HEX_MAP: Record<string, string> = {
   'blå': '#3B82F6', 'blue': '#3B82F6',
   'grön': '#22C55E', 'green': '#22C55E',
   'gul': '#EAB308', 'yellow': '#EAB308',
+  'tricolor': 'linear-gradient(90deg, #EF4444 33%, #EAB308 33% 66%, #3B82F6 66%)',
+  'flerfärgad': 'linear-gradient(90deg, #EF4444 33%, #EAB308 33% 66%, #3B82F6 66%)',
 };
 
 const COLOR_ORDER = ['röd', 'red', 'blå', 'blue', 'grön', 'green', 'gul', 'yellow', 'silver', 'grå', 'gray', 'grey', 'svart', 'black', 'vit', 'white'];

@@ -59,9 +59,12 @@ async function fetchProductsFromAPI() {
       return [];
     }
 
+    const fixImageUrl = (url: string) =>
+      url.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se').replace(/^http:\/\//, 'https://');
+
     return products.map((product: any) => {
       let imageUrl = product.images?.[0]?.url || product.thumbnail || '';
-      imageUrl = imageUrl.replace(/^http:\/\/localhost:9000/, 'https://api.techpilots.se').replace(/^http:\/\//, 'https://');
+      imageUrl = fixImageUrl(imageUrl);
       let price = 0;
       const sekVariant = product.variants?.find((v: any) => v.prices?.some((p: any) => p.currency_code === 'sek')) || product.variants?.[0];
       if (sekVariant?.calculated_price?.calculated_amount !== undefined) {
@@ -105,6 +108,10 @@ async function fetchProductsFromAPI() {
         metadata: {
           specifications: parseMeta(product.metadata?.specifications),
           contents: parseMeta(product.metadata?.contents),
+          colorMap: product.metadata?.colorMap || null,
+          imageMap: product.metadata?.imageMap
+            ? Object.fromEntries(Object.entries(product.metadata.imageMap).map(([color, url]) => [color, fixImageUrl(url as string)]))
+            : null,
         },
       };
     });
