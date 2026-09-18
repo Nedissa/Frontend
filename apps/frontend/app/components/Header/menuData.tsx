@@ -1,10 +1,14 @@
 import React from 'react';
 import Image from 'next/image';
 
+// categoryHandles: Medusas product_category-handles som denna menynod
+// motsvarar. Används för att koppla ihop meny, kategorisidor och
+// produktfiltrering utan att dubblera kategoridata på flera ställen.
 export interface MenuItem {
   id: string;
   title: string;
   url: string;
+  categoryHandles?: string[];
   items?: MenuItem[];
 }
 
@@ -12,6 +16,7 @@ export interface MenuSection {
   id: string;
   title: string;
   url: string;
+  categoryHandles?: string[];
   items?: MenuItem[];
 }
 
@@ -19,6 +24,7 @@ export interface MenuCategory {
   id: string;
   title: string;
   url: string;
+  categoryHandles?: string[];
   items?: MenuSection[];
 }
 
@@ -41,11 +47,13 @@ export const MENU_DATA: MenuCategory[] = [
     id: 'datorer-och-tillbehor',
     title: 'Datorer',
     url: '/kategori/datorer-tillbehor',
+    categoryHandles: ['datorer', 'laptops', 'laptop-tillbehor', 'stationardator-tillbehor', 'vaskor', 'blackpatroner', 'kablar', 'batterier'],
     items: [
       {
         id: 'barbara',
         title: 'Bärbara',
         url: '/kategori/barbara',
+        categoryHandles: ['laptops'],
         items: [
           { id: 'ultrabooks', title: 'Ultrabooks', url: '/kategori/barbara' },
           { id: 'gaming-barbara', title: 'Gaming bärbara', url: '/kategori/barbara' },
@@ -56,6 +64,7 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'stationara',
         title: 'Stationära',
         url: '/kategori/stationara',
+        categoryHandles: ['datorer'],
         items: [
           { id: 'mini-pc', title: 'Mini-PC', url: '/kategori/stationara' },
           { id: 'allt-i-ett', title: 'Allt-i-ett-datorer', url: '/kategori/stationara' },
@@ -66,14 +75,15 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'datortillbehor',
         title: 'Tillbehör',
         url: '/kategori/datortillbehor',
+        categoryHandles: ['laptop-tillbehor', 'stationardator-tillbehor', 'vaskor', 'blackpatroner', 'kablar', 'batterier'],
         items: [
           { id: 'bildskarm', title: 'Bildskärmar', url: '/kategori/datortillbehor' },
           { id: 'tangentbord', title: 'Tangentbord', url: '/kategori/datortillbehor' },
           { id: 'moss', title: 'Möss', url: '/kategori/datortillbehor' },
-          { id: 'kablar', title: 'Kablar & Laddning', url: '/kategori/kablar' },
-          { id: 'batterier', title: 'Batterier', url: '/kategori/batterier' },
-          { id: 'blackpatroner', title: 'Bläckpatroner & Toner', url: '/kategori/blackpatroner' },
-          { id: 'vaskor', title: 'Väskor & Fodral', url: '/kategori/vaskor' },
+          { id: 'kablar', title: 'Kablar & Laddning', url: '/kategori/kablar', categoryHandles: ['kablar'] },
+          { id: 'batterier', title: 'Batterier', url: '/kategori/batterier', categoryHandles: ['batterier'] },
+          { id: 'blackpatroner', title: 'Bläckpatroner & Toner', url: '/kategori/blackpatroner', categoryHandles: ['blackpatroner'] },
+          { id: 'vaskor', title: 'Väskor & Fodral', url: '/kategori/vaskor', categoryHandles: ['vaskor'] },
         ],
       },
     ],
@@ -82,6 +92,7 @@ export const MENU_DATA: MenuCategory[] = [
     id: 'komponenter',
     title: 'Komponenter',
     url: '/kategori/datorkomponenter',
+    categoryHandles: ['grafikkort', 'grafikkort-tillbehor', 'kylar', 'kylare-tillbehor'],
     items: [
       {
         id: 'processorer',
@@ -105,6 +116,7 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'grafikkort',
         title: 'Grafikkort',
         url: '/kategori/grafikkort',
+        categoryHandles: ['grafikkort', 'grafikkort-tillbehor'],
         items: [
           { id: 'nvidia', title: 'NVIDIA', url: '/kategori/grafikkort' },
           { id: 'amd-gpu', title: 'AMD', url: '/kategori/grafikkort' },

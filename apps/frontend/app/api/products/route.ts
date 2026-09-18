@@ -123,6 +123,7 @@ export async function GET(request: Request) {
         }) || []),
         category: collectionTitle,
         categoryHandles: (product.categories?.map((c: any) => c.handle) || []),
+        categoryNames: (product.categories?.map((c: any) => c.name) || []),
         description: product.description || '',
         sku: sekVariant?.sku || '',
         manufacturerSku: product.metadata?.manufacturer_sku || '',

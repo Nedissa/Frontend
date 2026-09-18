@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Aside, useAside } from '../shared/Aside';
-import { MAIN_CATEGORIES } from '@/app/lib/products';
+import { MENU_DATA } from '@/app/components/Header/menuData';
 import { MOBILE_CATEGORY_ICONS } from '@/app/components/Header/menuData';
 
 interface CartItem {
@@ -242,17 +242,20 @@ export function CartAside() {
             <p className="text-gray-600 text-sm mb-6 text-center">Inte säker på var du ska börja?<br />Prova dessa kategorier:</p>
 
             <div className="space-y-2 w-full">
-              {Object.entries(MAIN_CATEGORIES).map(([slug, title]) => (
-                <Link key={slug} href={`/kategori/${slug}`} onClick={close} className="flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 transition-colors rounded gap-3">
+              {MENU_DATA.map((category) => {
+                const slug = category.url.replace('/kategori/', '');
+                return (
+                <Link key={slug} href={category.url} onClick={close} className="flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 transition-colors rounded gap-3">
                   <span className="flex-shrink-0 w-6 h-6 flex items-center justify-center">
                     {MOBILE_CATEGORY_ICONS[slug]}
                   </span>
-                  <span className="text-sm font-medium text-gray-900 flex-1">{title}</span>
+                  <span className="text-sm font-medium text-gray-900 flex-1">{category.title}</span>
                   <svg className="w-4 h-4 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </Link>
-              ))}
+                );
+              })}
             </div>
 
             <button

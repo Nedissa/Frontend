@@ -18,63 +18,87 @@ export interface Product {
   features?: string[];
   isNew?: boolean;
   category?: string;
+  categoryHandles?: string[];
+  categoryNames?: string[];
   sectionCategory?: string;
   metadata?: Record<string, any> | null;
 }
 
-export const MAIN_CATEGORIES: Record<string, string> = {
-  'datorer-tillbehor': 'Datorer & Tillbehör',
-  'datorkomponenter': 'Datorkomponenter',
-  'gaming': 'Gaming',
-  'mobiltelefoner': 'Mobiltelefoner',
-  'natverk': 'Nätverk',
-  'tv-hifi': 'TV & HiFi',
-};
+// Enda källan för kategori-/menystruktur är MENU_DATA (Header/menuData.tsx).
+// Funktionerna nedan slår upp i det trädet istället för att duplicera det
+// i egna kategori-tabeller, så meny, kategorisidor och brödsmulor aldrig
+// kan komma ur synk med varandra.
+import { MENU_DATA, MenuCategory, MenuSection, MenuItem } from '@/app/components/Header/menuData';
 
-export const SUBCATEGORIES: Record<string, { title: string; mainCategory: string }> = {
-  'laptops': { title: 'Bärbara datorer', mainCategory: 'datorer-tillbehor' },
-  'desktops': { title: 'Stationära Datorer', mainCategory: 'datorer-tillbehor' },
-  'accessories': { title: 'Datortillbehör', mainCategory: 'datorer-tillbehor' },
-  'components': { title: 'Komponenter', mainCategory: 'datorkomponenter' },
-  'gaming-laptops': { title: 'Gaming Bärbara datorer', mainCategory: 'gaming' },
-  'gaming-pc': { title: 'Gaming Stationär dator', mainCategory: 'gaming' },
-  'phones': { title: 'Mobiltelefoner', mainCategory: 'mobiltelefoner' },
-  'ultrabooks': { title: 'Ultrabooks', mainCategory: 'laptops' },
-};
+export interface CategoryTrailNode {
+  slug: string;
+  title: string;
+}
 
-// Kopplar Medusas product_category-handles till frontends huvudkategorier
-// (MAIN_CATEGORIES). En Medusa-kategori kan bara höra till en huvudkategori.
-export const MEDUSA_CATEGORY_TO_MAIN: Record<string, string> = {
-  datorer: 'datorer-tillbehor',
-  laptops: 'datorer-tillbehor',
-  'laptop-tillbehor': 'datorer-tillbehor',
-  'stationardator-tillbehor': 'datorer-tillbehor',
-  vaskor: 'datorer-tillbehor',
-  blackpatroner: 'datorer-tillbehor',
-  kablar: 'datorer-tillbehor',
-  batterier: 'datorer-tillbehor',
-  grafikkort: 'datorkomponenter',
-  'grafikkort-tillbehor': 'datorkomponenter',
-  kylar: 'datorkomponenter',
-  'kylare-tillbehor': 'datorkomponenter',
-};
+// Hittar hela kedjan (huvudkategori -> ... -> träffad nod) för en given
+// URL-slug (t.ex. "blackpatroner" från "/kategori/blackpatroner"), genom att
+// leta i url-fältet på varje nivå i MENU_DATA.
+export function findCategoryTrail(slug: string): CategoryTrailNode[] | null {
+  const targetUrl = `/kategori/${slug}`;
 
-export const PRODUCT_SERIES: Record<string, { title: string; parentCategory: string }> = {
-  'ultrabooks': { title: 'Ultrabooks', parentCategory: 'laptops' },
-  'gaming-laptops-gaming': { title: 'Gaming bärbara', parentCategory: 'gaming-laptops' },
-  'kontor': { title: 'Kontor', parentCategory: 'laptops' },
-};
+  for (const main of MENU_DATA) {
+    if (main.url === targetUrl) {
+      return [{ slug, title: main.title }];
+    }
+    for (const section of main.items || []) {
+      if (section.url === targetUrl) {
+        return [
+          { slug: main.url.replace('/kategori/', ''), title: main.title },
+          { slug, title: section.title },
+        ];
+      }
+      for (const item of section.items || []) {
+        if (item.url === targetUrl) {
+          return [
+            { slug: main.url.replace('/kategori/', ''), title: main.title },
+            { slug: section.url.replace('/kategori/', ''), title: section.title },
+            { slug, title: item.title },
+          ];
+        }
+      }
+    }
+  }
+  return null;
+}
 
-export const CATEGORY_TITLES: Record<string, string> = {
-  'laptops': 'Bärbara datorer',
-  'desktops': 'Stationära Datorer',
-  'accessories': 'Datortillbehör',
-  'components': 'Komponenter',
-  'gaming-laptops': 'Gaming Bärbara datorer',
-  'gaming-pc': 'Gaming Stationär dator',
-  'phones': 'Mobiltelefoner',
-  'ultrabooks': 'Ultrabooks',
-};
+// Samlar in categoryHandles för en menynod och alla dess undernoder,
+// så en klick på en huvudkategori visar produkter från alla underkategorier.
+function collectCategoryHandles(node: MenuCategory | MenuSection | MenuItem): string[] {
+  const handles = [...(node.categoryHandles || [])];
+  for (const child of node.items || []) {
+    handles.push(...collectCategoryHandles(child));
+  }
+  return handles;
+}
+
+// Hittar den Medusa-kategori-handle-listan som hör till en given URL-slug,
+// genom att leta upp noden i MENU_DATA och samla ihop dess (och dess barns)
+// categoryHandles.
+export function getCategoryHandlesForSlug(slug: string): string[] {
+  const targetUrl = `/kategori/${slug}`;
+
+  for (const main of MENU_DATA) {
+    if (main.url === targetUrl) return collectCategoryHandles(main);
+    for (const section of main.items || []) {
+      if (section.url === targetUrl) return collectCategoryHandles(section);
+      for (const item of section.items || []) {
+        if (item.url === targetUrl) return collectCategoryHandles(item);
+      }
+    }
+  }
+  return [];
+}
+
+export function getCategoryTitle(slug: string): string {
+  const trail = findCategoryTrail(slug);
+  if (trail) return trail[trail.length - 1].title;
+  return slug.charAt(0).toUpperCase() + slug.slice(1);
+}
 
 async function fetchProductsFromMedusa(): Promise<Product[]> {
   try {
@@ -96,44 +120,58 @@ async function fetchProductsFromMedusa(): Promise<Product[]> {
   return [];
 }
 
-export function getBreadcrumbTrail(slug: string) {
-  const productSeries = PRODUCT_SERIES[slug];
-  if (productSeries) {
-    const parentSubcategory = SUBCATEGORIES[productSeries.parentCategory];
-    if (parentSubcategory) {
-      const mainCategory = MAIN_CATEGORIES[parentSubcategory.mainCategory];
-      return {
-        mainCategorySlug: parentSubcategory.mainCategory,
-        mainCategoryTitle: mainCategory,
-        subcategorySlug: productSeries.parentCategory,
-        subcategoryTitle: parentSubcategory.title,
-        seriesSlug: slug,
-        seriesTitle: productSeries.title,
-      };
-    }
-  }
+// Slår upp rätt kategori-slug (djupaste matchande menynivå) utifrån
+// produktens faktiska Medusa-kategori-handles, för brödsmula/länkning.
+export function getBreadcrumbSlugFromCategoryHandles(categoryHandles: string[]): string | null {
+  type Match = { slug: string; depth: number };
+  let bestMatch: Match | null = null;
 
-  const subcategory = SUBCATEGORIES[slug];
-  if (subcategory) {
-    const mainCategory = MAIN_CATEGORIES[subcategory.mainCategory];
+  const visit = (node: MenuCategory | MenuSection | MenuItem, depth: number) => {
+    const slug = node.url.replace('/kategori/', '');
+    if ((node.categoryHandles || []).some((h) => categoryHandles.includes(h))) {
+      if (!bestMatch || depth > (bestMatch as Match).depth) bestMatch = { slug, depth };
+    }
+    for (const child of node.items || []) visit(child, depth + 1);
+  };
+
+  for (const main of MENU_DATA) visit(main, 0);
+  return bestMatch ? (bestMatch as Match).slug : null;
+}
+
+// Brödsmule-data för en kategorisida, byggd direkt från MENU_DATA-trädet.
+export function getBreadcrumbTrail(slug: string) {
+  const trail = findCategoryTrail(slug);
+  if (!trail) return null;
+
+  if (trail.length === 1) {
     return {
-      mainCategorySlug: subcategory.mainCategory,
-      mainCategoryTitle: mainCategory,
-      subcategorySlug: slug,
-      subcategoryTitle: subcategory.title,
+      mainCategorySlug: trail[0].slug,
+      mainCategoryTitle: trail[0].title,
+      subcategorySlug: '',
+      subcategoryTitle: '',
     };
   }
-
-  return null;
+  if (trail.length === 2) {
+    return {
+      mainCategorySlug: trail[0].slug,
+      mainCategoryTitle: trail[0].title,
+      subcategorySlug: trail[1].slug,
+      subcategoryTitle: trail[1].title,
+    };
+  }
+  return {
+    mainCategorySlug: trail[0].slug,
+    mainCategoryTitle: trail[0].title,
+    subcategorySlug: trail[1].slug,
+    subcategoryTitle: trail[1].title,
+    seriesSlug: trail[2].slug,
+    seriesTitle: trail[2].title,
+  };
 }
 
 export async function getProductByHandle(handle: string): Promise<Product | undefined> {
   const products = await fetchProductsFromMedusa();
   return products.find(product => product.handle === handle);
-}
-
-export function getCategoryTitle(slug: string): string {
-  return CATEGORY_TITLES[slug] || slug.charAt(0).toUpperCase() + slug.slice(1);
 }
 
 // TILLFÄLLIG DUMMY DATA för visuell test — ta bort när riktiga tillbehör finns i Medusa

@@ -284,9 +284,9 @@ export default function ProductDetailClient({
 
   const breadcrumbItems = breadcrumbTrail
     ? [
-        { label: breadcrumbTrail.mainCategoryTitle, href: '#' },
-        { label: breadcrumbTrail.subcategoryTitle, href: `/produktserier/${breadcrumbTrail.subcategorySlug}` },
-        ...(breadcrumbTrail.seriesSlug ? [{ label: breadcrumbTrail.seriesTitle!, href: `/produktserier/${breadcrumbTrail.seriesSlug}` }] : []),
+        { label: breadcrumbTrail.mainCategoryTitle, href: `/kategori/${breadcrumbTrail.mainCategorySlug}` },
+        { label: breadcrumbTrail.subcategoryTitle, href: `/kategori/${breadcrumbTrail.subcategorySlug}` },
+        ...(breadcrumbTrail.seriesSlug ? [{ label: breadcrumbTrail.seriesTitle!, href: `/kategori/${breadcrumbTrail.seriesSlug}` }] : []),
         { label: product.title },
       ]
     : [{ label: product.title }];

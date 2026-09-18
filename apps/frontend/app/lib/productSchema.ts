@@ -60,7 +60,7 @@ export function getBreadcrumbJsonLd(
     if ('seriesSlug' in breadcrumbTrail && breadcrumbTrail.seriesSlug) {
       items.push({
         name: breadcrumbTrail.seriesTitle,
-        url: `${baseUrl}/produktserier/${breadcrumbTrail.seriesSlug}`,
+        url: `${baseUrl}/kategori/${breadcrumbTrail.seriesSlug}`,
       });
     }
   }

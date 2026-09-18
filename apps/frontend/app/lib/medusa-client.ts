@@ -63,6 +63,7 @@ export async function fetchProductsFromMedusa(): Promise<Product[]> {
       reviews: product.reviews || 0,
       category: product.category || '',
       categoryHandles: product.categoryHandles || [],
+      categoryNames: product.categoryNames || [],
       brand: product.brand || '',
       features: product.features || [],
       metadata: product.metadata || {},

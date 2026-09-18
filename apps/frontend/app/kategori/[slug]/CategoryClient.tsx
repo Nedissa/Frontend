@@ -6,7 +6,7 @@ import { ProductCard } from '@/app/components/product/ProductCard';
 import { ProductFilter } from '@/app/components/product/ProductFilter';
 import { SortDropdown } from '@/app/components/product/SortDropdown';
 import { CategoryGrid } from '@/app/components/home/CategoryGrid';
-import { MEDUSA_CATEGORY_TO_MAIN } from '@/app/lib/products';
+import { getCategoryHandlesForSlug } from '@/app/lib/products';
 
 interface FilterOptions {
   priceRange: [number, number];
@@ -14,6 +14,7 @@ interface FilterOptions {
   colors: string[];
   rating: number[];
   inStock: boolean;
+  categories: string[];
 }
 
 interface CategoryClientProps {
@@ -30,6 +31,7 @@ export default function CategoryClient({ slug, categoryTitle }: CategoryClientPr
     colors: [],
     rating: [],
     inStock: false,
+    categories: [],
   });
   const [sortBy, setSortBy] = useState('relevant');
   const [currentPage, setCurrentPage] = useState(1);
@@ -43,8 +45,9 @@ export default function CategoryClient({ slug, categoryTitle }: CategoryClientPr
     load();
   }, [slug]);
 
+  const relevantHandles = getCategoryHandlesForSlug(slug);
   const categoryProducts = products.filter((p) =>
-    (p.categoryHandles || []).some((handle: string) => MEDUSA_CATEGORY_TO_MAIN[handle] === slug)
+    (p.categoryHandles || []).some((handle: string) => relevantHandles.includes(handle))
   );
 
   const maxPrice = categoryProducts.length > 0 ? Math.max(...categoryProducts.map(p => p.price)) : 20000;
@@ -52,6 +55,7 @@ export default function CategoryClient({ slug, categoryTitle }: CategoryClientPr
   const filtered = categoryProducts.filter((p) => {
     if (p.price < filters.priceRange[0] || p.price > filters.priceRange[1]) return false;
     if (filters.brands.length > 0 && !filters.brands.includes(p.brand || '')) return false;
+    if (filters.categories.length > 0 && !(p.categoryNames || []).some((c: string) => filters.categories.includes(c))) return false;
     if (filters.rating.length > 0 && !filters.rating.includes(Math.round(p.rating || 0))) return false;
     if (filters.inStock && !p.inStock) return false;
     return true;

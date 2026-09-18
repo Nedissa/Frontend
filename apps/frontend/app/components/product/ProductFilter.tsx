@@ -8,6 +8,7 @@ interface FilterOptions {
   colors: string[];
   rating: number[];
   inStock: boolean;
+  categories: string[];
 }
 
 interface ProductFilterProps {
@@ -36,7 +37,10 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
     colors: true,
     rating: true,
     stock: true,
+    categories: true,
   });
+
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   // Extract unique brands and colors from products
   const uniqueBrands = Array.from(new Set(products.map((p: any) => p.brand).filter(Boolean)));
@@ -44,6 +48,9 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
     products
       .flatMap((p: any) => p.colors || [])
       .filter(Boolean)
+  ));
+  const uniqueCategories = Array.from(new Set(
+    products.flatMap((p: any) => p.categoryNames || []).filter(Boolean)
   ));
 
   // Klampa priceRange mot nytt maxPrice under render (inte i effect) om maxPrice ändrats sedan senaste render
@@ -72,7 +79,7 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
       ? [snappedValue, priceRange[1]]
       : [priceRange[0], snappedValue];
     setPriceRange(newRange);
-    updateFilters(newRange, selectedBrands, selectedColors, selectedRating, inStockOnly);
+    updateFilters(newRange, selectedBrands, selectedColors, selectedRating, inStockOnly, selectedCategories);
   };
 
   const handleBrandToggle = (brand: string) => {
@@ -80,7 +87,7 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
       ? selectedBrands.filter(b => b !== brand)
       : [...selectedBrands, brand];
     setSelectedBrands(newBrands);
-    updateFilters(priceRange, newBrands, selectedColors, selectedRating, inStockOnly);
+    updateFilters(priceRange, newBrands, selectedColors, selectedRating, inStockOnly, selectedCategories);
   };
 
   const handleColorToggle = (color: string) => {
@@ -88,7 +95,7 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
       ? selectedColors.filter(c => c !== color)
       : [...selectedColors, color];
     setSelectedColors(newColors);
-    updateFilters(priceRange, selectedBrands, newColors, selectedRating, inStockOnly);
+    updateFilters(priceRange, selectedBrands, newColors, selectedRating, inStockOnly, selectedCategories);
   };
 
   const handleRatingChange = (rating: number) => {
@@ -96,13 +103,21 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
       ? selectedRating.filter(r => r !== rating)
       : [...selectedRating, rating];
     setSelectedRating(newRating);
-    updateFilters(priceRange, selectedBrands, selectedColors, newRating, inStockOnly);
+    updateFilters(priceRange, selectedBrands, selectedColors, newRating, inStockOnly, selectedCategories);
   };
 
   const handleStockChange = () => {
     const newStock = !inStockOnly;
     setInStockOnly(newStock);
-    updateFilters(priceRange, selectedBrands, selectedColors, selectedRating, newStock);
+    updateFilters(priceRange, selectedBrands, selectedColors, selectedRating, newStock, selectedCategories);
+  };
+
+  const handleCategoryToggle = (category: string) => {
+    const newCategories = selectedCategories.includes(category)
+      ? selectedCategories.filter(c => c !== category)
+      : [...selectedCategories, category];
+    setSelectedCategories(newCategories);
+    updateFilters(priceRange, selectedBrands, selectedColors, selectedRating, inStockOnly, newCategories);
   };
 
   const updateFilters = (
@@ -110,7 +125,8 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
     brands: string[],
     colors: string[],
     rating: number[],
-    stock: boolean
+    stock: boolean,
+    categories: string[]
   ) => {
     onFilterChange({
       priceRange: range,
@@ -118,6 +134,7 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
       colors,
       rating,
       inStock: stock,
+      categories,
     });
   };
 
@@ -127,7 +144,8 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
     setSelectedColors([]);
     setSelectedRating([]);
     setInStockOnly(false);
-    updateFilters([0, maxPrice], [], [], [], false);
+    setSelectedCategories([]);
+    updateFilters([0, maxPrice], [], [], [], false, []);
   };
 
   return (
@@ -201,7 +219,7 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
                   if (input === '') input = '0';
                   const num = parseInt(input, 10) || 0;
                   setPriceRange([num, priceRange[1]]);
-                  updateFilters([num, priceRange[1]], selectedBrands, selectedColors, selectedRating, inStockOnly);
+                  updateFilters([num, priceRange[1]], selectedBrands, selectedColors, selectedRating, inStockOnly, selectedCategories);
                 }}
                 className="w-16 px-1 py-0.5 text-xs text-gray-700 text-center border-b border-gray-900 focus:outline-none focus:border-gray-900"
                 aria-label="Lägsta pris i kronor"
@@ -218,7 +236,7 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
                   if (input === '') input = '0';
                   const num = parseInt(input, 10) || 0;
                   setPriceRange([priceRange[0], num]);
-                  updateFilters([priceRange[0], num], selectedBrands, selectedColors, selectedRating, inStockOnly);
+                  updateFilters([priceRange[0], num], selectedBrands, selectedColors, selectedRating, inStockOnly, selectedCategories);
                 }}
                 className="w-16 px-1 py-0.5 text-xs text-gray-700 text-center border-b border-gray-900 focus:outline-none focus:border-gray-900"
                 aria-label="Högsta pris i kronor"
@@ -230,6 +248,43 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
         </div>
         </div>
       </div>
+
+      {/* Categories */}
+      {uniqueCategories.length > 1 && (
+        <div className="border-b border-gray-300">
+          <button
+            onClick={() => toggleSection('categories')}
+            className="w-full px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+          >
+            <h4 className="text-sm font-semibold text-black">Kategori</h4>
+            <svg className={`w-4 h-4 text-black transition-transform ${expandedSections.categories ? 'rotate-180' : ''}`} fill="currentColor" viewBox="0 0 24 24">
+              <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+            </svg>
+          </button>
+          <div style={{ display: 'grid', gridTemplateRows: expandedSections.categories ? '1fr' : '0fr', transition: 'grid-template-rows 0.25s ease' }}>
+          <div style={{ overflow: 'hidden' }}>
+          <div className="px-6 py-4 space-y-2">
+            {uniqueCategories.map((category, idx) => {
+              const blackShades = ['bg-slate-200', 'bg-slate-300', 'bg-slate-400', 'bg-slate-500', 'bg-slate-600', 'bg-slate-700', 'bg-slate-800'];
+              return (
+                <button
+                  key={category}
+                  onClick={() => handleCategoryToggle(category)}
+                  className={`w-full text-left px-2.5 py-1 text-sm font-medium transition-colors ${
+                    selectedCategories.includes(category)
+                      ? `${blackShades[idx % blackShades.length]} ${idx < 3 ? 'text-black' : 'text-white'}`
+                      : 'text-gray-900'
+                  }`}
+                >
+                  {category}
+                </button>
+              );
+            })}
+          </div>
+          </div>
+          </div>
+        </div>
+      )}
 
       {/* Brands */}
       <div className="border-b border-gray-300">
