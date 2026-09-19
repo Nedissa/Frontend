@@ -143,6 +143,7 @@ function PaymentForm({
 }) {
   const stripe = useStripe();
   const elements = useElements();
+  const router = useRouter();
   const [processing, setProcessing] = useState(false);
 
   const handlePay = async (e: React.FormEvent) => {
@@ -195,7 +196,7 @@ function PaymentForm({
         onChange={(event) => onPaymentComplete(event.complete)}
       />
       <div className="flex gap-3 mt-4">
-        <button type="button" onClick={() => window.history.back()} className="flex-1 py-3 border border-gray-300 text-sm font-semibold text-gray-600 hover:text-black hover:border-black transition-colors">
+        <button type="button" onClick={() => router.push('/')} className="flex-1 py-3 border border-gray-300 text-sm font-semibold text-gray-600 hover:text-black hover:border-black transition-colors">
           Avbryt köp
         </button>
         <button
@@ -254,6 +255,18 @@ function CheckoutContent() {
 
   // Håll formDataRef synkad med formData
   useEffect(() => { formDataRef.current = formData; }, [formData]);
+
+  // Blockera webbläsarens bakåt-knapp i kassan — kunden ska bara kunna
+  // lämna sidan via "Avbryt köp", inte av misstag hamna kvar i ett halvfärdigt
+  // betalningsflöde genom att trycka bakåt.
+  useEffect(() => {
+    window.history.pushState(null, '', window.location.href);
+    const handlePopState = () => {
+      window.history.pushState(null, '', window.location.href);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const fetchShippingOptions = useCallback(async (country: string) => {
     setLoadingShipping(true);
