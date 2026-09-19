@@ -14,56 +14,12 @@ import { fetchProductsFromMedusa } from '@/app/lib/medusa-client';
 import { klaviyoTrack } from '@/app/lib/klaviyoTrack';
 import { COLOR_HEX_MAP, sortColors } from '@/app/lib/productDisplay';
 
-const COUNTDOWN_DURATION = 60000;
-const saleEndTime = Date.now() + COUNTDOWN_DURATION;
-
-function SaleCountdown() {
-  const endTimeRef = useRef<number>(saleEndTime);
-  const [timeLeft, setTimeLeft] = useState<{ hours: number; minutes: number; seconds: number }>({ hours: 0, minutes: 1, seconds: 0 });
-
-  useEffect(() => {
-    const calc = () => {
-      const diff = endTimeRef.current - Date.now();
-      if (diff <= 0) {
-        endTimeRef.current = Date.now() + COUNTDOWN_DURATION;
-      }
-      const d = Math.max(0, endTimeRef.current - Date.now());
-      const hours = Math.floor(d / 3600000);
-      const minutes = Math.floor((d % 3600000) / 60000);
-      const seconds = Math.floor((d % 60000) / 1000);
-      setTimeLeft({ hours, minutes, seconds });
-    };
-    calc();
-    const id = setInterval(calc, 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  const remainingSeconds = timeLeft.hours * 3600 + timeLeft.minutes * 60 + timeLeft.seconds;
-  const totalSeconds = COUNTDOWN_DURATION / 1000;
-  const progress = Math.min(100, (remainingSeconds / totalSeconds) * 100);
-  const time = `${String(timeLeft.hours).padStart(2, '0')}:${String(timeLeft.minutes).padStart(2, '0')}:${String(timeLeft.seconds).padStart(2, '0')}`;
-
-  const r = 36;
-  const circ = 2 * Math.PI * r;
-  const dash = (progress / 100) * circ;
-
+function BestsellerBadge() {
   return (
-    <div className="scale-75 md:scale-100 origin-top-right" style={{ position: 'relative', width: '96px', height: '96px', filter: 'drop-shadow(0 4px 12px rgba(239,68,68,0.45))' }}>
-      <svg width="96" height="96" style={{ position: 'absolute', top: 0, left: 0, transform: 'rotate(-90deg)' }}>
-        <defs>
-          <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#ff6b6b" />
-            <stop offset="100%" stopColor="#ef4444" />
-          </linearGradient>
-        </defs>
-        <circle cx="48" cy="48" r={r + 6} fill="#1a3a6e" />
-        <circle cx="48" cy="48" r={r} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="3" />
-        <circle cx="48" cy="48" r={r} fill="none" stroke="url(#ringGrad)" strokeWidth="3" strokeDasharray={`${dash} ${circ}`} strokeLinecap="butt" style={{ transition: 'stroke-dasharray 1s linear' }} />
-      </svg>
-      <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '3px' }}>
-        <span style={{ fontSize: '8px', fontWeight: 700, color: 'white', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Kampanj</span>
-        <span style={{ fontSize: '11px', fontWeight: 700, color: 'white', fontVariantNumeric: 'tabular-nums' }}>{time}</span>
-      </div>
+    <div className="absolute top-0 right-0 z-20 h-32 w-32 overflow-hidden">
+      <span className="absolute top-[24px] right-[-38px] w-[160px] rotate-45 bg-black py-1.5 text-center text-[12px] font-bold uppercase tracking-wide text-white shadow-[0_2px_8px_rgba(0,0,0,0.35)]">
+        Kundfavorit
+      </span>
     </div>
   );
 }
@@ -315,10 +271,6 @@ export default function ProductDetailClient({
               else goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length);
             }}
           >
-            {/* Countdown badge on image */}
-            <div className="absolute z-20 flex items-center" style={{ top: '24px', right: '24px' }}>
-              <SaleCountdown />
-            </div>
             {/* Vertical Thumbnails */}
             {productDetails.images.length > 1 && (
               <div className="hidden md:flex flex-col gap-3 flex-shrink-0" style={{ width: '110px', height: '508px', overflowY: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none', scrollBehavior: 'smooth' }}>
@@ -359,13 +311,17 @@ export default function ProductDetailClient({
                   else goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length);
                 }}
               >
-                <button
-                  onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
-                  className="absolute left-2 z-10 w-9 h-9 hidden md:flex items-center justify-center bg-white rounded-full top-1/2 -translate-y-1/2"
-                  style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
-                >
-                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
-                </button>
+                {/* Bestseller badge on image */}
+                <BestsellerBadge />
+                {productDetails.images.length > 1 && (
+                  <button
+                    onClick={() => goToImage((selectedImage - 1 + productDetails.images.length) % productDetails.images.length)}
+                    className="absolute left-2 z-10 w-9 h-9 hidden md:flex items-center justify-center bg-white rounded-full top-1/2 -translate-y-1/2"
+                    style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
+                  >
+                    <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+                  </button>
+                )}
                 <div
                   className="relative flex-1 overflow-hidden"
                 >
@@ -399,13 +355,15 @@ export default function ProductDetailClient({
                     );
                   })}
                 </div>
-                <button
-                  onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
-                  className="absolute right-2 z-10 w-9 h-9 hidden md:flex items-center justify-center bg-white rounded-full top-1/2 -translate-y-1/2"
-                  style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
-                >
-                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
-                </button>
+                {productDetails.images.length > 1 && (
+                  <button
+                    onClick={() => goToImage((selectedImage + 1) % productDetails.images.length)}
+                    className="absolute right-2 z-10 w-9 h-9 hidden md:flex items-center justify-center bg-white rounded-full top-1/2 -translate-y-1/2"
+                    style={{ boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}
+                  >
+                    <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+                  </button>
+                )}
                 {productDetails.images.length > 1 && (
                   <div className="flex justify-center py-3 flex-shrink-0 relative z-10">
                     <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2" style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.12)' }}>

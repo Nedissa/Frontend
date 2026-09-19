@@ -179,10 +179,13 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'gaming-peripherals',
         title: 'Tillbehör',
         url: '/kategori/gaming-tillbehor',
+        categoryHandles: ['gaming-tillbehor'],
         items: [
           { id: 'gaming-mus', title: 'Gaming Möss', url: '/kategori/gaming-tillbehor' },
           { id: 'gaming-tangentbord', title: 'Gaming Tangentbord', url: '/kategori/gaming-tillbehor' },
           { id: 'gaming-headset', title: 'Gaming Headset', url: '/kategori/gaming-tillbehor' },
+          { id: 'gaming-stolar', title: 'Gaming Stolar', url: '/kategori/gaming-tillbehor' },
+          { id: 'gaming-bord', title: 'Gaming Bord', url: '/kategori/gaming-bord', categoryHandles: ['gaming-bord'] },
         ],
       },
     ],
@@ -206,6 +209,7 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'mobil-tillbehor',
         title: 'Mobil tillbehör',
         url: '/kategori/mobil-tillbehor',
+        categoryHandles: ['mobil-tillbehor'],
         items: [
           { id: 'skal', title: 'Skal & Skydd', url: '/kategori/mobil-tillbehor' },
           { id: 'laddare', title: 'Laddare', url: '/kategori/mobil-tillbehor' },
@@ -288,6 +292,7 @@ export const MENU_DATA: MenuCategory[] = [
         id: 'tillbehor-tv',
         title: 'TV Tillbehör',
         url: '/kategori/tv-tillbehor',
+        categoryHandles: ['tv-tillbehor'],
         items: [
           { id: 'montering', title: 'Montering', url: '/kategori/tv-tillbehor' },
           { id: 'soundbar', title: 'Soundbar', url: '/kategori/tv-tillbehor' },
