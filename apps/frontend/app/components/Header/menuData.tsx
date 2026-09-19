@@ -47,7 +47,7 @@ export const MENU_DATA: MenuCategory[] = [
     id: 'datorer-och-tillbehor',
     title: 'Datorer',
     url: '/kategori/datorer-tillbehor',
-    categoryHandles: ['datorer', 'laptops', 'laptop-tillbehor', 'stationardator-tillbehor', 'vaskor', 'blackpatroner', 'kablar', 'batterier'],
+    categoryHandles: ['datorer', 'laptops', 'laptop-tillbehor', 'stationardator-tillbehor', 'vaskor', 'blackpatroner', 'kablar', 'batterier', 'monitorarm', 'tangentbord'],
     items: [
       {
         id: 'barbara',
@@ -72,18 +72,44 @@ export const MENU_DATA: MenuCategory[] = [
         ],
       },
       {
-        id: 'datortillbehor',
-        title: 'Tillbehör',
+        id: 'skarmar-tillbehor',
+        title: 'Skärm Tillbehör',
         url: '/kategori/datortillbehor',
-        categoryHandles: ['laptop-tillbehor', 'stationardator-tillbehor', 'vaskor', 'blackpatroner', 'kablar', 'batterier'],
+        categoryHandles: ['monitorarm'],
         items: [
           { id: 'bildskarm', title: 'Bildskärmar', url: '/kategori/datortillbehor' },
-          { id: 'tangentbord', title: 'Tangentbord', url: '/kategori/datortillbehor' },
+          { id: 'monitorarm', title: 'Monitorarm', url: '/kategori/monitorarm', categoryHandles: ['monitorarm'] },
+        ],
+      },
+      {
+        id: 'tangentbord-moss',
+        title: 'Tangentbord & Möss',
+        url: '/kategori/datortillbehor',
+        categoryHandles: ['tangentbord'],
+        items: [
+          { id: 'tangentbord', title: 'Tangentbord', url: '/kategori/tangentbord', categoryHandles: ['tangentbord'] },
           { id: 'moss', title: 'Möss', url: '/kategori/datortillbehor' },
-          { id: 'kablar', title: 'Kablar & Laddning', url: '/kategori/kablar', categoryHandles: ['kablar'] },
-          { id: 'batterier', title: 'Batterier', url: '/kategori/batterier', categoryHandles: ['batterier'] },
-          { id: 'blackpatroner', title: 'Bläckpatroner & Toner', url: '/kategori/blackpatroner', categoryHandles: ['blackpatroner'] },
+        ],
+      },
+      {
+        id: 'kablar-laddning',
+        title: 'Kablar & Laddning',
+        url: '/kategori/kablar',
+        categoryHandles: ['kablar', 'dockningsstationer'],
+        items: [
+          { id: 'kablar', title: 'Laddning', url: '/kategori/kablar', categoryHandles: ['kablar'] },
+          { id: 'dockningsstationer', title: 'Dockningsstationer', url: '/kategori/dockningsstationer', categoryHandles: ['dockningsstationer'] },
+        ],
+      },
+      {
+        id: 'kontor-forvaring',
+        title: 'Kontor & Förvaring',
+        url: '/kategori/datortillbehor',
+        categoryHandles: ['vaskor', 'blackpatroner', 'batterier'],
+        items: [
           { id: 'vaskor', title: 'Väskor & Fodral', url: '/kategori/vaskor', categoryHandles: ['vaskor'] },
+          { id: 'blackpatroner', title: 'Bläckpatroner & Toners', url: '/kategori/blackpatroner', categoryHandles: ['blackpatroner'] },
+          { id: 'batterier', title: 'Batterier', url: '/kategori/batterier', categoryHandles: ['batterier'] },
         ],
       },
     ],
@@ -158,34 +184,41 @@ export const MENU_DATA: MenuCategory[] = [
     url: '/kategori/gaming',
     items: [
       {
-        id: 'gaming-laptops',
-        title: 'Bärbara',
-        url: '/kategori/gaming-laptops',
-        items: [
-          { id: 'high-end', title: 'High-End', url: '/kategori/gaming-laptops' },
-          { id: 'mid-range', title: 'Mid-Range', url: '/kategori/gaming-laptops' },
-        ],
-      },
-      {
-        id: 'gaming-pc',
-        title: 'Datorer',
-        url: '/kategori/gaming-pc',
-        items: [
-          { id: 'budget', title: 'Budget', url: '/kategori/gaming-pc' },
-          { id: 'pro', title: 'Pro', url: '/kategori/gaming-pc' },
-        ],
-      },
-      {
-        id: 'gaming-peripherals',
-        title: 'Tillbehör',
+        id: 'gaming-mus-tangentbord',
+        title: 'Mus & Tangentbord',
         url: '/kategori/gaming-tillbehor',
-        categoryHandles: ['gaming-tillbehor'],
+        categoryHandles: ['moss', 'gaming-tangentbord'],
         items: [
-          { id: 'gaming-mus', title: 'Gaming Möss', url: '/kategori/gaming-tillbehor' },
-          { id: 'gaming-tangentbord', title: 'Gaming Tangentbord', url: '/kategori/gaming-tillbehor' },
-          { id: 'gaming-headset', title: 'Gaming Headset', url: '/kategori/gaming-tillbehor' },
-          { id: 'gaming-stolar', title: 'Gaming Stolar', url: '/kategori/gaming-tillbehor' },
+          { id: 'gaming-mus', title: 'Gaming Möss', url: '/kategori/moss', categoryHandles: ['moss'] },
+          { id: 'gaming-tangentbord', title: 'Gaming Tangentbord', url: '/kategori/gaming-tangentbord', categoryHandles: ['gaming-tangentbord'] },
+        ],
+      },
+      {
+        id: 'gaming-headset-sektion',
+        title: 'Headset',
+        url: '/kategori/gaming-headset',
+        categoryHandles: ['gaming-headset'],
+        items: [
+          { id: 'gaming-headset', title: 'Gaming Headset', url: '/kategori/gaming-headset', categoryHandles: ['gaming-headset'] },
+        ],
+      },
+      {
+        id: 'gaming-mobler',
+        title: 'Möbler',
+        url: '/kategori/gaming-tillbehor',
+        categoryHandles: ['gaming-stolar', 'gaming-bord'],
+        items: [
+          { id: 'gaming-stolar', title: 'Gaming Stolar', url: '/kategori/gaming-stolar', categoryHandles: ['gaming-stolar'] },
           { id: 'gaming-bord', title: 'Gaming Bord', url: '/kategori/gaming-bord', categoryHandles: ['gaming-bord'] },
+        ],
+      },
+      {
+        id: 'gaming-streaming',
+        title: 'Streaming',
+        url: '/kategori/mikrofoner',
+        categoryHandles: ['mikrofoner'],
+        items: [
+          { id: 'mikrofoner', title: 'Mikrofoner', url: '/kategori/mikrofoner', categoryHandles: ['mikrofoner'] },
         ],
       },
     ],
@@ -196,24 +229,12 @@ export const MENU_DATA: MenuCategory[] = [
     url: '/kategori/mobiltelefoner',
     items: [
       {
-        id: 'smartphones',
-        title: 'Smartphones',
-        url: '/kategori/smartphones',
+        id: 'mobil-laddning',
+        title: 'Laddning',
+        url: '/kategori/mobil-laddare',
+        categoryHandles: ['mobil-laddare'],
         items: [
-          { id: 'flagship', title: 'Flaggskepp', url: '/kategori/smartphones' },
-          { id: 'mid-range-phone', title: 'Mid-Range', url: '/kategori/smartphones' },
-          { id: 'budget-phone', title: 'Budget', url: '/kategori/smartphones' },
-        ],
-      },
-      {
-        id: 'mobil-tillbehor',
-        title: 'Mobil tillbehör',
-        url: '/kategori/mobil-tillbehor',
-        categoryHandles: ['mobil-tillbehor'],
-        items: [
-          { id: 'skal', title: 'Skal & Skydd', url: '/kategori/mobil-tillbehor' },
-          { id: 'laddare', title: 'Laddare', url: '/kategori/mobil-tillbehor' },
-          { id: 'screenprotectors', title: 'Skärmskydd', url: '/kategori/mobil-tillbehor' },
+          { id: 'mobil-laddare', title: 'Adaptrar', url: '/kategori/mobil-laddare', categoryHandles: ['mobil-laddare'] },
         ],
       },
     ],
@@ -264,43 +285,87 @@ export const MENU_DATA: MenuCategory[] = [
   },
   {
     id: 'tv-hifi',
-    title: 'TV & HiFi',
+    title: 'Ljud & Bild',
     url: '/kategori/tv-hifi',
     items: [
       {
-        id: 'tv',
-        title: 'TV',
-        url: '/kategori/tv',
-        items: [
-          { id: 'oled-tv', title: 'OLED', url: '/kategori/oled-tv' },
-          { id: 'qled-tv', title: 'QLED', url: '/kategori/qled-tv' },
-          { id: 'mini-led-tv', title: 'Mini-LED', url: '/kategori/mini-led-tv' },
-          { id: 'led-tv', title: 'LED', url: '/kategori/led-tv' },
-        ],
-      },
-      {
-        id: 'ljud',
-        title: 'Ljud & HiFi',
-        url: '/kategori/ljud-hifi',
-        items: [
-          { id: 'hemmabio', title: 'Hemmabio', url: '/kategori/hemmabio' },
-          { id: 'horlur', title: 'Hörlurar', url: '/kategori/horlur' },
-          { id: 'soundbar', title: 'Soundbar', url: '/kategori/soundbar' },
-        ],
-      },
-      {
-        id: 'tillbehor-tv',
-        title: 'TV Tillbehör',
+        id: 'tv-montering',
+        title: 'Montering',
         url: '/kategori/tv-tillbehor',
-        categoryHandles: ['tv-tillbehor'],
+        categoryHandles: ['tv-vaggfasten', 'tv-golvstativ'],
         items: [
-          { id: 'montering', title: 'Montering', url: '/kategori/tv-tillbehor' },
-          { id: 'soundbar', title: 'Soundbar', url: '/kategori/tv-tillbehor' },
+          { id: 'tv-vaggfasten', title: 'Väggfästen', url: '/kategori/tv-vaggfasten', categoryHandles: ['tv-vaggfasten'] },
+          { id: 'tv-golvstativ', title: 'Golvstativ', url: '/kategori/tv-golvstativ', categoryHandles: ['tv-golvstativ'] },
+        ],
+      },
+      {
+        id: 'tv-hemmabio',
+        title: 'Hemmabio',
+        url: '/kategori/tv-tillbehor',
+        categoryHandles: ['tv-projektorer', 'tv-projektordukar'],
+        items: [
+          { id: 'tv-projektorer', title: 'Projektorer', url: '/kategori/tv-projektorer', categoryHandles: ['tv-projektorer'] },
+          { id: 'tv-projektordukar', title: 'Projektordukar', url: '/kategori/tv-projektordukar', categoryHandles: ['tv-projektordukar'] },
+        ],
+      },
+      {
+        id: 'horlur-sektion',
+        title: 'Hörlurar',
+        url: '/kategori/horlur',
+        categoryHandles: ['horlur'],
+        items: [
+          { id: 'horlur', title: 'Hörlurar', url: '/kategori/horlur', categoryHandles: ['horlur'] },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'kontor',
+    title: 'Kontor',
+    url: '/kategori/kontor',
+    categoryHandles: ['skrivbordsramar', 'skrivbordsskivor'],
+    items: [
+      {
+        id: 'kontorsmobler',
+        title: 'Skrivbord',
+        url: '/kategori/kontor',
+        categoryHandles: ['skrivbordsramar', 'skrivbordsskivor'],
+        items: [
+          { id: 'skrivbordsramar', title: 'Skrivbordsramar', url: '/kategori/skrivbordsramar', categoryHandles: ['skrivbordsramar'] },
+          { id: 'skrivbordsskivor', title: 'Skrivbordsskivor', url: '/kategori/skrivbordsskivor', categoryHandles: ['skrivbordsskivor'] },
         ],
       },
     ],
   },
 ];
+
+// Tar bort menyposter utan koppling till en kategori som faktiskt har
+// produkter, rekursivt nerifrån och upp. En post är giltig om den själv har
+// en categoryHandle med produkter, ELLER minst ett giltigt barn efter
+// filtrering. Ett blad utan categoryHandles och utan barn är alltid ogiltigt
+// (det representerar ingen riktig produktkategori) - varje löv i menyn ska
+// ha sin egen categoryHandle kopplad till Medusa, aldrig ärva förälderns status.
+function filterMenuItems(items: MenuItem[] | undefined, activeHandles: Set<string>): MenuItem[] | undefined {
+  if (!items) return items;
+  return items
+    .map((item) => ({ ...item, items: filterMenuItems(item.items, activeHandles) }))
+    .filter((item) => {
+      const hasActiveHandle = item.categoryHandles?.some((h) => activeHandles.has(h));
+      const hasChildren = (item.items?.length ?? 0) > 0;
+      return hasActiveHandle || hasChildren;
+    });
+}
+
+export function filterActiveMenu(menu: MenuCategory[], activeHandles: string[]): MenuCategory[] {
+  const activeSet = new Set(activeHandles);
+  return menu
+    .map((category) => ({ ...category, items: filterMenuItems(category.items, activeSet) as MenuSection[] | undefined }))
+    .filter((category) => {
+      const hasActiveHandle = category.categoryHandles?.some((h) => activeSet.has(h));
+      const hasChildren = (category.items?.length ?? 0) > 0;
+      return hasActiveHandle || hasChildren;
+    });
+}
 
 export const SECTION_IMAGES: Record<string, string> = {
   barbara: '/assets/mega-barbara-menu.webp',
@@ -318,6 +383,19 @@ export const SECTION_IMAGES: Record<string, string> = {
   smartphones: '/assets/mega-smartphones-menu.webp',
   'mobil-tillbehor': '/assets/mega-mobil-tillbehor-menu.webp',
   accesspunkter: '/assets/mega-accesspunkter-menu.webp',
+  kontorsmobler: '/assets/mega-bordsben-menu.webp',
+  'skarmar-tillbehor': '/assets/mega-skarmar-tillbehor-menu.webp',
+  'tangentbord-moss': '/assets/mega-tangentbord-moss-menu.webp',
+  'kablar-laddning': '/assets/mega-kablar-laddning-menu.webp',
+  'kontor-forvaring': '/assets/mega-kontor-forvaring-menu.webp',
+  'gaming-mus-tangentbord': '/assets/mega-gaming-mus-tangentbord-menu.webp',
+  'gaming-headset-sektion': '/assets/mega-gaming-headset-sektion-menu.webp',
+  'gaming-mobler': '/assets/mega-gaming-mobler-menu.webp',
+  'gaming-streaming': '/assets/mega-gaming-streaming-menu.webp',
+  'tv-montering': '/assets/mega-tv-montering-menu.webp',
+  'tv-hemmabio': '/assets/mega-tv-hemmabio-menu.webp',
+  'mobil-laddning': '/assets/mega-mobil-tillbehor-menu.webp',
+  'horlur-sektion': '/assets/mega-horlur-sektion-menu.webp',
   natsverksforlangarе: '/assets/mega-natverksforlangare-menu.webp',
   routrar: '/assets/mega-routrar-menu.webp',
   mesh: '/assets/mega-mesh-menu.webp',

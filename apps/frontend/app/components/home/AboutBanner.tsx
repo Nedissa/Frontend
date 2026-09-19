@@ -44,8 +44,8 @@ export function AboutBanner() {
         </h2>
         <ul className="flex flex-col gap-2.5 mb-4">
           {[
-            { text: 'Skickar direkt från svenska lager' },
-            { text: '4,8 i recensionsbetyg' },
+            { text: 'Snabba leveranser' },
+            { text: 'Gratis frakt över 699 kr' },
             { text: 'Över 200 utvalda elektronikprodukter' },
           ].map((item, i) => (
             <li key={i} className="flex items-center gap-2.5 text-sm sm:text-base font-semibold text-gray-900">

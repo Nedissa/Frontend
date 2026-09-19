@@ -72,6 +72,10 @@ export async function GET(request: Request) {
       const imageMap = imageMapRaw
         ? Object.fromEntries(Object.entries(imageMapRaw).map(([color, url]) => [color, fixImageUrl(url as string)]))
         : null;
+      const imageGroupMapRaw = product.metadata?.imageGroupMap;
+      const imageGroupMap = imageGroupMapRaw
+        ? Object.fromEntries(Object.entries(imageGroupMapRaw).map(([color, urls]) => [color, (urls as string[]).map(fixImageUrl)]))
+        : null;
 
       // Hitta varianten med SEK-pris — den enda som går att lägga i SEK-cart
       let price = 0;
@@ -135,8 +139,9 @@ export async function GET(request: Request) {
           descriptionMap: product.metadata?.descriptionMap || null,
           descriptionSections: parseMeta(product.metadata?.descriptionSections),
           imageMap,
+          imageGroupMap,
         },
-        brand: product.brand || '',
+        brand: product.brand || product.metadata?.brand || product.title?.split(' ')[0] || '',
         colors: product.options?.find((o: any) => o.title?.toLowerCase() === 'color' || o.title?.toLowerCase() === 'färg')?.values?.map((v: any) => v.value) || parseMeta(product.metadata?.colors),
         inventoryQuantity: product.variants?.reduce((sum: number, v: any) => sum + (v.inventory_quantity || 0), 0) ?? null,
         stock: (() => {

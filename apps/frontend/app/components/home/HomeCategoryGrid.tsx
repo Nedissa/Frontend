@@ -2,25 +2,28 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { useState, useEffect } from 'react';
 
 const CATEGORIES = [
-  { title: 'Datorer', url: '/kategori/datorer-tillbehor', icon: '/icons/categories/datorer.webp' },
-  { title: 'Komponenter', url: '/kategori/datorkomponenter', icon: '/icons/categories/datorkomponenter.webp' },
-  { title: 'Gaming', url: '/kategori/gaming', icon: '/icons/categories/gaming.webp' },
-  { title: 'Mobiler', url: '/kategori/mobiltelefoner', icon: '/icons/categories/mobiltelefoner.webp' },
-  { title: 'Nätverk', url: '/kategori/natverk', icon: '/icons/categories/natverk.webp' },
-  { title: 'TV & HiFi', url: '/kategori/tv-hifi', icon: '/icons/categories/tv-hifi.webp' },
+  { title: 'Datorer', url: '/kategori/datorer-tillbehor', icon: '/icons/categories/datorer.webp', handles: ['datorer', 'laptops', 'laptop-tillbehor', 'stationardator-tillbehor', 'vaskor', 'blackpatroner', 'kablar', 'batterier', 'monitorarm', 'tangentbord', 'bordsben'] },
+  { title: 'Komponenter', url: '/kategori/datorkomponenter', icon: '/icons/categories/datorkomponenter.webp', handles: ['grafikkort', 'kylar', 'grafikkort-tillbehor', 'kylare-tillbehor'] },
+  { title: 'Gaming', url: '/kategori/gaming', icon: '/icons/categories/gaming.webp', handles: ['gaming-tillbehor', 'gaming-bord', 'gaming-tangentbord', 'mikrofoner', 'moss'] },
+  { title: 'Mobiler', url: '/kategori/mobiltelefoner', icon: '/icons/categories/mobiltelefoner.webp', handles: ['mobil-tillbehor'] },
+  { title: 'Nätverk', url: '/kategori/natverk', icon: '/icons/categories/natverk.webp', handles: [] },
+  { title: 'Ljud & Bild', url: '/kategori/tv-hifi', icon: '/icons/categories/tv-hifi.webp', handles: ['tv-tillbehor'] },
 ];
 
 const DESKTOP_CATEGORIES = [
-  { title: 'Bärbara', url: '/kategori/barbara', icon: '/icons/categories/datorer.webp' },
-  { title: 'Processorer', url: '/kategori/processorer', icon: '/icons/categories/datorkomponenter.webp' },
-  { title: 'Gaming-tillbehör', url: '/kategori/gaming-tillbehor', icon: '/icons/categories/gaming.webp' },
-  { title: 'Smartphones', url: '/kategori/smartphones', icon: '/icons/categories/mobiltelefoner.webp' },
-  { title: 'Routrar', url: '/kategori/routrar', icon: '/icons/categories/natverk.webp' },
-  { title: 'TV', url: '/kategori/tv', icon: '/icons/categories/tv-hifi.webp' },
-  { title: 'Datortillbehör', url: '/kategori/datortillbehor', icon: '/icons/datortillbehor.svg' },
-  { title: 'Ljud & HiFi', url: '/kategori/ljud-hifi', icon: '/icons/ljud-hifi.svg' },
+  { title: 'Bärbara', url: '/kategori/barbara', icon: '/icons/categories/datorer.webp', handles: ['laptops'] },
+  { title: 'Processorer', url: '/kategori/processorer', icon: '/icons/categories/datorkomponenter.webp', handles: [] },
+  { title: 'Gaming Tillbehör', url: '/kategori/gaming-tillbehor', icon: '/icons/categories/gaming.webp', handles: ['gaming-tillbehor', 'gaming-bord', 'gaming-tangentbord', 'mikrofoner', 'moss'] },
+  { title: 'Smartphones', url: '/kategori/smartphones', icon: '/icons/categories/mobiltelefoner.webp', handles: [] },
+  { title: 'Mobil Tillbehör', url: '/kategori/mobil-tillbehor', icon: '/icons/categories/mobiltelefoner.webp', handles: ['mobil-tillbehor'] },
+  { title: 'Routrar', url: '/kategori/routrar', icon: '/icons/categories/natverk.webp', handles: [] },
+  { title: 'TV', url: '/kategori/tv', icon: '/icons/categories/tv-hifi.webp', handles: [] },
+  { title: 'TV Tillbehör', url: '/kategori/tv-tillbehor', icon: '/icons/categories/tv-hifi.webp', handles: ['tv-tillbehor'] },
+  { title: 'Dator Tillbehör', url: '/kategori/datortillbehor', icon: '/icons/datortillbehor.svg', handles: ['laptop-tillbehor', 'stationardator-tillbehor', 'vaskor', 'blackpatroner', 'kablar', 'batterier', 'monitorarm', 'tangentbord', 'bordsben'] },
+  { title: 'Ljud & HiFi', url: '/kategori/ljud-hifi', icon: '/icons/ljud-hifi.svg', handles: [] },
 ];
 
 function DesktopCategoryGrid({ categories }: { categories: typeof DESKTOP_CATEGORIES }) {
@@ -49,6 +52,27 @@ function DesktopCategoryGrid({ categories }: { categories: typeof DESKTOP_CATEGO
 }
 
 export function HomeCategoryGrid() {
+  const [activeHandles, setActiveHandles] = useState<Set<string> | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/categories/active')
+      .then((res) => res.json())
+      .then((data) => { if (!cancelled) setActiveHandles(new Set(data.activeHandles || [])); })
+      .catch(() => { if (!cancelled) setActiveHandles(new Set()); });
+    return () => { cancelled = true; };
+  }, []);
+
+  // Innan aktiva handles har hämtats renderas ingenting (undviker flimmer av
+  // fel kategorier som sedan försvinner). Därefter döljs kategorier utan
+  // koppling till en riktig produktkategori (tom handles-lista) och
+  // kategorier vars kopplade kategorier saknar produkter.
+  if (!activeHandles) return null;
+
+  const isVisible = (handles: string[]) => handles.some((h) => activeHandles.has(h));
+  const visibleCategories = CATEGORIES.filter((cat) => isVisible(cat.handles));
+  const visibleDesktopCategories = DESKTOP_CATEGORIES.filter((cat) => isVisible(cat.handles));
+
   return (
     <div className="w-full pt-6 pb-4 px-2 md:px-6">
       <div className="mb-4 sm:mb-6">
@@ -58,7 +82,7 @@ export function HomeCategoryGrid() {
 
       {/* Mobil: 2-kolumnsgrid */}
       <div className="sm:hidden grid grid-cols-2 gap-3">
-        {CATEGORIES.map((cat) => (
+        {visibleCategories.map((cat) => (
           <Link
             key={cat.url}
             href={cat.url}
@@ -77,7 +101,7 @@ export function HomeCategoryGrid() {
 
       {/* Desktop: rutnät med vertikala avdelare mellan varje kategori */}
       <div className="hidden sm:block">
-        <DesktopCategoryGrid categories={DESKTOP_CATEGORIES} />
+        <DesktopCategoryGrid categories={visibleDesktopCategories} />
       </div>
     </div>
   );

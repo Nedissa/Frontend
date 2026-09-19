@@ -30,6 +30,10 @@ function getOrderTrackingNumber(order: any): string | null {
   return numbers && numbers.length > 0 ? numbers[0] : null;
 }
 
+function getReturnTrackingNumber(order: any): string | null {
+  return order.metadata?.return_tracking_number || null;
+}
+
 export default function AccountPage() {
   const router = useRouter();
   const accountData = useAccountData();
@@ -66,6 +70,8 @@ export default function AccountPage() {
   const [orders, setOrders] = useState<any[]>(accountData?.orders || []);
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
   const [orderSearch, setOrderSearch] = useState('');
+  const [returnTrackingInputs, setReturnTrackingInputs] = useState<Record<string, string>>({});
+  const [savingReturnTracking, setSavingReturnTracking] = useState<string | null>(null);
   const [loadingComplaintsError, setLoadingComplaintsError] = useState('');
   const [loadingLoyaltyError, setLoadingLoyaltyError] = useState('');
   const [loadingOrdersError, setLoadingOrdersError] = useState('');
@@ -194,6 +200,37 @@ export default function AccountPage() {
       setTimeout(() => setSaveMessage(''), 3000);
     } catch {
       setSaveError('Ett fel uppstod');
+    }
+  };
+
+  const handleSaveReturnTracking = async (orderId: string) => {
+    const trackingNumber = returnTrackingInputs[orderId]?.trim();
+    if (!trackingNumber) return;
+
+    setSavingReturnTracking(orderId);
+    try {
+      const response = await fetch('/api/return-tracking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order_id: orderId, tracking_number: trackingNumber }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        setSaveError(error.error || 'Kunde inte spara spårningsnumret');
+        return;
+      }
+
+      setOrders(orders.map(o => o.id === orderId
+        ? { ...o, metadata: { ...o.metadata, return_tracking_number: trackingNumber } }
+        : o
+      ));
+      setSaveMessage('Returspårningsnummer sparat');
+      setTimeout(() => setSaveMessage(''), 3000);
+    } catch {
+      setSaveError('Ett fel uppstod');
+    } finally {
+      setSavingReturnTracking(null);
     }
   };
 
@@ -597,6 +634,31 @@ export default function AccountPage() {
                                     <button disabled style={{ display: 'block', width: '100%', padding: '10px', border: '1px solid #e5e7eb', color: '#9ca3af', fontWeight: 600, fontSize: '0.8rem', cursor: 'not-allowed', background: 'none' }}>Spåra paket</button>
                                   )}
                                 </div>
+
+                                {/* Returspårningsnummer */}
+                                <div style={{ padding: '0 16px 16px', borderTop: '1px solid #f3f4f6', paddingTop: 16 }}>
+                                  <p style={{ fontSize: '0.65rem', fontWeight: 600, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>Skickat en retur?</p>
+                                  {getReturnTrackingNumber(order) ? (
+                                    <p style={{ fontSize: '0.8rem', fontWeight: 600 }}>Spårningsnummer: {getReturnTrackingNumber(order)}</p>
+                                  ) : (
+                                    <div style={{ display: 'flex', gap: 8 }}>
+                                      <input
+                                        type="text"
+                                        placeholder="Ange spårningsnummer"
+                                        value={returnTrackingInputs[order.id] || ''}
+                                        onChange={(e) => setReturnTrackingInputs({ ...returnTrackingInputs, [order.id]: e.target.value })}
+                                        className="flex-1 border border-gray-200 px-3 py-2 text-sm"
+                                      />
+                                      <button
+                                        onClick={() => handleSaveReturnTracking(order.id)}
+                                        disabled={savingReturnTracking === order.id || !returnTrackingInputs[order.id]?.trim()}
+                                        style={{ padding: '8px 16px', background: '#000', color: '#fff', fontWeight: 600, fontSize: '0.8rem', opacity: savingReturnTracking === order.id ? 0.6 : 1 }}
+                                      >
+                                        {savingReturnTracking === order.id ? 'Sparar…' : 'Spara'}
+                                      </button>
+                                    </div>
+                                  )}
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -692,13 +754,13 @@ export default function AccountPage() {
                 {loyalty && loyalty.total_points !== undefined ? (() => {
                   const points = loyalty.total_points;
                   const tiers = [
-                    { name: 'Brons', threshold: 0, color: '#cd7f32', glow: 'rgba(205,127,50,0.3)', bg: 'rgba(205,127,50,0.08)', benefits: ['Fri frakt', '14 dagars ångerrätt', 'Erbjudanden'] },
-                    { name: 'Silver', threshold: 500, color: '#a0a0a0', glow: 'rgba(160,160,160,0.3)', bg: 'rgba(160,160,160,0.08)', benefits: ['Fri frakt', '14 dagars ångerrätt', 'Erbjudanden', '5% på fyndvaror'] },
-                    { name: 'Guld', threshold: 1500, color: '#d4a017', glow: 'rgba(212,160,23,0.3)', bg: 'rgba(212,160,23,0.08)', benefits: ['Fri frakt', '14 dagars ångerrätt', 'Erbjudanden', '10% på fyndvaror'] },
-                    { name: 'Platinum', threshold: 3000, color: '#8b9eb0', glow: 'rgba(139,158,176,0.3)', bg: 'rgba(139,158,176,0.08)', benefits: ['Fri frakt', '14 dagars ångerrätt', 'Erbjudanden', '15% på fyndvaror', 'Fri hemleverans', 'Prioriterad service'] },
+                    { name: 'Brons', threshold: 0, color: '#cd7f32', glow: 'rgba(205,127,50,0.3)', bg: 'rgba(205,127,50,0.08)', benefits: ['Fri frakt över 699 kr', '14 dagars ångerrätt', 'Erbjudanden'] },
+                    { name: 'Silver', threshold: 500, color: '#a0a0a0', glow: 'rgba(160,160,160,0.3)', bg: 'rgba(160,160,160,0.08)', benefits: ['Fri frakt över 699 kr', '14 dagars ångerrätt', 'Erbjudanden', '5% på fyndvaror'] },
+                    { name: 'Guld', threshold: 1500, color: '#d4a017', glow: 'rgba(212,160,23,0.3)', bg: 'rgba(212,160,23,0.08)', benefits: ['Fri frakt över 699 kr', '14 dagars ångerrätt', 'Erbjudanden', '10% på fyndvaror'] },
+                    { name: 'Platinum', threshold: 3000, color: '#8b9eb0', glow: 'rgba(139,158,176,0.3)', bg: 'rgba(139,158,176,0.08)', benefits: ['Fri frakt över 699 kr', '14 dagars ångerrätt', 'Erbjudanden', '15% på fyndvaror', 'Fri hemleverans', 'Prioriterad service'] },
                   ];
                   const benefitIcons: Record<string, React.ReactElement> = {
-                    'Fri frakt': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 17H5a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v3m0 0h2l3 4v3h-5m0 0a2 2 0 11-4 0m4 0a2 2 0 10-4 0"/></svg>,
+                    'Fri frakt över 699 kr': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 17H5a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v3m0 0h2l3 4v3h-5m0 0a2 2 0 11-4 0m4 0a2 2 0 10-4 0"/></svg>,
                     '14 dagars ångerrätt': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4h16v2H4zM4 8l1 12h14l1-12H4zm5 4v4m6-4v4"/></svg>,
                     'Erbjudanden': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M17 17h.01M3 12l9-9 9 9-9 9-9-9zm7-2a1 1 0 100 2 1 1 0 000-2z"/></svg>,
                     '5% på fyndvaror': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 14l6-6M9.5 9.5h.01M14.5 14.5h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>,
@@ -1280,16 +1342,16 @@ export default function AccountPage() {
             const points = loyalty.total_points;
             const currentTier = points >= 3000 ? 'Platinum' : points >= 1500 ? 'Guld' : points >= 500 ? 'Silver' : 'Brons';
             const tiers = [
-              { name: 'Brons',    threshold: 0,    next: 500,  color: '#cd7f32', glow: 'rgba(205,127,50,0.3)',  bg: 'rgba(205,127,50,0.08)', benefits: ['Fri frakt','14 dagars ångerrätt','Erbjudanden'] },
-              { name: 'Silver',   threshold: 500,  next: 1500, color: '#a0a0a0', glow: 'rgba(160,160,160,0.3)', bg: 'rgba(160,160,160,0.08)', benefits: ['Fri frakt','14 dagars ångerrätt','Erbjudanden','5% på fyndvaror'] },
-              { name: 'Guld',     threshold: 1500, next: 3000, color: '#d4a017', glow: 'rgba(212,160,23,0.3)',  bg: 'rgba(212,160,23,0.08)', benefits: ['Fri frakt','14 dagars ångerrätt','Erbjudanden','10% på fyndvaror'] },
-              { name: 'Platinum', threshold: 3000, next: 3000, color: '#8b9eb0', glow: 'rgba(139,158,176,0.3)', bg: 'rgba(139,158,176,0.08)', benefits: ['Fri frakt','14 dagars ångerrätt','Erbjudanden','15% på fyndvaror','Fri hemleverans','Prioriterad service'] },
+              { name: 'Brons',    threshold: 0,    next: 500,  color: '#cd7f32', glow: 'rgba(205,127,50,0.3)',  bg: 'rgba(205,127,50,0.08)', benefits: ['Fri frakt över 699 kr','14 dagars ångerrätt','Erbjudanden'] },
+              { name: 'Silver',   threshold: 500,  next: 1500, color: '#a0a0a0', glow: 'rgba(160,160,160,0.3)', bg: 'rgba(160,160,160,0.08)', benefits: ['Fri frakt över 699 kr','14 dagars ångerrätt','Erbjudanden','5% på fyndvaror'] },
+              { name: 'Guld',     threshold: 1500, next: 3000, color: '#d4a017', glow: 'rgba(212,160,23,0.3)',  bg: 'rgba(212,160,23,0.08)', benefits: ['Fri frakt över 699 kr','14 dagars ångerrätt','Erbjudanden','10% på fyndvaror'] },
+              { name: 'Platinum', threshold: 3000, next: 3000, color: '#8b9eb0', glow: 'rgba(139,158,176,0.3)', bg: 'rgba(139,158,176,0.08)', benefits: ['Fri frakt över 699 kr','14 dagars ångerrätt','Erbjudanden','15% på fyndvaror','Fri hemleverans','Prioriterad service'] },
             ];
             const ct = tiers.find(t => t.name === currentTier)!;
             const nextTier = tiers.find(t => t.threshold > points);
             const progressPct = nextTier ? Math.min(100, ((points - ct.threshold) / (nextTier.threshold - ct.threshold)) * 100) : 100;
             const benefitIcons: Record<string, React.ReactElement> = {
-              'Fri frakt': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 17H5a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v3m0 0h2l3 4v3h-5m0 0a2 2 0 11-4 0m4 0a2 2 0 10-4 0"/></svg>,
+              'Fri frakt över 699 kr': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 17H5a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v3m0 0h2l3 4v3h-5m0 0a2 2 0 11-4 0m4 0a2 2 0 10-4 0"/></svg>,
               '14 dagars ångerrätt': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 4h16v2H4zM4 8l1 12h14l1-12H4zm5 4v4m6-4v4"/></svg>,
               'Erbjudanden': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M17 17h.01M3 12l9-9 9 9-9 9-9-9zm7-2a1 1 0 100 2 1 1 0 000-2z"/></svg>,
               '5% på fyndvaror': <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 14l6-6M9.5 9.5h.01M14.5 14.5h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>,

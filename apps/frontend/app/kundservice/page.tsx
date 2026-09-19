@@ -320,7 +320,7 @@ export default function CustomerServicePage() {
                   <h3>Måste jag ha ett konto för att beställa?</h3>
                   <p>Ja, du behöver registrera dig. Det tar bara några minuter och gör det enkelt att spåra dina beställningar.</p>
                   <h3>Hur lång tid tar leveransen?</h3>
-                  <p>Fri frakt på beställningar över 499 kr. Leveranstid visas vid kassan baserat på produkt och lagerstatus.</p>
+                  <p>Fri frakt på beställningar över 699 kr. Leveranstid visas vid kassan baserat på produkt och lagerstatus.</p>
                   <h3>Hur spårar jag min beställning?</h3>
                   <p>Du får ett spårningsnummer via e-mail när din beställning skickas. Du kan även logga in på Mina sidor för att se status.</p>
                   <h3>Vilka betalningsmetoder accepterar ni?</h3>
@@ -376,7 +376,7 @@ export default function CustomerServicePage() {
                 <div>
                   <h2>Leverans & Frakt</h2>
                   <h3>Frakt</h3>
-                  <p>Fri frakt på beställningar över 499 kr. Leveranstid visas vid kassan baserat på produkt och lagerstatus.</p>
+                  <p>Fri frakt på beställningar över 699 kr. Leveranstid visas vid kassan baserat på produkt och lagerstatus.</p>
                   <h3>Leveransområden</h3>
                   <p>Vi skickar till hela Sverige utan extra kostnad. För leverans till övriga Norden kan vi erbjuda priser på förfrågan. Kontakta oss på support@techpilots.se.</p>
                   <h3>Spåra din beställning</h3>
@@ -462,7 +462,7 @@ export default function CustomerServicePage() {
                   <h3>4. Betalning</h3>
                   <p>Vi accepterar Visa, Mastercard, Apple Pay och Klarna med PCI DSS-certifierade betalningslösningar.</p>
                   <h3>5. Frakt och leverans</h3>
-                  <p>Fri frakt på beställningar över 499 kr. Leveranstid visas vid kassan. Ej uthämtat paket debiteras 249 kr inkl. moms.</p>
+                  <p>Fri frakt på beställningar över 699 kr. Leveranstid visas vid kassan. Ej uthämtat paket debiteras 249 kr inkl. moms.</p>
                   <h3>6. Ångerrätt</h3>
                   <p>14 dagars ångerrätt enligt distansavtalslagen. Gäller ej förbrukningsvaror, kroppsnära produkter, spel, digitala produkter eller presentkort. Återbetalning inom 14 dagar.</p>
                   <h3>7. Garanti och reklamation</h3>
@@ -536,7 +536,7 @@ export default function CustomerServicePage() {
                   <h3>Kvalitet</h3>
                   <p>Vi säljer bara produkter vi själva tror på, noggrant utvalda från etablerade varumärken med fullständig garanti.</p>
                   <h3>Snabb leverans</h3>
-                  <p>Fri frakt på beställningar över 499 kr. Leveranstid visas vid kassan.</p>
+                  <p>Fri frakt på beställningar över 699 kr. Leveranstid visas vid kassan.</p>
                   <h3>Vår ambition</h3>
                   <p>Vi vill göra det lika enkelt att köpa elektronik online som att gå in och prata med någon som verkligen kan sitt jobb. Tydlig information, ärliga priser och snabb hjälp när något krånglar.</p>
                 </div>

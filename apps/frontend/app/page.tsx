@@ -99,7 +99,7 @@ async function fetchProductsFromAPI() {
           const short = specs.filter((s: any) => s.value.length <= 15);
           return short.slice(0, 3).map((s: any) => `${s.value}|${s.label}`);
         })(),
-        brand: product.brand || '',
+        brand: product.brand || product.metadata?.brand || product.title?.split(' ')[0] || '',
         isNew: product.isNew || false,
         created_at: product.created_at || '',
         sectionCategory,

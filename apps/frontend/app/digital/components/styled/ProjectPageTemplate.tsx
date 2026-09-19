@@ -422,7 +422,7 @@ export function ProjectPageTemplate({ project, pagespeedResults }: { project: Pr
               )}
             </div>
             <div className="flex flex-col lg:flex-row lg:items-stretch gap-8 lg:gap-12">
-              <PageSpeedComparison oldPageSpeed={project.oldPageSpeed} newResult={pagespeedResults?.mobile ?? pagespeedResults?.desktop} />
+              <PageSpeedComparison oldPageSpeed={project.oldPageSpeed} newResult={pagespeedResults?.desktop ?? pagespeedResults?.mobile} />
               <div className="hidden lg:flex justify-center lg:flex-1 lg:border-l lg:border-black/10 lg:pl-12 overflow-hidden" style={{ maxHeight: 464 }}>
                 <MobileMockup slug={project.slug} accentColor={project.accentColor} stripeBaseColor={project.stripeBaseColor} frameImageScale={1.7} />
               </div>

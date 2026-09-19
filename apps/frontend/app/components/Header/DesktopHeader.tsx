@@ -6,9 +6,10 @@ import { RefObject } from 'react';
 import { Logo } from '../layout/Logo';
 import { LanguageSwitcher } from '../layout/LanguageSwitcher';
 import { Spinner } from '../shared/Spinner';
-import { MENU_DATA, SearchProduct } from './menuData';
+import { MENU_DATA, MenuCategory, SearchProduct } from './menuData';
 
 interface DesktopHeaderProps {
+  menuData?: MenuCategory[];
   searchContainerRef: RefObject<HTMLDivElement | null>;
   categoryDropdownRef: RefObject<HTMLDivElement | null>;
   showCategoryDropdown: boolean;
@@ -31,6 +32,7 @@ interface DesktopHeaderProps {
 
 // Desktop header: logo, kategori-dropdown + sök, språkval, konto/kundvagn.
 export function DesktopHeader({
+  menuData = MENU_DATA,
   searchContainerRef,
   categoryDropdownRef,
   showCategoryDropdown,
@@ -89,7 +91,7 @@ export function DesktopHeader({
                       Alla kategorier
                     </button>
                   )}
-                  {MENU_DATA.filter(cat => cat.title !== selectedCategory?.title).map((cat) => (
+                  {menuData.filter(cat => cat.title !== selectedCategory?.title).map((cat) => (
                     <button
                       key={cat.id}
                       onClick={() => onSelectCategory({ title: cat.title, url: cat.url })}

@@ -2,71 +2,11 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useCallback, useEffect, useRef, memo } from 'react';
-import { createPortal } from 'react-dom';
+import { useState, useCallback, useRef } from 'react';
 import { ImageZoomDialog } from '../shared/ImageZoomDialog';
+import { ColorSwatch, Tooltip } from '../shared/ColorSwatch';
 import { useFavoritesAndCompare } from '../../hooks/useFavoritesAndCompare';
 import { COLOR_HEX_MAP, sortColors } from '../../lib/productDisplay';
-
-function Tooltip({ label, anchorRef }: { label: string; anchorRef: React.RefObject<HTMLElement | null> }) {
-  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
-  const [mounted, setMounted] = useState(false);
-
-  // eslint-disable-next-line react-hooks/set-state-in-effect -- markerar client-mount, krävs innan createPortal kan användas
-  useEffect(() => { setMounted(true); }, []);
-
-  useEffect(() => {
-    const el = anchorRef.current;
-    if (!el) return;
-    const onEnter = () => {
-      const r = el.getBoundingClientRect();
-      setPos({ x: r.left + r.width / 2, y: r.top - 8 });
-    };
-    const onLeave = () => setPos(null);
-    const onHide = () => { setPos(null); };
-    el.addEventListener('mouseenter', onEnter);
-    el.addEventListener('mouseleave', onLeave);
-    el.addEventListener('click', onHide);
-    window.addEventListener('scroll', onHide, { passive: true });
-    return () => {
-      el.removeEventListener('mouseenter', onEnter);
-      el.removeEventListener('mouseleave', onLeave);
-      el.removeEventListener('click', onHide);
-      window.removeEventListener('scroll', onHide);
-    };
-  }, [anchorRef]);
-
-  if (!mounted) return null;
-  return createPortal(
-    <div style={{ position: 'fixed', left: pos?.x ?? 0, top: pos?.y ?? 0, transform: 'translate(-50%, -100%)', background: 'rgba(60,60,60,0.88)', color: '#fff', fontSize: '0.7rem', fontWeight: 500, padding: '4px 10px', borderRadius: '6px', whiteSpace: 'nowrap', pointerEvents: 'none', zIndex: 99999, letterSpacing: '0.01em', opacity: pos ? 1 : 0, transition: 'opacity 0.15s ease' }}>
-      {label}
-      <div style={{ position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)', border: '5px solid transparent', borderTopColor: 'rgba(20,20,20,0.92)' }} />
-    </div>,
-    document.body
-  );
-}
-
-const ColorSwatch = memo(function ColorSwatch({ color, bgColor, isSelected, onSelect }: { color: string; bgColor: string; isSelected: boolean; onSelect: () => void }) {
-  const ref = useRef<HTMLButtonElement>(null);
-  return (
-    <div className="relative">
-      <button
-        ref={ref}
-        onClick={(e) => { e.preventDefault(); e.stopPropagation(); onSelect(); }}
-        className="w-11 h-11 flex items-center justify-center flex-shrink-0"
-        style={{ background: 'none', border: 'none', padding: 0 }}
-        aria-label={`Välj färg ${color}`}
-        aria-pressed={isSelected}
-      >
-        <span
-          className="w-8 h-3 rounded-full block"
-          style={{ background: bgColor, outline: isSelected ? '2px solid #999999' : 'none', outlineOffset: '2px', boxShadow: bgColor === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
-        />
-      </button>
-      <Tooltip anchorRef={ref} label={color} />
-    </div>
-  );
-});
 
 export interface ProductData {
   id: string;
@@ -298,7 +238,7 @@ export function ProductCard({
         {/* Brand + Title */}
         <div className="pt-1.5 pb-1 border-b border-gray-100">
           <p className="text-[9px] sm:text-[10px] text-gray-500 uppercase tracking-wider mb-0.5">{product.brand || 'Varumärke'}</p>
-          <h2 className="text-xs sm:text-sm font-semibold text-gray-900 leading-snug line-clamp-2">{product.title}</h2>
+          <h2 className="text-xs sm:text-sm font-semibold text-gray-900 leading-snug line-clamp-1">{product.title}</h2>
         </div>
 
         {/* Price */}

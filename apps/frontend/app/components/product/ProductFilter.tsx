@@ -340,16 +340,15 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
         <div style={{ overflow: 'hidden' }}>
         <div className="px-6 py-4 space-y-2">
           {uniqueColors.length > 0 ? (
-            uniqueColors.map((color, idx) => {
-              const blackShades = ['bg-slate-400', 'bg-slate-500', 'bg-slate-600', 'bg-slate-700'];
+            uniqueColors.map((color) => {
               const colorName = COLOR_MAP[color] || color;
               return (
                 <button
                   key={color}
                   onClick={() => handleColorToggle(color)}
-                  className={`w-full text-left px-2.5 py-1 text-sm font-medium transition-colors flex items-center gap-2 ${
+                  className={`w-full text-left px-2.5 py-1 text-sm font-medium transition-colors ${
                     selectedColors.includes(color)
-                      ? `${blackShades[idx % blackShades.length]} ${idx < 2 ? 'text-white' : 'text-white'}`
+                      ? 'bg-black text-white'
                       : 'text-gray-900'
                   }`}
                 >
@@ -440,7 +439,7 @@ export function ProductFilter({ onFilterChange, maxPrice = 20000, products = [] 
       <div className="mt-auto p-6 border-t border-gray-300">
         <button
           onClick={resetFilters}
-          className="w-full px-4 py-2 bg-black text-white text-sm font-semibold hover:bg-gray-800 transition-colors"
+          className="w-full px-4 py-2 bg-white text-black text-sm font-semibold border border-gray-300 hover:bg-gray-100 transition-colors"
         >
           Rensa filter
         </button>

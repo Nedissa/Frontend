@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { MENU_DATA, SECTION_IMAGES, OFFERS_CAMPAIGNS } from './menuData';
+import { MENU_DATA, MenuCategory, SECTION_IMAGES, OFFERS_CAMPAIGNS } from './menuData';
 
 interface MegaMenuProps {
+  menuData?: MenuCategory[];
   showMegaMenu: boolean;
   activeMegaMenu: string | null;
   onMouseEnterCategory: (categoryId: string) => void;
@@ -22,6 +23,7 @@ const OFFERS_LINKS = [
 
 // Desktop navigation + megameny (dropdown-panelen med kategorier/erbjudanden).
 export function MegaMenu({
+  menuData = MENU_DATA,
   showMegaMenu,
   activeMegaMenu,
   onMouseEnterCategory,
@@ -35,7 +37,7 @@ export function MegaMenu({
       <nav className="bg-white">
         <div className="max-w-content mx-auto">
           <div className="w-full flex items-stretch gap-0">
-            {MENU_DATA.map((category) => {
+            {menuData.map((category) => {
               const isActive = isPathActive(category.url);
               return (
                 <Link
@@ -107,18 +109,18 @@ export function MegaMenu({
             </div>
 
             {/* Category panels — always in DOM, shown/hidden via display */}
-            {MENU_DATA.map((category) => (
-              <div key={category.id} style={{ display: activeMegaMenu === category.id ? 'grid' : 'none', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem' }}>
+            {menuData.map((category) => (
+              <div key={category.id} style={{ display: activeMegaMenu === category.id ? 'grid' : 'none', gridTemplateColumns: `repeat(${Math.min(category.items?.length || 1, 6)}, 1fr)`, gap: '2rem' }}>
                 {category.items?.map((section) => (
                   <div key={section.id} className="w-full">
                     <div className="mb-4 pb-4 border-b border-gray-300 w-full">
-                      <div style={{ marginBottom: '8px', height: '40px', width: '40px', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+                      <div style={{ marginBottom: '8px', height: '64px', width: '64px', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
                         <Image
                           src={SECTION_IMAGES[section.id] || '/assets/cat-electronics.webp'}
                           alt={section.title}
-                          width={40}
-                          height={40}
-                          style={{ display: 'block', maxWidth: '40px', maxHeight: '40px', width: 'auto', height: 'auto', objectFit: 'contain', objectPosition: 'left center' }}
+                          width={64}
+                          height={64}
+                          style={{ display: 'block', maxWidth: '64px', maxHeight: '64px', width: 'auto', height: 'auto', objectFit: 'contain', objectPosition: 'left center' }}
                         />
                       </div>
                       <Link href={section.url}>
@@ -129,16 +131,18 @@ export function MegaMenu({
                         </h3>
                       </Link>
                     </div>
-                    <ul className="space-y-2">
-                      {section.items && section.items.map((item) => (
-                        <li key={item.id}>
-                          <Link href={item.url} className="text-sm text-gray-700 hover:text-black transition-colors relative group inline-flex">
-                            {item.title}
-                            <span className={`absolute bottom-0 left-0 h-px transition-all duration-300 ease-out ${isPathActive(item.url) ? 'w-full' : 'w-0 group-hover:w-full'}`} style={{ background: '#000' }} />
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
+                    {section.items && section.items.length > 0 && (
+                      <ul className="space-y-2">
+                        {section.items.map((item) => (
+                          <li key={item.id}>
+                            <Link href={item.url} className="text-sm text-gray-700 hover:text-black transition-colors relative group inline-flex">
+                              {item.title}
+                              <span className={`absolute bottom-0 left-0 h-px transition-all duration-300 ease-out ${isPathActive(item.url) ? 'w-full' : 'w-0 group-hover:w-full'}`} style={{ background: '#000' }} />
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 ))}
               </div>

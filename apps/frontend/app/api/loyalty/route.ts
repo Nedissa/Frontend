@@ -46,7 +46,7 @@ export async function GET(request: Request) {
       points_to_next_tier: 500,
       lifetime_orders: 0,
       lifetime_spend: 0,
-      benefits: ['Fri frakt på beställningar över 500 kr', 'Medlemsexklusiv rabatt'],
+      benefits: ['Fri frakt på beställningar över 699 kr', 'Medlemsexklusiv rabatt'],
       member_since: new Date().toISOString(),
     };
 

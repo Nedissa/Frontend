@@ -7,6 +7,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Product } from '@/app/lib/products';
 import { Breadcrumb } from '@/app/components/layout/Breadcrumb';
 import { ImageZoomDialog } from '@/app/components/shared/ImageZoomDialog';
+import { ColorSwatch } from '@/app/components/shared/ColorSwatch';
 import { ProductCard, type ProductData } from '@/app/components/product/ProductCard';
 import { ProductReviews } from '@/app/components/product/ProductReviews';
 import { ProductQuestions } from '@/app/components/product/ProductQuestions';
@@ -33,7 +34,7 @@ function ExtraInfoColumn({ product }: { product: any }) {
     {
       key: 'frakt',
       title: 'FRAKT',
-      content: 'Fri frakt på beställningar över 499 kr. Leveranstid visas vid kassan baserat på produkt och lagerstatus.',
+      content: 'Fri frakt på beställningar över 699 kr. Leveranstid visas vid kassan baserat på produkt och lagerstatus.',
     },
     {
       key: 'retur',
@@ -218,14 +219,19 @@ export default function ProductDetailClient({
   const currentSku = (product as any).sku || '';
   const displaySku = (manufacturerSkuMap[currentSku] || currentSku || product.id.slice(-8).toUpperCase()).split('#')[0];
 
+  const imageGroupMap = metadata.imageGroupMap as Record<string, string[]> | undefined;
+  const colorFilteredImages = imageGroupMap?.[selectedColor];
+  const allImages = (product.images && product.images.length > 0) ? product.images : (product.image ? [product.image] : []);
+  const imagesForColor = (colorFilteredImages && colorFilteredImages.length > 0) ? colorFilteredImages : allImages;
+
   const productDetails = {
     sku: displaySku,
     quantityAvailable: (product as any).inventoryQuantity ?? null,
     compareAtPrice: product.originalPrice,
     description: (metadata.descriptionMap as Record<string, string> | undefined)?.[selectedColor] || (product as any).description || '',
     featuredImage: { url: product.image, altText: product.title },
-    images: (product.images && product.images.length > 0)
-      ? product.images.map((url, idx) => ({ id: String(idx + 1), url, altText: `${product.title} ${idx + 1}` }))
+    images: (imagesForColor.length > 0)
+      ? imagesForColor.map((url, idx) => ({ id: String(idx + 1), url, altText: `${product.title} ${idx + 1}` }))
       : [{ id: '1', url: product.image, altText: product.title }],
     highlights: Array.isArray(metadata.highlights) ? metadata.highlights : [],
     specifications: Array.isArray(metadata.specifications) ? metadata.specifications : [],
@@ -559,31 +565,13 @@ export default function ProductDetailClient({
                 const colorMap = (product.metadata as any)?.colorMap as Record<string, string> | null;
                 const hex = colorMap?.[name] || COLOR_HEX_MAP[name.toLowerCase()];
                 return (
-                <div key={name} className="tp-tooltip-wrap">
-                  <button
-                    onClick={() => setSelectedColor(name)}
-                    className="flex items-center justify-center flex-shrink-0"
-                    style={{ background: 'none', border: 'none', padding: 0 }}
-                    aria-label={`Välj färg ${name}`}
-                  >
-                    {hex ? (
-                      <span
-                        className="w-10 h-4 rounded-full block"
-                        style={{ background: hex, outline: selectedColor === name ? '2px solid #999999' : 'none', outlineOffset: '2px', boxShadow: hex === '#FFFFFF' ? '0 0 0 1px #000000' : 'none' }}
-                      />
-                    ) : (
-                      <span
-                        className="px-3 h-8 flex items-center text-xs font-medium border rounded-full"
-                        style={{ borderColor: selectedColor === name ? '#999999' : '#D1D5DB' }}
-                      >
-                        {name}
-                      </span>
-                    )}
-                  </button>
-                  <span className="tp-tooltip">
-                    {name}
-                  </span>
-                </div>
+                  <ColorSwatch
+                    key={name}
+                    color={name}
+                    bgColor={hex}
+                    isSelected={selectedColor === name}
+                    onSelect={() => { setSelectedColor(name); setSelectedImage(0); }}
+                  />
                 );
               })}
             </div>

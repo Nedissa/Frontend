@@ -55,9 +55,10 @@ export default function CategoryClient({ slug, categoryTitle }: CategoryClientPr
   const filtered = categoryProducts.filter((p) => {
     if (p.price < filters.priceRange[0] || p.price > filters.priceRange[1]) return false;
     if (filters.brands.length > 0 && !filters.brands.includes(p.brand || '')) return false;
+    if (filters.colors.length > 0 && !(p.colors || []).some((c: string) => filters.colors.includes(c))) return false;
     if (filters.categories.length > 0 && !(p.categoryNames || []).some((c: string) => filters.categories.includes(c))) return false;
     if (filters.rating.length > 0 && !filters.rating.includes(Math.round(p.rating || 0))) return false;
-    if (filters.inStock && !p.inStock) return false;
+    if (filters.inStock && p.stock === 'Slut i lager') return false;
     return true;
   });
 

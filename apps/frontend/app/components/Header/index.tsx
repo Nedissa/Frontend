@@ -8,7 +8,7 @@ import { MobileHeader } from './MobileHeader';
 import { MobileMenu } from './MobileMenu';
 import { DesktopHeader } from './DesktopHeader';
 import { MegaMenu } from './MegaMenu';
-import { OFFERS_DATA, MENU_DATA, SearchProduct } from './menuData';
+import { OFFERS_DATA, MENU_DATA, SearchProduct, filterActiveMenu } from './menuData';
 
 // Header: äger allt delat state (cart, sök, mobilmeny, scroll) och
 // sätter ihop mobil/desktop-underkomponenterna. Se menuData.tsx för innehåll.
@@ -44,6 +44,20 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   };
   const [searchProducts, setSearchProducts] = useState<SearchProduct[]>([]);
   const searchFetchedRef = useRef(false);
+  const [menuData, setMenuData] = useState(MENU_DATA);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/categories/active')
+      .then((res) => res.json())
+      .then((data) => {
+        if (cancelled) return;
+        const activeHandles = data.activeHandles || [];
+        setMenuData(filterActiveMenu(MENU_DATA, activeHandles));
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
 
   const fetchProductsForSearch = async () => {
     if (searchFetchedRef.current) return;
@@ -56,6 +70,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
         setSearchProducts(products.map((p: any) => ({
           id: p.id, title: p.title, handle: p.handle, image: p.image,
           category: p.category, price: p.price, rating: p.rating || 0, reviews: p.reviews || 0,
+          sku: p.sku, manufacturerSku: p.manufacturerSku,
         })));
       }
     } catch {}
@@ -348,6 +363,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       />
 
       <DesktopHeader
+        menuData={menuData}
         searchContainerRef={searchContainerRef}
         categoryDropdownRef={categoryDropdownRef}
         showCategoryDropdown={showCategoryDropdown}
@@ -371,6 +387,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       {/* Mobile Menu Overlay — rendered via portal outside <header> */}
       {isHydrated && createPortal(
         <MobileMenu
+          menuData={menuData}
           mobileMenuOpen={mobileMenuOpen}
           mobileActiveLevel={mobileActiveLevel}
           mobileExpandedCategory={mobileExpandedCategory}
@@ -387,6 +404,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
       )}
 
       <MegaMenu
+        menuData={menuData}
         showMegaMenu={showMegaMenu}
         activeMegaMenu={activeMegaMenu}
         onMouseEnterCategory={(categoryId) => {

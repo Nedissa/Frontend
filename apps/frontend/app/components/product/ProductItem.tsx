@@ -30,7 +30,7 @@ export function ProductItem({
   const [isLoading, setIsLoading] = useState(false);
 
   const discountPercent = product.discount || 0;
-  const brand = product.brand || '';
+  const brand = product.brand || product.title?.split(' ')[0] || '';
   const specs = product.specs || [
     'Högsta prestanda',
     'Världsklass design',

@@ -3,9 +3,10 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { MENU_DATA, MOBILE_CATEGORY_ICONS, MOBILE_SECTION_ICONS } from './menuData';
+import { MENU_DATA, MenuCategory, MOBILE_CATEGORY_ICONS, MOBILE_SECTION_ICONS } from './menuData';
 
 interface MobileMenuProps {
+  menuData?: MenuCategory[];
   mobileMenuOpen: boolean;
   mobileActiveLevel: 0 | 1 | 2;
   mobileExpandedCategory: string | null;
@@ -28,6 +29,7 @@ const OFFERS_LINKS = [
 
 // Mobilmenyns overlay: nivå 0 (huvudkategorier) och nivå 1 (underkategorier + accordion).
 export function MobileMenu({
+  menuData = MENU_DATA,
   mobileMenuOpen,
   mobileActiveLevel,
   mobileExpandedCategory,
@@ -40,7 +42,7 @@ export function MobileMenu({
   onToggleOffers,
   onToggleSubCategory,
 }: MobileMenuProps) {
-  const activeCat = MENU_DATA.find(c => c.id === mobileExpandedCategory);
+  const activeCat = menuData.find(c => c.id === mobileExpandedCategory);
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
@@ -86,7 +88,7 @@ export function MobileMenu({
             </button>
           </div>
           <div className="flex-1 overflow-y-auto">
-            {MENU_DATA.map((category) => (
+            {menuData.map((category) => (
               <button
                 key={category.id}
                 className="w-full flex items-center gap-4 px-5 py-4 border-b border-gray-100 text-left active:bg-gray-50"
