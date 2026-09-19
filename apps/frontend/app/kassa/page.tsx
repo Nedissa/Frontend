@@ -196,7 +196,7 @@ function PaymentForm({
         onChange={(event) => onPaymentComplete(event.complete)}
       />
       <div className="flex gap-3 mt-4">
-        <button type="button" onClick={() => router.push('/')} className="flex-1 py-3 border border-gray-300 text-sm font-semibold text-gray-600 hover:text-black hover:border-black transition-colors">
+        <button data-cancel-purchase type="button" onClick={() => router.push('/')} className="flex-1 py-3 border border-gray-300 text-sm font-semibold text-gray-600 hover:text-black hover:border-black transition-colors">
           Avbryt köp
         </button>
         <button
@@ -263,6 +263,15 @@ function CheckoutContent() {
     window.history.pushState(null, '', window.location.href);
     const handlePopState = () => {
       window.history.pushState(null, '', window.location.href);
+
+      // Visa kunden vägen ut: scrolla till och highlighta "Avbryt köp"
+      // om den syns (betalningssteget), annars ingen extra åtgärd.
+      const cancelButton = document.querySelector('[data-cancel-purchase]');
+      if (cancelButton) {
+        cancelButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        cancelButton.classList.add('checkout-cancel-highlight');
+        setTimeout(() => cancelButton.classList.remove('checkout-cancel-highlight'), 1500);
+      }
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -612,11 +621,11 @@ function CheckoutContent() {
                   <div className="flex gap-4 sm:gap-6 items-center min-w-0">
                     <div className="flex-shrink-0">
                       {item.image ? (
-                        <div className="relative w-[72px] h-[72px]">
-                          <Image src={item.image} alt={item.title} fill sizes="72px" className="object-contain" />
+                        <div className="relative w-[72px] h-[72px] sm:w-[100px] sm:h-[100px]">
+                          <Image src={item.image} alt={item.title} fill sizes="(max-width: 640px) 72px, 100px" className="object-contain" />
                         </div>
                       ) : (
-                        <div className="w-[72px] h-[72px]" />
+                        <div className="w-[72px] h-[72px] sm:w-[100px] sm:h-[100px]" />
                       )}
                     </div>
                     <div className="min-w-0">
