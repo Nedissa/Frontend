@@ -1,8 +1,5 @@
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
 
 const CATEGORIES = [
   { title: 'Datorer', url: '/kategori/datorer-tillbehor', icon: '/icons/categories/datorer.webp', handles: ['datorer', 'laptops', 'laptop-tillbehor', 'stationardator-tillbehor', 'vaskor', 'blackpatroner', 'kablar', 'batterier', 'monitorarm', 'tangentbord', 'bordsben'] },
@@ -51,25 +48,10 @@ function DesktopCategoryGrid({ categories }: { categories: typeof DESKTOP_CATEGO
   );
 }
 
-export function HomeCategoryGrid() {
-  const [activeHandles, setActiveHandles] = useState<Set<string> | null>(null);
+export function HomeCategoryGrid({ activeHandles }: { activeHandles: string[] }) {
+  const activeHandleSet = new Set(activeHandles);
 
-  useEffect(() => {
-    let cancelled = false;
-    fetch('/api/categories/active')
-      .then((res) => res.json())
-      .then((data) => { if (!cancelled) setActiveHandles(new Set(data.activeHandles || [])); })
-      .catch(() => { if (!cancelled) setActiveHandles(new Set()); });
-    return () => { cancelled = true; };
-  }, []);
-
-  // Innan aktiva handles har hämtats renderas ingenting (undviker flimmer av
-  // fel kategorier som sedan försvinner). Därefter döljs kategorier utan
-  // koppling till en riktig produktkategori (tom handles-lista) och
-  // kategorier vars kopplade kategorier saknar produkter.
-  if (!activeHandles) return null;
-
-  const isVisible = (handles: string[]) => handles.some((h) => activeHandles.has(h));
+  const isVisible = (handles: string[]) => handles.some((h) => activeHandleSet.has(h));
   const visibleCategories = CATEGORIES.filter((cat) => isVisible(cat.handles));
   const visibleDesktopCategories = DESKTOP_CATEGORIES.filter((cat) => isVisible(cat.handles));
 

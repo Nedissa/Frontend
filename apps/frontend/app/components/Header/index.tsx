@@ -12,7 +12,7 @@ import { OFFERS_DATA, MENU_DATA, SearchProduct, filterActiveMenu } from './menuD
 
 // Header: äger allt delat state (cart, sök, mobilmeny, scroll) och
 // sätter ihop mobil/desktop-underkomponenterna. Se menuData.tsx för innehåll.
-export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn?: boolean }) {
+export function HeaderWrapper({ initialIsLoggedIn = false, activeCategoryHandles = [] }: { initialIsLoggedIn?: boolean; activeCategoryHandles?: string[] }) {
   const { open, type: asideType } = useAside();
   const pathname = usePathname();
 
@@ -44,20 +44,7 @@ export function HeaderWrapper({ initialIsLoggedIn = false }: { initialIsLoggedIn
   };
   const [searchProducts, setSearchProducts] = useState<SearchProduct[]>([]);
   const searchFetchedRef = useRef(false);
-  const [menuData, setMenuData] = useState(MENU_DATA);
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch('/api/categories/active')
-      .then((res) => res.json())
-      .then((data) => {
-        if (cancelled) return;
-        const activeHandles = data.activeHandles || [];
-        setMenuData(filterActiveMenu(MENU_DATA, activeHandles));
-      })
-      .catch(() => {});
-    return () => { cancelled = true; };
-  }, []);
+  const menuData = filterActiveMenu(MENU_DATA, activeCategoryHandles);
 
   const fetchProductsForSearch = async () => {
     if (searchFetchedRef.current) return;
