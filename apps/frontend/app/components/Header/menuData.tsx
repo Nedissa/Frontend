@@ -388,7 +388,7 @@ export const SECTION_IMAGES: Record<string, string> = {
   'tangentbord-moss': '/assets/mega-tangentbord-moss-menu.webp',
   'kablar-laddning': '/assets/mega-kablar-laddning-menu.webp',
   'kontor-forvaring': '/assets/mega-kontor-forvaring-menu.webp',
-  'gaming-mus-tangentbord': '/assets/mega-gaming-mus-tangentbord-menu.webp',
+  'gaming-mus-tangentbord': 'https://api.techpilots.se/static/1789825582094-1325393-2.webp',
   'gaming-headset-sektion': '/assets/mega-gaming-headset-sektion-menu.webp',
   'gaming-mobler': '/assets/mega-gaming-mobler-menu.webp',
   'gaming-streaming': '/assets/mega-gaming-streaming-menu.webp',
