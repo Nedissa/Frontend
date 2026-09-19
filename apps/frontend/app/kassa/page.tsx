@@ -262,18 +262,26 @@ function CheckoutContent() {
   useEffect(() => {
     window.history.pushState(null, '', window.location.href);
     const handlePopState = () => {
+      // pushState nollställer scrollY till 0. Webbläsaren blockerar dessutom
+      // scroll-anrop som körs synkront inuti en popstate-handler under
+      // pågående navigering, så både återställning och ev. scrollIntoView
+      // måste skjutas upp till nästa tick.
+      const scrollYBefore = window.scrollY;
       window.history.pushState(null, '', window.location.href);
 
-      // Webbläsaren blockerar scroll-anrop som körs synkront inuti en
-      // popstate-handler under pågående navigering — skjut upp till nästa
-      // tick så scrollIntoView faktiskt kör.
       setTimeout(() => {
         const cancelButton = document.querySelector('[data-cancel-purchase]');
-        if (cancelButton) {
+        if (!cancelButton) return;
+
+        window.scrollTo(0, scrollYBefore);
+        const rect = cancelButton.getBoundingClientRect();
+        const alreadyVisible = rect.top >= 0 && rect.bottom <= window.innerHeight;
+
+        if (!alreadyVisible) {
           cancelButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          cancelButton.classList.add('checkout-cancel-highlight');
-          setTimeout(() => cancelButton.classList.remove('checkout-cancel-highlight'), 1500);
         }
+        cancelButton.classList.add('checkout-cancel-highlight');
+        setTimeout(() => cancelButton.classList.remove('checkout-cancel-highlight'), 1500);
       }, 50);
     };
     window.addEventListener('popstate', handlePopState);
