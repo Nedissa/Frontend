@@ -264,14 +264,17 @@ function CheckoutContent() {
     const handlePopState = () => {
       window.history.pushState(null, '', window.location.href);
 
-      // Visa kunden vägen ut: scrolla till och highlighta "Avbryt köp"
-      // om den syns (betalningssteget), annars ingen extra åtgärd.
-      const cancelButton = document.querySelector('[data-cancel-purchase]');
-      if (cancelButton) {
-        cancelButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        cancelButton.classList.add('checkout-cancel-highlight');
-        setTimeout(() => cancelButton.classList.remove('checkout-cancel-highlight'), 1500);
-      }
+      // Webbläsaren blockerar scroll-anrop som körs synkront inuti en
+      // popstate-handler under pågående navigering — skjut upp till nästa
+      // tick så scrollIntoView faktiskt kör.
+      setTimeout(() => {
+        const cancelButton = document.querySelector('[data-cancel-purchase]');
+        if (cancelButton) {
+          cancelButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          cancelButton.classList.add('checkout-cancel-highlight');
+          setTimeout(() => cancelButton.classList.remove('checkout-cancel-highlight'), 1500);
+        }
+      }, 50);
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
@@ -805,7 +808,7 @@ function CheckoutContent() {
                   )}
                   {!showPayment && (
                     <div className="text-center pt-4">
-                      <Link href="/" className="text-sm text-gray-500 hover:text-black">Avbryt</Link>
+                      <Link data-cancel-purchase href="/" className="text-sm text-gray-500 hover:text-black">Avbryt</Link>
                     </div>
                   )}
                 </section>
