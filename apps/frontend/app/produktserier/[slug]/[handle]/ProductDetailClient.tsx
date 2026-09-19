@@ -333,6 +333,8 @@ export default function ProductDetailClient({
                 >
                   {[prevImage, selectedImage].map((imgIdx, i) => {
                     if (imgIdx === null) return null;
+                    const imageUrl = productDetails.images[imgIdx]?.url;
+                    if (!imageUrl) return null;
                     const isCurrent = imgIdx === selectedImage;
                     const enterFrom = slideDir === 'right' ? '100%' : '-100%';
                     const exitTo = slideDir === 'right' ? '-100%' : '100%';
@@ -348,7 +350,7 @@ export default function ProductDetailClient({
                         }}
                       >
                         <Image
-                          src={productDetails.images[imgIdx]?.url || ''}
+                          src={imageUrl}
                           alt={productDetails.images[imgIdx]?.altText || ''}
                           fill
                           sizes="(max-width: 768px) 100vw, 700px"
